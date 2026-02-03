@@ -366,6 +366,38 @@ audio::-webkit-media-controls-volume-slider { filter: invert(1) brightness(1.2);
   fill: currentColor;               /* <-- inherit the light text color */
 }
 
+/* 30s skip buttons: clean icon + CSS badge (no SVG text) */
+.now-playing .np-btn.np-skip{
+  position: relative;
+}
+
+.now-playing .np-btn .np-icon{
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.now-playing .np-badge{
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  padding: 3px 4px;
+  border-radius: 7px;
+  color: rgba(255,255,255,.92);
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.14);
+  letter-spacing: .02em;
+  pointer-events: none;
+}
+
+
+
+
+
+
 /* hover: invert like NTS */
 .np-btn:hover{
   background: var(--text);
@@ -916,6 +948,7 @@ input[type="range"].np-seek::-moz-range-track{
   }
   .now-playing .np-msg{ max-width: 100%; }
 }
+
 
 
 
