@@ -34,7 +34,7 @@
     grid-template-columns: 44px 1fr 44px;
     align-items:center;
     position: sticky; top: 0; z-index: 1000;
-    background:#000 url('static/assets/header.png') center/cover no-repeat !important;
+    background:#000 url('/header.png') center/cover no-repeat !important;
     border-bottom:1px solid #222;
     padding: calc(1rem + env(safe-area-inset-top, 0px)) 12px 12px;
   }
@@ -389,7 +389,7 @@
 
   <!-- Center: Logo -->
   <a href="home.html" class="logo center-logo">
-    <img src="static/assets/vcr.avif" alt="AFR Logo" />
+    <img src="/vcr.avif" alt="AFR Logo" />
   </a>
 
   <!-- Right: spacer for balance -->
@@ -421,7 +421,7 @@
         <div class="gallery">
           <div class="media-badge">EP</div>
           <div class="hero">
-            <img id="heroImg" src="static/assets/blank.jpeg" alt="Product art" itemprop="image" />
+            <img id="heroImg" src="/ep.avif" alt="Product art" itemprop="image" />
           </div>
         </div>
 
@@ -462,7 +462,7 @@
           <div class="buy-buttons">
             <a class="btn gold wide" id="buyDigital"
                href="https://buy.stripe.com/aFa4gA9PN6k0eAg1JzfrW07"
-               data-wav="static/downloads/GN5-0001.mp3"
+               data-wav="/GN5-0003.mp3"
                data-name="F. Hastings EP"
                target="_blank" rel="noopener">
               DIGITAL DOWNLOAD
@@ -489,7 +489,7 @@
 
           <!-- Fallback link (shown after success) -->
           <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
-            <a id="dlWav" class="btn" href="static/downloads/GN5-0001.mp3" download>Download WAV</a>
+            <a id="dlWav" class="btn" href="/CBJ-0003.mp3" download>Download WAV</a>
           </div>
 
           <br><br>
@@ -987,6 +987,7 @@ const CODE_BANK = new Set([
 
 </body>
 </html>
+
 
 
 
