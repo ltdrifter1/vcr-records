@@ -6,7 +6,7 @@
   <title>VCR Records</title>
 
   <!-- Global styles -->
-  <link rel="stylesheet" href="static/style.css" />
+  <link rel="stylesheet" href="/style.css" />
 
   <!-- Page-scoped styles -->
   <style>
@@ -169,7 +169,7 @@
   .download-links{ margin-top:10px; display:grid; grid-template-columns:1fr; gap:10px; } /* single column */
   .hidden{ display:none !important; }
 
-  /* ======= NOW PLAYING (old-iTunes style) ======= */
+  /* ======= NOW PLAYING (old-iTunes ) ======= */
   .now-playing{
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 1500;
     background: linear-gradient(#e9e9e9,#d9d9d9);
@@ -218,7 +218,7 @@
   }
 
   /* ===============================
-     FOOTER — Def Jam–style signup (same as home)
+     FOOTER — Def Jam– signup (same as home)
      =============================== */
   .site-footer{
     position:relative; overflow:hidden;
@@ -348,7 +348,7 @@
 /* Optional: a bit more spacing between the control buttons */
 .np-pill.np-controls { gap: 10px; }
 
-  </style>
+  </>
 </head>
 
 <!-- ===== NOW PLAYING BAR ===== -->
@@ -512,23 +512,25 @@
               <div class="tracks" aria-label="Tracklist">
                   
                   
-                          <div class="track-row" data-src="static/downloads/GN0-25-00022.mp3">
-                  <span class="track-no">A1</span>
-                  <span class="track-title">
-                    Yours & Mine
-                    <button class="play-btn" aria-label="Play Yours and Mine" aria-pressed="false" type="button">
-                      <!-- Play --> 
-                      <svg class="icon icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path d="M8 5v14l11-7z"></path>
-                      </svg>
-                      <!-- Pause --> 
-                      <svg class="icon icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
-                      </svg>
-                    </button>
-                  </span>
-                  <span class="disc-tag">3:21</span>
-                </div>     
+               <div class="track-row"
+     data-src="https://pub-ec23146353b246ceade3d35cb55100dd.r2.dev/GN0-25-00022.mp3">
+  <span class="track-no">A1</span>
+  <span class="track-title">
+    Yours & Mine
+    <button class="play-btn" aria-label="Play Yours and Mine" aria-pressed="false" type="button">
+      <!-- Play --> 
+      <svg class="icon icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+      <!-- Pause --> 
+      <svg class="icon icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+      </svg>
+    </button>
+  </span>
+  <span class="disc-tag">3:21</span>
+</div>
+
         
                   
                   
@@ -537,7 +539,7 @@
             
             
                         
-                <div class="track-row" data-src="static/downloads/CBGJ0-25-00003.mp3">
+                <div class="track-row" data-src="https://pub-ec23146353b246ceade3d35cb55100dd.r2.dev/CBGJ0-25-00003.mp3">
                   <span class="track-no">A2</span>
                   <span class="track-title">
                     State Street
@@ -557,25 +559,7 @@
            
             
             
-                    
-                <div class="track-row" data-src="static/downloads/CBGJ0-25-00001.mp3">
-                  <span class="track-no">A3</span>
-                  <span class="track-title">
-                    Fall In Love
-                    <button class="play-btn" aria-label="Play Fall In Love" aria-pressed="false" type="button">
-                      <!-- Play -->
-                      <svg class="icon icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path d="M8 5v14l11-7z"></path>
-                      </svg>
-                      <!-- Pause -->
-                      <svg class="icon icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
-                      </svg>
-                    </button>
-                  </span>
-                  <span class="disc-tag">3:43</span>
-                </div>
-             
+        
          
            
         
@@ -1001,3 +985,4 @@ const CODE_BANK = new Set([
 
 </body>
 </html>
+
