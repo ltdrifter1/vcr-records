@@ -275,24 +275,7 @@ audio::-webkit-media-controls-volume-slider { filter: invert(1) brightness(1.2);
 /* ================================
    Now Playing – NTS-style dark bar
    ================================ */
-.now-playing{
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1500;
-  background: #000; /* dark bar */
-  border-top: 1px solid #222;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.6);
-  padding: 8px 16px calc(8px + env(safe-area-inset-bottom,0));
-  color: var(--text);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.now-playing.hidden{
-  display: none !important;
-}
+
 
 /* main row: controls pill + track pill */
 .now-playing .np-row{
@@ -393,6 +376,17 @@ audio::-webkit-media-controls-volume-slider { filter: invert(1) brightness(1.2);
   pointer-events: none;
 }
 
+.now-playing{
+  --np-accent: #4aa3ff;   /* blue */
+}
+
+/* Force thumb color so it can’t inherit the red accent */
+.now-playing .np-seek::-webkit-slider-thumb{
+  background: radial-gradient(circle at 30% 30%, #ffffff, #dbe9ff 55%, #9cc7ff 100%) !important;
+}
+.now-playing .np-seek::-moz-range-thumb{
+  background: radial-gradient(circle at 30% 30%, #ffffff, #dbe9ff 55%, #9cc7ff 100%) !important;
+}
 
 
 
@@ -948,6 +942,7 @@ input[type="range"].np-seek::-moz-range-track{
   }
   .now-playing .np-msg{ max-width: 100%; }
 }
+
 
 
 
