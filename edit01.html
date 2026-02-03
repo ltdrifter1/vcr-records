@@ -6,7 +6,7 @@
   <title>VCR Records</title>
 
   <!-- Global styles -->
-  <link rel="stylesheet" href="static/style.css" />
+  <link rel="stylesheet" href="/style.css" />
 
   <!-- Page-scoped styles -->
   <style>
@@ -34,7 +34,7 @@
     grid-template-columns: 44px 1fr 44px;
     align-items:center;
     position: sticky; top: 0; z-index: 1000;
-    background:#000 url('static/assets/header.png') center/cover no-repeat !important;
+    background:#000 url('/header.png') center/cover no-repeat !important;
     border-bottom:1px solid #222;
     padding: calc(1rem + env(safe-area-inset-top, 0px)) 12px 12px;
   }
@@ -152,7 +152,7 @@
   .tracks .track-no, .tracks .disc-tag{ display:flex; align-items:center; line-height:1; }
 
   .sticky-bar{ position:sticky; bottom:0; background:#fff; border:1px solid var(--paper-line); border-radius:12px; padding:10px; display:none; gap:10px; }
-  @media (max-width: 900px){ .panel{ position:static; } .sticky-bar{ display:grid; grid-template-columns:1fr auto; align-items:center; } }
+  @media (max-width: 900px){ .panel{ position:; } .sticky-bar{ display:grid; grid-template-columns:1fr auto; align-items:center; } }
 
   .zoom{ position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; align-items:center; justify-content:center; z-index:3000; }
   .zoom img{ max-width:90vw; max-height:85vh; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.5); }
@@ -317,7 +317,7 @@
 
   <!-- Center: Logo -->
   <a href="home.html" class="logo center-logo">
-    <img src="static/assets/vcr.avif" alt="AFR Logo" />
+    <img src="/vcr.avif" alt="AFR Logo" />
   </a>
 
   <!-- Right: spacer for balance -->
@@ -349,7 +349,7 @@
         <div class="gallery">
           <div class="media-badge">Single</div>
           <div class="hero">
-            <img id="heroImg" src="static/assets/edit01.avif" alt="Product art" itemprop="image" />
+            <img id="heroImg" src="/edit01.avif" alt="Product art" itemprop="image" />
           </div>
         </div>
 
@@ -390,7 +390,7 @@
           <div class="buy-buttons">
             <a class="btn gold wide" id="buyDigital"
                href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06"
-               data-wav="static/downloads/GN0-25-00021.mp3"
+               data-wav="/GN5-25-00021.mp3"
                data-name="F. Hastings - edit01"
                target="_blank" rel="noopener">
               DIGITAL DOWNLOAD
@@ -417,7 +417,7 @@
 
           <!-- Fallback link (shown after success) -->
           <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
-            <a id="dlWav" class="btn" href="static/downloads/GN0-25-00021.mp3" download>Download WAV</a>
+            <a id="dlWav" class="btn" href="/GN5-25-00021.mp3" download>Download WAV</a>
           </div>
 
           <br><br>
@@ -440,7 +440,7 @@
             <!-- TRACKLIST -->
             <div id="tab-track" class="tab-panel active" role="tabpanel">
               <div class="tracks" aria-label="Tracklist">
-                <div class="track-row" data-src="static/downloads/GN0-25-00021.mp3">
+                <div class="track-row" data-src="/GN5-25-00021.mp3">
                   <span class="track-no">A1</span>
                   <span class="track-title">
                     edit01 (Like a Tattoo)
