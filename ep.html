@@ -348,6 +348,36 @@
 /* Optional: a bit more spacing between the control buttons */
 .np-pill.np-controls { gap: 10px; }
 
+
+    .bandcamp-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  background:#1da0c3;   /* Bandcamp blue */
+  color:#fff;
+  font-weight:700;
+  letter-spacing:.05em;
+  padding:14px 22px;
+  border-radius:10px;
+
+  text-decoration:none;
+  margin-bottom:24px;
+
+  transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+}
+
+.bandcamp-btn img{
+  height:20px;
+}
+
+.bandcamp-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+
     
   </style>
 </head>
@@ -460,6 +490,16 @@
 
           <!-- BUY BUTTONS -->
           <div class="buy-buttons">
+
+
+<a href="https://fhastings.bandcamp.com"
+   class="bandcamp-btn"
+   target="_blank" rel="noopener">
+
+  BUY IT ON BANDCAMP
+  <img src="/bandcamp-logo.svg" alt="Bandcamp">
+
+            
             <a class="btn gold wide" id="buyDigital"
                href="https://buy.stripe.com/aFa4gA9PN6k0eAg1JzfrW07"
                data-wav="/GN5-0003.mp3"
@@ -987,6 +1027,7 @@ const CODE_BANK = new Set([
 
 </body>
 </html>
+
 
 
 
