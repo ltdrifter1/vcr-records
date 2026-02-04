@@ -17,7 +17,7 @@
     .site-header {
       display:flex; justify-content:space-between; align-items:center;
       padding:1rem 2rem;
-      background:#000 url('static/assets/header.png') no-repeat center/cover;
+      background:#000 url('/header.png') no-repeat center/cover;
       position:sticky; top:0; z-index:1000; border-bottom:1px solid #222;
     }
     .left-group{display:flex; align-items:center; gap:2rem;}
@@ -26,7 +26,7 @@
     .nav a{font-weight:500; color:#f5f5f5; text-decoration:none;}
 
     /* --- Hero --- */
-    .hero{position:relative; height:100vh; background:url("static/assets/vcr2.avif") center/cover no-repeat;}
+    .hero{position:relative; height:100vh; background:url("/vcr2.avif") center/cover no-repeat;}
     .hero-overlay{position:absolute; inset:0; background:rgba(0,0,0,.35); pointer-events:none;}
     .hero-content{
       position:absolute; bottom:20%; left:6%; z-index:2; max-width:600px; color:#fff;
@@ -148,7 +148,7 @@
 
     <!-- Floating play button (set your file here) -->
     <div class="floating-play">
-      <button id="playBtn" aria-label="Play/Pause" data-audio="static/felix1.mp3">
+      <button id="playBtn" aria-label="Play/Pause" data-audio="https://pub-ec23146353b246ceade3d35cb55100dd.r2.dev/felix1.mp3">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
       </button>
     </div>
@@ -280,3 +280,4 @@ Tracklist not available.
   </script>
 </body>
 </html>
+
