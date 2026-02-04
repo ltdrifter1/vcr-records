@@ -278,6 +278,39 @@
 .signup-btn { background:#111 !important; color:#fff !important; -webkit-appearance:none; -webkit-text-fill-color:#fff !important; border:none; }
 .signup-btn:hover { background:#000 !important; }
 
+
+.bandcamp-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  background:#1da0c3;   /* Bandcamp blue */
+  color:#fff;
+  font-weight:700;
+  letter-spacing:.05em;
+  padding:14px 22px;
+  border-radius:10px;
+
+  text-decoration:none;
+  margin-bottom:24px;
+
+  transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+}
+
+.bandcamp-btn img{
+  height:20px;
+}
+
+.bandcamp-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+
+
+    
+
   </style>
 </head>
 
@@ -388,6 +421,18 @@
 
           <!-- BUY BUTTONS -->
           <div class="buy-buttons">
+
+<a href="https://fhastings.bandcamp.com"
+   class="bandcamp-btn"
+   target="_blank" rel="noopener">
+
+  BUY IT ON BANDCAMP
+  <img src="/assets/bandcamp-logo.svg" alt="Bandcamp">
+
+</a>
+
+
+            
             <a class="btn gold wide" id="buyDigital"
                href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06"
                data-wav="/GN5-25-00021.mp3"
