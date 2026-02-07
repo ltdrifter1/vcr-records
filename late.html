@@ -823,7 +823,7 @@ const CODE_BANK = new Set([
   const priceText = document.getElementById('priceText');
   const priceContent = document.getElementById('priceContent');
   if (!variant || !priceText || !priceContent) return;
-  const BASE = 0.98; const PHYS = 9.98;
+  const BASE = 9.98; const PHYS = 19.98;
   function setPrice(){
     const v = (variant.value||'').toLowerCase();
     const amt = (v==='cassette'||v==='cd')?PHYS:BASE;
