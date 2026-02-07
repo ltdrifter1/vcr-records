@@ -373,12 +373,12 @@
   <!-- MAIN -->
   <main class="main-wrapper">
     <div class="wrap">
-      <div class="crumbs"><a href="#">Shop</a> / <a href="#">Digital</a> / Single</div>
+      <div class="crumbs"><a href="#">Shop</a> / <a href="#">Digital & Cassette</a> / LP</div>
 
       <section class="product-grid" itemscope itemtype="https://schema.org/Product">
         <!-- Gallery -->
         <div class="gallery">
-          <div class="media-badge">EP</div>
+          <div class="media-badge">LP</div>
           <div class="hero">
             <img id="heroImg" src="/psoul.avif" alt="Product art" itemprop="image" />
           </div>
@@ -823,7 +823,7 @@ const CODE_BANK = new Set([
   const priceText = document.getElementById('priceText');
   const priceContent = document.getElementById('priceContent');
   if (!variant || !priceText || !priceContent) return;
-  const BASE = 0.98; const PHYS = 9.98;
+  const BASE = 9.98; const PHYS = 19.98;
   function setPrice(){
     const v = (variant.value||'').toLowerCase();
     const amt = (v==='cassette'||v==='cd')?PHYS:BASE;
