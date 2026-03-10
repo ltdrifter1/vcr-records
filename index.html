@@ -93,16 +93,16 @@
       gap: 24px;
     }
 
-.brand {
-  display: flex;
-  align-items: center;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+    }
 
-.brand img {
-  height: 28px;
-  width: auto;
-  display: block;
-}
+    .brand img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
 
     .nav-links {
       display: flex;
@@ -392,7 +392,6 @@
       border-color: rgba(255,255,255,0.2);
     }
 
-/* ARTIST PHOTO — scaled to 15% */
     .artist-card img {
       width: 15%;
       aspect-ratio: 1 / 1;
@@ -420,12 +419,82 @@
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       background: #111;
+      position: relative;
+      min-height: 120px;
     }
 
     .player-shell iframe {
       display: block;
       width: 100%;
       border: 0;
+    }
+
+    /* Player placeholder shown before activation */
+    .player-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 28px 32px;
+      min-height: 120px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .player-placeholder:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .play-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .player-placeholder:hover .play-icon {
+      transform: scale(1.08);
+      background: #fff;
+    }
+
+    .play-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: #111;
+      margin-left: 3px; /* optical centering for play triangle */
+    }
+
+    .player-placeholder-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .player-placeholder-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .player-placeholder-sub {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .player-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     /* ABOUT */
@@ -561,7 +630,7 @@
   <!-- NAV -->
   <header class="nav">
     <div class="container nav-inner">
-     <a href="#top" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
+      <a href="#top" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
       <nav class="nav-links" aria-label="Primary">
         <a href="#featured">Featured</a>
         <a href="#releases">Releases</a>
@@ -590,12 +659,18 @@
         <aside class="hero-panel fade-up" aria-label="Current featured release">
           <div class="eyebrow">Now Featuring</div>
           <div class="now-playing" style="margin-top:14px;">
-            <img src="blank1400.png" alt="Shades of Blue cover art" />
+            <img src="blank1400.png" alt="Lions' Gate cover art" />
             <div>
               <div class="meta">LT Drifta</div>
               <h2 style="margin:6px 0 8px; font-size:1.5rem; font-weight:800; letter-spacing:-0.03em;">Lions' Gate</h2>
               <p class="meta" style="margin:0 0 14px;"></p>
-              <a class="button-secondary" href="#player" style="min-height:40px; font-size:0.78rem;">Listen Now</a>
+              <!-- "Listen Now" triggers playback via JS -->
+              <button
+                class="button-secondary"
+                id="hero-listen-btn"
+                style="min-height:40px; font-size:0.78rem;"
+                aria-label="Play Lions' Gate by LT Drifta"
+              >▶ Listen Now</button>
             </div>
           </div>
         </aside>
@@ -626,9 +701,7 @@
                 <span>2026</span>
                 <span>LP — Digital</span>
               </div>
-              <p class="feature-sub">
-              
-              </p>
+              <p class="feature-sub"></p>
 
               <div class="tracklist">
                 <div class="track-row">
@@ -656,20 +729,18 @@
                   <span class="track-name">Nu Saigon Nights</span>
                   <span class="track-dur">1:04</span>
                 </div>
-         <div class="track-row">
+                <div class="track-row">
                   <span class="track-num">B4</span>
                   <span class="track-name">Without You</span>
                   <span class="track-dur">3:18</span>
                 </div>
-
-                
               </div>
             </div>
 
             <div class="feature-links">
-              <a class="button" href="#player">Play Release</a>
+              <!-- "Play Release" triggers player activation -->
+              <button class="button" id="featured-play-btn">▶ Play Release</button>
               <a class="button-secondary" href="https://fhastings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-           
             </div>
           </div>
         </div>
@@ -688,11 +759,8 @@
         </div>
 
         <div class="release-grid">
-
-     
-
           <a class="release-card fade-up" href="lion.html">
-            <img src="blank1400.png" alt="Avec Toi artwork" />
+            <img src="blank1400.png" alt="Lions' Gate artwork" />
             <div class="release-body">
               <div class="release-artist">LT Drifta</div>
               <div class="release-title">Lions' Gate</div>
@@ -701,7 +769,7 @@
           </a>
 
           <a class="release-card fade-up" href="classic.html">
-            <img src="blank1400.png" alt="Soul Bounce artwork" />
+            <img src="blank1400.png" alt="Classic Jazz artwork" />
             <div class="release-body">
               <div class="release-artist">LT Drifta</div>
               <div class="release-title">Classic Jazz</div>
@@ -710,17 +778,13 @@
           </a>
 
           <a class="release-card fade-up" href="avectoi.html">
-            <img src="blank1400.png" alt="Accomplished artwork" />
+            <img src="blank1400.png" alt="Avec Toi artwork" />
             <div class="release-body">
               <div class="release-artist">LT Drifta</div>
               <div class="release-title">Avec Toi / What Cool Spring Breezes Do</div>
               <div class="release-year">2025</div>
             </div>
           </a>
-
-     
-
-
 
           <a class="release-card fade-up" href="edit01.html">
             <img src="edit01.avif" alt="edit01 artwork" />
@@ -731,9 +795,6 @@
             </div>
           </a>
 
-
-
-
           <a class="release-card fade-up" href="testpress.html">
             <img src="testpress.avif" alt="TEST PRESS artwork" />
             <div class="release-body">
@@ -742,7 +803,6 @@
               <div class="release-year">2025</div>
             </div>
           </a>
-
         </div>
       </div>
     </section>
@@ -757,13 +817,32 @@
           </div>
         </div>
 
-        <div class="player-shell fade-up">
-          <iframe
-            title="F. Hastings on Bandcamp"
-            style="width:100%; height:120px;"
-            src="https://bandcamp.com/EmbeddedPlayer/album=0/size=large/bgcol=111111/linkcol=d8d1c2/tracklist=false/artwork=small/transparent=true/"
-            seamless>
-          </iframe>
+        <!--
+          The player shell contains a placeholder by default.
+          On activation (via "Listen Now" / "Play Release" buttons, or clicking
+          the placeholder itself), the placeholder is swapped out for a live
+          Bandcamp iframe with autoplay=1 so music starts immediately.
+
+          UPDATE: replace `data-album` with your actual Bandcamp album ID.
+          Find it in your Bandcamp embed code (album=XXXXXXXXXX).
+        -->
+        <div
+          class="player-shell fade-up"
+          id="player-shell"
+          data-album="ltdrifta"
+          data-src="https://ltdrifta.bandcamp.com/track/lions-gate"
+        >
+          <div class="player-placeholder" id="player-placeholder" role="button" tabindex="0" aria-label="Click to play LT Drifta on Bandcamp">
+            <div class="play-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+            <div class="player-placeholder-text">
+              <div class="player-placeholder-title">LT Drifta — Lions' Gate</div>
+              <div class="player-placeholder-sub">Click to load player &amp; play</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -775,9 +854,7 @@
           <div>
             <div class="eyebrow">Roster</div>
             <h2>Artists</h2>
-      
-
-
+          </div>
 
           <a class="artist-card fade-up" href="#about">
             <img src="ltd.PNG" alt="LT Drifta" />
@@ -785,23 +862,21 @@
               <div class="artist-name">LT Drifta</div>
               <div class="artist-role"></div>
             </div>
-             </div>
           </a>
         </div>
       </div>
     </section>
 
-<!-- ABOUT + CONTACT -->
-<section id="about" class="section about">
-  <div class="container about-grid">
-    <div class="about-card fade-up">
-      <div class="eyebrow">About the label</div>
-      <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px;">No filler. All killer.</h2>
-      <p>
-        VCR Records is a small independent label putting out hip-hop, jungle, drum &amp; bass, house, and whatever else sounds right. We grew up on dusty samples, pirate radio, and warehouse raves — now we press that energy into wax and tape.
-      </p>
-  
-    </div>
+    <!-- ABOUT + CONTACT -->
+    <section id="about" class="section about">
+      <div class="container about-grid">
+        <div class="about-card fade-up">
+          <div class="eyebrow">About the label</div>
+          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px;">VCR.</h2>
+          <p>
+            VCR Records is a small independent label putting out hip-hop, jungle, drum &amp; bass, house, and whatever else sounds right. We grew up on dusty samples, pirate radio, and warehouse raves — now we press that energy into wax and tape.
+          </p>
+        </div>
 
         <div class="newsletter fade-up" id="contact">
           <div class="eyebrow">Contact / Mailing List</div>
@@ -813,14 +888,12 @@
           </form>
           <div class="feature-links" style="margin-top:18px;">
             <a class="button-secondary" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-            <a class="button-secondary" href="#" target="_blank" rel="noopener">Spotify</a>
             <a class="button-secondary" href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener">Instagram</a>
           </div>
           <p style="margin-top:22px; font-size:0.88rem;">
-            <strong>Demos:</strong> Send links via email — <a href="mailto:f_hastings@hotmail.com" style="border-bottom:1px solid var(--line); padding-bottom:1px;">ltdrifta@gmail.com</a>
+            <strong>Demos:</strong> Send links via email — <a href="mailto:ltdrifta@gmail.com" style="border-bottom:1px solid var(--line); padding-bottom:1px;">ltdrifta@gmail.com</a>
           </p>
         </div>
-
       </div>
     </section>
 
@@ -842,6 +915,7 @@
   </footer>
 
   <script>
+    // ─── Intersection observer for fade-up animations ───────────────────────
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
@@ -852,6 +926,82 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
+
+    // ─── Player activation ──────────────────────────────────────────────────
+    // Strategy: Bandcamp iframes cannot be controlled via postMessage/JS once
+    // loaded. The reliable way to trigger autoplay is to inject the iframe
+    // dynamically with autoplay=1 at the moment the user gestures to play.
+    // This also avoids loading the heavy iframe until needed (performance win).
+
+    const playerShell = document.getElementById('player-shell');
+    const placeholder  = document.getElementById('player-placeholder');
+
+    /**
+     * activatePlayer()
+     * Replaces the placeholder UI with a live Bandcamp iframe that has
+     * autoplay=1 set. Must be called from a user-gesture handler (click/keydown)
+     * so browsers permit autoplay.
+     *
+     * TODO: swap the `src` below (or the data-src attribute on #player-shell)
+     * with your real Bandcamp embed URL once you have the album ID.
+     */
+    function activatePlayer() {
+      // Already active — nothing to do.
+      if (playerShell.querySelector('iframe')) return;
+
+      // Show a brief loading state.
+      placeholder.innerHTML = '<div class="player-loading">Loading…</div>';
+
+      // Build the iframe and inject it.
+      // The src comes from the data-src attribute so it's easy to update in HTML.
+      const src = playerShell.dataset.src
+        || 'https://bandcamp.com/EmbeddedPlayer/album=ltdrifta/size=large/bgcol=111111/linkcol=d8d1c2/tracklist=false/artwork=small/transparent=true/autoplay=1/';
+
+      const iframe = document.createElement('iframe');
+      iframe.title  = 'LT Drifta on Bandcamp';
+      iframe.src    = src;
+      iframe.style.cssText = 'width:100%; height:120px; display:block; border:0;';
+      iframe.allow  = 'autoplay';
+      iframe.setAttribute('seamless', '');
+
+      // Swap placeholder for iframe once the iframe reports it's loaded.
+      iframe.addEventListener('load', () => {
+        placeholder.replaceWith(iframe);
+      }, { once: true });
+
+      // Append temporarily so the browser starts fetching (load event fires
+      // after we swap, but we need it in DOM to fire at all).
+      playerShell.appendChild(iframe);
+    }
+
+    /**
+     * scrollToPlayer()
+     * Smooth-scrolls to the #player section. Works even if the section is
+     * already in view — scroll-behavior:smooth on <html> handles the rest.
+     */
+    function scrollToPlayer() {
+      document.getElementById('player').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Clicking the inline placeholder activates the player directly.
+    placeholder.addEventListener('click', activatePlayer);
+    placeholder.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activatePlayer(); }
+    });
+
+    // "Listen Now" button in the hero panel.
+    document.getElementById('hero-listen-btn').addEventListener('click', () => {
+      scrollToPlayer();
+      // Small delay so the section is in view before we activate (avoids
+      // the iframe being injected off-screen before the scroll completes).
+      setTimeout(activatePlayer, 400);
+    });
+
+    // "Play Release" button in the featured section.
+    document.getElementById('featured-play-btn').addEventListener('click', () => {
+      scrollToPlayer();
+      setTimeout(activatePlayer, 400);
+    });
   </script>
 
 </body>
