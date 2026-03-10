@@ -3,953 +3,471 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VCR Records</title>
-
-  <!-- Global styles -->
-  <link rel="stylesheet" href="/style.css" />
-
-  <!-- Page-scoped styles -->
+  <title>LT Drifta: TEST PRESS — VCR Records</title>
+  <meta name="description" content="TEST PRESS by LT Drifta — available on cassette and digital. VCR Records." />
   <style>
-  :root{
-    --paper-bg:  #f5f1e8;
-    --paper-line:#d9d2c2;
-    --ink:       #111;
-    --muted:     #555;
-    --overlay-bg: rgba(0,0,0,.9);
+    :root {
+      --bg:      #f5f1e8;
+      --surface: #ffffff;
+      --panel:   #faf8f4;
+      --text:    #111;
+      --muted:   #7a7365;
+      --light:   #a09888;
+      --line:    #e2ddd2;
+      --dark:    #111;
+      --dark-2:  #1a1a1a;
+      --gold:    #c8a455;
+      --gold-h:  #dbb769;
+      --max:     1200px;
+      --radius:  14px;
+      --radius-sm: 10px;
+      --shadow:  0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+      --sans:    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select { font-family: inherit; }
+    .container { width: min(calc(100% - 28px), var(--max)); margin: 0 auto; }
 
-    /* gold buttons */
-    --gold:       #c8a455;
-    --gold-hover: #dbb769;
-    --gold-press: #b89242;
-  }
+    /* NAV */
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-inner { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; }
+    .brand img { height: 28px; width: auto; display: block; }
+    .nav-links { display: flex; gap: 18px; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: #999; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    @media (max-width: 600px) { .nav-links a { font-size: 0.68rem; letter-spacing: 0.08em; } .nav-links { gap: 12px; } }
 
-  html, body, .main-wrapper, .section-block, .row-wrapper{
-    background: var(--paper-bg) !important;
-    color: var(--ink);
-  }
-  .main-wrapper{ padding-bottom: calc(72px + env(safe-area-inset-bottom, 0)); }
+    /* BREADCRUMBS */
+    .crumbs { padding: 20px 0 8px; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--muted); }
+    .crumbs a { color: var(--muted); transition: color 0.15s; }
+    .crumbs a:hover { color: var(--text); }
 
-  .site-header{
-    display:grid;
-    grid-template-columns: 44px 1fr 44px;
-    align-items:center;
-    position: sticky; top: 0; z-index: 1000;
-    background:#000 url('/header.png') center/cover no-repeat !important;
-    border-bottom:1px solid #222;
-    padding: calc(1rem + env(safe-area-inset-top, 0px)) 12px 12px;
-  }
-  .center-logo{ justify-self:center; }
-  .center-logo img{ height: 35px; width:auto; display:block; }
-  .hamburger{ justify-self:start; width:36px; height:36px; border:none; background:transparent; padding:6px; cursor:pointer; display:grid; place-items:center; }
-  .hamburger span{ display:block; width:22px; height:2px; background:#f5f5f5; margin:3px 0; transition:transform .2s ease, opacity .2s ease; }
-  .hamburger[aria-expanded="true"] span:nth-child(1){ transform: translateY(5px) rotate(45deg); }
-  .hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
-  .hamburger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-5px) rotate(-45deg); }
-  .nav.drawer{ position: fixed; top: 0; left: 0; bottom: 0; width: 260px; background: rgba(0,0,0,.92); backdrop-filter: blur(6px); border-right: 1px solid rgba(255,255,255,.08); transform: translateX(-100%); transition: transform .22s ease; padding: calc(16px + env(safe-area-inset-top,0)) 16px 16px; display: flex; flex-direction: column; gap: 14px; z-index: 1200; }
-  .nav.drawer a{ color:#fff; font-weight:600; letter-spacing:.2px; text-decoration:none; }
-  .nav-scrim{ position: fixed; inset: 0; background: rgba(0,0,0,.45); backdrop-filter: blur(1px); z-index: 1100; }
-  .site-header.menu-open .nav.drawer{ transform: translateX(0); }
-  .site-header.menu-open .nav-scrim[hidden]{ display:block; }
-  @media (min-width: 900px){
-    .hamburger{ display:none; }
-    .site-header{ grid-template-columns: 1fr auto 1fr; }
-    .nav.drawer{ position: static; transform: none; transition: none; width: auto; background: transparent; backdrop-filter:none; border: none; padding: 0; flex-direction: row; gap: 1.2rem; z-index: auto; }
-    .nav.drawer a{ color:#f5f5f5; }
-    .nav-scrim{ display:none !important; }
-  }
+    /* PRODUCT GRID */
+    .product-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; padding: 12px 0 80px; }
+    @media (max-width: 860px) { .product-grid { grid-template-columns: 1fr; gap: 24px; } }
 
-  .wrap{ width:min(1100px, 92vw); margin-inline:auto; }
-  .crumbs{ color:#7a7365; font-size:12px; padding:14px 0 6px; }
-  .crumbs a{ color:#7a7365; text-decoration:none; }
-  .crumbs a:hover{ text-decoration:underline; color:#333; }
+    /* GALLERY */
+    .gallery { position: relative; }
+    .hero-frame { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; box-shadow: var(--shadow); cursor: zoom-in; }
+    .hero-frame img { width: 100%; border-radius: var(--radius-sm); }
+    .media-badge { position: absolute; left: 20px; top: 20px; background: var(--dark); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; z-index: 2; }
 
-  .product-grid{ display:grid; grid-template-columns: 1.05fr 1fr; gap:28px; align-items:start; padding: 8px 0 48px; }
-  @media (max-width: 900px){ .product-grid{ grid-template-columns:1fr; } }
+    /* PANEL */
+    .panel { position: sticky; top: 76px; }
+    @media (max-width: 860px) { .panel { position: static; } }
+    .panel-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+    .release-artist { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .release-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 12px; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .chip { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+    .chip.in-stock { color: #1a7a3a; border-color: #a9d3b8; background: #eef7f1; }
+    .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 20px; }
+    .price { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+    .price-note { font-size: 0.72rem; color: var(--muted); }
+    .divider { height: 1px; background: var(--line); margin: 20px 0; }
 
-  .gallery{ position:relative; }
-  .hero{ background: #fff; border:1px solid var(--paper-line); border-radius:12px; padding:10px; }
-  .hero img{ width:100%; display:block; border-radius:8px; }
-  .thumbs{ display:grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap:10px; margin-top:10px; }
-  .thumbs button{ background:#fff; border:1px solid var(--paper-line); border-radius:8px; padding:6px; cursor:pointer; }
-  .thumbs img{ width:100%; display:block; border-radius:6px; }
-  .media-badge{ position:absolute; left:16px; top:16px; background:#111; color:#fff; font-weight:700; border-radius:999px; padding:6px 10px; font-size:12px; letter-spacing:.03em; }
+    /* FORMS */
+    .field-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: block; }
+    .field-select { width: 100%; height: 44px; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0 14px; background: var(--panel); color: var(--text); font-size: 0.88rem; font-weight: 600; appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7365' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; outline: none; transition: border-color 0.15s; cursor: pointer; }
+    .field-select:focus { border-color: var(--dark); }
+    .qty-row { display: flex; align-items: center; gap: 14px; margin: 16px 0; }
+    .qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: var(--panel); }
+    .qty button { width: 40px; height: 42px; border: none; background: transparent; font-size: 1.1rem; color: var(--text); transition: background 0.12s; }
+    .qty button:hover { background: var(--line); }
+    .qty input { width: 48px; height: 42px; text-align: center; border: none; border-left: 1px solid var(--line); border-right: 1px solid var(--line); background: transparent; font-size: 0.92rem; font-weight: 700; color: var(--text); outline: none; }
 
-  .panel{ background:#fff; border:1px solid var(--paper-line); border-radius:12px; padding:18px; position:sticky; top:84px; }
-  .title{ font-size: clamp(22px, 2.5vw, 30px); font-weight:800; line-height:1.1; margin:0 0 6px; }
-  .subtitle{ color:#6a665b; margin:0 0 10px; font-size:14px; }
-  .price{ font-size:22px; font-weight:700; margin:10px 0 14px; }
-  .label-row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-  .chip{ border:1px solid var(--paper-line); border-radius:999px; padding:.25rem .6rem; font-size:12px; font-weight:700; letter-spacing:.02em; }
-  .in-stock{ color:#126c2f; border-color:#a9d3b8; background:#edf7f1; }
+    /* BUTTONS */
+    .btn { display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.15s, background 0.2s; border: none; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: var(--gold-h); }
+    .btn-dark { background: var(--dark); color: #fff; }
+    .btn-dark:hover { background: #000; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--dark); }
+    .btn-bandcamp { background: #1da0c3; color: #fff; gap: 10px; }
+    .btn-bandcamp:hover { background: #1790b0; }
+    .btn-bandcamp img { height: 18px; }
+    .buy-grid { display: grid; gap: 10px; margin-top: 4px; }
+    .small-note { font-size: 0.68rem; color: var(--light); margin-top: 10px; line-height: 1.4; }
 
-  .variant{ display:grid; gap:8px; margin:14px 0; }
-  .variant label{ font-size:12px; color:#6a665b; }
-  .variant select, .variant input{ width:100%; height:40px; border-radius:8px; border:1px solid var(--paper-line); padding:0 10px; background:#fff; color:#111; }
+    /* REDEEM */
+    .redeem-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 18px; margin-top: 20px; }
+    .redeem-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .redeem-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .redeem-input { height: 44px; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0 14px; background: var(--surface); color: var(--text); font-size: 0.88rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; outline: none; transition: border-color 0.15s; }
+    .redeem-input::placeholder { color: var(--light); text-transform: none; font-weight: 400; letter-spacing: 0; }
+    .redeem-input:focus { border-color: var(--dark); }
+    .download-links { margin-top: 10px; display: grid; gap: 8px; }
+    .hidden { display: none !important; }
 
-  .qty-row{ display:flex; align-items:center; gap:12px; margin:10px 0 16px; }
-  .qty{ display:inline-flex; align-items:center; border:1px solid var(--paper-line); border-radius:10px; overflow:hidden; }
-  .qty button{ background:#f0ede6; color:#111; border:0; width:38px; height:40px; font-size:18px; cursor:pointer; }
-  .qty input{ width:56px; height:40px; text-align:center; background:transparent; border:0; color:#111; font-size:16px; }
+    /* TABS */
+    .tabs { margin-top: 24px; }
+    .tab-list { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
+    .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); transition: color 0.15s, border-color 0.15s; cursor: pointer; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn[aria-selected="true"] { color: var(--text); border-bottom-color: var(--text); }
+    .tab-panel { display: none; padding: 18px 0; }
+    .tab-panel.active { display: block; }
+    .tab-panel p { font-size: 0.92rem; color: var(--muted); line-height: 1.65; }
+    .tab-panel ul { padding-left: 18px; margin-top: 8px; color: var(--muted); font-size: 0.88rem; }
+    .tab-panel li { margin-bottom: 4px; }
 
-  .cta{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:6px; }
+    /* TRACKLIST */
+    .tracks { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); overflow: hidden; }
+    .track-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 10px; align-items: center; padding: 0 14px; min-height: 50px; border-top: 1px solid var(--line); transition: background 0.12s; }
+    .track-row:first-child { border-top: none; }
+    .track-row:hover { background: rgba(0,0,0,0.02); }
+    .track-no { font-size: 0.72rem; font-weight: 500; color: var(--light); font-variant-numeric: tabular-nums; }
+    .track-title { display: inline-flex; align-items: center; gap: 10px; font-size: 0.88rem; font-weight: 600; }
+    .disc-tag { font-size: 0.72rem; color: var(--light); font-variant-numeric: tabular-nums; }
+    .play-btn { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); display: inline-grid; place-items: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; padding: 0; flex-shrink: 0; }
+    .play-btn:hover { background: var(--panel); border-color: var(--dark); }
+    .play-btn .icon { display: block; }
+    .play-btn .icon-pause { display: none; }
+    .play-btn.is-playing .icon-play { display: none; }
+    .play-btn.is-playing .icon-pause { display: block; }
 
-  /* Base button */
-  .btn{
-    display:flex; align-items:center; justify-content:center;
-    height:46px; min-height:46px;
-    border-radius:10px;
-    font-weight:800; letter-spacing:.02em;
-    text-decoration:none; cursor:pointer;
-    border:1px solid #111; background:#111; color:#fff;
-    box-sizing:border-box;
-  }
-  .btn.secondary{ background:transparent; color:#111; border-color:#111; }
+    /* NOW PLAYING */
+    .now-playing { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200; background: rgba(17,17,17,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.08); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0)); color: #f3f3ef; font-size: 0.82rem; display: none; }
+    .now-playing.show { display: block; }
+    .np-row { max-width: var(--max); margin: 0 auto; display: grid; gap: 8px; }
+    .np-progress { display: flex; align-items: center; gap: 10px; }
+    .np-time { width: 42px; font-size: 0.68rem; font-variant-numeric: tabular-nums; color: #999; }
+    .np-time.left { text-align: right; }
+    input[type="range"].np-seek { -webkit-appearance: none; appearance: none; flex: 1; height: 3px; background: #333; border-radius: 2px; outline: none; }
+    input[type="range"].np-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: none; margin-top: -4.5px; cursor: pointer; }
+    .np-controls { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+    .np-btn { background: none; border: none; padding: 4px; cursor: pointer; display: grid; place-items: center; color: #f3f3ef; }
+    .np-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .np-btn.big svg { width: 28px; height: 28px; }
+    .np-title { font-weight: 600; font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ddd; }
+    .np-close { background: none; border: none; padding: 4px; cursor: pointer; display: grid; place-items: center; color: #999; }
+    .np-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+    .np-close:hover { color: #fff; }
 
-  /* Gold variant + full width helper */
-  .btn.gold{ background:var(--gold); color:#111; border-color:var(--gold); }
-  .btn.gold:hover{ background:var(--gold-hover); border-color:var(--gold-hover); }
-  .btn.gold:active{ background:var(--gold-press); border-color:var(--gold-press); }
-  .btn.gold:focus-visible{ outline:none; box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(0,0,0,.65); }
+    /* FOOTER */
+    .site-footer { background: var(--dark); color: #ddd; padding: 56px 0 32px; margin-top: 40px; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+    .footer-brand { margin-bottom: 12px; }
+    .footer-brand img { height: 24px; width: auto; display: block; }
+    .footer-text { font-size: 0.82rem; color: #888; line-height: 1.6; max-width: 380px; }
+    .footer-social { display: flex; gap: 12px; margin-top: 20px; }
+    .footer-social a { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; display: grid; place-items: center; color: #888; transition: color 0.2s, border-color 0.2s; }
+    .footer-social a:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+    .footer-social svg { width: 16px; height: 16px; fill: currentColor; }
+    .signup-card { background: var(--dark-2); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden; }
+    .signup-card .sc-row { padding: 18px 22px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .signup-card .sc-row:first-child { border-top: none; }
+    .signup-title { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.01em; color: #f3f3ef; }
+    .signup-card input[type="email"] { width: 100%; background: transparent; border: none; outline: none; color: #f3f3ef; font-size: 0.92rem; height: 36px; }
+    .signup-card input[type="email"]::placeholder { color: #666; }
+    .signup-options { display: flex; flex-direction: column; gap: 8px; }
+    .signup-options label { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; color: #999; }
+    .signup-options input[type="checkbox"] { width: 16px; height: 16px; accent-color: #f3f3ef; }
+    .signup-btn { width: 100%; height: 48px; background: #f3f3ef; color: #111; border: none; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; border-top: 1px solid rgba(255,255,255,0.06); }
+    .signup-btn:hover { background: #fff; }
+    .footer-bottom { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.68rem; color: #555; }
+    .footer-bottom a { color: #666; transition: color 0.15s; }
+    .footer-bottom a:hover { color: #ccc; }
 
-  .btn.wide{ width:100%; }
+    /* STICKY BAR */
+    .sticky-bar { position: sticky; bottom: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--line); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0)); display: none; grid-template-columns: 1fr auto; gap: 12px; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
+    .sticky-bar strong { font-size: 1.1rem; }
 
-  .buy-buttons{
-    display:grid; grid-template-columns:1fr; gap:10px; margin-top:6px;
-  }
+    /* ZOOM */
+    .zoom { position: fixed; inset: 0; background: rgba(0,0,0,0.88); display: none; align-items: center; justify-content: center; z-index: 300; cursor: zoom-out; }
+    .zoom img { max-width: 90vw; max-height: 88vh; border-radius: 8px; }
+    .zoom-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; font-size: 1.2rem; }
 
-  .shop-pay{ display:flex; align-items:center; justify-content:center; gap:8px; font-weight:800; height:46px; border-radius:10px; border:1px dashed #7c7c7c; background:#f3f1eb; }
-
-  .small-note{ color:#6a665b; font-size:12px; margin-top:8px; }
-  .divider{ height:1px; background:var(--paper-line); margin:18px 0; }
-
-  .tabs{ margin-top: 8px; }
-  .tab-list{ display:flex; gap:10px; flex-wrap:wrap; }
-  .tab-btn[aria-selected="true"]{ background:#111; color:#fff; border-color:#111; }
-  .tab-btn{ background:#fff; border:1px solid var(--paper-line); border-radius:999px; padding:.35rem .8rem; font-weight:700; cursor:pointer; }
-  .tab-panel{ display:none; padding:12px 0; }
-  .tab-panel.active{ display:block; }
-
-  .tracks{ border:1px solid var(--paper-line); border-radius:12px; background:#fff; }
-  .track-row{ display:grid; grid-template-columns:auto 1fr auto; gap:10px; padding:10px 12px; border-top:1px solid var(--paper-line); }
-  .track-row:first-child{ border-top:0; }
-  .track-no{ color:#6a665b; }
-  .disc-tag{ font-size:12px; color:#6a665b; }
-
-  .track-title{ display:inline-flex; align-items:center; gap:8px; min-width:0; }
-  .play-btn{
-    display:inline-grid; place-items:center;
-    width:28px; height:28px; border:1px solid var(--paper-line);
-    border-radius:999px; background:#fff; cursor:pointer; padding:0;
-  }
-  .play-btn:hover{ background:#f8f7f3; }
-  .play-btn:focus{ outline:2px solid #222; outline-offset:2px; }
-  .play-btn .icon{ display:block; }
-  .play-btn .icon-pause{ display:none; }
-  .play-btn.is-playing .icon-play{ display:none; }
-  .play-btn.is-playing .icon-pause{ display:block; }
-
-  .tracks .track-row{ align-items:center; min-height:44px; }
-  .tracks .track-no, .tracks .disc-tag{ display:flex; align-items:center; line-height:1; }
-
-  .sticky-bar{ position:sticky; bottom:0; background:#fff; border:1px solid var(--paper-line); border-radius:12px; padding:10px; display:none; gap:10px; }
-  @media (max-width: 900px){ .panel{ position:; } .sticky-bar{ display:grid; grid-template-columns:1fr auto; align-items:center; } }
-
-  .zoom{ position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; align-items:center; justify-content:center; z-index:3000; }
-  .zoom img{ max-width:90vw; max-height:85vh; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,.5); }
-  .zoom button{ position:absolute; top:16px; right:16px; background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.3); border-radius:8px; padding:6px 10px; cursor:pointer; }
-
-  /* Redeem */
-  .redeem{ border:1px dashed #bdb7a8; background:#fff; border-radius:10px; padding:12px; }
-  .redeem .disc-tag{ font-weight:700; }
-  .redeem-row{ display:grid; grid-template-columns:1fr auto; gap:10px; margin-top:6px; }
-  .redeem-row input{
-    height:46px; border:1px solid var(--paper-line); border-radius:10px; padding:0 12px;
-    background:#fff; color:#111; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-  }
-  .download-links{ margin-top:10px; display:grid; grid-template-columns:1fr; gap:10px; }
-  .hidden{ display:none !important; }
-
-  /* ======= NOW PLAYING ======= */
-  .now-playing{
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1500;
-    background: linear-gradient(#e9e9e9,#d9d9d9);
-    border-top: 1px solid #bfbfbf;
-    box-shadow: 0 -1px 0 #c8c8c8 inset, 0 -6px 16px rgba(0,0,0,.08);
-    padding: 10px 16px calc(10px + env(safe-area-inset-bottom,0));
-    color: #111; font-size: 13px;
-    display: none;
-  }
-  .now-playing.show{ display: block; }
-  .now-playing .np-row{
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr; gap: 10px; align-items: center;
-  }
-  .np-progress{ width:100%; display:flex; align-items:center; gap:10px; }
-  .np-time{ width:56px; text-align:right; font-variant-numeric: tabular-nums; color:#222; }
-  .np-time.left{ text-align:left; }
-  input[type="range"].np-seek{
-    -webkit-appearance:none; appearance:none; width:100%; height:6px; background:#cfcfcf;
-    border-radius:4px; outline:none;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -1px 0 rgba(0,0,0,.08);
-  }
-  input[type="range"].np-seek::-webkit-slider-thumb{
-    -webkit-appearance:none; width:14px; height:14px; border-radius:50%;
-    background:#fff; border:1px solid #b5b5b5; box-shadow:0 1px 0 rgba(0,0,0,.25); margin-top:-4px;
-  }
-  input[type="range"].np-seek::-moz-range-thumb{
-    width:14px; height:14px; border-radius:50%;
-    background:#fff; border:1px solid #b5b5b5; box-shadow:0 1px 0 rgba(0,0,0,.25);
-  }
-  .np-controls{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
-  .np-buttons{
-    display:inline-flex; align-items:center; gap:10px;
-    background:#ececec; border:1px solid #c8c8c8; border-radius:10px; padding:6px 10px;
-    box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 -1px 0 rgba(0,0,0,.05) inset;
-  }
-  .np-btn{ background:transparent; border:none; padding:4px; cursor:pointer; display:grid; place-items:center; }
-  .np-btn svg{ width:18px; height:18px; fill:#222; }
-  .np-title{ font-weight:600; color:#222; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .np-close{ background:transparent; border:none; padding:4px; cursor:pointer; display:grid; place-items:center; }
-  .np-close svg{ width:18px; height:18px; fill:#222; }
-
-  @media (max-width:560px){
-    .now-playing .np-row{ gap: 8px; }
-    .np-title{ font-size: 12px; }
-  }
-
-  /* ===============================
-     FOOTER
-     =============================== */
-  .site-footer{
-    position:relative; overflow:hidden;
-    background:var(--paper-bg); color:var(--ink);
-    border-top:1px solid var(--paper-line);
-    padding:40px 12px 28px;
-    isolation:isolate;
-  }
-  .footer-wrap{ width:min(1100px,92vw); margin-inline:auto; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-  @media (max-width:900px){ .footer-wrap{ grid-template-columns:1fr; } }
-
-  .footer-illus{
-    position:absolute; left:-70px; top:-20px; width:360px; opacity:.35; color:#b7ad98;
-    z-index:-1; pointer-events:none; user-select:none;
-  }
-  @media (max-width:900px){ .footer-illus{ width:280px; left:-40px; top:-10px; } }
-
-  .signup-card{ background:transparent; border:1px solid var(--paper-line); border-radius:0; box-shadow:none; }
-  .signup-card .row{ border-top:1px solid var(--paper-line); padding:16px; }
-  .signup-card .row:first-child{ border-top:none; }
-  .signup-title{ font-weight:900; letter-spacing:.02em; font-size:clamp(20px,3vw,32px); line-height:1.05; text-transform:uppercase; }
-  .signup-card input[type="email"], .signup-card select{ width:100%; background:transparent; border:0; outline:none; font:inherit; color:var(--ink); height:42px; }
-  .signup-card select{ appearance:none; background-image:linear-gradient(45deg, transparent 50%, #111 50%), linear-gradient(135deg, #111 50%, transparent 50%); background-position:calc(100% - 18px) 18px, calc(100% - 12px) 18px; background-size:6px 6px, 6px 6px; background-repeat:no-repeat; }
-  .signup-options{ display:grid; gap:8px; font-size:15px; }
-  .signup-options label{ display:flex; align-items:center; gap:10px; }
-  .signup-options input[type="checkbox"]{ width:18px; height:18px; accent-color:#111; }
-  .signup-btn{ width:100%; height:52px; font-weight:900; font-size:20px; letter-spacing:.02em; text-transform:uppercase; background:transparent; border:0; border-top:1px solid var(--paper-line); cursor:pointer; }
-  .signup-btn:hover{ background:#efe9dd; }
-  .legal-note{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:11px; color:#333; line-height:1.35; }
-
-/* --- Social buttons: black & white --- */
-.footer-social{
-  display:flex; gap:36px; align-items:center; justify-content:center;
-  margin:28px auto 12px;
-}
-.footer-social .social{
-  width:96px; height:96px; border-radius:999px;
-  display:grid; place-items:center;
-  background:#111; color:#fff; text-decoration:none;
-  transition:transform .15s ease, background .15s ease;
-}
-.footer-social .social:hover{
-  background:#000; transform:translateY(-2px) scale(1.02);
-}
-.footer-social .social svg{
-  width:42px; height:42px; display:block;
-}
-
-/* Smaller screens */
-@media (max-width:560px){
-  .footer-social{ gap:22px; }
-  .footer-social .social{ width:64px; height:64px; }
-  .footer-social .social svg{ width:28px; height:28px; }
-}
-
-/* --- Force signup button to stay black --- */
-.signup-btn { background:#111 !important; color:#fff !important; -webkit-appearance:none; -webkit-text-fill-color:#fff !important; border:none; }
-.signup-btn:hover { background:#000 !important; }
-
-
-.bandcamp-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-
-  background:#1da0c3;   /* Bandcamp blue */
-  color:#fff;
-  font-weight:700;
-  letter-spacing:.05em;
-  padding:14px 22px;
-  border-radius:10px;
-
-  text-decoration:none;
-  margin-bottom:24px;
-
-  transition:transform .15s ease, box-shadow .15s ease;
-  box-shadow:0 6px 14px rgba(0,0,0,.15);
-}
-
-.bandcamp-btn img{
-  height:20px;
-}
-
-.bandcamp-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(0,0,0,.2);
-}
-    
-
+    /* FADE */
+    .fade-up { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.is-visible { opacity: 1; transform: translateY(0); }
+    .release-date { font-size: 0.72rem; color: var(--light); margin-top: 16px; }
   </style>
 </head>
-
-<!-- ===== NOW PLAYING BAR ===== -->
-<div class="now-playing" id="nowPlaying" role="region" aria-label="Now Playing">
-  <div class="np-row">
-    <div class="np-progress">
-      <span class="np-time left" id="npElapsed">0:00</span>
-      <input type="range" min="0" value="0" step="0.01" class="np-seek" id="npSeek" />
-      <span class="np-time" id="npRemaining">-0:00</span>
-    </div>
-
-    <div class="np-controls">
-      <div class="np-buttons">
-        <button class="np-btn" id="npPlay" aria-label="Play/Pause">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-      </div>
-
-      <div class="np-title" id="npTitle">—</div>
-
-      <button class="np-close" id="npClose" aria-label="Close">
-        <svg viewBox="0 0 24 24"><path d="M18.3 5.7L12 12m0 0L5.7 5.7M12 12l6.3 6.3M12 12L5.7 18.3"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
-
 <body>
 
-  <!-- Header -->
-<header class="site-header">
-  <!-- Left: Hamburger -->
-  <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu">
-    <span></span><span></span><span></span>
-  </button>
+  <!-- NOW PLAYING BAR -->
+  <div class="now-playing" id="nowPlaying" role="region" aria-label="Now Playing">
+    <div class="np-row">
+      <div class="np-progress">
+        <span class="np-time left" id="npElapsed">0:00</span>
+        <input type="range" min="0" value="0" step="0.01" class="np-seek" id="npSeek" />
+        <span class="np-time" id="npRemaining">-0:00</span>
+      </div>
+      <div class="np-controls">
+        <button class="np-btn big" id="npPlay" aria-label="Play/Pause"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="np-title" id="npTitle">—</div>
+        <button class="np-close" id="npClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Center: Logo -->
-  <a href="home.html" class="logo center-logo">
-    <img src="/vcr.avif" alt="AFR Logo" />
-  </a>
-
-  <!-- Right: spacer for balance -->
-  <div class="header-spacer" aria-hidden="true"></div>
-
-  <!-- Off-canvas nav (mobile) / inline (desktop) -->
-  <nav id="siteMenu" class="nav drawer">
-    <a href="home.html">Home</a>
-    <a href="home.html">Releases</a>
-    <a href="home.html">Library</a>
-     <a href="https://www.youtube.com/watch?v=AUAqGMaGjk4">About</a>
-    <a href="about.html">Contact</a>
-  </nav>
-
-  <!-- Dim background when drawer is open -->
-  <div class="nav-scrim" hidden></div>
-
-  <audio id="liveAudio" src="static/assets/live_audio.mp3"></audio>
-</header>
-
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#releases">Releases</a>
+        <a href="index.html#artists">Artists</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
   <!-- MAIN -->
-  <main class="main-wrapper">
-    <div class="wrap">
-      <div class="crumbs"><a href="#">Shop</a> / <a href="#">Digital</a> / Single</div>
+  <main>
+    <div class="container">
+      <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#releases">Releases</a> / TEST PRESS</div>
 
       <section class="product-grid" itemscope itemtype="https://schema.org/Product">
-        <!-- Gallery -->
-        <div class="gallery">
+        <div class="gallery fade-up">
           <div class="media-badge">EP</div>
-          <div class="hero">
-            <img id="heroImg" src="/blank1400.png" alt="Product art" itemprop="image" />
+          <div class="hero-frame">
+            <img id="heroImg" src="/blank1400.png" alt="TEST PRESS artwork" itemprop="image" />
           </div>
         </div>
 
-        <!-- Details -->
-        <aside class="panel" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-          <h1 class="title" itemprop="name">LT Drifta: TEST PRESS</h1>
+        <aside class="panel fade-up" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <div class="panel-card">
+            <div class="release-artist">LT Drifta</div>
+            <h1 class="release-title" itemprop="name">TEST PRESS</h1>
 
-          <div class="label-row">
-            <span class="chip in-stock">In stock</span>
-            <span class="chip">Catalog: GN5-25-0003</span>
-          </div><br>
+            <div class="chip-row">
+              <span class="chip in-stock">In Stock</span>
+              <span class="chip">GN5-25-0003</span>
+            </div>
 
-          <!-- Price (microdata metas) -->
-          <div class="price">
-            <meta itemprop="priceCurrency" content="USD" />
-            <meta itemprop="price" content="4.98" id="priceContent" />
-            <span id="priceText">$9.98</span> <span class="disc-tag">USD</span>
-          </div>
+            <div class="price-row">
+              <meta itemprop="priceCurrency" content="USD" />
+              <meta itemprop="price" content="4.98" id="priceContent" />
+              <span class="price" id="priceText">$0.98</span>
+              <span class="price-note">USD</span>
+            </div>
 
-          <div class="variant">
-            <label for="variant">Format</label>
-            <select id="variant" aria-label="Choose format">
+            <div class="divider"></div>
+
+            <label class="field-label" for="variant">Format</label>
+            <select class="field-select" id="variant" aria-label="Choose format">
               <option>Cassette</option>
               <option selected>Digital</option>
             </select>
-          </div>
 
-          <div class="qty-row">
-            <div class="qty" aria-label="Quantity selector">
-              <button type="button" id="minus">−</button>
-              <input type="number" id="qty" value="1" min="1" inputmode="numeric" />
-              <button type="button" id="plus">+</button>
-            </div>
-            <span class="disc-tag"></span>
-          </div><br>
-
-          <!-- BUY BUTTONS -->
-          <div class="buy-buttons">
-
-<a href="https://ltdrifta.bandcamp.com"
-   class="bandcamp-btn"
-   target="_blank" rel="noopener">
-
-  BUY IT ON BANDCAMP
-  <img src="/bandcamp-logo.svg" alt="Bandcamp">
-
-            
-            <a class="btn gold wide" id="buyDigital"
-               href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06"
-               data-wav="/GN5-25-00021.mp3"
-               data-name="F. Hastings - edit01"
-               target="_blank" rel="noopener">
-              DIGITAL DOWNLOAD
-            </a>
-
-            <a class="btn gold wide" id="buyCassette"
-               href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06"
-               target="_blank" rel="noopener">
-              BUY CASSETTE
-            </a>
-            <p class="small-note">Secure checkout · 30-day returns on unopened media</p>
-          </div> <br><br>
-
-          <!-- Redeem code -->
-          <div class="redeem" aria-label="Redeem download code">
-            <label for="redeemCode" class="disc-tag">Have a free download code?</label>
-            <div class="redeem-row">
-              <input id="redeemCode" type="text" inputmode="text" autocomplete="one-time-code"
-                     placeholder="Enter code" aria-describedby="redeemStatus"/>
-              <button class="btn secondary" id="redeemBtn" type="button">Redeem</button>
-            </div>
-            <div id="redeemStatus" class="small-note" role="status" aria-live="polite"></div>
-          </div><br>
-
-          <!-- Fallback link (shown after success) -->
-          <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
-            <a id="dlWav" class="btn" href="/GN5-25-00021.mp3" download>Download WAV</a>
-          </div>
-
-          <br><br>
-
-          <p class="small-note">Released: November 6, 2025</p>
-
-          <div class="divider"></div>
-
-          <div class="tabs" id="tabs">
-            <div role="tablist" aria-label="Product info" class="tab-list">
-              <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track" id="tabbtn-track">Tracklist</button>
-              <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-desc" id="tabbtn-desc">Description</button>
-              <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ship" id="tabbtn-ship">Shipping</button>
-            </div>
-
-            <div id="tab-desc" class="tab-panel" role="tabpanel">
-              <p>..</p>
-            </div>
-
-            <!-- TRACKLIST -->
-            <div id="tab-track" class="tab-panel active" role="tabpanel">
-              <div class="tracks" aria-label="Tracklist">
-
-
-                
-                <div class="track-row" data-src="https://pub-ec23146353b246ceade3d35cb55100dd.r2.dev/intro.mp3">
-                  <span class="track-no">A1</span>
-                  <span class="track-title">
-                  Not Available
-                    <button class="play-btn" aria-label="Play" aria-pressed="false" type="button">
-                      <!-- Play -->
-                      <svg class="icon icon-play" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path d="M8 5v14l11-7z"></path>
-                      </svg>
-                      <!-- Pause -->
-                      <svg class="icon icon-pause" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                        <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
-                      </svg>
-                    </button>
-                  </span>
-                  <span class="disc-tag">-:--</span>
-                </div>
-
-
-
-
-
-
-
-                
+            <div class="qty-row">
+              <div class="qty" aria-label="Quantity selector">
+                <button type="button" id="minus">−</button>
+                <input type="number" id="qty" value="1" min="1" inputmode="numeric" />
+                <button type="button" id="plus">+</button>
               </div>
             </div>
 
-            <div id="tab-ship" class="tab-panel" role="tabpanel">
-              <p>Ships from Cumberland, BC. Packed in a poly bag, bubble-wrap mailer. Combined shipping applied at checkout.</p>
-              <ul>
-                <li>Canada: Expedited (2–7 biz days)</li>
-                <li>USA: Tracked Packet (4–8 biz days)</li>
-                <li>Rest of World: Tracked Air (7–21 biz days)</li>
-              </ul>
+            <div class="buy-grid">
+              <a class="btn btn-bandcamp" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">
+                Buy on Bandcamp
+                <img src="/bandcamp-logo.svg" alt="">
+              </a>
+              <a class="btn btn-gold" id="buyDigital" href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06" data-wav="/GN5-25-00021.mp3" data-name="LT Drifta - TEST PRESS" target="_blank" rel="noopener">Digital Download</a>
+              <a class="btn btn-dark" id="buyCassette" href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06" target="_blank" rel="noopener">Buy Cassette</a>
             </div>
+            <p class="small-note">Secure checkout · 30-day returns on unopened media</p>
+
+            <div class="divider"></div>
+
+            <div class="redeem-card" aria-label="Redeem download code">
+              <div class="redeem-label">Have a download code?</div>
+              <div class="redeem-row">
+                <input class="redeem-input" id="redeemCode" type="text" inputmode="text" autocomplete="one-time-code" placeholder="Enter code" aria-describedby="redeemStatus" />
+                <button class="btn btn-outline" id="redeemBtn" type="button" style="width:auto; padding:0 20px;">Redeem</button>
+              </div>
+              <div id="redeemStatus" class="small-note" role="status" aria-live="polite"></div>
+            </div>
+
+            <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
+              <a id="dlWav" class="btn btn-dark" href="/GN5-25-00021.mp3" download>Download WAV</a>
+            </div>
+
+            <div class="tabs" id="tabs">
+              <div role="tablist" aria-label="Product info" class="tab-list">
+                <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track" id="tabbtn-track">Tracklist</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-desc" id="tabbtn-desc">Details</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ship" id="tabbtn-ship">Shipping</button>
+              </div>
+
+              <div id="tab-track" class="tab-panel active" role="tabpanel">
+                <div class="tracks" aria-label="Tracklist">
+                  <div class="track-row" data-src="https://pub-ec23146353b246ceade3d35cb55100dd.r2.dev/intro.mp3">
+                    <span class="track-no">A1</span>
+                    <span class="track-title">
+                      Not Available
+                      <button class="play-btn" aria-label="Play" aria-pressed="false" type="button">
+                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                      </button>
+                    </span>
+                    <span class="disc-tag">-:--</span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="tab-desc" class="tab-panel" role="tabpanel">
+                <p>Coming soon.</p>
+              </div>
+
+              <div id="tab-ship" class="tab-panel" role="tabpanel">
+                <p>Ships from Cumberland, BC. Packed in a poly bag, bubble-wrap mailer.</p>
+                <ul>
+                  <li>Canada: Expedited (2–7 biz days)</li>
+                  <li>USA: Tracked Packet (4–8 biz days)</li>
+                  <li>Rest of World: Tracked Air (7–21 biz days)</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="release-date">Released: November 6, 2025</div>
           </div>
         </aside>
       </section>
 
-      <!-- Sticky mini add-to-cart on mobile -->
       <div class="sticky-bar" id="stickyBar">
         <strong>$4.98</strong>
-        <button class="btn" id="stickyAdd">ADD TO CART</button>
+        <button class="btn btn-dark" id="stickyAdd" style="width:auto; padding:0 24px;">Add to Cart</button>
       </div>
-
     </div>
   </main>
 
-  <!-- FOOTER (same as home) -->
+  <!-- FOOTER -->
   <footer class="site-footer">
-    <!-- Decorative cassette sketch -->
-    <svg class="footer-illus" viewBox="0 0 400 220" aria-hidden="true">
-      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="20" y="30" width="360" height="160" rx="8"/>
-        <rect x="110" y="70" width="180" height="60" rx="6"/>
-        <circle cx="170" cy="100" r="18"/><circle cx="230" cy="100" r="18"/>
-        <circle cx="170" cy="100" r="6"/><circle cx="230" cy="100" r="6"/>
-        <circle cx="40" cy="50" r="4"/><circle cx="360" cy="50" r="4"/>
-        <circle cx="40" cy="170" r="4"/><circle cx="360" cy="170" r="4"/>
-        <line x1="40" y1="140" x2="360" y2="140"/><line x1="40" y1="152" x2="360" y2="152"/>
-      </g>
-    </svg>
-
-    <div class="footer-wrap">
-      <div></div>
-
-      <!-- Newsletter signup -->
-      <form class="signup-card" id="newsletterForm"
-            action="https://formspree.io/f/xdkwjzzr" method="POST" novalidate>
-        <div class="row">
-          <div class="signup-title">Sign up for the vcr record club</div>
-        </div>
-
-        <!-- Honeypot -->
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
-               style="position:absolute;left:-9999px" aria-hidden="true">
-
-        <div class="row">
-          <input type="email" name="email" placeholder="Enter your email" aria-label="Email" required />
-        </div>
-
-        <div class="row">
-          <div class="signup-options">
-            <label><input type="checkbox" name="consent" value="yes" required /> I agree to receive emails and accept the Privacy Policy.</label>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><img src="BANNER.png" alt="VCR Records"></div>
+          <p class="footer-text">Independent electronic music label. Hip-hop, jungle, drum & bass, house, and experimental edits.</p>
+          <div class="footer-social">
+            <a href="mailto:f_hastings@hotmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+            <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp"><svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg></a>
+            <a href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg></a>
           </div>
         </div>
-
-        <input type="hidden" name="source" value="Footer form">
-        <input type="hidden" name="page"   value="" id="signupPageField">
-
-        <button class="signup-btn row" type="submit" id="signupSubmitBtn">Sign Up</button>
-      </form>
-    </div>
-
- <br>
-
-<nav class="footer-social" aria-label="Social links">
-  <!-- Email -->
-  <a class="social" href="mailto:f_hastings@hotmail.com" aria-label="Email" title="Email">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-      <path d="M3 7l9 6 9-6"></path>
-    </svg>
-  </a>
-
-  <!-- YouTube -->
-  <a class="social" href="#" aria-label="YouTube" title="YouTube">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="7" width="18" height="10" rx="3" ry="3"></rect>
-      <path d="M10 9.75L15.5 12 10 14.25z" fill="currentColor" stroke="none"></path>
-    </svg>
-  </a>
-
-  <!-- Instagram -->
-  <a class="social" href="#" aria-label="Instagram" title="Instagram">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="4" y="4" width="16" height="16" rx="4"></rect>
-      <circle cx="12" cy="12" r="4.2"></circle>
-      <circle cx="16.5" cy="7.5" r="1.1" fill="currentColor" stroke="none"></circle>
-    </svg>
-  </a>
-</nav>
-
-
-    <br>
-
-    <div class="footer-links">
-      <a href="#">Help &amp; Support</a>
-      <a href="#">Terms</a>
-      <a href="#">Privacy</a>
-      <a href="#">Do not sell my personal information</a>
-      <a href="#">Cookie Choices</a>
-    </div>
-    <div class="copyright">&copy; 2025 VCR | Official Store</div>
-    <div class="a11y-note">
-      If you are using a screen reader and are having problems using this website, please call
-      <a href="tel:+1-866-682-4413">866-682-4413</a> for assistance.
+        <form class="signup-card" id="newsletterForm" action="https://formspree.io/f/xdkwjzzr" method="POST" novalidate>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+          <div class="sc-row"><div class="signup-title">Get new releases first</div></div>
+          <div class="sc-row"><input type="email" name="email" placeholder="your@email.com" aria-label="Email" required /></div>
+          <div class="sc-row"><div class="signup-options"><label><input type="checkbox" name="consent" value="yes" required /> I agree to receive emails</label></div></div>
+          <input type="hidden" name="source" value="Release page footer">
+          <input type="hidden" name="page" value="" id="signupPageField">
+          <button class="signup-btn" type="submit" id="signupSubmitBtn">Subscribe</button>
+        </form>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 VCR Records</span>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="mailto:f_hastings@hotmail.com">Contact</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <!-- ============= JS ============= -->
   <script>
-/* ================================
-   HEADER DRAWER
-   ================================ */
-(function(){
-  const header  = document.querySelector('.site-header');
-  const btn     = header.querySelector('.hamburger');
-  const scrim   = header.querySelector('.nav-scrim');
-  function closeMenu(){ header.classList.remove('menu-open'); btn.setAttribute('aria-expanded','false'); scrim.setAttribute('hidden',''); }
-  function openMenu(){ header.classList.add('menu-open'); btn.setAttribute('aria-expanded','true'); scrim.removeAttribute('hidden'); }
-  btn?.addEventListener('click', () => { const open = btn.getAttribute('aria-expanded') === 'true'; open ? closeMenu() : openMenu(); });
-  scrim?.addEventListener('click', closeMenu);
-  window.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
-})();
-
-/* ================================
-   GALLERY ZOOM
-   ================================ */
+/* Gallery zoom */
 (function(){
   const hero = document.getElementById('heroImg');
-  const thumbs = document.getElementById('thumbs');
-  thumbs?.addEventListener('click', (e)=>{
-    const btn = e.target.closest('button'); if(!btn) return;
-    const img = btn.querySelector('img'); if(!img) return;
-    hero.src = img.src; hero.alt = img.alt || 'Product image';
-  });
-  hero?.addEventListener('click', () => openZoom(hero.src, hero.alt));
-
-  const zoom = document.createElement('div');
-  zoom.className = 'zoom';
-  zoom.innerHTML = '<button aria-label="Close">Close</button><img alt="Zoomed" />';
+  const zoom = document.createElement('div'); zoom.className = 'zoom';
+  zoom.innerHTML = '<button class="zoom-close" aria-label="Close">×</button><img alt="Zoomed" />';
   document.body.appendChild(zoom);
-  function openZoom(src, alt){ zoom.style.display='flex'; const im=zoom.querySelector('img'); im.src=src; im.alt=alt||''; }
+  hero?.addEventListener('click', () => { zoom.style.display='flex'; zoom.querySelector('img').src=hero.src; });
   zoom.addEventListener('click', (e)=>{ if(e.target.tagName!=='IMG') zoom.style.display='none'; });
   zoom.querySelector('button').addEventListener('click', ()=> zoom.style.display='none');
 })();
-
-/* ================================
-   TABS
-   ================================ */
+/* Tabs */
 (function(){
   const tabs = document.getElementById('tabs'); if(!tabs) return;
-  const btns = tabs.querySelectorAll('[role="tab"]');
-  const panels = tabs.querySelectorAll('.tab-panel');
+  const btns = tabs.querySelectorAll('[role="tab"]'); const panels = tabs.querySelectorAll('.tab-panel');
   btns.forEach(btn=>btn.addEventListener('click', ()=>{
-    btns.forEach(b=>b.setAttribute('aria-selected','false'));
-    panels.forEach(p=>p.classList.remove('active'));
-    btn.setAttribute('aria-selected','true');
-    const panel = document.getElementById(btn.getAttribute('aria-controls'));
-    panel?.classList.add('active');
+    btns.forEach(b=>b.setAttribute('aria-selected','false')); panels.forEach(p=>p.classList.remove('active'));
+    btn.setAttribute('aria-selected','true'); document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('active');
   }));
 })();
-
-/* ================================
-   QTY + STICKY BAR
-   ================================ */
+/* Qty + Sticky */
 (function(){
   const q = document.getElementById('qty');
   document.getElementById('minus')?.addEventListener('click', ()=>{ q.value = Math.max(1, (parseInt(q.value||'1',10)-1)); });
-  document.getElementById('plus') ?.addEventListener('click', ()=>{ q.value = (parseInt(q.value||'1',10)+1); });
-
-  const sticky = document.getElementById('stickyBar');
-  const panel = document.querySelector('.panel');
-  const io = new IntersectionObserver(entries=>{
-    const topVisible = entries[0].isIntersecting;
-    sticky.style.display = window.innerWidth < 900 && !topVisible ? 'grid' : 'none';
-  }, {threshold: 0});
+  document.getElementById('plus')?.addEventListener('click', ()=>{ q.value = (parseInt(q.value||'1',10)+1); });
+  const sticky = document.getElementById('stickyBar'); const panel = document.querySelector('.panel');
+  const io = new IntersectionObserver(entries=>{ sticky.style.display = window.innerWidth < 860 && !entries[0].isIntersecting ? 'grid' : 'none'; }, {threshold: 0});
   if(panel) io.observe(panel);
-  window.addEventListener('resize', ()=>{ if(window.innerWidth>=900) sticky.style.display='none'; }, {passive:true});
+  window.addEventListener('resize', ()=>{ if(window.innerWidth>=860) sticky.style.display='none'; }, {passive:true});
 })();
-
-/* ================================
-   CART TOAST
-   ================================ */
+/* URL helpers */
+(function(){ const asAbs = (u) => { try { return new URL(u, document.baseURI).href; } catch { return u; } }; const sameUrl = (a, b) => asAbs(a) === asAbs(b); window.__afrAsAbs = asAbs; window.__afrSameUrl = sameUrl; })();
+/* Source of truth */
 (function(){
-  const add = document.getElementById('addCart');
-  const sAdd= document.getElementById('stickyAdd');
-  function toast(msg){
-    const t = document.createElement('div');
-    t.textContent = msg;
-    t.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:10px 14px;border-radius:10px;z-index:4000;';
-    document.body.appendChild(t); setTimeout(()=>t.remove(),1500);
-  }
-  add?.addEventListener('click', ()=> toast('Added to cart'));
-  sAdd?.addEventListener('click', ()=> toast('Added to cart'));
+  const firstRow = document.querySelector('.track-row[data-src]'); const primarySrc = firstRow?.getAttribute('data-src')?.trim() || '';
+  const productName = (document.querySelector('[itemprop="name"]')?.textContent || 'download').trim(); const absSrc = window.__afrAsAbs(primarySrc);
+  window.AFR_FILES = { wav: absSrc, name: productName }; window.__afrGetWav = () => window.AFR_FILES?.wav || absSrc; window.__afrGetName = () => window.AFR_FILES?.name || productName;
+  const buyDigital = document.getElementById('buyDigital'); if (buyDigital) { buyDigital.dataset.wav = absSrc; buyDigital.dataset.name = productName; }
+  const aWav = document.getElementById('dlWav'); if (aWav) aWav.href = absSrc;
 })();
-
-/* ================================
-   URL HELPERS (normalized comparisons)
-   ================================ */
+/* Variant → Price */
 (function(){
-  const asAbs = (u) => { try { return new URL(u, document.baseURI).href; } catch { return u; } };
-  const sameUrl = (a, b) => asAbs(a) === asAbs(b);
-  window.__afrAsAbs = asAbs;
-  window.__afrSameUrl = sameUrl;
+  const variant = document.getElementById('variant'); const priceText = document.getElementById('priceText'); const priceContent = document.getElementById('priceContent');
+  if (!variant || !priceText || !priceContent) return; const BASE = 0.98; const PHYS = 9.98;
+  function setPrice(){ const v = (variant.value||'').toLowerCase(); const amt = (v==='cassette'||v==='cd')?PHYS:BASE; priceText.textContent=`$${amt.toFixed(2)}`; priceContent.setAttribute('content', amt.toFixed(2)); }
+  variant.addEventListener('change', setPrice); setPrice();
 })();
-
-/* ================================
-   SINGLE SOURCE OF TRUTH FOR AUDIO
-   ================================ */
+/* Redeem */
+const CODE_BANK = new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V','AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K','AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S','AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y','AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F','AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L','AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R','AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X','AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D'].map(c=>c.toUpperCase()));
 (function(){
-  const firstRow = document.querySelector('.track-row[data-src]');
-  const primarySrc = firstRow?.getAttribute('data-src')?.trim() || '';
-  const productName = (document.querySelector('[itemprop="name"]')?.textContent || 'download').trim();
-  const absSrc = window.__afrAsAbs(primarySrc);
-
-  // Global "current file" object + getters
-  window.AFR_FILES = { wav: absSrc, name: productName };
-  window.__afrGetWav  = () => window.AFR_FILES?.wav  || absSrc;
-  window.__afrGetName = () => window.AFR_FILES?.name || productName;
-
-  // Wire BUY DIGITAL and fallback link to the same source
-  const buyDigital = document.getElementById('buyDigital');
-  if (buyDigital) { buyDigital.dataset.wav = absSrc; buyDigital.dataset.name = productName; }
-  const aWav = document.getElementById('dlWav');
-  if (aWav) aWav.href = absSrc;
+  const input=document.getElementById('redeemCode'),btn=document.getElementById('redeemBtn'),status=document.getElementById('redeemStatus'),links=document.getElementById('downloadLinks'),aWav=document.getElementById('dlWav');
+  if(aWav) aWav.href=window.__afrGetWav(); if(!input||!btn||!status) return;
+  const USED=new Set(JSON.parse(localStorage.getItem('afr_used_codes_v1')||'[]')); const saveUsed=()=>localStorage.setItem('afr_used_codes_v1',JSON.stringify([...USED]));
+  async function forceDownload(url,filename){ try{ const res=await fetch(url); if(!res.ok) throw new Error('HTTP '+res.status); const blob=await res.blob(); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500); }catch(e){location.href=url;} }
+  async function redeem(){ const code=(input.value||'').trim().toUpperCase(); links.classList.add('hidden'); status.textContent='';
+    if(!code){status.textContent='Enter your code.';return;} if(USED.has(code)){status.textContent='Code already used.';return;} if(!CODE_BANK.has(code)){status.textContent='Invalid code.';return;}
+    USED.add(code);saveUsed(); status.textContent='Code accepted — starting download...';
+    try{await forceDownload(window.__afrGetWav(),`${window.__afrGetName()}.wav`);links.classList.remove('hidden');status.textContent='Download started.';}catch(e){status.textContent='Download failed. Use the button below.';links.classList.remove('hidden');}
+  }
+  btn.addEventListener('click',redeem); input.addEventListener('keydown',e=>{if(e.key==='Enter')redeem();});
 })();
-
-/* ================================
-   REDEEM SYSTEM (50 one-time codes) — WAV ONLY
-   ================================ */
-const CODE_BANK = new Set([
-  'AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D',
-  'AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V',
-  'AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K',
-  'AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S',
-  'AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y',
-  'AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F',
-  'AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L',
-  'AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R',
-  'AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X',
-  'AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D'
-].map(c => c.toUpperCase()));
-
+/* Tracklist + Now Playing */
 (function(){
-  const input  = document.getElementById('redeemCode');
-  const btn    = document.getElementById('redeemBtn');
-  const status = document.getElementById('redeemStatus');
-  const links  = document.getElementById('downloadLinks');
-  const aWav   = document.getElementById('dlWav');
-
-  if(aWav) aWav.href = window.__afrGetWav();
-  if(!input || !btn || !status) return;
-
-  const USED = new Set(JSON.parse(localStorage.getItem('afr_used_codes_v1') || '[]'));
-  const saveUsed = () => localStorage.setItem('afr_used_codes_v1', JSON.stringify([...USED]));
-
-  async function forceDownload(url, filename){
-    try{
-      const res = await fetch(url);
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const blob = await res.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
-    }catch(e){ location.href = url; }
-  }
-
-  async function redeem(){
-    const code = (input.value||'').trim().toUpperCase();
-    links.classList.add('hidden');
-    status.textContent = '';
-
-    if(!code){ status.textContent='Enter your code to redeem.'; return; }
-    if(USED.has(code)){ status.textContent='That code was already used.'; return; }
-    if(!CODE_BANK.has(code)){ status.textContent='Invalid code.'; return; }
-
-    USED.add(code); saveUsed();
-    status.textContent='Code accepted! Starting download...';
-
-    const fileUrl  = window.__afrGetWav();
-    const fileName = window.__afrGetName();
-
-    try{
-      await forceDownload(fileUrl, `${fileName}.wav`);
-      links.classList.remove('hidden');
-      status.textContent='Download started. If it didn’t, use the button below.';
-    }catch(e){
-      status.textContent='Download failed. Use the button below.';
-      links.classList.remove('hidden');
-    }
-  }
-
-  btn.addEventListener('click', redeem);
-  input.addEventListener('keydown', e=>{ if(e.key==='Enter') redeem(); });
-})();
-
-/* ================================
-   VARIANT → PRICE SWITCHER
-   ================================ */
-(function(){
-  const variant = document.getElementById('variant');
-  const priceText = document.getElementById('priceText');
-  const priceContent = document.getElementById('priceContent');
-  if (!variant || !priceText || !priceContent) return;
-  const BASE = 0.98; const PHYS = 9.98;
-  function setPrice(){
-    const v = (variant.value||'').toLowerCase();
-    const amt = (v==='cassette'||v==='cd')?PHYS:BASE;
-    priceText.textContent=`$${amt.toFixed(2)}`;
-    priceContent.setAttribute('content', amt.toFixed(2));
-  }
-  variant.addEventListener('change', setPrice);
-  setPrice();
-})();
-
-/* ================================
-   TRACKLIST + NOW PLAYING BAR
-   ================================ */
-(function(){
-  const rows = document.querySelectorAll('.track-row[data-src]');
-  if(!rows.length) return;
-  const audio = new Audio();
-  audio.preload='none';
-  window.__player=audio;
-  document.dispatchEvent(new Event('np:ready'));
-
-  function setButtonState(btn,playing){
-    btn.classList.toggle('is-playing',!!playing);
-    btn.setAttribute('aria-pressed',playing?'true':'false');
-    const titleNode=btn.closest('.track-title')?.firstChild;
-    const title=(titleNode?.textContent||'track').trim();
-    btn.setAttribute('aria-label',(playing?'Pause ':'Play ')+title);
-  }
-  function resetAllButtons(except){
-    document.querySelectorAll('.play-btn.is-playing').forEach(b=>{
-      if(b!==except) setButtonState(b,false);
-    });
-  }
-
-  rows.forEach(row=>{
-    const btn=row.querySelector('.play-btn');
-    const src=row.getAttribute('data-src');
-    if(!btn||!src) return;
-
-    btn.addEventListener('click',e=>{
-      e.preventDefault();
-      const titleNode=btn.closest('.track-title')?.firstChild;
-      const title=(titleNode?.textContent||'Track').trim();
-      const rowSrcAbs = window.__afrAsAbs(src);
-
-      if(window.__afrSameUrl(audio.src || '', rowSrcAbs)){
-        if(audio.paused){ audio.play().catch(()=>{}); setButtonState(btn,true); }
-        else { audio.pause(); setButtonState(btn,false); }
-        return;
-      }
-      resetAllButtons(btn);
-      audio.src=rowSrcAbs; audio.currentTime=0;
-      document.dispatchEvent(new CustomEvent('np:trackchange',{detail:{title,src:rowSrcAbs}}));
-      audio.play().then(()=>{ setButtonState(btn,true); }).catch(err=>{
-        console.warn('Playback failed:',err); setButtonState(btn,false);
-      });
+  const rows=document.querySelectorAll('.track-row[data-src]'); if(!rows.length) return;
+  const audio=new Audio(); audio.preload='none'; window.__player=audio; document.dispatchEvent(new Event('np:ready'));
+  function setButtonState(btn,playing){btn.classList.toggle('is-playing',!!playing);btn.setAttribute('aria-pressed',playing?'true':'false');}
+  function resetAllButtons(except){document.querySelectorAll('.play-btn.is-playing').forEach(b=>{if(b!==except)setButtonState(b,false);});}
+  rows.forEach(row=>{const btn=row.querySelector('.play-btn');const src=row.getAttribute('data-src');if(!btn||!src)return;
+    btn.addEventListener('click',e=>{e.preventDefault();const titleNode=btn.closest('.track-title')?.firstChild;const title=(titleNode?.textContent||'Track').trim();const rowSrcAbs=window.__afrAsAbs(src);
+      if(window.__afrSameUrl(audio.src||'',rowSrcAbs)){if(audio.paused){audio.play().catch(()=>{});setButtonState(btn,true);}else{audio.pause();setButtonState(btn,false);}return;}
+      resetAllButtons(btn);audio.src=rowSrcAbs;audio.currentTime=0;document.dispatchEvent(new CustomEvent('np:trackchange',{detail:{title,src:rowSrcAbs}}));audio.play().then(()=>setButtonState(btn,true)).catch(()=>setButtonState(btn,false));
     });
   });
-
-  document.addEventListener('visibilitychange',()=>{
-    if(document.hidden&&!audio.paused){
-      audio.pause();
-      document.querySelectorAll('.play-btn.is-playing').forEach(b=>setButtonState(b,false));
-    }
-  });
 })();
-
 (function(){
-  const bar=document.getElementById('nowPlaying');
-  const playB=document.getElementById('npPlay');
-  const closeB=document.getElementById('npClose');
-  const seek=document.getElementById('npSeek');
-  const tEl=document.getElementById('npElapsed');
-  const tRem=document.getElementById('npRemaining');
-  const title=document.getElementById('npTitle');
-  let audio=null;
-
-  const playSVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-  const pauseSVG='<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
-
-  function fmt(sec){ if(!isFinite(sec))return'0:00'; const s=Math.max(0,Math.floor(sec)); const m=Math.floor(s/60); const r=s%60; return m+':' + (r<10?'0'+r:r); }
-  function setIcons(playing){ playB.innerHTML=playing?pauseSVG:playSVG; }
-  function updateUI(){
-    if(!audio)return;
-    if(audio.duration){
-      seek.max=audio.duration; seek.value=audio.currentTime;
-      tEl.textContent=fmt(audio.currentTime);
-      tRem.textContent='-'+fmt(audio.duration-audio.currentTime);
-    } else { seek.value=0; tEl.textContent='0:00'; tRem.textContent='-0:00'; }
-  }
-  function bindAudio(a){
-    if(!a)return; audio=a;
-    audio.addEventListener('play',()=>{ bar.classList.add('show'); setIcons(true); });
-    audio.addEventListener('pause',()=>setIcons(false));
-    audio.addEventListener('ended',()=>setIcons(false));
-    audio.addEventListener('timeupdate',updateUI);
-    audio.addEventListener('loadedmetadata',updateUI);
-    playB.addEventListener('click',()=>{ if(audio.paused) audio.play().catch(()=>{}); else audio.pause(); });
-    closeB.addEventListener('click',()=>{ bar.classList.remove('show'); if(!audio.paused) audio.pause(); });
-    seek.addEventListener('input',()=>{ audio.currentTime=parseFloat(seek.value||0); updateUI(); });
-    updateUI();
-  }
-  if(window.__player) bindAudio(window.__player);
-  else document.addEventListener('np:ready',()=>bindAudio(window.__player),{once:true});
-  document.addEventListener('np:trackchange',e=>{
-    const {title:t}=e.detail||{}; title.textContent=t||'—';
-  });
+  const bar=document.getElementById('nowPlaying'),playB=document.getElementById('npPlay'),closeB=document.getElementById('npClose'),seek=document.getElementById('npSeek'),tEl=document.getElementById('npElapsed'),tRem=document.getElementById('npRemaining'),title=document.getElementById('npTitle'); let audio=null;
+  const playSVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',pauseSVG='<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+  function fmt(sec){if(!isFinite(sec))return'0:00';const s=Math.max(0,Math.floor(sec));const m=Math.floor(s/60);const r=s%60;return m+':'+(r<10?'0'+r:r);}
+  function setIcons(playing){playB.innerHTML=playing?pauseSVG:playSVG;} function updateUI(){if(!audio)return;if(audio.duration){seek.max=audio.duration;seek.value=audio.currentTime;tEl.textContent=fmt(audio.currentTime);tRem.textContent='-'+fmt(audio.duration-audio.currentTime);}}
+  function bindAudio(a){if(!a)return;audio=a;audio.addEventListener('play',()=>{bar.classList.add('show');setIcons(true);});audio.addEventListener('pause',()=>setIcons(false));audio.addEventListener('ended',()=>setIcons(false));audio.addEventListener('timeupdate',updateUI);audio.addEventListener('loadedmetadata',updateUI);playB.addEventListener('click',()=>{if(audio.paused)audio.play().catch(()=>{});else audio.pause();});closeB.addEventListener('click',()=>{bar.classList.remove('show');if(!audio.paused)audio.pause();});seek.addEventListener('input',()=>{audio.currentTime=parseFloat(seek.value||0);updateUI();});}
+  if(window.__player)bindAudio(window.__player);else document.addEventListener('np:ready',()=>bindAudio(window.__player),{once:true});
+  document.addEventListener('np:trackchange',e=>{title.textContent=e.detail?.title||'—';});
 })();
+/* Stripe session */
+document.getElementById('buyDigital')?.addEventListener('click',(e)=>{const a=e.currentTarget;sessionStorage.setItem('afr_download',JSON.stringify({wav:a.dataset.wav||'',name:a.dataset.name||'download'}));});
+(function(){const f=document.getElementById('signupPageField');if(f)f.value=location.href;})();
+/* Fade */
+const observer=new IntersectionObserver((entries)=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}}},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
   </script>
-
-  <script>
-  // Save which file to deliver after checkout
-  document.getElementById('buyDigital')?.addEventListener('click', (e) => {
-    const a = e.currentTarget;
-    sessionStorage.setItem('afr_download', JSON.stringify({
-      wav:  a.dataset.wav || '',
-      name: a.dataset.name || 'download'
-    }));
-  });
-
-  // Footer: capture page URL for Formspree metadata
-  (function(){
-    const pageField = document.getElementById('signupPageField');
-    if(pageField) pageField.value = location.href;
-  })();
-  </script>
-
 </body>
 </html>
