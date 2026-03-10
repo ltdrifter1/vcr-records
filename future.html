@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>F. Hastings: Shades of Blue — VCR Records</title>
+  <meta name="description" content="Shades of Blue by F. Hastings — available on cassette and digital. VCR Records." />
+  <style>
+    :root {
+      --bg:      #f5f1e8;
+      --surface: #ffffff;
+      --panel:   #faf8f4;
+      --text:    #111;
+      --muted:   #7a7365;
+      --light:   #a09888;
+      --line:    #e2ddd2;
+      --dark:    #111;
+      --dark-2:  #1a1a1a;
+      --gold:    #b8962e;
+      --gold-h:  #caaa42;
+      --max:     1200px;
+      --radius:  14px;
+      --radius-sm: 10px;
+      --shadow:  0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+      --sans:    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select { font-family: inherit; }
+
+    .container {
+      width: min(calc(100% - 28px), var(--max));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    @media (max-width: 600px) {
+      .nav-links a { font-size: 0.68rem; letter-spacing: 0.08em; }
+      .nav-links { gap: 12px; }
+    }
+
+    /* ===== BREADCRUMBS ===== */
+    .crumbs {
+      padding: 20px 0 8px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .crumbs a { color: var(--muted); transition: color 0.15s; }
+    .crumbs a:hover { color: var(--text); }
+
+    /* ===== PRODUCT GRID ===== */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 32px;
+      align-items: start;
+      padding: 12px 0 80px;
+    }
+
+    @media (max-width: 860px) {
+      .product-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery { position: relative; }
+
+    .hero-frame {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      box-shadow: var(--shadow);
+      cursor: zoom-in;
+    }
+
+    .hero-frame img {
+      width: 100%;
+      border-radius: var(--radius-sm);
+    }
+
+    .media-badge {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background: var(--dark);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      z-index: 2;
+    }
+
+    /* ===== DETAIL PANEL ===== */
+    .panel {
+      position: sticky;
+      top: 76px;
+    }
+
+    @media (max-width: 860px) { .panel { position: static; } }
+
+    .panel-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .release-artist {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .release-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    .chip.in-stock {
+      color: #1a7a3a;
+      border-color: #a9d3b8;
+      background: #eef7f1;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .price {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .price-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 20px 0;
+    }
+
+    /* ===== FORM ELEMENTS ===== */
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .field-select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0 14px;
+      background: var(--panel);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7365' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      outline: none;
+      transition: border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .field-select:focus { border-color: var(--dark); }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--panel);
+    }
+
+    .qty button {
+      width: 40px;
+      height: 42px;
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      color: var(--text);
+      transition: background 0.12s;
+    }
+
+    .qty button:hover { background: var(--line); }
+
+    .qty input {
+      width: 48px;
+      height: 42px;
+      text-align: center;
+      border: none;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background: transparent;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s, border-color 0.2s;
+      border: none;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+    }
+
+    .btn-gold:hover { background: var(--gold-h); }
+
+    .btn-dark {
+      background: var(--dark);
+      color: #fff;
+    }
+
+    .btn-dark:hover { background: #000; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-outline:hover { border-color: var(--dark); }
+
+    .buy-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .small-note {
+      font-size: 0.68rem;
+      color: var(--light);
+      margin-top: 10px;
+      line-height: 1.4;
+    }
+
+    /* ===== REDEEM ===== */
+    .redeem-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .redeem-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .redeem-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .redeem-input {
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0 14px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .redeem-input::placeholder {
+      color: var(--light);
+      text-transform: none;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .redeem-input:focus { border-color: var(--dark); }
+
+    .download-links {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ===== TABS ===== */
+    .tabs { margin-top: 24px; }
+
+    .tab-list {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 10px 16px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+      transition: color 0.15s, border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn[aria-selected="true"] {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    .tab-panel { display: none; padding: 18px 0; }
+    .tab-panel.active { display: block; }
+    .tab-panel p { font-size: 0.92rem; color: var(--muted); line-height: 1.65; }
+    .tab-panel ul { padding-left: 18px; margin-top: 8px; color: var(--muted); font-size: 0.88rem; }
+    .tab-panel li { margin-bottom: 4px; }
+
+    /* ===== TRACKLIST ===== */
+    .tracks {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .track-row {
+      display: grid;
+      grid-template-columns: 2.2rem 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 0 14px;
+      min-height: 50px;
+      border-top: 1px solid var(--line);
+      transition: background 0.12s;
+      cursor: default;
+    }
+
+    .track-row:first-child { border-top: none; }
+    .track-row:hover { background: rgba(0,0,0,0.02); }
+
+    .track-no {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--light);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .track-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .disc-tag {
+      font-size: 0.72rem;
+      color: var(--light);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .play-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .play-btn:hover { background: var(--panel); border-color: var(--dark); }
+    .play-btn .icon { display: block; }
+    .play-btn .icon-pause { display: none; }
+    .play-btn.is-playing .icon-play { display: none; }
+    .play-btn.is-playing .icon-pause { display: block; }
+
+    /* ===== NOW PLAYING BAR ===== */
+    .now-playing {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 200;
+      background: rgba(17,17,17,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
+      color: #f3f3ef;
+      font-size: 0.82rem;
+      display: none;
+    }
+
+    .now-playing.show { display: block; }
+
+    .np-row {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      gap: 8px;
+    }
+
+    .np-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .np-time {
+      width: 42px;
+      font-size: 0.68rem;
+      font-variant-numeric: tabular-nums;
+      color: #999;
+    }
+
+    .np-time.left { text-align: right; }
+
+    input[type="range"].np-seek {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      height: 3px;
+      background: #333;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"].np-seek::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      margin-top: -4.5px;
+      cursor: pointer;
+    }
+
+    .np-controls {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .np-btn {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #f3f3ef;
+    }
+
+    .np-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .np-btn.big svg { width: 28px; height: 28px; }
+
+    .np-title {
+      font-weight: 600;
+      font-size: 0.78rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #ddd;
+    }
+
+    .np-close {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #999;
+    }
+
+    .np-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+    .np-close:hover { color: #fff; }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: var(--dark);
+      color: #ddd;
+      padding: 56px 0 32px;
+      margin-top: 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    .footer-brand {
+      margin-bottom: 12px;
+    }
+
+    .footer-brand img {
+      height: 24px;
+      width: auto;
+      display: block;
+    }
+
+    .footer-text {
+      font-size: 0.82rem;
+      color: #888;
+      line-height: 1.6;
+      max-width: 380px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #888;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .footer-social a:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+    .footer-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* Signup card */
+    .signup-card {
+      background: var(--dark-2);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .signup-card .sc-row {
+      padding: 18px 22px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .signup-card .sc-row:first-child { border-top: none; }
+
+    .signup-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #f3f3ef;
+    }
+
+    .signup-card input[type="email"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #f3f3ef;
+      font-size: 0.92rem;
+      height: 36px;
+    }
+
+    .signup-card input[type="email"]::placeholder { color: #666; }
+
+    .signup-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .signup-options label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: #999;
+    }
+
+    .signup-options input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #f3f3ef;
+    }
+
+    .signup-btn {
+      width: 100%;
+      height: 48px;
+      background: #f3f3ef;
+      color: #111;
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .signup-btn:hover { background: #fff; }
+
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.68rem;
+      color: #555;
+    }
+
+    .footer-bottom a { color: #666; transition: color 0.15s; }
+    .footer-bottom a:hover { color: #ccc; }
+
+    /* ===== STICKY MOBILE BAR ===== */
+    .sticky-bar {
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
+      display: none;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+    }
+
+    .sticky-bar strong { font-size: 1.1rem; }
+
+    /* ===== ZOOM OVERLAY ===== */
+    .zoom {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      cursor: zoom-out;
+    }
+
+    .zoom img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 8px;
+    }
+
+    .zoom-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    /* ===== FADE-UP ===== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RELEASE DATE ===== */
+    .release-date {
+      font-size: 0.72rem;
+      color: var(--light);
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NOW PLAYING BAR -->
+  <div class="now-playing" id="nowPlaying" role="region" aria-label="Now Playing">
+    <div class="np-row">
+      <div class="np-progress">
+        <span class="np-time left" id="npElapsed">0:00</span>
+        <input type="range" min="0" value="0" step="0.01" class="np-seek" id="npSeek" />
+        <span class="np-time" id="npRemaining">-0:00</span>
+      </div>
+      <div class="np-controls">
+        <button class="np-btn big" id="npPlay" aria-label="Play/Pause">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="np-title" id="npTitle">—</div>
+        <button class="np-close" id="npClose" aria-label="Close">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#releases">Releases</a>
+        <a href="index.html#artists">Artists</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+      <div class="crumbs">
+        <a href="index.html">Home</a> / <a href="index.html#releases">Releases</a> / Shades of Blue
+      </div>
+
+      <section class="product-grid" itemscope itemtype="https://schema.org/Product">
+
+        <!-- Gallery -->
+        <div class="gallery fade-up">
+          <div class="media-badge">LP</div>
+          <div class="hero-frame">
+            <img id="heroImg" src="static/assets/shade.avif" alt="Shades of Blue — album artwork" itemprop="image" />
+          </div>
+        </div>
+
+        <!-- Details Panel -->
+        <aside class="panel fade-up" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <div class="panel-card">
+
+            <div class="release-artist">F. Hastings</div>
+            <h1 class="release-title" itemprop="name">Shades of Blue</h1>
+
+            <div class="chip-row">
+              <span class="chip in-stock">In Stock</span>
+              <span class="chip">CBJG-0004</span>
+            </div>
+
+            <div class="price-row">
+              <meta itemprop="priceCurrency" content="USD" />
+              <meta itemprop="price" content="2.98" id="priceContent" />
+              <span class="price" id="priceText">$2.94</span>
+              <span class="price-note">USD</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Format -->
+            <label class="field-label" for="variant">Format</label>
+            <select class="field-select" id="variant" aria-label="Choose format">
+              <option>Cassette</option>
+              <option selected>Digital</option>
+            </select>
+
+            <!-- Quantity -->
+            <div class="qty-row">
+              <div class="qty" aria-label="Quantity selector">
+                <button type="button" id="minus">−</button>
+                <input type="number" id="qty" value="1" min="1" inputmode="numeric" />
+                <button type="button" id="plus">+</button>
+              </div>
+            </div>
+
+            <!-- Buy Buttons -->
+            <div class="buy-grid">
+              <a class="btn btn-gold" id="buyDigital"
+                 href="https://buy.stripe.com/8x26oId1Z4bSdwc5ZPfrW05"
+                 data-wav="static/downloads/CBGJ-0004.wav"
+                 data-name="F. Hastings EP"
+                 target="_blank" rel="noopener">
+                Digital Download
+              </a>
+              <a class="btn btn-dark" id="buyCassette"
+                 href="https://buy.stripe.com/cNi14ofa7gYE3VC0FvfrW08"
+                 target="_blank" rel="noopener">
+                Buy Cassette
+              </a>
+            </div>
+            <p class="small-note">Secure checkout · 30-day returns on unopened media</p>
+
+            <div class="divider"></div>
+
+            <!-- Redeem -->
+            <div class="redeem-card" aria-label="Redeem download code">
+              <div class="redeem-label">Have a download code?</div>
+              <div class="redeem-row">
+                <input class="redeem-input" id="redeemCode" type="text" inputmode="text"
+                       autocomplete="one-time-code" placeholder="Enter code" aria-describedby="redeemStatus" />
+                <button class="btn btn-outline" id="redeemBtn" type="button" style="width:auto; padding:0 20px;">Redeem</button>
+              </div>
+              <div id="redeemStatus" class="small-note" role="status" aria-live="polite"></div>
+            </div>
+
+            <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
+              <a id="dlWav" class="btn btn-dark" href="static/downloads/CBGJ-0004.wav" download>Download WAV</a>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs" id="tabs">
+              <div role="tablist" aria-label="Product info" class="tab-list">
+                <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track" id="tabbtn-track">Tracklist</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-desc" id="tabbtn-desc">Details</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ship" id="tabbtn-ship">Shipping</button>
+              </div>
+
+              <!-- Tracklist -->
+              <div id="tab-track" class="tab-panel active" role="tabpanel">
+                <div class="tracks" aria-label="Tracklist">
+                  <div class="track-row" data-src="static/downloads/CBGJ0-25-00016.mp3">
+                    <span class="track-no">A1</span>
+                    <span class="track-title">
+                      Summer Fades
+                      <button class="play-btn" aria-label="Play Summer Fades" aria-pressed="false" type="button">
+                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                      </button>
+                    </span>
+                    <span class="disc-tag">5:20</span>
+                  </div>
+
+                  <div class="track-row" data-src="static/downloads/CBGJ0-25-00018.mp3">
+                    <span class="track-no">C1</span>
+                    <span class="track-title">
+                      Peace
+                      <button class="play-btn" aria-label="Play Peace" aria-pressed="false" type="button">
+                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                      </button>
+                    </span>
+                    <span class="disc-tag">4:05</span>
+                  </div>
+
+                  <div class="track-row" data-src="static/downloads/CBGJ0-25-00020.mp3">
+                    <span class="track-no">D1</span>
+                    <span class="track-title">
+                      CASH
+                      <button class="play-btn" aria-label="Play CASH" aria-pressed="false" type="button">
+                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                      </button>
+                    </span>
+                    <span class="disc-tag">3:27</span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="tab-desc" class="tab-panel" role="tabpanel">
+                <p>A deep exploration of mood and texture — hip-hop rhythm meets ambient electronics and broken beat. Warm analog synths, chopped samples, and meditative grooves.</p>
+              </div>
+
+              <div id="tab-ship" class="tab-panel" role="tabpanel">
+                <p>Ships from Cumberland, BC. Packed in a poly bag, bubble-wrap mailer. Combined shipping applied at checkout.</p>
+                <ul>
+                  <li>Canada: Expedited (2–7 biz days)</li>
+                  <li>USA: Tracked Packet (4–8 biz days)</li>
+                  <li>Rest of World: Tracked Air (7–21 biz days)</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="release-date">Released: October 26, 2025</div>
+
+          </div>
+        </aside>
+
+      </section>
+
+      <!-- Mobile sticky bar -->
+      <div class="sticky-bar" id="stickyBar">
+        <strong>$9.98</strong>
+        <button class="btn btn-dark" id="stickyAdd" style="width:auto; padding:0 24px;">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><img src="BANNER.png" alt="VCR Records"></div>
+          <p class="footer-text">Independent electronic music label. Hip-hop, jungle, drum & bass, house, and experimental edits.</p>
+          <div class="footer-social">
+            <a href="mailto:f_hastings@hotmail.com" aria-label="Email">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+            <a href="https://fhastings.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp">
+              <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <form class="signup-card" id="newsletterForm" action="https://formspree.io/f/xdkwjzzr" method="POST" novalidate>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+          <div class="sc-row">
+            <div class="signup-title">Get new releases first</div>
+          </div>
+          <div class="sc-row">
+            <input type="email" name="email" placeholder="your@email.com" aria-label="Email" required />
+          </div>
+          <div class="sc-row">
+            <div class="signup-options">
+              <label><input type="checkbox" name="consent" value="yes" required /> I agree to receive emails</label>
+            </div>
+          </div>
+          <input type="hidden" name="source" value="Release page footer">
+          <input type="hidden" name="page" value="" id="signupPageField">
+          <button class="signup-btn" type="submit" id="signupSubmitBtn">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2025 VCR Records</span>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="mailto:f_hastings@hotmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== ALL JS (preserved from original) ===== -->
+  <script>
+/* Gallery zoom */
+(function(){
+  const hero = document.getElementById('heroImg');
+  const zoom = document.createElement('div');
+  zoom.className = 'zoom';
+  zoom.innerHTML = '<button class="zoom-close" aria-label="Close">×</button><img alt="Zoomed" />';
+  document.body.appendChild(zoom);
+  function openZoom(src, alt){ zoom.style.display='flex'; const im=zoom.querySelector('img'); im.src=src; im.alt=alt||''; }
+  hero?.addEventListener('click', () => openZoom(hero.src, hero.alt));
+  zoom.addEventListener('click', (e)=>{ if(e.target.tagName!=='IMG') zoom.style.display='none'; });
+  zoom.querySelector('button').addEventListener('click', ()=> zoom.style.display='none');
+})();
+
+/* Tabs */
+(function(){
+  const tabs = document.getElementById('tabs'); if(!tabs) return;
+  const btns = tabs.querySelectorAll('[role="tab"]');
+  const panels = tabs.querySelectorAll('.tab-panel');
+  btns.forEach(btn=>btn.addEventListener('click', ()=>{
+    btns.forEach(b=>b.setAttribute('aria-selected','false'));
+    panels.forEach(p=>p.classList.remove('active'));
+    btn.setAttribute('aria-selected','true');
+    document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('active');
+  }));
+})();
+
+/* Qty + Sticky bar */
+(function(){
+  const q = document.getElementById('qty');
+  document.getElementById('minus')?.addEventListener('click', ()=>{ q.value = Math.max(1, (parseInt(q.value||'1',10)-1)); });
+  document.getElementById('plus')?.addEventListener('click', ()=>{ q.value = (parseInt(q.value||'1',10)+1); });
+  const sticky = document.getElementById('stickyBar');
+  const panel = document.querySelector('.panel');
+  const io = new IntersectionObserver(entries=>{
+    const topVisible = entries[0].isIntersecting;
+    sticky.style.display = window.innerWidth < 860 && !topVisible ? 'grid' : 'none';
+  }, {threshold: 0});
+  if(panel) io.observe(panel);
+  window.addEventListener('resize', ()=>{ if(window.innerWidth>=860) sticky.style.display='none'; }, {passive:true});
+})();
+
+/* Variant → Price */
+(function(){
+  const variant = document.getElementById('variant');
+  const priceText = document.getElementById('priceText');
+  const priceContent = document.getElementById('priceContent');
+  if (!variant || !priceText || !priceContent) return;
+  const BASE = 2.94; const PHYS = 9.98;
+  function setPrice(){
+    const v = (variant.value||'').toLowerCase();
+    const amt = (v==='cassette'||v==='cd')?PHYS:BASE;
+    priceText.textContent=`$${amt.toFixed(2)}`;
+    priceContent.setAttribute('content', amt.toFixed(2));
+  }
+  variant.addEventListener('change', setPrice);
+  setPrice();
+})();
+
+/* Redeem system */
+const FILES = { wav: 'static/downloads/CBGJ0-0004.wav', name: 'F. Hastings: Shades of Blue' };
+const CODE_BANK = new Set([
+  'AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D',
+  'AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V',
+  'AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K',
+  'AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S',
+  'AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y',
+  'AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F',
+  'AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L',
+  'AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R',
+  'AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X',
+  'AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D'
+].map(c => c.toUpperCase()));
+
+(function(){
+  const input = document.getElementById('redeemCode');
+  const btn = document.getElementById('redeemBtn');
+  const status = document.getElementById('redeemStatus');
+  const links = document.getElementById('downloadLinks');
+  const aWav = document.getElementById('dlWav');
+  if(aWav) aWav.href = FILES.wav;
+  if(!input || !btn || !status) return;
+  const USED = new Set(JSON.parse(localStorage.getItem('afr_used_codes_v1') || '[]'));
+  const saveUsed = () => localStorage.setItem('afr_used_codes_v1', JSON.stringify([...USED]));
+  async function forceDownload(url, filename){
+    try{ const res = await fetch(url); if(!res.ok) throw new Error('HTTP '+res.status); const blob = await res.blob(); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500); }catch(e){ location.href = url; }
+  }
+  async function redeem(){
+    const code = (input.value||'').trim().toUpperCase();
+    links.classList.add('hidden'); status.textContent = '';
+    if(!code){ status.textContent='Enter your code.'; return; }
+    if(USED.has(code)){ status.textContent='Code already used.'; return; }
+    if(!CODE_BANK.has(code)){ status.textContent='Invalid code.'; return; }
+    USED.add(code); saveUsed();
+    status.textContent='Code accepted — starting download...';
+    try{ await forceDownload(FILES.wav, `${FILES.name}.wav`); links.classList.remove('hidden'); status.textContent='Download started.'; }
+    catch(e){ status.textContent='Download failed. Use the button below.'; links.classList.remove('hidden'); }
+  }
+  btn.addEventListener('click', redeem);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') redeem(); });
+})();
+
+/* Tracklist + Now Playing */
+(function(){
+  const rows = document.querySelectorAll('.track-row[data-src]');
+  if(!rows.length) return;
+  const audio = new Audio(); audio.preload='none';
+  window.__player=audio;
+  document.dispatchEvent(new Event('np:ready'));
+  function setButtonState(btn,playing){ btn.classList.toggle('is-playing',!!playing); btn.setAttribute('aria-pressed',playing?'true':'false'); }
+  function resetAllButtons(except){ document.querySelectorAll('.play-btn.is-playing').forEach(b=>{ if(b!==except) setButtonState(b,false); }); }
+  rows.forEach(row=>{
+    const btn=row.querySelector('.play-btn'); const src=row.getAttribute('data-src');
+    if(!btn||!src) return;
+    btn.addEventListener('click',e=>{
+      e.preventDefault();
+      const titleNode=btn.closest('.track-title')?.firstChild;
+      const title=(titleNode?.textContent||'Track').trim();
+      if(audio.src.endsWith(src)){ if(audio.paused){ audio.play().catch(()=>{}); setButtonState(btn,true); } else { audio.pause(); setButtonState(btn,false); } return; }
+      resetAllButtons(btn); audio.src=src; audio.currentTime=0;
+      document.dispatchEvent(new CustomEvent('np:trackchange',{detail:{title,src}}));
+      audio.play().then(()=>setButtonState(btn,true)).catch(()=>setButtonState(btn,false));
+    });
+  });
+})();
+
+(function(){
+  const bar=document.getElementById('nowPlaying'); const playB=document.getElementById('npPlay'); const closeB=document.getElementById('npClose');
+  const seek=document.getElementById('npSeek'); const tEl=document.getElementById('npElapsed'); const tRem=document.getElementById('npRemaining'); const title=document.getElementById('npTitle');
+  let audio=null;
+  const playSVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  const pauseSVG='<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+  function fmt(sec){ if(!isFinite(sec))return'0:00'; const s=Math.max(0,Math.floor(sec)); const m=Math.floor(s/60); const r=s%60; return m+':'+(r<10?'0'+r:r); }
+  function setIcons(playing){ playB.innerHTML=playing?pauseSVG:playSVG; }
+  function updateUI(){ if(!audio)return; if(audio.duration){ seek.max=audio.duration; seek.value=audio.currentTime; tEl.textContent=fmt(audio.currentTime); tRem.textContent='-'+fmt(audio.duration-audio.currentTime); } }
+  function bindAudio(a){ if(!a)return; audio=a;
+    audio.addEventListener('play',()=>{ bar.classList.add('show'); setIcons(true); });
+    audio.addEventListener('pause',()=>setIcons(false)); audio.addEventListener('ended',()=>setIcons(false));
+    audio.addEventListener('timeupdate',updateUI); audio.addEventListener('loadedmetadata',updateUI);
+    playB.addEventListener('click',()=>{ if(audio.paused) audio.play().catch(()=>{}); else audio.pause(); });
+    closeB.addEventListener('click',()=>{ bar.classList.remove('show'); if(!audio.paused) audio.pause(); });
+    seek.addEventListener('input',()=>{ audio.currentTime=parseFloat(seek.value||0); updateUI(); });
+  }
+  if(window.__player) bindAudio(window.__player);
+  else document.addEventListener('np:ready',()=>bindAudio(window.__player),{once:true});
+  document.addEventListener('np:trackchange',e=>{ title.textContent=e.detail?.title||'—'; });
+})();
+
+/* Stripe session storage */
+document.getElementById('buyDigital')?.addEventListener('click', (e) => {
+  const a = e.currentTarget;
+  sessionStorage.setItem('afr_download', JSON.stringify({ wav: a.dataset.wav || '', name: a.dataset.name || 'download' }));
+});
+
+/* Footer page field */
+(function(){ const f = document.getElementById('signupPageField'); if(f) f.value = location.href; })();
+
+/* Fade-up observer */
+const observer = new IntersectionObserver((entries) => {
+  for (const entry of entries) { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
