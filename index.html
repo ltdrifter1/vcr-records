@@ -420,7 +420,6 @@
       box-shadow: var(--shadow);
       background: #111;
       position: relative;
-      min-height: 120px;
     }
 
     .player-shell iframe {
@@ -435,8 +434,8 @@
       align-items: center;
       justify-content: center;
       gap: 18px;
-      padding: 28px 32px;
-      min-height: 120px;
+      padding: 0 32px;
+      min-height: 42px;
       cursor: pointer;
       transition: background 0.2s ease;
     }
@@ -490,7 +489,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 120px;
+      min-height: 42px;
       color: var(--muted);
       font-size: 0.86rem;
       letter-spacing: 0.1em;
@@ -829,8 +828,7 @@
         <div
           class="player-shell fade-up"
           id="player-shell"
-          data-album="ltdrifta"
-          data-src="https://ltdrifta.bandcamp.com/track/lions-gate"
+          data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=111111/linkcol=d8d1c2/transparent=true/autoplay=1/"
         >
           <div class="player-placeholder" id="player-placeholder" role="button" tabindex="0" aria-label="Click to play LT Drifta on Bandcamp">
             <div class="play-icon">
@@ -872,7 +870,7 @@
       <div class="container about-grid">
         <div class="about-card fade-up">
           <div class="eyebrow">About the label</div>
-          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px;">VCR.</h2>
+          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px;">No filler. All killer.</h2>
           <p>
             VCR Records is a small independent label putting out hip-hop, jungle, drum &amp; bass, house, and whatever else sounds right. We grew up on dusty samples, pirate radio, and warehouse raves — now we press that energy into wax and tape.
           </p>
@@ -888,10 +886,11 @@
           </form>
           <div class="feature-links" style="margin-top:18px;">
             <a class="button-secondary" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+            <a class="button-secondary" href="#" target="_blank" rel="noopener">Spotify</a>
             <a class="button-secondary" href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener">Instagram</a>
           </div>
           <p style="margin-top:22px; font-size:0.88rem;">
-            <strong>Demos:</strong> Send links via email — <a href="mailto:ltdrifta@gmail.com" style="border-bottom:1px solid var(--line); padding-bottom:1px;">ltdrifta@gmail.com</a>
+            <strong>Demos:</strong> Send links via email — <a href="/cdn-cgi/l/email-protection#f29e8696809b948693b2959f939b9edc919d9f" style="border-bottom:1px solid var(--line); padding-bottom:1px;"><span class="__cf_email__" data-cfemail="f5998191879c938194b59298949c99db969a98">[email&#160;protected]</span></a>
           </p>
         </div>
       </div>
@@ -909,12 +908,12 @@
         <a href="#artists">Artists</a>
         <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
         <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener">Instagram</a>
-        <a href="mailto:ltdrifta@gmail.com">Email</a>
+        <a href="/cdn-cgi/l/email-protection#4a263e2e38232c3e2b0a2d272b232664292527">Email</a>
       </div>
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ─── Intersection observer for fade-up animations ───────────────────────
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
@@ -960,7 +959,7 @@
       const iframe = document.createElement('iframe');
       iframe.title  = 'LT Drifta on Bandcamp';
       iframe.src    = src;
-      iframe.style.cssText = 'width:100%; height:120px; display:block; border:0;';
+      iframe.style.cssText = 'width:100%; height:42px; display:block; border:0;';
       iframe.allow  = 'autoplay';
       iframe.setAttribute('seamless', '');
 
@@ -994,15 +993,3 @@
       scrollToPlayer();
       // Small delay so the section is in view before we activate (avoids
       // the iframe being injected off-screen before the scroll completes).
-      setTimeout(activatePlayer, 400);
-    });
-
-    // "Play Release" button in the featured section.
-    document.getElementById('featured-play-btn').addEventListener('click', () => {
-      scrollToPlayer();
-      setTimeout(activatePlayer, 400);
-    });
-  </script>
-
-</body>
-</html>
