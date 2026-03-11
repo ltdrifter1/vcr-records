@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VCR Records — Independent Electronic Music</title>
   <meta name="description" content="VCR Records — independent electronic music label. Hip-hop, jungle, drum & bass, house, and experimental edits." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0a0a0a;
@@ -18,6 +21,7 @@
       --radius: 18px;
       --shadow: 0 20px 50px rgba(0,0,0,0.32);
       --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --typewriter: 'Special Elite', monospace;
     }
 
     * { box-sizing: border-box; }
@@ -62,9 +66,7 @@
 
     .section h2,
     .hero-title,
-    .feature-title,
-    .about h2,
-    .newsletter h2 {
+    .feature-title {
       margin: 0;
       font-weight: 800;
       line-height: 0.94;
@@ -74,14 +76,180 @@
 
     .section h2 { font-size: clamp(2rem, 5vw, 4.2rem); }
 
-    /* NAV */
+    /* ═══ SPLASH ═══════════════════════════════════════════════════════════ */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #080808;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: opacity 0.75s ease, visibility 0.75s ease;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #splash-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0.52;
+    }
+
+    #splash::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.94) 0%, rgba(8,8,8,0.28) 55%, rgba(8,8,8,0.45) 100%);
+      pointer-events: none;
+    }
+
+    /* splash nav */
+    #splash-nav {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 26px min(5vw, 60px);
+    }
+
+    /* FIX 1: brand logo in splash nav gets explicit sizing, isolated from artist card rule */
+    #splash-nav .splash-brand img {
+      height: 26px !important;
+      width: auto !important;
+      aspect-ratio: unset !important;
+      object-fit: unset !important;
+      border-radius: 0 !important;
+    }
+
+    #splash-nav .splash-links {
+      display: flex;
+      gap: 22px;
+    }
+
+    #splash-nav .splash-links a {
+      font-size: 0.82rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(243,243,239,0.6);
+      transition: color 0.2s ease;
+    }
+
+    #splash-nav .splash-links a:hover { color: var(--text); }
+
+    /* splash hamburger */
+    #splash-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    #splash-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* splash mobile dropdown */
+    #splash-mobile-menu {
+      display: none;
+      position: absolute;
+      top: 78px;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      background: rgba(8,8,8,0.97);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-direction: column;
+      padding: 12px 24px 20px;
+    }
+
+    #splash-mobile-menu a {
+      display: block;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(243,243,239,0.65);
+      transition: color 0.2s ease;
+    }
+
+    #splash-mobile-menu a:last-child { border-bottom: none; }
+    #splash-mobile-menu a:hover { color: var(--text); }
+
+    /* splash bottom */
+    #splash-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 0 min(5vw, 60px) 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    #typewriter-text {
+      font-family: var(--typewriter);
+      font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+      color: rgba(243,243,239,0.5);
+      letter-spacing: 0.04em;
+      min-height: 1.5em;
+    }
+
+    #typewriter-text::after {
+      content: '|';
+      animation: blink 0.9s step-end infinite;
+      margin-left: 1px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    #enter-btn {
+      font-family: var(--typewriter);
+      font-size: clamp(0.8rem, 1.4vw, 0.92rem);
+      letter-spacing: 0.2em;
+      text-transform: lowercase;
+      color: rgba(243,243,239,0.38);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.3s ease;
+    }
+
+    #enter-btn:hover { color: rgba(243,243,239,0.85); }
+
+    /* ═══ MAIN NAV ═════════════════════════════════════════════════════════ */
     .nav {
       position: sticky;
       top: 0;
       z-index: 30;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      background: rgba(10,10,10,0.78);
+      background: rgba(10,10,10,0.85);
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -93,22 +261,19 @@
       gap: 24px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
+    .brand { display: flex; align-items: center; }
+
+    /* FIX 1: nav logo always stays 28px high, not affected by .artist-card img */
+    .brand > img {
+      height: 28px !important;
+      width: auto !important;
+      aspect-ratio: unset !important;
+      object-fit: unset !important;
+      border-radius: 0 !important;
+      min-width: unset !important;
     }
 
-    .brand img {
-      height: 28px;
-      width: auto;
-      display: block;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+    .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
 
     .nav-links a {
       font-size: 0.86rem;
@@ -121,7 +286,59 @@
     .nav-links a:hover,
     .nav-links a:focus-visible { color: var(--text); }
 
-    /* HERO */
+    /* FIX 2: hamburger button */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10,0.98);
+      border-bottom: 1px solid var(--line);
+      z-index: 29;
+      padding: 20px 16px;
+      flex-direction: column;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      transition: color 0.2s ease;
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ═══ HERO ═════════════════════════════════════════════════════════════ */
     .hero {
       min-height: calc(100vh - 72px);
       display: grid;
@@ -177,7 +394,6 @@
       margin-top: 30px;
     }
 
-    /* BUTTONS */
     .button,
     .button-secondary {
       display: inline-flex;
@@ -194,11 +410,7 @@
       transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
     }
 
-    .button {
-      background: var(--text);
-      color: #111;
-      border: none;
-    }
+    .button { background: var(--text); color: #111; border: none; }
 
     .button-secondary {
       border: 1px solid var(--line);
@@ -209,7 +421,6 @@
     .button:hover { transform: translateY(-1px); background: #fff; }
     .button-secondary:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.28); }
 
-    /* HERO PANEL */
     .hero-panel {
       align-self: end;
       background: rgba(255,255,255,0.03);
@@ -232,12 +443,9 @@
       border-radius: 14px;
     }
 
-    .meta {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .meta { color: var(--muted); font-size: 0.9rem; }
 
-    /* FEATURE */
+    /* ═══ FEATURE ══════════════════════════════════════════════════════════ */
     .feature-grid {
       display: grid;
       grid-template-columns: 0.95fr 1.05fr;
@@ -284,11 +492,7 @@
       margin-top: 8px;
     }
 
-    .feature-sub {
-      font-size: 1.08rem;
-      color: #d6d6d1;
-      max-width: 52ch;
-    }
+    .feature-sub { font-size: 1.08rem; color: #d6d6d1; max-width: 52ch; }
 
     .feature-meta {
       display: flex;
@@ -300,13 +504,8 @@
       font-size: 0.78rem;
     }
 
-    .feature-links {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .feature-links { display: flex; gap: 12px; flex-wrap: wrap; }
 
-    /* TRACKLIST */
     .tracklist { margin-top: 22px; }
 
     .track-row {
@@ -321,22 +520,11 @@
     }
 
     .track-row:hover { color: #fff; }
-
-    .track-num {
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-variant-numeric: tabular-nums;
-    }
-
+    .track-num { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
     .track-name { font-weight: 500; }
+    .track-dur { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
 
-    .track-dur {
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* RELEASES */
+    /* ═══ RELEASES ═════════════════════════════════════════════════════════ */
     .release-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -369,12 +557,12 @@
     }
 
     .release-artist,
-    .release-year {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
+    .release-year { color: var(--muted); font-size: 0.92rem; }
 
-    /* ARTISTS */
+    /* ═══ ARTISTS — FIX 3 ══════════════════════════════════════════════════
+       Card is now a horizontal flex row so the circular thumbnail
+       sits neatly beside the name text at a sensible size.
+    ═══════════════════════════════════════════════════════════════════════ */
     .artist-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -383,6 +571,10 @@
     }
 
     .artist-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px;
       overflow: hidden;
       transition: transform 0.28s ease, border-color 0.28s ease;
     }
@@ -392,27 +584,30 @@
       border-color: rgba(255,255,255,0.2);
     }
 
-    .artist-card img {
-      width: 15%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
+    /* FIX 3: circular thumbnail, fixed 80×80, isolated from any other img rule */
+    .artist-card > img {
+      width: 80px !important;
+      height: 80px !important;
+      min-width: 80px !important;
+      max-width: 80px !important;
+      aspect-ratio: 1 / 1 !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+      flex-shrink: 0;
     }
 
-    .artist-body { padding: 16px; }
+    .artist-body { padding: 0; flex: 1; }
 
     .artist-name {
-      margin: 6px 0 4px;
+      margin: 0 0 4px;
       font-size: 1rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
 
-    .artist-role {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
+    .artist-role { color: var(--muted); font-size: 0.92rem; }
 
-    /* PLAYER */
+    /* ═══ PLAYER ════════════════════════════════════════════════════════════ */
     .player-shell {
       overflow: hidden;
       border-radius: var(--radius);
@@ -422,27 +617,18 @@
       position: relative;
     }
 
-    .player-shell iframe {
-      display: block;
-      width: 100%;
-      border: 0;
-    }
+    .player-shell iframe { display: block; width: 100%; border: 0; }
 
-    /* Player placeholder shown before activation */
     .player-placeholder {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 18px;
-      padding: 0 32px;
-      min-height: 42px;
+      padding: 20px 32px;
       cursor: pointer;
       transition: background 0.2s ease;
     }
 
-    .player-placeholder:hover {
-      background: rgba(255,255,255,0.03);
-    }
+    .player-placeholder:hover { background: rgba(255,255,255,0.03); }
 
     .play-icon {
       width: 52px;
@@ -456,47 +642,25 @@
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .player-placeholder:hover .play-icon {
-      transform: scale(1.08);
-      background: #fff;
-    }
+    .player-placeholder:hover .play-icon { transform: scale(1.08); background: #fff; }
+    .play-icon svg { width: 20px; height: 20px; fill: #111; margin-left: 3px; }
 
-    .play-icon svg {
-      width: 20px;
-      height: 20px;
-      fill: #111;
-      margin-left: 3px; /* optical centering for play triangle */
-    }
-
-    .player-placeholder-text {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .player-placeholder-title {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .player-placeholder-sub {
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
+    .player-placeholder-text { display: flex; flex-direction: column; gap: 3px; }
+    .player-placeholder-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
+    .player-placeholder-sub { color: var(--muted); font-size: 0.86rem; }
 
     .player-loading {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
+      padding: 28px;
       color: var(--muted);
       font-size: 0.86rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
-    /* ABOUT */
+    /* ═══ ABOUT ════════════════════════════════════════════════════════════ */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -509,21 +673,6 @@
     .about p,
     .newsletter p { color: #d3d3ce; }
 
-    .list {
-      display: grid;
-      gap: 12px;
-      margin: 22px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .list li {
-      padding-top: 12px;
-      border-top: 1px solid var(--line);
-      color: #d9d9d5;
-    }
-
-    /* NEWSLETTER */
     .newsletter form {
       display: flex;
       gap: 12px;
@@ -547,7 +696,7 @@
     .newsletter input:focus { border-color: rgba(255,255,255,0.3); }
     .newsletter input::placeholder { color: var(--muted); }
 
-    /* FOOTER */
+    /* ═══ FOOTER ═══════════════════════════════════════════════════════════ */
     .footer {
       border-top: 1px solid var(--line);
       padding: 28px 0 40px;
@@ -561,25 +710,15 @@
       flex-wrap: wrap;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
     .footer-links a { transition: color 0.2s ease; }
     .footer-links a:hover { color: var(--text); }
 
-    /* ANIMATION */
+    /* ═══ ANIMATION ════════════════════════════════════════════════════════ */
     .fade-up {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .fade-up.will-animate {
       opacity: 0;
       transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
     .fade-up.is-visible {
@@ -587,23 +726,25 @@
       transform: translateY(0);
     }
 
-    /* RESPONSIVE */
+    /* ═══ RESPONSIVE ═══════════════════════════════════════════════════════ */
     @media (max-width: 1100px) {
       .hero-grid,
       .feature-grid,
-      .about-grid {
-        grid-template-columns: 1fr 1fr;
-      }
+      .about-grid { grid-template-columns: 1fr 1fr; }
       .release-grid { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 760px) {
-      .nav-inner,
+      /* FIX 2: show hamburger, hide desktop links */
+      .nav-inner .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      /* splash: hide links, show hamburger */
+      #splash-nav .splash-links { display: none; }
+      #splash-hamburger { display: flex; }
+
       .section-head,
-      .footer-inner {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
 
       .hero { min-height: auto; }
 
@@ -612,14 +753,14 @@
       .about-grid,
       .release-grid,
       .artist-grid,
-      .now-playing {
-        grid-template-columns: 1fr;
-      }
+      .now-playing { grid-template-columns: 1fr; }
 
       .artist-grid { max-width: 100%; }
       .hero-grid { padding: 52px 0 56px; }
       .section { padding: 68px 0; }
       .feature-copy, .about-card, .newsletter { padding: 24px; }
+
+      #splash-bottom { padding: 0 24px 44px; }
     }
 
     @media (max-width: 480px) {
@@ -631,7 +772,46 @@
 </head>
 <body>
 
-  <!-- NAV -->
+  <!-- ══════════════════════════════════════════════════════════════════════
+       SPLASH — full-bleed photo + nav + typewriter + enter CTA
+       Inspired by warprecords.com
+  ══════════════════════════════════════════════════════════════════════ -->
+  <div id="splash">
+    <img id="splash-img" src="ltd.PNG" alt="" aria-hidden="true" />
+
+    <nav id="splash-nav" aria-label="Splash navigation">
+      <a href="#top" class="splash-brand" onclick="enterSite(event)">
+        <img src="BANNER.png" alt="VCR Records" />
+      </a>
+      <div class="splash-links" id="splash-links">
+        <a href="#featured" onclick="enterSite(event)">Featured</a>
+        <a href="#releases" onclick="enterSite(event)">Releases</a>
+        <a href="#artists" onclick="enterSite(event)">Artists</a>
+        <a href="#about" onclick="enterSite(event)">About</a>
+        <a href="#contact" onclick="enterSite(event)">Contact</a>
+      </div>
+      <button id="splash-hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <div id="splash-mobile-menu">
+      <a href="#featured" onclick="enterSite(event)">Featured</a>
+      <a href="#releases" onclick="enterSite(event)">Releases</a>
+      <a href="#artists" onclick="enterSite(event)">Artists</a>
+      <a href="#about" onclick="enterSite(event)">About</a>
+      <a href="#contact" onclick="enterSite(event)">Contact</a>
+    </div>
+
+    <div id="splash-bottom">
+      <div id="typewriter-text"></div>
+      <button id="enter-btn">— enter the site —</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       MAIN SITE
+  ══════════════════════════════════════════════════════════════════════ -->
   <header class="nav">
     <div class="container nav-inner">
       <a href="#top" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
@@ -642,18 +822,26 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
+      <button class="hamburger" id="main-hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="main-mobile-menu">
+      <a href="#featured" onclick="closeMobileMenu()">Featured</a>
+      <a href="#releases" onclick="closeMobileMenu()">Releases</a>
+      <a href="#artists" onclick="closeMobileMenu()">Artists</a>
+      <a href="#about" onclick="closeMobileMenu()">About</a>
+      <a href="#contact" onclick="closeMobileMenu()">Contact</a>
     </div>
   </header>
 
   <main id="top">
 
-    <!-- HERO -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy fade-up">
           <div class="eyebrow">Independent electronic music.</div>
           <h1 class="hero-title">VCR<br>Records</h1>
-          <p>   </p>
           <div class="hero-actions">
             <a class="button" href="#releases">Browse Releases</a>
             <a class="button-secondary" href="#featured">Latest Release</a>
@@ -667,21 +855,13 @@
             <div>
               <div class="meta">LT Drifta</div>
               <h2 style="margin:6px 0 8px; font-size:1.5rem; font-weight:800; letter-spacing:-0.03em;">Lions' Gate</h2>
-              <p class="meta" style="margin:0 0 14px;"></p>
-              <!-- "Listen Now" triggers playback via JS -->
-              <button
-                class="button-secondary"
-                id="hero-listen-btn"
-                style="min-height:40px; font-size:0.78rem;"
-                aria-label="Play Lions' Gate by LT Drifta"
-              >▶ Listen Now</button>
+              <button class="button-secondary" id="hero-listen-btn" style="min-height:40px; font-size:0.78rem;">▶ Listen Now</button>
             </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <!-- FEATURED RELEASE -->
     <section id="featured" class="section">
       <div class="container">
         <div class="section-head fade-up">
@@ -705,8 +885,6 @@
                 <span>2026</span>
                 <span>LP — Digital</span>
               </div>
-              <p class="feature-sub"></p>
-
               <div class="tracklist">
                 <div class="track-row">
                   <span class="track-num">A1</span>
@@ -740,9 +918,7 @@
                 </div>
               </div>
             </div>
-
             <div class="feature-links">
-              <!-- "Play Release" triggers player activation -->
               <button class="button" id="featured-play-btn">▶ Play Release</button>
               <a class="button-secondary" href="https://fhastings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
             </div>
@@ -751,7 +927,6 @@
       </div>
     </section>
 
-    <!-- RELEASES -->
     <section id="releases" class="section">
       <div class="container">
         <div class="section-head fade-up">
@@ -771,7 +946,6 @@
               <div class="release-year">2025</div>
             </div>
           </a>
-
           <a class="release-card fade-up" href="classic.html">
             <img src="blank1400.png" alt="Classic Jazz artwork" />
             <div class="release-body">
@@ -780,7 +954,6 @@
               <div class="release-year">2025</div>
             </div>
           </a>
-
           <a class="release-card fade-up" href="avectoi.html">
             <img src="blank1400.png" alt="Avec Toi artwork" />
             <div class="release-body">
@@ -789,7 +962,6 @@
               <div class="release-year">2025</div>
             </div>
           </a>
-
           <a class="release-card fade-up" href="edit01.html">
             <img src="edit01.avif" alt="edit01 artwork" />
             <div class="release-body">
@@ -798,7 +970,6 @@
               <div class="release-year">2026</div>
             </div>
           </a>
-
           <a class="release-card fade-up" href="testpress.html">
             <img src="testpress.avif" alt="TEST PRESS artwork" />
             <div class="release-body">
@@ -811,7 +982,6 @@
       </div>
     </section>
 
-    <!-- PLAYER -->
     <section id="player" class="section">
       <div class="container">
         <div class="section-head fade-up">
@@ -821,15 +991,6 @@
           </div>
         </div>
 
-        <!--
-          The player shell contains a placeholder by default.
-          On activation (via "Listen Now" / "Play Release" buttons, or clicking
-          the placeholder itself), the placeholder is swapped out for a live
-          Bandcamp iframe with autoplay=1 so music starts immediately.
-
-          UPDATE: replace `data-album` with your actual Bandcamp album ID.
-          Find it in your Bandcamp embed code (album=XXXXXXXXXX).
-        -->
         <div
           class="player-shell fade-up"
           id="player-shell"
@@ -837,9 +998,7 @@
         >
           <div class="player-placeholder" id="player-placeholder" role="button" tabindex="0" aria-label="Click to play LT Drifta on Bandcamp">
             <div class="play-icon">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
             </div>
             <div class="player-placeholder-text">
               <div class="player-placeholder-title">LT Drifta — Lions' Gate</div>
@@ -850,7 +1009,6 @@
       </div>
     </section>
 
-    <!-- ARTISTS -->
     <section id="artists" class="section">
       <div class="container">
         <div class="section-head fade-up">
@@ -871,12 +1029,12 @@
       </div>
     </section>
 
-    <!-- ABOUT + CONTACT -->
+    <!-- FIX 4: copy rewritten — casual underground UK feel -->
     <section id="about" class="section about">
       <div class="container about-grid">
         <div class="about-card fade-up">
           <div class="eyebrow">About the label</div>
-          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px;">Just the music.</h2>
+          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px; font-weight:800; line-height:0.94; letter-spacing:-0.04em; text-transform:uppercase;">Out of<br>the ends.</h2>
           <p>
             VCR Records is a small independent label putting out hip-hop, jungle, drum &amp; bass, house, and whatever else sounds right. We grew up on dusty samples, pirate radio, and warehouse raves — now we press that energy into wax and tape.
           </p>
@@ -884,9 +1042,9 @@
 
         <div class="newsletter fade-up" id="contact">
           <div class="eyebrow">Contact / Mailing List</div>
-          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px;">First to hear it.</h2>
-          <p>No spam... just music.</p>
-          <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✓';">
+          <h2 style="font-size:clamp(2rem, 5vw, 4rem); margin-top:10px; font-weight:800; line-height:0.94; letter-spacing:-0.04em; text-transform:uppercase;">When it<br>drops, you'll know.</h2>
+          <p>No spam. Just the next one.</p>
+          <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Sorted ✓';">
             <input type="email" placeholder="Email address" aria-label="Email address" required />
             <button class="button" type="submit">Join</button>
           </form>
@@ -896,7 +1054,7 @@
             <a class="button-secondary" href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener">Instagram</a>
           </div>
           <p style="margin-top:22px; font-size:0.88rem;">
-            <strong>Demos:</strong> Send links via email — <a href="/cdn-cgi/l/email-protection#f29e8696809b948693b2959f939b9edc919d9f" style="border-bottom:1px solid var(--line); padding-bottom:1px;"><span class="__cf_email__" data-cfemail="f5998191879c938194b59298949c99db969a98">[email&#160;protected]</span></a>
+            <strong>Demos:</strong> Send links via email — <a href="mailto:ltdrifta@gmail.com" style="border-bottom:1px solid var(--line); padding-bottom:1px;">ltdrifta@gmail.com</a>
           </p>
         </div>
       </div>
@@ -904,7 +1062,6 @@
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
       <div>&copy; 2025 VCR Records</div>
@@ -914,13 +1071,71 @@
         <a href="#artists">Artists</a>
         <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
         <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener">Instagram</a>
-        <a href="/cdn-cgi/l/email-protection#4a263e2e38232c3e2b0a2d272b232664292527">Email</a>
+        <a href="mailto:ltdrifta@gmail.com">Email</a>
       </div>
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // ─── Intersection observer for fade-up animations ───────────────────────
+  <script>
+    // ── Typewriter ─────────────────────────────────────────────────────────
+    const phrases = [
+      'independent electronic music from south london.',
+      'hip-hop. jungle. drum & bass. house.',
+      'wax, tape, and whatever else sounds right.',
+      'vcr records.'
+    ];
+    let pIdx = 0, cIdx = 0, deleting = false;
+    const tw = document.getElementById('typewriter-text');
+
+    function typeLoop() {
+      const cur = phrases[pIdx];
+      if (!deleting) {
+        tw.textContent = cur.slice(0, ++cIdx);
+        if (cIdx === cur.length) { deleting = true; setTimeout(typeLoop, 2400); return; }
+      } else {
+        tw.textContent = cur.slice(0, --cIdx);
+        if (cIdx === 0) { deleting = false; pIdx = (pIdx + 1) % phrases.length; setTimeout(typeLoop, 380); return; }
+      }
+      setTimeout(typeLoop, deleting ? 28 : 58);
+    }
+    typeLoop();
+
+    // ── Splash dismiss ────────────────────────────────────────────────────
+    function enterSite(e) {
+      const splash = document.getElementById('splash');
+      splash.classList.add('hidden');
+      setTimeout(() => { splash.style.display = 'none'; }, 780);
+    }
+
+    document.getElementById('enter-btn').addEventListener('click', enterSite);
+
+    // ── Splash hamburger ──────────────────────────────────────────────────
+    const splashHam = document.getElementById('splash-hamburger');
+    const splashMob = document.getElementById('splash-mobile-menu');
+
+    splashHam.addEventListener('click', () => {
+      const open = splashMob.style.display === 'flex';
+      splashMob.style.display = open ? 'none' : 'flex';
+      splashHam.setAttribute('aria-expanded', String(!open));
+    });
+
+    // ── Main nav hamburger ────────────────────────────────────────────────
+    const mainHam = document.getElementById('main-hamburger');
+    const mainMob = document.getElementById('main-mobile-menu');
+
+    mainHam.addEventListener('click', () => {
+      const open = mainMob.classList.toggle('open');
+      mainHam.classList.toggle('open', open);
+      mainHam.setAttribute('aria-expanded', String(open));
+    });
+
+    function closeMobileMenu() {
+      mainMob.classList.remove('open');
+      mainHam.classList.remove('open');
+      mainHam.setAttribute('aria-expanded', 'false');
+    }
+
+    // ── Fade-up observer ──────────────────────────────────────────────────
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
@@ -930,75 +1145,42 @@
       }
     }, { threshold: 0.12 });
 
-    document.querySelectorAll('.fade-up').forEach((el) => {
-      el.classList.add('will-animate');
-      observer.observe(el);
-    });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    // ─── Player activation ──────────────────────────────────────────────────
-    // Strategy: Bandcamp iframes cannot be controlled via postMessage/JS once
-    // loaded. The reliable way to trigger autoplay is to inject the iframe
-    // dynamically with autoplay=1 at the moment the user gestures to play.
-    // This also avoids loading the heavy iframe until needed (performance win).
-
+    // ── Player activation ─────────────────────────────────────────────────
     const playerShell = document.getElementById('player-shell');
     const placeholder  = document.getElementById('player-placeholder');
 
-    /**
-     * activatePlayer()
-     * Replaces the placeholder UI with a live Bandcamp iframe that has
-     * autoplay=1 set. Must be called from a user-gesture handler (click/keydown)
-     * so browsers permit autoplay.
-     *
-     * TODO: swap the `src` below (or the data-src attribute on #player-shell)
-     * with your real Bandcamp embed URL once you have the album ID.
-     */
     function activatePlayer() {
-      // Already active — nothing to do.
       if (playerShell.querySelector('iframe')) return;
-
-      // Show a brief loading state.
       placeholder.innerHTML = '<div class="player-loading">Loading…</div>';
-
-      // Build the iframe and inject it.
-      // The src comes from the data-src attribute so it's easy to update in HTML.
-      const src = playerShell.dataset.src
-        || 'https://bandcamp.com/EmbeddedPlayer/album=ltdrifta/size=large/bgcol=111111/linkcol=d8d1c2/tracklist=false/artwork=small/transparent=true/autoplay=1/';
-
       const iframe = document.createElement('iframe');
-      iframe.title  = 'LT Drifta on Bandcamp';
-      iframe.src    = src;
-      iframe.style.cssText = 'width:100%; height:42px; display:block; border:0;';
-      iframe.allow  = 'autoplay';
+      iframe.title = 'LT Drifta on Bandcamp';
+      iframe.src   = playerShell.dataset.src;
+      iframe.style.cssText = 'width:100%; height:80px; display:block; border:0;';
+      iframe.allow = 'autoplay';
       iframe.setAttribute('seamless', '');
-
-      // Swap placeholder for iframe once the iframe reports it's loaded.
-      iframe.addEventListener('load', () => {
-        placeholder.replaceWith(iframe);
-      }, { once: true });
-
-      // Append temporarily so the browser starts fetching (load event fires
-      // after we swap, but we need it in DOM to fire at all).
+      iframe.addEventListener('load', () => { placeholder.replaceWith(iframe); }, { once: true });
       playerShell.appendChild(iframe);
     }
 
-    /**
-     * scrollToPlayer()
-     * Smooth-scrolls to the #player section. Works even if the section is
-     * already in view — scroll-behavior:smooth on <html> handles the rest.
-     */
     function scrollToPlayer() {
       document.getElementById('player').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Clicking the inline placeholder activates the player directly.
     placeholder.addEventListener('click', activatePlayer);
-    placeholder.addEventListener('keydown', (e) => {
+    placeholder.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activatePlayer(); }
     });
 
-    // "Listen Now" button in the hero panel.
     document.getElementById('hero-listen-btn').addEventListener('click', () => {
-      scrollToPlayer();
-      // Small delay so the section is in view before we activate (avoids
-      // the iframe being injected off-screen before the scroll completes).
+      scrollToPlayer(); setTimeout(activatePlayer, 600);
+    });
+
+    document.getElementById('featured-play-btn').addEventListener('click', () => {
+      scrollToPlayer(); setTimeout(activatePlayer, 600);
+    });
+  </script>
+
+</body>
+</html>
