@@ -122,9 +122,9 @@
       padding: 26px min(5vw, 60px);
     }
 
-    /* FIX 1: brand logo in splash nav gets explicit sizing, isolated from artist card rule */
+    /* FIX: splash logo — bumped from 26px to 48px */
     #splash-nav .splash-brand img {
-      height: 26px !important;
+      height: 48px !important;
       width: auto !important;
       aspect-ratio: unset !important;
       object-fit: unset !important;
@@ -263,9 +263,9 @@
 
     .brand { display: flex; align-items: center; }
 
-    /* FIX 1: nav logo always stays 28px high, not affected by .artist-card img */
-    .brand > img {
-      height: 28px !important;
+    /* FIX: main nav logo — bumped from 28px to 48px */
+    .nav .brand > img {
+      height: 48px !important;
       width: auto !important;
       aspect-ratio: unset !important;
       object-fit: unset !important;
@@ -286,7 +286,7 @@
     .nav-links a:hover,
     .nav-links a:focus-visible { color: var(--text); }
 
-    /* FIX 2: hamburger button */
+    /* hamburger button */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -559,10 +559,7 @@
     .release-artist,
     .release-year { color: var(--muted); font-size: 0.92rem; }
 
-    /* ═══ ARTISTS — FIX 3 ══════════════════════════════════════════════════
-       Card is now a horizontal flex row so the circular thumbnail
-       sits neatly beside the name text at a sensible size.
-    ═══════════════════════════════════════════════════════════════════════ */
+    /* ═══ ARTISTS ══════════════════════════════════════════════════════════ */
     .artist-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -584,7 +581,7 @@
       border-color: rgba(255,255,255,0.2);
     }
 
-    /* FIX 3: circular thumbnail, fixed 80×80, isolated from any other img rule */
+    /* circular thumbnail, fixed 80×80, isolated from any other img rule */
     .artist-card > img {
       width: 80px !important;
       height: 80px !important;
@@ -735,11 +732,9 @@
     }
 
     @media (max-width: 760px) {
-      /* FIX 2: show hamburger, hide desktop links */
       .nav-inner .nav-links { display: none; }
       .hamburger { display: flex; }
 
-      /* splash: hide links, show hamburger */
       #splash-nav .splash-links { display: none; }
       #splash-hamburger { display: flex; }
 
@@ -773,8 +768,7 @@
 <body>
 
   <!-- ══════════════════════════════════════════════════════════════════════
-       SPLASH — full-bleed photo + nav + typewriter + enter CTA
-       Inspired by warprecords.com
+       SPLASH
   ══════════════════════════════════════════════════════════════════════ -->
   <div id="splash">
     <img id="splash-img" src="ltd.PNG" alt="" aria-hidden="true" />
@@ -1002,7 +996,6 @@
             </div>
             <div class="player-placeholder-text">
               <div class="player-placeholder-title">LT Drifta — Lions' Gate</div>
-         
             </div>
           </div>
         </div>
@@ -1015,13 +1008,10 @@
           <div>
             <div class="eyebrow">Roster</div>
             <h2>Artists</h2>
-      
           </div>
-      
         </div>
 
-
-  <div class="artist-grid">
+        <div class="artist-grid">
           <a class="artist-card fade-up" href="#about">
             <img src="ltd2.PNG" alt="F. Hastings" />
             <div class="artist-body">
@@ -1031,11 +1021,6 @@
           </a>
         </div>
 
-
-
-
-        
-        
         <div class="artist-grid">
           <a class="artist-card fade-up" href="#about">
             <img src="ltd.PNG" alt="LT Drifta" />
@@ -1048,9 +1033,6 @@
       </div>
     </section>
 
-
-
-       
   </main>
 
   <footer class="footer">
@@ -1072,7 +1054,6 @@
     const phrases = [
       'independent electronic music.',
       'hip-hop. jungle. drum & bass.',
- 
     ];
     let pIdx = 0, cIdx = 0, deleting = false;
     const tw = document.getElementById('typewriter-text');
