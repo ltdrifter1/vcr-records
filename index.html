@@ -122,14 +122,47 @@
       padding: 26px min(5vw, 60px);
     }
 
-    /* LOGO FIX: splash — lock to 48px height, kill global max-width:100% */
+    /*
+       ┌─────────────────────────────────────────────────────────────────┐
+       │ FIX 1 of 3: Style the .splash-brand <a> wrapper               │
+       │                                                                │
+       │ ROOT CAUSE: .splash-brand had ZERO CSS rules. Unlike .brand    │
+       │ (which has display:flex), this <a> was a raw inline element    │
+       │ inside a flex parent. The browser let it grow to the natural   │
+       │ width of BANNERbg.png (which is very wide). The child <img>   │
+       │ height:48px rule was being applied, but the parent <a> had    │
+       │ no size constraint, so the img's width:auto resolved to the   │
+       │ intrinsic width based on the source file's aspect ratio.      │
+       │                                                                │
+       │ FIX: Give .splash-brand display:flex + height:48px so the     │
+       │ parent itself is the size constraint, not just the child img. │
+       └─────────────────────────────────────────────────────────────────┘
+    */
+    .splash-brand {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    /*
+       ┌─────────────────────────────────────────────────────────────────┐
+       │ FIX 2 of 3: Constrain the <img> inside .splash-brand          │
+       │                                                                │
+       │ height:100% makes the img fill the parent's 48px height.      │
+       │ width:auto preserves aspect ratio from that height.            │
+       │ max-width:none overrides the global img { max-width:100% }    │
+       │ which was causing the image to be clamped to parent width     │
+       │ (creating a circular dependency in flex layout).               │
+       └─────────────────────────────────────────────────────────────────┘
+    */
     #splash-nav .splash-brand img {
-      height: 48px !important;
-      max-height: 48px !important;
+      height: 100% !important;
       width: auto !important;
       max-width: none !important;
+      max-height: 48px !important;
       aspect-ratio: unset !important;
-      object-fit: unset !important;
+      object-fit: contain !important;
       border-radius: 0 !important;
     }
 
@@ -263,16 +296,30 @@
       gap: 24px;
     }
 
-    .brand { display: flex; align-items: center; }
+    .brand {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      flex-shrink: 0;
+    }
 
-    /* LOGO FIX: main nav — lock to 48px height, kill global max-width:100% */
+    /*
+       ┌─────────────────────────────────────────────────────────────────┐
+       │ FIX 3 of 3: Main nav logo — same pattern as splash fix        │
+       │                                                                │
+       │ .brand already had display:flex (so it worked better), but     │
+       │ we now also give it an explicit height:48px above, and use     │
+       │ height:100% on the img to be bulletproof against any source    │
+       │ image dimensions. object-fit:contain ensures it never crops.   │
+       └─────────────────────────────────────────────────────────────────┘
+    */
     .nav .brand > img {
-      height: 48px !important;
-      max-height: 48px !important;
+      height: 100% !important;
       width: auto !important;
       max-width: none !important;
+      max-height: 48px !important;
       aspect-ratio: unset !important;
-      object-fit: unset !important;
+      object-fit: contain !important;
       border-radius: 0 !important;
       min-width: unset !important;
     }
@@ -775,11 +822,11 @@
        SPLASH
   ══════════════════════════════════════════════════════════════════════ -->
   <div id="splash">
-   <img id="splash-img" src="home.png" alt="" aria-hidden="true" />
+    <img id="splash-img" src="home.png" alt="" aria-hidden="true" />
 
     <nav id="splash-nav" aria-label="Splash navigation">
       <a href="#top" class="splash-brand" onclick="enterSite(event)">
-        <img src="BANNERbg.png" alt="VCR Records" />
+        <img src="BANNERbg.png" alt="VCR Records" height="48" />
       </a>
       <div class="splash-links" id="splash-links">
         <a href="#featured" onclick="enterSite(event)">Featured</a>
@@ -812,7 +859,7 @@
   ══════════════════════════════════════════════════════════════════════ -->
   <header class="nav">
     <div class="container nav-inner">
-      <a href="#top" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
+      <a href="#top" class="brand"><img src="BANNER.png" alt="VCR Records" height="48"></a>
       <nav class="nav-links" aria-label="Primary">
         <a href="#featured">Featured</a>
         <a href="#releases">Releases</a>
@@ -838,15 +885,25 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy fade-up">
-          <div class="eyebrow"></div>
-          <h1 class="hero-title"><br></h1>
+          <div class="eyebrow">Independent electronic music.</div>
+          <h1 class="hero-title">VCR<br>Records</h1>
           <div class="hero-actions">
             <a class="button" href="#releases">Browse Releases</a>
             <a class="button-secondary" href="#featured">Latest Release</a>
           </div>
         </div>
 
-        
+        <aside class="hero-panel fade-up" aria-label="Current featured release">
+          <div class="eyebrow">Now Featuring</div>
+          <div class="now-playing" style="margin-top:14px;">
+            <img src="blank1400.png" alt="Lions' Gate cover art" />
+            <div>
+              <div class="meta">LT Drifta</div>
+              <h2 style="margin:6px 0 8px; font-size:1.5rem; font-weight:800; letter-spacing:-0.03em;">Lions' Gate</h2>
+              <button class="button-secondary" id="hero-listen-btn" style="min-height:40px; font-size:0.78rem;">▶ Listen Now</button>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -907,8 +964,8 @@
               </div>
             </div>
             <div class="feature-links">
-             <a class="button" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">▶ Play Release</a>
-              <a class="button-secondary" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+              <a class="button" href="https://fhastings.bandcamp.com" target="_blank" rel="noopener">▶ Play Release</a>
+              <a class="button-secondary" href="https://fhastings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
             </div>
           </div>
         </div>
@@ -1047,7 +1104,7 @@
     // ── Typewriter ─────────────────────────────────────────────────────────
     const phrases = [
       'independent electronic music.',
-   
+      'hip-hop. jungle. drum & bass.',
     ];
     let pIdx = 0, cIdx = 0, deleting = false;
     const tw = document.getElementById('typewriter-text');
@@ -1141,8 +1198,6 @@
     document.getElementById('hero-listen-btn').addEventListener('click', () => {
       scrollToPlayer(); setTimeout(activatePlayer, 600);
     });
-
- 
   </script>
 
 </body>
