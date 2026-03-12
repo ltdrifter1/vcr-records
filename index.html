@@ -122,10 +122,12 @@
       padding: 26px min(5vw, 60px);
     }
 
-    /* FIX: splash logo — bumped from 26px to 48px */
+    /* LOGO FIX: splash — lock to 48px height, kill global max-width:100% */
     #splash-nav .splash-brand img {
       height: 48px !important;
+      max-height: 48px !important;
       width: auto !important;
+      max-width: none !important;
       aspect-ratio: unset !important;
       object-fit: unset !important;
       border-radius: 0 !important;
@@ -263,10 +265,12 @@
 
     .brand { display: flex; align-items: center; }
 
-    /* FIX: main nav logo — bumped from 28px to 48px */
+    /* LOGO FIX: main nav — lock to 48px height, kill global max-width:100% */
     .nav .brand > img {
       height: 48px !important;
+      max-height: 48px !important;
       width: auto !important;
+      max-width: none !important;
       aspect-ratio: unset !important;
       object-fit: unset !important;
       border-radius: 0 !important;
@@ -581,7 +585,7 @@
       border-color: rgba(255,255,255,0.2);
     }
 
-    /* circular thumbnail, fixed 80×80, isolated from any other img rule */
+    /* circular thumbnail, fixed 80×80 */
     .artist-card > img {
       width: 80px !important;
       height: 80px !important;
