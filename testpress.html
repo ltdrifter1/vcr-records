@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LT Drifta: TEST PRESS — VCR Records</title>
   <meta name="description" content="TEST PRESS by LT Drifta — available on cassette and digital. VCR Records." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:      #f5f1e8;
@@ -23,6 +26,7 @@
       --radius-sm: 10px;
       --shadow:  0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
       --sans:    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --typewriter: 'Special Elite', monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -36,11 +40,12 @@
     /* NAV */
     .nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); }
     .nav-inner { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: flex; align-items: center; }
-    .brand img { height: 28px; width: auto; display: block; }
+    .brand { font-family: var(--typewriter); font-size: 1.1rem; letter-spacing: 0.15em; text-transform: uppercase; color: #f4f2ec; white-space: nowrap; text-shadow: 0 0 18px rgba(255,255,255,0.06); }
     .nav-links { display: flex; gap: 18px; }
-    .nav-links a { font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: #999; transition: color 0.2s; }
+    .nav-links a { font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: #999; transition: color 0.2s; position: relative; }
     .nav-links a:hover { color: #fff; }
+    .nav-links a::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); transform: scaleX(0); transform-origin: center; transition: transform 0.28s ease; opacity: 0.7; }
+    .nav-links a:hover::after { transform: scaleX(1); }
     @media (max-width: 600px) { .nav-links a { font-size: 0.68rem; letter-spacing: 0.08em; } .nav-links { gap: 12px; } }
 
     /* BREADCRUMBS */
@@ -54,9 +59,34 @@
 
     /* GALLERY */
     .gallery { position: relative; }
-    .hero-frame { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; box-shadow: var(--shadow); cursor: zoom-in; }
+    .hero-frame { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; box-shadow: var(--shadow); cursor: zoom-in; transition: box-shadow 0.3s ease; }
+    .hero-frame:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 14px 36px rgba(0,0,0,0.1); }
     .hero-frame img { width: 100%; border-radius: var(--radius-sm); }
     .media-badge { position: absolute; left: 20px; top: 20px; background: var(--dark); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; z-index: 2; }
+
+    /* INLINE PLAYER (below artwork) */
+    .inline-player { margin-top: 16px; background: var(--dark); border-radius: var(--radius); padding: 18px 22px; color: #f3f3ef; box-shadow: var(--shadow); }
+    .ip-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .ip-now { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #666; }
+    .ip-track-name { font-size: 0.92rem; font-weight: 700; letter-spacing: -0.01em; color: #eee; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; }
+    .ip-controls { display: flex; align-items: center; gap: 14px; }
+    .ip-btn { background: none; border: none; padding: 2px; cursor: pointer; display: grid; place-items: center; color: #f3f3ef; transition: color 0.15s, transform 0.15s; }
+    .ip-btn:hover { color: #fff; transform: scale(1.1); }
+    .ip-btn svg { width: 28px; height: 28px; fill: currentColor; }
+    .ip-btn.main-play { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(180deg, rgba(247,245,238,1), rgba(221,228,234,0.92)); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(255,255,255,0.1); transition: transform 0.2s, background 0.2s; }
+    .ip-btn.main-play:hover { transform: scale(1.08); background: #fff; }
+    .ip-btn.main-play svg { fill: #111; width: 22px; height: 22px; margin-left: 2px; }
+    .ip-progress { display: flex; align-items: center; gap: 10px; }
+    .ip-time { width: 42px; font-size: 0.68rem; font-variant-numeric: tabular-nums; color: #777; }
+    .ip-time.left { text-align: right; }
+    input[type="range"].ip-seek { -webkit-appearance: none; appearance: none; flex: 1; height: 4px; background: #333; border-radius: 2px; outline: none; cursor: pointer; }
+    input[type="range"].ip-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: none; margin-top: -5px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    input[type="range"].ip-seek::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: none; cursor: pointer; }
+    .ip-volume { display: flex; align-items: center; gap: 6px; }
+    .ip-volume svg { width: 16px; height: 16px; fill: #777; flex-shrink: 0; }
+    input[type="range"].ip-vol { -webkit-appearance: none; appearance: none; width: 70px; height: 3px; background: #444; border-radius: 2px; outline: none; cursor: pointer; }
+    input[type="range"].ip-vol::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #ccc; border: none; cursor: pointer; }
+    @media (max-width: 600px) { .ip-volume { display: none; } }
 
     /* PANEL */
     .panel { position: sticky; top: 76px; }
@@ -83,17 +113,18 @@
     .qty input { width: 48px; height: 42px; text-align: center; border: none; border-left: 1px solid var(--line); border-right: 1px solid var(--line); background: transparent; font-size: 0.92rem; font-weight: 700; color: var(--text); outline: none; }
 
     /* BUTTONS */
-    .btn { display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.15s, background 0.2s; border: none; }
+    .btn { display: flex; align-items: center; justify-content: center; width: 100%; height: 48px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.15s, background 0.2s, box-shadow 0.2s; border: none; position: relative; overflow: hidden; }
     .btn:hover { transform: translateY(-1px); }
-    .btn-gold { background: var(--gold); color: #fff; }
-    .btn-gold:hover { background: var(--gold-h); }
+    .btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.15) 42%, transparent 70%); transform: translateX(-120%); transition: transform 0.55s ease; pointer-events: none; }
+    .btn:hover::before { transform: translateX(120%); }
+    .btn-gold { background: var(--gold); color: #fff; box-shadow: 0 4px 16px rgba(200,164,85,0.25); }
+    .btn-gold:hover { background: var(--gold-h); box-shadow: 0 6px 24px rgba(200,164,85,0.35); }
     .btn-dark { background: var(--dark); color: #fff; }
     .btn-dark:hover { background: #000; }
     .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--line); }
     .btn-outline:hover { border-color: var(--dark); }
     .btn-bandcamp { background: #1da0c3; color: #fff; gap: 10px; }
     .btn-bandcamp:hover { background: #1790b0; }
-    .btn-bandcamp img { height: 18px; }
     .buy-grid { display: grid; gap: 10px; margin-top: 4px; }
     .small-note { font-size: 0.68rem; color: var(--light); margin-top: 10px; line-height: 1.4; }
 
@@ -121,43 +152,39 @@
 
     /* TRACKLIST */
     .tracks { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); overflow: hidden; }
-    .track-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 10px; align-items: center; padding: 0 14px; min-height: 50px; border-top: 1px solid var(--line); transition: background 0.12s; }
+    .track-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 10px; align-items: center; padding: 0 14px; min-height: 50px; border-top: 1px solid var(--line); transition: background 0.12s; cursor: pointer; }
     .track-row:first-child { border-top: none; }
-    .track-row:hover { background: rgba(0,0,0,0.02); }
+    .track-row:hover { background: rgba(0,0,0,0.03); }
+    .track-row.is-active { background: rgba(200,164,85,0.08); }
     .track-no { font-size: 0.72rem; font-weight: 500; color: var(--light); font-variant-numeric: tabular-nums; }
     .track-title { display: inline-flex; align-items: center; gap: 10px; font-size: 0.88rem; font-weight: 600; }
     .disc-tag { font-size: 0.72rem; color: var(--light); font-variant-numeric: tabular-nums; }
-    .play-btn { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); display: inline-grid; place-items: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; padding: 0; flex-shrink: 0; }
-    .play-btn:hover { background: var(--panel); border-color: var(--dark); }
+    .play-btn { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); display: inline-grid; place-items: center; cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.15s; padding: 0; flex-shrink: 0; }
+    .play-btn:hover { background: var(--panel); border-color: var(--dark); transform: scale(1.1); }
     .play-btn .icon { display: block; }
     .play-btn .icon-pause { display: none; }
     .play-btn.is-playing .icon-play { display: none; }
     .play-btn.is-playing .icon-pause { display: block; }
 
-    /* NOW PLAYING */
-    .now-playing { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200; background: rgba(17,17,17,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.08); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0)); color: #f3f3ef; font-size: 0.82rem; display: none; }
-    .now-playing.show { display: block; }
-    .np-row { max-width: var(--max); margin: 0 auto; display: grid; gap: 8px; }
-    .np-progress { display: flex; align-items: center; gap: 10px; }
-    .np-time { width: 42px; font-size: 0.68rem; font-variant-numeric: tabular-nums; color: #999; }
-    .np-time.left { text-align: right; }
-    input[type="range"].np-seek { -webkit-appearance: none; appearance: none; flex: 1; height: 3px; background: #333; border-radius: 2px; outline: none; }
-    input[type="range"].np-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: none; margin-top: -4.5px; cursor: pointer; }
-    .np-controls { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
-    .np-btn { background: none; border: none; padding: 4px; cursor: pointer; display: grid; place-items: center; color: #f3f3ef; }
-    .np-btn svg { width: 22px; height: 22px; fill: currentColor; }
-    .np-btn.big svg { width: 28px; height: 28px; }
-    .np-title { font-weight: 600; font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ddd; }
-    .np-close { background: none; border: none; padding: 4px; cursor: pointer; display: grid; place-items: center; color: #999; }
-    .np-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-    .np-close:hover { color: #fff; }
+    /* PURCHASE SUCCESS MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 500; padding: 20px; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: var(--surface); border-radius: 20px; padding: 40px 36px; max-width: 460px; width: 100%; box-shadow: 0 24px 80px rgba(0,0,0,0.2); text-align: center; position: relative; animation: modalIn 0.4s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal-icon { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #2ecc71, #27ae60); display: grid; place-items: center; margin: 0 auto 20px; }
+    .modal-icon svg { width: 32px; height: 32px; fill: #fff; }
+    .modal h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .modal p { font-size: 0.92rem; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .modal .dl-grid { display: grid; gap: 10px; }
+    .modal .btn { height: 52px; font-size: 0.82rem; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; width: 32px; height: 32px; display: grid; place-items: center; cursor: pointer; font-size: 1rem; color: var(--muted); transition: color 0.15s, background 0.15s; }
+    .modal-close:hover { color: var(--text); background: var(--line); }
 
     /* FOOTER */
     .site-footer { background: var(--dark); color: #ddd; padding: 56px 0 32px; margin-top: 40px; }
     .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
     @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
-    .footer-brand { margin-bottom: 12px; }
-    .footer-brand img { height: 24px; width: auto; display: block; }
+    .footer-brand { font-family: var(--typewriter); font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase; color: #f4f2ec; margin-bottom: 12px; }
     .footer-text { font-size: 0.82rem; color: #888; line-height: 1.6; max-width: 380px; }
     .footer-social { display: flex; gap: 12px; margin-top: 20px; }
     .footer-social a { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; display: grid; place-items: center; color: #888; transition: color 0.2s, border-color 0.2s; }
@@ -178,10 +205,6 @@
     .footer-bottom a { color: #666; transition: color 0.15s; }
     .footer-bottom a:hover { color: #ccc; }
 
-    /* STICKY BAR */
-    .sticky-bar { position: sticky; bottom: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--line); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0)); display: none; grid-template-columns: 1fr auto; gap: 12px; align-items: center; box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
-    .sticky-bar strong { font-size: 1.1rem; }
-
     /* ZOOM */
     .zoom { position: fixed; inset: 0; background: rgba(0,0,0,0.88); display: none; align-items: center; justify-content: center; z-index: 300; cursor: zoom-out; }
     .zoom img { max-width: 90vw; max-height: 88vh; border-radius: 8px; }
@@ -191,22 +214,34 @@
     .fade-up { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .fade-up.is-visible { opacity: 1; transform: translateY(0); }
     .release-date { font-size: 0.72rem; color: var(--light); margin-top: 16px; }
+
+    /* WAVEFORM VISUALIZER */
+    .waveform-container { display: flex; align-items: end; gap: 2px; height: 32px; margin-top: 10px; }
+    .waveform-container.active .wv-bar { animation: wvPulse 1.4s ease-in-out infinite; }
+    .wv-bar { width: 3px; border-radius: 2px; background: rgba(255,255,255,0.3); min-height: 4px; transform-origin: bottom; }
+    .waveform-container.active .wv-bar { background: linear-gradient(180deg, rgba(200,164,85,0.9), rgba(255,255,255,0.5)); }
+    @keyframes wvPulse { 0%, 100% { transform: scaleY(0.4); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
   </style>
 </head>
 <body>
 
-  <!-- NOW PLAYING BAR -->
-  <div class="now-playing" id="nowPlaying" role="region" aria-label="Now Playing">
-    <div class="np-row">
-      <div class="np-progress">
-        <span class="np-time left" id="npElapsed">0:00</span>
-        <input type="range" min="0" value="0" step="0.01" class="np-seek" id="npSeek" />
-        <span class="np-time" id="npRemaining">-0:00</span>
+  <!-- PURCHASE SUCCESS MODAL -->
+  <div class="modal-overlay" id="purchaseModal">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
       </div>
-      <div class="np-controls">
-        <button class="np-btn big" id="npPlay" aria-label="Play/Pause"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="np-title" id="npTitle">—</div>
-        <button class="np-close" id="npClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <h2>Purchase Complete</h2>
+      <p>Thank you for supporting independent music. Your downloads are ready.</p>
+      <div class="dl-grid">
+        <a class="btn btn-dark" id="dlMp3Modal" href="/testpress.mp3" download="LT Drifta - TEST PRESS.mp3">
+          Download MP3
+        </a>
+        <a class="btn btn-gold" id="dlWavModal" href="/testpress.wav" download="LT Drifta - TEST PRESS.wav">
+          Download WAV (Lossless)
+        </a>
+        <button class="btn btn-outline" id="modalDismiss">Close</button>
       </div>
     </div>
   </div>
@@ -214,7 +249,7 @@
   <!-- NAV -->
   <header class="nav">
     <div class="container nav-inner">
-      <a href="index.html" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
+      <a href="index.html" class="brand">VCR Records</a>
       <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="index.html#releases">Releases</a>
@@ -231,13 +266,39 @@
       <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#releases">Releases</a> / TEST PRESS</div>
 
       <section class="product-grid" itemscope itemtype="https://schema.org/Product">
+
+        <!-- LEFT: GALLERY + INLINE PLAYER -->
         <div class="gallery fade-up">
           <div class="media-badge">EP</div>
-          <div class="hero-frame">
-            <img id="heroImg" src="/blank1400.png" alt="TEST PRESS artwork" itemprop="image" />
+          <div class="hero-frame" id="heroFrame">
+            <img id="heroImg" src="testpress.avif" alt="TEST PRESS artwork" itemprop="image" />
+          </div>
+
+          <!-- INLINE AUDIO PLAYER -->
+          <div class="inline-player" id="inlinePlayer">
+            <div class="ip-title-row">
+              <span class="ip-now">Now Playing</span>
+              <span class="ip-track-name" id="ipTrackName">TEST PRESS</span>
+            </div>
+            <div class="ip-controls">
+              <button class="ip-btn main-play" id="ipPlay" aria-label="Play">
+                <svg viewBox="0 0 24 24" id="ipPlayIcon"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="ip-progress" style="flex:1;">
+                <span class="ip-time left" id="ipElapsed">0:00</span>
+                <input type="range" min="0" value="0" step="0.01" class="ip-seek" id="ipSeek" />
+                <span class="ip-time" id="ipRemaining">-0:00</span>
+              </div>
+              <div class="ip-volume">
+                <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                <input type="range" min="0" max="1" step="0.01" value="0.8" class="ip-vol" id="ipVolume" />
+              </div>
+            </div>
+            <div class="waveform-container" id="waveform" aria-hidden="true"></div>
           </div>
         </div>
 
+        <!-- RIGHT: PURCHASE PANEL -->
         <aside class="panel fade-up" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <div class="panel-card">
             <div class="release-artist">LT Drifta</div>
@@ -250,7 +311,7 @@
 
             <div class="price-row">
               <meta itemprop="priceCurrency" content="USD" />
-              <meta itemprop="price" content="4.98" id="priceContent" />
+              <meta itemprop="price" content="0.98" id="priceContent" />
               <span class="price" id="priceText">$0.98</span>
               <span class="price-note">USD</span>
             </div>
@@ -259,8 +320,8 @@
 
             <label class="field-label" for="variant">Format</label>
             <select class="field-select" id="variant" aria-label="Choose format">
-              <option>Cassette</option>
-              <option selected>Digital</option>
+              <option value="cassette">Cassette — $9.98</option>
+              <option value="digital" selected>Digital — $0.98</option>
             </select>
 
             <div class="qty-row">
@@ -272,30 +333,32 @@
             </div>
 
             <div class="buy-grid">
+              <a class="btn btn-gold" id="buyBtn" href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06" target="_blank" rel="noopener">
+                Buy Digital — $0.98
+              </a>
               <a class="btn btn-bandcamp" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">
                 Buy on Bandcamp
-                <img src="/bandcamp-logo.svg" alt="">
               </a>
-              <a class="btn btn-gold" id="buyDigital" href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06" data-wav="/GN5-25-00021.mp3" data-name="LT Drifta - TEST PRESS" target="_blank" rel="noopener">Digital Download</a>
-              <a class="btn btn-dark" id="buyCassette" href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06" target="_blank" rel="noopener">Buy Cassette</a>
             </div>
-            <p class="small-note">Secure checkout · 30-day returns on unopened media</p>
+            <p class="small-note">Secure checkout via Stripe · Instant digital delivery · 30-day returns on unopened media</p>
 
             <div class="divider"></div>
 
+            <!-- REDEEM CODE -->
             <div class="redeem-card" aria-label="Redeem download code">
               <div class="redeem-label">Have a download code?</div>
               <div class="redeem-row">
-                <input class="redeem-input" id="redeemCode" type="text" inputmode="text" autocomplete="one-time-code" placeholder="Enter code" aria-describedby="redeemStatus" />
+                <input class="redeem-input" id="redeemCode" type="text" inputmode="text" autocomplete="one-time-code" placeholder="Enter code" />
                 <button class="btn btn-outline" id="redeemBtn" type="button" style="width:auto; padding:0 20px;">Redeem</button>
               </div>
               <div id="redeemStatus" class="small-note" role="status" aria-live="polite"></div>
+              <div id="redeemDownloads" class="download-links hidden">
+                <a class="btn btn-dark" href="/testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
+                <a class="btn btn-gold" href="/testpress.wav" download="LT Drifta - TEST PRESS.wav">Download WAV</a>
+              </div>
             </div>
 
-            <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
-              <a id="dlWav" class="btn btn-dark" href="/GN5-25-00021.mp3" download>Download WAV</a>
-            </div>
-
+            <!-- TABS -->
             <div class="tabs" id="tabs">
               <div role="tablist" aria-label="Product info" class="tab-list">
                 <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track" id="tabbtn-track">Tracklist</button>
@@ -305,22 +368,22 @@
 
               <div id="tab-track" class="tab-panel active" role="tabpanel">
                 <div class="tracks" aria-label="Tracklist">
-                  <div class="track-row" data-src="https://pub-ec23146353b246ceade3d35cb55100dd.r2.dev/intro.mp3">
+                  <div class="track-row" data-src="/testpress.mp3" data-title="TEST PRESS — Full Release">
                     <span class="track-no">A1</span>
                     <span class="track-title">
-                      Not Available
+                      TEST PRESS
                       <button class="play-btn" aria-label="Play" aria-pressed="false" type="button">
                         <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
                         <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
                       </button>
                     </span>
-                    <span class="disc-tag">-:--</span>
+                    <span class="disc-tag" id="trackDuration">-:--</span>
                   </div>
                 </div>
               </div>
 
               <div id="tab-desc" class="tab-panel" role="tabpanel">
-                <p>Coming soon.</p>
+                <p>TEST PRESS by LT Drifta. An experimental release exploring the edges of jungle, hip-hop, and tape-warped electronics. Available on cassette and digital.</p>
               </div>
 
               <div id="tab-ship" class="tab-panel" role="tabpanel">
@@ -337,11 +400,6 @@
           </div>
         </aside>
       </section>
-
-      <div class="sticky-bar" id="stickyBar">
-        <strong>$4.98</strong>
-        <button class="btn btn-dark" id="stickyAdd" style="width:auto; padding:0 24px;">Add to Cart</button>
-      </div>
     </div>
   </main>
 
@@ -350,7 +408,7 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand"><img src="BANNER.png" alt="VCR Records"></div>
+          <div class="footer-brand">VCR Records</div>
           <p class="footer-text">Independent electronic music label. Hip-hop, jungle, drum & bass, house, and experimental edits.</p>
           <div class="footer-social">
             <a href="mailto:f_hastings@hotmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
@@ -365,7 +423,7 @@
           <div class="sc-row"><div class="signup-options"><label><input type="checkbox" name="consent" value="yes" required /> I agree to receive emails</label></div></div>
           <input type="hidden" name="source" value="Release page footer">
           <input type="hidden" name="page" value="" id="signupPageField">
-          <button class="signup-btn" type="submit" id="signupSubmitBtn">Subscribe</button>
+          <button class="signup-btn" type="submit">Subscribe</button>
         </form>
       </div>
       <div class="footer-bottom">
@@ -380,94 +438,313 @@
   </footer>
 
   <script>
-/* Gallery zoom */
-(function(){
-  const hero = document.getElementById('heroImg');
-  const zoom = document.createElement('div'); zoom.className = 'zoom';
-  zoom.innerHTML = '<button class="zoom-close" aria-label="Close">×</button><img alt="Zoomed" />';
-  document.body.appendChild(zoom);
-  hero?.addEventListener('click', () => { zoom.style.display='flex'; zoom.querySelector('img').src=hero.src; });
-  zoom.addEventListener('click', (e)=>{ if(e.target.tagName!=='IMG') zoom.style.display='none'; });
-  zoom.querySelector('button').addEventListener('click', ()=> zoom.style.display='none');
-})();
-/* Tabs */
-(function(){
-  const tabs = document.getElementById('tabs'); if(!tabs) return;
-  const btns = tabs.querySelectorAll('[role="tab"]'); const panels = tabs.querySelectorAll('.tab-panel');
-  btns.forEach(btn=>btn.addEventListener('click', ()=>{
-    btns.forEach(b=>b.setAttribute('aria-selected','false')); panels.forEach(p=>p.classList.remove('active'));
-    btn.setAttribute('aria-selected','true'); document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('active');
-  }));
-})();
-/* Qty + Sticky */
-(function(){
-  const q = document.getElementById('qty');
-  document.getElementById('minus')?.addEventListener('click', ()=>{ q.value = Math.max(1, (parseInt(q.value||'1',10)-1)); });
-  document.getElementById('plus')?.addEventListener('click', ()=>{ q.value = (parseInt(q.value||'1',10)+1); });
-  const sticky = document.getElementById('stickyBar'); const panel = document.querySelector('.panel');
-  const io = new IntersectionObserver(entries=>{ sticky.style.display = window.innerWidth < 860 && !entries[0].isIntersecting ? 'grid' : 'none'; }, {threshold: 0});
-  if(panel) io.observe(panel);
-  window.addEventListener('resize', ()=>{ if(window.innerWidth>=860) sticky.style.display='none'; }, {passive:true});
-})();
-/* URL helpers */
-(function(){ const asAbs = (u) => { try { return new URL(u, document.baseURI).href; } catch { return u; } }; const sameUrl = (a, b) => asAbs(a) === asAbs(b); window.__afrAsAbs = asAbs; window.__afrSameUrl = sameUrl; })();
-/* Source of truth */
-(function(){
-  const firstRow = document.querySelector('.track-row[data-src]'); const primarySrc = firstRow?.getAttribute('data-src')?.trim() || '';
-  const productName = (document.querySelector('[itemprop="name"]')?.textContent || 'download').trim(); const absSrc = window.__afrAsAbs(primarySrc);
-  window.AFR_FILES = { wav: absSrc, name: productName }; window.__afrGetWav = () => window.AFR_FILES?.wav || absSrc; window.__afrGetName = () => window.AFR_FILES?.name || productName;
-  const buyDigital = document.getElementById('buyDigital'); if (buyDigital) { buyDigital.dataset.wav = absSrc; buyDigital.dataset.name = productName; }
-  const aWav = document.getElementById('dlWav'); if (aWav) aWav.href = absSrc;
-})();
-/* Variant → Price */
-(function(){
-  const variant = document.getElementById('variant'); const priceText = document.getElementById('priceText'); const priceContent = document.getElementById('priceContent');
-  if (!variant || !priceText || !priceContent) return; const BASE = 0.98; const PHYS = 9.98;
-  function setPrice(){ const v = (variant.value||'').toLowerCase(); const amt = (v==='cassette'||v==='cd')?PHYS:BASE; priceText.textContent=`$${amt.toFixed(2)}`; priceContent.setAttribute('content', amt.toFixed(2)); }
-  variant.addEventListener('change', setPrice); setPrice();
-})();
-/* Redeem */
-const CODE_BANK = new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V','AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K','AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S','AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y','AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F','AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L','AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R','AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X','AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D'].map(c=>c.toUpperCase()));
-(function(){
-  const input=document.getElementById('redeemCode'),btn=document.getElementById('redeemBtn'),status=document.getElementById('redeemStatus'),links=document.getElementById('downloadLinks'),aWav=document.getElementById('dlWav');
-  if(aWav) aWav.href=window.__afrGetWav(); if(!input||!btn||!status) return;
-  const USED=new Set(JSON.parse(localStorage.getItem('afr_used_codes_v1')||'[]')); const saveUsed=()=>localStorage.setItem('afr_used_codes_v1',JSON.stringify([...USED]));
-  async function forceDownload(url,filename){ try{ const res=await fetch(url); if(!res.ok) throw new Error('HTTP '+res.status); const blob=await res.blob(); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500); }catch(e){location.href=url;} }
-  async function redeem(){ const code=(input.value||'').trim().toUpperCase(); links.classList.add('hidden'); status.textContent='';
-    if(!code){status.textContent='Enter your code.';return;} if(USED.has(code)){status.textContent='Code already used.';return;} if(!CODE_BANK.has(code)){status.textContent='Invalid code.';return;}
-    USED.add(code);saveUsed(); status.textContent='Code accepted — starting download...';
-    try{await forceDownload(window.__afrGetWav(),`${window.__afrGetName()}.wav`);links.classList.remove('hidden');status.textContent='Download started.';}catch(e){status.textContent='Download failed. Use the button below.';links.classList.remove('hidden');}
-  }
-  btn.addEventListener('click',redeem); input.addEventListener('keydown',e=>{if(e.key==='Enter')redeem();});
-})();
-/* Tracklist + Now Playing */
-(function(){
-  const rows=document.querySelectorAll('.track-row[data-src]'); if(!rows.length) return;
-  const audio=new Audio(); audio.preload='none'; window.__player=audio; document.dispatchEvent(new Event('np:ready'));
-  function setButtonState(btn,playing){btn.classList.toggle('is-playing',!!playing);btn.setAttribute('aria-pressed',playing?'true':'false');}
-  function resetAllButtons(except){document.querySelectorAll('.play-btn.is-playing').forEach(b=>{if(b!==except)setButtonState(b,false);});}
-  rows.forEach(row=>{const btn=row.querySelector('.play-btn');const src=row.getAttribute('data-src');if(!btn||!src)return;
-    btn.addEventListener('click',e=>{e.preventDefault();const titleNode=btn.closest('.track-title')?.firstChild;const title=(titleNode?.textContent||'Track').trim();const rowSrcAbs=window.__afrAsAbs(src);
-      if(window.__afrSameUrl(audio.src||'',rowSrcAbs)){if(audio.paused){audio.play().catch(()=>{});setButtonState(btn,true);}else{audio.pause();setButtonState(btn,false);}return;}
-      resetAllButtons(btn);audio.src=rowSrcAbs;audio.currentTime=0;document.dispatchEvent(new CustomEvent('np:trackchange',{detail:{title,src:rowSrcAbs}}));audio.play().then(()=>setButtonState(btn,true)).catch(()=>setButtonState(btn,false));
+  /* ============================================================
+     CONFIG — Update these paths to match your actual files
+     ============================================================ */
+  const CONFIG = {
+    mp3: '/testpress.mp3',       // MP3 in root folder
+    wav: '/testpress.wav',       // WAV in root folder
+    artistName: 'LT Drifta',
+    releaseName: 'TEST PRESS',
+    // Stripe checkout links per format
+    stripeDigital:  'https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06',
+    stripeCassette: 'https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06',
+    // Stripe will redirect back with ?session_id=... on success
+    // Set your Stripe success_url to: https://yoursite.com/testpress.html?purchase=success
+  };
+
+  /* ============================================================
+     AUDIO ENGINE
+     ============================================================ */
+  const audio = new Audio();
+  audio.preload = 'metadata';
+  audio.src = CONFIG.mp3;
+  audio.volume = 0.8;
+
+  const fmt = (sec) => {
+    if (!isFinite(sec)) return '0:00';
+    const s = Math.max(0, Math.floor(sec));
+    return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
+  };
+
+  /* ============================================================
+     WAVEFORM BARS
+     ============================================================ */
+  (function buildWaveform() {
+    const container = document.getElementById('waveform');
+    const barCount = 48;
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'wv-bar';
+      const h = 6 + Math.random() * 26;
+      bar.style.height = h + 'px';
+      bar.style.animationDelay = (Math.random() * 1.4).toFixed(2) + 's';
+      bar.style.animationDuration = (1.0 + Math.random() * 0.8).toFixed(2) + 's';
+      container.appendChild(bar);
+    }
+  })();
+
+  /* ============================================================
+     INLINE PLAYER
+     ============================================================ */
+  (function() {
+    const playBtn = document.getElementById('ipPlay');
+    const playIcon = document.getElementById('ipPlayIcon');
+    const seek = document.getElementById('ipSeek');
+    const elapsed = document.getElementById('ipElapsed');
+    const remaining = document.getElementById('ipRemaining');
+    const volSlider = document.getElementById('ipVolume');
+    const trackName = document.getElementById('ipTrackName');
+    const waveform = document.getElementById('waveform');
+    const trackDur = document.getElementById('trackDuration');
+
+    const playSVG = '<path d="M8 5v14l11-7z"/>';
+    const pauseSVG = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+
+    function setPlaying(playing) {
+      playIcon.innerHTML = playing ? pauseSVG : playSVG;
+      waveform.classList.toggle('active', playing);
+      // Sync tracklist button
+      document.querySelectorAll('.play-btn').forEach(b => {
+        b.classList.toggle('is-playing', playing);
+        b.setAttribute('aria-pressed', playing ? 'true' : 'false');
+      });
+      // Highlight active track row
+      document.querySelectorAll('.track-row').forEach(r => r.classList.toggle('is-active', playing));
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) { audio.play().catch(() => {}); }
+      else { audio.pause(); }
+    });
+
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('ended', () => setPlaying(false));
+
+    audio.addEventListener('loadedmetadata', () => {
+      seek.max = audio.duration;
+      trackDur.textContent = fmt(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (!isFinite(audio.duration)) return;
+      seek.max = audio.duration;
+      seek.value = audio.currentTime;
+      elapsed.textContent = fmt(audio.currentTime);
+      remaining.textContent = '-' + fmt(audio.duration - audio.currentTime);
+    });
+
+    seek.addEventListener('input', () => {
+      audio.currentTime = parseFloat(seek.value || 0);
+    });
+
+    volSlider.addEventListener('input', () => {
+      audio.volume = parseFloat(volSlider.value || 0.8);
+    });
+  })();
+
+  /* ============================================================
+     TRACKLIST PLAY BUTTONS
+     ============================================================ */
+  document.querySelectorAll('.track-row[data-src]').forEach(row => {
+    const btn = row.querySelector('.play-btn');
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (audio.paused) { audio.play().catch(() => {}); }
+      else { audio.pause(); }
+    });
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.play-btn')) return;
+      if (audio.paused) { audio.play().catch(() => {}); }
+      else { audio.pause(); }
     });
   });
-})();
-(function(){
-  const bar=document.getElementById('nowPlaying'),playB=document.getElementById('npPlay'),closeB=document.getElementById('npClose'),seek=document.getElementById('npSeek'),tEl=document.getElementById('npElapsed'),tRem=document.getElementById('npRemaining'),title=document.getElementById('npTitle'); let audio=null;
-  const playSVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',pauseSVG='<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
-  function fmt(sec){if(!isFinite(sec))return'0:00';const s=Math.max(0,Math.floor(sec));const m=Math.floor(s/60);const r=s%60;return m+':'+(r<10?'0'+r:r);}
-  function setIcons(playing){playB.innerHTML=playing?pauseSVG:playSVG;} function updateUI(){if(!audio)return;if(audio.duration){seek.max=audio.duration;seek.value=audio.currentTime;tEl.textContent=fmt(audio.currentTime);tRem.textContent='-'+fmt(audio.duration-audio.currentTime);}}
-  function bindAudio(a){if(!a)return;audio=a;audio.addEventListener('play',()=>{bar.classList.add('show');setIcons(true);});audio.addEventListener('pause',()=>setIcons(false));audio.addEventListener('ended',()=>setIcons(false));audio.addEventListener('timeupdate',updateUI);audio.addEventListener('loadedmetadata',updateUI);playB.addEventListener('click',()=>{if(audio.paused)audio.play().catch(()=>{});else audio.pause();});closeB.addEventListener('click',()=>{bar.classList.remove('show');if(!audio.paused)audio.pause();});seek.addEventListener('input',()=>{audio.currentTime=parseFloat(seek.value||0);updateUI();});}
-  if(window.__player)bindAudio(window.__player);else document.addEventListener('np:ready',()=>bindAudio(window.__player),{once:true});
-  document.addEventListener('np:trackchange',e=>{title.textContent=e.detail?.title||'—';});
-})();
-/* Stripe session */
-document.getElementById('buyDigital')?.addEventListener('click',(e)=>{const a=e.currentTarget;sessionStorage.setItem('afr_download',JSON.stringify({wav:a.dataset.wav||'',name:a.dataset.name||'download'}));});
-(function(){const f=document.getElementById('signupPageField');if(f)f.value=location.href;})();
-/* Fade */
-const observer=new IntersectionObserver((entries)=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}}},{threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+
+  /* ============================================================
+     VARIANT / PRICING
+     ============================================================ */
+  (function() {
+    const variant = document.getElementById('variant');
+    const priceText = document.getElementById('priceText');
+    const priceContent = document.getElementById('priceContent');
+    const buyBtn = document.getElementById('buyBtn');
+
+    function update() {
+      const isCassette = variant.value === 'cassette';
+      const price = isCassette ? 9.98 : 0.98;
+      const label = isCassette ? 'Cassette' : 'Digital';
+      const link = isCassette ? CONFIG.stripeCassette : CONFIG.stripeDigital;
+      priceText.textContent = '$' + price.toFixed(2);
+      priceContent.setAttribute('content', price.toFixed(2));
+      buyBtn.textContent = `Buy ${label} — $${price.toFixed(2)}`;
+      buyBtn.href = link;
+    }
+
+    variant.addEventListener('change', update);
+    update();
+  })();
+
+  /* ============================================================
+     QUANTITY
+     ============================================================ */
+  (function() {
+    const q = document.getElementById('qty');
+    document.getElementById('minus')?.addEventListener('click', () => { q.value = Math.max(1, parseInt(q.value || '1', 10) - 1); });
+    document.getElementById('plus')?.addEventListener('click', () => { q.value = parseInt(q.value || '1', 10) + 1; });
+  })();
+
+  /* ============================================================
+     STRIPE PURCHASE FLOW
+     When user clicks Buy, they go to Stripe.
+     Configure Stripe success_url to redirect back to:
+       https://yoursite.com/testpress.html?purchase=success
+
+     On return, we show the download modal.
+     ============================================================ */
+  (function() {
+    const modal = document.getElementById('purchaseModal');
+    const closeBtn = document.getElementById('modalClose');
+    const dismissBtn = document.getElementById('modalDismiss');
+
+    function showModal() {
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function hideModal() {
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+      // Clean up URL
+      const url = new URL(window.location);
+      url.searchParams.delete('purchase');
+      url.searchParams.delete('session_id');
+      window.history.replaceState({}, '', url);
+    }
+
+    closeBtn.addEventListener('click', hideModal);
+    dismissBtn.addEventListener('click', hideModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+
+    // Check URL params on load
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('purchase') === 'success' || params.has('session_id')) {
+      // Small delay so page renders first
+      setTimeout(showModal, 600);
+    }
+
+    // Also store intent in sessionStorage when clicking buy
+    document.getElementById('buyBtn')?.addEventListener('click', () => {
+      sessionStorage.setItem('afr_pending_purchase', JSON.stringify({
+        mp3: CONFIG.mp3,
+        wav: CONFIG.wav,
+        name: CONFIG.artistName + ' - ' + CONFIG.releaseName
+      }));
+    });
+  })();
+
+  /* ============================================================
+     REDEEM CODES
+     ============================================================ */
+  const CODE_BANK = new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V','AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K','AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S','AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y','AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F','AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L','AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R','AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X','AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D'].map(c => c.toUpperCase()));
+
+  (function() {
+    const input = document.getElementById('redeemCode');
+    const btn = document.getElementById('redeemBtn');
+    const status = document.getElementById('redeemStatus');
+    const links = document.getElementById('redeemDownloads');
+    if (!input || !btn) return;
+
+    const USED = new Set(JSON.parse(localStorage.getItem('afr_used_codes_v1') || '[]'));
+    const saveUsed = () => localStorage.setItem('afr_used_codes_v1', JSON.stringify([...USED]));
+
+    async function forceDownload(url, filename) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const blob = await res.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+      } catch (e) {
+        window.location.href = url;
+      }
+    }
+
+    async function redeem() {
+      const code = (input.value || '').trim().toUpperCase();
+      links.classList.add('hidden');
+      status.textContent = '';
+
+      if (!code) { status.textContent = 'Enter your code.'; return; }
+      if (USED.has(code)) { status.textContent = 'Code already used.'; return; }
+      if (!CODE_BANK.has(code)) { status.textContent = 'Invalid code.'; return; }
+
+      USED.add(code); saveUsed();
+      status.textContent = 'Code accepted — starting download...';
+
+      try {
+        await forceDownload(CONFIG.mp3, `${CONFIG.artistName} - ${CONFIG.releaseName}.mp3`);
+        links.classList.remove('hidden');
+        status.textContent = 'Download started. WAV also available below.';
+      } catch (e) {
+        status.textContent = 'Download failed. Use the buttons below.';
+        links.classList.remove('hidden');
+      }
+    }
+
+    btn.addEventListener('click', redeem);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') redeem(); });
+  })();
+
+  /* ============================================================
+     TABS
+     ============================================================ */
+  (function() {
+    const tabs = document.getElementById('tabs');
+    if (!tabs) return;
+    const btns = tabs.querySelectorAll('[role="tab"]');
+    const panels = tabs.querySelectorAll('.tab-panel');
+    btns.forEach(btn => btn.addEventListener('click', () => {
+      btns.forEach(b => b.setAttribute('aria-selected', 'false'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('active');
+    }));
+  })();
+
+  /* ============================================================
+     GALLERY ZOOM
+     ============================================================ */
+  (function() {
+    const hero = document.getElementById('heroImg');
+    const zoom = document.createElement('div');
+    zoom.className = 'zoom';
+    zoom.innerHTML = '<button class="zoom-close" aria-label="Close">×</button><img alt="Zoomed" />';
+    document.body.appendChild(zoom);
+    hero?.addEventListener('click', () => { zoom.style.display = 'flex'; zoom.querySelector('img').src = hero.src; });
+    zoom.addEventListener('click', (e) => { if (e.target.tagName !== 'IMG') zoom.style.display = 'none'; });
+    zoom.querySelector('button').addEventListener('click', () => zoom.style.display = 'none');
+  })();
+
+  /* ============================================================
+     FADE-IN OBSERVER
+     ============================================================ */
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* Signup page field */
+  (function() { const f = document.getElementById('signupPageField'); if (f) f.value = location.href; })();
   </script>
 </body>
 </html>
