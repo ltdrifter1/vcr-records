@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Future Boy — LT Drifta · VCR Records</title>
+  <meta name="description" content="Future Boy by LT Drifta — 6-track Digital LP. Cassette and digital. VCR Records."/>
+  <meta name="theme-color" content="#000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <style>
+    :root{
+      --f:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',system-ui,sans-serif;
+      --bg:#000;--e1:#111;--e2:#1a1a1a;--e3:#222;
+      --w:#fff;--w90:rgba(255,255,255,.9);--w70:rgba(255,255,255,.7);--w50:rgba(255,255,255,.5);
+      --w30:rgba(255,255,255,.3);--w15:rgba(255,255,255,.15);--w10:rgba(255,255,255,.1);--w06:rgba(255,255,255,.06);--w03:rgba(255,255,255,.03);
+      --sep:rgba(255,255,255,.08);--sep2:rgba(255,255,255,.12);
+      --glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.04);
+      --blur:blur(40px) saturate(160%);--blur2:blur(24px) saturate(140%);
+      --r-xs:8px;--r-sm:12px;--r-md:16px;--r-lg:22px;--r-xl:28px;
+      --max:940px;--sb:env(safe-area-inset-bottom,0px);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--f);background:var(--bg);color:var(--w);line-height:1.47;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+    body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 30% 0%,rgba(255,255,255,.03),transparent 50%),radial-gradient(ellipse at 70% 100%,rgba(255,255,255,.02),transparent 50%);pointer-events:none;z-index:0}
+    img{max-width:100%;display:block}a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:none;background:none}
+    .w{width:min(calc(100% - 40px),var(--max));margin:0 auto;position:relative;z-index:1}
+
+    .nb{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.7);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:.5px solid var(--sep)}
+    .nb-i{height:48px;display:flex;align-items:center;justify-content:space-between}
+    .nb-bk{display:flex;align-items:center;gap:4px;color:var(--w70);font-size:17px;font-weight:400;transition:opacity .15s}.nb-bk:active{opacity:.5}
+    .nb-bk svg{width:12px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .nb-t{font-size:17px;font-weight:600;color:var(--w90);position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
+    .nb-r{display:flex;gap:16px}.nb-r a{font-size:13px;font-weight:500;color:var(--w50);transition:color .15s}.nb-r a:hover{color:var(--w)}
+    @media(max-width:640px){.nb-r{display:none}.nb-t{position:static;transform:none}}
+
+    .gp{background:var(--glass);backdrop-filter:var(--blur2);-webkit-backdrop-filter:var(--blur2);border:1px solid var(--sep);border-radius:var(--r-lg);position:relative;overflow:hidden}
+    .gp::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(160deg,rgba(255,255,255,.15),rgba(255,255,255,.02) 40%,rgba(255,255,255,.06) 80%,rgba(255,255,255,.01));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+    .ah{padding:28px 0 0;display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start}
+    @media(max-width:720px){.ah{grid-template-columns:1fr;gap:22px;justify-items:center;text-align:center}.ah .mc{align-items:center}}
+    .aw{width:280px;height:280px;border-radius:var(--r-md);overflow:hidden;position:relative;cursor:pointer;box-shadow:0 0 0 1px var(--sep),0 20px 60px rgba(0,0,0,.7);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+    .aw:hover{transform:scale(1.02);box-shadow:0 0 0 1px var(--sep2),0 28px 80px rgba(0,0,0,.8)}.aw:active{transform:scale(.98)}
+    .aw img{width:100%;height:100%;object-fit:cover}
+    @media(max-width:720px){.aw{width:240px;height:240px}}
+    .mc{display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:6px}
+    .mc-a{font-size:21px;font-weight:400;color:var(--w50);letter-spacing:-.02em}
+    .mc-t{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.12;margin-top:2px}
+    .mc-s{font-size:15px;color:var(--w50);margin-top:8px}
+    .mc-ch{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}@media(max-width:720px){.mc-ch{justify-content:center}}
+    .ch{font-size:11px;font-weight:600;letter-spacing:.02em;padding:5px 13px;border-radius:999px;border:1px solid var(--sep);color:var(--w50);background:var(--w03)}
+    .ch.ok{color:var(--w70);border-color:var(--w15);background:var(--w06)}
+
+    .as{padding:26px 0 0}
+    .ac{padding:26px}
+    .pr{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}.pr-b{font-size:34px;font-weight:700;letter-spacing:-.03em}.pr-t{font-size:15px;color:var(--w50)}
+    .fr{display:flex;gap:0;margin-bottom:20px;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--sep);background:var(--w03)}
+    .fp{flex:1;height:42px;font-family:var(--f);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;background:transparent;color:var(--w50);border:none;position:relative}
+    .fp+.fp{border-left:1px solid var(--sep)}.fp.on{background:var(--w);color:var(--bg)}.fp:not(.on):hover{background:var(--w06)}
+    .bb{width:100%;height:52px;border-radius:var(--r-sm);font-family:var(--f);font-size:17px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;background:var(--w);color:var(--bg);transition:transform .15s,opacity .15s}
+    .bb:hover{opacity:.92}.bb:active{transform:scale(.97);opacity:.85}
+    .bs{width:100%;height:46px;border-radius:var(--r-sm);font-family:var(--f);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--w06);color:var(--w70);border:1px solid var(--sep);margin-top:10px;transition:background .15s,transform .15s}
+    .bs:hover{background:var(--w10)}.bs:active{transform:scale(.97)}
+    .an{font-size:13px;color:var(--w30);margin-top:16px;text-align:center;line-height:1.5}
+
+    .ps{padding:28px 0 0}
+    .pc{padding:22px 26px}
+    .pl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--w50);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .pl::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--w50);animation:dot 2s ease-in-out infinite}
+    @keyframes dot{0%,100%{opacity:.25}50%{opacity:.9}}
+    .py{display:flex;align-items:center;gap:16px}
+    .pb{width:54px;height:54px;border-radius:50%;border:none;background:var(--w);display:grid;place-items:center;flex-shrink:0;transition:transform .15s,opacity .15s;box-shadow:0 4px 20px rgba(255,255,255,.06)}
+    .pb:hover{opacity:.88}.pb:active{transform:scale(.9)}
+    .pb svg{width:22px;height:22px;fill:var(--bg);margin-left:2px}
+    .pi{flex:1;min-width:0}.pi-t{font-size:16px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pi-s{font-size:13px;color:var(--w30);margin-top:2px}
+    .pg{display:flex;align-items:center;gap:8px;margin-top:18px}
+    .pt{font-size:11px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--w30);width:34px}.pt.r{text-align:right}
+    input[type="range"].sk{-webkit-appearance:none;appearance:none;flex:1;height:3px;background:var(--w10);border-radius:2px;outline:none;cursor:pointer}
+    input[type="range"].sk::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--w);border:none;box-shadow:0 1px 6px rgba(0,0,0,.5);cursor:pointer}
+    input[type="range"].sk::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--w);border:none;cursor:pointer}
+    .wv{display:flex;align-items:end;gap:1.5px;height:22px;margin-top:14px}.wv.on .wb{animation:wba 1.3s ease-in-out infinite}
+    .wb{width:2px;border-radius:1px;background:var(--w10);min-height:3px;transform-origin:bottom}.wv.on .wb{background:var(--w50)}
+    @keyframes wba{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:.8}}
+
+    .ls{padding:28px 0}.lh{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
+    .lc{background:var(--e1);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--sep)}
+    .tr{display:grid;grid-template-columns:2.6rem 1fr auto;gap:10px;align-items:center;padding:0 22px;min-height:54px;position:relative}
+    .tr+.tr::before{content:"";position:absolute;top:0;left:58px;right:22px;height:.5px;background:var(--sep)}
+    .tn{font-size:15px;color:var(--w30);font-variant-numeric:tabular-nums;text-align:center}
+    .tt{font-size:16px;font-weight:400;color:var(--w90);letter-spacing:-.01em}
+    .tt-feat{font-size:13px;color:var(--w30);font-weight:400}
+    .td{font-size:15px;color:var(--w30);font-variant-numeric:tabular-nums}
+
+    .rs{padding:0 0 32px}.rc{background:var(--e1);border-radius:var(--r-lg);padding:22px;border:1px solid var(--sep)}
+    .rt{font-size:15px;font-weight:600;margin-bottom:14px;color:var(--w70)}
+    .rr{display:flex;gap:8px}
+    .ri{flex:1;height:44px;border-radius:var(--r-sm);border:1px solid var(--sep);padding:0 14px;background:var(--w03);color:var(--w);font-family:var(--f);font-size:16px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;outline:none;transition:border-color .15s,background .15s}
+    .ri:focus{border-color:var(--w30);background:var(--w06)}.ri::placeholder{color:var(--w15);text-transform:none;font-weight:400;letter-spacing:0}
+    .rg{height:44px;padding:0 22px;border-radius:var(--r-sm);background:var(--w10);color:var(--w70);font-family:var(--f);font-size:15px;font-weight:600;border:none;cursor:pointer;transition:background .15s}.rg:hover{background:var(--w15)}
+    .rst{font-size:13px;color:var(--w30);margin-top:10px}.rdl{margin-top:10px;display:grid;gap:8px}.hidden{display:none!important}
+
+    .mbg{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(30px) saturate(120%);-webkit-backdrop-filter:blur(30px) saturate(120%);display:none;align-items:flex-end;justify-content:center;z-index:500;padding:0 8px calc(8px + var(--sb))}
+    .mbg.show{display:flex}@media(min-width:641px){.mbg{align-items:center;padding:20px}}
+    .msh{background:var(--e2);border:1px solid var(--sep);border-radius:var(--r-xl);width:100%;max-width:400px;padding:32px 24px calc(24px + var(--sb));text-align:center;animation:su .35s cubic-bezier(.32,.72,0,1)}
+    @media(min-width:641px){.msh{animation-name:ss;padding-bottom:28px}}
+    @keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}@keyframes ss{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+    .mha{width:36px;height:5px;border-radius:3px;background:var(--w15);margin:0 auto 22px}@media(min-width:641px){.mha{display:none}}
+    .mic{width:56px;height:56px;border-radius:50%;background:var(--w06);border:1px solid var(--w10);display:grid;place-items:center;margin:0 auto 18px}.mic svg{width:28px;height:28px;fill:var(--w)}
+    .msh h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+    .msh p{font-size:15px;color:var(--w50);margin-bottom:22px;line-height:1.5}
+    .cn{font-size:14px;color:var(--w50);padding:14px 16px;background:var(--w03);border:1px solid var(--sep);border-radius:var(--r-sm);margin-bottom:18px}
+    .ma{display:grid;gap:10px}.ma .bb{height:50px;font-size:16px}.ma .bs{margin-top:0;height:50px}
+
+    .sf{border-top:.5px solid var(--sep);padding:44px 0 calc(28px + var(--sb));position:relative;z-index:1}
+    .fg{display:grid;grid-template-columns:1fr 1fr;gap:40px}@media(max-width:640px){.fg{grid-template-columns:1fr;gap:28px}}
+    .fb{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--w70)}.ft{font-size:13px;color:var(--w30);line-height:1.55;max-width:320px}
+    .fso{display:flex;gap:8px;margin-top:16px}
+    .fso a{width:34px;height:34px;border-radius:50%;background:var(--w06);border:1px solid var(--sep);display:grid;place-items:center;color:var(--w30);transition:background .15s,color .15s}.fso a:hover{background:var(--w10);color:var(--w70)}
+    .fso svg{width:14px;height:14px;fill:currentColor}
+    .fsu{background:var(--e1);border:1px solid var(--sep);border-radius:var(--r-lg);overflow:hidden}.fsu .fsr{padding:14px 18px;border-top:.5px solid var(--sep)}.fsu .fsr:first-child{border-top:none}
+    .fst{font-size:16px;font-weight:700;color:var(--w70)}
+    .fsu input[type="email"]{width:100%;background:transparent;border:none;outline:none;color:var(--w);font-family:var(--f);font-size:15px;height:32px}.fsu input[type="email"]::placeholder{color:var(--w15)}
+    .fsu label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--w30)}.fsu input[type="checkbox"]{width:18px;height:18px;accent-color:var(--w)}
+    .fsb{width:100%;height:44px;background:var(--w);color:var(--bg);border:none;font-family:var(--f);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s}.fsb:hover{opacity:.88}
+    .fbo{margin-top:32px;padding-top:16px;border-top:.5px solid var(--sep);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--w15)}.fbo a{color:var(--w30);transition:color .15s}.fbo a:hover{color:var(--w70)}
+
+    .zo{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:300;cursor:zoom-out}.zo img{max-width:92vw;max-height:90vh;border-radius:var(--r-md)}
+    .fi{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}.fi.v{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+
+  <!-- MODAL -->
+  <div class="mbg" id="pm"><div class="msh"><div class="mha"></div><div class="mic"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><h2>You're all set</h2><p id="mm">Your full album is ready — 6 tracks in one download.</p><div id="mcn" class="cn hidden">Your cassette will ship from Cumberland, BC. Enjoy the digital version now.</div><div class="ma"><a class="bb" id="dlz" href="/future.zip" download="LT Drifta - Future Boy.zip"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Album</a><button class="bs" id="md">Done</button></div></div></div>
+
+  <!-- NAV -->
+  <header class="nb"><div class="w nb-i"><a href="index.html" class="nb-bk"><svg viewBox="0 0 12 20"><polyline points="10 2 2 10 10 18"/></svg>Releases</a><span class="nb-t">Future Boy</span><nav class="nb-r"><a href="index.html#artists">Artists</a><a href="index.html#about">About</a></nav></div></header>
+
+  <main><div class="w">
+
+    <section class="ah fi">
+      <div class="aw" id="abtn"><img id="hi" src="blank1400.png" alt="Future Boy artwork"/></div>
+      <div class="mc">
+        <div class="mc-a">LT Drifta</div>
+        <h1 class="mc-t">Future Boy</h1>
+        <div class="mc-s">Digital LP · 2026 · 6 Songs, 17 min</div>
+        <div class="mc-ch"><span class="ch ok">In Stock</span><span class="ch">VCR-0008</span><span class="ch">Digital + Cassette</span></div>
+      </div>
+    </section>
+
+    <section class="as fi" style="transition-delay:.06s">
+      <div class="ac gp">
+        <div class="pr"><span class="pr-b" id="ptx">$4.98</span><span class="pr-t" id="pla">Digital</span></div>
+        <div class="fr"><button class="fp on" id="fd">Digital</button><button class="fp" id="fc">Cassette</button></div>
+        <a class="bb" id="bbn" href="https://buy.stripe.com/eVq9AU0fd8s81Nu9c1frW0k" target="_blank" rel="noopener">Buy Digital — $4.98</a>
+        <a class="bs" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Also on Bandcamp</a>
+        <p class="an">Full album ZIP · All 6 tracks · Instant delivery</p>
+      </div>
+    </section>
+
+    <section class="ps fi" style="transition-delay:.1s">
+      <div class="pc gp">
+        <div class="pl">Album Preview</div>
+        <div class="py">
+          <button class="pb" id="pp" aria-label="Play preview"><svg viewBox="0 0 24 24" id="ppi"><path d="M8 5v14l11-7z"/></svg></button>
+          <div class="pi"><div class="pi-t">Future Boy — Preview</div><div class="pi-s">Listen before you buy</div></div>
+        </div>
+        <div class="pg"><span class="pt r" id="pe">0:00</span><input type="range" min="0" value="0" step=".01" class="sk" id="psk"/><span class="pt" id="prm">-0:00</span></div>
+        <div class="wv" id="wf"></div>
+      </div>
+    </section>
+
+    <section class="ls fi" style="transition-delay:.14s">
+      <div class="lh">Tracklist</div>
+      <div class="lc">
+        <div class="tr"><span class="tn">1</span><span class="tt">Temple Ball</span><span class="td">1:17</span></div>
+        <div class="tr"><span class="tn">2</span><span class="tt">Counting Signals</span><span class="td">3:03</span></div>
+        <div class="tr"><span class="tn">3</span><span class="tt">Escape from Industria <span class="tt-feat">ft. Tyler Daley</span></span><span class="td">5:15</span></div>
+        <div class="tr"><span class="tn">4</span><span class="tt">Love Supreme</span><span class="td">3:32</span></div>
+        <div class="tr"><span class="tn">5</span><span class="tt">Nu Saigon Nights</span><span class="td">1:04</span></div>
+        <div class="tr"><span class="tn">6</span><span class="tt">Without You</span><span class="td">3:18</span></div>
+      </div>
+    </section>
+
+    <section class="rs fi" style="transition-delay:.18s">
+      <div class="rc">
+        <div class="rt">Redeem a download code</div>
+        <div class="rr"><input class="ri" id="rci" type="text" placeholder="Enter code"/><button class="rg" id="rgb">Redeem</button></div>
+        <div id="rst" class="rst" role="status" aria-live="polite"></div>
+        <div id="rdl" class="rdl hidden"><a class="bb" href="/future.zip" download="LT Drifta - Future Boy.zip" style="height:44px;font-size:15px">Download Album</a></div>
+      </div>
+    </section>
+
+  </div></main>
+
+  <footer class="sf"><div class="w"><div class="fg"><div><div class="fb">VCR Records</div><p class="ft">Independent electronic music. Hip-hop, jungle, drum & bass, house, and experimental edits.</p><div class="fso"><a href="mailto:ltdrifta@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a><a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp"><svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg></a><a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg></a></div></div>
+  <form class="fsu" action="https://formspree.io/f/xdkwjzzr" method="POST" novalidate><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true"><div class="fsr"><div class="fst">Get new releases first</div></div><div class="fsr"><input type="email" name="email" placeholder="your@email.com" aria-label="Email" required/></div><div class="fsr"><label><input type="checkbox" name="consent" value="yes" required/>I agree to receive emails</label></div><input type="hidden" name="source" value="Future Boy page"><button class="fsb" type="submit">Subscribe</button></form></div>
+  <div class="fbo"><span>&copy; 2025 VCR Records</span><div style="display:flex;gap:14px;flex-wrap:wrap"><a href="#">Terms</a><a href="#">Privacy</a><a href="mailto:f_hastings@hotmail.com">Contact</a></div></div></div></footer>
+
+  <script>
+  const C={preview:'/future.mp3',zip:'/future.zip',sd:'https://buy.stripe.com/eVq9AU0fd8s81Nu9c1frW0k',sc:'https://buy.stripe.com/bJe7sMbXVgYEbo40FvfrW0l',pd:4.98,pc:9.98};
+  const a=new Audio();a.preload='metadata';a.src=C.preview;a.volume=.8;
+  const fm=s=>{if(!isFinite(s))return'0:00';const t=Math.max(0,Math.floor(s));return Math.floor(t/60)+':'+(t%60<10?'0':'')+(t%60)};
+
+  {const c=document.getElementById('wf');for(let i=0;i<64;i++){const b=document.createElement('div');b.className='wb';b.style.height=(3+Math.random()*19)+'px';b.style.animationDelay=(Math.random()*1.3).toFixed(2)+'s';b.style.animationDuration=(.9+Math.random()*.7).toFixed(2)+'s';c.appendChild(b)}}
+
+  {const b=document.getElementById('pp'),ic=document.getElementById('ppi'),sk=document.getElementById('psk'),el=document.getElementById('pe'),rm=document.getElementById('prm'),wf=document.getElementById('wf');
+  const pv='<path d="M8 5v14l11-7z"/>',pa='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  const st=p=>{ic.innerHTML=p?pa:pv;wf.classList.toggle('on',p)};
+  b.onclick=()=>{a.paused?a.play().catch(()=>{}):a.pause()};
+  a.onplay=()=>st(true);a.onpause=()=>st(false);a.onended=()=>st(false);
+  a.onloadedmetadata=()=>{sk.max=a.duration};
+  a.ontimeupdate=()=>{if(!isFinite(a.duration))return;sk.max=a.duration;sk.value=a.currentTime;el.textContent=fm(a.currentTime);rm.textContent='-'+fm(a.duration-a.currentTime)};
+  sk.oninput=()=>{a.currentTime=+sk.value}}
+
+  {const d=document.getElementById('fd'),c=document.getElementById('fc'),pt=document.getElementById('ptx'),pl=document.getElementById('pla'),bb=document.getElementById('bbn');
+  function u(f){const ic=f==='cassette';d.classList.toggle('on',!ic);c.classList.toggle('on',ic);const p=ic?C.pc:C.pd,l=ic?'Cassette':'Digital';pt.textContent='$'+p.toFixed(2);pl.textContent=l;bb.textContent=`Buy ${l} — $${p.toFixed(2)}`;bb.href=ic?C.sc:C.sd}
+  d.onclick=()=>u('digital');c.onclick=()=>u('cassette')}
+
+  {const m=document.getElementById('pm'),cn=document.getElementById('mcn'),mg=document.getElementById('mm'),ds=document.getElementById('md');
+  const sh=f=>{if(f==='cassette'){cn.classList.remove('hidden');mg.textContent='Your cassette is on its way. Full album download ready now.'}else{cn.classList.add('hidden');mg.textContent='Your full album is ready — 6 tracks in one download.'}m.classList.add('show');document.body.style.overflow='hidden'};
+  const hi=()=>{m.classList.remove('show');document.body.style.overflow='';const u=new URL(location);u.searchParams.delete('purchase');u.searchParams.delete('format');u.searchParams.delete('session_id');history.replaceState({},'',u)};
+  ds.onclick=hi;m.onclick=e=>{if(e.target===m)hi()};
+  const p=new URLSearchParams(location.search);if(p.get('purchase')==='success'||p.has('session_id'))setTimeout(()=>sh(p.get('format')||'digital'),500)}
+
+  {const CD=new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V','AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K','AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S','AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y','AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F','AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L','AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R','AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X','AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D']);
+  const inp=document.getElementById('rci'),btn=document.getElementById('rgb'),st=document.getElementById('rst'),dl=document.getElementById('rdl');
+  const U=new Set(JSON.parse(localStorage.getItem('afr_used_future')||'[]')),sv=()=>localStorage.setItem('afr_used_future',JSON.stringify([...U]));
+  function go(){const c=(inp.value||'').trim().toUpperCase();dl.classList.add('hidden');st.textContent='';if(!c){st.textContent='Enter your code.';return}if(U.has(c)){st.textContent='Code already used.';return}if(!CD.has(c)){st.textContent='Invalid code.';return}U.add(c);sv();st.textContent='Code accepted — download ready.';dl.classList.remove('hidden')}
+  btn.onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go()}}
+
+  {const i=document.getElementById('hi'),z=document.createElement('div');z.className='zo';z.innerHTML='<img alt="Zoomed"/>';document.body.appendChild(z);document.getElementById('abtn').onclick=()=>{z.style.display='flex';z.querySelector('img').src=i.src};z.onclick=()=>z.style.display='none'}
+
+  const ob=new IntersectionObserver(e=>{for(const x of e)if(x.isIntersecting){x.target.classList.add('v');ob.unobserve(x.target)}},{threshold:.06});
+  document.querySelectorAll('.fi').forEach(el=>ob.observe(el));
+  </script>
+</body>
+</html>
