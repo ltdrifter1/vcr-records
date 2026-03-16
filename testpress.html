@@ -233,7 +233,8 @@
         <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
       </div>
       <h2>Purchase Complete</h2>
-      <p>Thank you for supporting independent music. Your downloads are ready.</p>
+      <p id="modalMsg">Thank you for supporting independent music. Your downloads are ready.</p>
+      <p id="modalCassetteNote" class="hidden" style="font-size:0.82rem; color:#7a7365; margin-bottom:20px; padding:12px 16px; background:#faf8f4; border:1px solid #e2ddd2; border-radius:10px;">Your cassette will ship from Cumberland, BC. Here are your digital files in the meantime.</p>
       <div class="dl-grid">
         <a class="btn btn-dark" id="dlMp3Modal" href="/testpress.mp3" download="LT Drifta - TEST PRESS.mp3">
           Download MP3
@@ -333,7 +334,7 @@
             </div>
 
             <div class="buy-grid">
-              <a class="btn btn-gold" id="buyBtn" href="https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06" target="_blank" rel="noopener">
+              <a class="btn btn-gold" id="buyBtn" href="https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b" target="_blank" rel="noopener">
                 Buy Digital — $0.98
               </a>
               <a class="btn btn-bandcamp" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">
@@ -446,11 +447,10 @@
     wav: '/testpress.wav',       // WAV in root folder
     artistName: 'LT Drifta',
     releaseName: 'TEST PRESS',
-    // Stripe checkout links per format
-    stripeDigital:  'https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06',
-    stripeCassette: 'https://buy.stripe.com/14A5kE5zxaAg3VC87XfrW06',
-    // Stripe will redirect back with ?session_id=... on success
-    // Set your Stripe success_url to: https://yoursite.com/testpress.html?purchase=success
+    // Live Stripe Payment Links
+    stripeDigital:  'https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b',
+    stripeCassette: 'https://buy.stripe.com/dRm4gAbXVgYE4ZGfApfrW0c',
+    // Stripe redirects back to: https://www.vcrrecords.com/testpress?purchase=success&format=digital|cassette
   };
 
   /* ============================================================
@@ -597,18 +597,27 @@
 
   /* ============================================================
      STRIPE PURCHASE FLOW
-     When user clicks Buy, they go to Stripe.
-     Configure Stripe success_url to redirect back to:
-       https://yoursite.com/testpress.html?purchase=success
-
+     Stripe Payment Links redirect back to:
+       https://www.vcrrecords.com/testpress?purchase=success&format=digital
+       https://www.vcrrecords.com/testpress?purchase=success&format=cassette
      On return, we show the download modal.
      ============================================================ */
   (function() {
     const modal = document.getElementById('purchaseModal');
     const closeBtn = document.getElementById('modalClose');
     const dismissBtn = document.getElementById('modalDismiss');
+    const cassetteNote = document.getElementById('modalCassetteNote');
+    const modalMsg = document.getElementById('modalMsg');
 
-    function showModal() {
+    function showModal(format) {
+      // Show cassette shipping note if cassette purchase
+      if (format === 'cassette') {
+        cassetteNote.classList.remove('hidden');
+        modalMsg.textContent = 'Your cassette is on its way. Here are your digital files — enjoy the music now.';
+      } else {
+        cassetteNote.classList.add('hidden');
+        modalMsg.textContent = 'Thank you for supporting independent music. Your downloads are ready.';
+      }
       modal.classList.add('show');
       document.body.style.overflow = 'hidden';
     }
@@ -618,6 +627,7 @@
       // Clean up URL
       const url = new URL(window.location);
       url.searchParams.delete('purchase');
+      url.searchParams.delete('format');
       url.searchParams.delete('session_id');
       window.history.replaceState({}, '', url);
     }
@@ -626,11 +636,11 @@
     dismissBtn.addEventListener('click', hideModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
 
-    // Check URL params on load
+    // Check URL params on load — Stripe redirects back here
     const params = new URLSearchParams(window.location.search);
     if (params.get('purchase') === 'success' || params.has('session_id')) {
-      // Small delay so page renders first
-      setTimeout(showModal, 600);
+      const format = params.get('format') || 'digital';
+      setTimeout(() => showModal(format), 600);
     }
 
     // Also store intent in sessionStorage when clicking buy
