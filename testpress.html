@@ -26,7 +26,6 @@
       --danger: #ff9fb3;
       --shadow: 0 18px 60px rgba(0,0,0,0.38);
       --radius: 26px;
-      --radius-sm: 18px;
       --max: 1280px;
       --nav-h: 76px;
       --blur: 18px;
@@ -35,6 +34,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
       min-height: 100vh;
       font-family: var(--font);
@@ -57,6 +57,7 @@
       filter: blur(90px);
       opacity: 0.6;
     }
+
     body::before {
       width: 28rem;
       height: 28rem;
@@ -64,6 +65,7 @@
       left: -8rem;
       background: rgba(138,180,255,0.16);
     }
+
     body::after {
       width: 24rem;
       height: 24rem;
@@ -120,6 +122,7 @@
       z-index: 50;
       padding-top: 14px;
     }
+
     .nav {
       min-height: var(--nav-h);
       border-radius: 999px;
@@ -129,6 +132,7 @@
       gap: 20px;
       padding: 0 18px 0 24px;
     }
+
     .brand {
       display: flex;
       align-items: center;
@@ -139,6 +143,7 @@
       font-size: 0.8rem;
       white-space: nowrap;
     }
+
     .brand-mark {
       width: 34px;
       height: 34px;
@@ -150,11 +155,13 @@
       background: linear-gradient(135deg, rgba(138,180,255,0.32), rgba(115,255,209,0.16));
       border: 1px solid rgba(255,255,255,0.16);
     }
+
     .nav-links {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
+
     .nav-links a {
       padding: 10px 14px;
       border-radius: 999px;
@@ -165,6 +172,7 @@
       letter-spacing: 0.08em;
       transition: .2s ease;
     }
+
     .nav-links a:hover {
       color: var(--text);
       background: rgba(255,255,255,0.04);
@@ -174,12 +182,14 @@
     .hero {
       padding: 30px 0 20px;
     }
+
     .hero-shell {
       position: relative;
       overflow: hidden;
       border-radius: 34px;
       padding: 24px;
     }
+
     .hero-shell::before {
       content: "";
       position: absolute;
@@ -189,6 +199,7 @@
         radial-gradient(circle at 18% 22%, rgba(138,180,255,0.18), transparent 0 26%),
         radial-gradient(circle at 86% 14%, rgba(115,255,209,0.12), transparent 0 24%);
     }
+
     .hero-grid {
       position: relative;
       z-index: 1;
@@ -197,6 +208,7 @@
       gap: 22px;
       align-items: start;
     }
+
     @media (max-width: 960px) {
       .hero-grid { grid-template-columns: 1fr; }
     }
@@ -223,6 +235,7 @@
       text-transform: uppercase;
       margin-bottom: 16px;
     }
+
     .dot {
       width: 7px;
       height: 7px;
@@ -241,11 +254,13 @@
       background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 30px 80px rgba(0,0,0,0.35);
     }
+
     .artwork-shell img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .floating-badge {
       position: absolute;
       top: 16px;
@@ -260,6 +275,7 @@
       letter-spacing: 0.14em;
       z-index: 2;
     }
+
     .scan-line,
     .artwork-glow,
     .artwork-frame {
@@ -267,16 +283,19 @@
       inset: 0;
       pointer-events: none;
     }
+
     .scan-line {
       background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px);
       mix-blend-mode: screen;
       opacity: .2;
     }
+
     .artwork-glow {
       background:
         radial-gradient(circle at 50% 0%, rgba(138,180,255,0.12), transparent 0 42%),
         radial-gradient(circle at 100% 100%, rgba(115,255,209,0.1), transparent 0 36%);
     }
+
     .artwork-frame {
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 28px;
@@ -289,6 +308,7 @@
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.09);
     }
+
     .player-head {
       display: flex;
       align-items: center;
@@ -296,12 +316,14 @@
       gap: 12px;
       margin-bottom: 14px;
     }
+
     .player-kicker {
       font-size: 0.72rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--soft);
     }
+
     .now-playing {
       font-size: 0.95rem;
       font-weight: 700;
@@ -311,21 +333,22 @@
       text-overflow: ellipsis;
       text-align: right;
     }
+
     .controls {
       display: grid;
       grid-template-columns: auto 1fr auto;
       gap: 16px;
       align-items: center;
     }
+
     @media (max-width: 640px) {
       .controls {
         grid-template-columns: auto 1fr;
         gap: 14px;
       }
-      .volume-wrap {
-        grid-column: 1 / -1;
-      }
+      .volume-wrap { grid-column: 1 / -1; }
     }
+
     .play-main {
       width: 60px;
       height: 60px;
@@ -337,16 +360,20 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 12px 30px rgba(0,0,0,0.3);
       transition: transform .18s ease;
     }
+
     .play-main:hover { transform: translateY(-1px) scale(1.02); }
+
     .play-main svg {
       width: 20px;
       height: 20px;
       fill: #fff;
       margin-left: 2px;
     }
+
     .play-main.is-playing svg { margin-left: 0; }
 
     .timeline-wrap { display: grid; gap: 10px; }
+
     .time-row {
       display: flex;
       justify-content: space-between;
@@ -355,12 +382,14 @@
       color: var(--soft);
       font-variant-numeric: tabular-nums;
     }
+
     .player-status {
       min-height: 18px;
       margin-top: 10px;
       font-size: 0.76rem;
       color: var(--soft);
     }
+
     .player-status.error { color: var(--danger); }
 
     input[type="range"] {
@@ -369,11 +398,13 @@
       width: 100%;
       background: transparent;
     }
+
     input[type="range"]::-webkit-slider-runnable-track {
       height: 6px;
       border-radius: 999px;
       background: rgba(255,255,255,0.14);
     }
+
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 16px;
@@ -384,11 +415,13 @@
       background: #fff;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
+
     input[type="range"]::-moz-range-track {
       height: 6px;
       border-radius: 999px;
       background: rgba(255,255,255,0.14);
     }
+
     input[type="range"]::-moz-range-thumb {
       width: 16px;
       height: 16px;
@@ -403,6 +436,7 @@
       gap: 10px;
       min-width: 120px;
     }
+
     .volume-wrap svg {
       width: 16px;
       height: 16px;
@@ -417,6 +451,7 @@
       height: 30px;
       margin-top: 12px;
     }
+
     .wave span {
       display: block;
       width: 3px;
@@ -426,10 +461,12 @@
       opacity: .32;
       transform-origin: bottom;
     }
+
     .wave.active span {
       animation: pulse 1.2s ease-in-out infinite;
       opacity: .92;
     }
+
     @keyframes pulse {
       0%,100% { transform: scaleY(.3); }
       50% { transform: scaleY(1); }
@@ -449,6 +486,7 @@
       letter-spacing: 0.12em;
       margin-bottom: 16px;
     }
+
     .artist {
       font-size: 0.8rem;
       text-transform: uppercase;
@@ -456,6 +494,7 @@
       color: var(--soft);
       margin-bottom: 8px;
     }
+
     .title {
       font-size: clamp(2.8rem, 7vw, 5rem);
       line-height: 0.92;
@@ -463,11 +502,13 @@
       font-weight: 900;
       margin-bottom: 14px;
     }
+
     .title .outline {
       display: block;
       color: transparent;
       -webkit-text-stroke: 1px rgba(255,255,255,0.2);
     }
+
     .lede {
       color: var(--muted);
       font-size: 1rem;
@@ -475,12 +516,14 @@
       max-width: 30ch;
       margin-bottom: 18px;
     }
+
     .meta-strip {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 18px;
     }
+
     .meta-pill {
       padding: 10px 12px;
       border-radius: 999px;
@@ -500,6 +543,7 @@
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
     }
+
     .price-row {
       display: flex;
       align-items: center;
@@ -507,24 +551,28 @@
       gap: 12px;
       flex-wrap: wrap;
     }
+
     .price-cluster {
       display: flex;
       align-items: baseline;
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .price {
       font-size: 2.1rem;
       font-weight: 900;
       line-height: 1;
       letter-spacing: -0.04em;
     }
+
     .price-note {
       font-size: 0.8rem;
       color: var(--soft);
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
+
     .status-pill {
       display: inline-flex;
       align-items: center;
@@ -546,10 +594,13 @@
       gap: 12px;
       align-items: end;
     }
+
     @media (max-width: 560px) {
       .controls-grid { grid-template-columns: 1fr; }
     }
+
     .field { display: grid; gap: 8px; }
+
     .label {
       font-size: 0.7rem;
       letter-spacing: 0.14em;
@@ -558,6 +609,7 @@
     }
 
     .format-picker { position: relative; }
+
     .format-trigger {
       width: 100%;
       min-height: 50px;
@@ -575,6 +627,7 @@
       font-weight: 600;
       position: relative;
     }
+
     .format-trigger::after {
       content: "";
       position: absolute;
@@ -588,9 +641,11 @@
       transition: transform .18s ease;
       pointer-events: none;
     }
+
     .format-picker.open .format-trigger::after {
       transform: translateY(-35%) rotate(-135deg);
     }
+
     .format-menu {
       position: absolute;
       inset-inline: 0;
@@ -604,7 +659,9 @@
       box-shadow: 0 18px 40px rgba(0,0,0,0.38);
       z-index: 20;
     }
+
     .format-menu[hidden] { display: none; }
+
     .format-option {
       width: 100%;
       min-height: 44px;
@@ -621,11 +678,13 @@
       font-weight: 600;
       text-align: left;
     }
+
     .format-option:hover,
     .format-option.is-selected {
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.08);
     }
+
     .format-option small {
       color: var(--soft);
       font-size: 0.78rem;
@@ -644,6 +703,7 @@
       border: 1px solid rgba(255,255,255,0.1);
       background: rgba(7,10,18,0.9);
     }
+
     .qty-wrap button {
       width: 36px;
       height: 36px;
@@ -653,6 +713,7 @@
       color: #fff;
       font-size: 1rem;
     }
+
     .qty {
       width: 52px;
       text-align: center;
@@ -661,6 +722,7 @@
       color: #fff;
       font-weight: 700;
     }
+
     .qty:focus { outline: none; }
 
     .cta-grid {
@@ -668,9 +730,11 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 10px;
     }
+
     @media (max-width: 560px) {
       .cta-grid { grid-template-columns: 1fr; }
     }
+
     .btn {
       min-height: 52px;
       border-radius: 16px;
@@ -686,32 +750,36 @@
       text-transform: uppercase;
       transition: transform .18s ease, background .18s ease;
     }
+
     .btn:hover { transform: translateY(-1px); }
+
     .btn-primary {
       background: linear-gradient(135deg, rgba(138,180,255,0.28), rgba(115,255,209,0.22));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 30px rgba(36,68,122,0.2);
     }
+
     .btn-secondary {
       background: rgba(255,255,255,0.04);
       color: rgba(245,247,251,0.8);
       border-color: rgba(255,255,255,0.08);
       white-space: nowrap;
     }
+
     .micro-note {
       color: var(--soft);
       font-size: 0.76rem;
       line-height: 1.5;
     }
 
-    .content {
-      padding: 0 0 52px;
-    }
+    .content { padding: 0 0 52px; }
+
     .content-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.15fr) minmax(280px, 360px);
       gap: 22px;
       align-items: start;
     }
+
     @media (max-width: 960px) {
       .content-grid { grid-template-columns: 1fr; }
     }
@@ -724,12 +792,14 @@
       flex-wrap: wrap;
       margin-bottom: 14px;
     }
+
     .section-title {
       font-size: 0.84rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 800;
     }
+
     .section-sub {
       font-size: 0.76rem;
       color: var(--soft);
@@ -738,6 +808,7 @@
     }
 
     .tracklist { display: grid; gap: 10px; }
+
     .track-row {
       display: grid;
       grid-template-columns: 44px 1fr auto auto;
@@ -750,15 +821,18 @@
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
       cursor: pointer;
     }
+
     .track-row:hover {
       transform: translateY(-1px);
       background: rgba(255,255,255,0.06);
       border-color: rgba(255,255,255,0.14);
     }
+
     .track-row.active {
       background: linear-gradient(135deg, rgba(138,180,255,0.1), rgba(115,255,209,0.08));
       border-color: rgba(138,180,255,0.26);
     }
+
     .track-no {
       width: 36px;
       height: 36px;
@@ -770,7 +844,9 @@
       font-weight: 800;
       font-size: 0.78rem;
     }
+
     .track-main { min-width: 0; }
+
     .track-name {
       font-size: 0.96rem;
       font-weight: 700;
@@ -778,11 +854,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .track-dur {
       font-size: 0.86rem;
       color: var(--muted);
       font-variant-numeric: tabular-nums;
     }
+
     .track-play {
       width: 38px;
       height: 38px;
@@ -792,16 +870,19 @@
       display: grid;
       place-items: center;
     }
+
     .track-play svg {
       width: 14px;
       height: 14px;
       fill: #fff;
       margin-left: 1px;
     }
+
     .track-row.active .track-play {
       background: rgba(255,255,255,0.14);
       border-color: rgba(255,255,255,0.22);
     }
+
     @media (max-width: 640px) {
       .track-row {
         grid-template-columns: 44px 1fr auto;
@@ -816,12 +897,14 @@
     }
 
     .stack { display: grid; gap: 16px; }
+
     .mini-block {
       padding: 14px;
       border-radius: 18px;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
     }
+
     .mini-title {
       font-size: 0.76rem;
       font-weight: 800;
@@ -829,6 +912,7 @@
       letter-spacing: 0.14em;
       margin-bottom: 6px;
     }
+
     .mini-text {
       font-size: 0.9rem;
       line-height: 1.65;
@@ -836,15 +920,18 @@
     }
 
     .redeem { display: grid; gap: 12px; }
+
     .redeem-row {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 10px;
       align-items: center;
     }
+
     @media (max-width: 480px) {
       .redeem-row { grid-template-columns: 1fr; }
     }
+
     .redeem input {
       height: 48px;
       border-radius: 14px;
@@ -856,12 +943,12 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
+
     .downloads { display: none; gap: 8px; }
     .downloads.show { display: grid; }
 
-    .footer {
-      padding: 0 0 36px;
-    }
+    .footer { padding: 0 0 36px; }
+
     .footer-card {
       border-radius: 28px;
       padding: 20px 22px;
@@ -871,22 +958,26 @@
       gap: 18px;
       flex-wrap: wrap;
     }
+
     .footer-brand {
       font-size: 0.82rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.18em;
     }
+
     .footer-copy {
       color: var(--soft);
       font-size: 0.8rem;
       margin-top: 4px;
     }
+
     .footer-links {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
+
     .footer-links a {
       padding: 10px 14px;
       border-radius: 999px;
@@ -908,13 +999,16 @@
       background: rgba(3,5,10,0.68);
       backdrop-filter: blur(16px);
     }
+
     .modal-overlay.show { display: grid; }
+
     .modal {
       width: min(100%, 520px);
       padding: 24px;
       border-radius: 30px;
       position: relative;
     }
+
     .close-modal {
       position: absolute;
       top: 16px;
@@ -927,6 +1021,7 @@
       color: #fff;
       font-size: 1.1rem;
     }
+
     .modal-icon {
       width: 64px;
       height: 64px;
@@ -937,13 +1032,16 @@
       background: linear-gradient(135deg, rgba(138,180,255,0.22), rgba(115,255,209,0.18));
       border: 1px solid rgba(255,255,255,0.16);
     }
+
     .modal-icon svg { width: 28px; height: 28px; fill: #fff; }
+
     .modal h2 {
       font-size: 1.7rem;
       line-height: 1;
       letter-spacing: -0.04em;
       margin-bottom: 10px;
     }
+
     .modal p {
       color: var(--muted);
       line-height: 1.7;
@@ -955,6 +1053,7 @@
       transform: translateY(16px);
       transition: opacity .7s ease, transform .7s ease;
     }
+
     .fade-up.visible {
       opacity: 1;
       transform: translateY(0);
@@ -967,9 +1066,9 @@
 
   <div class="modal-overlay" id="purchaseModal" aria-hidden="true">
     <div class="modal glass">
-      <button class="close-modal" id="closeModal" aria-label="Close">×</button>
+      <button class="close-modal" id="closeModal" type="button" aria-label="Close">×</button>
       <div class="modal-icon">
-        <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
       </div>
       <h2>Purchase complete</h2>
       <p id="modalCopy">Thanks for supporting independent music. Your download is ready.</p>
@@ -999,6 +1098,7 @@
           <div class="hero-grid">
             <section class="left-stack">
               <div class="eyebrow-pill"><span class="dot"></span> LT Drifta</div>
+
               <div class="artwork-shell">
                 <div class="floating-badge">EP · Digital + Cassette</div>
                 <img src="testpress.avif" alt="TEST PRESS artwork" />
@@ -1014,8 +1114,8 @@
                 </div>
 
                 <div class="controls">
-                  <button class="play-main" id="mainPlay" aria-label="Play or pause preview">
-                    <svg id="mainPlayIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <button class="play-main" id="mainPlay" type="button" aria-label="Play or pause preview">
+                    <svg id="mainPlayIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
                   </button>
 
                   <div class="timeline-wrap">
@@ -1027,12 +1127,12 @@
                   </div>
 
                   <div class="volume-wrap">
-                    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"></path></svg>
                     <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.85" aria-label="Volume" />
                   </div>
                 </div>
 
-                <div class="wave" id="wave"></div>
+                <div class="wave" id="wave" aria-hidden="true"></div>
                 <div class="player-status" id="playerStatus" aria-live="polite"></div>
               </div>
             </section>
@@ -1113,28 +1213,28 @@
               <div class="track-no">1</div>
               <div class="track-main"><div class="track-name">State Street</div></div>
               <div class="track-dur">02:22</div>
-              <button class="track-play" aria-label="Play State Street"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+              <button class="track-play" type="button" aria-label="Play State Street"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
             </article>
 
             <article class="track-row" data-index="1">
               <div class="track-no">2</div>
               <div class="track-main"><div class="track-name">Since You've Been Gone</div></div>
               <div class="track-dur">05:17</div>
-              <button class="track-play" aria-label="Play Since You've Been Gone"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+              <button class="track-play" type="button" aria-label="Play Since You've Been Gone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
             </article>
 
             <article class="track-row" data-index="2">
               <div class="track-no">3</div>
               <div class="track-main"><div class="track-name">In The Jungle</div></div>
               <div class="track-dur">03:15</div>
-              <button class="track-play" aria-label="Play In The Jungle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+              <button class="track-play" type="button" aria-label="Play In The Jungle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
             </article>
 
             <article class="track-row" data-index="3">
               <div class="track-no">4</div>
               <div class="track-main"><div class="track-name">Oaktown, L.A., San Fran, St. John</div></div>
               <div class="track-dur">05:17</div>
-              <button class="track-play" aria-label="Play Oaktown"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+              <button class="track-play" type="button" aria-label="Play Oaktown"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
             </article>
           </div>
         </section>
@@ -1186,332 +1286,391 @@
   </footer>
 
   <script>
-    const CONFIG = {
-      mp3: 'testpress.mp3',
-      stripeDigital: 'https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b',
-      stripeCassette: 'https://buy.stripe.com/dRm4gAbXVgYE4ZGfApfrW0c'
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      const CONFIG = {
+        mp3: 'testpress.mp3',
+        stripeDigital: 'https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b',
+        stripeCassette: 'https://buy.stripe.com/dRm4gAbXVgYE4ZGfApfrW0c'
+      };
 
-    const TRACKS = [
-      { title: 'State Street', start: 0, end: 142 },
-      { title: "Since You've Been Gone", start: 142, end: 459 },
-      { title: 'In The Jungle', start: 459, end: 654 },
-      { title: 'Oaktown, L.A., San Fran, St. John', start: 654, end: 971 }
-    ];
+      const TRACKS = [
+        { title: 'State Street', start: 0, end: 142 },
+        { title: "Since You've Been Gone", start: 142, end: 459 },
+        { title: 'In The Jungle', start: 459, end: 654 },
+        { title: 'Oaktown, L.A., San Fran, St. John', start: 654, end: 971 }
+      ];
 
-    const $ = (sel, root = document) => root.querySelector(sel);
-    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-    const fmt = (sec) => {
-      const s = Math.max(0, Math.floor(Number.isFinite(sec) ? sec : 0));
-      return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
-    };
-    const resolveAsset = (path) => {
-      try { return new URL(path, window.location.href).href; }
-      catch { return path; }
-    };
+      const $ = (sel, root = document) => root.querySelector(sel);
+      const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+      const fmt = (sec) => {
+        const s = Math.max(0, Math.floor(Number.isFinite(sec) ? sec : 0));
+        return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+      };
+      const resolveAsset = (path) => {
+        try {
+          return new URL(path, window.location.href).href;
+        } catch {
+          return path;
+        }
+      };
 
-    const audio = new Audio();
-    audio.preload = 'metadata';
-    audio.src = resolveAsset(CONFIG.mp3);
-    audio.volume = 0.85;
-    audio.load();
+      const mainPlay = $('#mainPlay');
+      const mainPlayIcon = $('#mainPlayIcon');
+      const seekBar = $('#seekBar');
+      const volumeBar = $('#volumeBar');
+      const elapsedEl = $('#elapsed');
+      const remainingEl = $('#remaining');
+      const nowPlayingEl = $('#nowPlaying');
+      const waveEl = $('#wave');
+      const playerStatus = $('#playerStatus');
+      const trackRows = $$('.track-row');
+      const variantSelect = $('#variantSelect');
+      const formatPicker = $('#formatPicker');
+      const formatTrigger = $('#formatTrigger');
+      const formatTriggerLabel = $('#formatTriggerLabel');
+      const formatMenu = $('#formatMenu');
+      const formatOptions = $$('.format-option', formatPicker);
+      const priceText = $('#priceText');
+      const buyBtn = $('#buyBtn');
+      const qtyInput = $('#qtyInput');
+      const purchaseModal = $('#purchaseModal');
+      const modalMp3 = $('#modalMp3');
+      const redeemInput = $('#redeemCode');
+      const redeemBtn = $('#redeemBtn');
+      const redeemStatus = $('#redeemStatus');
+      const redeemDownloads = $('#redeemDownloads');
 
-    const mainPlay = $('#mainPlay');
-    const mainPlayIcon = $('#mainPlayIcon');
-    const seekBar = $('#seekBar');
-    const volumeBar = $('#volumeBar');
-    const elapsedEl = $('#elapsed');
-    const remainingEl = $('#remaining');
-    const nowPlayingEl = $('#nowPlaying');
-    const waveEl = $('#wave');
-    const playerStatus = $('#playerStatus');
-    const trackRows = $$('.track-row');
-
-    let activeIndex = 0;
-    let isDraggingSeek = false;
-
-    for (let i = 0; i < 40; i++) {
-      const bar = document.createElement('span');
-      bar.style.height = (5 + Math.random() * 24) + 'px';
-      bar.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
-      bar.style.animationDuration = (0.9 + Math.random() * 0.7).toFixed(2) + 's';
-      waveEl.appendChild(bar);
-    }
-
-    function setStatus(text = '', type = '') {
-      playerStatus.textContent = text;
-      playerStatus.className = 'player-status' + (type ? ' ' + type : '');
-    }
-
-    function setPlayIcon(playing) {
-      mainPlay.classList.toggle('is-playing', playing);
-      waveEl.classList.toggle('active', playing);
-      mainPlayIcon.innerHTML = playing
-        ? '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>'
-        : '<path d="M8 5v14l11-7z"/>';
-    }
-
-    function setActiveTrack(index) {
-      activeIndex = index;
-      nowPlayingEl.textContent = TRACKS[index].title;
-      trackRows.forEach((row, i) => row.classList.toggle('active', i === index));
-    }
-
-    function detectTrackFromTime(time) {
-      const idx = TRACKS.findIndex((track, i) => {
-        const isLast = i === TRACKS.length - 1;
-        return time >= track.start && (isLast ? time <= track.end + 1 : time < track.end);
-      });
-      if (idx >= 0 && idx !== activeIndex) setActiveTrack(idx);
-    }
-
-    async function safePlay() {
-      try {
-        setStatus('Loading preview…');
-        await audio.play();
-        setStatus('');
-      } catch (err) {
-        console.error('Playback error:', err);
-        setStatus('Preview could not play. Check that testpress.mp3 is in the same folder as this HTML file.', 'error');
-      }
-    }
-
-    function playTrack(index) {
-      setActiveTrack(index);
-      audio.currentTime = TRACKS[index].start;
-      safePlay();
-    }
-
-    mainPlay.addEventListener('click', () => {
-      if (audio.paused) {
-        safePlay();
-      } else {
-        audio.pause();
-      }
-    });
-
-    audio.addEventListener('play', () => {
-      setPlayIcon(true);
-      setStatus('');
-    });
-
-    audio.addEventListener('pause', () => {
-      setPlayIcon(false);
-    });
-
-    audio.addEventListener('ended', () => {
-      setPlayIcon(false);
-    });
-
-    audio.addEventListener('loadedmetadata', () => {
-      seekBar.max = audio.duration || TRACKS[TRACKS.length - 1].end;
-      remainingEl.textContent = '-' + fmt(audio.duration || 0);
-      setStatus('');
-    });
-
-    audio.addEventListener('canplay', () => {
-      setStatus('');
-    });
-
-    audio.addEventListener('loadstart', () => {
-      setStatus('Loading preview…');
-    });
-
-    audio.addEventListener('error', () => {
-      const mediaError = audio.error;
-      let message = 'Audio failed to load.';
-      if (mediaError) {
-        if (mediaError.code === 4) message = 'Audio file not found or format unsupported.';
-        if (mediaError.code === 3) message = 'Audio playback was interrupted.';
-      }
-      setStatus(message + ' Make sure testpress.mp3 is beside this HTML file.', 'error');
-      console.error('Audio error:', mediaError, audio.currentSrc);
-    });
-
-    audio.addEventListener('timeupdate', () => {
-      if (!isDraggingSeek) seekBar.value = audio.currentTime || 0;
-      elapsedEl.textContent = fmt(audio.currentTime);
-      remainingEl.textContent = '-' + fmt((audio.duration || 0) - audio.currentTime);
-      detectTrackFromTime(audio.currentTime);
-
-      const current = TRACKS[activeIndex];
-      if (current && activeIndex < TRACKS.length - 1 && audio.currentTime >= current.end) {
-        setActiveTrack(activeIndex + 1);
-      }
-    });
-
-    seekBar.addEventListener('pointerdown', () => { isDraggingSeek = true; });
-    seekBar.addEventListener('pointerup', () => { isDraggingSeek = false; });
-    seekBar.addEventListener('input', () => {
-      const nextTime = parseFloat(seekBar.value || '0');
-      elapsedEl.textContent = fmt(nextTime);
-      detectTrackFromTime(nextTime);
-    });
-    seekBar.addEventListener('change', () => {
-      audio.currentTime = parseFloat(seekBar.value || '0');
-      detectTrackFromTime(audio.currentTime);
-    });
-
-    volumeBar.addEventListener('input', () => {
+      const audio = new Audio();
+      audio.preload = 'metadata';
+      audio.src = resolveAsset(CONFIG.mp3);
       audio.volume = parseFloat(volumeBar.value || '0.85');
-    });
 
-    trackRows.forEach((row, index) => {
-      row.addEventListener('click', (e) => {
-        const clickedButton = e.target.closest('button');
-        if (clickedButton || e.currentTarget === row) playTrack(index);
-      });
-    });
+      let activeIndex = 0;
+      let isDraggingSeek = false;
+      let metadataReady = false;
 
-    setActiveTrack(0);
-
-    const variantSelect = $('#variantSelect');
-    const formatPicker = $('#formatPicker');
-    const formatTrigger = $('#formatTrigger');
-    const formatTriggerLabel = $('#formatTriggerLabel');
-    const formatMenu = $('#formatMenu');
-    const formatOptions = $$('.format-option', formatPicker);
-    const priceText = $('#priceText');
-    const buyBtn = $('#buyBtn');
-    const qtyInput = $('#qtyInput');
-
-    function updateVariantUI() {
-      const isCassette = variantSelect.value === 'cassette';
-      priceText.textContent = isCassette ? '$9.98' : '$0.98';
-      buyBtn.textContent = isCassette ? 'Buy cassette' : 'Buy digital';
-      buyBtn.href = isCassette ? CONFIG.stripeCassette : CONFIG.stripeDigital;
-      formatTriggerLabel.textContent = isCassette ? 'Cassette' : 'Digital';
-
-      formatOptions.forEach(opt => {
-        const selected = opt.dataset.value === variantSelect.value;
-        opt.classList.toggle('is-selected', selected);
-        opt.setAttribute('aria-selected', selected ? 'true' : 'false');
-      });
-    }
-
-    function closeMenu() {
-      formatMenu.hidden = true;
-      formatPicker.classList.remove('open');
-      formatTrigger.setAttribute('aria-expanded', 'false');
-    }
-
-    function openMenu() {
-      formatMenu.hidden = false;
-      formatPicker.classList.add('open');
-      formatTrigger.setAttribute('aria-expanded', 'true');
-    }
-
-    formatTrigger.addEventListener('click', () => {
-      if (formatMenu.hidden) openMenu();
-      else closeMenu();
-    });
-
-    formatOptions.forEach(opt => {
-      opt.addEventListener('click', () => {
-        variantSelect.value = opt.dataset.value;
-        updateVariantUI();
-        closeMenu();
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!formatPicker.contains(e.target)) closeMenu();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
-    });
-
-    updateVariantUI();
-
-    $('#qtyMinus').addEventListener('click', () => {
-      qtyInput.value = Math.max(1, parseInt(qtyInput.value || '1', 10) - 1);
-    });
-
-    $('#qtyPlus').addEventListener('click', () => {
-      qtyInput.value = Math.max(1, parseInt(qtyInput.value || '1', 10) + 1);
-    });
-
-    const purchaseModal = $('#purchaseModal');
-    const modalMp3 = $('#modalMp3');
-    modalMp3.href = resolveAsset(CONFIG.mp3);
-
-    function openPurchaseModal() {
-      purchaseModal.classList.add('show');
-      purchaseModal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closePurchaseModal() {
-      purchaseModal.classList.remove('show');
-      purchaseModal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      const url = new URL(window.location.href);
-      ['purchase', 'format', 'session_id'].forEach(k => url.searchParams.delete(k));
-      history.replaceState({}, '', url);
-    }
-
-    $('#closeModal').addEventListener('click', closePurchaseModal);
-    purchaseModal.addEventListener('click', (e) => {
-      if (e.target === purchaseModal) closePurchaseModal();
-    });
-
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('purchase') === 'success' || urlParams.has('session_id')) openPurchaseModal();
-
-    buyBtn.addEventListener('click', () => {
-      sessionStorage.setItem('testpress_ctx', JSON.stringify({
-        format: variantSelect.value,
-        qty: qtyInput.value,
-        ts: Date.now()
-      }));
-    });
-
-    const CODE_BANK = new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V']);
-    const usedCodes = new Set(JSON.parse(localStorage.getItem('testpress_used_v2') || '[]'));
-    const redeemInput = $('#redeemCode');
-    const redeemBtn = $('#redeemBtn');
-    const redeemStatus = $('#redeemStatus');
-    const redeemDownloads = $('#redeemDownloads');
-
-    function redeem() {
-      const code = redeemInput.value.trim().toUpperCase();
-      redeemDownloads.classList.remove('show');
-
-      if (!code) {
-        redeemStatus.textContent = 'Enter your code.';
-        return;
-      }
-      if (!CODE_BANK.has(code)) {
-        redeemStatus.textContent = 'Invalid code.';
-        return;
-      }
-      if (usedCodes.has(code)) {
-        redeemStatus.textContent = 'Code already used.';
-        return;
+      for (let i = 0; i < 40; i++) {
+        const bar = document.createElement('span');
+        bar.style.height = (5 + Math.random() * 24) + 'px';
+        bar.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
+        bar.style.animationDuration = (0.9 + Math.random() * 0.7).toFixed(2) + 's';
+        waveEl.appendChild(bar);
       }
 
-      usedCodes.add(code);
-      localStorage.setItem('testpress_used_v2', JSON.stringify([...usedCodes]));
-      redeemStatus.textContent = 'Code accepted — download unlocked.';
-      redeemDownloads.classList.add('show');
-    }
+      function setStatus(text = '', type = '') {
+        playerStatus.textContent = text;
+        playerStatus.className = 'player-status' + (type ? ' ' + type : '');
+      }
 
-    redeemBtn.addEventListener('click', redeem);
-    redeemInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') redeem();
-    });
+      function setPlayIcon(playing) {
+        mainPlay.classList.toggle('is-playing', playing);
+        waveEl.classList.toggle('active', playing);
+        mainPlayIcon.innerHTML = playing
+          ? '<path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>'
+          : '<path d="M8 5v14l11-7z"></path>';
+      }
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          obs.unobserve(entry.target);
+      function setActiveTrack(index) {
+        if (index < 0 || index >= TRACKS.length) return;
+        activeIndex = index;
+        nowPlayingEl.textContent = TRACKS[index].title;
+        trackRows.forEach((row, i) => row.classList.toggle('active', i === index));
+      }
+
+      function detectTrackFromTime(time) {
+        const idx = TRACKS.findIndex((track, i) => {
+          const isLast = i === TRACKS.length - 1;
+          return time >= track.start && (isLast ? time <= track.end + 1 : time < track.end);
+        });
+        if (idx >= 0 && idx !== activeIndex) setActiveTrack(idx);
+      }
+
+      function syncSeekBounds() {
+        const fallbackDuration = TRACKS[TRACKS.length - 1].end;
+        const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : fallbackDuration;
+        seekBar.max = String(duration);
+        if (!isDraggingSeek) {
+          seekBar.value = String(Math.min(audio.currentTime || 0, duration));
+        }
+        remainingEl.textContent = '-' + fmt(duration - (audio.currentTime || 0));
+      }
+
+      async function safePlay() {
+        try {
+          setStatus('Loading preview…');
+          if (audio.readyState === 0) audio.load();
+          await audio.play();
+          setStatus('');
+        } catch (err) {
+          console.error('Playback error:', err);
+          const message = err && err.name === 'NotSupportedError'
+            ? 'Audio format unsupported or file unreadable.'
+            : 'Preview could not play. Check the file path and browser console.';
+          setStatus(message, 'error');
+        }
+      }
+
+      function playTrack(index) {
+        setActiveTrack(index);
+        audio.currentTime = TRACKS[index].start;
+        syncSeekBounds();
+        safePlay();
+      }
+
+      mainPlay.addEventListener('click', () => {
+        if (audio.paused) {
+          if (!metadataReady) audio.load();
+          safePlay();
+        } else {
+          audio.pause();
         }
       });
-    }, { threshold: 0.1 });
 
-    $$('.fade-up').forEach(el => obs.observe(el));
+      audio.addEventListener('loadstart', () => setStatus('Loading preview…'));
+
+      audio.addEventListener('loadedmetadata', () => {
+        metadataReady = true;
+        syncSeekBounds();
+        setStatus('');
+      });
+
+      audio.addEventListener('canplay', () => setStatus(''));
+
+      audio.addEventListener('play', () => {
+        setPlayIcon(true);
+        setStatus('');
+      });
+
+      audio.addEventListener('pause', () => {
+        setPlayIcon(false);
+      });
+
+      audio.addEventListener('ended', () => {
+        setPlayIcon(false);
+      });
+
+      audio.addEventListener('stalled', () => {
+        setStatus('Audio stalled. Retrying may help.', 'error');
+      });
+
+      audio.addEventListener('waiting', () => {
+        setStatus('Buffering…');
+      });
+
+      audio.addEventListener('error', () => {
+        const mediaError = audio.error;
+        let message = 'Audio failed to load.';
+
+        if (mediaError) {
+          if (mediaError.code === MediaError.MEDIA_ERR_ABORTED) {
+            message = 'Audio load was aborted.';
+          } else if (mediaError.code === MediaError.MEDIA_ERR_NETWORK) {
+            message = 'Network error while loading audio.';
+          } else if (mediaError.code === MediaError.MEDIA_ERR_DECODE) {
+            message = 'Audio file could not be decoded.';
+          } else if (mediaError.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+            message = 'Audio file not found or format unsupported.';
+          }
+        }
+
+        setStatus(message + ' Make sure testpress.mp3 is beside this HTML file.', 'error');
+        console.error('Audio error:', mediaError, audio.currentSrc);
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const fallbackDuration = TRACKS[TRACKS.length - 1].end;
+        const duration = Number.isFinite(audio.duration) ? audio.duration : fallbackDuration;
+
+        if (!isDraggingSeek) {
+          seekBar.value = String(audio.currentTime || 0);
+        }
+
+        elapsedEl.textContent = fmt(audio.currentTime);
+        remainingEl.textContent = '-' + fmt(duration - audio.currentTime);
+        detectTrackFromTime(audio.currentTime);
+
+        const current = TRACKS[activeIndex];
+        if (current && activeIndex < TRACKS.length - 1 && audio.currentTime >= current.end) {
+          setActiveTrack(activeIndex + 1);
+        }
+      });
+
+      seekBar.addEventListener('pointerdown', () => {
+        isDraggingSeek = true;
+      });
+
+      seekBar.addEventListener('pointerup', () => {
+        isDraggingSeek = false;
+      });
+
+      seekBar.addEventListener('input', () => {
+        const nextTime = parseFloat(seekBar.value || '0');
+        elapsedEl.textContent = fmt(nextTime);
+        detectTrackFromTime(nextTime);
+      });
+
+      seekBar.addEventListener('change', () => {
+        audio.currentTime = parseFloat(seekBar.value || '0');
+        detectTrackFromTime(audio.currentTime);
+      });
+
+      volumeBar.addEventListener('input', () => {
+        audio.volume = parseFloat(volumeBar.value || '0.85');
+      });
+
+      trackRows.forEach((row, index) => {
+        row.addEventListener('click', (e) => {
+          const clickedButton = e.target.closest('button');
+          if (clickedButton || e.currentTarget === row) {
+            playTrack(index);
+          }
+        });
+      });
+
+      setActiveTrack(0);
+      syncSeekBounds();
+      modalMp3.href = resolveAsset(CONFIG.mp3);
+
+      function updateVariantUI() {
+        const isCassette = variantSelect.value === 'cassette';
+        priceText.textContent = isCassette ? '$9.98' : '$0.98';
+        buyBtn.textContent = isCassette ? 'Buy cassette' : 'Buy digital';
+        buyBtn.href = isCassette ? CONFIG.stripeCassette : CONFIG.stripeDigital;
+        formatTriggerLabel.textContent = isCassette ? 'Cassette' : 'Digital';
+
+        formatOptions.forEach(opt => {
+          const selected = opt.dataset.value === variantSelect.value;
+          opt.classList.toggle('is-selected', selected);
+          opt.setAttribute('aria-selected', selected ? 'true' : 'false');
+        });
+      }
+
+      function closeMenu() {
+        formatMenu.hidden = true;
+        formatPicker.classList.remove('open');
+        formatTrigger.setAttribute('aria-expanded', 'false');
+      }
+
+      function openMenu() {
+        formatMenu.hidden = false;
+        formatPicker.classList.add('open');
+        formatTrigger.setAttribute('aria-expanded', 'true');
+      }
+
+      formatTrigger.addEventListener('click', () => {
+        if (formatMenu.hidden) openMenu();
+        else closeMenu();
+      });
+
+      formatOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          variantSelect.value = opt.dataset.value;
+          updateVariantUI();
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!formatPicker.contains(e.target)) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      updateVariantUI();
+
+      $('#qtyMinus').addEventListener('click', () => {
+        qtyInput.value = Math.max(1, parseInt(qtyInput.value || '1', 10) - 1);
+      });
+
+      $('#qtyPlus').addEventListener('click', () => {
+        qtyInput.value = Math.max(1, parseInt(qtyInput.value || '1', 10) + 1);
+      });
+
+      function openPurchaseModal() {
+        purchaseModal.classList.add('show');
+        purchaseModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePurchaseModal() {
+        purchaseModal.classList.remove('show');
+        purchaseModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        const url = new URL(window.location.href);
+        ['purchase', 'format', 'session_id'].forEach(k => url.searchParams.delete(k));
+        history.replaceState({}, '', url);
+      }
+
+      $('#closeModal').addEventListener('click', closePurchaseModal);
+
+      purchaseModal.addEventListener('click', (e) => {
+        if (e.target === purchaseModal) closePurchaseModal();
+      });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('purchase') === 'success' || urlParams.has('session_id')) {
+        openPurchaseModal();
+      }
+
+      buyBtn.addEventListener('click', () => {
+        sessionStorage.setItem('testpress_ctx', JSON.stringify({
+          format: variantSelect.value,
+          qty: qtyInput.value,
+          ts: Date.now()
+        }));
+      });
+
+      const CODE_BANK = new Set([
+        'AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D',
+        'AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V'
+      ]);
+
+      const usedCodes = new Set(JSON.parse(localStorage.getItem('testpress_used_v2') || '[]'));
+
+      function redeem() {
+        const code = redeemInput.value.trim().toUpperCase();
+        redeemDownloads.classList.remove('show');
+
+        if (!code) {
+          redeemStatus.textContent = 'Enter your code.';
+          return;
+        }
+
+        if (!CODE_BANK.has(code)) {
+          redeemStatus.textContent = 'Invalid code.';
+          return;
+        }
+
+        if (usedCodes.has(code)) {
+          redeemStatus.textContent = 'Code already used.';
+          return;
+        }
+
+        usedCodes.add(code);
+        localStorage.setItem('testpress_used_v2', JSON.stringify([...usedCodes]));
+        redeemStatus.textContent = 'Code accepted — download unlocked.';
+        redeemDownloads.classList.add('show');
+      }
+
+      redeemBtn.addEventListener('click', redeem);
+
+      redeemInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') redeem();
+      });
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      $$('.fade-up').forEach(el => obs.observe(el));
+    });
   </script>
 </body>
 </html>
