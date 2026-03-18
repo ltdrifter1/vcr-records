@@ -198,7 +198,7 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 460px);
       gap: 22px;
       position: relative;
       z-index: 1;
@@ -210,7 +210,6 @@
     .visual-card,
     .info-card,
     .track-card,
-    .notes-card,
     .policy-card {
       border-radius: var(--radius);
       padding: 20px;
@@ -469,11 +468,11 @@
       margin-bottom: 10px;
     }
     .title {
-      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-size: clamp(2.8rem, 7vw, 5.4rem);
       line-height: 0.92;
       letter-spacing: -0.06em;
       font-weight: 900;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       text-wrap: balance;
     }
     .title .outline {
@@ -484,16 +483,16 @@
     }
     .lede {
       font-size: 1rem;
-      line-height: 1.72;
+      line-height: 1.55;
       color: var(--muted);
-      max-width: 56ch;
-      margin-bottom: 22px;
+      max-width: 28ch;
+      margin-bottom: 16px;
     }
     .meta-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 22px;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
     }
     @media (max-width: 560px) {
       .meta-grid { grid-template-columns: 1fr; }
@@ -666,7 +665,7 @@
 
     .section-grid {
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 360px);
       gap: 22px;
       padding-bottom: 52px;
     }
@@ -756,6 +755,11 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    .track-main {
+      display: flex;
+      align-items: center;
+      min-height: 24px;
     }
     .track-meta {
       margin-top: 4px;
@@ -1012,7 +1016,7 @@
         <div class="hero-shell glass fade-up">
           <div class="hero-grid">
             <div class="visual-card">
-              <div class="topline"><span class="dot"></span> VCR transmission / release node</div>
+              <div class="topline"><span class="dot"></span> LT Drifta</div>
               <div class="artwork-shell" id="heroZoomTrigger">
                 <div class="floating-badge">EP / Digital + Cassette</div>
                 <img src="testpress.avif" alt="TEST PRESS artwork" />
@@ -1047,25 +1051,14 @@
             </div>
 
             <aside class="info-card">
-              <div class="release-code">Catalog GN5-25-0003</div>
               <div class="artist">LT Drifta</div>
               <h1 class="title">TEST PRESS <span class="outline">TEST PRESS</span></h1>
-              <p class="lede">
-                A dark-forward release page rebuild for a test press drop: minimal, heavy blur, deep contrast, futuristic label energy, and a continuous preview player fed from <strong>testpress.mp3</strong> in the root folder.
-              </p>
+              <p class="lede">TEST PRESS. Available on cassette and digital.</p>
 
               <div class="meta-grid">
                 <div class="meta-card">
-                  <div class="meta-label">Release date</div>
-                  <div class="meta-value">November 6, 2025</div>
-                </div>
-                <div class="meta-card">
                   <div class="meta-label">Format</div>
                   <div class="meta-value">Cassette / Digital</div>
-                </div>
-                <div class="meta-card">
-                  <div class="meta-label">Region</div>
-                  <div class="meta-value">Cumberland, BC</div>
                 </div>
               </div>
 
@@ -1102,9 +1095,7 @@
                   <a class="btn btn-secondary" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
                 </div>
 
-                <p class="micro-note">
-                  Stripe checkout for payment, root-folder MP3 preview, and post-purchase lossless download link support. For real protected lossless delivery, use a server-side webhook and expiring file links.
-                </p>
+                <p class="micro-note">Secure checkout via Stripe.</p>
               </div>
             </aside>
           </div>
@@ -1118,7 +1109,7 @@
           <div class="section-head">
             <div>
               <div class="section-title">Tracklist</div>
-              <div class="section-sub">Continuous file preview with chapter seek points</div>
+              <div class="section-sub">Preview</div>
             </div>
           </div>
 
@@ -1127,7 +1118,7 @@
               <div class="track-no">1</div>
               <div class="track-main">
                 <div class="track-name">State Street</div>
-                <div class="track-meta">Side A / Chapter 01</div>
+                
               </div>
               <div class="track-dur">02:22</div>
               <button class="track-play" aria-label="Play State Street">
@@ -1139,7 +1130,7 @@
               <div class="track-no">2</div>
               <div class="track-main">
                 <div class="track-name">Since You've Been Gone</div>
-                <div class="track-meta">Side A / Chapter 02</div>
+                
               </div>
               <div class="track-dur">05:17</div>
               <button class="track-play" aria-label="Play Since You've Been Gone">
@@ -1151,7 +1142,7 @@
               <div class="track-no">3</div>
               <div class="track-main">
                 <div class="track-name">In The Jungle</div>
-                <div class="track-meta">Side B / Chapter 03</div>
+                
               </div>
               <div class="track-dur">03:15</div>
               <button class="track-play" aria-label="Play In The Jungle">
@@ -1163,7 +1154,7 @@
               <div class="track-no">4</div>
               <div class="track-main">
                 <div class="track-name">Oaktown, L.A., San Fran, St. John</div>
-                <div class="track-meta">Side B / Chapter 04</div>
+                
               </div>
               <div class="track-dur">05:17</div>
               <button class="track-play" aria-label="Play Oaktown, L.A., San Fran, St. John">
@@ -1174,23 +1165,11 @@
         </section>
 
         <aside class="stack">
-          <section class="notes-card glass fade-up">
-            <div class="section-head">
-              <div>
-                <div class="section-title">Release notes</div>
-                <div class="section-sub">Design + commerce</div>
-              </div>
-            </div>
-            <div class="rich-copy">
-              This rebuild shifts the page away from light retail styling into a label-first presentation: darker atmosphere, stronger hierarchy, blurred glass surfaces, larger typography, and a more premium player layout. The preview still streams from the root MP3 so deployment stays simple.
-            </div>
-          </section>
-
           <section class="policy-card glass fade-up">
             <div class="section-head">
               <div>
                 <div class="section-title">Redeem code</div>
-                <div class="section-sub">Manual fallback delivery</div>
+                <div class="section-sub">Download access</div>
               </div>
             </div>
 
@@ -1210,18 +1189,14 @@
           <section class="policy-card glass fade-up">
             <div class="section-head">
               <div>
-                <div class="section-title">Shipping / digital policy</div>
-                <div class="section-sub">Operational notes</div>
+                <div class="section-title">About this release</div>
+                <div class="section-sub">Simple release info</div>
               </div>
             </div>
             <div class="stack">
               <div class="mini-block">
-                <div class="mini-title">Cassette</div>
-                <div class="mini-text">Ships from Cumberland, BC. Buyers receive digital access immediately while physical stock ships separately.</div>
-              </div>
-              <div class="mini-block">
-                <div class="mini-title">Lossless delivery</div>
-                <div class="mini-text">Do not expose the raw WAV publicly if you want protected delivery. Replace direct <code>/testpress.wav</code> links with a zipped or FLAC package delivered from a signed server-side URL after successful payment.</div>
+                <div class="mini-title">Shipping</div>
+                <div class="mini-text">Cassette orders ship from Cumberland, BC. Digital files are delivered after checkout.</div>
               </div>
             </div>
           </section>
