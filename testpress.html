@@ -1072,7 +1072,7 @@
       </div>
       <h2>Purchase complete</h2>
       <p id="modalCopy">Thanks for supporting independent music. Your download is ready.</p>
-      <a class="btn btn-primary" id="modalMp3" href="testpress.mp3" download="LT Drifta - TEST PRESS.mp3" style="width:100%;">Download MP3</a>
+      <a class="btn btn-primary" id="modalMp3" href="testpress.mp3" download="testpress.mp3" style="width:100%;">Download MP3</a>
     </div>
   </div>
 
@@ -1097,10 +1097,10 @@
         <div class="hero-shell glass fade-up">
           <div class="hero-grid">
             <section class="left-stack">
-              <div class="eyebrow-pill"><span class="dot"></span> LT Drifta</div>
+              <div class="eyebrow-pill"><span class="dot"></span>In Stock</div>
 
               <div class="artwork-shell">
-                <div class="floating-badge">EP · Digital + Cassette</div>
+                <div class="floating-badge">LT Drifta</div>
                 <img src="testpress.avif" alt="TEST PRESS artwork" />
                 <div class="scan-line"></div>
                 <div class="artwork-glow"></div>
@@ -1138,16 +1138,12 @@
             </section>
 
             <aside class="right-stack">
-              <div class="release-code">VCR · TEST PRESS</div>
-              <div class="artist">LT Drifta</div>
+            
+              <div class="artist"</div>
               <h1 class="title">TEST PRESS <span class="outline">TEST PRESS</span></h1>
-              <p class="lede">Four tracks. Direct preview. Cassette and digital.</p>
+      
 
-              <div class="meta-strip">
-                <div class="meta-pill">4 tracks</div>
-                <div class="meta-pill">Instant digital</div>
-                <div class="meta-pill">Cumberland, BC</div>
-              </div>
+    
 
               <div class="pricing">
                 <div class="price-row">
@@ -1195,6 +1191,26 @@
                 <p class="micro-note">Secure checkout via Stripe.</p>
               </div>
             </aside>
+   
+          <section class="sidebar-card glass fade-up">
+            <div class="section-head">
+              <div class="section-title">Redeem code</div>
+            </div>
+            <div class="redeem">
+              <div class="redeem-row">
+                <input id="redeemCode" type="text" placeholder="Enter code" autocomplete="one-time-code" />
+                <button class="btn btn-secondary" id="redeemBtn" type="button">Redeem</button>
+              </div>
+              <div class="micro-note" id="redeemStatus" aria-live="polite"></div>
+              <div class="downloads" id="redeemDownloads">
+                <a class="btn btn-primary" href="testpress.mp3" download="testpress.mp3">Download MP3</a>
+              </div>
+            </div>
+          </section>
+
+       
+      
+            
           </div>
         </div>
       </div>
@@ -1205,7 +1221,7 @@
         <section class="track-card glass fade-up">
           <div class="section-head">
             <div class="section-title">Tracklist</div>
-            <div class="section-sub">Full stream preview</div>
+            <div class="section-sub"></div>
           </div>
 
           <div class="tracklist" id="tracklist">
@@ -1239,32 +1255,7 @@
           </div>
         </section>
 
-        <aside class="stack">
-          <section class="sidebar-card glass fade-up">
-            <div class="section-head">
-              <div class="section-title">Redeem code</div>
-            </div>
-            <div class="redeem">
-              <div class="redeem-row">
-                <input id="redeemCode" type="text" placeholder="Enter code" autocomplete="one-time-code" />
-                <button class="btn btn-secondary" id="redeemBtn" type="button">Redeem</button>
-              </div>
-              <div class="micro-note" id="redeemStatus" aria-live="polite"></div>
-              <div class="downloads" id="redeemDownloads">
-                <a class="btn btn-primary" href="testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
-              </div>
-            </div>
-          </section>
 
-          <section class="sidebar-card glass fade-up">
-            <div class="section-head">
-              <div class="section-title">Shipping</div>
-            </div>
-            <div class="mini-block">
-              <div class="mini-text">Cassette orders ship from Cumberland, BC. Digital is delivered instantly after checkout.</div>
-            </div>
-          </section>
-        </aside>
       </div>
     </section>
   </main>
