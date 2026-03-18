@@ -526,49 +526,58 @@
       margin-bottom: 16px;
     }
     .price-row {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 14px;
+    }
+    @media (max-width: 560px) {
+      .price-row {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
     }
     .price-cluster {
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
     .price {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 900;
       line-height: 1;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
     }
     .price-note {
       color: var(--soft);
-      font-size: 0.82rem;
-      letter-spacing: 0.1em;
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      transform: translateY(-1px);
     }
     .status-pill {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 10px 14px;
+      min-height: 42px;
+      padding: 0 14px;
       border-radius: 999px;
       background: rgba(115,255,209,0.10);
       border: 1px solid rgba(115,255,209,0.24);
       color: #bfffe8;
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .controls-grid {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
       align-items: end;
     }
     @media (max-width: 560px) {
@@ -586,13 +595,31 @@
     }
     .select,
     .qty {
-      height: 52px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      padding: 0 16px;
-      outline: none;
+      width: 58px;
+      text-align: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+    .select {
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 48px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(245,247,251,0.78)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 12px 8px;
+      cursor: pointer;
+    }
+    .select option {
+      background: #0d1220;
+      color: #f5f7fb;
+    }
+    .select:focus {
+      border-color: rgba(138,180,255,0.55);
+      box-shadow: 0 0 0 3px rgba(138,180,255,0.12);
     }
     .qty-wrap {
       display: inline-flex;
@@ -602,6 +629,7 @@
       border-radius: 18px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.04);
+      min-height: 54px;
     }
     .qty-wrap button {
       width: 40px;
@@ -610,7 +638,12 @@
       border-radius: 12px;
       background: rgba(255,255,255,0.06);
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
+      transition: background 0.18s ease, transform 0.18s ease;
+    }
+    .qty-wrap button:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
     }
     .qty {
       width: 58px;
@@ -988,7 +1021,7 @@
       <h2>Purchase complete</h2>
       <p id="modalCopy">Thanks for supporting independent music. Your digital files are ready.</p>
       <div class="modal-note" id="modalCassette">Your cassette order is confirmed. Digital files are ready now while the physical copy ships separately.</div>
-      <div class="cta-grid">
+      <div class="cta-grid" style="margin-top: 2px;">
         <a class="btn btn-secondary" id="modalMp3" href="/testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
         <a class="btn btn-primary" id="modalWav" href="/testpress-lossless.zip" download="LT Drifta - TEST PRESS - Lossless.zip">Download Lossless</a>
       </div>
@@ -1062,7 +1095,7 @@
                 </div>
               </div>
 
-              <div class="pricing glass">
+              <div class="pricing glass" aria-label="Purchase options">
                 <div class="price-row">
                   <div class="price-cluster">
                     <div class="price" id="priceText">$0.98</div>
