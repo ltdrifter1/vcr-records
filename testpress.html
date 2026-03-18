@@ -587,6 +587,7 @@
       display: grid;
       gap: 8px;
       min-width: 0;
+      position: relative;
     }
     .label {
       font-size: 0.7rem;
@@ -594,25 +595,114 @@
       text-transform: uppercase;
       color: var(--soft);
     }
-    .select,
     .qty {
-      width: 52px;
+      width: 58px;
       text-align: center;
       padding: 0;
       border: none;
       background: transparent;
       font-weight: 700;
-      font-size: 0.95rem;
     }
-    .select {
-      appearance: auto;
-      -webkit-appearance: menulist;
-      padding-right: 14px;
-      cursor: pointer;
-    }
-    .select:focus,
     .qty:focus {
+      outline: none;
+    }
+    .format-picker {
+      position: relative;
+    }
+    .format-trigger {
+      width: 100%;
+      min-height: 50px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(7,10,18,0.9);
+      color: var(--text);
+      padding: 0 42px 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 600;
+      position: relative;
+      width: 100%;
+    }
+    .format-trigger:hover {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(10,14,24,0.96);
+    }
+    .format-trigger:focus-visible {
       border-color: rgba(138,180,255,0.5);
+      box-shadow: 0 0 0 3px rgba(138,180,255,0.12);
+      outline: none;
+    }
+    .format-trigger::after {
+      content: "";
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-right: 1.5px solid rgba(245,247,251,0.78);
+      border-bottom: 1.5px solid rgba(245,247,251,0.78);
+      transform: translateY(-65%) rotate(45deg);
+      pointer-events: none;
+      transition: transform 0.18s ease;
+    }
+    .format-picker.open .format-trigger::after {
+      transform: translateY(-35%) rotate(-135deg);
+    }
+    .format-menu {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 8px);
+      display: grid;
+      gap: 6px;
+      padding: 8px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(9,13,22,0.98);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.38);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      z-index: 30;
+    }
+    .format-menu[hidden] {
+      display: none;
+    }
+    .format-option {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text);
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+    .format-option:hover,
+    .format-option:focus-visible {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.08);
+      outline: none;
+    }
+    .format-option.is-selected {
+      background: rgba(138,180,255,0.10);
+      border-color: rgba(138,180,255,0.18);
+    }
+    .format-option small {
+      color: var(--soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
     .qty-wrap {
       display: inline-flex;
@@ -1028,8 +1118,8 @@
       <p id="modalCopy">Thanks for supporting independent music. Your digital files are ready.</p>
       <div class="modal-note" id="modalCassette">Your cassette order is confirmed. Digital files are ready now while the physical copy ships separately.</div>
       <div class="cta-grid" style="margin-top: 0;">
-        <a class="btn btn-secondary" id="modalMp3" href="/testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
-        <a class="btn btn-primary" id="modalWav" href="/testpress-lossless.zip" download="LT Drifta - TEST PRESS - Lossless.zip">Download Lossless</a>
+        <a class="btn btn-secondary" id="modalMp3" href="testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
+        <a class="btn btn-primary" id="modalWav" href="testpress-lossless.zip" download="LT Drifta - TEST PRESS - Lossless.zip">Download Lossless</a>
       </div>
     </div>
   </div>
@@ -1111,13 +1201,25 @@
                 </div>
 
                 <div class="controls-grid">
-                  <label class="field">
+                  <div class="field">
                     <span class="label">Format</span>
-                    <select class="select" id="variantSelect">
-                      <option value="digital" selected>Digital — $0.98</option>
-                      <option value="cassette">Cassette — $9.98</option>
-                    </select>
-                  </label>
+                    <div class="format-picker" id="formatPicker">
+                      <button type="button" class="format-trigger" id="formatTrigger" aria-haspopup="listbox" aria-expanded="false">
+                        <span id="formatTriggerLabel">Digital</span>
+                      </button>
+                      <div class="format-menu" id="formatMenu" role="listbox" hidden>
+                        <button type="button" class="format-option is-selected" data-value="digital" role="option" aria-selected="true">
+                          <span>Digital</span>
+                          <small>$0.98</small>
+                        </button>
+                        <button type="button" class="format-option" data-value="cassette" role="option" aria-selected="false">
+                          <span>Cassette</span>
+                          <small>$9.98</small>
+                        </button>
+                      </div>
+                      <input type="hidden" id="variantSelect" value="digital" />
+                    </div>
+                  </div>
 
                   <div class="field">
                     <span class="label">Quantity</span>
@@ -1219,8 +1321,8 @@
               </div>
               <div class="micro-note" id="redeemStatus" aria-live="polite"></div>
               <div class="downloads" id="redeemDownloads">
-                <a class="btn btn-secondary" href="/testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
-                <a class="btn btn-primary" href="/testpress-lossless.zip" download="LT Drifta - TEST PRESS - Lossless.zip">Download Lossless</a>
+                <a class="btn btn-secondary" href="testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
+                <a class="btn btn-primary" href="testpress-lossless.zip" download="LT Drifta - TEST PRESS - Lossless.zip">Download Lossless</a>
               </div>
             </div>
           </section>
@@ -1262,8 +1364,8 @@
 
   <script>
     const CONFIG = {
-      mp3: '/testpress.mp3',
-      lossless: '/testpress-lossless.zip',
+      mp3: 'testpress.mp3',
+      lossless: 'testpress-lossless.zip',
       artist: 'LT Drifta',
       release: 'TEST PRESS',
       stripeDigital: 'https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b',
@@ -1277,7 +1379,8 @@
       { title: 'Oaktown, L.A., San Fran, St. John', start: 654, end: 971, duration: '05:17' }
     ];
 
-    const audio = new Audio(CONFIG.mp3);
+    const resolveAsset = (path) => new URL(path, window.location.href).href;
+    const audio = new Audio(resolveAsset(CONFIG.mp3));
     audio.preload = 'metadata';
     audio.volume = 0.85;
 
@@ -1355,6 +1458,10 @@
       remaining.textContent = '-' + fmt(audio.duration || 0);
     });
 
+    audio.addEventListener('error', () => {
+      console.error('Audio failed to load:', audio.currentSrc || CONFIG.mp3);
+    });
+
     audio.addEventListener('timeupdate', () => {
       if (!isFinite(audio.duration)) return;
       seekBar.max = audio.duration;
@@ -1390,6 +1497,11 @@
     setActiveTrack(0);
 
     const variantSelect = $('#variantSelect');
+    const formatPicker = $('#formatPicker');
+    const formatTrigger = $('#formatTrigger');
+    const formatTriggerLabel = $('#formatTriggerLabel');
+    const formatMenu = $('#formatMenu');
+    const formatOptions = formatPicker ? $$('.format-option', formatPicker) : [];
     const priceText = $('#priceText');
     const buyBtn = $('#buyBtn');
     const qtyInput = $('#qtyInput');
@@ -1401,8 +1513,49 @@
       priceText.textContent = cassette ? '$9.98' : '$0.98';
       buyBtn.textContent = cassette ? 'Buy cassette' : 'Buy digital';
       buyBtn.href = cassette ? CONFIG.stripeCassette : CONFIG.stripeDigital;
+      if (formatTriggerLabel) formatTriggerLabel.textContent = cassette ? 'Cassette' : 'Digital';
+      formatOptions.forEach((option) => {
+        const selected = option.dataset.value === variantSelect.value;
+        option.classList.toggle('is-selected', selected);
+        option.setAttribute('aria-selected', selected ? 'true' : 'false');
+      });
     }
-    variantSelect.addEventListener('change', updateVariantUI);
+
+    function closeFormatMenu() {
+      if (!formatMenu || !formatPicker || !formatTrigger) return;
+      formatMenu.hidden = true;
+      formatPicker.classList.remove('open');
+      formatTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    function openFormatMenu() {
+      if (!formatMenu || !formatPicker || !formatTrigger) return;
+      formatMenu.hidden = false;
+      formatPicker.classList.add('open');
+      formatTrigger.setAttribute('aria-expanded', 'true');
+    }
+
+    formatTrigger?.addEventListener('click', () => {
+      if (formatMenu.hidden) openFormatMenu();
+      else closeFormatMenu();
+    });
+
+    formatOptions.forEach((option) => {
+      option.addEventListener('click', () => {
+        variantSelect.value = option.dataset.value || 'digital';
+        updateVariantUI();
+        closeFormatMenu();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (formatPicker && !formatPicker.contains(e.target)) closeFormatMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeFormatMenu();
+    });
+
     updateVariantUI();
 
     qtyMinus.addEventListener('click', () => {
@@ -1419,8 +1572,8 @@
     const modalMp3 = $('#modalMp3');
     const modalWav = $('#modalWav');
 
-    modalMp3.href = CONFIG.mp3;
-    modalWav.href = CONFIG.lossless;
+    modalMp3.href = resolveAsset(CONFIG.mp3);
+    modalWav.href = resolveAsset(CONFIG.lossless);
 
     function openPurchaseModal(format = 'digital') {
       purchaseModal.classList.add('show');
