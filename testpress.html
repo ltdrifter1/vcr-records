@@ -1,1224 +1,917 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LT Drifta — TEST PRESS | VCR Records</title>
-  <meta name="description" content="TEST PRESS by LT Drifta. Digital + cassette release on VCR Records." />
+  <meta name="description" content="TEST PRESS by LT Drifta — digital + cassette on VCR Records."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ─────────────────────────────────────────
-       TOKENS
-    ───────────────────────────────────────── */
     :root {
-      --line:   rgba(255,255,255,0.10);
-      --line-2: rgba(255,255,255,0.07);
-      --text:   #f5f7fb;
-      --muted:  rgba(245,247,251,0.65);
-      --soft:   rgba(245,247,251,0.40);
-      --ok:     #bfffe8;
-      --danger: #ff9fb3;
-      --blur:   18px;
-      --r-sm:   14px;
-      --r-md:   20px;
-      --r-lg:   26px;
-      --r-xl:   32px;
-      --font:   Inter, ui-sans-serif, system-ui, sans-serif;
+      --bg:      #0c0c0c;
+      --sur:     #141414;
+      --line:    rgba(255,255,255,0.08);
+      --line-hi: rgba(255,255,255,0.14);
+      --text:    #ede9e0;
+      --sub:     rgba(237,233,224,0.45);
+      --dim:     rgba(237,233,224,0.25);
+      --green:   #3ecf8e;
+      --red:     #f87171;
+      --serif:   'Instrument Serif', Georgia, serif;
+      --mono:    'IBM Plex Mono', monospace;
+      --sans:    'IBM Plex Sans', system-ui, sans-serif;
     }
 
-    /* ─────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: var(--font);
+      font-family: var(--sans);
+      background: var(--bg);
       color: var(--text);
-      background:
-        radial-gradient(ellipse 80% 40% at 15% 0%,   rgba(115,255,209,0.10) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 85% 5%,   rgba(138,180,255,0.13) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 70% 90%,  rgba(219,167,255,0.08) 0%, transparent 60%),
-        #05070d;
-      min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    button, input { font: inherit; cursor: pointer; }
-    input { cursor: text; }
-
-    /* ─────────────────────────────────────────
-       AMBIENT + NOISE
-    ───────────────────────────────────────── */
-    .blob {
-      position: fixed; border-radius: 50%;
-      pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.5;
-    }
-    .blob-1 { width: 380px; height: 380px; top: -130px; left: -110px; background: rgba(138,180,255,0.17); }
-    .blob-2 { width: 300px; height: 300px; bottom: -90px; right: -90px; background: rgba(115,255,209,0.11); }
-
-    .noise {
-      position: fixed; inset: 0; pointer-events: none; z-index: 1;
-      opacity: 0.04; mix-blend-mode: soft-light;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter><rect width="160" height="160" filter="url(%23n)"/></svg>');
-    }
-
-    /* ─────────────────────────────────────────
-       GLASS
-    ───────────────────────────────────────── */
-    .glass {
-      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-      border: 1px solid var(--line);
-      backdrop-filter: blur(var(--blur)) saturate(130%);
-      -webkit-backdrop-filter: blur(var(--blur)) saturate(130%);
-      box-shadow: 0 14px 44px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.09);
-    }
-
-    /* ─────────────────────────────────────────
-       PAGE SHELL
-    ───────────────────────────────────────── */
-    .page {
-      position: relative; z-index: 2;
-      display: flex; flex-direction: column;
       min-height: 100dvh;
     }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; border: none; }
+    input  { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 
-    /* ─────────────────────────────────────────
-       NAV
-    ───────────────────────────────────────── */
-    .nav-wrap {
-      position: sticky; top: 0; z-index: 50;
-      padding: 12px 14px 0;
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(12,12,12,0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
     }
-
-    .nav {
-      border-radius: 999px;
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 10px;
-      padding: 0 10px 0 16px;
-      min-height: 54px;
+    .nav-inner {
+      max-width: 1080px; margin: 0 auto; padding: 0 20px;
+      height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-
     .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 800; font-size: 0.72rem;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      white-space: nowrap;
+      font-family: var(--serif);
+      font-size: 1rem; color: var(--text);
+      letter-spacing: 0.01em;
     }
-
-    .brand-mark {
-      width: 30px; height: 30px; border-radius: 9px;
-      display: grid; place-items: center;
-      font-weight: 900; font-size: 0.68rem;
-      background: linear-gradient(135deg, rgba(138,180,255,0.3), rgba(115,255,209,0.15));
-      border: 1px solid rgba(255,255,255,0.15);
-      flex-shrink: 0;
-    }
-
-    .nav-links { display: flex; gap: 2px; flex-wrap: wrap; }
-
+    .nav-links { display: flex; gap: 2px; }
     .nav-links a {
-      padding: 8px 10px; border-radius: 999px;
-      color: var(--muted); font-size: 0.68rem;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      transition: color .2s, background .2s;
-      -webkit-tap-highlight-color: transparent;
+      padding: 7px 10px; border-radius: 6px;
+      font-size: 0.70rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--sub);
+      transition: color .15s, background .15s;
     }
-    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    @media (max-width: 520px) { .nav-links { display: none; } }
 
-    @media (max-width: 400px) { .nav-links { display: none; } }
-
-    /* ─────────────────────────────────────────
-       MAIN
-    ───────────────────────────────────────── */
-    main {
-      flex: 1;
-      padding: 12px 12px 12px;
+    /* ── PAGE ────────────────────────────────────── */
+    .page {
+      max-width: 1080px; margin: 0 auto;
+      padding: 32px 20px 80px;
     }
 
-    /* ─────────────────────────────────────────
-       LAYOUT GRID
-
-       Mobile  (< 680px):  single column
-         artwork → player → meta/purchase → tracklist → redeem
-
-       Tablet  (680–1023px): 2-col
-         LEFT:  artwork + player
-         RIGHT: meta → tracklist → redeem
-
-       Desktop (≥ 1024px): 2-col, wider left
-         LEFT (380px max): artwork + player (sticky top)
-         RIGHT: meta → tracklist → redeem
-    ───────────────────────────────────────── */
-    .release-grid {
+    /* ── GRID ────────────────────────────────────── */
+    .grid {
       display: grid;
       grid-template-columns: 1fr;
-      grid-template-areas:
-        "artwork"
-        "player"
-        "meta"
-        "tracks"
-        "redeem";
-      gap: 10px;
-      max-width: 1160px;
-      margin: 0 auto;
+      gap: 40px;
+      align-items: start;
     }
-
-    @media (min-width: 680px) {
-      .release-grid {
-        grid-template-columns: minmax(240px, 320px) 1fr;
-        grid-template-rows: auto auto 1fr auto;
-        grid-template-areas:
-          "artwork  meta"
-          "player   tracks"
-          ".        redeem";
-        gap: 12px;
-        align-items: start;
+    @media (min-width: 740px) {
+      .grid {
+        grid-template-columns: minmax(260px, 360px) 1fr;
+        gap: 48px;
       }
+      .left { position: sticky; top: 68px; }
     }
 
-    @media (min-width: 1024px) {
-      .release-grid {
-        grid-template-columns: minmax(300px, 380px) 1fr;
-        gap: 16px;
-      }
+    /* ── ARTWORK ─────────────────────────────────── */
+    .artwork {
+      aspect-ratio: 1/1;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--sur);
+      cursor: zoom-in;
     }
-
-    .area-artwork { grid-area: artwork; }
-    .area-meta    { grid-area: meta;    }
-    .area-player  { grid-area: player;  }
-    .area-tracks  { grid-area: tracks;  }
-    .area-redeem  { grid-area: redeem;  }
-
-    /* ─────────────────────────────────────────
-       ARTWORK
-    ───────────────────────────────────────── */
-    .artwork-wrap {
-      /* Mobile: reasonable max so it doesn't feel like a poster */
-      max-width: min(100%, 380px);
-      margin: 0 auto;
-      width: 100%;
+    .artwork img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s ease;
     }
+    .artwork:hover img { transform: scale(1.03); }
 
-    @media (min-width: 680px) {
-      .artwork-wrap { max-width: 100%; margin: 0; }
+    /* ── PLAYER ──────────────────────────────────── */
+    .player {
+      margin-top: 16px;
+      padding: 16px 0 0;
+      border-top: 1px solid var(--line);
     }
-
-    .artwork-shell {
-      position: relative; overflow: hidden;
-      border-radius: var(--r-lg);
-      border: 1px solid rgba(255,255,255,0.13);
-      box-shadow: 0 20px 56px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.09);
-      aspect-ratio: 1 / 1;
-      background: rgba(255,255,255,0.04);
-    }
-
-    .artwork-shell img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    .artist-badge {
-      position: absolute; top: 14px; left: 14px; z-index: 2;
-      padding: 7px 12px; border-radius: 999px;
-      background: rgba(5,7,13,0.70);
-      border: 1px solid rgba(255,255,255,0.15);
-      font-size: 0.66rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-    }
-
-    .artwork-overlay {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 0%,   rgba(138,180,255,0.10) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(115,255,209,0.08) 0%, transparent 50%);
-    }
-
-    .scan-lines {
-      position: absolute; inset: 0; pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.014) 0px, rgba(255,255,255,0.014) 1px,
-        transparent 1px, transparent 4px
-      );
-      mix-blend-mode: screen;
-    }
-
-    /* ─────────────────────────────────────────
-       META CARD (title + purchase)
-    ───────────────────────────────────────── */
-    .meta-card {
-      border-radius: var(--r-lg);
-      padding: 16px;
-      display: flex; flex-direction: column; gap: 14px;
-    }
-
-    @media (min-width: 680px) {
-      .meta-card { padding: 20px; gap: 18px; }
-    }
-
-    .release-kicker {
-      font-size: 0.64rem; font-weight: 700;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--soft);
-      margin-bottom: 6px;
-    }
-
-    .release-title {
-      font-size: clamp(1.9rem, 7vw, 3.4rem);
-      font-weight: 900; line-height: 0.88;
-      letter-spacing: -0.05em;
-    }
-
-    .release-title .ghost {
-      display: block;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.17);
-    }
-
-    /* ─────────────────────────────────────────
-       PRICING
-    ───────────────────────────────────────── */
-    .pricing {
-      display: flex; flex-direction: column; gap: 14px;
-      padding: 18px;
-      border-radius: var(--r-md);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--line-2);
-    }
-
-    .price-row {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 10px; flex-wrap: wrap;
-    }
-
-    .price-cluster { display: flex; align-items: baseline; gap: 7px; }
-
-    .price-num {
-      font-size: 1.9rem; font-weight: 900;
-      letter-spacing: -0.04em; line-height: 1;
-    }
-
-    .price-cur {
-      font-size: 0.72rem; color: var(--soft);
-      text-transform: uppercase; letter-spacing: 0.12em;
-      padding-bottom: 2px;
-    }
-
-    .stock-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 11px; border-radius: 999px;
-      background: rgba(115,255,209,0.09);
-      border: 1px solid rgba(115,255,209,0.17);
-      color: var(--ok);
-      font-size: 0.66rem; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-    }
-
-    .dot {
-      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
-      background: #73ffd1; box-shadow: 0 0 7px rgba(115,255,209,0.7);
-    }
-
-    /* Format + Qty */
-    .variant-row {
-      display: grid; grid-template-columns: 1fr auto;
-      gap: 10px; align-items: end;
-    }
-
-    .field { display: flex; flex-direction: column; gap: 5px; }
-
-    .field-lbl {
-      font-size: 0.64rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.14em; color: var(--soft);
-    }
-
-    /* Custom select */
-    .fp { position: relative; }
-
-    .fp-trigger {
-      width: 100%; min-height: 48px;
-      border-radius: var(--r-sm);
-      border: 1px solid var(--line);
-      background: rgba(5,7,13,0.85);
-      color: var(--text);
-      padding: 0 38px 0 13px;
-      display: flex; align-items: center;
-      font-size: 0.88rem; font-weight: 600;
-      position: relative; text-align: left;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .fp-trigger::after {
-      content: ""; position: absolute; right: 13px; top: 50%;
-      width: 8px; height: 8px;
-      border-right: 1.5px solid rgba(245,247,251,0.65);
-      border-bottom: 1.5px solid rgba(245,247,251,0.65);
-      transform: translateY(-65%) rotate(45deg);
-      transition: transform .18s; pointer-events: none;
-    }
-
-    .fp.open .fp-trigger::after { transform: translateY(-35%) rotate(-135deg); }
-
-    .fp-menu {
-      position: absolute; inset-inline: 0; top: calc(100% + 6px);
-      padding: 6px; border-radius: var(--r-sm);
-      border: 1px solid var(--line);
-      background: rgba(7,10,18,0.98);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.4);
-      z-index: 30;
-      display: flex; flex-direction: column; gap: 3px;
-    }
-
-    .fp-menu[hidden] { display: none; }
-
-    .fp-opt {
-      min-height: 44px; border-radius: 10px;
-      border: 1px solid transparent;
-      background: transparent; color: var(--text);
-      padding: 0 12px;
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 0.86rem; font-weight: 600; text-align: left;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .fp-opt:hover, .fp-opt.sel {
-      background: rgba(255,255,255,0.06); border-color: var(--line-2);
-    }
-
-    .fp-opt small {
-      font-size: 0.72rem; font-weight: 700;
-      color: var(--soft); letter-spacing: 0.08em; text-transform: uppercase;
-    }
-
-    /* Qty stepper */
-    .qty-wrap {
-      display: flex; align-items: center; gap: 2px;
-      min-height: 48px; padding: 4px;
-      border-radius: var(--r-sm);
-      border: 1px solid var(--line);
-      background: rgba(5,7,13,0.85);
-    }
-
-    .qty-wrap button {
-      width: 34px; height: 34px; border: none; border-radius: 8px;
-      background: rgba(255,255,255,0.05); color: var(--text);
-      font-size: 1.1rem; display: grid; place-items: center;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .qty-input {
-      width: 42px; text-align: center; border: none;
-      background: transparent; color: var(--text);
-      font-weight: 700; font-size: 0.92rem;
-    }
-    .qty-input:focus { outline: none; }
-
-    /* CTAs */
-    .cta-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-
-    .btn {
-      min-height: 50px; border-radius: var(--r-sm);
-      border: 1px solid rgba(255,255,255,0.11);
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 7px; padding: 0 18px;
-      font-size: 0.74rem; font-weight: 800;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      transition: transform .15s, opacity .15s;
-      -webkit-tap-highlight-color: transparent;
-      white-space: nowrap;
-    }
-
-    .btn:active { transform: scale(0.97); opacity: 0.82; }
-    @media (hover: hover) { .btn:hover { transform: translateY(-1px); } }
-
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(138,180,255,0.25), rgba(115,255,209,0.19));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 7px 22px rgba(0,0,0,0.18);
-    }
-
-    .btn-ghost {
-      background: rgba(255,255,255,0.04); border-color: var(--line-2); color: var(--muted);
-    }
-
-    .note { font-size: 0.70rem; color: var(--soft); line-height: 1.5; }
-
-    /* ─────────────────────────────────────────
-       PLAYER CARD
-    ───────────────────────────────────────── */
-    .player-card { border-radius: var(--r-lg); padding: 14px; }
-
-    @media (min-width: 680px) {
-      .player-card { padding: 18px; }
-    }
-
-    .player-header {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .player-lbl {
-      font-size: 0.64rem; letter-spacing: 0.16em;
-      text-transform: uppercase; color: var(--soft);
-    }
-
-    .now-playing {
-      font-size: 0.86rem; font-weight: 700;
-      max-width: 58%; white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis; text-align: right;
-    }
-
-    .player-controls {
-      display: grid; grid-template-columns: auto 1fr;
+    .player-row {
+      display: grid;
+      grid-template-columns: 44px 1fr;
       gap: 14px; align-items: center;
       margin-bottom: 10px;
     }
-
     .play-btn {
-      width: 54px; height: 54px; border-radius: 50%; flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.07));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 7px 22px rgba(0,0,0,0.22);
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      background: var(--text); color: var(--bg);
       display: grid; place-items: center;
-      transition: transform .15s;
-      -webkit-tap-highlight-color: transparent;
+      transition: opacity .15s, transform .15s;
+    }
+    .play-btn:active { transform: scale(0.93); }
+    @media (hover:hover) { .play-btn:hover { opacity: 0.88; } }
+    .play-btn svg { width: 18px; height: 18px; fill: var(--bg); }
+    .play-btn .icon-pause { display: none; }
+    .play-btn.on .icon-play  { display: none; }
+    .play-btn.on .icon-pause { display: block; }
+    .play-btn .icon-play { margin-left: 2px; }
+
+    .seek-col { display: flex; flex-direction: column; gap: 5px; }
+
+    .now-playing-name {
+      font-family: var(--mono);
+      font-size: 0.68rem; font-weight: 500;
+      color: var(--sub);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .play-btn:active { transform: scale(0.94); }
-    @media (hover: hover) { .play-btn:hover { transform: translateY(-1px) scale(1.02); } }
-
-    .play-btn svg { width: 19px; height: 19px; fill: #fff; margin-left: 2px; }
-    .play-btn.playing svg { margin-left: 0; }
-
-    .seek-block { display: flex; flex-direction: column; gap: 7px; }
-
-    .time-row {
+    .times {
       display: flex; justify-content: space-between;
-      font-size: 0.72rem; color: var(--soft);
-      font-variant-numeric: tabular-nums;
+      font-family: var(--mono); font-size: 0.60rem;
+      color: var(--dim); font-variant-numeric: tabular-nums;
     }
 
-    .vol-row { display: flex; align-items: center; gap: 10px; }
-    .vol-row svg { width: 14px; height: 14px; fill: var(--soft); flex-shrink: 0; }
+    .vol-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 4px;
+    }
+    .vol-row svg { width: 12px; height: 12px; fill: var(--dim); flex-shrink: 0; }
 
-    /* Range inputs */
+    /* range */
     input[type="range"] {
       -webkit-appearance: none; appearance: none;
       width: 100%; background: transparent; cursor: pointer;
     }
     input[type="range"]::-webkit-slider-runnable-track {
-      height: 5px; border-radius: 999px; background: rgba(255,255,255,0.13);
+      height: 3px; border-radius: 999px; background: var(--line-hi);
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 18px; height: 18px; border-radius: 50%;
-      margin-top: -6.5px; background: #fff;
-      border: 1.5px solid rgba(255,255,255,0.55);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.28);
+      width: 14px; height: 14px; border-radius: 50%;
+      margin-top: -5.5px;
+      background: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
-    input[type="range"]::-moz-range-track {
-      height: 5px; border-radius: 999px; background: rgba(255,255,255,0.13);
-    }
-    input[type="range"]::-moz-range-thumb {
-      width: 18px; height: 18px; border-radius: 50%;
-      background: #fff; border: 1.5px solid rgba(255,255,255,0.55);
-    }
+    input[type="range"]::-moz-range-track { height: 3px; border-radius: 999px; background: var(--line-hi); }
+    input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--text); border: none; }
 
-    /* Wave */
+    /* waveform */
     .wave {
-      display: flex; align-items: flex-end; gap: 3px;
-      height: 24px; margin-top: 10px; overflow: hidden;
+      display: flex; align-items: flex-end; gap: 2px;
+      height: 18px; overflow: hidden; margin-top: 10px;
     }
     .wave span {
-      display: block; width: 3px; min-height: 3px;
-      border-radius: 999px; flex-shrink: 0;
-      background: linear-gradient(180deg, rgba(138,180,255,0.85), rgba(115,255,209,0.44));
-      opacity: 0.26; transform-origin: bottom;
+      display: block; width: 2px; min-height: 2px; border-radius: 1px;
+      flex-shrink: 0; transform-origin: bottom;
+      background: var(--line-hi);
     }
-    .wave.active span { animation: wavepulse 1.1s ease-in-out infinite; opacity: 0.88; }
+    .wave.on span {
+      background: var(--text);
+      animation: wv 1.1s ease-in-out infinite;
+      opacity: 0.5;
+    }
+    @keyframes wv { 0%,100% { transform: scaleY(0.2); } 50% { transform: scaleY(1); } }
 
-    @keyframes wavepulse {
-      0%,100% { transform: scaleY(0.22); }
-      50%      { transform: scaleY(1); }
+    .player-msg {
+      font-family: var(--mono); font-size: 0.60rem;
+      color: var(--dim); min-height: 12px; margin-top: 6px;
+    }
+    .player-msg.err { color: var(--red); }
+
+    /* ── RIGHT COL ───────────────────────────────── */
+    .right { display: flex; flex-direction: column; gap: 0; }
+
+    /* ── HEADING ─────────────────────────────────── */
+    .release-header { margin-bottom: 28px; }
+    .release-artist {
+      font-family: var(--mono);
+      font-size: 0.66rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--sub);
+      margin-bottom: 8px;
+    }
+    .release-title {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      line-height: 0.92; letter-spacing: -0.01em;
+      color: var(--text);
     }
 
-    .player-status { font-size: 0.70rem; color: var(--soft); min-height: 15px; margin-top: 6px; }
-    .player-status.err { color: var(--danger); }
-
-    /* ─────────────────────────────────────────
-       TRACKLIST CARD
-    ───────────────────────────────────────── */
-    .tracks-card { border-radius: var(--r-lg); padding: 14px; }
-
-    @media (min-width: 680px) {
-      .tracks-card { padding: 18px; }
+    /* ── PRICE ───────────────────────────────────── */
+    .price-line {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .price {
+      font-family: var(--serif); font-size: 1.8rem;
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    .price-meta {
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--sub);
+    }
+    .in-stock {
+      font-family: var(--mono); font-size: 0.60rem;
+      color: var(--green); letter-spacing: 0.08em;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .in-stock::before {
+      content: '';
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
     }
 
-    .card-header {
+    /* ── DIVIDER ─────────────────────────────────── */
+    hr { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
+
+    /* ── FORMAT ──────────────────────────────────── */
+    .field-row {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 10px; align-items: end; margin-bottom: 16px;
+    }
+    .field-label {
+      font-family: var(--mono); font-size: 0.60rem;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--dim); display: block; margin-bottom: 6px;
+    }
+    .select-wrap { position: relative; }
+    .select-trigger {
+      width: 100%; height: 44px; border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--sur); color: var(--text);
+      padding: 0 34px 0 12px;
       display: flex; align-items: center;
-      justify-content: space-between; gap: 10px;
-      margin-bottom: 12px;
+      font-size: 0.84rem; font-weight: 500;
+      position: relative; text-align: left;
+    }
+    .select-trigger::after {
+      content: '';
+      position: absolute; right: 12px; top: 50%;
+      width: 7px; height: 7px;
+      border-right: 1.5px solid var(--sub);
+      border-bottom: 1.5px solid var(--sub);
+      transform: translateY(-65%) rotate(45deg);
+      transition: transform .15s; pointer-events: none;
+    }
+    .select-wrap.open .select-trigger::after { transform: translateY(-35%) rotate(-135deg); }
+    .select-menu {
+      position: absolute; inset-inline: 0; top: calc(100% + 4px);
+      background: var(--sur); border: 1px solid var(--line-hi);
+      border-radius: 8px; padding: 4px; z-index: 30;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .select-menu[hidden] { display: none; }
+    .select-opt {
+      height: 40px; width: 100%; border-radius: 5px;
+      background: transparent; color: var(--text);
+      padding: 0 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.84rem; font-weight: 500;
+      transition: background .1s;
+    }
+    .select-opt:hover, .select-opt.sel { background: rgba(255,255,255,0.05); }
+    .select-opt span.opt-price {
+      font-family: var(--mono); font-size: 0.62rem; color: var(--sub);
     }
 
-    .card-title {
-      font-size: 0.70rem; font-weight: 800;
-      letter-spacing: 0.18em; text-transform: uppercase;
+    /* qty */
+    .qty-wrap {
+      display: flex; align-items: center;
+      height: 44px; border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--sur); overflow: hidden;
+    }
+    .qty-wrap button {
+      width: 36px; height: 100%;
+      background: transparent; color: var(--sub);
+      font-size: 1rem; display: grid; place-items: center;
+      transition: color .1s;
+    }
+    .qty-wrap button:active { color: var(--text); }
+    .qty-input {
+      width: 36px; text-align: center;
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-weight: 600; font-size: 0.88rem;
     }
 
-    .card-sub {
-      font-size: 0.68rem; color: var(--soft);
-      text-transform: uppercase; letter-spacing: 0.08em;
+    /* ── BUTTONS ─────────────────────────────────── */
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      width: 100%; height: 48px; border-radius: 6px;
+      font-size: 0.74rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: opacity .15s, transform .12s;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-solid { background: var(--text); color: var(--bg); }
+    @media (hover:hover) { .btn-solid:hover { opacity: 0.9; } }
+
+    .btn-ghost { background: transparent; color: var(--sub); border-color: var(--line); }
+    @media (hover:hover) { .btn-ghost:hover { border-color: var(--line-hi); color: var(--text); } }
+
+    .btn-bc { background: #1da0c3; color: #fff; }
+    @media (hover:hover) { .btn-bc:hover { opacity: 0.9; } }
+
+    .btn-stack { display: flex; flex-direction: column; gap: 8px; }
+
+    .note {
+      font-family: var(--mono); font-size: 0.58rem;
+      color: var(--dim); line-height: 1.5; margin-top: 8px;
     }
 
-    .tracklist { display: flex; flex-direction: column; gap: 7px; }
+    /* ── REDEEM ──────────────────────────────────── */
+    .redeem { margin-top: 4px; }
+    .redeem-label {
+      font-family: var(--mono); font-size: 0.60rem;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 8px;
+    }
+    .redeem-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .redeem-input {
+      height: 44px; border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--sur); color: var(--text);
+      padding: 0 12px;
+      font-family: var(--mono); font-size: 0.80rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      outline: none; -webkit-appearance: none;
+      transition: border-color .15s;
+    }
+    .redeem-input::placeholder { color: var(--dim); text-transform: none; letter-spacing: 0; }
+    .redeem-input:focus { border-color: var(--line-hi); }
+    .redeem-submit {
+      height: 44px; padding: 0 14px; border-radius: 6px;
+      border: 1px solid var(--line); background: var(--sur);
+      color: var(--sub); font-size: 0.70rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      white-space: nowrap;
+      transition: border-color .15s, color .15s;
+    }
+    .redeem-submit:active { transform: scale(0.96); }
+    @media (hover:hover) { .redeem-submit:hover { border-color: var(--line-hi); color: var(--text); } }
+    .redeem-msg {
+      font-family: var(--mono); font-size: 0.60rem;
+      color: var(--sub); min-height: 12px; margin-top: 6px; line-height: 1.5;
+    }
+    .dl-links { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
+    .hidden { display: none !important; }
 
+    /* ── TRACKLIST ───────────────────────────────── */
+    .section-label {
+      font-family: var(--mono); font-size: 0.60rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 10px;
+    }
+    .tracklist { display: flex; flex-direction: column; }
     .track {
       display: grid;
-      grid-template-columns: 36px 1fr auto auto;
+      grid-template-columns: 1.6rem 1fr auto auto;
       gap: 10px; align-items: center;
-      padding: 11px 12px;
-      border-radius: var(--r-sm);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid transparent;
-      transition: background .16s, border-color .16s, transform .13s;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      transition: none;
     }
-
-    .track:active { transform: scale(0.985); }
-    @media (hover: hover) {
-      .track:hover { background: rgba(255,255,255,0.06); border-color: var(--line-2); }
-    }
-
-    .track.active {
-      background: linear-gradient(135deg, rgba(138,180,255,0.09), rgba(115,255,209,0.07));
-      border-color: rgba(138,180,255,0.22);
-    }
-
+    .track:first-child { border-top: none; }
     .track-num {
-      width: 30px; height: 30px;
-      display: grid; place-items: center;
-      border-radius: 9px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--line-2);
-      font-size: 0.72rem; font-weight: 800;
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--dim); font-variant-numeric: tabular-nums;
     }
-
-    .track-name {
-      font-size: 0.88rem; font-weight: 700;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-
+    .track-name { font-size: 0.88rem; font-weight: 400; }
+    .track.on .track-name { color: var(--text); font-weight: 500; }
     .track-dur {
-      font-size: 0.78rem; color: var(--muted);
-      font-variant-numeric: tabular-nums;
+      font-family: var(--mono); font-size: 0.62rem;
+      color: var(--dim); font-variant-numeric: tabular-nums;
     }
-
-    .track-play-btn {
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
+    .track-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid var(--line);
       display: grid; place-items: center;
       flex-shrink: 0;
-      -webkit-tap-highlight-color: transparent;
+      transition: border-color .15s;
     }
+    .track-icon svg { width: 10px; height: 10px; fill: var(--sub); }
+    .track-icon .icon-pause { display: none; }
+    .track.on .track-icon { border-color: var(--line-hi); }
+    .track.on .track-icon .icon-play  { display: none; }
+    .track.on .track-icon .icon-pause { display: block; fill: var(--text); }
+    .track.on .track-icon svg { fill: var(--text); }
+    .track.on .track-icon .icon-play { margin-left: 1px; }
 
-    .track-play-btn svg { width: 12px; height: 12px; fill: #fff; margin-left: 1px; }
-    .track.active .track-play-btn { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.2); }
-
-    /* ─────────────────────────────────────────
-       REDEEM CARD
-    ───────────────────────────────────────── */
-    .redeem-card { border-radius: var(--r-lg); padding: 14px; }
-
-    @media (min-width: 680px) {
-      .redeem-card { padding: 18px; }
+    /* ── MODAL ───────────────────────────────────── */
+    .modal-bg {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
     }
-
-    .redeem-body { display: flex; flex-direction: column; gap: 10px; }
-
-    .redeem-row {
-      display: grid; grid-template-columns: 1fr auto;
-      gap: 8px; align-items: center;
+    .modal-bg.on { display: flex; }
+    .modal-box {
+      background: var(--sur); border: 1px solid var(--line-hi);
+      border-radius: 12px; padding: 32px 28px;
+      max-width: 400px; width: 100%;
+      position: relative;
+      animation: up .3s ease;
     }
-
-    .redeem-input {
-      height: 48px; border-radius: var(--r-sm);
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--text); padding: 0 14px;
-      outline: none;
-      text-transform: uppercase; letter-spacing: 0.10em;
-      font-size: 0.86rem;
-      transition: border-color .2s;
-      -webkit-appearance: none;
-    }
-
-    .redeem-input:focus { border-color: rgba(138,180,255,0.38); }
-    .redeem-input::placeholder { color: var(--soft); text-transform: none; letter-spacing: 0; }
-
-    .downloads { display: none; flex-direction: column; gap: 8px; }
-    .downloads.show { display: flex; }
-
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    footer { padding: 10px 12px 24px; margin-top: 10px; }
-
-    .footer-inner {
-      border-radius: var(--r-lg); padding: 15px 18px;
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    }
-
-    .footer-brand {
-      font-size: 0.72rem; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.18em;
-    }
-
-    .footer-copy { font-size: 0.70rem; color: var(--soft); margin-top: 2px; }
-
-    .footer-links { display: flex; gap: 5px; flex-wrap: wrap; }
-
-    .footer-links a {
-      padding: 7px 11px; border-radius: 999px;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--line-2);
-      color: var(--muted); font-size: 0.68rem;
-      text-transform: uppercase; letter-spacing: 0.10em;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* ─────────────────────────────────────────
-       PURCHASE MODAL
-    ───────────────────────────────────────── */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 60;
-      display: none; place-items: center; padding: 16px;
-      background: rgba(3,5,10,0.72);
-      backdrop-filter: blur(20px);
-    }
-    .modal-overlay.show { display: grid; }
-
-    .modal { width: min(100%,500px); border-radius: var(--r-xl); padding: 24px; position: relative; }
-
-    .modal-close {
+    @keyframes up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .modal-close-btn {
       position: absolute; top: 14px; right: 14px;
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 1px solid var(--line); background: rgba(255,255,255,0.06);
-      color: var(--text); font-size: 1rem;
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid var(--line); background: transparent;
+      color: var(--sub); font-size: 0.9rem;
       display: grid; place-items: center;
+      transition: color .15s;
+    }
+    .modal-close-btn:hover { color: var(--text); }
+    .modal-check {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(62,207,142,0.1);
+      border: 1px solid rgba(62,207,142,0.2);
+      display: grid; place-items: center; margin: 0 auto 16px;
+    }
+    .modal-check svg { width: 18px; height: 18px; fill: var(--green); }
+    .modal-box h2 {
+      font-family: var(--serif); font-size: 1.4rem;
+      text-align: center; margin-bottom: 6px;
+    }
+    .modal-box p {
+      font-size: 0.82rem; color: var(--sub);
+      text-align: center; margin-bottom: 20px; line-height: 1.6;
     }
 
-    .modal-icon {
-      width: 54px; height: 54px; border-radius: 16px;
-      display: grid; place-items: center; margin-bottom: 14px;
-      background: linear-gradient(135deg, rgba(138,180,255,0.22), rgba(115,255,209,0.16));
-      border: 1px solid rgba(255,255,255,0.13);
+    /* ── ZOOM ────────────────────────────────────── */
+    .zoom-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.95);
+      display: none; align-items: center; justify-content: center;
+      cursor: zoom-out;
     }
-    .modal-icon svg { width: 24px; height: 24px; fill: #fff; }
+    .zoom-overlay img { max-width: 88vw; max-height: 88vh; border-radius: 4px; }
+    .zoom-close {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%; width: 32px; height: 32px;
+      display: grid; place-items: center;
+      color: var(--sub); font-size: 1rem; cursor: pointer;
+    }
 
-    .modal h2 { font-size: 1.55rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 8px; }
-    .modal p { color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
-
-    /* ─────────────────────────────────────────
-       SCROLL REVEAL
-    ───────────────────────────────────────── */
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s ease; }
-    .reveal.in { opacity: 1; transform: translateY(0); }
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 40px 20px 32px; margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 28px;
+    }
+    .footer-brand {
+      font-family: var(--serif); font-size: 0.96rem; color: var(--text);
+      margin-bottom: 4px;
+    }
+    .footer-sub { font-size: 0.76rem; color: var(--dim); }
+    .footer-links {
+      display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap;
+    }
+    .footer-links a {
+      padding: 6px 10px; border-radius: 5px;
+      border: 1px solid var(--line); color: var(--sub);
+      font-family: var(--mono); font-size: 0.60rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color .15s, border-color .15s;
+    }
+    .footer-links a:hover { color: var(--text); border-color: var(--line-hi); }
+    .footer-copy {
+      font-family: var(--mono); font-size: 0.58rem; color: var(--dim);
+      margin-top: 28px;
+    }
   </style>
 </head>
 <body>
 
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-<div class="noise"></div>
-
 <!-- PURCHASE MODAL -->
-<div class="modal-overlay" id="purchaseModal" aria-hidden="true">
-  <div class="modal glass">
-    <button class="modal-close" id="closeModal" type="button" aria-label="Close">×</button>
-    <div class="modal-icon">
-      <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+<div class="modal-bg" id="purchaseModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-check">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
     </div>
     <h2>Purchase complete</h2>
     <p>Thanks for supporting independent music. Your download is ready.</p>
-    <a class="btn btn-primary" id="modalMp3" href="testpress.mp3" download="testpress.mp3" style="width:100%;">Download MP3</a>
+    <div class="btn-stack">
+      <a class="btn btn-solid" id="modalMp3" href="testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
+      <button class="btn btn-ghost" id="modalDismiss">Close</button>
+    </div>
   </div>
 </div>
 
-<div class="page">
+<!-- ZOOM -->
+<div class="zoom-overlay" id="zoomOverlay">
+  <button class="zoom-close" aria-label="Close">×</button>
+  <img id="zoomImg" alt=""/>
+</div>
 
-  <!-- NAV -->
-  <div class="nav-wrap">
-    <header class="nav glass">
-      <a href="index.html" class="brand">
-        <span class="brand-mark">V</span>
-        <span>VCR Records</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="index.html#releases">Releases</a>
-        <a href="index.html#artists">Artists</a>
-        <a href="index.html#about">About</a>
-      </nav>
-    </header>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="brand">VCR Records</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#releases">Releases</a>
+      <a href="index.html#artists">Artists</a>
+      <a href="index.html#about">About</a>
+    </div>
   </div>
+</nav>
 
-  <!-- MAIN -->
-  <main>
-    <div class="release-grid">
+<main>
+  <div class="page">
+    <div class="grid">
 
-      <!-- ARTWORK -->
-      <div class="area-artwork reveal">
-        <div class="artwork-wrap">
-          <div class="artwork-shell">
-            <span class="artist-badge">LT Drifta</span>
-            <img src="testpress.avif" alt="TEST PRESS album artwork" />
-            <div class="artwork-overlay"></div>
-            <div class="scan-lines"></div>
-          </div>
+      <!-- LEFT: artwork + player -->
+      <div class="left">
+        <div class="artwork" id="artworkWrap">
+          <img src="testpress.avif" alt="TEST PRESS" id="artworkImg"/>
         </div>
-      </div>
 
-      <!-- META + PURCHASE -->
-      <div class="area-meta reveal">
-        <div class="meta-card glass">
-          <div>
-            <div class="release-kicker">VCR Records</div>
-            <h1 class="release-title">TEST<br>PRESS<span class="ghost">TEST PRESS</span></h1>
-          </div>
-
-          <div class="pricing">
-            <div class="price-row">
-              <div class="price-cluster">
-                <span class="price-num" id="priceText">$0.98</span>
-                <span class="price-cur">USD</span>
-              </div>
-              <div class="stock-pill"><span class="dot"></span>In stock</div>
-            </div>
-
-            <div class="variant-row">
-              <div class="field">
-                <span class="field-lbl">Format</span>
-                <div class="fp" id="fp">
-                  <button type="button" class="fp-trigger" id="fpTrigger"
-                          aria-haspopup="listbox" aria-expanded="false">
-                    <span id="fpLabel">Digital</span>
-                  </button>
-                  <div class="fp-menu" id="fpMenu" role="listbox" hidden>
-                    <button type="button" class="fp-opt sel" data-value="digital"
-                            role="option" aria-selected="true">
-                      <span>Digital</span><small>$0.98</small>
-                    </button>
-                    <button type="button" class="fp-opt" data-value="cassette"
-                            role="option" aria-selected="false">
-                      <span>Cassette</span><small>$9.98</small>
-                    </button>
-                  </div>
-                  <input type="hidden" id="variantVal" value="digital" />
-                </div>
-              </div>
-
-              <div class="field">
-                <span class="field-lbl">Qty</span>
-                <div class="qty-wrap">
-                  <button type="button" id="qtyMinus" aria-label="Decrease">−</button>
-                  <input class="qty-input" id="qtyInput" type="number"
-                         inputmode="numeric" min="1" value="1" aria-label="Quantity" />
-                  <button type="button" id="qtyPlus" aria-label="Increase">+</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="cta-row">
-              <a class="btn btn-primary" id="buyBtn"
-                 href="https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b"
-                 target="_blank" rel="noopener">Buy digital</a>
-              <a class="btn btn-ghost"
-                 href="https://ltdrifta.bandcamp.com"
-                 target="_blank" rel="noopener">Bandcamp</a>
-            </div>
-
-            <p class="note">Secure checkout via Stripe.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- PLAYER -->
-      <div class="area-player reveal">
-        <div class="player-card glass">
-          <div class="player-header">
-            <span class="player-lbl">Now playing</span>
-            <span class="now-playing" id="nowPlaying">State Street</span>
-          </div>
-
-          <div class="player-controls">
-            <button class="play-btn" id="mainPlay" type="button" aria-label="Play / pause">
-              <svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
+        <div class="player">
+          <div class="player-row">
+            <button class="play-btn" id="mainPlay" aria-label="Play / pause">
+              <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
             </button>
-            <div class="seek-block">
-              <input type="range" id="seekBar" min="0" max="100" step="0.01" value="0" aria-label="Seek" />
-              <div class="time-row">
+            <div class="seek-col">
+              <span class="now-playing-name" id="nowPlaying">State Street</span>
+              <input type="range" id="seekBar" min="0" max="100" step="0.01" value="0" aria-label="Seek"/>
+              <div class="times">
                 <span id="elapsed">0:00</span>
                 <span id="remaining">-0:00</span>
               </div>
             </div>
           </div>
-
           <div class="vol-row">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
-            </svg>
-            <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.85" aria-label="Volume" />
+            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <input type="range" id="volBar" min="0" max="1" step="0.01" value="0.85" aria-label="Volume"/>
           </div>
-
           <div class="wave" id="wave" aria-hidden="true"></div>
-          <div class="player-status" id="playerStatus" aria-live="polite"></div>
+          <div class="player-msg" id="playerMsg" aria-live="polite"></div>
         </div>
       </div>
 
-      <!-- TRACKLIST -->
-      <div class="area-tracks reveal">
-        <div class="tracks-card glass">
-          <div class="card-header">
-            <span class="card-title">Tracklist</span>
-            <span class="card-sub">4 tracks</span>
+      <!-- RIGHT: meta + purchase + tracklist -->
+      <div class="right">
+
+        <!-- heading -->
+        <div class="release-header">
+          <div class="release-artist">LT Drifta</div>
+          <h1 class="release-title">TEST PRESS</h1>
+        </div>
+
+        <!-- price -->
+        <div class="price-line">
+          <span class="price" id="priceDisplay">$0.98</span>
+          <span class="price-meta" id="priceFormat">USD · Digital</span>
+          <span style="flex:1;"></span>
+          <span class="in-stock">In stock</span>
+        </div>
+
+        <hr/>
+
+        <!-- format + qty -->
+        <div class="field-row">
+          <div>
+            <span class="field-label">Format</span>
+            <div class="select-wrap" id="swrap">
+              <button type="button" class="select-trigger" id="fpTrigger" aria-haspopup="listbox" aria-expanded="false">
+                <span id="fpLabel">Digital</span>
+              </button>
+              <div class="select-menu" id="fpMenu" role="listbox" hidden>
+                <button type="button" class="select-opt sel" data-value="digital" role="option" aria-selected="true">
+                  <span>Digital</span><span class="opt-price">$0.98</span>
+                </button>
+                <button type="button" class="select-opt" data-value="cassette" role="option" aria-selected="false">
+                  <span>Cassette</span><span class="opt-price">$9.98</span>
+                </button>
+              </div>
+              <input type="hidden" id="variantVal" value="digital"/>
+            </div>
           </div>
+          <div>
+            <span class="field-label">Qty</span>
+            <div class="qty-wrap">
+              <button id="qtyMinus" aria-label="Decrease">−</button>
+              <input class="qty-input" id="qtyInput" type="number" min="1" value="1" inputmode="numeric" aria-label="Quantity"/>
+              <button id="qtyPlus" aria-label="Increase">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="btn-stack">
+          <a class="btn btn-solid" id="buyBtn" href="https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b" target="_blank" rel="noopener">Buy — $0.98</a>
+          <a class="btn btn-bc" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff;flex-shrink:0;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+            Bandcamp
+          </a>
+        </div>
+        <p class="note">Secure checkout via Stripe · Instant digital delivery</p>
+
+        <hr/>
+
+        <!-- redeem -->
+        <div class="redeem">
+          <div class="redeem-label">Download code</div>
+          <div class="redeem-row">
+            <input class="redeem-input" id="redeemCode" type="text" inputmode="text" autocomplete="one-time-code" placeholder="Enter code"/>
+            <button class="redeem-submit" id="redeemBtn" type="button">Redeem</button>
+          </div>
+          <div class="redeem-msg" id="redeemMsg" role="status" aria-live="polite"></div>
+          <div class="dl-links hidden" id="redeemDownloads">
+            <a class="btn btn-solid" href="testpress.mp3" download="LT Drifta - TEST PRESS.mp3">Download MP3</a>
+          </div>
+        </div>
+
+        <hr/>
+
+        <!-- tracklist -->
+        <div>
+          <div class="section-label">Tracklist</div>
           <div class="tracklist" id="tracklist">
-
-            <article class="track active" data-index="0">
-              <div class="track-num">1</div>
-              <div class="track-name">State Street</div>
-              <div class="track-dur">2:22</div>
-              <button class="track-play-btn" aria-label="Play State Street">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-            </article>
-
-            <article class="track" data-index="1">
-              <div class="track-num">2</div>
-              <div class="track-name">Since You've Been Gone</div>
-              <div class="track-dur">5:17</div>
-              <button class="track-play-btn" aria-label="Play Since You've Been Gone">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-            </article>
-
-            <article class="track" data-index="2">
-              <div class="track-num">3</div>
-              <div class="track-name">In The Jungle</div>
-              <div class="track-dur">3:15</div>
-              <button class="track-play-btn" aria-label="Play In The Jungle">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-            </article>
-
-            <article class="track" data-index="3">
-              <div class="track-num">4</div>
-              <div class="track-name">Oaktown, L.A., San Fran, St. John</div>
-              <div class="track-dur">5:17</div>
-              <button class="track-play-btn" aria-label="Play Oaktown">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-            </article>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- REDEEM -->
-      <div class="area-redeem reveal">
-        <div class="redeem-card glass">
-          <div class="card-header">
-            <span class="card-title">Redeem code</span>
-          </div>
-          <div class="redeem-body">
-            <div class="redeem-row">
-              <input class="redeem-input" id="redeemCode" type="text"
-                     placeholder="Enter code" autocomplete="one-time-code" />
-              <button class="btn btn-ghost" id="redeemBtn" type="button"
-                      style="min-height:48px;padding:0 16px;font-size:0.74rem;">Redeem</button>
+            <div class="track on" data-index="0">
+              <span class="track-num">1</span>
+              <span class="track-name">State Street</span>
+              <span class="track-dur">2:22</span>
+              <span class="track-icon">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </span>
             </div>
-            <p class="note" id="redeemStatus" aria-live="polite"></p>
-            <div class="downloads" id="redeemDownloads">
-              <a class="btn btn-primary" href="testpress.mp3" download="testpress.mp3">Download MP3</a>
+            <div class="track" data-index="1">
+              <span class="track-num">2</span>
+              <span class="track-name">Since You've Been Gone</span>
+              <span class="track-dur">5:17</span>
+              <span class="track-icon">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </span>
+            </div>
+            <div class="track" data-index="2">
+              <span class="track-num">3</span>
+              <span class="track-name">In The Jungle</span>
+              <span class="track-dur">3:15</span>
+              <span class="track-icon">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </span>
+            </div>
+            <div class="track" data-index="3">
+              <span class="track-num">4</span>
+              <span class="track-name">Oaktown, L.A., San Fran, St. John</span>
+              <span class="track-dur">5:17</span>
+              <span class="track-icon">
+                <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </span>
             </div>
           </div>
         </div>
-      </div>
 
-    </div><!-- /release-grid -->
-  </main>
+      </div><!-- /right -->
+    </div><!-- /grid -->
+  </div>
+</main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner glass reveal">
-      <div>
-        <div class="footer-brand">VCR Records</div>
-        <div class="footer-copy">Independent electronic music. Cassette pressure.</div>
-      </div>
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">VCR Records</div>
+      <div class="footer-sub">Independent electronic music</div>
       <div class="footer-links">
         <a href="mailto:f_hastings@hotmail.com">Email</a>
         <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
         <a href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
-  </footer>
-
-</div><!-- /page -->
+  </div>
+  <div style="max-width:1080px;margin:0 auto;padding:0 20px;">
+    <div class="footer-copy">© 2025 VCR Records</div>
+  </div>
+</footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+/* ── CONFIG ──────────────────────────────────────────── */
+const CONFIG = {
+  mp3:            'testpress.mp3',
+  stripeDigital:  'https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b',
+  stripeCassette: 'https://buy.stripe.com/dRm4gAbXVgYE4ZGfApfrW0c'
+};
 
-  const CONFIG = {
-    mp3:            'testpress.mp3',
-    stripeDigital:  'https://buy.stripe.com/eVqaEY1jh0ZGcs83RHfrW0b',
-    stripeCassette: 'https://buy.stripe.com/dRm4gAbXVgYE4ZGfApfrW0c'
-  };
+/* Cue points in the single MP3 file (seconds) */
+const TRACKS = [
+  { title: 'State Street',                     start: 0,        end: 142 },
+  { title: "Since You've Been Gone",            start: 142,      end: 459 },
+  { title: 'In The Jungle',                     start: 459,      end: 654 },
+  { title: 'Oaktown, L.A., San Fran, St. John', start: 654,      end: Infinity }
+];
 
-  const TRACKS = [
-    { title: 'State Street',                      start: 0,   end: 142 },
-    { title: "Since You've Been Gone",             start: 142, end: 459 },
-    { title: 'In The Jungle',                      start: 459, end: 654 },
-    { title: 'Oaktown, L.A., San Fran, St. John',  start: 654, end: Infinity }
-  ];
+/* ── AUDIO ───────────────────────────────────────────── */
+const audio   = new Audio();
+audio.preload = 'auto';
+audio.volume  = 0.85;
+audio.src     = CONFIG.mp3;
+audio.load();
 
-  const $  = id  => document.getElementById(id);
-  const $$ = sel => [...document.querySelectorAll(sel)];
-  const fmt = s  => { s = Math.max(0, Math.floor(+s||0)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
-  const resolveAsset = p => { try { return new URL(p, location.href).href; } catch { return p; } };
+const $ = id  => document.getElementById(id);
+const fmt = s => { s = Math.max(0,Math.floor(isFinite(s)?s:0)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
 
-  /* ── Audio ── */
-  const mp3Url = resolveAsset(CONFIG.mp3);
-  const audio  = new Audio();
-  audio.preload = 'auto';
-  audio.volume  = 0.85;
+let dragging  = false;
+let activeIdx = 0;
 
-  // Log browser MP3 support to console for easy diagnosis
-  const support = audio.canPlayType('audio/mpeg');
-  console.log('MP3 canPlayType:', support || '(empty — likely unsupported or file:// restriction)');
+const mainPlay   = $('mainPlay');
+const seekBar    = $('seekBar');
+const volBar     = $('volBar');
+const elapsedEl  = $('elapsed');
+const remainEl   = $('remaining');
+const nowPlaying = $('nowPlaying');
+const waveEl     = $('wave');
+const msgEl      = $('playerMsg');
+const tracks     = [...document.querySelectorAll('.track')];
 
-  audio.src = mp3Url;
-  audio.load();
+/* wave bars */
+for (let i = 0; i < 40; i++) {
+  const s = document.createElement('span');
+  s.style.cssText = `height:${2+Math.random()*14}px;animation-delay:${(Math.random()*1.2).toFixed(2)}s;animation-duration:${(.8+Math.random()*.6).toFixed(2)}s`;
+  waveEl.appendChild(s);
+}
 
-  let activeIdx = 0, dragging = false;
+function setMsg(t, e) { msgEl.textContent=t||''; msgEl.className='player-msg'+(e?' err':''); }
+function getDur() { return isFinite(audio.duration)&&audio.duration>0 ? audio.duration : TRACKS[TRACKS.length-2].end; }
+function syncSeek() {
+  const d = getDur();
+  seekBar.max = String(d);
+  if (!dragging) seekBar.value = String(Math.min(audio.currentTime||0, d));
+  remainEl.textContent = '-'+fmt(d-(audio.currentTime||0));
+}
+function setPlaying(on) {
+  mainPlay.classList.toggle('on', on);
+  waveEl.classList.toggle('on', on);
+}
+function setActive(idx) {
+  if (idx<0||idx>=TRACKS.length) return;
+  activeIdx = idx;
+  nowPlaying.textContent = TRACKS[idx].title;
+  tracks.forEach((t,i) => t.classList.toggle('on', i===idx));
+}
+function detectTrack(t) {
+  const i = TRACKS.findIndex((_,j) => t>=TRACKS[j].start && (!TRACKS[j+1]||t<TRACKS[j+1].start));
+  if (i>=0 && i!==activeIdx) setActive(i);
+}
+function playTrack(idx) { setActive(idx); audio.currentTime=TRACKS[idx].start; syncSeek(); play(); }
 
-  /* ── Wave bars ── */
-  const waveEl = $('wave');
-  for (let i = 0; i < 36; i++) {
-    const b = document.createElement('span');
-    b.style.cssText = `height:${3+Math.random()*20}px;` +
-      `animation-delay:${(Math.random()*1.2).toFixed(2)}s;` +
-      `animation-duration:${(0.85+Math.random()*0.7).toFixed(2)}s`;
-    waveEl.appendChild(b);
+async function play() {
+  if (audio.error) {
+    const m={1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place testpress.mp3 beside this HTML file.'};
+    setMsg(m[audio.error.code]||'Load failed.',true); return;
   }
-
-  /* ── Helpers ── */
-  function setStatus(msg='', type='') {
-    const el = $('playerStatus');
-    el.textContent = msg;
-    el.className   = 'player-status' + (type ? ' '+type : '');
+  if (location.protocol==='file:') console.warn('file:// — use a local server for reliable audio.');
+  try { setMsg('Loading…'); await audio.play(); setMsg(''); }
+  catch(e) {
+    if (e.name==='NotAllowedError') setMsg('Tap again to start.',true);
+    else setMsg('Could not play. Ensure testpress.mp3 is in the same folder.',true);
   }
+}
 
-  function setPlayIcon(playing) {
-    $('mainPlay').classList.toggle('playing', playing);
-    waveEl.classList.toggle('active', playing);
-    $('playIcon').innerHTML = playing
-      ? '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>'
-      : '<path d="M8 5v14l11-7z"/>';
-  }
-
-  function setActive(idx) {
-    if (idx < 0 || idx >= TRACKS.length) return;
-    activeIdx = idx;
-    $('nowPlaying').textContent = TRACKS[idx].title;
-    $$('.track').forEach((r,i) => r.classList.toggle('active', i===idx));
-  }
-
-  function detectTrack(t) {
-    const idx = TRACKS.findIndex((_,i) => t >= TRACKS[i].start && (!TRACKS[i+1] || t < TRACKS[i+1].start));
-    if (idx >= 0 && idx !== activeIdx) setActive(idx);
-  }
-
-  function getDur() {
-    return Number.isFinite(audio.duration) && audio.duration > 0
-      ? audio.duration : TRACKS[TRACKS.length-2].end;
-  }
-
-  function syncSeek() {
-    const d = getDur();
-    $('seekBar').max = String(d);
-    if (!dragging) $('seekBar').value = String(Math.min(audio.currentTime||0, d));
-    $('remaining').textContent = '-' + fmt(d - (audio.currentTime||0));
-  }
-
-  async function safePlay() {
-    // If audio already errored (e.g. file not found), report that rather than
-    // the misleading NotSupportedError that play() throws as a consequence.
-    if (audio.error) {
-      const c = audio.error.code;
-      const msgs = {
-        1: 'Load was aborted.',
-        2: 'Network error — check the file is accessible.',
-        3: 'Decode error — the MP3 file may be corrupt.',
-        4: 'File not found. Make sure testpress.mp3 is in the same folder as this HTML file.'
-      };
-      setStatus(msgs[c] || 'Audio failed to load.', 'err');
-      return;
-    }
-
-    // Warn if opened as file:// (common cause of silent failures)
-    if (location.protocol === 'file:') {
-      console.warn('Running over file:// — some browsers block local audio. Use a local server (e.g. npx serve .) for reliable playback.');
-    }
-
-    try {
-      setStatus('Loading…');
-      await audio.play();
-      setStatus('');
-    } catch(e) {
-      console.error('play() rejected:', e);
-      // NotAllowedError = autoplay policy, not a format issue
-      if (e.name === 'NotAllowedError') {
-        setStatus('Tap/click again to start playback.', 'err');
-      } else if (e.name === 'NotSupportedError' || audio.error?.code === 4) {
-        setStatus('File not found or format unsupported. Make sure testpress.mp3 is beside this HTML file.', 'err');
-      } else {
-        setStatus('Playback failed: ' + e.message, 'err');
-      }
-    }
-  }
-
-  function playTrack(idx) {
-    setActive(idx);
-    audio.currentTime = TRACKS[idx].start;
-    syncSeek();
-    safePlay();
-  }
-
-  /* ── Audio events ── */
-  audio.addEventListener('loadstart',      () => setStatus('Loading…'));
-  audio.addEventListener('loadedmetadata', () => { syncSeek(); setStatus(''); });
-  audio.addEventListener('canplay',        () => setStatus(''));
-  audio.addEventListener('play',           () => { setPlayIcon(true);  setStatus(''); });
-  audio.addEventListener('pause',          () => setPlayIcon(false));
-  audio.addEventListener('ended',          () => setPlayIcon(false));
-  audio.addEventListener('waiting',        () => setStatus('Buffering…'));
-  audio.addEventListener('stalled',        () => setStatus('Stalled.', 'err'));
-
-  audio.addEventListener('error', () => {
-    const c = audio.error?.code;
-    const m = { 1:'Aborted.', 2:'Network error.', 3:'Decode failed.', 4:'File not found or unsupported.' };
-    setStatus((m[c]||'Load failed.')+' Place testpress.mp3 beside this HTML file.', 'err');
-    console.error('Audio error', audio.error, audio.currentSrc);
-  });
-
-  audio.addEventListener('timeupdate', () => {
-    const d = getDur();
-    if (!dragging) $('seekBar').value = String(audio.currentTime||0);
-    $('elapsed').textContent   = fmt(audio.currentTime);
-    $('remaining').textContent = '-' + fmt(d - audio.currentTime);
-    detectTrack(audio.currentTime);
-  });
-
-  /* ── Controls ── */
-  $('mainPlay').addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
-
-  $('seekBar').addEventListener('pointerdown', () => dragging = true);
-  $('seekBar').addEventListener('pointerup',   () => dragging = false);
-  $('seekBar').addEventListener('input',  () => { $('elapsed').textContent = fmt(+$('seekBar').value||0); detectTrack(+$('seekBar').value); });
-  $('seekBar').addEventListener('change', () => { audio.currentTime = +$('seekBar').value||0; detectTrack(audio.currentTime); });
-
-  $('volumeBar').addEventListener('input', () => audio.volume = +$('volumeBar').value||0.85);
-
-  $$('.track').forEach((row,i) => row.addEventListener('click', () => playTrack(i)));
-
-  setActive(0); syncSeek();
-  $('modalMp3').href = mp3Url;
-
-  /* ── Format picker ── */
-  const fpEl      = $('fp');
-  const fpTrigger = $('fpTrigger');
-  const fpMenu    = $('fpMenu');
-  const fpOpts    = $$('.fp-opt');
-  const variant   = $('variantVal');
-
-  const closeFp = () => { fpMenu.hidden=true; fpEl.classList.remove('open'); fpTrigger.setAttribute('aria-expanded','false'); };
-  const openFp  = () => { fpMenu.hidden=false; fpEl.classList.add('open');   fpTrigger.setAttribute('aria-expanded','true'); };
-
-  fpTrigger.addEventListener('click', () => fpMenu.hidden ? openFp() : closeFp());
-  document.addEventListener('click', e => { if (!fpEl.contains(e.target)) closeFp(); });
-  document.addEventListener('keydown', e => { if (e.key==='Escape') closeFp(); });
-
-  function updateVariant() {
-    const cass = variant.value === 'cassette';
-    $('priceText').textContent = cass ? '$9.98' : '$0.98';
-    $('buyBtn').textContent    = cass ? 'Buy cassette' : 'Buy digital';
-    $('buyBtn').href           = cass ? CONFIG.stripeCassette : CONFIG.stripeDigital;
-    $('fpLabel').textContent   = cass ? 'Cassette' : 'Digital';
-    fpOpts.forEach(o => {
-      const s = o.dataset.value === variant.value;
-      o.classList.toggle('sel', s);
-      o.setAttribute('aria-selected', s ? 'true' : 'false');
-    });
-  }
-
-  fpOpts.forEach(o => o.addEventListener('click', () => { variant.value = o.dataset.value; updateVariant(); closeFp(); }));
-  updateVariant();
-
-  /* ── Qty ── */
-  $('qtyMinus').addEventListener('click', () => $('qtyInput').value = Math.max(1, +$('qtyInput').value-1));
-  $('qtyPlus').addEventListener('click',  () => $('qtyInput').value = Math.max(1, +$('qtyInput').value+1));
-
-  /* ── Purchase modal ── */
-  const modal     = $('purchaseModal');
-  const openModal = () => { modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; };
-  const closeModal= () => {
-    modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow='';
-    const u = new URL(location.href);
-    ['purchase','format','session_id'].forEach(k => u.searchParams.delete(k));
-    history.replaceState({},'',u);
-  };
-
-  $('closeModal').addEventListener('click', closeModal);
-  modal.addEventListener('click', e => { if (e.target===modal) closeModal(); });
-
-  const p = new URLSearchParams(location.search);
-  if (p.get('purchase')==='success' || p.has('session_id')) openModal();
-  $('buyBtn').addEventListener('click', () =>
-    sessionStorage.setItem('testpress_ctx', JSON.stringify({ format:variant.value, qty:$('qtyInput').value, ts:Date.now() }))
-  );
-
-  /* ── Redeem ── */
-  const CODES = new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V']);
-  const used  = new Set(JSON.parse(localStorage.getItem('testpress_used_v2')||'[]'));
-
-  function redeem() {
-    const code = $('redeemCode').value.trim().toUpperCase();
-    $('redeemDownloads').classList.remove('show');
-    if (!code)            { $('redeemStatus').textContent = 'Enter your code.';   return; }
-    if (!CODES.has(code)) { $('redeemStatus').textContent = 'Invalid code.';      return; }
-    if (used.has(code))   { $('redeemStatus').textContent = 'Code already used.'; return; }
-    used.add(code);
-    localStorage.setItem('testpress_used_v2', JSON.stringify([...used]));
-    $('redeemStatus').textContent = 'Code accepted — download unlocked.';
-    $('redeemDownloads').classList.add('show');
-  }
-
-  $('redeemBtn').addEventListener('click', redeem);
-  $('redeemCode').addEventListener('keydown', e => { if (e.key==='Enter') redeem(); });
-
-  /* ── Scroll reveal ── */
-  const obs = new IntersectionObserver(entries =>
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }),
-    { threshold: 0.08 }
-  );
-  $$('.reveal').forEach(el => obs.observe(el));
-
+audio.addEventListener('loadstart',      () => setMsg('Loading…'));
+audio.addEventListener('loadedmetadata', () => { syncSeek(); setMsg(''); });
+audio.addEventListener('canplay',        () => setMsg(''));
+audio.addEventListener('play',           () => { setPlaying(true); setMsg(''); });
+audio.addEventListener('pause',          () => setPlaying(false));
+audio.addEventListener('ended',          () => setPlaying(false));
+audio.addEventListener('waiting',        () => setMsg('Buffering…'));
+audio.addEventListener('error', () => {
+  const m={1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported format.'};
+  setMsg((m[audio.error?.code]||'Load failed.')+' Place testpress.mp3 beside this HTML file.',true);
 });
+audio.addEventListener('timeupdate', () => {
+  const d=getDur();
+  if (!dragging) seekBar.value=String(audio.currentTime||0);
+  elapsedEl.textContent=fmt(audio.currentTime);
+  remainEl.textContent='-'+fmt(d-audio.currentTime);
+  detectTrack(audio.currentTime);
+});
+
+mainPlay.addEventListener('click', () => audio.paused ? play() : audio.pause());
+seekBar.addEventListener('pointerdown', () => dragging=true);
+seekBar.addEventListener('pointerup',   () => dragging=false);
+seekBar.addEventListener('input',  () => { elapsedEl.textContent=fmt(+seekBar.value||0); detectTrack(+seekBar.value); });
+seekBar.addEventListener('change', () => { audio.currentTime=+seekBar.value||0; detectTrack(audio.currentTime); });
+volBar.addEventListener('input',   () => audio.volume=+volBar.value||0.85);
+
+tracks.forEach((row, idx) => {
+  row.addEventListener('click', () => idx===activeIdx ? (audio.paused?play():audio.pause()) : playTrack(idx));
+});
+
+setActive(0); syncSeek();
+$('modalMp3').href = CONFIG.mp3;
+
+/* ── FORMAT PICKER ───────────────────────────────────── */
+const swrap = $('swrap'), fpTrig = $('fpTrigger'), fpMenu = $('fpMenu');
+const fpOpts = [...document.querySelectorAll('.select-opt')], varVal = $('variantVal');
+const closeF = () => { fpMenu.hidden=true; swrap.classList.remove('open'); fpTrig.setAttribute('aria-expanded','false'); };
+const openF  = () => { fpMenu.hidden=false; swrap.classList.add('open');   fpTrig.setAttribute('aria-expanded','true'); };
+fpTrig.addEventListener('click', () => fpMenu.hidden ? openF() : closeF());
+document.addEventListener('click', e => { if (!swrap.contains(e.target)) closeF(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeF(); });
+function updateVariant() {
+  const c = varVal.value==='cassette';
+  $('priceDisplay').textContent = c ? '$9.98' : '$0.98';
+  $('priceFormat').textContent  = c ? 'USD · Cassette' : 'USD · Digital';
+  $('buyBtn').textContent       = c ? 'Buy — $9.98' : 'Buy — $0.98';
+  $('buyBtn').href               = c ? CONFIG.stripeCassette : CONFIG.stripeDigital;
+  $('fpLabel').textContent       = c ? 'Cassette' : 'Digital';
+  fpOpts.forEach(o => { const s=o.dataset.value===varVal.value; o.classList.toggle('sel',s); o.setAttribute('aria-selected',s?'true':'false'); });
+}
+fpOpts.forEach(o => o.addEventListener('click', () => { varVal.value=o.dataset.value; updateVariant(); closeF(); }));
+updateVariant();
+$('qtyMinus').addEventListener('click', () => $('qtyInput').value=Math.max(1,+$('qtyInput').value-1));
+$('qtyPlus').addEventListener('click',  () => $('qtyInput').value=Math.max(1,+$('qtyInput').value+1));
+
+/* ── PURCHASE MODAL ──────────────────────────────────── */
+const modal = $('purchaseModal');
+const openM  = () => { modal.classList.add('on');  document.body.style.overflow='hidden'; };
+const closeM = () => {
+  modal.classList.remove('on'); document.body.style.overflow='';
+  const u=new URL(location.href); ['purchase','session_id'].forEach(k=>u.searchParams.delete(k));
+  history.replaceState({},'',u);
+};
+$('modalClose').addEventListener('click', closeM);
+$('modalDismiss').addEventListener('click', closeM);
+modal.addEventListener('click', e => { if (e.target===modal) closeM(); });
+const sp = new URLSearchParams(location.search);
+if (sp.get('purchase')==='success'||sp.has('session_id')) setTimeout(openM, 600);
+$('buyBtn').addEventListener('click', () => sessionStorage.setItem('tp_ctx', JSON.stringify({format:varVal.value,ts:Date.now()})));
+
+/* ── REDEEM ──────────────────────────────────────────── */
+const CODES = new Set(['AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V'].map(c=>c.toUpperCase()));
+const USED  = new Set(JSON.parse(localStorage.getItem('testpress_used_v2')||'[]'));
+const saveU = () => localStorage.setItem('testpress_used_v2', JSON.stringify([...USED]));
+
+async function forceDownload(url, name) {
+  try {
+    const r = await fetch(url); if (!r.ok) throw 0;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(await r.blob()); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  } catch { window.location.href = url; }
+}
+
+async function redeem() {
+  const code = ($('redeemCode').value||'').trim().toUpperCase();
+  $('redeemDownloads').classList.add('hidden');
+  $('redeemMsg').textContent = '';
+  if (!code)             { $('redeemMsg').textContent='Enter your code.';   return; }
+  if (USED.has(code))    { $('redeemMsg').textContent='Code already used.'; return; }
+  if (!CODES.has(code))  { $('redeemMsg').textContent='Invalid code.';      return; }
+  USED.add(code); saveU();
+  $('redeemMsg').textContent = 'Accepted — starting download…';
+  try {
+    await forceDownload(CONFIG.mp3, 'LT Drifta - TEST PRESS.mp3');
+    $('redeemMsg').textContent = 'Download started.';
+    $('redeemDownloads').classList.remove('hidden');
+  } catch {
+    $('redeemMsg').textContent = 'Use the button below.';
+    $('redeemDownloads').classList.remove('hidden');
+  }
+}
+$('redeemBtn').addEventListener('click', redeem);
+$('redeemCode').addEventListener('keydown', e => { if (e.key==='Enter') redeem(); });
+
+/* ── ZOOM ────────────────────────────────────────────── */
+const zo = $('zoomOverlay'), zi = $('zoomImg'), ai = $('artworkImg');
+$('artworkWrap').addEventListener('click', () => { zi.src=ai.src; zo.style.display='flex'; });
+zo.addEventListener('click', e => { if (e.target!==zi) zo.style.display='none'; });
+zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display='none');
 </script>
 </body>
 </html>
