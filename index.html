@@ -3,448 +3,691 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>VCR Recordings</title>
-  <meta name="description" content="VCR Recordings — independent electronic music. Jungle, house, hip-hop, edits, and experimental music."/>
-  <meta name="theme-color" content="#05070d"/>
+  <title>VCR Recordings — Independent Electronic Music</title>
+  <meta name="description" content="VCR Recordings — independent electronic music. Jungle, house, hip-hop and experimental music."/>
+  <meta name="theme-color" content="#000000"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      --display:Outfit,var(--font);
-      --bg:#05070d;
-      --bg2:#09101a;
-      --text:#f5f7fb;
-      --muted:rgba(245,247,251,.68);
-      --soft:rgba(245,247,251,.46);
-      --line:rgba(255,255,255,.10);
-      --line2:rgba(255,255,255,.06);
-      --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.04);
-      --accent:#8ab4ff;
-      --accent2:#73ffd1;
-      --accent3:#dba7ff;
-      --max:1180px;
-      --radius:24px;
-      --radius-sm:18px;
-      --shadow:0 20px 70px rgba(0,0,0,.42);
-      --blur:blur(24px) saturate(150%);
-      --blur-hero:blur(64px);
-      --safe-b:env(safe-area-inset-bottom,0px);
+    :root {
+      --black: #000;
+      --white: #fff;
+      --off:   #f2f2f2;
+      --grey:  #999;
+      --mid:   #555;
+      --dark:  #111;
+      --line:  rgba(255,255,255,.10);
+      --sans:  'Archivo', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --safe-b: env(safe-area-inset-bottom, 0px);
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:var(--font);
-      color:var(--text);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--black);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a    { color: inherit; text-decoration: none; }
+    img  { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; -webkit-tap-highlight-color: transparent; }
+
+    /* ── NAV ────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(16px) saturate(120%);
+      -webkit-backdrop-filter: blur(16px) saturate(120%);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-brand {
+      font-size: 0.78rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .nav-links { display: flex; gap: 2px; }
+    .nav-links a {
+      padding: 7px 10px;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--grey);
+      border-radius: 4px;
+      transition: color .15s, background .15s;
+    }
+    @media (hover:hover) { .nav-links a:hover { color: var(--white); background: rgba(255,255,255,.06); } }
+    .nav-links a:active { color: var(--white); }
+
+    .nav-ham {
+      display: none; flex-direction: column; gap: 4px; padding: 8px;
+    }
+    .nav-ham span { display: block; width: 18px; height: 1.5px; background: var(--grey); border-radius: 1px; transition: .2s ease; }
+    .nav-ham.on span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); background: var(--white); }
+    .nav-ham.on span:nth-child(2) { opacity: 0; }
+    .nav-ham.on span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); background: var(--white); }
+    @media (max-width: 560px) { .nav-links { display: none; } .nav-ham { display: flex; } }
+
+    .nav-drawer {
+      display: none; position: fixed;
+      top: 52px; left: 0; right: 0; z-index: 290;
+      background: rgba(0,0,0,.97);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 20px calc(16px + var(--safe-b));
+    }
+    .nav-drawer.on { display: block; }
+    .nav-drawer a {
+      display: block; padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--grey);
+    }
+    .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a:active { color: var(--white); }
+
+    /* ── HERO — full bleed ──────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 500px;
+      max-height: 900px;
+      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: var(--dark);
+    }
+    .hero-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      filter: brightness(.55);
+    }
+    /* gradient overlay — dark at top (for nav readability) + dark at bottom (for text) */
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
       background:
-        radial-gradient(circle at 10% 10%, rgba(115,255,209,.14), transparent 0 26%),
-        radial-gradient(circle at 85% 15%, rgba(138,180,255,.18), transparent 0 28%),
-        radial-gradient(circle at 70% 80%, rgba(219,167,255,.10), transparent 0 22%),
-        linear-gradient(180deg, #05070d 0%, #08101a 44%, #04060b 100%);
-      min-height:100vh;
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
+        linear-gradient(180deg,
+          rgba(0,0,0,.55) 0%,
+          rgba(0,0,0,.0)  30%,
+          rgba(0,0,0,.0)  50%,
+          rgba(0,0,0,.72) 78%,
+          rgba(0,0,0,.92) 100%
+        );
     }
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
-    button{font:inherit;cursor:pointer;border:none;background:none}
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 24px calc(40px + var(--safe-b));
+      max-width: 1100px;
+    }
+    @media (min-width: 600px) { .hero-content { padding: 0 40px calc(52px + var(--safe-b)); } }
 
-    .container{width:min(calc(100% - 32px), var(--max));margin:0 auto;position:relative;z-index:2}
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border-radius: 3px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      font-size: 0.60rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 14px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+      flex-shrink: 0;
+    }
+    .hero-title {
+      font-size: clamp(3.2rem, 10vw, 7.5rem);
+      font-weight: 900;
+      line-height: 0.90;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+    .hero-sub {
+      font-size: clamp(0.80rem, 2.2vw, 1rem);
+      font-weight: 500;
+      color: rgba(255,255,255,.60);
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-    .grid-overlay{
-      position:fixed;inset:0;pointer-events:none;z-index:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size:32px 32px;
-      mask-image:linear-gradient(180deg, rgba(0,0,0,.8), rgba(0,0,0,.12));
+    /* ── BUTTONS ────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      height: 44px; padding: 0 20px; border-radius: 3px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: background .13s, border-color .13s, color .13s, transform .10s;
+      cursor: pointer; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
-    .noise{
-      position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.06;
-      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="160" height="160" filter="url(%23n)" opacity="1"/></svg>');
-      mix-blend-mode:soft-light;
-    }
-    .atm{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-    .orb{position:absolute;border-radius:50%;filter:var(--blur-hero);opacity:.72}
-    .orb.a{width:44rem;height:44rem;left:-12rem;top:-14rem;background:rgba(138,180,255,.12)}
-    .orb.b{width:34rem;height:34rem;right:-8rem;top:8rem;background:rgba(115,255,209,.10)}
-    .orb.c{width:30rem;height:30rem;left:40%;bottom:-10rem;background:rgba(219,167,255,.08)}
-
-    .glass{
-      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      backdrop-filter:var(--blur);
-      -webkit-backdrop-filter:var(--blur);
-      position:relative;
-      overflow:hidden;
-    }
-    .glass::before{
-      content:"";position:absolute;inset:0;pointer-events:none;
-      background:linear-gradient(180deg, rgba(255,255,255,.035), transparent 45%);
+    .btn:active { transform: scale(0.97); }
+    .btn-white  { background: var(--white); color: var(--black); border-color: var(--white); }
+    .btn-border { background: transparent; color: var(--white); border-color: rgba(255,255,255,.40); }
+    @media (hover:hover) {
+      .btn-white:hover  { background: var(--off); }
+      .btn-border:hover { border-color: var(--white); }
     }
 
-    .nav-wrap{position:sticky;top:0;z-index:50;padding-top:14px}
-    .nav{
-      min-height:72px;border-radius:999px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 18px 0 24px;
-    }
-    .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800;font-size:.82rem;letter-spacing:.18em;text-transform:uppercase}
-    .brand-mark{
-      width:34px;height:34px;border-radius:12px;display:grid;place-items:center;
-      background:linear-gradient(135deg, rgba(138,180,255,.28), rgba(115,255,209,.18));
-      border:1px solid rgba(255,255,255,.18);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
-      font-size:.74rem;
-    }
-    .nav-links{display:flex;gap:10px;flex-wrap:wrap}
-    .nav-links a{
-      padding:10px 14px;border-radius:999px;color:var(--muted);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;transition:.2s ease;border:1px solid transparent;
-    }
-    .nav-links a:hover{color:var(--text);border-color:var(--line2);background:rgba(255,255,255,.04)}
-    .ham{display:none;flex-direction:column;gap:4px;padding:8px}
-    .ham span{display:block;width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px;transition:.25s}
-    .ham.on span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
-    .ham.on span:nth-child(2){opacity:0}
-    .ham.on span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
-    .mob{
-      display:none;position:fixed;top:86px;left:16px;right:16px;z-index:49;padding:18px;border-radius:22px;
-      background:rgba(8,12,18,.92);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--line);
-      box-shadow:var(--shadow);
-    }
-    .mob.on{display:grid;gap:6px}
-    .mob a{padding:14px 10px;border-radius:12px;color:var(--muted);font-size:.96rem}
-    .mob a:hover{background:rgba(255,255,255,.05);color:var(--text)}
-    @media(max-width:760px){.nav-links{display:none}.ham{display:flex}}
+    /* ── SECTION SHELL ──────────────────────────────── */
+    .section { padding: 56px 0; border-top: 1px solid var(--line); }
+    .wrap    { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    @media (min-width: 600px) { .wrap { padding: 0 32px; } }
 
-    .hero{padding:110px 0 72px;min-height:100vh;display:flex;align-items:center}
-    .hero-shell{padding:28px;border-radius:32px}
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,430px);gap:22px;align-items:stretch}
-    @media(max-width:980px){.hero{padding-top:96px;min-height:auto}.hero-grid{grid-template-columns:1fr}}
-    .hero-left,.hero-right{border-radius:28px;padding:24px}
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line2);
-      color:var(--muted);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;
+    .sh {
+      display: flex; align-items: baseline;
+      justify-content: space-between; gap: 12px;
+      margin-bottom: 28px;
     }
-    .dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 14px rgba(115,255,209,.6)}
-    .hero-title{
-      font-family:var(--display);font-size:clamp(3.6rem, 12vw, 8.6rem);line-height:.86;font-weight:800;letter-spacing:-.07em;margin-bottom:14px;text-wrap:balance;
+    .sh-title {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--grey);
     }
-    .hero-title .outline{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18);text-shadow:0 0 44px rgba(138,180,255,.08)}
-    .hero-copy{max-width:34ch;font-size:1rem;line-height:1.65;color:var(--muted);margin-bottom:22px}
-    .hero-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
-    @media(max-width:640px){.hero-meta{grid-template-columns:1fr}}
-    .meta-card{padding:14px 14px 16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line2)}
-    .meta-label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:7px}
-    .meta-value{font-size:.98rem;font-weight:700}
-    .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{
-      min-height:54px;padding:0 20px;border-radius:18px;border:1px solid rgba(255,255,255,.12);display:inline-flex;align-items:center;justify-content:center;
-      gap:10px;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;transition:.18s ease;overflow:hidden;position:relative;
+    .sh-more {
+      font-size: 0.60rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--grey); white-space: nowrap;
+      display: flex; align-items: center; gap: 5px;
+      transition: color .15s;
     }
-    .btn:hover{transform:translateY(-1px)}
-    .btn-primary{background:linear-gradient(135deg, rgba(138,180,255,.28), rgba(115,255,209,.22));box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 14px 30px rgba(36,68,122,.24)}
-    .btn-secondary{background:rgba(255,255,255,.04);color:rgba(245,247,251,.8)}
+    .sh-more::after { content: '→'; }
+    @media (hover:hover) { .sh-more:hover { color: var(--white); } }
 
-    .hero-card-title{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.84);font-weight:800;margin-bottom:14px}
-    .hero-feature{display:grid;gap:14px}
-    .hero-release{
-      border-radius:22px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)
+    /* ── FEATURED RELEASE — big card ───────────────── */
+    .feat {
+      display: grid;
+      grid-template-columns: minmax(160px, 340px) 1fr;
+      border: 1px solid var(--line);
+      background: var(--dark);
     }
-    .hero-release-art{position:relative;aspect-ratio:1.15/1;overflow:hidden}
-    .hero-release-art img{width:100%;height:100%;object-fit:cover;filter:brightness(.94)}
-    .hero-release-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 38%, rgba(0,0,0,.38) 74%, rgba(0,0,0,.58));pointer-events:none}
-    .hero-release-badge{
-      position:absolute;top:14px;left:14px;padding:8px 12px;border-radius:999px;background:rgba(5,8,14,.6);border:1px solid rgba(255,255,255,.14);z-index:2;
-      font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    @media (max-width: 640px) { .feat { grid-template-columns: 1fr; } }
+
+    .feat-art {
+      position: relative; overflow: hidden;
+      aspect-ratio: 1/1; display: block;
+      background: #111;
     }
-    .hero-release-body{padding:18px}
-    .hero-release-cat{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
-    .hero-release-title{font-family:var(--display);font-size:2rem;line-height:.95;font-weight:800;letter-spacing:-.04em}
-    .hero-release-artist{margin-top:8px;font-size:.96rem;color:var(--muted)}
-    .hero-release-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:.74rem;color:var(--soft);letter-spacing:.1em;text-transform:uppercase}
-    .hero-release-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .feat-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    @media (hover:hover) { .feat-art:hover img { transform: scale(1.05); } }
 
-    .section{padding:24px 0 90px;position:relative}
-    .section + .section{padding-top:10px}
-    .sep{width:100%;height:1px;background:linear-gradient(90deg, transparent 4%, rgba(255,255,255,.08) 50%, transparent 96%);margin-bottom:36px}
-    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-    .section-tag{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);font-weight:800}
-    .section-copy{font-size:.94rem;color:var(--muted);max-width:54ch}
+    .feat-panel {
+      padding: clamp(20px,3.5vw,34px);
+      display: flex; flex-direction: column;
+      justify-content: space-between; gap: 20px;
+      border-left: 1px solid var(--line);
+    }
+    @media (max-width: 640px) { .feat-panel { border-left: none; border-top: 1px solid var(--line); } }
 
-    .featured-shell{padding:22px;border-radius:30px}
-    .featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden;border-radius:24px;border:1px solid rgba(255,255,255,.08)}
-    @media(max-width:860px){.featured-grid{grid-template-columns:1fr}}
-    .feat-visual{position:relative;min-height:520px;background:#080808;overflow:hidden}
-    .feat-visual img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.16,1,.3,1);filter:brightness(.92) contrast(1.03)}
-    .featured-grid:hover .feat-visual img{transform:scale(1.04)}
-    .feat-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 44%, rgba(0,0,0,.34) 72%, rgba(0,0,0,.58));pointer-events:none}
-    .feat-badge{position:absolute;top:22px;left:22px;z-index:2;padding:8px 12px;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
-    .feat-panel{padding:34px 30px;display:flex;flex-direction:column;justify-content:space-between;background:rgba(6,8,14,.72)}
-    .feat-cat{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:14px}
-    .feat-album{font-family:var(--display);font-size:clamp(2.3rem, 5vw, 3.8rem);line-height:.94;font-weight:800;letter-spacing:-.04em}
-    .feat-artist{font-size:1rem;color:var(--muted);margin-top:10px}
-    .feat-detail{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:.75rem;color:var(--soft);letter-spacing:.1em;text-transform:uppercase}
-    .feat-tracklist{margin-top:26px;display:grid;gap:2px}
-    .track{display:grid;grid-template-columns:1.9rem 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid rgba(255,255,255,.05)}
-    .track:first-child{border-top:none}
-    .track-no{font-size:.82rem;color:var(--soft);text-align:center}
-    .track-title{font-size:.94rem;color:rgba(255,255,255,.9)}
-    .track-title em{font-style:normal;color:var(--soft);font-size:.78rem}
-    .track-dur{font-size:.8rem;color:var(--soft)}
-    .feat-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+    .feat-label {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--grey); margin-bottom: 8px;
+    }
+    .feat-title {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 900; line-height: 0.90;
+      letter-spacing: -0.04em;
+    }
+    .feat-artist {
+      font-size: 0.84rem; font-weight: 500;
+      color: var(--grey); margin-top: 8px;
+    }
+    .feat-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .tag {
+      font-size: 0.56rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 2px;
+      border: 1px solid var(--line);
+      color: var(--grey);
+    }
 
-    .catalog-shell{padding:20px;border-radius:28px}
-    .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    @media(max-width:860px){.cat-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:520px){.cat-grid{grid-template-columns:1fr 1fr;gap:10px}}
-    .cat-item{position:relative;display:block;border-radius:22px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-height:100%}
-    .cat-item img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .65s cubic-bezier(.16,1,.3,1), filter .65s;filter:brightness(.9)}
-    .cat-item:hover img{transform:scale(1.04);filter:brightness(1)}
-    .cat-item::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 46%, rgba(0,0,0,.56));pointer-events:none}
-    .cat-meta{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 18px;z-index:2}
-    .cat-artist{font-size:.74rem;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}
-    .cat-title{font-size:.98rem;font-weight:700;color:rgba(255,255,255,.94);margin-top:4px}
-    .cat-year{font-size:.76rem;color:var(--soft);margin-top:4px}
+    /* tracklist */
+    .tl { margin-top: 18px; }
+    .tl-row {
+      display: grid; grid-template-columns: 1.8rem 1fr auto;
+      gap: 8px; align-items: baseline;
+      padding: 8px 0; border-top: 1px solid var(--line);
+    }
+    .tl-row:first-child { border-top: none; }
+    .tl-n { font-size: 0.60rem; color: var(--mid); text-align: right; font-variant-numeric: tabular-nums; }
+    .tl-t { font-size: 0.84rem; font-weight: 500; color: var(--off); }
+    .tl-t em { font-style: italic; font-size: 0.74rem; color: var(--grey); font-weight: 400; }
+    .tl-d { font-size: 0.60rem; color: var(--mid); font-variant-numeric: tabular-nums; }
 
-    .listen-shell{padding:20px;border-radius:28px}
-    .player-node{border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
-    .player-face{display:flex;align-items:center;gap:16px;padding:18px 22px;cursor:pointer;transition:background .2s}
-    .player-face:hover{background:rgba(255,255,255,.03)}
-    .pf-icon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg, rgba(138,180,255,.26), rgba(115,255,209,.22));border:1px solid rgba(255,255,255,.16);flex-shrink:0}
-    .pf-icon svg{width:16px;height:16px;fill:#fff;margin-left:2px}
-    .pf-title{font-size:.96rem;font-weight:700}
-    .pf-sub{font-size:.74rem;color:var(--soft);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+    .feat-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    .roster-shell{padding:20px;border-radius:28px}
-    .roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-    @media(max-width:860px){.roster{grid-template-columns:1fr 1fr}}
-    @media(max-width:520px){.roster{grid-template-columns:1fr}}
-    .roster-card{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);transition:.2s ease}
-    .roster-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
-    .roster-card img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.12)}
-    .roster-name{font-size:.96rem;font-weight:700}
-    .roster-role{font-size:.8rem;color:var(--soft);margin-top:4px}
+    /* ── RELEASES GRID ──────────────────────────────── */
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line); /* gap colour via bg trick */
+      border: 1px solid var(--line);
+    }
+    @media (max-width: 720px) { .releases-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .releases-grid { grid-template-columns: 1fr; } }
 
-    .footer{padding:0 0 calc(36px + var(--safe-b))}
-    .footer-card{padding:20px 22px;border-radius:28px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
-    .footer-copy{font-size:.8rem;color:var(--soft)}
-    .footer-links{display:flex;gap:10px;flex-wrap:wrap}
-    .footer-links a{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
-    .footer-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .rel-card {
+      display: block; background: var(--black);
+      position: relative; overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .rel-art {
+      aspect-ratio: 1/1; overflow: hidden;
+      background: var(--dark);
+    }
+    .rel-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s cubic-bezier(.16,1,.3,1), filter .4s;
+      filter: brightness(.88);
+    }
+    @media (hover:hover) {
+      .rel-card:hover .rel-art img { transform: scale(1.05); filter: brightness(1); }
+      .rel-card:hover .rel-title { color: var(--white); }
+    }
+    .rel-card:active .rel-art img { transform: scale(1.02); }
+    .rel-body { padding: 12px 14px 16px; }
+    .rel-artist {
+      font-size: 0.58rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 4px;
+    }
+    .rel-title {
+      font-size: 0.90rem; font-weight: 700;
+      color: var(--off); line-height: 1.2;
+      transition: color .15s;
+    }
+    .rel-year {
+      font-size: 0.58rem; color: var(--mid);
+      margin-top: 4px;
+    }
+    .rel-tag-new {
+      display: inline-block;
+      font-size: 0.48rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      background: var(--white); color: var(--black);
+      padding: 2px 6px; border-radius: 2px;
+      margin-left: 6px; vertical-align: middle;
+      position: relative; top: -1px;
+    }
 
-    .rv{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1)}
-    .rv.v{opacity:1;transform:translateY(0)}
+    /* ── LISTEN ─────────────────────────────────────── */
+    .listen-block {
+      border: 1px solid var(--line);
+      background: var(--dark);
+    }
+    .listen-trig {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 22px; width: 100%;
+      transition: background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .listen-trig:active { background: rgba(255,255,255,.03); }
+    @media (hover:hover) { .listen-trig:hover { background: rgba(255,255,255,.03); } }
+    .listen-ring {
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.25);
+      display: grid; place-items: center;
+      transition: border-color .15s, background .15s;
+    }
+    @media (hover:hover) { .listen-trig:hover .listen-ring { border-color: var(--white); background: rgba(255,255,255,.06); } }
+    .listen-ring svg { width: 15px; height: 15px; fill: var(--white); margin-left: 2px; }
+    .listen-info { text-align: left; }
+    .listen-name { font-size: 0.90rem; font-weight: 600; }
+    .listen-sub  {
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--grey); margin-top: 3px;
+    }
+    .listen-embed { display: none; border-top: 1px solid var(--line); }
+    .listen-embed.on { display: block; }
+
+    /* ── ARTISTS GRID ───────────────────────────────── */
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+    }
+    @media (max-width: 520px) { .artists-grid { grid-template-columns: 1fr; } }
+
+    .a-card {
+      background: var(--black);
+      padding: clamp(18px,3.5vw,28px);
+      display: flex; flex-direction: column; gap: 14px;
+      transition: background .15s;
+    }
+    @media (hover:hover) { .a-card:hover { background: var(--dark); } }
+    .a-img {
+      width: 56px; height: 56px; border-radius: 50%;
+      object-fit: cover; border: 1px solid var(--line);
+      background: var(--dark);
+    }
+    .a-name { font-size: 0.96rem; font-weight: 700; }
+    .a-role {
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--grey); margin-top: 2px;
+    }
+    .a-releases {
+      margin-top: auto;
+      font-size: 0.60rem; color: var(--mid);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 calc(28px + var(--safe-b));
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-size: 0.70rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .footer-copy { font-size: 0.58rem; color: var(--mid); margin-top: 3px; }
+    .footer-links { display: flex; gap: 4px; flex-wrap: wrap; }
+    .footer-links a {
+      padding: 8px 11px; border-radius: 3px;
+      font-size: 0.60rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--grey); border: 1px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    .footer-links a:active { color: var(--white); }
+    @media (hover:hover) { .footer-links a:hover { color: var(--white); border-color: var(--line); } }
+
+    /* ── SCROLL REVEAL ──────────────────────────────── */
+    .rv { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s ease; }
+    .rv.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .06s; }
+    .d2 { transition-delay: .12s; }
   </style>
 </head>
 <body>
 
-<div class="atm"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
-<div class="grid-overlay"></div>
-<div class="noise"></div>
-
-<header class="nav-wrap">
-  <div class="container">
-    <div class="nav glass">
-      <a href="#top" class="brand"><span class="brand-mark">V</span><span>VCR Recordings</span></a>
-      <nav class="nav-links"><a href="#featured">Featured</a><a href="#catalog">Releases</a><a href="#listen">Listen</a><a href="#roster">Artists</a></nav>
-      <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </div>
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<header class="nav">
+  <a href="#top" class="nav-brand">VCR Recordings</a>
+  <nav class="nav-links" aria-label="Primary navigation">
+    <a href="#featured">Featured</a>
+    <a href="#releases">Releases</a>
+    <a href="#listen">Listen</a>
+    <a href="#artists">Artists</a>
+  </nav>
+  <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </header>
-<div class="mob" id="mob">
-  <a href="#featured" onclick="closeMenu()">Featured</a>
-  <a href="#catalog" onclick="closeMenu()">Releases</a>
-  <a href="#listen" onclick="closeMenu()">Listen</a>
-  <a href="#roster" onclick="closeMenu()">Artists</a>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="#featured">Featured</a>
+  <a href="#releases">Releases</a>
+  <a href="#listen">Listen</a>
+  <a href="#artists">Artists</a>
 </div>
 
-<main id="top">
-  <section class="hero">
-    <div class="container">
-      <div class="hero-shell glass rv">
-        <div class="hero-grid">
-          <div class="hero-left">
-            <div class="eyebrow"><span class="dot"></span> Independent electronic music</div>
-            <h1 class="hero-title">VCR <span class="outline">Recordings</span></h1>
-            <p class="hero-copy">   </p>
-            <div class="hero-meta">
-     
-          
-            
-            </div>
-            <div class="hero-cta">
-              <a class="btn btn-primary" href="#featured">Latest release</a>
-              <a class="btn btn-secondary" href="#catalog">Browse catalog</a>
-            </div>
-          </div>
-
-     
-        </div>
-      </div>
+<!-- ══ HERO — full bleed ═════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <img src="blank1400.png" alt="VCR Recordings" fetchpriority="high"/>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">New release · Future Boy · 2026</div>
+    <h1 class="hero-title">VCR<br>Recordings</h1>
+    <p class="hero-sub">Independent electronic music — jungle, house, hip-hop &amp; edits</p>
+    <div class="hero-actions">
+      <a class="btn btn-white" href="#featured">Latest Release</a>
+      <a class="btn btn-border" href="#releases">Browse Catalog</a>
     </div>
-  </section>
+  </div>
+</section>
 
+<main>
+
+  <!-- ══ FEATURED ══════════════════════════════════════ -->
   <section class="section" id="featured">
-    <div class="container">
-      <div class="sep"></div>
-      <div class="section-head rv">
-        <div>
-          <div class="section-tag">Featured release · March 2026</div>
-        
-        </div>
+    <div class="wrap">
+      <div class="sh rv">
+        <span class="sh-title">Featured Release</span>
+        <a class="sh-more" href="future.html">View release</a>
       </div>
-
-      <div class="featured-shell glass rv" style="transition-delay:.08s">
-        <div class="featured-grid">
-          <a class="feat-visual" href="future.html">
-            <div class="feat-badge">LT Drifta</div>
-            <img src="blank1400.png" alt="Future Boy artwork"/>
-          </a>
-          <div class="feat-panel">
-            <div>
-              <div class="feat-cat"></div>
-              <h2 class="feat-album">Future<br>Boy</h2>
-              <div class="feat-artist"></div>
-              <div class="feat-detail"><span>2026</span><span></span><span>Digital + Cassette</span></div>
-              <div class="feat-tracklist">
-                <div class="track"><span class="track-no">1</span><span class="track-title">Temple Ball</span><span class="track-dur">1:17</span></div>
-                <div class="track"><span class="track-no">2</span><span class="track-title">Counting Signals</span><span class="track-dur">3:03</span></div>
-                <div class="track"><span class="track-no">3</span><span class="track-title">Escape from Industria <em>ft. Tyler Daley</em></span><span class="track-dur">5:15</span></div>
-                <div class="track"><span class="track-no">4</span><span class="track-title">Love Supreme</span><span class="track-dur">3:32</span></div>
-                <div class="track"><span class="track-no">5</span><span class="track-title">Nu Saigon Nights</span><span class="track-dur">1:04</span></div>
-                <div class="track"><span class="track-no">6</span><span class="track-title">Without You</span><span class="track-dur">3:18</span></div>
-              </div>
+      <div class="feat rv d1">
+        <a class="feat-art" href="future.html" aria-label="Future Boy by LT Drifta">
+          <img src="blank1400.png" alt="Future Boy"/>
+        </a>
+        <div class="feat-panel">
+          <div>
+            <div class="feat-label">VCR-004 · Digital + Cassette · 2026</div>
+            <h2 class="feat-title">Future Boy</h2>
+            <div class="feat-artist">LT Drifta</div>
+            <div class="feat-tags">
+              <span class="tag">Electronic</span>
+              <span class="tag">Jungle</span>
+              <span class="tag">Hip-Hop</span>
             </div>
-            <div class="feat-cta">
-              <a class="btn btn-primary" href="future.html">View release</a>
-              <a class="btn btn-secondary" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+            <div class="tl">
+              <div class="tl-row"><span class="tl-n">1</span><span class="tl-t">Temple Ball</span><span class="tl-d">1:17</span></div>
+              <div class="tl-row"><span class="tl-n">2</span><span class="tl-t">Counting Signals</span><span class="tl-d">3:03</span></div>
+              <div class="tl-row"><span class="tl-n">3</span><span class="tl-t">Escape from Industria <em>ft. Tyler Daley</em></span><span class="tl-d">5:15</span></div>
+              <div class="tl-row"><span class="tl-n">4</span><span class="tl-t">Love Supreme</span><span class="tl-d">3:32</span></div>
+              <div class="tl-row"><span class="tl-n">5</span><span class="tl-t">Nu Saigon Nights</span><span class="tl-d">1:04</span></div>
+              <div class="tl-row"><span class="tl-n">6</span><span class="tl-t">Without You</span><span class="tl-d">3:18</span></div>
             </div>
+          </div>
+          <div class="feat-btns">
+            <a class="btn btn-white" href="future.html">View Release</a>
+            <a class="btn btn-border" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="catalog">
-    <div class="container">
-      <div class="sep"></div>
-      <div class="section-head rv">
-        <div>
-          <div class="section-tag">Catalog</div>
-          <div class="section-copy"></div>
-        </div>
+  <!-- ══ RELEASES ═══════════════════════════════════════ -->
+  <section class="section" id="releases">
+    <div class="wrap">
+      <div class="sh rv">
+        <span class="sh-title">Releases</span>
       </div>
-      <div class="catalog-shell glass rv" style="transition-delay:.08s">
-        <div class="cat-grid">
-          <a class="cat-item" href="future.html"><img src="blank1400.png" alt="Future Boy"/><div class="cat-meta"><div class="cat-artist">LT Drifta</div><div class="cat-title">Future Boy</div><div class="cat-year">2026</div></div></a>
-          <a class="cat-item" href="lion.html"><img src="blank1400.png" alt="Lions' Gate"/><div class="cat-meta"><div class="cat-artist">LT Drifta</div><div class="cat-title">Lions' Gate</div><div class="cat-year">2025</div></div></a>
-          <a class="cat-item" href="classic.html"><img src="blank1400.png" alt="Classic Jazz"/><div class="cat-meta"><div class="cat-artist">LT Drifta</div><div class="cat-title">Classic Jazz</div><div class="cat-year">2025</div></div></a>
-          <a class="cat-item" href="avectoi.html"><img src="blank1400.png" alt="Avec Toi"/><div class="cat-meta"><div class="cat-artist">LT Drifta</div><div class="cat-title">Avec Toi</div><div class="cat-year">2025</div></div></a>
-          <a class="cat-item" href="edit01.html"><img src="edit01.avif" alt="The Colour of Love"/><div class="cat-meta"><div class="cat-artist">LT Drifta</div><div class="cat-title">The Colour of Love</div><div class="cat-year">2026</div></div></a>
-          <a class="cat-item" href="testpress.html"><img src="testpress.avif" alt="TEST PRESS"/><div class="cat-meta"><div class="cat-artist">LT Drifta</div><div class="cat-title">TEST PRESS</div><div class="cat-year">2025</div></div></a>
-        </div>
+      <div class="releases-grid rv d1">
+
+        <a class="rel-card" href="future.html">
+          <div class="rel-art"><img src="blank1400.png" alt="Future Boy" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">Future Boy <span class="rel-tag-new">New</span></div>
+            <div class="rel-year">2026 · Digital + Cassette</div>
+          </div>
+        </a>
+
+        <a class="rel-card" href="edit01.html">
+          <div class="rel-art"><img src="edit01.avif" alt="The Colour of Love" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">The Colour of Love</div>
+            <div class="rel-year">2026 · Digital</div>
+          </div>
+        </a>
+
+        <a class="rel-card" href="testpress.html">
+          <div class="rel-art"><img src="testpress.avif" alt="TEST PRESS" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">TEST PRESS</div>
+            <div class="rel-year">2025 · Digital + Cassette</div>
+          </div>
+        </a>
+
+        <a class="rel-card" href="lion.html">
+          <div class="rel-art"><img src="blank1400.png" alt="Lions' Gate" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">Lions' Gate</div>
+            <div class="rel-year">2025 · Digital</div>
+          </div>
+        </a>
+
+        <a class="rel-card" href="classic.html">
+          <div class="rel-art"><img src="blank1400.png" alt="Classic Jazz" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">Classic Jazz</div>
+            <div class="rel-year">2025 · Digital</div>
+          </div>
+        </a>
+
+        <a class="rel-card" href="avectoi.html">
+          <div class="rel-art"><img src="blank1400.png" alt="Avec Toi" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">Avec Toi</div>
+            <div class="rel-year">2025 · Digital</div>
+          </div>
+        </a>
+
       </div>
     </div>
   </section>
 
+  <!-- ══ LISTEN ═════════════════════════════════════════ -->
   <section class="section" id="listen">
-    <div class="container">
-      <div class="sep"></div>
-      <div class="section-head rv">
-        <div>
-          <div class="section-tag">Listen now</div>
-      
-        </div>
+    <div class="wrap">
+      <div class="sh rv">
+        <span class="sh-title">Listen Now</span>
       </div>
-      <div class="listen-shell glass rv" style="transition-delay:.08s">
-        <div class="player-node" id="ps" data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=000000/linkcol=ffffff/transparent=true/autoplay=1/">
-          <div class="player-face" id="pf" role="button" tabindex="0">
-            <div class="pf-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-            <div class="pf-info"><div class="pf-title">LT Drifta — Lions' Gate</div><div class="pf-sub">Play track</div></div>
+      <div class="listen-block rv d1"
+           id="listenBlock"
+           data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=000000/linkcol=ffffff/transparent=true/autoplay=1/">
+        <button class="listen-trig" id="listenTrig" aria-label="Play LT Drifta — Lions' Gate on Bandcamp">
+          <div class="listen-ring">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          <div class="listen-info">
+            <div class="listen-name">LT Drifta — Lions' Gate</div>
+            <div class="listen-sub">Play on Bandcamp</div>
+          </div>
+        </button>
+        <div class="listen-embed" id="listenEmbed"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ARTISTS ════════════════════════════════════════ -->
+  <section class="section" id="artists">
+    <div class="wrap">
+      <div class="sh rv">
+        <span class="sh-title">Artists</span>
+      </div>
+      <div class="artists-grid rv d1">
+        <div class="a-card">
+          <img class="a-img" src="ltd.PNG" alt="LT Drifta"/>
+          <div>
+            <div class="a-name">LT Drifta</div>
+            <div class="a-role">Artist · Producer</div>
+          </div>
+          <div class="a-releases">4 releases</div>
+        </div>
+        <div class="a-card">
+          <img class="a-img" src="ltd2.PNG" alt="F. Hastings"/>
+          <div>
+            <div class="a-name">F. Hastings</div>
+            <div class="a-role">Producer</div>
+          </div>
+          <div class="a-releases">2 releases</div>
+        </div>
+        <div class="a-card">
+          <img class="a-img" src="ld.PNG" alt="Kairo"/>
+          <div>
+            <div class="a-name">Kairo</div>
+            <div class="a-role">Artist</div>
+          </div>
+          <div class="a-releases">Upcoming</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="roster">
-    <div class="container">
-      <div class="sep"></div>
-      <div class="section-head rv">
-        <div>
-          <div class="section-tag">Artists</div>
-    
-        </div>
-      </div>
-      <div class="roster-shell glass rv" style="transition-delay:.08s">
-        <div class="roster">
-          <div class="roster-card"><img src="ltd.PNG" alt="LT Drifta"/><div><div class="roster-name">LT Drifta</div><div class="roster-role">Artist/Producer</div></div></div>
-          <div class="roster-card"><img src="ltd2.PNG" alt="F. Hastings"/><div><div class="roster-name">F. Hastings</div><div class="roster-role">Produer</div></div></div>
-          <div class="roster-card"><img src="ld.PNG" alt="Upcoming artist"/><div><div class="roster-name">Kairo</div><div class="roster-role">Artist</div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
+<!-- ══ FOOTER ════════════════════════════════════════════ -->
 <footer class="footer">
-  <div class="container">
-    <div class="footer-card glass rv">
-      <div class="footer-copy">© 2025 VCR Recordings</div>
-      <div class="footer-links">
-        <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-        <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener">Instagram</a>
-        <a href="mailto:ltdrifta@gmail.com">Email</a>
-      </div>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">VCR Recordings</div>
+      <div class="footer-copy">© 2025 VCR Recordings. All rights reserved.</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+      <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:ltdrifta@gmail.com">Email</a>
     </div>
   </div>
 </footer>
 
 <script>
-const ham=document.getElementById('ham');
-const mob=document.getElementById('mob');
-ham?.addEventListener('click',()=>{
-  const on=mob.classList.toggle('on');
-  ham.classList.toggle('on',on);
+/* ── NAV HAMBURGER ─────────────────────────────────────── */
+const navHam    = document.getElementById('navHam');
+const navDrawer = document.getElementById('navDrawer');
+navHam.addEventListener('click', () => {
+  const open = navDrawer.classList.toggle('on');
+  navHam.classList.toggle('on', open);
+  navHam.setAttribute('aria-expanded', String(open));
+  navDrawer.setAttribute('aria-hidden', String(!open));
 });
-function closeMenu(){
-  mob.classList.remove('on');
-  ham.classList.remove('on');
-}
-window.closeMenu=closeMenu;
+navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navDrawer.classList.remove('on');
+  navHam.classList.remove('on');
+  navHam.setAttribute('aria-expanded', 'false');
+  navDrawer.setAttribute('aria-hidden', 'true');
+}));
 
-const ps=document.getElementById('ps');
-const pf=document.getElementById('pf');
-function go(){
-  if(ps.querySelector('iframe')) return;
-  pf.innerHTML='<div style="padding:18px 22px;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase">Loading…</div>';
-  const f=document.createElement('iframe');
-  f.title='Bandcamp';
-  f.src=ps.dataset.src;
-  f.style.cssText='width:100%;height:80px;display:block;border:0';
-  f.allow='autoplay';
-  f.onload=()=>pf.replaceWith(f);
-  ps.appendChild(f);
-}
-pf?.addEventListener('click',go);
-pf?.addEventListener('keydown',e=>{
-  if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}
+/* ── BANDCAMP EMBED ────────────────────────────────────── */
+const lb  = document.getElementById('listenBlock');
+const lt  = document.getElementById('listenTrig');
+const le  = document.getElementById('listenEmbed');
+lt.addEventListener('click', () => {
+  if (le.classList.contains('on')) return;
+  lt.style.opacity = '.35';
+  lt.style.pointerEvents = 'none';
+  const f = document.createElement('iframe');
+  f.title = 'Bandcamp player';
+  f.src   = lb.dataset.src;
+  f.allow = 'autoplay';
+  f.style.cssText = 'width:100%;height:80px;display:block;border:0;background:#000;';
+  f.onload = () => { lt.style.display = 'none'; le.classList.add('on'); };
+  le.appendChild(f);
 });
 
-const ob=new IntersectionObserver(entries=>{
-  for(const entry of entries){
-    if(entry.isIntersecting){
-      entry.target.classList.add('v');
-      ob.unobserve(entry.target);
-    }
+/* ── SCROLL REVEAL ──────────────────────────────────────── */
+const obs = new IntersectionObserver(entries => {
+  for (const e of entries) {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
   }
-},{threshold:.05,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.rv').forEach(el=>ob.observe(el));
+}, { threshold: 0.05, rootMargin: '0px 0px -24px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
