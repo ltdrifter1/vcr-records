@@ -992,9 +992,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const resolveAsset = p => { try { return new URL(p, location.href).href; } catch { return p; } };
 
   /* ── Audio ── */
-  const audio = new Audio(resolveAsset(CONFIG.mp3));
+  const mp3Url = resolveAsset(CONFIG.mp3);
+  const audio  = new Audio();
   audio.preload = 'auto';
   audio.volume  = 0.85;
+
+  // Log browser MP3 support to console for easy diagnosis
+  const support = audio.canPlayType('audio/mpeg');
+  console.log('MP3 canPlayType:', support || '(empty — likely unsupported or file:// restriction)');
+
+  audio.src = mp3Url;
+  audio.load();
 
   let activeIdx = 0, dragging = false;
 
@@ -1048,15 +1056,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function safePlay() {
+    // If audio already errored (e.g. file not found), report that rather than
+    // the misleading NotSupportedError that play() throws as a consequence.
+    if (audio.error) {
+      const c = audio.error.code;
+      const msgs = {
+        1: 'Load was aborted.',
+        2: 'Network error — check the file is accessible.',
+        3: 'Decode error — the MP3 file may be corrupt.',
+        4: 'File not found. Make sure testpress.mp3 is in the same folder as this HTML file.'
+      };
+      setStatus(msgs[c] || 'Audio failed to load.', 'err');
+      return;
+    }
+
+    // Warn if opened as file:// (common cause of silent failures)
+    if (location.protocol === 'file:') {
+      console.warn('Running over file:// — some browsers block local audio. Use a local server (e.g. npx serve .) for reliable playback.');
+    }
+
     try {
       setStatus('Loading…');
       await audio.play();
       setStatus('');
     } catch(e) {
-      console.error(e);
-      setStatus(e.name === 'NotSupportedError'
-        ? 'Format unsupported.'
-        : 'Could not play — check testpress.mp3 is in the same folder.', 'err');
+      console.error('play() rejected:', e);
+      // NotAllowedError = autoplay policy, not a format issue
+      if (e.name === 'NotAllowedError') {
+        setStatus('Tap/click again to start playback.', 'err');
+      } else if (e.name === 'NotSupportedError' || audio.error?.code === 4) {
+        setStatus('File not found or format unsupported. Make sure testpress.mp3 is beside this HTML file.', 'err');
+      } else {
+        setStatus('Playback failed: ' + e.message, 'err');
+      }
     }
   }
 
@@ -1105,7 +1137,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $$('.track').forEach((row,i) => row.addEventListener('click', () => playTrack(i)));
 
   setActive(0); syncSeek();
-  $('modalMp3').href = resolveAsset(CONFIG.mp3);
+  $('modalMp3').href = mp3Url;
 
   /* ── Format picker ── */
   const fpEl      = $('fp');
