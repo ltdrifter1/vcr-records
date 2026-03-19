@@ -92,7 +92,7 @@
     .nav-drawer a:last-child { border-bottom: none; }
     .nav-drawer a:active { color: var(--white); }
 
-    /* ── HERO — full bleed ──────────────────────────── */
+    /* ── HERO — full bleed slideshow ────────────────── */
     .hero {
       position: relative;
       width: 100%;
@@ -102,28 +102,31 @@
       overflow: hidden;
       display: flex; flex-direction: column; justify-content: flex-end;
     }
-    .hero-bg {
+
+    /* stacked slide layers */
+    .hero-slide {
       position: absolute; inset: 0;
-      background: var(--dark);
+      opacity: 0;
+      transition: opacity 1.1s cubic-bezier(.4,0,.2,1);
+      pointer-events: none;
     }
-    .hero-bg img {
+    .hero-slide.active { opacity: 1; pointer-events: auto; }
+    .hero-slide img {
       width: 100%; height: 100%; object-fit: cover;
-      display: block;
-      filter: brightness(.55);
+      display: block; filter: brightness(.55);
     }
-    /* gradient overlay — dark at top (for nav readability) + dark at bottom (for text) */
-    .hero-bg::after {
+    .hero-slide::after {
       content: '';
       position: absolute; inset: 0;
-      background:
-        linear-gradient(180deg,
-          rgba(0,0,0,.55) 0%,
-          rgba(0,0,0,.0)  30%,
-          rgba(0,0,0,.0)  50%,
-          rgba(0,0,0,.72) 78%,
-          rgba(0,0,0,.92) 100%
-        );
+      background: linear-gradient(180deg,
+        rgba(0,0,0,.55) 0%,
+        rgba(0,0,0,.0)  30%,
+        rgba(0,0,0,.0)  50%,
+        rgba(0,0,0,.72) 78%,
+        rgba(0,0,0,.92) 100%
+      );
     }
+
     .hero-content {
       position: relative; z-index: 2;
       padding: 0 24px calc(40px + var(--safe-b));
@@ -140,6 +143,7 @@
       letter-spacing: 0.12em; text-transform: uppercase;
       color: rgba(255,255,255,.75);
       margin-bottom: 14px;
+      transition: opacity .35s ease;
     }
     .hero-badge::before {
       content: '';
@@ -154,6 +158,7 @@
       line-height: 0.90;
       letter-spacing: -0.04em;
       margin-bottom: 10px;
+      transition: opacity .35s ease;
     }
     .hero-sub {
       font-size: clamp(0.80rem, 2.2vw, 1rem);
@@ -161,8 +166,40 @@
       color: rgba(255,255,255,.60);
       letter-spacing: 0.02em;
       margin-bottom: 24px;
+      transition: opacity .35s ease;
     }
+    .hero-content.fading .hero-badge,
+    .hero-content.fading .hero-title,
+    .hero-content.fading .hero-sub { opacity: 0; }
+
     .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* dot indicators */
+    .hero-dots {
+      position: absolute; bottom: calc(14px + var(--safe-b)); left: 50%;
+      transform: translateX(-50%);
+      z-index: 3; display: flex; gap: 8px; align-items: center;
+    }
+    .hero-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,.30);
+      border: none; padding: 0; cursor: pointer;
+      transition: background .25s, transform .25s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero-dot.active { background: var(--white); transform: scale(1.3); }
+
+    /* progress bar */
+    .hero-progress {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; z-index: 3;
+      background: rgba(255,255,255,.08); overflow: hidden;
+    }
+    .hero-progress-bar {
+      height: 100%; width: 0%;
+      background: rgba(255,255,255,.50);
+      transition: width linear;
+    }
 
     /* ── BUTTONS ────────────────────────────────────── */
     .btn {
@@ -208,7 +245,7 @@
     .sh-more::after { content: '→'; }
     @media (hover:hover) { .sh-more:hover { color: var(--white); } }
 
-    /* ── FEATURED RELEASE — big card ───────────────── */
+    /* ── FEATURED RELEASE ───────────────────────────── */
     .feat {
       display: grid;
       grid-template-columns: minmax(160px, 340px) 1fr;
@@ -259,7 +296,6 @@
       color: var(--grey);
     }
 
-    /* tracklist */
     .tl { margin-top: 18px; }
     .tl-row {
       display: grid; grid-template-columns: 1.8rem 1fr auto;
@@ -279,7 +315,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--line); /* gap colour via bg trick */
+      background: var(--line);
       border: 1px solid var(--line);
     }
     @media (max-width: 720px) { .releases-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -352,7 +388,7 @@
     .listen-ring svg { width: 15px; height: 15px; fill: var(--white); margin-left: 2px; }
     .listen-info { text-align: left; }
     .listen-name { font-size: 0.90rem; font-weight: 600; }
-    .listen-sub  {
+    .listen-sub {
       font-size: 0.62rem; font-weight: 600;
       letter-spacing: 0.10em; text-transform: uppercase;
       color: var(--grey); margin-top: 3px;
@@ -449,20 +485,38 @@
   <a href="#artists">Artists</a>
 </div>
 
-<!-- ══ HERO — full bleed ═════════════════════════════════ -->
+<!-- ══ HERO — full bleed slideshow ══════════════════════ -->
 <section class="hero" id="top">
-  <div class="hero-bg">
-    <img src="blank1400.png" alt="VCR Recordings" fetchpriority="high"/>
+
+  <!-- Slide 0: Future Boy -->
+  <div class="hero-slide active" id="slide-0">
+    <img src="blank1400.png" alt="Future Boy" fetchpriority="high"/>
   </div>
-  <div class="hero-content">
-    <div class="hero-badge">New release · Future Boy · 2026</div>
-    <h1 class="hero-title">VCR<br>Recordings</h1>
-    <p class="hero-sub">Independent electronic music — jungle, house, hip-hop &amp; edits</p>
+
+  <!-- Slide 1: Classic Jazz -->
+  <div class="hero-slide" id="slide-1">
+    <img src="classic.avif" alt="Classic Jazz" loading="eager"/>
+  </div>
+
+  <div class="hero-content" id="heroContent">
+    <div class="hero-badge" id="heroBadge">New release · Future Boy · 2026</div>
+    <h1 class="hero-title" id="heroTitle">VCR<br>Recordings</h1>
+    <p class="hero-sub" id="heroSub">Independent electronic music — jungle, house, hip-hop &amp; edits</p>
     <div class="hero-actions">
-      <a class="btn btn-white" href="#featured">Latest Release</a>
-      <a class="btn btn-border" href="#releases">Browse Catalog</a>
+      <a class="btn btn-white" id="heroBtn1" href="#featured">Latest Release</a>
+      <a class="btn btn-border" id="heroBtn2" href="#releases">Browse Catalog</a>
     </div>
   </div>
+
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+    <button class="hero-dot"        data-slide="1" aria-label="Slide 2"></button>
+  </div>
+
+  <div class="hero-progress">
+    <div class="hero-progress-bar" id="heroProgressBar"></div>
+  </div>
+
 </section>
 
 <main>
@@ -648,6 +702,86 @@
 </footer>
 
 <script>
+/* ── HERO SLIDESHOW ─────────────────────────────────────── */
+(function () {
+  const INTERVAL = 5000;
+
+  const SLIDES = [
+    {
+      badge: 'New release · Future Boy · 2026',
+      title: 'VCR<br>Recordings',
+      sub:   'Independent electronic music — jungle, house, hip-hop & edits',
+      btn1:  { text: 'Latest Release', href: '#featured' },
+      btn2:  { text: 'Browse Catalog', href: '#releases' }
+    },
+    {
+      badge: 'Also available · Classic Jazz · 2025',
+      title: 'Classic<br>Jazz',
+      sub:   'LT Drifta — digital release on VCR Recordings',
+      btn1:  { text: 'View Release',   href: 'classic.html' },
+      btn2:  { text: 'Browse Catalog', href: '#releases' }
+    }
+  ];
+
+  const slides  = document.querySelectorAll('.hero-slide');
+  const dots    = document.querySelectorAll('.hero-dot');
+  const content = document.getElementById('heroContent');
+  const badge   = document.getElementById('heroBadge');
+  const title   = document.getElementById('heroTitle');
+  const sub     = document.getElementById('heroSub');
+  const btn1    = document.getElementById('heroBtn1');
+  const btn2    = document.getElementById('heroBtn2');
+  const bar     = document.getElementById('heroProgressBar');
+
+  let current = 0, timer = null, paused = false;
+
+  function goTo(idx) {
+    content.classList.add('fading');
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+    current = idx;
+    setTimeout(() => {
+      const s = SLIDES[idx];
+      badge.textContent  = s.badge;
+      title.innerHTML    = s.title;
+      sub.textContent    = s.sub;
+      btn1.textContent   = s.btn1.text; btn1.href = s.btn1.href;
+      btn2.textContent   = s.btn2.text; btn2.href = s.btn2.href;
+      content.classList.remove('fading');
+    }, 360);
+    resetBar();
+  }
+
+  function resetBar() {
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    void bar.offsetWidth;
+    bar.style.transition = `width ${INTERVAL}ms linear`;
+    bar.style.width = '100%';
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => { if (!paused) goTo((current + 1) % SLIDES.length); }, INTERVAL);
+    resetBar();
+  }
+
+  dots.forEach(dot => dot.addEventListener('click', () => {
+    goTo(parseInt(dot.dataset.slide, 10));
+    startTimer();
+  }));
+
+  const hero = document.getElementById('top');
+  hero.addEventListener('mouseenter', () => { paused = true; });
+  hero.addEventListener('mouseleave', () => { paused = false; });
+  hero.addEventListener('touchstart', () => { paused = true; }, { passive: true });
+  hero.addEventListener('touchend',   () => { paused = false; startTimer(); }, { passive: true });
+
+  startTimer();
+})();
+
 /* ── NAV HAMBURGER ─────────────────────────────────────── */
 const navHam    = document.getElementById('navHam');
 const navDrawer = document.getElementById('navDrawer');
@@ -665,9 +799,9 @@ navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 }));
 
 /* ── BANDCAMP EMBED ────────────────────────────────────── */
-const lb  = document.getElementById('listenBlock');
-const lt  = document.getElementById('listenTrig');
-const le  = document.getElementById('listenEmbed');
+const lb = document.getElementById('listenBlock');
+const lt = document.getElementById('listenTrig');
+const le = document.getElementById('listenEmbed');
 lt.addEventListener('click', () => {
   if (le.classList.contains('on')) return;
   lt.style.opacity = '.35';
