@@ -1,1274 +1,898 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VCR Records</title>
-  <meta name="description" content="Shades of Blue by F. Hastings — available on cassette and digital. VCR Records." />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>LT Drifta — The Colour of Love | VCR Recordings</title>
+  <meta name="description" content="The Colour of Love by LT Drifta — digital single. VCR Recordings."/>
+  <meta name="theme-color" content="#000000"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:      #f5f1e8;
-      --surface: #ffffff;
-      --panel:   #faf8f4;
-      --text:    #111;
-      --muted:   #7a7365;
-      --light:   #a09888;
-      --line:    #e2ddd2;
-      --dark:    #111;
-      --dark-2:  #1a1a1a;
-      --gold:    #b8962e;
-      --gold-h:  #caaa42;
-      --max:     1200px;
-      --radius:  14px;
-      --radius-sm: 10px;
-      --shadow:  0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
-      --sans:    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --black:  #000;
+      --bg:     #0a0a0a;
+      --sur:    #111;
+      --raise:  #181818;
+      --line:   rgba(255,255,255,.09);
+      --line-hi:rgba(255,255,255,.16);
+      --text:   #f2f2ee;
+      --sub:    rgba(242,242,238,.50);
+      --dim:    rgba(242,242,238,.28);
+      --green:  #3ecf8e;
+      --red:    #f87171;
+      --sans:   'Archivo', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --safe-b: env(safe-area-inset-bottom, 0px);
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--sans); background: var(--black); color: var(--text); -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100dvh; }
+    img  { display: block; max-width: 100%; }
+    a    { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; -webkit-tap-highlight-color: transparent; }
+    input  { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; }
-    input, select { font-family: inherit; }
-
-    .container {
-      width: min(calc(100% - 28px), var(--max));
-      margin: 0 auto;
-    }
-
-    .eyebrow {
-      font-size: 0.68rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    /* ===== NAV ===== */
+    /* ── NAV ────────────────────────────────────────── */
     .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(17,17,17,0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(0,0,0,.88);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+      height: 52px;
     }
-
     .nav-inner {
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 20px; height: 100%;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-
-.brand {
-  display: flex;
-  align-items: center;
-}
-
-.brand img {
-  height: 28px;
-  width: auto;
-  display: block;
-}
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
+    .nav-brand {
+      font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text); white-space: nowrap;
     }
-
+    .nav-links { display: flex; gap: 2px; }
     .nav-links a {
-      font-size: 0.76rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #999;
-      transition: color 0.2s;
+      padding: 7px 10px; border-radius: 4px;
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--sub); transition: color .15s, background .15s;
     }
+    @media (hover:hover) { .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.05); } }
+    @media (max-width: 520px) { .nav-links { display: none; } }
 
-    .nav-links a:hover { color: #fff; }
+    /* ── PAGE SHELL ─────────────────────────────────── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 0 20px calc(60px + var(--safe-b)); }
 
-    @media (max-width: 600px) {
-      .nav-links a { font-size: 0.68rem; letter-spacing: 0.08em; }
-      .nav-links { gap: 12px; }
-    }
-
-    /* ===== BREADCRUMBS ===== */
+    /* ── CRUMBS ─────────────────────────────────────── */
     .crumbs {
-      padding: 20px 0 8px;
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
-      color: var(--muted);
+      padding: 16px 0 20px;
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--dim);
     }
-    .crumbs a { color: var(--muted); transition: color 0.15s; }
-    .crumbs a:hover { color: var(--text); }
+    .crumbs a { color: var(--dim); transition: color .15s; }
+    @media (hover:hover) { .crumbs a:hover { color: var(--sub); } }
+    .crumbs span { margin: 0 6px; opacity: .4; }
 
-    /* ===== PRODUCT GRID ===== */
+    /* ── PRODUCT GRID ───────────────────────────────── */
     .product-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 32px;
-      align-items: start;
-      padding: 12px 0 80px;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    @media (min-width: 720px) {
+      .product-grid {
+        grid-template-columns: minmax(240px, 360px) 1fr;
+        gap: 0;
+        align-items: start;
+        border: 1px solid var(--line);
+      }
+    }
+    @media (min-width: 960px) {
+      .product-grid { grid-template-columns: minmax(300px, 420px) 1fr; }
     }
 
-    @media (max-width: 860px) {
-      .product-grid { grid-template-columns: 1fr; gap: 24px; }
+    /* ── LEFT COL ───────────────────────────────────── */
+    .left-col {
+      display: flex; flex-direction: column;
+    }
+    @media (min-width: 720px) {
+      .left-col { position: sticky; top: 52px; border-right: 1px solid var(--line); }
     }
 
-    /* ===== GALLERY ===== */
-    .gallery { position: relative; }
-
-    .hero-frame {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 10px;
-      box-shadow: var(--shadow);
+    /* artwork */
+    .artwork-wrap {
+      position: relative; overflow: hidden;
+      aspect-ratio: 1/1; background: var(--sur);
       cursor: zoom-in;
     }
-
-    .hero-frame img {
-      width: 100%;
-      border-radius: var(--radius-sm);
+    .artwork-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; display: block; }
+    @media (hover:hover) { .artwork-wrap:hover img { transform: scale(1.03); } }
+    .artwork-badge {
+      position: absolute; top: 14px; left: 14px; z-index: 2;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--sub); background: rgba(0,0,0,.75);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--line-hi);
+      padding: 5px 10px; border-radius: 2px;
     }
 
-    .media-badge {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      background: var(--dark);
-      color: #fff;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 999px;
-      z-index: 2;
+    /* player */
+    .player {
+      padding: 16px 18px;
+      border-top: 1px solid var(--line);
+      background: var(--sur);
     }
-
-    /* ===== DETAIL PANEL ===== */
-    .panel {
-      position: sticky;
-      top: 76px;
-    }
-
-    @media (max-width: 860px) { .panel { position: static; } }
-
-    .panel-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
-
-    .release-artist {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-
-    .release-title {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
+    .player-head {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 8px;
       margin-bottom: 12px;
     }
+    .player-lbl {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--dim);
+    }
+    .player-track {
+      font-size: 0.78rem; font-weight: 600;
+      max-width: 65%; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; text-align: right;
+    }
+    .player-controls {
+      display: grid; grid-template-columns: 46px 1fr;
+      gap: 12px; align-items: center; margin-bottom: 8px;
+    }
+    .play-btn {
+      width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+      background: var(--text); display: grid; place-items: center;
+      transition: transform .13s, background .13s;
+    }
+    .play-btn:active { transform: scale(0.92); }
+    @media (hover:hover) { .play-btn:hover { transform: scale(1.05); background: #fff; } }
+    .play-btn svg { width: 17px; height: 17px; fill: #000; }
+    .play-btn .i-pause { display: none; }
+    .play-btn.on .i-play  { display: none; }
+    .play-btn.on .i-pause { display: block; }
+    .play-btn .i-play { margin-left: 2px; }
 
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
+    .seek-col { display: flex; flex-direction: column; gap: 5px; }
+    .times {
+      display: flex; justify-content: space-between;
+      font-size: 0.60rem; font-weight: 600;
+      color: var(--dim); font-variant-numeric: tabular-nums;
+    }
+    .vol-row {
+      display: flex; align-items: center; gap: 8px; margin-top: 4px;
+    }
+    .vol-row svg { width: 12px; height: 12px; fill: var(--dim); flex-shrink: 0; }
+    @media (max-width: 480px) { .vol-row { display: none; } }
+
+    /* range inputs */
+    input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; cursor: pointer; }
+    input[type="range"]::-webkit-slider-runnable-track { height: 3px; border-radius: 999px; background: rgba(255,255,255,.12); }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; margin-top: -5.5px; background: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+    input[type="range"]::-moz-range-track { height: 3px; border-radius: 999px; background: rgba(255,255,255,.12); }
+    input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--text); border: none; }
+
+    /* waveform */
+    .wave {
+      display: flex; align-items: flex-end; gap: 2px;
+      height: 18px; overflow: hidden; margin-top: 8px;
+    }
+    .wave span {
+      display: block; width: 2px; min-height: 2px; border-radius: 999px;
+      flex-shrink: 0; background: rgba(255,255,255,.14); transform-origin: bottom;
+    }
+    .wave.on span { background: var(--text); opacity: .55; animation: wv 1.0s ease-in-out infinite; }
+    @keyframes wv { 0%,100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
+    .p-msg { font-size: 0.60rem; font-weight: 600; color: var(--dim); min-height: 12px; margin-top: 6px; }
+    .p-msg.err { color: var(--red); }
+
+    /* ── RIGHT COL ──────────────────────────────────── */
+    .right-col {
+      display: flex; flex-direction: column;
+    }
+    @media (min-width: 720px) {
+      /* sections inside right col separated by border */
     }
 
-    .chip {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      padding: 4px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
+    /* section blocks with ruled borders */
+    .r-block {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .r-block:last-child { border-bottom: none; }
+    @media (max-width: 719px) {
+      .r-block { border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); margin-top: -1px; }
     }
 
-    .chip.in-stock {
-      color: #1a7a3a;
-      border-color: #a9d3b8;
-      background: #eef7f1;
+    /* release header */
+    .r-artist {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 8px;
+    }
+    .r-title {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 900; line-height: 0.92;
+      letter-spacing: -0.04em;
+    }
+    .r-meta-row {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .r-price {
+      font-size: 1.6rem; font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1;
+    }
+    .r-price-note {
+      font-size: 0.62rem; font-weight: 600;
+      color: var(--dim); margin-top: 2px;
+    }
+    .r-stock {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.60rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--green);
+    }
+    .r-stock::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 5px var(--green);
     }
 
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 20px;
+    /* tags */
+    .r-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .tag {
+      font-size: 0.56rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 2px;
+      border: 1px solid var(--line); color: var(--dim);
     }
 
-    .price {
-      font-size: 1.6rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
+    /* ── PURCHASE ───────────────────────────────────── */
+    .buy-stack { display: flex; flex-direction: column; gap: 8px; }
 
-    .price-note {
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--line);
-      margin: 20px 0;
-    }
-
-    /* ===== FORM ELEMENTS ===== */
-    .field-label {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .field-select {
-      width: 100%;
-      height: 44px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      padding: 0 14px;
-      background: var(--panel);
-      color: var(--text);
-      font-size: 0.88rem;
-      font-weight: 600;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7365' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      outline: none;
-      transition: border-color 0.15s;
-      cursor: pointer;
-    }
-
-    .field-select:focus { border-color: var(--dark); }
-
-    .qty-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin: 16px 0;
-    }
-
-    .qty {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      background: var(--panel);
-    }
-
-    .qty button {
-      width: 40px;
-      height: 42px;
-      border: none;
-      background: transparent;
-      font-size: 1.1rem;
-      color: var(--text);
-      transition: background 0.12s;
-    }
-
-    .qty button:hover { background: var(--line); }
-
-    .qty input {
-      width: 48px;
-      height: 42px;
-      text-align: center;
-      border: none;
-      border-left: 1px solid var(--line);
-      border-right: 1px solid var(--line);
-      background: transparent;
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text);
-      outline: none;
-    }
-
-    /* ===== BUTTONS ===== */
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 48px;
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 0.15s, background 0.2s, border-color 0.2s;
-      border: none;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; height: 48px; border-radius: 3px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: background .13s, border-color .13s, color .13s, transform .10s;
+      cursor: pointer; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
+    .btn:active { transform: scale(0.97); }
 
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn-gold {
-      background: var(--gold);
-      color: #fff;
-    }
-
-    .btn-gold:hover { background: var(--gold-h); }
-
-    .btn-dark {
-      background: var(--dark);
-      color: #fff;
-    }
-
-    .btn-dark:hover { background: #000; }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .btn-outline:hover { border-color: var(--dark); }
-
-    .buy-grid {
-      display: grid;
-      gap: 10px;
-      margin-top: 4px;
+    .btn-fill   { background: var(--text); color: #000; border-color: var(--text); }
+    .btn-ghost  { background: transparent; color: var(--sub); border-color: var(--line-hi); }
+    .btn-bc     { background: #1da0c3; color: #fff; border-color: transparent; }
+    @media (hover:hover) {
+      .btn-fill:hover  { background: #fff; border-color: #fff; }
+      .btn-ghost:hover { color: var(--text); border-color: var(--text); }
+      .btn-bc:hover    { background: #1890b0; }
     }
 
     .small-note {
-      font-size: 0.68rem;
-      color: var(--light);
-      margin-top: 10px;
-      line-height: 1.4;
+      font-size: 0.60rem; font-weight: 600;
+      color: var(--dim); margin-top: 8px; line-height: 1.5;
     }
 
-    /* ===== REDEEM ===== */
-    .redeem-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      padding: 18px;
-      margin-top: 20px;
+    /* ── REDEEM ─────────────────────────────────────── */
+    .redeem-head {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 10px;
     }
-
-    .redeem-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .redeem-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-    }
-
+    .redeem-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
     .redeem-input {
-      height: 44px;
+      height: 46px; border-radius: 3px;
       border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
+      background: var(--sur); color: var(--text);
       padding: 0 14px;
-      background: var(--surface);
-      color: var(--text);
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      outline: none;
-      transition: border-color 0.15s;
+      font-size: 0.80rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      outline: none; -webkit-appearance: none;
+      transition: border-color .15s;
     }
-
-    .redeem-input::placeholder {
-      color: var(--light);
-      text-transform: none;
-      font-weight: 400;
-      letter-spacing: 0;
+    .redeem-input::placeholder { color: var(--dim); text-transform: none; letter-spacing: 0; font-weight: 400; }
+    .redeem-input:focus { border-color: var(--line-hi); }
+    .redeem-btn {
+      height: 46px; padding: 0 16px; border-radius: 3px;
+      border: 1px solid var(--line); background: var(--sur);
+      color: var(--sub); font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      white-space: nowrap; transition: border-color .15s, color .15s;
     }
-
-    .redeem-input:focus { border-color: var(--dark); }
-
-    .download-links {
-      margin-top: 10px;
-      display: grid;
-      gap: 8px;
+    .redeem-btn:active { transform: scale(0.96); }
+    @media (hover:hover) { .redeem-btn:hover { border-color: var(--line-hi); color: var(--text); } }
+    .redeem-status {
+      font-size: 0.62rem; font-weight: 600;
+      color: var(--sub); min-height: 12px; margin-top: 8px; line-height: 1.5;
     }
-
+    .dl-links { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
     .hidden { display: none !important; }
 
-    /* ===== TABS ===== */
-    .tabs { margin-top: 24px; }
-
-    .tab-list {
-      display: flex;
-      gap: 6px;
+    /* ── TABS ───────────────────────────────────────── */
+    .tab-bar {
+      display: flex; gap: 0;
       border-bottom: 1px solid var(--line);
-      padding-bottom: 0;
+      margin-bottom: 0;
     }
-
     .tab-btn {
-      background: none;
-      border: none;
+      background: none; border: none;
       border-bottom: 2px solid transparent;
-      padding: 10px 16px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--light);
-      transition: color 0.15s, border-color 0.15s;
-      cursor: pointer;
+      padding: 10px 14px; margin-bottom: -1px;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--dim); transition: color .15s, border-color .15s;
     }
+    @media (hover:hover) { .tab-btn:hover { color: var(--sub); } }
+    .tab-btn[aria-selected="true"] { color: var(--text); border-bottom-color: var(--text); }
+    .tab-panel { display: none; padding: 16px 0 0; }
+    .tab-panel.on { display: block; }
 
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn[aria-selected="true"] {
-      color: var(--text);
-      border-bottom-color: var(--text);
-    }
-
-    .tab-panel { display: none; padding: 18px 0; }
-    .tab-panel.active { display: block; }
-    .tab-panel p { font-size: 0.92rem; color: var(--muted); line-height: 1.65; }
-    .tab-panel ul { padding-left: 18px; margin-top: 8px; color: var(--muted); font-size: 0.88rem; }
-    .tab-panel li { margin-bottom: 4px; }
-
-    /* ===== TRACKLIST ===== */
-    .tracks {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      overflow: hidden;
-    }
-
+    /* tracklist */
+    .tracklist { display: flex; flex-direction: column; }
     .track-row {
-      display: grid;
-      grid-template-columns: 2.2rem 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 0 14px;
-      min-height: 50px;
+      display: grid; grid-template-columns: 2.2rem 1fr auto auto;
+      gap: 10px; align-items: center;
+      padding: 11px 0;
       border-top: 1px solid var(--line);
-      transition: background 0.12s;
-      cursor: default;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .12s;
     }
-
     .track-row:first-child { border-top: none; }
-    .track-row:hover { background: rgba(0,0,0,0.02); }
-
+    .track-row:active { background: rgba(255,255,255,.02); }
+    @media (hover:hover) { .track-row:hover { background: rgba(255,255,255,.02); } }
+    .track-row.is-active { background: rgba(255,255,255,.03); }
     .track-no {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--light);
+      font-size: 0.62rem; font-weight: 600;
+      color: var(--dim); text-align: right;
       font-variant-numeric: tabular-nums;
     }
-
-    .track-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-    }
-
-    .disc-tag {
-      font-size: 0.72rem;
-      color: var(--light);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .play-btn {
-      width: 30px;
-      height: 30px;
+    .track-title { font-size: 0.86rem; font-weight: 500; color: var(--sub); }
+    .track-row.is-active .track-title { color: var(--text); }
+    .track-dur { font-size: 0.60rem; color: var(--dim); font-variant-numeric: tabular-nums; }
+    .track-play-btn {
+      width: 28px; height: 28px; border-radius: 50%;
       border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--surface);
-      display: inline-grid;
-      place-items: center;
-      cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
-      padding: 0;
-      flex-shrink: 0;
+      background: transparent; display: grid; place-items: center;
+      flex-shrink: 0; transition: border-color .15s;
     }
+    .track-play-btn svg { width: 10px; height: 10px; fill: var(--sub); }
+    .track-play-btn .icon-pause { display: none; }
+    .track-row.is-active .track-play-btn { border-color: var(--line-hi); }
+    .track-row.is-active .track-play-btn .icon-play  { display: none; }
+    .track-row.is-active .track-play-btn .icon-pause { display: block; fill: var(--text); }
+    .track-row.is-active .track-play-btn svg { fill: var(--text); }
+    .track-play-btn .icon-play { margin-left: 1px; }
 
-    .play-btn:hover { background: var(--panel); border-color: var(--dark); }
-    .play-btn .icon { display: block; }
-    .play-btn .icon-pause { display: none; }
-    .play-btn.is-playing .icon-play { display: none; }
-    .play-btn.is-playing .icon-pause { display: block; }
+    .details-text { font-size: 0.86rem; color: var(--sub); line-height: 1.7; }
 
-    /* ===== NOW PLAYING BAR ===== */
-    .now-playing {
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      z-index: 200;
-      background: rgba(17,17,17,0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
-      color: #f3f3ef;
-      font-size: 0.82rem;
-      display: none;
+    /* ── MODAL ──────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.82);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
     }
-
-    .now-playing.show { display: block; }
-
-    .np-row {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: grid;
-      gap: 8px;
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--sur); border: 1px solid var(--line-hi);
+      border-radius: 8px; padding: 32px 28px;
+      max-width: 420px; width: 100%;
+      position: relative; animation: mIn .3s ease;
     }
-
-    .np-progress {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    @keyframes mIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid var(--line); background: transparent;
+      color: var(--dim); font-size: 0.9rem;
+      display: grid; place-items: center; transition: color .15s;
     }
-
-    .np-time {
-      width: 42px;
-      font-size: 0.68rem;
-      font-variant-numeric: tabular-nums;
-      color: #999;
+    .modal-close:hover { color: var(--text); }
+    .modal-check {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(62,207,142,.10);
+      border: 1px solid rgba(62,207,142,.20);
+      display: grid; place-items: center; margin: 0 auto 16px;
     }
-
-    .np-time.left { text-align: right; }
-
-    input[type="range"].np-seek {
-      -webkit-appearance: none;
-      appearance: none;
-      flex: 1;
-      height: 3px;
-      background: #333;
-      border-radius: 2px;
-      outline: none;
+    .modal-check svg { width: 18px; height: 18px; fill: var(--green); }
+    .modal h2 {
+      font-size: 1.3rem; font-weight: 800;
+      letter-spacing: -0.03em; text-align: center; margin-bottom: 6px;
     }
-
-    input[type="range"].np-seek::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #fff;
-      border: none;
-      margin-top: -4.5px;
-      cursor: pointer;
+    .modal p {
+      font-size: 0.82rem; color: var(--sub);
+      text-align: center; margin-bottom: 20px; line-height: 1.6;
     }
+    .modal-btns { display: flex; flex-direction: column; gap: 8px; }
 
-    .np-controls {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .np-btn {
-      background: none;
-      border: none;
-      padding: 4px;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      color: #f3f3ef;
-    }
-
-    .np-btn svg { width: 22px; height: 22px; fill: currentColor; }
-    .np-btn.big svg { width: 28px; height: 28px; }
-
-    .np-title {
-      font-weight: 600;
-      font-size: 0.78rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #ddd;
-    }
-
-    .np-close {
-      background: none;
-      border: none;
-      padding: 4px;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      color: #999;
-    }
-
-    .np-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-    .np-close:hover { color: #fff; }
-
-    /* ===== FOOTER ===== */
-    .site-footer {
-      background: var(--dark);
-      color: #ddd;
-      padding: 56px 0 32px;
-      margin-top: 40px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-
-    @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
-
-    .footer-brand {
-      margin-bottom: 12px;
-    }
-
-    .footer-brand img {
-      height: 24px;
-      width: auto;
-      display: block;
-    }
-
-    .footer-text {
-      font-size: 0.82rem;
-      color: #888;
-      line-height: 1.6;
-      max-width: 380px;
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .footer-social a {
-      width: 38px;
-      height: 38px;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      color: #888;
-      transition: color 0.2s, border-color 0.2s;
-    }
-
-    .footer-social a:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
-    .footer-social svg { width: 16px; height: 16px; fill: currentColor; }
-
-    /* Signup card */
-    .signup-card {
-      background: var(--dark-2);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .signup-card .sc-row {
-      padding: 18px 22px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .signup-card .sc-row:first-child { border-top: none; }
-
-    .signup-title {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      color: #f3f3ef;
-    }
-
-    .signup-card input[type="email"] {
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #f3f3ef;
-      font-size: 0.92rem;
-      height: 36px;
-    }
-
-    .signup-card input[type="email"]::placeholder { color: #666; }
-
-    .signup-options {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .signup-options label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.78rem;
-      color: #999;
-    }
-
-    .signup-options input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      accent-color: #f3f3ef;
-    }
-
-    .signup-btn {
-      width: 100%;
-      height: 48px;
-      background: #f3f3ef;
-      color: #111;
-      border: none;
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .signup-btn:hover { background: #fff; }
-
-    .footer-bottom {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.68rem;
-      color: #555;
-    }
-
-    .footer-bottom a { color: #666; transition: color 0.15s; }
-    .footer-bottom a:hover { color: #ccc; }
-
-    /* ===== STICKY MOBILE BAR ===== */
-    .sticky-bar {
-      position: sticky;
-      bottom: 0;
-      z-index: 50;
-      background: var(--surface);
-      border-top: 1px solid var(--line);
-      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
-      display: none;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: center;
-      box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
-    }
-
-    .sticky-bar strong { font-size: 1.1rem; }
-
-    /* ===== ZOOM OVERLAY ===== */
+    /* ── ZOOM ───────────────────────────────────────── */
     .zoom {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.88);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 300;
+      position: fixed; inset: 0; z-index: 400;
+      background: rgba(0,0,0,.94);
+      display: none; align-items: center; justify-content: center;
       cursor: zoom-out;
     }
-
-    .zoom img {
-      max-width: 90vw;
-      max-height: 88vh;
-      border-radius: 8px;
-    }
-
+    .zoom img { max-width: 88vw; max-height: 88vh; border-radius: 2px; }
     .zoom-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 999px;
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      font-size: 1.2rem;
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      border-radius: 50%; width: 32px; height: 32px;
+      display: grid; place-items: center;
+      color: var(--sub); font-size: 1rem; cursor: pointer;
     }
 
-    /* ===== FADE-UP ===== */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    /* ── FOOTER ─────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+      padding: 32px 0 calc(28px + var(--safe-b));
+      background: var(--black);
     }
+    .footer-wrap {
+      max-width: 1100px; margin: 0 auto; padding: 0 20px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: start;
+    }
+    @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-brand {
+      font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .footer-text { font-size: 0.78rem; color: var(--dim); line-height: 1.6; }
+    .footer-social { display: flex; gap: 6px; margin-top: 14px; }
+    .footer-social a {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid; place-items: center;
+      color: var(--dim); transition: color .15s, border-color .15s;
+    }
+    @media (hover:hover) { .footer-social a:hover { color: var(--text); border-color: var(--line-hi); } }
+    .footer-social svg { width: 14px; height: 14px; fill: currentColor; }
 
-    .fade-up.is-visible {
-      opacity: 1;
-      transform: translateY(0);
+    .signup-card {
+      background: var(--sur); border: 1px solid var(--line);
+      border-radius: 4px; overflow: hidden;
     }
+    .sc-row { padding: 14px 18px; border-top: 1px solid var(--line); }
+    .sc-row:first-child { border-top: none; }
+    .sc-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+    .sc-row input[type="email"] {
+      width: 100%; background: transparent; border: none; outline: none;
+      color: var(--text); font-size: 0.86rem; height: 32px;
+      font-family: var(--sans);
+    }
+    .sc-row input[type="email"]::placeholder { color: var(--dim); }
+    .sc-row label { display: flex; align-items: center; gap: 8px; font-size: 0.74rem; color: var(--dim); }
+    .sc-row input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--text); }
+    .signup-submit {
+      width: 100%; height: 44px; background: var(--text); color: #000;
+      border: none; font-family: var(--sans); font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+      transition: background .15s;
+    }
+    .signup-submit:hover { background: #fff; }
+    .footer-bottom {
+      margin-top: 28px; padding-top: 18px;
+      border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+      font-size: 0.60rem; font-weight: 600;
+      letter-spacing: 0.06em; color: var(--dim);
+    }
+    .footer-bottom a { color: var(--dim); transition: color .15s; }
+    @media (hover:hover) { .footer-bottom a:hover { color: var(--sub); } }
+    .footer-bottom-links { display: flex; gap: 14px; }
 
-    /* ===== RELEASE DATE ===== */
-    .release-date {
-      font-size: 0.72rem;
-      color: var(--light);
-      margin-top: 16px;
-    }
+    /* ── FADE ───────────────────────────────────────── */
+    .fade-up { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+    .fade-up.is-visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
-  <!-- NOW PLAYING BAR -->
-  <div class="now-playing" id="nowPlaying" role="region" aria-label="Now Playing">
-    <div class="np-row">
-      <div class="np-progress">
-        <span class="np-time left" id="npElapsed">0:00</span>
-        <input type="range" min="0" value="0" step="0.01" class="np-seek" id="npSeek" />
-        <span class="np-time" id="npRemaining">-0:00</span>
+<!-- MODAL -->
+<div class="modal-overlay" id="purchaseModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-check">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    </div>
+    <h2>Purchase complete</h2>
+    <p id="modalMsg">Thanks for supporting independent music. Your downloads are ready.</p>
+    <div class="modal-btns">
+      <a class="btn btn-fill" id="dlMp3Modal" href="/edit01.mp3" download="LT Drifta - The Colour of Love.mp3">Download MP3</a>
+      <a class="btn btn-ghost" id="dlWavModal" href="/edit01.wav" download="LT Drifta - The Colour of Love.wav">Download WAV</a>
+      <button class="btn btn-ghost" id="modalDismiss">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ZOOM -->
+<div class="zoom" id="zoom">
+  <button class="zoom-close">×</button>
+  <img id="zoomImg" alt=""/>
+</div>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">VCR Recordings</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#releases">Releases</a>
+      <a href="index.html#artists">Artists</a>
+      <a href="index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page">
+    <div class="crumbs">
+      <a href="index.html">Home</a><span>/</span>
+      <a href="index.html#releases">Releases</a><span>/</span>
+      The Colour of Love
+    </div>
+
+    <div class="product-grid" itemscope itemtype="https://schema.org/Product">
+
+      <!-- LEFT: artwork + player -->
+      <div class="left-col fade-up">
+        <div class="artwork-wrap" id="artworkWrap">
+          <span class="artwork-badge">Single</span>
+          <img id="heroImg" src="edit01.avif" alt="The Colour of Love artwork" itemprop="image"/>
+        </div>
+
+        <div class="player">
+          <div class="player-head">
+            <span class="player-lbl">Now playing</span>
+            <span class="player-track" id="ipTrackName">The Colour of Love</span>
+          </div>
+          <div class="player-controls">
+            <button class="play-btn" id="ipPlay" aria-label="Play / pause">
+              <svg class="i-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <div class="seek-col">
+              <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
+              <div class="times">
+                <span id="ipElapsed">0:00</span>
+                <span id="ipRemaining">-0:00</span>
+              </div>
+            </div>
+          </div>
+          <div class="vol-row">
+            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
+          </div>
+          <div class="wave" id="wave" aria-hidden="true"></div>
+          <div class="p-msg" id="pMsg" aria-live="polite"></div>
+        </div>
       </div>
-      <div class="np-controls">
-        <button class="np-btn big" id="npPlay" aria-label="Play/Pause">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-        <div class="np-title" id="npTitle">—</div>
-        <button class="np-close" id="npClose" aria-label="Close">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+
+      <!-- RIGHT: meta + purchase -->
+      <div class="right-col fade-up" style="transition-delay:.06s"
+           itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+
+        <!-- heading + price -->
+        <div class="r-block">
+          <div class="r-artist">LT Drifta</div>
+          <h1 class="r-title" itemprop="name">The Colour<br>of Love</h1>
+          <div class="r-meta-row">
+            <div>
+              <div class="r-price" id="priceDisplay">
+                <meta itemprop="priceCurrency" content="USD"/>
+                <meta itemprop="price" content="0.98"/>
+                $0.98
+              </div>
+              <div class="r-price-note">USD · Digital</div>
+            </div>
+            <div class="r-stock">In stock</div>
+          </div>
+          <div class="r-tags">
+            <span class="tag">Single</span>
+            <span class="tag">Electronic</span>
+            <span class="tag">Edit</span>
+            <span class="tag">GN0-25-00021</span>
+          </div>
+        </div>
+
+        <!-- buy -->
+        <div class="r-block">
+          <div class="buy-stack">
+            <a class="btn btn-fill" id="buyBtn"
+               href="https://buy.stripe.com/dRm7sMaTR7o4dwc4VLfrW0d"
+               target="_blank" rel="noopener">Buy Digital — $0.98</a>
+            <a class="btn btn-bc"
+               href="https://fhastings.bandcamp.com"
+               target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff;flex-shrink:0;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+              Bandcamp
+            </a>
+          </div>
+          <p class="small-note">Secure checkout via Stripe · Instant digital delivery</p>
+        </div>
+
+        <!-- redeem -->
+        <div class="r-block">
+          <div class="redeem-head">Download code</div>
+          <div class="redeem-row">
+            <input class="redeem-input" id="redeemCode" type="text"
+                   inputmode="text" autocomplete="one-time-code" placeholder="Enter code"/>
+            <button class="redeem-btn" id="redeemBtn" type="button">Redeem</button>
+          </div>
+          <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
+          <div class="dl-links hidden" id="redeemDownloads">
+            <a class="btn btn-fill" href="/edit01.mp3" download="LT Drifta - The Colour of Love.mp3">Download MP3</a>
+            <a class="btn btn-ghost" href="/edit01.wav" download="LT Drifta - The Colour of Love.wav">Download WAV</a>
+          </div>
+        </div>
+
+        <!-- tabs: tracklist + details -->
+        <div class="r-block">
+          <div class="tab-bar" role="tablist">
+            <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track">Tracklist</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-details">Details</button>
+          </div>
+
+          <div class="tab-panel on" id="tab-track" role="tabpanel" style="padding-top:14px;">
+            <div class="tracklist">
+              <div class="track-row" data-src="/edit01.mp3">
+                <span class="track-no">A1</span>
+                <span class="track-title">The Colour of Love</span>
+                <span class="track-dur" id="trackDuration">—</span>
+                <button class="track-play-btn" aria-label="Play" type="button">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
+            <p class="details-text">A rework of Sade's classic — chopped, pitched, and rebuilt over a broken beat foundation. Digital single. Released November 6, 2025.</p>
+          </div>
+        </div>
+
+      </div><!-- /right-col -->
+    </div><!-- /product-grid -->
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">VCR Recordings</div>
+        <p class="footer-text">Independent electronic music.</p>
+        <div class="footer-social">
+          <a href="mailto:f_hastings@hotmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </a>
+          <a href="https://fhastings.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp">
+            <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/felix_hastings" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <form class="signup-card" id="newsletterForm"
+            action="https://formspree.io/f/xdkwjzzr" method="POST" novalidate>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               style="position:absolute;left:-9999px" aria-hidden="true">
+        <div class="sc-row"><div class="sc-title">Get new releases first</div></div>
+        <div class="sc-row">
+          <input type="email" name="email" placeholder="your@email.com" aria-label="Email" required/>
+        </div>
+        <div class="sc-row">
+          <label><input type="checkbox" name="consent" value="yes" required/> I agree to receive emails</label>
+        </div>
+        <input type="hidden" name="source" value="The Colour of Love — release page">
+        <input type="hidden" name="page" value="" id="signupPageField">
+        <button class="signup-submit" type="submit">Subscribe</button>
+      </form>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 VCR Recordings</span>
+      <div class="footer-bottom-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="mailto:f_hastings@hotmail.com">Contact</a>
       </div>
     </div>
   </div>
+</footer>
 
-  <!-- NAV -->
-  <header class="nav">
-    <div class="container nav-inner">
- <a href="#top" class="brand"><img src="BANNER.png" alt="VCR Records"></a>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="index.html#releases">Releases</a>
-        <a href="index.html#artists">Artists</a>
-        <a href="index.html#about">About</a>
-        <a href="index.html#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+<script>
+/* ── CONFIG ──────────────────────────────────────────── */
+const CONFIG = {
+  mp3:         '/edit01.mp3',
+  wav:         '/edit01.wav',
+  artistName:  'LT Drifta',
+  releaseName: 'The Colour of Love',
+  stripeUrl:   'https://buy.stripe.com/dRm7sMaTR7o4dwc4VLfrW0d'
+};
 
-  <!-- MAIN -->
-  <main>
-    <div class="container">
-      <div class="crumbs">
-        <a href="index.html">Home</a> / <a href="index.html#releases">Releases</a> / Lions' Gate
-      </div>
+/* ── AUDIO ───────────────────────────────────────────── */
+const audio = new Audio();
+audio.preload = 'auto';
+audio.src     = CONFIG.mp3;
+audio.volume  = 0.8;
 
-      <section class="product-grid" itemscope itemtype="https://schema.org/Product">
+const fmt = s => {
+  if (!isFinite(s)) return '0:00';
+  s = Math.max(0, Math.floor(s));
+  return Math.floor(s/60) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+};
 
-        <!-- Gallery -->
-        <div class="gallery fade-up">
-          <div class="media-badge">Single</div>
-          <div class="hero-frame">
-            <img id="heroImg" src="/blank1400.png" alt="album artwork" itemprop="image" />
-          </div>
-        </div>
+/* waveform bars */
+const waveEl = document.getElementById('wave');
+for (let i = 0; i < 44; i++) {
+  const b = document.createElement('span');
+  b.style.cssText = `height:${2+Math.random()*14}px;animation-delay:${(Math.random()*1.2).toFixed(2)}s;animation-duration:${(.8+Math.random()*.6).toFixed(2)}s`;
+  waveEl.appendChild(b);
+}
 
-        <!-- Details Panel -->
-        <aside class="panel fade-up" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-          <div class="panel-card">
+const playBtn  = document.getElementById('ipPlay');
+const seek     = document.getElementById('ipSeek');
+const volEl    = document.getElementById('ipVolume');
+const elapsed  = document.getElementById('ipElapsed');
+const remain   = document.getElementById('ipRemaining');
+const trackDur = document.getElementById('trackDuration');
+const pMsg     = document.getElementById('pMsg');
 
-            <div class="release-artist">LT Drifta</div>
-            <h1 class="release-title" itemprop="name">Lions' Gate</h1>
+function setMsg(t, e) { pMsg.textContent = t||''; pMsg.className = 'p-msg'+(e?' err':''); }
+function setPlaying(on) {
+  playBtn.classList.toggle('on', on);
+  waveEl.classList.toggle('on', on);
+  document.querySelectorAll('.track-row').forEach(r => r.classList.toggle('is-active', on));
+}
 
-            <div class="chip-row">
-              <span class="chip in-stock">In Stock</span>
-              <span class="chip">CBJG-0759</span>
-            </div>
+async function safePlay() {
+  if (audio.error) {
+    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found.'};
+    setMsg(m[audio.error.code]||'Load failed.', true); return;
+  }
+  try { setMsg('Loading…'); await audio.play(); setMsg(''); }
+  catch(e) {
+    if (e.name==='NotAllowedError') setMsg('Tap again to start.',true);
+    else setMsg('Could not play — check the file path.',true);
+  }
+}
 
-            <div class="price-row">
-              <meta itemprop="priceCurrency" content="USD" />
-              <meta itemprop="price" content="0.98" id="priceContent" />
-              <span class="price" id="priceText">$0.98</span>
-              <span class="price-note">USD</span>
-            </div>
+audio.addEventListener('loadedmetadata', () => { seek.max = audio.duration; trackDur.textContent = fmt(audio.duration); setMsg(''); });
+audio.addEventListener('canplay',        () => setMsg(''));
+audio.addEventListener('play',           () => { setPlaying(true); setMsg(''); });
+audio.addEventListener('pause',          () => setPlaying(false));
+audio.addEventListener('ended',          () => setPlaying(false));
+audio.addEventListener('waiting',        () => setMsg('Buffering…'));
+audio.addEventListener('error', () => {
+  const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
+  setMsg((m[audio.error?.code]||'Load failed.')+' Check /edit01.mp3 exists.',true);
+});
+audio.addEventListener('timeupdate', () => {
+  if (!isFinite(audio.duration)) return;
+  seek.max   = audio.duration;
+  seek.value = audio.currentTime;
+  elapsed.textContent = fmt(audio.currentTime);
+  remain.textContent  = '-'+fmt(audio.duration - audio.currentTime);
+});
 
-            <div class="divider"></div>
+playBtn.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
+seek.addEventListener('input',  () => { audio.currentTime = +seek.value||0; });
+volEl.addEventListener('input',  () => { audio.volume = +volEl.value||0.8; });
 
-            <!-- Format -->
-            <label class="field-label" for="variant">Format</label>
-            <select class="field-select" id="variant" aria-label="Choose format">
-              <option>Cassette</option>
-              <option selected>Digital</option>
-            </select>
+/* tracklist rows */
+document.querySelectorAll('.track-row').forEach(row => {
+  row.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
+});
 
-            <!-- Quantity -->
-            <div class="qty-row">
-              <div class="qty" aria-label="Quantity selector">
-                <button type="button" id="minus">−</button>
-                <input type="number" id="qty" value="1" min="1" inputmode="numeric" />
-                <button type="button" id="plus">+</button>
-              </div>
-            </div>
+/* ── PURCHASE MODAL ──────────────────────────────────── */
+const modal = document.getElementById('purchaseModal');
+const openM  = () => { modal.classList.add('show'); document.body.style.overflow='hidden'; };
+const closeM = () => {
+  modal.classList.remove('show'); document.body.style.overflow='';
+  const u = new URL(location.href);
+  ['purchase','session_id'].forEach(k => u.searchParams.delete(k));
+  history.replaceState({},'',u);
+};
+document.getElementById('modalClose').addEventListener('click', closeM);
+document.getElementById('modalDismiss').addEventListener('click', closeM);
+modal.addEventListener('click', e => { if (e.target===modal) closeM(); });
+const sp = new URLSearchParams(location.search);
+if (sp.get('purchase')==='success'||sp.has('session_id')) setTimeout(openM, 600);
+document.getElementById('buyBtn')?.addEventListener('click', () =>
+  sessionStorage.setItem('afr_pending', JSON.stringify({mp3:CONFIG.mp3,wav:CONFIG.wav,name:CONFIG.artistName+' - '+CONFIG.releaseName}))
+);
 
-            <!-- Buy Buttons -->
-            <div class="buy-grid">
-              <a class="btn btn-gold" id="buyDigital"
-                 href="https://buy.stripe.com/8x26oId1Z4bSdwc5ZPfrW05"
-                 data-wav="static/downloads/CBGJ-0004.wav"
-                 data-name="Single"
-                 target="_blank" rel="noopener">
-                Digital Download
-              </a>
-              <a class="btn btn-dark" id="buyCassette"
-                 href="https://buy.stripe.com/cNi14ofa7gYE3VC0FvfrW08"
-                 target="_blank" rel="noopener">
-                Buy Cassette
-              </a>
-            </div>
-            <p class="small-note">Secure checkout · 30-day returns on unopened media</p>
+/* ── REDEEM ──────────────────────────────────────────── */
+const CODE_BANK = new Set([
+  'AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R',
+  'AFR3Y9X','AFR5F1V','AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K','AFR4P6J',
+  'AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S','AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X',
+  'AFR4L8Y','AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F','AFR7S4G','AFR9T6H',
+  'AFR2V8J','AFR4W1K','AFR6X3L','AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R',
+  'AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X','AFR2J7Y','AFR4K9Z','AFR6L3Y',
+  'AFR8M5C','AFR2N7D'
+].map(c => c.toUpperCase()));
 
-            <div class="divider"></div>
+const USED   = new Set(JSON.parse(localStorage.getItem('afr_used_codes_edit01')||'[]'));
+const saveU  = () => localStorage.setItem('afr_used_codes_edit01', JSON.stringify([...USED]));
+const rdStat = document.getElementById('redeemStatus');
+const rdDL   = document.getElementById('redeemDownloads');
 
-            <!-- Redeem -->
-            <div class="redeem-card" aria-label="Redeem download code">
-              <div class="redeem-label">Have a download code?</div>
-              <div class="redeem-row">
-                <input class="redeem-input" id="redeemCode" type="text" inputmode="text"
-                       autocomplete="one-time-code" placeholder="Enter code" aria-describedby="redeemStatus" />
-                <button class="btn btn-outline" id="redeemBtn" type="button" style="width:auto; padding:0 20px;">Redeem</button>
-              </div>
-              <div id="redeemStatus" class="small-note" role="status" aria-live="polite"></div>
-            </div>
+async function forceDownload(url, name) {
+  try {
+    const r = await fetch(url); if (!r.ok) throw 0;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(await r.blob()); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+  } catch { window.location.href = url; }
+}
 
-            <div id="downloadLinks" class="download-links hidden" aria-hidden="true">
-              <a id="dlWav" class="btn btn-dark" href="static/downloads/CBGJ-0004.wav" download>Download WAV</a>
-            </div>
+async function redeem() {
+  const code = (document.getElementById('redeemCode').value||'').trim().toUpperCase();
+  rdDL.classList.add('hidden'); rdStat.textContent='';
+  if (!code)             { rdStat.textContent='Enter your code.';   return; }
+  if (USED.has(code))    { rdStat.textContent='Code already used.'; return; }
+  if (!CODE_BANK.has(code)) { rdStat.textContent='Invalid code.';   return; }
+  USED.add(code); saveU();
+  rdStat.textContent='Accepted — starting download…';
+  try {
+    await forceDownload(CONFIG.mp3, `${CONFIG.artistName} - ${CONFIG.releaseName}.mp3`);
+    rdStat.textContent='Download started.'; rdDL.classList.remove('hidden');
+  } catch { rdStat.textContent='Use the button below.'; rdDL.classList.remove('hidden'); }
+}
+document.getElementById('redeemBtn').addEventListener('click', redeem);
+document.getElementById('redeemCode').addEventListener('keydown', e => { if(e.key==='Enter') redeem(); });
 
-            <!-- Tabs -->
-            <div class="tabs" id="tabs">
-              <div role="tablist" aria-label="Product info" class="tab-list">
-                <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track" id="tabbtn-track">Tracklist</button>
-                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-desc" id="tabbtn-desc">Details</button>
-                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ship" id="tabbtn-ship">Shipping</button>
-              </div>
-
-              <!-- Tracklist -->
-              <div id="tab-track" class="tab-panel active" role="tabpanel">
-                <div class="tracks" aria-label="Tracklist">
-
-    
-                  
-                  <div class="track-row" data-src="static/downloads/CBGJ0-25-00016.mp3">
-                    <span class="track-no">A1</span>
-                    <span class="track-title">
-                      Lions' Gate
-                      <button class="play-btn" aria-label="Play Track" aria-pressed="false" type="button">
-                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
-                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                      </button>
-                    </span>
-                    <span class="disc-tag">3:08</span>
-                  </div>
-
-
-                       <!--
-
-                  <div class="track-row" data-src="static/downloads/CBGJ0-25-00018.mp3">
-                    <span class="track-no">C1</span>
-                    <span class="track-title">
-                      Peace
-                      <button class="play-btn" aria-label="Play Peace" aria-pressed="false" type="button">
-                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
-                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                      </button>
-                    </span>
-                    <span class="disc-tag">4:05</span>
-                  </div>
-
-                  <div class="track-row" data-src="static/downloads/CBGJ0-25-00020.mp3">
-                    <span class="track-no">D1</span>
-                    <span class="track-title">
-                      CASH
-                      <button class="play-btn" aria-label="Play CASH" aria-pressed="false" type="button">
-                        <svg class="icon icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
-                        <svg class="icon icon-pause" viewBox="0 0 24 24" width="16" height="16"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                      </button>
-                    </span>
-                    <span class="disc-tag">3:27</span>
-                  </div>
-                </div>
-              </div>
-
-                  -->
-
-              <div id="tab-desc" class="tab-panel" role="tabpanel">
-                <p>A deep exploration of mood and texture — hip-hop rhythm meets ambient electronics and broken beat. Warm analog synths, chopped samples, and meditative grooves.</p>
-              </div>
-
-              <div id="tab-ship" class="tab-panel" role="tabpanel">
-                <p>Ships from Cumberland, BC. Packed in a poly bag, bubble-wrap mailer. Combined shipping applied at checkout.</p>
-                <ul>
-                  <li>Canada: Expedited (2–7 biz days)</li>
-                  <li>USA: Tracked Packet (4–8 biz days)</li>
-                  <li>Rest of World: Tracked Air (7–21 biz days)</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="release-date">Released: October 26, 2025</div>
-
-          </div>
-        </aside>
-
-      </section>
-
-      <!-- Mobile sticky bar -->
-      <div class="sticky-bar" id="stickyBar">
-        <strong>$0.98</strong>
-        <button class="btn btn-dark" id="stickyAdd" style="width:auto; padding:0 24px;">Add to Cart</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand"><img src="BANNER.png" alt="VCR Records"></div>
-          <p class="footer-text">Independent electronic music label. Hip-hop, jungle, drum & bass, house, and experimental edits.</p>
-          <div class="footer-social">
-            <a href="mailto:ltdrifta@gmail.com" aria-label="Email">
-              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            </a>
-            <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener" aria-label="Bandcamp">
-              <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
-            </a>
-            <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <form class="signup-card" id="newsletterForm" action="https://formspree.io/f/xdkwjzzr" method="POST" novalidate>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-          <div class="sc-row">
-            <div class="signup-title">Get new releases first</div>
-          </div>
-          <div class="sc-row">
-            <input type="email" name="email" placeholder="your@email.com" aria-label="Email" required />
-          </div>
-          <div class="sc-row">
-            <div class="signup-options">
-              <label><input type="checkbox" name="consent" value="yes" required /> I agree to receive emails</label>
-            </div>
-          </div>
-          <input type="hidden" name="source" value="Release page footer">
-          <input type="hidden" name="page" value="" id="signupPageField">
-          <button class="signup-btn" type="submit" id="signupSubmitBtn">Subscribe</button>
-        </form>
-      </div>
-
-      <div class="footer-bottom">
-        <span>&copy; 2025 VCR Records</span>
-        <div style="display:flex; gap:16px; flex-wrap:wrap;">
-          <a href="#">Terms</a>
-          <a href="#">Privacy</a>
-          <a href="mailto:f_hastings@hotmail.com">Contact</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ===== ALL JS (preserved from original) ===== -->
-  <script>
-/* Gallery zoom */
-(function(){
-  const hero = document.getElementById('heroImg');
-  const zoom = document.createElement('div');
-  zoom.className = 'zoom';
-  zoom.innerHTML = '<button class="zoom-close" aria-label="Close">×</button><img alt="Zoomed" />';
-  document.body.appendChild(zoom);
-  function openZoom(src, alt){ zoom.style.display='flex'; const im=zoom.querySelector('img'); im.src=src; im.alt=alt||''; }
-  hero?.addEventListener('click', () => openZoom(hero.src, hero.alt));
-  zoom.addEventListener('click', (e)=>{ if(e.target.tagName!=='IMG') zoom.style.display='none'; });
-  zoom.querySelector('button').addEventListener('click', ()=> zoom.style.display='none');
-})();
-
-/* Tabs */
-(function(){
-  const tabs = document.getElementById('tabs'); if(!tabs) return;
-  const btns = tabs.querySelectorAll('[role="tab"]');
-  const panels = tabs.querySelectorAll('.tab-panel');
-  btns.forEach(btn=>btn.addEventListener('click', ()=>{
-    btns.forEach(b=>b.setAttribute('aria-selected','false'));
-    panels.forEach(p=>p.classList.remove('active'));
+/* ── TABS ────────────────────────────────────────────── */
+(function() {
+  const btns   = document.querySelectorAll('[role="tab"]');
+  const panels = document.querySelectorAll('.tab-panel');
+  btns.forEach(btn => btn.addEventListener('click', () => {
+    btns.forEach(b => b.setAttribute('aria-selected','false'));
+    panels.forEach(p => p.classList.remove('on'));
     btn.setAttribute('aria-selected','true');
-    document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('active');
+    document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('on');
   }));
 })();
 
-/* Qty + Sticky bar */
-(function(){
-  const q = document.getElementById('qty');
-  document.getElementById('minus')?.addEventListener('click', ()=>{ q.value = Math.max(1, (parseInt(q.value||'1',10)-1)); });
-  document.getElementById('plus')?.addEventListener('click', ()=>{ q.value = (parseInt(q.value||'1',10)+1); });
-  const sticky = document.getElementById('stickyBar');
-  const panel = document.querySelector('.panel');
-  const io = new IntersectionObserver(entries=>{
-    const topVisible = entries[0].isIntersecting;
-    sticky.style.display = window.innerWidth < 860 && !topVisible ? 'grid' : 'none';
-  }, {threshold: 0});
-  if(panel) io.observe(panel);
-  window.addEventListener('resize', ()=>{ if(window.innerWidth>=860) sticky.style.display='none'; }, {passive:true});
+/* ── ZOOM ────────────────────────────────────────────── */
+(function() {
+  const zo  = document.getElementById('zoom');
+  const zi  = document.getElementById('zoomImg');
+  const src = document.getElementById('heroImg');
+  const aw  = document.getElementById('artworkWrap');
+  aw.addEventListener('click', () => { zi.src=src.src; zo.style.display='flex'; });
+  zo.addEventListener('click', e => { if (e.target!==zi) zo.style.display='none'; });
+  zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display='none');
 })();
 
-/* Variant → Price */
-(function(){
-  const variant = document.getElementById('variant');
-  const priceText = document.getElementById('priceText');
-  const priceContent = document.getElementById('priceContent');
-  if (!variant || !priceText || !priceContent) return;
-  const BASE = 0.98; const PHYS = 9.98;
-  function setPrice(){
-    const v = (variant.value||'').toLowerCase();
-    const amt = (v==='cassette'||v==='cd')?PHYS:BASE;
-    priceText.textContent=`$${amt.toFixed(2)}`;
-    priceContent.setAttribute('content', amt.toFixed(2));
-  }
-  variant.addEventListener('change', setPrice);
-  setPrice();
-})();
+/* ── FADE IN ─────────────────────────────────────────── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('is-visible');obs.unobserve(e.target);} });
+},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
-/* Redeem system */
-const FILES = { wav: 'static/downloads/CBGJ0-0004.wav', name: 'F. Hastings: Shades of Blue' };
-const CODE_BANK = new Set([
-  'AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D',
-  'AFR2N8H','AFR7U2L','AFR6D4R','AFR3Y9X','AFR5F1V',
-  'AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K',
-  'AFR4P6J','AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S',
-  'AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X','AFR4L8Y',
-  'AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F',
-  'AFR7S4G','AFR9T6H','AFR2V8J','AFR4W1K','AFR6X3L',
-  'AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R',
-  'AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X',
-  'AFR2J7Y','AFR4K9Z','AFR6L3Y','AFR8M5C','AFR2N7D'
-].map(c => c.toUpperCase()));
-
-(function(){
-  const input = document.getElementById('redeemCode');
-  const btn = document.getElementById('redeemBtn');
-  const status = document.getElementById('redeemStatus');
-  const links = document.getElementById('downloadLinks');
-  const aWav = document.getElementById('dlWav');
-  if(aWav) aWav.href = FILES.wav;
-  if(!input || !btn || !status) return;
-  const USED = new Set(JSON.parse(localStorage.getItem('afr_used_codes_v1') || '[]'));
-  const saveUsed = () => localStorage.setItem('afr_used_codes_v1', JSON.stringify([...USED]));
-  async function forceDownload(url, filename){
-    try{ const res = await fetch(url); if(!res.ok) throw new Error('HTTP '+res.status); const blob = await res.blob(); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500); }catch(e){ location.href = url; }
-  }
-  async function redeem(){
-    const code = (input.value||'').trim().toUpperCase();
-    links.classList.add('hidden'); status.textContent = '';
-    if(!code){ status.textContent='Enter your code.'; return; }
-    if(USED.has(code)){ status.textContent='Code already used.'; return; }
-    if(!CODE_BANK.has(code)){ status.textContent='Invalid code.'; return; }
-    USED.add(code); saveUsed();
-    status.textContent='Code accepted — starting download...';
-    try{ await forceDownload(FILES.wav, `${FILES.name}.wav`); links.classList.remove('hidden'); status.textContent='Download started.'; }
-    catch(e){ status.textContent='Download failed. Use the button below.'; links.classList.remove('hidden'); }
-  }
-  btn.addEventListener('click', redeem);
-  input.addEventListener('keydown', e=>{ if(e.key==='Enter') redeem(); });
-})();
-
-/* Tracklist + Now Playing */
-(function(){
-  const rows = document.querySelectorAll('.track-row[data-src]');
-  if(!rows.length) return;
-  const audio = new Audio(); audio.preload='none';
-  window.__player=audio;
-  document.dispatchEvent(new Event('np:ready'));
-  function setButtonState(btn,playing){ btn.classList.toggle('is-playing',!!playing); btn.setAttribute('aria-pressed',playing?'true':'false'); }
-  function resetAllButtons(except){ document.querySelectorAll('.play-btn.is-playing').forEach(b=>{ if(b!==except) setButtonState(b,false); }); }
-  rows.forEach(row=>{
-    const btn=row.querySelector('.play-btn'); const src=row.getAttribute('data-src');
-    if(!btn||!src) return;
-    btn.addEventListener('click',e=>{
-      e.preventDefault();
-      const titleNode=btn.closest('.track-title')?.firstChild;
-      const title=(titleNode?.textContent||'Track').trim();
-      if(audio.src.endsWith(src)){ if(audio.paused){ audio.play().catch(()=>{}); setButtonState(btn,true); } else { audio.pause(); setButtonState(btn,false); } return; }
-      resetAllButtons(btn); audio.src=src; audio.currentTime=0;
-      document.dispatchEvent(new CustomEvent('np:trackchange',{detail:{title,src}}));
-      audio.play().then(()=>setButtonState(btn,true)).catch(()=>setButtonState(btn,false));
-    });
-  });
-})();
-
-(function(){
-  const bar=document.getElementById('nowPlaying'); const playB=document.getElementById('npPlay'); const closeB=document.getElementById('npClose');
-  const seek=document.getElementById('npSeek'); const tEl=document.getElementById('npElapsed'); const tRem=document.getElementById('npRemaining'); const title=document.getElementById('npTitle');
-  let audio=null;
-  const playSVG='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-  const pauseSVG='<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
-  function fmt(sec){ if(!isFinite(sec))return'0:00'; const s=Math.max(0,Math.floor(sec)); const m=Math.floor(s/60); const r=s%60; return m+':'+(r<10?'0'+r:r); }
-  function setIcons(playing){ playB.innerHTML=playing?pauseSVG:playSVG; }
-  function updateUI(){ if(!audio)return; if(audio.duration){ seek.max=audio.duration; seek.value=audio.currentTime; tEl.textContent=fmt(audio.currentTime); tRem.textContent='-'+fmt(audio.duration-audio.currentTime); } }
-  function bindAudio(a){ if(!a)return; audio=a;
-    audio.addEventListener('play',()=>{ bar.classList.add('show'); setIcons(true); });
-    audio.addEventListener('pause',()=>setIcons(false)); audio.addEventListener('ended',()=>setIcons(false));
-    audio.addEventListener('timeupdate',updateUI); audio.addEventListener('loadedmetadata',updateUI);
-    playB.addEventListener('click',()=>{ if(audio.paused) audio.play().catch(()=>{}); else audio.pause(); });
-    closeB.addEventListener('click',()=>{ bar.classList.remove('show'); if(!audio.paused) audio.pause(); });
-    seek.addEventListener('input',()=>{ audio.currentTime=parseFloat(seek.value||0); updateUI(); });
-  }
-  if(window.__player) bindAudio(window.__player);
-  else document.addEventListener('np:ready',()=>bindAudio(window.__player),{once:true});
-  document.addEventListener('np:trackchange',e=>{ title.textContent=e.detail?.title||'—'; });
-})();
-
-/* Stripe session storage */
-document.getElementById('buyDigital')?.addEventListener('click', (e) => {
-  const a = e.currentTarget;
-  sessionStorage.setItem('afr_download', JSON.stringify({ wav: a.dataset.wav || '', name: a.dataset.name || 'download' }));
-});
-
-/* Footer page field */
-(function(){ const f = document.getElementById('signupPageField'); if(f) f.value = location.href; })();
-
-/* Fade-up observer */
-const observer = new IntersectionObserver((entries) => {
-  for (const entry of entries) { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-  </script>
-
+(function(){ const f=document.getElementById('signupPageField'); if(f) f.value=location.href; })();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
