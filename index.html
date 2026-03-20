@@ -798,7 +798,7 @@
 
       <!-- enquiry note -->
       <p style="margin-top:14px;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);">
-        Merch enquiries — <a href="mailto:ltdrifta@gmail.com" style="color:var(--grey);text-decoration:underline;text-underline-offset:3px;">ltdrifta@gmail.com</a>
+        Merch enquiries — <a href="/cdn-cgi/l/email-protection#513d2535233837253011363c30383d7f323e3c" style="color:var(--grey);text-decoration:underline;text-underline-offset:3px;"><span class="__cf_email__" data-cfemail="b8d4ccdccad1deccd9f8dfd5d9d1d496dbd7d5">[email&#160;protected]</span></a>
       </p>
     </div>
   </section>
@@ -855,7 +855,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── HERO SLIDESHOW ─────────────────────────────────────── */
 (function () {
   const INTERVAL = 5000;
@@ -1003,8 +1003,14 @@ function handleMerch(item, btn) {
   window.location.href = `mailto:ltdrifta@gmail.com?subject=Merch enquiry: VCR ${item}&body=Hi, I'd like to enquire about the VCR ${item} (${opts}). Please let me know availability and pricing.`;
 }
 
+
 /* ── SCROLL REVEAL ──────────────────────────────────────── */
 const obs = new IntersectionObserver(entries => {
   for (const e of entries) {
     if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
   }
+}, { threshold: 0.05, rootMargin: '0px 0px -24px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
