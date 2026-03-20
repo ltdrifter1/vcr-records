@@ -575,7 +575,7 @@
   </div>
 
   <div class="hero-content" id="heroContent">
-    <div class="hero-badge" id="heroBadge"></div>
+    <div class="hero-badge" id="heroBadge" style="display:none"></div>
     <h1 class="hero-title" id="heroTitle"><br></h1>
     <p class="hero-sub" id="heroSub"></p>
     <div class="hero-actions">
@@ -615,7 +615,6 @@
             <h2 class="feat-title">Future Boy</h2>
             <div class="feat-artist">LT Drifta</div>
             <div class="feat-tags">
-            
               <span class="tag">Jungle</span>
               <span class="tag">Hip-Hop</span>
             </div>
@@ -653,7 +652,6 @@
             <div class="rel-year">2026 · Digital + Cassette</div>
           </div>
         </a>
-
 
         <a class="rel-card" href="testpress.html">
           <div class="rel-art"><img src="blank1400.png" alt="TEST PRESS" loading="lazy"/></div>
@@ -748,7 +746,7 @@
           <button class="merch-add" data-item="T-Shirt" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">Buy Now</button>
         </div>
 
-        <!-- Dad Cap -->
+        <!-- Hat -->
         <div class="merch-item">
           <div class="merch-img-wrap">
             <img src="hat.png" alt="Hat"/>
@@ -849,7 +847,7 @@
 
   const SLIDES = [
     {
-   
+      badge: '',
       title: '<br>',
       sub:   '',
       btn1:  { text: 'Shop Merch',     href: '#merch' },
@@ -863,7 +861,7 @@
       btn2:  { text: 'Browse Catalog', href: '#releases' }
     },
     {
-     
+      badge: '',
       title: 'VCR<br>Recordings',
       sub:   'Independent electronic music.',
       btn1:  { text: 'Latest Release', href: '#featured' },
@@ -892,11 +890,12 @@
     current = idx;
     setTimeout(() => {
       const s = SLIDES[idx];
-      badge.textContent  = s.badge;
-      title.innerHTML    = s.title;
-      sub.textContent    = s.sub;
-      btn1.textContent   = s.btn1.text; btn1.href = s.btn1.href;
-      btn2.textContent   = s.btn2.text; btn2.href = s.btn2.href;
+      badge.textContent    = s.badge;
+      badge.style.display  = s.badge ? '' : 'none';
+      title.innerHTML      = s.title;
+      sub.textContent      = s.sub;
+      btn1.textContent     = s.btn1.text; btn1.href = s.btn1.href;
+      btn2.textContent     = s.btn2.text; btn2.href = s.btn2.href;
       content.classList.remove('fading');
     }, 360);
     resetBar();
