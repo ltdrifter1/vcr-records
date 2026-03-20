@@ -121,7 +121,9 @@
     .format-select-wrap { position: relative; }
     .format-trigger { width: 100%; height: 44px; border-radius: 3px; border: 1px solid var(--line); background: var(--sur); color: var(--text); padding: 0 32px 0 12px; display: flex; align-items: center; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; position: relative; }
     .format-chev { position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; border-right: 1.5px solid var(--sub); border-bottom: 1.5px solid var(--sub); transform: translateY(-65%) rotate(45deg); transition: transform .15s; pointer-events: none; }
+    /* Dropdown: hidden by default via [hidden]; shown when data-open is set */
     .format-menu { position: absolute; inset-inline: 0; top: calc(100% + 4px); background: var(--sur); border: 1px solid var(--line-hi); border-radius: 3px; padding: 4px; z-index: 30; box-shadow: 0 8px 24px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 2px; }
+    .format-menu[hidden] { display: none; }
     .format-opt { height: 40px; border-radius: 2px; border: 1px solid transparent; background: transparent; color: var(--text); padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; }
     .format-opt.on { background: rgba(255,255,255,.06); }
     .format-opt-price { font-size: 0.60rem; color: var(--dim); }
@@ -225,7 +227,7 @@
     <h2>Purchase complete</h2>
     <p>Thanks for supporting independent music. Your download is ready.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" id="dlMp3Modal" href="future.mp3" download="LT Drifta - Future Boy.mp3">Download MP3</a>
+      <a class="btn btn-fill" id="dlMp3Modal" href="futureboy.mp3" download="LT Drifta - Future Boy.mp3">Download MP3</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -305,7 +307,8 @@
               <div class="r-price" id="priceDisplay">
                 <meta itemprop="priceCurrency" content="USD"/>
                 <meta itemprop="price" content="4.50"/>
-                $4.50
+                <!-- FIX: use a named span so JS can target it cleanly -->
+                <span id="priceAmount">$4.50</span>
               </div>
               <div class="r-price-note" id="priceFormat">USD · Digital</div>
             </div>
@@ -328,6 +331,7 @@
                   <span id="fpLabel">Digital</span>
                   <span class="format-chev" id="fpChev"></span>
                 </button>
+                <!-- FIX: `hidden` attribute added — dropdown starts closed -->
                 <div id="fpMenu" class="format-menu" role="listbox" hidden>
                   <button type="button" class="format-opt on" data-value="digital" role="option" aria-selected="true">
                     <span>Digital</span><span class="format-opt-price">$4.50</span>
@@ -371,7 +375,7 @@
           </div>
           <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
           <div class="dl-links hidden" id="redeemDownloads">
-            <a class="btn btn-fill" href="future.mp3" download="LT Drifta - Future Boy.mp3">Download MP3</a>
+            <a class="btn btn-fill" href="futureboy.mp3" download="LT Drifta - Future Boy.mp3">Download MP3</a>
           </div>
         </div>
 
@@ -495,19 +499,19 @@
 <script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
-  mp3:            'future.mp3',
+  mp3:            'futureboy.mp3',   // FIX: renamed from future.mp3
   stripeDigital:  'STRIPE_FUTUREBOY_DIGITAL',
   stripeCassette: 'STRIPE_FUTUREBOY_CASSETTE'
 };
 
 /* cue points (seconds) */
 const TRACKS = [
-  { title: 'Temple Ball',                          start: 0,   end: 77  },
-  { title: 'Counting Signals',                     start: 77,  end: 260 },
-  { title: 'Escape from Industria ft. Tyler Daley',start: 260, end: 575 },
-  { title: 'Love Supreme',                         start: 575, end: 787 },
-  { title: 'Nu Saigon Nights',                     start: 787, end: 851 },
-  { title: 'Without You',                          start: 851, end: Infinity }
+  { title: 'Temple Ball',                           start: 0,   end: 77  },
+  { title: 'Counting Signals',                      start: 77,  end: 260 },
+  { title: 'Escape from Industria ft. Tyler Daley', start: 260, end: 575 },
+  { title: 'Love Supreme',                          start: 575, end: 787 },
+  { title: 'Nu Saigon Nights',                      start: 787, end: 851 },
+  { title: 'Without You',                           start: 851, end: Infinity }
 ];
 
 /* ── AUDIO ───────────────────────────────────────────── */
@@ -563,13 +567,13 @@ function playTrack(idx) {
 
 async function safePlay() {
   if (audio.error) {
-    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place future.mp3 beside this file.'};
+    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place futureboy.mp3 beside this file.'};
     setMsg(m[audio.error.code]||'Load failed.', true); return;
   }
   try { setMsg('Loading…'); await audio.play(); setMsg(''); }
   catch(e) {
     if (e.name==='NotAllowedError') setMsg('Tap again to start.', true);
-    else setMsg('Could not play — check future.mp3 exists.', true);
+    else setMsg('Could not play — check futureboy.mp3 exists.', true);
   }
 }
 
@@ -582,7 +586,7 @@ audio.addEventListener('ended',          () => setPlaying(false));
 audio.addEventListener('waiting',        () => setMsg('Buffering…'));
 audio.addEventListener('error', () => {
   const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg((m[audio.error?.code]||'Load failed.')+' Check future.mp3 exists.', true);
+  setMsg((m[audio.error?.code]||'Load failed.')+' Check futureboy.mp3 exists.', true);
 });
 audio.addEventListener('timeupdate', () => {
   const d = getDur();
@@ -606,29 +610,77 @@ trackRows.forEach((row, idx) => {
 setActive(0);
 
 /* ── FORMAT PICKER ───────────────────────────────────── */
+// FIX: Rewritten with clean open/close helpers using the `hidden` attribute.
+// Price display now targets #priceAmount span directly instead of mutating text nodes.
 (function() {
-  const fpWrap = $('fpWrap'), fpTrig = $('fpTrigger'), fpMenu = $('fpMenu'), fpChev = $('fpChev');
-  const fpOpts = [...document.querySelectorAll('.format-opt')], varVal = $('variantVal');
+  const fpWrap = $('fpWrap');
+  const fpTrig = $('fpTrigger');
+  const fpMenu = $('fpMenu');
+  const fpChev = $('fpChev');
+  const fpOpts = [...document.querySelectorAll('.format-opt')];
+  const varVal = $('variantVal');
 
-  const closeF = () => { fpMenu.hidden = true; fpTrig.setAttribute('aria-expanded','false'); fpChev.style.transform = 'translateY(-65%) rotate(45deg)'; };
-  const openF  = () => { fpMenu.hidden = false; fpTrig.setAttribute('aria-expanded','true'); fpChev.style.transform = 'translateY(-35%) rotate(-135deg)'; };
-  fpTrig.addEventListener('click', () => fpMenu.hidden ? openF() : closeF());
-  document.addEventListener('click', e => { if (!fpWrap.contains(e.target)) closeF(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeF(); });
+  function isOpen() { return !fpMenu.hidden; }
 
-  function updateVariant() {
-    const c = varVal.value === 'cassette';
-    const pd = $('priceDisplay');
-    for (const n of pd.childNodes) { if (n.nodeType === 3 && n.textContent.trim()) { n.textContent = c ? '\n                $9.98\n              ' : '\n                $4.50\n              '; break; } }
-    pd.querySelector('meta[itemprop="price"]').content = c ? '9.98' : '4.50';
-    const pf = $('priceFormat'); if (pf) pf.textContent = c ? 'USD · Cassette' : 'USD · Digital';
-    $('buyBtn').textContent = c ? 'Buy Cassette — $9.98' : 'Buy Digital — $4.50';
-    $('buyBtn').href        = c ? CONFIG.stripeCassette : CONFIG.stripeDigital;
-    $('fpLabel').textContent = c ? 'Cassette' : 'Digital';
-    fpOpts.forEach(o => { const s = o.dataset.value === varVal.value; o.setAttribute('aria-selected', s ? 'true' : 'false'); o.classList.toggle('on', s); });
+  function openDropdown() {
+    fpMenu.hidden = false;
+    fpTrig.setAttribute('aria-expanded', 'true');
+    fpChev.style.transform = 'translateY(-35%) rotate(-135deg)';
   }
 
-  fpOpts.forEach(o => o.addEventListener('click', () => { varVal.value = o.dataset.value; updateVariant(); closeF(); }));
+  function closeDropdown() {
+    fpMenu.hidden = true;
+    fpTrig.setAttribute('aria-expanded', 'false');
+    fpChev.style.transform = 'translateY(-65%) rotate(45deg)';
+  }
+
+  fpTrig.addEventListener('click', () => isOpen() ? closeDropdown() : openDropdown());
+
+  // Close when clicking outside the wrapper
+  document.addEventListener('click', e => {
+    if (!fpWrap.contains(e.target)) closeDropdown();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDropdown();
+  });
+
+  const VARIANTS = {
+    digital:  { label: 'Digital',  price: '$4.50', priceMeta: '4.50', note: 'USD · Digital',  btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital  },
+    cassette: { label: 'Cassette', price: '$9.98', priceMeta: '9.98', note: 'USD · Cassette', btnText: 'Buy Cassette — $9.98', stripeHref: CONFIG.stripeCassette }
+  };
+
+  function updateVariant() {
+    const v = VARIANTS[varVal.value] || VARIANTS.digital;
+
+    // Price display — target the named span, no brittle text-node walking
+    $('priceAmount').textContent = v.price;
+    $('priceDisplay').querySelector('meta[itemprop="price"]').content = v.priceMeta;
+    $('priceFormat').textContent = v.note;
+
+    // Buy button
+    const buyBtn = $('buyBtn');
+    buyBtn.textContent = v.btnText;
+    buyBtn.href        = v.stripeHref;
+
+    // Trigger label
+    $('fpLabel').textContent = v.label;
+
+    // Option highlight
+    fpOpts.forEach(o => {
+      const selected = o.dataset.value === varVal.value;
+      o.setAttribute('aria-selected', selected ? 'true' : 'false');
+      o.classList.toggle('on', selected);
+    });
+  }
+
+  fpOpts.forEach(o => o.addEventListener('click', () => {
+    varVal.value = o.dataset.value;
+    updateVariant();
+    closeDropdown();
+  }));
+
+  // Initialise to match the default hidden value
   updateVariant();
 
   $('qtyMinus').addEventListener('click', () => $('qtyInput').value = Math.max(1, +$('qtyInput').value - 1));
