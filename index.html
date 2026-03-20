@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>VCR Recordings </title>
+  <title>VCR Recordings — Independent Electronic Music</title>
   <meta name="description" content="VCR Recordings — independent electronic music. Jungle, house, hip-hop and experimental music."/>
   <meta name="theme-color" content="#000000"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -455,6 +455,75 @@
     .footer-links a:active { color: var(--white); }
     @media (hover:hover) { .footer-links a:hover { color: var(--white); border-color: var(--line); } }
 
+    /* ── MERCH ──────────────────────────────────────── */
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    @media (max-width: 640px) { .merch-grid { grid-template-columns: 1fr; } }
+
+    .merch-item {
+      background: var(--black);
+      padding: clamp(20px, 3.5vw, 32px);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    @media (hover:hover) { .merch-item:hover { background: var(--dark); } }
+
+    .merch-img-wrap {
+      aspect-ratio: 1/1; overflow: hidden;
+      background: var(--dark);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .merch-img-wrap img {
+      width: 100%; height: 100%; object-fit: contain;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+      filter: brightness(.92);
+      padding: 12px;
+    }
+    @media (hover:hover) { .merch-item:hover .merch-img-wrap img { transform: scale(1.04); filter: brightness(1); } }
+
+    .merch-name {
+      font-size: 0.88rem; font-weight: 700;
+      color: var(--off); line-height: 1.2;
+    }
+    .merch-price {
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--mid); margin-top: 2px;
+    }
+
+    .merch-options {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .merch-opt {
+      height: 32px; padding: 0 12px;
+      border: 1px solid var(--line);
+      background: transparent; color: var(--grey);
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 2px; cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .merch-opt:active { background: var(--dark); }
+    @media (hover:hover) { .merch-opt:hover { border-color: var(--white); color: var(--white); } }
+    .merch-opt.selected { border-color: var(--white); color: var(--white); background: rgba(255,255,255,.06); }
+
+    .merch-add {
+      height: 44px; width: 100%;
+      background: var(--white); color: var(--black);
+      border: 1px solid var(--white); border-radius: 3px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      cursor: pointer; margin-top: auto;
+      transition: background .13s, transform .10s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .merch-add:active { transform: scale(0.97); }
+    @media (hover:hover) { .merch-add:hover { background: var(--off); } }
+
     /* ── SCROLL REVEAL ──────────────────────────────── */
     .rv { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s ease; }
     .rv.in { opacity: 1; transform: none; }
@@ -470,6 +539,7 @@
   <nav class="nav-links" aria-label="Primary navigation">
     <a href="#featured">Featured</a>
     <a href="#releases">Releases</a>
+    <a href="#merch">Merch</a>
     <a href="#listen">Listen</a>
     <a href="#artists">Artists</a>
   </nav>
@@ -481,6 +551,7 @@
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="#featured">Featured</a>
   <a href="#releases">Releases</a>
+  <a href="#merch">Merch</a>
   <a href="#listen">Listen</a>
   <a href="#artists">Artists</a>
 </div>
@@ -498,10 +569,15 @@
     <img src="blank1400.png" alt="Future Boy" loading="eager"/>
   </div>
 
+  <!-- Slide 2: VCR Merch -->
+  <div class="hero-slide" id="slide-2">
+    <img src="logo2.png" alt="VCR Recordings" loading="eager"/>
+  </div>
+
   <div class="hero-content" id="heroContent">
-    <div class="hero-badge" id="heroBadge">Digital + Cassette · 2026</div>
+    <div class="hero-badge" id="heroBadge">Also available · Classic Jazz · 2025</div>
     <h1 class="hero-title" id="heroTitle">Classic<br>Jazz</h1>
-    <p class="hero-sub" id="heroSub">LT Drifta </p>
+    <p class="hero-sub" id="heroSub">LT Drifta — digital release on VCR Recordings</p>
     <div class="hero-actions">
       <a class="btn btn-white" id="heroBtn1" href="classic.html">View Release</a>
       <a class="btn btn-border" id="heroBtn2" href="#releases">Browse Catalog</a>
@@ -511,6 +587,7 @@
   <div class="hero-dots" id="heroDots">
     <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
     <button class="hero-dot"        data-slide="1" aria-label="Slide 2"></button>
+    <button class="hero-dot"        data-slide="2" aria-label="Slide 3"></button>
   </div>
 
   <div class="hero-progress">
@@ -534,7 +611,7 @@
         </a>
         <div class="feat-panel">
           <div>
-            <div class="feat-label">Digital + Cassette · 2026</div>
+            <div class="feat-label">VCR-004 · Digital + Cassette · 2026</div>
             <h2 class="feat-title">Future Boy</h2>
             <div class="feat-artist">LT Drifta</div>
             <div class="feat-tags">
@@ -577,10 +654,17 @@
           </div>
         </a>
 
-  
+        <a class="rel-card" href="edit01.html">
+          <div class="rel-art"><img src="edit01.avif" alt="The Colour of Love" loading="lazy"/></div>
+          <div class="rel-body">
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">The Colour of Love</div>
+            <div class="rel-year">2026 · Digital</div>
+          </div>
+        </a>
 
-        <a class="rel-card" href="blank1400.png">
-          <div class="rel-art"><img src="blank1400.png" alt="TEST PRESS" loading="lazy"/></div>
+        <a class="rel-card" href="testpress.html">
+          <div class="rel-art"><img src="testpress.avif" alt="TEST PRESS" loading="lazy"/></div>
           <div class="rel-body">
             <div class="rel-artist">LT Drifta</div>
             <div class="rel-title">TEST PRESS</div>
@@ -642,11 +726,88 @@
     </div>
   </section>
 
+  <!-- ══ MERCH ══════════════════════════════════════════ -->
+  <section class="section" id="merch">
+    <div class="wrap">
+      <div class="sh rv">
+        <span class="sh-title">Merch</span>
+      </div>
+      <div class="merch-grid rv d1">
+
+        <!-- T-Shirt -->
+        <div class="merch-item">
+          <div class="merch-img-wrap">
+            <img src="logo2.png" alt="VCR T-Shirt"/>
+          </div>
+          <div>
+            <div class="merch-name">VCR T-Shirt</div>
+            <div class="merch-price">— · Limited run</div>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="tshirt-colour">White</button>
+            <button class="merch-opt"          data-group="tshirt-colour">Black</button>
+          </div>
+          <div class="merch-options" style="margin-top:-8px;">
+            <button class="merch-opt selected" data-group="tshirt-size">S</button>
+            <button class="merch-opt"          data-group="tshirt-size">M</button>
+            <button class="merch-opt"          data-group="tshirt-size">L</button>
+            <button class="merch-opt"          data-group="tshirt-size">XL</button>
+          </div>
+          <button class="merch-add" onclick="handleMerch('T-Shirt', this)">Add to enquiry</button>
+        </div>
+
+        <!-- Dad Cap -->
+        <div class="merch-item">
+          <div class="merch-img-wrap">
+            <img src="logo2.png" alt="VCR Dad Cap"/>
+          </div>
+          <div>
+            <div class="merch-name">VCR Dad Cap</div>
+            <div class="merch-price">— · Limited run</div>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="cap-colour">White</button>
+            <button class="merch-opt"          data-group="cap-colour">Black</button>
+          </div>
+          <button class="merch-add" onclick="handleMerch('Dad Cap', this)">Add to enquiry</button>
+        </div>
+
+        <!-- Bikini -->
+        <div class="merch-item">
+          <div class="merch-img-wrap">
+            <img src="logo2.png" alt="VCR Bikini"/>
+          </div>
+          <div>
+            <div class="merch-name">VCR Bikini</div>
+            <div class="merch-price">— · Limited run</div>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="bikini-colour">White</button>
+            <button class="merch-opt"          data-group="bikini-colour">Black</button>
+          </div>
+          <div class="merch-options" style="margin-top:-8px;">
+            <button class="merch-opt selected" data-group="bikini-size">XS</button>
+            <button class="merch-opt"          data-group="bikini-size">S</button>
+            <button class="merch-opt"          data-group="bikini-size">M</button>
+            <button class="merch-opt"          data-group="bikini-size">L</button>
+          </div>
+          <button class="merch-add" onclick="handleMerch('Bikini', this)">Add to enquiry</button>
+        </div>
+
+      </div>
+
+      <!-- enquiry note -->
+      <p style="margin-top:14px;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);">
+        Merch enquiries — <a href="mailto:ltdrifta@gmail.com" style="color:var(--grey);text-decoration:underline;text-underline-offset:3px;">ltdrifta@gmail.com</a>
+      </p>
+    </div>
+  </section>
+
   <!-- ══ ARTISTS ════════════════════════════════════════ -->
   <section class="section" id="artists">
     <div class="wrap">
       <div class="sh rv">
-        <span class="sh-title">Roster</span>
+        <span class="sh-title">Artists</span>
       </div>
       <div class="artists-grid rv d1">
         <div class="a-card">
@@ -655,7 +816,7 @@
             <div class="a-name">LT Drifta</div>
             <div class="a-role">Artist · Producer</div>
           </div>
-      
+          <div class="a-releases">4 releases</div>
         </div>
         <div class="a-card">
           <img class="a-img" src="ltd2.PNG" alt="F. Hastings"/>
@@ -663,7 +824,7 @@
             <div class="a-name">F. Hastings</div>
             <div class="a-role">Producer</div>
           </div>
-     
+          <div class="a-releases">2 releases</div>
         </div>
         <div class="a-card">
           <img class="a-img" src="ld.PNG" alt="Kairo"/>
@@ -671,7 +832,7 @@
             <div class="a-name">Kairo</div>
             <div class="a-role">Artist</div>
           </div>
-        
+          <div class="a-releases">Upcoming</div>
         </div>
       </div>
     </div>
@@ -689,29 +850,36 @@
     <div class="footer-links">
       <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener">Instagram</a>
-      <a href="mailto:ltdrifta@gmail.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#93ffe7f7e1faf5e7f2d3f4fef2faffbdf0fcfe">Email</a>
     </div>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── HERO SLIDESHOW ─────────────────────────────────────── */
 (function () {
   const INTERVAL = 5000;
 
   const SLIDES = [
     {
-      badge: 'Digital + Cassett · 2026',
+      badge: 'Also available · Classic Jazz · 2025',
       title: 'Classic<br>Jazz',
-      sub:   'LT Drifta ',
+      sub:   'LT Drifta — digital release on VCR Recordings',
       btn1:  { text: 'View Release',   href: 'classic.html' },
       btn2:  { text: 'Browse Catalog', href: '#releases' }
     },
     {
-      badge: 'New release · 2026',
+      badge: 'New release · Future Boy · 2026',
       title: 'VCR<br>Recordings',
-      sub:   'Independent electronic music.',
+      sub:   'Independent electronic music — jungle, house, hip-hop & edits',
       btn1:  { text: 'Latest Release', href: '#featured' },
+      btn2:  { text: 'Browse Catalog', href: '#releases' }
+    },
+    {
+      badge: 'VCR Recordings · Merch',
+      title: 'Wear<br>the Label',
+      sub:   'T-shirts, caps and more — limited runs.',
+      btn1:  { text: 'Shop Merch',     href: '#merch' },
       btn2:  { text: 'Browse Catalog', href: '#releases' }
     }
   ];
@@ -808,13 +976,35 @@ lt.addEventListener('click', () => {
   le.appendChild(f);
 });
 
+/* ── MERCH OPTION TOGGLES ──────────────────────────────── */
+document.querySelectorAll('.merch-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.dataset.group;
+    document.querySelectorAll(`.merch-opt[data-group="${group}"]`)
+      .forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+});
+
+function handleMerch(item, btn) {
+  const card = btn.closest('.merch-item');
+  const opts = [...card.querySelectorAll('.merch-opt.selected')].map(b => b.textContent).join(' / ');
+  btn.textContent = `✓ Enquiry sent`;
+  btn.style.background = 'var(--dark)';
+  btn.style.color = 'var(--grey)';
+  btn.style.borderColor = 'var(--line)';
+  setTimeout(() => {
+    btn.textContent = 'Add to enquiry';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+  }, 2200);
+  // Open email with pre-filled subject
+  window.location.href = `mailto:ltdrifta@gmail.com?subject=Merch enquiry: VCR ${item}&body=Hi, I'd like to enquire about the VCR ${item} (${opts}). Please let me know availability and pricing.`;
+}
+
 /* ── SCROLL REVEAL ──────────────────────────────────────── */
 const obs = new IntersectionObserver(entries => {
   for (const e of entries) {
     if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
   }
-}, { threshold: 0.05, rootMargin: '0px 0px -24px 0px' });
-document.querySelectorAll('.rv').forEach(el => obs.observe(el));
-</script>
-</body>
-</html>
