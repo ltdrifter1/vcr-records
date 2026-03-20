@@ -727,15 +727,15 @@
         <!-- T-Shirt -->
         <div class="merch-item">
           <div class="merch-img-wrap">
-            <img src="shirt.png" alt="T-Shirt"/>
+            <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
           </div>
           <div>
             <div class="merch-name">T-Shirt</div>
             <div class="merch-price"></div>
           </div>
           <div class="merch-options">
-            <button class="merch-opt selected" data-group="tshirt-colour" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">White</button>
-            <button class="merch-opt"          data-group="tshirt-colour" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">Black</button>
+            <button class="merch-opt"          data-group="tshirt-colour" data-img="shirt2.png">White</button>
+            <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
           </div>
           <div class="merch-options" style="margin-top:-8px;">
             <button class="merch-opt selected" data-group="tshirt-size">S</button>
@@ -746,34 +746,33 @@
           <button class="merch-add" data-item="T-Shirt" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">Buy Now</button>
         </div>
 
-        <!-- Hat -->
+        <!-- Hat — Black only -->
         <div class="merch-item">
           <div class="merch-img-wrap">
-            <img src="hat.png" alt="Hat"/>
+            <img id="hat-img" src="hat.png" alt="Hat"/>
           </div>
           <div>
             <div class="merch-name">Hat</div>
             <div class="merch-price"></div>
           </div>
           <div class="merch-options">
-            <button class="merch-opt selected" data-group="cap-colour">White</button>
-            <button class="merch-opt"          data-group="cap-colour">Black</button>
+            <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
           </div>
-          <button class="merch-add" data-item="Dad Cap" data-stripe-white="STRIPE_CAP_WHITE" data-stripe-black="STRIPE_CAP_BLACK">Buy Now</button>
+          <button class="merch-add" data-item="Dad Cap" data-stripe-white="STRIPE_CAP_BLACK" data-stripe-black="STRIPE_CAP_BLACK">Buy Now</button>
         </div>
 
         <!-- Bikini -->
         <div class="merch-item">
           <div class="merch-img-wrap">
-            <img src="bikini.png" alt="Bikini"/>
+            <img id="bikini-img" src="bikini.png" alt="Bikini"/>
           </div>
           <div>
             <div class="merch-name">Bikini</div>
             <div class="merch-price"></div>
           </div>
           <div class="merch-options">
-            <button class="merch-opt selected" data-group="bikini-colour">White</button>
-            <button class="merch-opt"          data-group="bikini-colour">Black</button>
+            <button class="merch-opt"          data-group="bikini-colour" data-img="bikini2.png">White</button>
+            <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
           </div>
           <div class="merch-options" style="margin-top:-8px;">
             <button class="merch-opt selected" data-group="bikini-size">XS</button>
@@ -963,12 +962,24 @@ lt.addEventListener('click', () => {
 });
 
 /* ── MERCH OPTION TOGGLES ──────────────────────────────── */
+// Map each colour group to its product image element
+const MERCH_IMG_MAP = {
+  'tshirt-colour': document.getElementById('tshirt-img'),
+  'bikini-colour': document.getElementById('bikini-img'),
+  'cap-colour':    document.getElementById('hat-img')
+};
+
 document.querySelectorAll('.merch-opt').forEach(btn => {
   btn.addEventListener('click', () => {
     const group = btn.dataset.group;
+    // Deselect others in group
     document.querySelectorAll(`.merch-opt[data-group="${group}"]`)
       .forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
+    // Swap image if this is a colour button and has a data-img
+    if (btn.dataset.img && MERCH_IMG_MAP[group]) {
+      MERCH_IMG_MAP[group].src = btn.dataset.img;
+    }
   });
 });
 
