@@ -129,7 +129,9 @@
     .format-select-wrap { position: relative; }
     .format-trigger { width: 100%; height: 44px; border-radius: 3px; border: 1px solid var(--line); background: var(--sur); color: var(--text); padding: 0 32px 0 12px; display: flex; align-items: center; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; position: relative; }
     .format-chev { position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; border-right: 1.5px solid var(--sub); border-bottom: 1.5px solid var(--sub); transform: translateY(-65%) rotate(45deg); transition: transform .15s; pointer-events: none; }
-    .format-menu { position: absolute; inset-inline: 0; top: calc(100% + 4px); background: var(--sur); border: 1px solid var(--line-hi); border-radius: 3px; padding: 4px; z-index: 30; box-shadow: 0 8px 24px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 2px; }
+    .format-menu { position: absolute; inset-inline: 0; top: calc(100% + 4px); background: var(--sur); border: 1px solid var(--line-hi); border-radius: 3px; padding: 4px; z-index: 30; box-shadow: 0 8px 24px rgba(0,0,0,.6); flex-direction: column; gap: 2px; }
+    .format-menu[hidden] { display: none !important; }
+    .format-menu:not([hidden]) { display: flex; }
     .format-opt { height: 40px; border-radius: 2px; border: 1px solid transparent; background: transparent; color: var(--text); padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; }
     .format-opt.on { background: rgba(255,255,255,.06); }
     .format-opt-price { font-size: 0.60rem; color: var(--dim); }
@@ -486,13 +488,13 @@
     <div class="footer-bottom">
       <span>© 2025 VCR Recordings</span>
       <div class="footer-bottom-links">
-        <a href="mailto:ltdrifta@gmail.com">Contact</a>
+        <a href="/cdn-cgi/l/email-protection#b3dfc7d7c1dad5c7d2f3d4ded2dadf9dd0dcde">Contact</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
   mp3:            'testpress.mp3',
