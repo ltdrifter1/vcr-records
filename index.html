@@ -387,7 +387,7 @@
     @media (hover:hover) { .listen-trig:hover .listen-ring { border-color: var(--white); background: rgba(255,255,255,.06); } }
     .listen-ring svg { width: 15px; height: 15px; fill: var(--white); margin-left: 2px; }
     .listen-info { text-align: left; }
-    .listen-name { font-size: 0.90rem; font-weight: 600; }
+    .listen-name { font-size: 0.90rem; font-weight: 600; color: var(--white); }
     .listen-sub {
       font-size: 0.62rem; font-weight: 600;
       letter-spacing: 0.10em; text-transform: uppercase;
@@ -559,27 +559,27 @@
 <!-- ══ HERO — full bleed slideshow ══════════════════════ -->
 <section class="hero" id="top">
 
-  <!-- Slide 0: Classic Jazz -->
+  <!-- Slide 0: VCR Merch -->
   <div class="hero-slide active" id="slide-0">
-    <img src="classic.avif" alt="Classic Jazz" fetchpriority="high"/>
+    <img src="logo2.png" alt="VCR Recordings" fetchpriority="high"/>
   </div>
 
-  <!-- Slide 1: Future Boy -->
+  <!-- Slide 1: Classic Jazz -->
   <div class="hero-slide" id="slide-1">
+    <img src="classic.avif" alt="Classic Jazz" loading="eager"/>
+  </div>
+
+  <!-- Slide 2: Future Boy -->
+  <div class="hero-slide" id="slide-2">
     <img src="blank1400.png" alt="Future Boy" loading="eager"/>
   </div>
 
-  <!-- Slide 2: VCR Merch -->
-  <div class="hero-slide" id="slide-2">
-    <img src="logo2.PNG" alt="VCR Recordings" loading="eager"/>
-  </div>
-
   <div class="hero-content" id="heroContent">
-    <div class="hero-badge" id="heroBadge">Also available · Classic Jazz · 2025</div>
-    <h1 class="hero-title" id="heroTitle">Classic<br>Jazz</h1>
-    <p class="hero-sub" id="heroSub">LT Drifta — digital release on VCR Recordings</p>
+    <div class="hero-badge" id="heroBadge">VCR Recordings · Merch</div>
+    <h1 class="hero-title" id="heroTitle">Wear<br>the Label</h1>
+    <p class="hero-sub" id="heroSub">T-shirts, caps and more — limited runs.</p>
     <div class="hero-actions">
-      <a class="btn btn-white" id="heroBtn1" href="classic.html">View Release</a>
+      <a class="btn btn-white" id="heroBtn1" href="#merch">Shop Merch</a>
       <a class="btn btn-border" id="heroBtn2" href="#releases">Browse Catalog</a>
     </div>
   </div>
@@ -741,11 +741,11 @@
           </div>
           <div>
             <div class="merch-name">VCR T-Shirt</div>
-            <div class="merch-price">— · Limited run</div>
+            <div class="merch-price">Limited run</div>
           </div>
           <div class="merch-options">
-            <button class="merch-opt selected" data-group="tshirt-colour">White</button>
-            <button class="merch-opt"          data-group="tshirt-colour">Black</button>
+            <button class="merch-opt selected" data-group="tshirt-colour" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">White</button>
+            <button class="merch-opt"          data-group="tshirt-colour" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">Black</button>
           </div>
           <div class="merch-options" style="margin-top:-8px;">
             <button class="merch-opt selected" data-group="tshirt-size">S</button>
@@ -753,7 +753,7 @@
             <button class="merch-opt"          data-group="tshirt-size">L</button>
             <button class="merch-opt"          data-group="tshirt-size">XL</button>
           </div>
-          <button class="merch-add" onclick="handleMerch('T-Shirt', this)">Add to enquiry</button>
+          <button class="merch-add" data-item="T-Shirt" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">Buy Now</button>
         </div>
 
         <!-- Dad Cap -->
@@ -763,13 +763,13 @@
           </div>
           <div>
             <div class="merch-name">VCR Dad Cap</div>
-            <div class="merch-price">— · Limited run</div>
+            <div class="merch-price">Limited run</div>
           </div>
           <div class="merch-options">
             <button class="merch-opt selected" data-group="cap-colour">White</button>
             <button class="merch-opt"          data-group="cap-colour">Black</button>
           </div>
-          <button class="merch-add" onclick="handleMerch('Dad Cap', this)">Add to enquiry</button>
+          <button class="merch-add" data-item="Dad Cap" data-stripe-white="STRIPE_CAP_WHITE" data-stripe-black="STRIPE_CAP_BLACK">Buy Now</button>
         </div>
 
         <!-- Bikini -->
@@ -779,7 +779,7 @@
           </div>
           <div>
             <div class="merch-name">VCR Bikini</div>
-            <div class="merch-price">— · Limited run</div>
+            <div class="merch-price">Limited run</div>
           </div>
           <div class="merch-options">
             <button class="merch-opt selected" data-group="bikini-colour">White</button>
@@ -791,15 +791,10 @@
             <button class="merch-opt"          data-group="bikini-size">M</button>
             <button class="merch-opt"          data-group="bikini-size">L</button>
           </div>
-          <button class="merch-add" onclick="handleMerch('Bikini', this)">Add to enquiry</button>
+          <button class="merch-add" data-item="Bikini" data-stripe-white="STRIPE_BIKINI_WHITE" data-stripe-black="STRIPE_BIKINI_BLACK">Buy Now</button>
         </div>
 
       </div>
-
-      <!-- enquiry note -->
-      <p style="margin-top:14px;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);">
-        Merch enquiries — <a href="/cdn-cgi/l/email-protection#513d2535233837253011363c30383d7f323e3c" style="color:var(--grey);text-decoration:underline;text-underline-offset:3px;"><span class="__cf_email__" data-cfemail="b8d4ccdccad1deccd9f8dfd5d9d1d496dbd7d5">[email&#160;protected]</span></a>
-      </p>
     </div>
   </section>
 
@@ -862,6 +857,13 @@
 
   const SLIDES = [
     {
+      badge: 'VCR Recordings · Merch',
+      title: 'Wear<br>the Label',
+      sub:   'T-shirts, caps and more — limited runs.',
+      btn1:  { text: 'Shop Merch',     href: '#merch' },
+      btn2:  { text: 'Browse Catalog', href: '#releases' }
+    },
+    {
       badge: 'Also available · Classic Jazz · 2025',
       title: 'Classic<br>Jazz',
       sub:   'LT Drifta — digital release on VCR Recordings',
@@ -873,13 +875,6 @@
       title: 'VCR<br>Recordings',
       sub:   'Independent electronic music — jungle, house, hip-hop & edits',
       btn1:  { text: 'Latest Release', href: '#featured' },
-      btn2:  { text: 'Browse Catalog', href: '#releases' }
-    },
-    {
-      badge: 'VCR Recordings · Merch',
-      title: 'Wear<br>the Label',
-      sub:   'T-shirts, caps and more — limited runs.',
-      btn1:  { text: 'Shop Merch',     href: '#merch' },
       btn2:  { text: 'Browse Catalog', href: '#releases' }
     }
   ];
@@ -986,22 +981,32 @@ document.querySelectorAll('.merch-opt').forEach(btn => {
   });
 });
 
-function handleMerch(item, btn) {
-  const card = btn.closest('.merch-item');
-  const opts = [...card.querySelectorAll('.merch-opt.selected')].map(b => b.textContent).join(' / ');
-  btn.textContent = `✓ Enquiry sent`;
-  btn.style.background = 'var(--dark)';
-  btn.style.color = 'var(--grey)';
-  btn.style.borderColor = 'var(--line)';
-  setTimeout(() => {
-    btn.textContent = 'Add to enquiry';
-    btn.style.background = '';
-    btn.style.color = '';
-    btn.style.borderColor = '';
-  }, 2200);
-  // Open email with pre-filled subject
-  window.location.href = `mailto:ltdrifta@gmail.com?subject=Merch enquiry: VCR ${item}&body=Hi, I'd like to enquire about the VCR ${item} (${opts}). Please let me know availability and pricing.`;
-}
+/* ── MERCH BUY — routes to Stripe payment link ─────────── */
+document.querySelectorAll('.merch-add').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.merch-item');
+
+    // Determine selected colour
+    const colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
+    const colour = colourBtn ? colourBtn.textContent.trim().toLowerCase() : 'white';
+
+    // Pick the correct Stripe link from data attributes
+    const stripeUrl = colour === 'black'
+      ? btn.dataset.stripeBlack
+      : btn.dataset.stripeWhite;
+
+    // Brief visual confirmation then redirect
+    const original = btn.textContent;
+    btn.textContent = 'Redirecting…';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      window.location.href = stripeUrl;
+      // Reset in case user navigates back
+      setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 3000);
+    }, 300);
+  });
+});
 
 
 /* ── SCROLL REVEAL ──────────────────────────────────────── */
