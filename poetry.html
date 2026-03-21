@@ -273,7 +273,7 @@
       <!-- LEFT: artwork + player -->
       <div class="left-col fade-up">
         <div class="artwork-wrap" id="artworkWrap">
-          <span class="artwork-badge">Album</span>
+          <span class="artwork-badge">Digital + Cassette</span>
           <img id="heroImg" src="poetry.png" alt="Drum Poetry artwork" itemprop="image"/>
         </div>
 
@@ -318,15 +318,13 @@
                 <meta itemprop="price" content="4.50"/>
                 <span id="priceAmount">$4.50</span>
               </div>
-              <div class="r-price-note" id="priceFormat">USD · Digital</div>
+              <div class="r-price-note" id="priceFormat">USD</div>
             </div>
             <div class="r-stock">In stock</div>
           </div>
           <div class="r-tags">
-            <span class="tag">Album</span>
-            <span class="tag">8 Tracks</span>
-            <span class="tag">Electronic</span>
-            <span class="tag">Hip-Hop</span>
+    
+     
           </div>
         </div>
 
@@ -673,8 +671,8 @@ setActive(0);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdown(); });
 
   const VARIANTS = {
-    digital:  { label: 'Digital MP3', price: '$4.50', priceMeta: '4.50', note: 'USD · Digital',  btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital,  buyNote: 'Secure checkout via Stripe · Instant digital delivery' },
-    cassette: { label: 'Cassette',    price: '$9.98', priceMeta: '9.98', note: 'USD · Cassette', btnText: 'Buy Cassette — $9.98', stripeHref: CONFIG.stripeCassette, buyNote: 'Secure checkout via Stripe · Physical · Ships worldwide' }
+    digital:  { label: 'Digital MP3', price: '$4.50', priceMeta: '4.50', note: 'USD',  btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital,  buyNote: 'Secure checkout via Stripe · Instant digital delivery' },
+    cassette: { label: 'Cassette',    price: '$9.98', priceMeta: '9.98', note: 'USD', btnText: 'Buy Cassette — $9.98', stripeHref: CONFIG.stripeCassette, buyNote: 'Secure checkout via Stripe · Physical · Ships worldwide' }
   };
 
   function updateVariant() {
