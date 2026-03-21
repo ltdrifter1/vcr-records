@@ -174,24 +174,7 @@
     .track-row.is-active .track-play-btn svg { fill: var(--text); }
     .track-play-btn .icon-play { margin-left: 1px; }
 
-    /* ── LOCKED TRACK ───────────────────────────────── */
-    .track-row.is-locked { cursor: default; }
-    .track-row.is-locked .track-title { opacity: 0.45; }
-    .track-row.is-locked .track-no,
-    .track-row.is-locked .track-dur { opacity: 0.35; }
-    .track-row.is-locked:active { background: transparent; }
-    @media (hover:hover) { .track-row.is-locked:hover { background: transparent; } }
-    .track-buy-pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 0.56rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--amber); border: 1px solid rgba(245,158,11,.30);
-      background: rgba(245,158,11,.08); padding: 4px 8px; border-radius: 2px;
-      white-space: nowrap; cursor: pointer;
-      transition: background .13s, border-color .13s;
-      text-decoration: none; flex-shrink: 0;
-    }
-    .track-buy-pill:hover { background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.55); }
-    .track-buy-pill svg { width: 8px; height: 8px; fill: var(--amber); flex-shrink: 0; }
+
 
     /* ── MODAL ──────────────────────────────────────── */
     .modal-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); display: none; align-items: center; justify-content: center; padding: 20px; }
@@ -435,15 +418,14 @@
                 </button>
               </div>
 
-              <!-- Track 3: locked -->
-              <div class="track-row is-locked" data-index="2" data-locked="true">
+              <div class="track-row" data-index="2">
                 <span class="track-no">3</span>
                 <span class="track-title">Village In a Village</span>
                 <span class="track-dur">5:03</span>
-                <a class="track-buy-pill" href="STRIPE_POETRY_DIGITAL" target="_blank" rel="noopener" aria-label="Buy to unlock Village In a Village">
-                  <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                  Buy track
-                </a>
+                <button class="track-play-btn" type="button" aria-label="Play Village In a Village">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
               </div>
 
               <div class="track-row" data-index="3">
@@ -545,13 +527,13 @@
     <div class="footer-bottom">
       <span>© 2025 VCR Recordings</span>
       <div class="footer-bottom-links">
-        <a href="mailto:ltdrifta@gmail.com">Contact</a>
+        <a href="/cdn-cgi/l/email-protection#99f5edfdebf0ffedf8d9fef4f8f0f5b7faf6f4">Contact</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
   mp3:            'poetry.mp3',
@@ -560,12 +542,10 @@ const CONFIG = {
 };
 
 /* ── TRACK CUE POINTS (seconds from start of mp3) ───── */
-// Track 3 (index 2) is locked — playback skips over it.
-// Adjust start/end values once you know the actual mp3 layout.
 const TRACKS = [
   { title: 'Paint The Sky For You', start: 0,    end: 193,  locked: false },
   { title: 'Drum Poetry',           start: 193,  end: 509,  locked: false },
-  { title: 'Village In a Village',  start: 509,  end: 812,  locked: true  },
+  { title: 'Village In a Village',  start: 509,  end: 812,  locked: false },
   { title: 'untitled-1',            start: 812,  end: 1005, locked: false },
   { title: 'In The Rain',           start: 1005, end: 1511, locked: false },
   { title: 'Sun of Tao',            start: 1511, end: 1732, locked: false },
@@ -655,12 +635,6 @@ audio.addEventListener('timeupdate', () => {
   elapsedEl.textContent = fmt(audio.currentTime);
   remainEl.textContent  = '-' + fmt(d - audio.currentTime);
   detectTrack(audio.currentTime);
-  // Auto-skip locked track 3 during continuous playback
-  const lk = TRACKS[2];
-  if (!audio.paused && audio.currentTime >= lk.start && audio.currentTime < lk.end) {
-    audio.currentTime = TRACKS[3].start;
-    setActive(3);
-  }
 });
 
 playBtn.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
@@ -668,21 +642,12 @@ seekEl.addEventListener('pointerdown', () => dragging = true);
 seekEl.addEventListener('pointerup',   () => { dragging = false; });
 seekEl.addEventListener('input',  () => { elapsedEl.textContent = fmt(+seekEl.value||0); detectTrack(+seekEl.value); });
 seekEl.addEventListener('change', () => {
-  const t = +seekEl.value || 0;
-  const lk = TRACKS[2];
-  // Prevent scrubbing into locked region
-  if (t >= lk.start && t < lk.end) {
-    audio.currentTime = lk.end;
-    seekEl.value = String(lk.end);
-  } else {
-    audio.currentTime = t;
-  }
+  audio.currentTime = +seekEl.value || 0;
   detectTrack(audio.currentTime);
 });
 volEl.addEventListener('input', () => audio.volume = +volEl.value || 0.8);
 
 trackRows.forEach((row, idx) => {
-  if (row.dataset.locked === 'true') return; // buy-pill handles its own navigation
   row.addEventListener('click', () => {
     idx === activeIdx ? (audio.paused ? safePlay() : audio.pause()) : playTrack(idx);
   });
@@ -817,9 +782,4 @@ $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
 }, { threshold: 0.08 });
-document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
-(function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
-</script>
-</body>
-</html>
+document.querySelectorAll('.fad
