@@ -623,7 +623,7 @@ setActive(0);
     const pd = $('priceDisplay');
     for (const n of pd.childNodes) { if (n.nodeType === 3 && n.textContent.trim()) { n.textContent = c ? '\n                $9.98\n              ' : '\n                $4.50\n              '; break; } }
     pd.querySelector('meta[itemprop="price"]').content = c ? '9.98' : '4.50';
-    const pf = $('priceFormat'); if (pf) pf.textContent = c ? 'USD · Cassette' : 'USD · Digital';
+    const pf = $('priceFormat'); if (pf) pf.textContent = c ? 'USD' : 'USD';
     $('buyBtn').textContent = c ? 'Buy Cassette — $9.98' : 'Buy Digital — $4.50';
     $('buyBtn').href        = c ? CONFIG.stripeCassette : CONFIG.stripeDigital;
     $('fpLabel').textContent = c ? 'Cassette' : 'Digital';
