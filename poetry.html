@@ -273,7 +273,7 @@
       <!-- LEFT: artwork + player -->
       <div class="left-col fade-up">
         <div class="artwork-wrap" id="artworkWrap">
-          <span class="artwork-badge">Album</span>
+          <span class="artwork-badge">Digital + Cassette</span>
           <img id="heroImg" src="poetry.png" alt="Drum Poetry artwork" itemprop="image"/>
         </div>
 
@@ -318,15 +318,12 @@
                 <meta itemprop="price" content="4.50"/>
                 <span id="priceAmount">$4.50</span>
               </div>
-              <div class="r-price-note" id="priceFormat">USD · Digital</div>
+              <div class="r-price-note" id="priceFormat">USD</div>
             </div>
             <div class="r-stock">In stock</div>
           </div>
           <div class="r-tags">
-            <span class="tag">Album</span>
-            <span class="tag">8 Tracks</span>
-            <span class="tag">Electronic</span>
-            <span class="tag">Hip-Hop</span>
+        
           </div>
         </div>
 
@@ -362,7 +359,7 @@
           </div>
           <div class="buy-stack">
             <a class="btn btn-fill" id="buyBtn"
-               href="STRIPE_POETRY_DIGITAL"
+               href="https://buy.stripe.com/3cI8wQe639wc4ZGag5frW0p"
                target="_blank" rel="noopener">Buy Digital — $4.50</a>
             <a class="btn btn-bc"
                href="https://ltdrifta.bandcamp.com"
@@ -537,8 +534,8 @@
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
   mp3:            'poetry.mp3',
-  stripeDigital:  'STRIPE_POETRY_DIGITAL',
-  stripeCassette: 'STRIPE_POETRY_CASSETTE'
+  stripeDigital:  'https://buy.stripe.com/3cI8wQe639wc4ZGag5frW0p',
+  stripeCassette: 'https://buy.stripe.com/3cI3cw6DB0ZGeAgag5frW0q'
 };
 
 /* ── TRACK CUE POINTS (seconds from start of mp3) ───── */
@@ -673,8 +670,8 @@ setActive(0);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdown(); });
 
   const VARIANTS = {
-    digital:  { label: 'Digital MP3', price: '$4.50', priceMeta: '4.50', note: 'USD · Digital',  btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital,  buyNote: 'Secure checkout via Stripe · Instant digital delivery' },
-    cassette: { label: 'Cassette',    price: '$9.98', priceMeta: '9.98', note: 'USD · Cassette', btnText: 'Buy Cassette — $9.98', stripeHref: CONFIG.stripeCassette, buyNote: 'Secure checkout via Stripe · Physical · Ships worldwide' }
+    digital:  { label: 'Digital MP3', price: '$4.50', priceMeta: '4.50', note: 'USD',  btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital,  buyNote: 'Secure checkout via Stripe · Instant digital delivery' },
+    cassette: { label: 'Cassette',    price: '$9.98', priceMeta: '9.98', note: 'USD', btnText: 'Buy Cassette — $9.98', stripeHref: CONFIG.stripeCassette, buyNote: 'Secure checkout via Stripe · Physical · Ships worldwide' }
   };
 
   function updateVariant() {
