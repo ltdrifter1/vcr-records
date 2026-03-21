@@ -693,7 +693,7 @@
           </div>
           <div>
             <div class="merch-name">T-Shirt</div>
-            <div class="merch-price"></div>
+            <div class="merch-price">From $30.00</div>
           </div>
           <div class="merch-options">
             <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
@@ -705,7 +705,7 @@
             <button class="merch-opt"          data-group="tshirt-size">L</button>
             <button class="merch-opt"          data-group="tshirt-size">XL</button>
           </div>
-          <button class="merch-add" data-item="T-Shirt" data-stripe-white="STRIPE_TSHIRT_WHITE" data-stripe-black="STRIPE_TSHIRT_BLACK">Buy Now</button>
+          <button class="merch-add" data-item="T-Shirt" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy Now</button>
         </div>
 
         <!-- Hat — Black only -->
@@ -715,12 +715,12 @@
           </div>
           <div>
             <div class="merch-name">Hat</div>
-            <div class="merch-price"></div>
+            <div class="merch-price">$25.00</div>
           </div>
           <div class="merch-options">
             <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
           </div>
-          <button class="merch-add" data-item="Dad Cap" data-stripe-white="STRIPE_CAP_BLACK" data-stripe-black="STRIPE_CAP_BLACK">Buy Now</button>
+          <button class="merch-add" data-item="Dad Cap" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy Now</button>
         </div>
 
         <!-- Bikini — default Black -->
@@ -730,7 +730,7 @@
           </div>
           <div>
             <div class="merch-name">Bikini</div>
-            <div class="merch-price"></div>
+            <div class="merch-price">From $35.00</div>
           </div>
           <div class="merch-options">
             <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
@@ -742,7 +742,7 @@
             <button class="merch-opt"          data-group="bikini-size">M</button>
             <button class="merch-opt"          data-group="bikini-size">L</button>
           </div>
-          <button class="merch-add" data-item="Bikini" data-stripe-white="STRIPE_BIKINI_WHITE" data-stripe-black="STRIPE_BIKINI_BLACK">Buy Now</button>
+          <button class="merch-add" data-item="Bikini" data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">Buy Now</button>
         </div>
 
       </div>
@@ -943,17 +943,32 @@ document.querySelectorAll('.merch-opt').forEach(btn => {
 /* ── MERCH BUY ─────────────────────────────────────────── */
 document.querySelectorAll('.merch-add').forEach(btn => {
   btn.addEventListener('click', () => {
-    const card = btn.closest('.merch-item');
+    const card    = btn.closest('.merch-item');
+    const baseUrl = btn.dataset.stripe;
+
+    // Read all selected options for this card
     const colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
-    const colour = colourBtn ? colourBtn.textContent.trim().toLowerCase() : 'black';
-    const stripeUrl = colour === 'black'
-      ? btn.dataset.stripeBlack
-      : btn.dataset.stripeWhite;
+    const sizeBtn   = card.querySelector('.merch-opt.selected[data-group$="-size"]');
+    const colour    = colourBtn ? colourBtn.textContent.trim() : null;
+    const size      = sizeBtn   ? sizeBtn.textContent.trim()   : null;
+
+    // Append colour + size as query params so they appear in Stripe order metadata
+    const url = new URL(baseUrl, 'https://placeholder.com');
+    if (colour) url.searchParams.set('colour', colour);
+    if (size)   url.searchParams.set('size',   size);
+    // Strip the fake base — keep just the path+params if it's a Stripe link,
+    // or use the full constructed URL if it's already absolute
+    const finalUrl = baseUrl.startsWith('http')
+      ? url.toString()
+      : baseUrl + (colour || size
+          ? '?' + url.searchParams.toString()
+          : '');
+
     const original = btn.textContent;
     btn.textContent = 'Redirecting…';
     btn.disabled = true;
     setTimeout(() => {
-      window.location.href = stripeUrl;
+      window.location.href = finalUrl;
       setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 3000);
     }, 300);
   });
