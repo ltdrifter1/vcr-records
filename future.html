@@ -121,7 +121,6 @@
     .format-select-wrap { position: relative; }
     .format-trigger { width: 100%; height: 44px; border-radius: 3px; border: 1px solid var(--line); background: var(--sur); color: var(--text); padding: 0 32px 0 12px; display: flex; align-items: center; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; position: relative; }
     .format-chev { position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; border-right: 1.5px solid var(--sub); border-bottom: 1.5px solid var(--sub); transform: translateY(-65%) rotate(45deg); transition: transform .15s; pointer-events: none; }
-    /* Dropdown: hidden by default via [hidden]; shown when data-open is set */
     .format-menu { position: absolute; inset-inline: 0; top: calc(100% + 4px); background: var(--sur); border: 1px solid var(--line-hi); border-radius: 3px; padding: 4px; z-index: 30; box-shadow: 0 8px 24px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 2px; }
     .format-menu[hidden] { display: none; }
     .format-opt { height: 40px; border-radius: 2px; border: 1px solid transparent; background: transparent; color: var(--text); padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; }
@@ -307,7 +306,6 @@
               <div class="r-price" id="priceDisplay">
                 <meta itemprop="priceCurrency" content="USD"/>
                 <meta itemprop="price" content="4.50"/>
-                <!-- FIX: use a named span so JS can target it cleanly -->
                 <span id="priceAmount">$4.50</span>
               </div>
               <div class="r-price-note" id="priceFormat">USD</div>
@@ -315,10 +313,8 @@
             <div class="r-stock">In stock</div>
           </div>
           <div class="r-tags">
-         
             <span class="tag">Jungle</span>
             <span class="tag">Hip-Hop</span>
-    
           </div>
         </div>
 
@@ -331,7 +327,6 @@
                   <span id="fpLabel">Digital</span>
                   <span class="format-chev" id="fpChev"></span>
                 </button>
-                <!-- FIX: `hidden` attribute added — dropdown starts closed -->
                 <div id="fpMenu" class="format-menu" role="listbox" hidden>
                   <button type="button" class="format-opt on" data-value="digital" role="option" aria-selected="true">
                     <span>Digital</span><span class="format-opt-price">$4.50</span>
@@ -354,7 +349,7 @@
           </div>
           <div class="buy-stack">
             <a class="btn btn-fill" id="buyBtn"
-               href="STRIPE_FUTUREBOY_DIGITAL"
+               href="https://buy.stripe.com/eVq9AU0fd8s81Nu9c1frW0k"
                target="_blank" rel="noopener">Buy Digital — $4.50</a>
             <a class="btn btn-bc"
                href="https://ltdrifta.bandcamp.com"
@@ -499,9 +494,9 @@
 <script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
-  mp3:            'futureboy.mp3',   // FIX: renamed from future.mp3
-  stripeDigital:  'STRIPE_FUTUREBOY_DIGITAL',
-  stripeCassette: 'STRIPE_FUTUREBOY_CASSETTE'
+  mp3:            'futureboy.mp3',
+  stripeDigital:  'https://buy.stripe.com/eVq9AU0fd8s81Nu9c1frW0k',
+  stripeCassette: 'https://buy.stripe.com/bJe7sMbXVgYEbo40FvfrW0l'
 };
 
 /* cue points (seconds) */
@@ -610,8 +605,6 @@ trackRows.forEach((row, idx) => {
 setActive(0);
 
 /* ── FORMAT PICKER ───────────────────────────────────── */
-// FIX: Rewritten with clean open/close helpers using the `hidden` attribute.
-// Price display now targets #priceAmount span directly instead of mutating text nodes.
 (function() {
   const fpWrap = $('fpWrap');
   const fpTrig = $('fpTrigger');
@@ -636,7 +629,6 @@ setActive(0);
 
   fpTrig.addEventListener('click', () => isOpen() ? closeDropdown() : openDropdown());
 
-  // Close when clicking outside the wrapper
   document.addEventListener('click', e => {
     if (!fpWrap.contains(e.target)) closeDropdown();
   });
@@ -646,27 +638,23 @@ setActive(0);
   });
 
   const VARIANTS = {
-    digital:  { label: 'Digital',  price: '$4.50', priceMeta: '4.50', note: 'USD',  btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital  },
+    digital:  { label: 'Digital',  price: '$4.50', priceMeta: '4.50', note: 'USD', btnText: 'Buy Digital — $4.50',  stripeHref: CONFIG.stripeDigital  },
     cassette: { label: 'Cassette', price: '$9.98', priceMeta: '9.98', note: 'USD', btnText: 'Buy Cassette — $9.98', stripeHref: CONFIG.stripeCassette }
   };
 
   function updateVariant() {
     const v = VARIANTS[varVal.value] || VARIANTS.digital;
 
-    // Price display — target the named span, no brittle text-node walking
     $('priceAmount').textContent = v.price;
     $('priceDisplay').querySelector('meta[itemprop="price"]').content = v.priceMeta;
     $('priceFormat').textContent = v.note;
 
-    // Buy button
     const buyBtn = $('buyBtn');
     buyBtn.textContent = v.btnText;
     buyBtn.href        = v.stripeHref;
 
-    // Trigger label
     $('fpLabel').textContent = v.label;
 
-    // Option highlight
     fpOpts.forEach(o => {
       const selected = o.dataset.value === varVal.value;
       o.setAttribute('aria-selected', selected ? 'true' : 'false');
@@ -680,7 +668,6 @@ setActive(0);
     closeDropdown();
   }));
 
-  // Initialise to match the default hidden value
   updateVariant();
 
   $('qtyMinus').addEventListener('click', () => $('qtyInput').value = Math.max(1, +$('qtyInput').value - 1));
