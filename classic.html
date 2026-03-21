@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>LT Drifta — Classic Jazz | VCR Recordings</title>
-  <meta name="description" content="Classic Jazz by LT Drifta — digital single. VCR Recordings."/>
+  <meta name="description" content="Classic Jazz by LT Drifta — digital + cassette. VCR Recordings."/>
   <meta name="theme-color" content="#000000"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,6 @@
       --dim:    rgba(242,242,238,.28);
       --green:  #3ecf8e;
       --red:    #f87171;
-      --amber:  #f59e0b;
       --sans:   'Archivo', ui-sans-serif, system-ui, -apple-system, sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
     }
@@ -34,41 +33,25 @@
     button { font-family: inherit; cursor: pointer; border: none; background: none; -webkit-tap-highlight-color: transparent; }
     input  { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 
-    /* ── NAV ────────────────────────────────────────── */
-    .nav {
-      position: sticky; top: 0; z-index: 200;
-      background: rgba(0,0,0,.88);
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
-      border-bottom: 1px solid var(--line);
-      height: 52px;
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto;
-      padding: 0 20px; height: 100%;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
+    .nav { position: sticky; top: 0; z-index: 200; background: rgba(0,0,0,.88); backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%); border-bottom: 1px solid var(--line); height: 52px; }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .nav-brand { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
     .nav-links { display: flex; gap: 2px; }
     .nav-links a { padding: 7px 10px; border-radius: 4px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sub); transition: color .15s, background .15s; }
     @media (hover:hover) { .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.05); } }
     @media (max-width: 520px) { .nav-links { display: none; } }
 
-    /* ── PAGE SHELL ─────────────────────────────────── */
     .page { max-width: 1100px; margin: 0 auto; padding: 0 20px calc(60px + var(--safe-b)); }
 
-    /* ── CRUMBS ─────────────────────────────────────── */
     .crumbs { padding: 16px 0 20px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
     .crumbs a { color: var(--dim); transition: color .15s; }
     @media (hover:hover) { .crumbs a:hover { color: var(--sub); } }
     .crumbs span { margin: 0 6px; opacity: .4; }
 
-    /* ── PRODUCT GRID ───────────────────────────────── */
     .product-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
     @media (min-width: 720px) { .product-grid { grid-template-columns: minmax(240px, 360px) 1fr; gap: 0; align-items: start; border: 1px solid var(--line); } }
     @media (min-width: 960px) { .product-grid { grid-template-columns: minmax(300px, 420px) 1fr; } }
 
-    /* ── LEFT COL ───────────────────────────────────── */
     .left-col { display: flex; flex-direction: column; }
     @media (min-width: 720px) { .left-col { position: sticky; top: 52px; border-right: 1px solid var(--line); } }
 
@@ -109,7 +92,6 @@
     .p-msg { font-size: 0.60rem; font-weight: 600; color: var(--dim); min-height: 12px; margin-top: 6px; }
     .p-msg.err { color: var(--red); }
 
-    /* ── RIGHT COL ──────────────────────────────────── */
     .right-col { display: flex; flex-direction: column; }
     .r-block { padding: 22px 24px; border-bottom: 1px solid var(--line); }
     .r-block:last-child { border-bottom: none; }
@@ -118,43 +100,29 @@
     .r-artist { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
     .r-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 900; line-height: 0.92; letter-spacing: -0.04em; }
     .r-meta-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+    .r-price { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .r-price-note { font-size: 0.62rem; font-weight: 600; color: var(--dim); margin-top: 2px; }
     .r-stock { display: flex; align-items: center; gap: 5px; font-size: 0.60rem; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: var(--green); }
     .r-stock::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 5px var(--green); }
     .r-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
     .tag { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 2px; border: 1px solid var(--line); color: var(--dim); }
 
-    /* ── FORMAT SELECTOR ────────────────────────────── */
-    .format-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px; }
-    .format-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-    .format-card {
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      padding: 12px 14px;
-      cursor: pointer;
-      transition: border-color .15s, background .15s;
-      position: relative;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .format-card:hover { border-color: var(--line-hi); background: rgba(255,255,255,.02); }
-    .format-card.selected { border-color: var(--text); background: rgba(255,255,255,.03); }
-    .format-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
-    .format-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-    .format-name { font-size: 0.72rem; font-weight: 700; color: var(--text); }
-    .format-check {
-      width: 16px; height: 16px; border-radius: 50%;
-      border: 1.5px solid var(--line-hi);
-      display: grid; place-items: center;
-      flex-shrink: 0;
-      transition: border-color .15s, background .15s;
-    }
-    .format-card.selected .format-check { border-color: var(--text); background: var(--text); }
-    .format-check svg { width: 8px; height: 8px; fill: #000; display: none; }
-    .format-card.selected .format-check svg { display: block; }
-    .format-price { font-size: 1.1rem; font-weight: 900; letter-spacing: -0.03em; color: var(--text); }
-    .format-desc { font-size: 0.58rem; color: var(--dim); margin-top: 2px; line-height: 1.4; }
-    .format-badge { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); background: rgba(245,158,11,.10); border: 1px solid rgba(245,158,11,.20); padding: 2px 6px; border-radius: 2px; display: inline-block; margin-top: 4px; }
+    /* ── FORMAT DROPDOWN ────────────────────────────── */
+    .format-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-bottom: 14px; }
+    .format-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+    .format-select-wrap { position: relative; }
+    .format-trigger { width: 100%; height: 44px; border-radius: 3px; border: 1px solid var(--line); background: var(--sur); color: var(--text); padding: 0 32px 0 12px; display: flex; align-items: center; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; position: relative; }
+    .format-chev { position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; border-right: 1.5px solid var(--sub); border-bottom: 1.5px solid var(--sub); transform: translateY(-65%) rotate(45deg); transition: transform .15s; pointer-events: none; }
+    .format-menu { position: absolute; inset-inline: 0; top: calc(100% + 4px); background: var(--sur); border: 1px solid var(--line-hi); border-radius: 3px; padding: 4px; z-index: 30; box-shadow: 0 8px 24px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 2px; }
+    .format-menu[hidden] { display: none; }
+    .format-opt { height: 40px; border-radius: 2px; border: 1px solid transparent; background: transparent; color: var(--text); padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; font-weight: 600; font-family: var(--sans); cursor: pointer; }
+    .format-opt.on { background: rgba(255,255,255,.06); }
+    .format-opt-price { font-size: 0.60rem; color: var(--dim); }
+    .qty-wrap { display: flex; align-items: center; height: 44px; padding: 3px; border-radius: 3px; border: 1px solid var(--line); background: var(--sur); }
+    .qty-btn { width: 34px; height: 34px; border: none; border-radius: 2px; background: rgba(255,255,255,.05); color: var(--text); font-size: 1.1rem; display: grid; place-items: center; font-family: var(--sans); cursor: pointer; }
+    .qty-input { width: 40px; text-align: center; border: none; background: transparent; color: var(--text); font-weight: 700; font-size: 0.88rem; font-family: var(--sans); }
 
-    /* ── PURCHASE ───────────────────────────────────── */
+    /* ── BUTTONS ────────────────────────────────────── */
     .buy-stack { display: flex; flex-direction: column; gap: 8px; }
     .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 48px; border-radius: 3px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; border: 1px solid transparent; transition: background .13s, border-color .13s, color .13s, transform .10s; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
     .btn:active { transform: scale(0.97); }
@@ -187,13 +155,13 @@
 
     /* ── TRACKLIST ──────────────────────────────────── */
     .tracklist { display: flex; flex-direction: column; }
-    .track-row { display: grid; grid-template-columns: 2.2rem 1fr auto auto; gap: 10px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .12s; border-radius: 2px; }
+    .track-row { display: grid; grid-template-columns: 2.2rem 1fr auto auto; gap: 10px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .12s; }
     .track-row:first-child { border-top: none; }
     .track-row:active { background: rgba(255,255,255,.02); }
     @media (hover:hover) { .track-row:hover { background: rgba(255,255,255,.02); } }
     .track-row.is-active { background: rgba(255,255,255,.03); }
     .track-no { font-size: 0.62rem; font-weight: 600; color: var(--dim); text-align: right; font-variant-numeric: tabular-nums; }
-    .track-title { font-size: 0.84rem; font-weight: 500; color: var(--sub); line-height: 1.3; }
+    .track-title { font-size: 0.86rem; font-weight: 500; color: var(--sub); line-height: 1.3; }
     .track-title small { display: block; font-size: 0.68rem; color: var(--dim); font-weight: 400; margin-top: 1px; }
     .track-row.is-active .track-title { color: var(--text); }
     .track-dur { font-size: 0.60rem; color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -205,11 +173,6 @@
     .track-row.is-active .track-play-btn .icon-pause { display: block; fill: var(--text); }
     .track-row.is-active .track-play-btn svg { fill: var(--text); }
     .track-play-btn .icon-play { margin-left: 1px; }
-
-    .tracklist-footer { padding-top: 12px; border-top: 1px solid var(--line); margin-top: 2px; display: flex; justify-content: space-between; align-items: center; }
-    .tracklist-count { font-size: 0.60rem; color: var(--dim); font-weight: 600; }
-    .tracklist-total { font-size: 0.60rem; color: var(--dim); font-weight: 600; font-variant-numeric: tabular-nums; }
-
     .details-text { font-size: 0.86rem; color: var(--sub); line-height: 1.7; }
 
     /* ── MODAL ──────────────────────────────────────── */
@@ -316,7 +279,7 @@
         <div class="player">
           <div class="player-head">
             <span class="player-lbl">Now playing</span>
-            <span class="player-track" id="ipTrackName">—</span>
+            <span class="player-track" id="ipTrackName">Naima</span>
           </div>
           <div class="player-controls">
             <button class="play-btn" id="ipPlay" aria-label="Play / pause">
@@ -348,6 +311,14 @@
           <div class="r-artist">LT Drifta</div>
           <h1 class="r-title" itemprop="name">Classic<br>Jazz</h1>
           <div class="r-meta-row">
+            <div>
+              <div class="r-price" id="priceDisplay">
+                <meta itemprop="priceCurrency" content="USD"/>
+                <meta itemprop="price" content="0.98"/>
+                <span id="priceAmount">$0.98</span>
+              </div>
+              <div class="r-price-note" id="priceFormat">USD · Digital</div>
+            </div>
             <div class="r-stock">In stock</div>
           </div>
           <div class="r-tags">
@@ -360,44 +331,38 @@
 
         <!-- FORMAT + BUY -->
         <div class="r-block">
-          <div class="format-label">Choose format</div>
-          <div class="format-options">
-
-            <label class="format-card selected" id="card-mp3">
-              <input type="radio" name="format" value="mp3" checked/>
-              <div class="format-card-top">
-                <span class="format-name">Digital MP3</span>
-                <span class="format-check">
-                  <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                </span>
+          <div class="format-row">
+            <div>
+              <div class="format-label">Format</div>
+              <div class="format-select-wrap" id="fpWrap">
+                <button type="button" id="fpTrigger" class="format-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span id="fpLabel">Digital MP3</span>
+                  <span class="format-chev" id="fpChev"></span>
+                </button>
+                <div id="fpMenu" class="format-menu" role="listbox" hidden>
+                  <button type="button" class="format-opt on" data-value="digital" role="option" aria-selected="true">
+                    <span>Digital MP3</span><span class="format-opt-price">$0.98</span>
+                  </button>
+                  <button type="button" class="format-opt" data-value="cassette" role="option" aria-selected="false">
+                    <span>Cassette</span><span class="format-opt-price">TBC</span>
+                  </button>
+                </div>
+                <input type="hidden" id="variantVal" value="digital"/>
               </div>
-              <div class="format-price">
-                <meta itemprop="priceCurrency" content="USD"/>
-                <meta itemprop="price" content="0.98"/>
-                $0.98
+            </div>
+            <div>
+              <div class="format-label">Qty</div>
+              <div class="qty-wrap">
+                <button type="button" class="qty-btn" id="qtyMinus" aria-label="Decrease">−</button>
+                <input type="number" class="qty-input" id="qtyInput" min="1" value="1" inputmode="numeric" aria-label="Quantity"/>
+                <button type="button" class="qty-btn" id="qtyPlus" aria-label="Increase">+</button>
               </div>
-              <div class="format-desc">Full album · Instant download</div>
-            </label>
-
-            <label class="format-card" id="card-cassette">
-              <input type="radio" name="format" value="cassette"/>
-              <div class="format-card-top">
-                <span class="format-name">Cassette</span>
-                <span class="format-check">
-                  <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                </span>
-              </div>
-              <div class="format-price">TBC</div>
-              <div class="format-desc">Physical · Ships worldwide</div>
-              <span class="format-badge">◆ Limited</span>
-            </label>
-
+            </div>
           </div>
-
           <div class="buy-stack">
             <a class="btn btn-fill" id="buyBtn"
                href="STRIPE_CLASSICJAZZ_MP3"
-               target="_blank" rel="noopener">Buy — $0.98</a>
+               target="_blank" rel="noopener">Buy Digital — $0.98</a>
             <a class="btn btn-bc"
                href="https://ltdrifta.bandcamp.com"
                target="_blank" rel="noopener">
@@ -425,22 +390,111 @@
         <!-- TABS -->
         <div class="r-block">
           <div class="tab-bar" role="tablist">
-            <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-track">Tracklist</button>
+            <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="tab-track">Tracklist</button>
             <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-details">Details</button>
           </div>
 
           <div class="tab-panel on" id="tab-track" role="tabpanel" style="padding-top:14px;">
-            <div class="tracklist" id="tracklist">
-              <!-- injected by JS -->
-            </div>
-            <div class="tracklist-footer">
-              <span class="tracklist-count">9 tracks</span>
-              <span class="tracklist-total">34:39</span>
+            <div class="tracklist">
+
+              <div class="track-row is-active" data-index="0">
+                <span class="track-no">1</span>
+                <span class="track-title">Naima</span>
+                <span class="track-dur">7:54</span>
+                <button class="track-play-btn" type="button" aria-label="Play Naima">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="1">
+                <span class="track-no">2</span>
+                <span class="track-title">
+                  Turn Around
+                  <small>Olivia Dean – A Couple Minutes Remix</small>
+                </span>
+                <span class="track-dur">3:38</span>
+                <button class="track-play-btn" type="button" aria-label="Play Turn Around">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="2">
+                <span class="track-no">3</span>
+                <span class="track-title">My One And Only Love</span>
+                <span class="track-dur">4:40</span>
+                <button class="track-play-btn" type="button" aria-label="Play My One And Only Love">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="3">
+                <span class="track-no">4</span>
+                <span class="track-title">A Taste of Honey</span>
+                <span class="track-dur">2:53</span>
+                <button class="track-play-btn" type="button" aria-label="Play A Taste of Honey">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="4">
+                <span class="track-no">5</span>
+                <span class="track-title">Colours of You</span>
+                <span class="track-dur">3:37</span>
+                <button class="track-play-btn" type="button" aria-label="Play Colours of You">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="5">
+                <span class="track-no">6</span>
+                <span class="track-title">Variations in Fall</span>
+                <span class="track-dur">3:47</span>
+                <button class="track-play-btn" type="button" aria-label="Play Variations in Fall">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="6">
+                <span class="track-no">7</span>
+                <span class="track-title">Four</span>
+                <span class="track-dur">2:09</span>
+                <button class="track-play-btn" type="button" aria-label="Play Four">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="7">
+                <span class="track-no">8</span>
+                <span class="track-title">In A Sentimental Mood</span>
+                <span class="track-dur">3:17</span>
+                <button class="track-play-btn" type="button" aria-label="Play In A Sentimental Mood">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-index="8">
+                <span class="track-no">9</span>
+                <span class="track-title">The Sun</span>
+                <span class="track-dur">2:44</span>
+                <button class="track-play-btn" type="button" aria-label="Play The Sun">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
             </div>
           </div>
 
           <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
-            <p class="details-text">Classic Jazz by LT Drifta. Album on VCR Recordings. 9 tracks · 34:39 total runtime.</p>
+            <p class="details-text">Classic Jazz by LT Drifta. Nine-track album on VCR Recordings. Available on digital download and limited cassette. 34:39 total runtime.</p>
           </div>
         </div>
 
@@ -485,7 +539,7 @@
     <div class="footer-bottom">
       <span>© 2025 VCR Recordings</span>
       <div class="footer-bottom-links">
-        <a href="/cdn-cgi/l/email-protection#0d6179697f646b796c4d6a606c6461236e6260">Contact</a>
+        <a href="mailto:ltdrifta@gmail.com">Contact</a>
       </div>
     </div>
   </div>
@@ -495,92 +549,89 @@
 <script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
-  mp3:              'classic3.mp3',
-  artistName:       'LT Drifta',
-  releaseName:      'Classic Jazz',
-  stripeUrlMp3:     'STRIPE_CLASSICJAZZ_MP3',
-  stripeUrlCassette:'STRIPE_CLASSICJAZZ_CASSETTE'
+  mp3:            'classic3.mp3',
+  stripeDigital:  'STRIPE_CLASSICJAZZ_MP3',
+  stripeCassette: 'STRIPE_CLASSICJAZZ_CASSETTE'
 };
 
-/* ── TRACKLIST DATA ──────────────────────────────────── */
+/* ── TRACK CUE POINTS (seconds) ─────────────────────── */
 const TRACKS = [
-  { no: 1,  title: 'Naima',                      remix: null,                              dur: '7:54' },
-  { no: 2,  title: 'Turn Around',                remix: 'Olivia Dean – A Couple Minutes Remix', dur: '3:38' },
-  { no: 3,  title: 'My One And Only Love',        remix: null,                              dur: '4:40' },
-  { no: 4,  title: 'A Taste of Honey',            remix: null,                              dur: '2:53' },
-  { no: 5,  title: 'Colours of You',              remix: null,                              dur: '3:37' },
-  { no: 6,  title: 'Variations in Fall',          remix: null,                              dur: '3:47' },
-  { no: 7,  title: 'Four',                        remix: null,                              dur: '2:09' },
-  { no: 8,  title: 'In A Sentimental Mood',       remix: null,                              dur: '3:17' },
-  { no: 9,  title: 'The Sun',                     remix: null,                              dur: '2:44' },
+  { title: 'Naima',                     start: 0,    end: 474  },
+  { title: 'Turn Around',               start: 474,  end: 692  },
+  { title: 'My One And Only Love',      start: 692,  end: 972  },
+  { title: 'A Taste of Honey',          start: 972,  end: 1145 },
+  { title: 'Colours of You',            start: 1145, end: 1362 },
+  { title: 'Variations in Fall',        start: 1362, end: 1589 },
+  { title: 'Four',                      start: 1589, end: 1718 },
+  { title: 'In A Sentimental Mood',     start: 1718, end: 1915 },
+  { title: 'The Sun',                   start: 1915, end: Infinity },
 ];
-
-/* ── BUILD TRACKLIST ─────────────────────────────────── */
-const tracklistEl = document.getElementById('tracklist');
-TRACKS.forEach(t => {
-  const row = document.createElement('div');
-  row.className = 'track-row';
-  row.dataset.track = t.no;
-  row.innerHTML = `
-    <span class="track-no">${t.no}</span>
-    <span class="track-title">
-      ${t.title}
-      ${t.remix ? `<small>${t.remix}</small>` : ''}
-    </span>
-    <span class="track-dur">${t.dur}</span>
-    <button class="track-play-btn" aria-label="Play ${t.title}" type="button">
-      <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-    </button>`;
-  tracklistEl.appendChild(row);
-});
 
 /* ── AUDIO ───────────────────────────────────────────── */
 const audio = new Audio();
 audio.preload = 'auto';
-audio.src     = CONFIG.mp3;
 audio.volume  = 0.8;
+audio.src     = CONFIG.mp3;
+audio.load();
 
-const fmt = s => {
-  if (!isFinite(s)) return '0:00';
-  s = Math.max(0, Math.floor(s));
-  return Math.floor(s/60) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
-};
+const fmt = s => { s = Math.max(0, Math.floor(isFinite(s) ? s : 0)); return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
+const $   = id => document.getElementById(id);
 
-const waveEl = document.getElementById('wave');
+let dragging  = false;
+let activeIdx = 0;
+
+const playBtn   = $('ipPlay');
+const seekEl    = $('ipSeek');
+const volEl     = $('ipVolume');
+const elapsedEl = $('ipElapsed');
+const remainEl  = $('ipRemaining');
+const trackName = $('ipTrackName');
+const waveEl    = $('wave');
+const pMsg      = $('pMsg');
+const trackRows = [...document.querySelectorAll('.track-row')];
+
 for (let i = 0; i < 44; i++) {
   const b = document.createElement('span');
   b.style.cssText = `height:${2+Math.random()*14}px;animation-delay:${(Math.random()*1.2).toFixed(2)}s;animation-duration:${(.8+Math.random()*.6).toFixed(2)}s`;
   waveEl.appendChild(b);
 }
 
-const playBtn      = document.getElementById('ipPlay');
-const seek         = document.getElementById('ipSeek');
-const volEl        = document.getElementById('ipVolume');
-const elapsed      = document.getElementById('ipElapsed');
-const remain       = document.getElementById('ipRemaining');
-const pMsg         = document.getElementById('pMsg');
-const ipTrackName  = document.getElementById('ipTrackName');
-
 function setMsg(t, e) { pMsg.textContent = t||''; pMsg.className = 'p-msg'+(e?' err':''); }
-function setPlaying(on) {
-  playBtn.classList.toggle('on', on);
-  waveEl.classList.toggle('on', on);
+function getDur() { return isFinite(audio.duration) && audio.duration > 0 ? audio.duration : TRACKS[TRACKS.length-2].end; }
+function setPlaying(on) { playBtn.classList.toggle('on', on); waveEl.classList.toggle('on', on); }
+
+function setActive(idx) {
+  if (idx < 0 || idx >= TRACKS.length) return;
+  activeIdx = idx;
+  trackName.textContent = TRACKS[idx].title;
+  trackRows.forEach((r, i) => r.classList.toggle('is-active', i === idx));
+}
+
+function detectTrack(t) {
+  const i = TRACKS.findIndex((tr, j) => t >= tr.start && (!TRACKS[j+1] || t < TRACKS[j+1].start));
+  if (i >= 0 && i !== activeIdx) setActive(i);
+}
+
+function playTrack(idx) {
+  setActive(idx);
+  audio.currentTime = TRACKS[idx].start;
+  safePlay();
 }
 
 async function safePlay() {
   if (audio.error) {
-    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found.'};
+    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place classic3.mp3 beside this file.'};
     setMsg(m[audio.error.code]||'Load failed.', true); return;
   }
   try { setMsg('Loading…'); await audio.play(); setMsg(''); }
   catch(e) {
-    if (e.name==='NotAllowedError') setMsg('Tap again to start.',true);
-    else setMsg('Could not play — check audio file exists.',true);
+    if (e.name==='NotAllowedError') setMsg('Tap again to start.', true);
+    else setMsg('Could not play — check classic3.mp3 exists.', true);
   }
 }
 
-audio.addEventListener('loadedmetadata', () => { seek.max = audio.duration; setMsg(''); });
+audio.addEventListener('loadstart',      () => setMsg('Loading…'));
+audio.addEventListener('loadedmetadata', () => { seekEl.max = String(getDur()); setMsg(''); });
 audio.addEventListener('canplay',        () => setMsg(''));
 audio.addEventListener('play',           () => { setPlaying(true); setMsg(''); });
 audio.addEventListener('pause',          () => setPlaying(false));
@@ -588,78 +639,96 @@ audio.addEventListener('ended',          () => setPlaying(false));
 audio.addEventListener('waiting',        () => setMsg('Buffering…'));
 audio.addEventListener('error', () => {
   const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg((m[audio.error?.code]||'Load failed.')+' Check audio file exists.',true);
+  setMsg((m[audio.error?.code]||'Load failed.')+' Check classic3.mp3 exists.', true);
 });
 audio.addEventListener('timeupdate', () => {
-  if (!isFinite(audio.duration)) return;
-  seek.max   = audio.duration;
-  seek.value = audio.currentTime;
-  elapsed.textContent = fmt(audio.currentTime);
-  remain.textContent  = '-'+fmt(audio.duration - audio.currentTime);
+  const d = getDur();
+  if (!dragging) seekEl.value = String(audio.currentTime || 0);
+  elapsedEl.textContent = fmt(audio.currentTime);
+  remainEl.textContent  = '-' + fmt(d - audio.currentTime);
+  detectTrack(audio.currentTime);
 });
 
 playBtn.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
-seek.addEventListener('input',  () => { audio.currentTime = +seek.value||0; });
-volEl.addEventListener('input',  () => { audio.volume = +volEl.value||0.8; });
+seekEl.addEventListener('pointerdown', () => dragging = true);
+seekEl.addEventListener('pointerup',   () => { dragging = false; });
+seekEl.addEventListener('input',  () => { elapsedEl.textContent = fmt(+seekEl.value||0); detectTrack(+seekEl.value); });
+seekEl.addEventListener('change', () => { audio.currentTime = +seekEl.value||0; detectTrack(audio.currentTime); });
+volEl.addEventListener('input',   () => audio.volume = +volEl.value || 0.8);
 
-/* Track rows — play/pause on click, highlight active */
-document.querySelectorAll('.track-row').forEach(row => {
+trackRows.forEach((row, idx) => {
   row.addEventListener('click', () => {
-    // Mark active row
-    document.querySelectorAll('.track-row').forEach(r => r.classList.remove('is-active'));
-    row.classList.add('is-active');
-    const trackNo = +row.dataset.track;
-    const t = TRACKS[trackNo - 1];
-    if (t) ipTrackName.textContent = t.title;
-    audio.paused ? safePlay() : audio.pause();
+    idx === activeIdx ? (audio.paused ? safePlay() : audio.pause()) : playTrack(idx);
   });
 });
 
-/* ── FORMAT SELECTOR ─────────────────────────────────── */
-const buyBtn   = document.getElementById('buyBtn');
-const buyNote  = document.getElementById('buyNote');
-const radios   = document.querySelectorAll('input[name="format"]');
-const cardMp3      = document.getElementById('card-mp3');
-const cardCassette = document.getElementById('card-cassette');
+setActive(0);
 
-function updateFormat(val) {
-  cardMp3.classList.toggle('selected', val === 'mp3');
-  cardCassette.classList.toggle('selected', val === 'cassette');
-  if (val === 'mp3') {
-    buyBtn.href        = CONFIG.stripeUrlMp3;
-    buyBtn.textContent = 'Buy Digital MP3 — $0.98';
-    buyNote.textContent = 'Secure checkout via Stripe · Instant digital delivery';
-  } else {
-    buyBtn.href        = CONFIG.stripeUrlCassette;
-    buyBtn.textContent = 'Pre-order Cassette';
-    buyNote.textContent = 'Secure checkout via Stripe · Physical · Ships worldwide';
+/* ── FORMAT PICKER ───────────────────────────────────── */
+(function() {
+  const fpWrap = $('fpWrap');
+  const fpTrig = $('fpTrigger');
+  const fpMenu = $('fpMenu');
+  const fpChev = $('fpChev');
+  const fpOpts = [...document.querySelectorAll('.format-opt')];
+  const varVal = $('variantVal');
+
+  function isOpen() { return !fpMenu.hidden; }
+  function openDropdown()  { fpMenu.hidden = false; fpTrig.setAttribute('aria-expanded','true');  fpChev.style.transform = 'translateY(-35%) rotate(-135deg)'; }
+  function closeDropdown() { fpMenu.hidden = true;  fpTrig.setAttribute('aria-expanded','false'); fpChev.style.transform = 'translateY(-65%) rotate(45deg)'; }
+
+  fpTrig.addEventListener('click', () => isOpen() ? closeDropdown() : openDropdown());
+  document.addEventListener('click', e => { if (!fpWrap.contains(e.target)) closeDropdown(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdown(); });
+
+  const VARIANTS = {
+    digital:  { label: 'Digital MP3', price: '$0.98', priceMeta: '0.98', note: 'USD · Digital',  btnText: 'Buy Digital — $0.98',  stripeHref: CONFIG.stripeDigital,  buyNote: 'Secure checkout via Stripe · Instant digital delivery' },
+    cassette: { label: 'Cassette',    price: 'TBC',   priceMeta: '0',    note: 'USD · Cassette', btnText: 'Pre-order Cassette',   stripeHref: CONFIG.stripeCassette, buyNote: 'Secure checkout via Stripe · Physical · Ships worldwide' }
+  };
+
+  function updateVariant() {
+    const v = VARIANTS[varVal.value] || VARIANTS.digital;
+    $('priceAmount').textContent  = v.price;
+    $('priceDisplay').querySelector('meta[itemprop="price"]').content = v.priceMeta;
+    $('priceFormat').textContent  = v.note;
+    $('buyBtn').textContent = v.btnText;
+    $('buyBtn').href        = v.stripeHref;
+    $('fpLabel').textContent = v.label;
+    $('buyNote').textContent = v.buyNote;
+    fpOpts.forEach(o => {
+      const sel = o.dataset.value === varVal.value;
+      o.setAttribute('aria-selected', sel ? 'true' : 'false');
+      o.classList.toggle('on', sel);
+    });
   }
-}
 
-radios.forEach(r => r.addEventListener('change', () => updateFormat(r.value)));
-// Clicking anywhere on the card also selects it
-[cardMp3, cardCassette].forEach(card => {
-  card.addEventListener('click', () => {
-    const radio = card.querySelector('input[type="radio"]');
-    radio.checked = true;
-    updateFormat(radio.value);
-  });
-});
+  fpOpts.forEach(o => o.addEventListener('click', () => {
+    varVal.value = o.dataset.value;
+    updateVariant();
+    closeDropdown();
+  }));
+
+  updateVariant();
+
+  $('qtyMinus').addEventListener('click', () => $('qtyInput').value = Math.max(1, +$('qtyInput').value - 1));
+  $('qtyPlus').addEventListener('click',  () => $('qtyInput').value = Math.max(1, +$('qtyInput').value + 1));
+})();
 
 /* ── PURCHASE MODAL ──────────────────────────────────── */
-const modal = document.getElementById('purchaseModal');
-const openM  = () => { modal.classList.add('show'); document.body.style.overflow='hidden'; };
+const modal = $('purchaseModal');
+const openM  = () => { modal.classList.add('show'); document.body.style.overflow = 'hidden'; };
 const closeM = () => {
-  modal.classList.remove('show'); document.body.style.overflow='';
+  modal.classList.remove('show'); document.body.style.overflow = '';
   const u = new URL(location.href);
   ['purchase','session_id'].forEach(k => u.searchParams.delete(k));
   history.replaceState({},'',u);
 };
-document.getElementById('modalClose').addEventListener('click', closeM);
-document.getElementById('modalDismiss').addEventListener('click', closeM);
-modal.addEventListener('click', e => { if (e.target===modal) closeM(); });
+$('modalClose').addEventListener('click', closeM);
+$('modalDismiss').addEventListener('click', closeM);
+modal.addEventListener('click', e => { if (e.target === modal) closeM(); });
+$('dlMp3Modal').href = CONFIG.mp3;
 const sp = new URLSearchParams(location.search);
-if (sp.get('purchase')==='success'||sp.has('session_id')) setTimeout(openM, 600);
+if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 600);
 
 /* ── REDEEM ──────────────────────────────────────────── */
 const CODE_BANK = new Set([
@@ -672,10 +741,9 @@ const CODE_BANK = new Set([
   'AFR8M5C','AFR2N7D'
 ].map(c => c.toUpperCase()));
 
-const USED   = new Set(JSON.parse(localStorage.getItem('afr_used_codes_classicjazz')||'[]'));
-const saveU  = () => localStorage.setItem('afr_used_codes_classicjazz', JSON.stringify([...USED]));
-const rdStat = document.getElementById('redeemStatus');
-const rdDL   = document.getElementById('redeemDownloads');
+const USED  = new Set(JSON.parse(localStorage.getItem('afr_used_codes_classicjazz')||'[]'));
+const saveU = () => localStorage.setItem('afr_used_codes_classicjazz', JSON.stringify([...USED]));
+const rdSt  = $('redeemStatus'), rdDL = $('redeemDownloads');
 
 async function forceDownload(url, name) {
   try {
@@ -683,29 +751,29 @@ async function forceDownload(url, name) {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(await r.blob()); a.download = name;
     document.body.appendChild(a); a.click();
-    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
   } catch { window.location.href = url; }
 }
 
 async function redeem() {
-  const code = (document.getElementById('redeemCode').value||'').trim().toUpperCase();
-  rdDL.classList.add('hidden'); rdStat.textContent='';
-  if (!code)                { rdStat.textContent='Enter your code.';   return; }
-  if (USED.has(code))       { rdStat.textContent='Code already used.'; return; }
-  if (!CODE_BANK.has(code)) { rdStat.textContent='Invalid code.';      return; }
+  const code = ($('redeemCode').value||'').trim().toUpperCase();
+  rdDL.classList.add('hidden'); rdSt.textContent = '';
+  if (!code)                { rdSt.textContent = 'Enter your code.';   return; }
+  if (USED.has(code))       { rdSt.textContent = 'Code already used.'; return; }
+  if (!CODE_BANK.has(code)) { rdSt.textContent = 'Invalid code.';      return; }
   USED.add(code); saveU();
-  rdStat.textContent='Accepted — starting download…';
+  rdSt.textContent = 'Accepted — starting download…';
   try {
     await forceDownload(CONFIG.mp3, 'LT Drifta - Classic Jazz.mp3');
-    rdStat.textContent='Download started.'; rdDL.classList.remove('hidden');
-  } catch { rdStat.textContent='Use the button below.'; rdDL.classList.remove('hidden'); }
+    rdSt.textContent = 'Download started.'; rdDL.classList.remove('hidden');
+  } catch { rdSt.textContent = 'Use the button below.'; rdDL.classList.remove('hidden'); }
 }
-document.getElementById('redeemBtn').addEventListener('click', redeem);
-document.getElementById('redeemCode').addEventListener('keydown', e => { if(e.key==='Enter') redeem(); });
+$('redeemBtn').addEventListener('click', redeem);
+$('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem(); });
 
 /* ── TABS ────────────────────────────────────────────── */
 (function() {
-  const btns   = document.querySelectorAll('[role="tab"]');
+  const btns = document.querySelectorAll('[role="tab"]');
   const panels = document.querySelectorAll('.tab-panel');
   btns.forEach(btn => btn.addEventListener('click', () => {
     btns.forEach(b => b.setAttribute('aria-selected','false'));
@@ -717,22 +785,20 @@ document.getElementById('redeemCode').addEventListener('keydown', e => { if(e.ke
 
 /* ── ZOOM ────────────────────────────────────────────── */
 (function() {
-  const zo  = document.getElementById('zoom');
-  const zi  = document.getElementById('zoomImg');
-  const src = document.getElementById('heroImg');
-  const aw  = document.getElementById('artworkWrap');
-  aw.addEventListener('click', () => { zi.src=src.src; zo.style.display='flex'; });
-  zo.addEventListener('click', e => { if (e.target!==zi) zo.style.display='none'; });
-  zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display='none');
+  const zo = $('zoom'), zi = $('zoomImg');
+  const aw = $('artworkWrap'), src = $('heroImg');
+  aw.addEventListener('click', () => { zi.src = src.src; zo.style.display = 'flex'; });
+  zo.addEventListener('click', e => { if (e.target !== zi) zo.style.display = 'none'; });
+  zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display = 'none');
 })();
 
 /* ── FADE IN ─────────────────────────────────────────── */
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('is-visible');obs.unobserve(e.target);} });
-},{threshold:0.08});
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
 document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
-(function(){ const f=document.getElementById('signupPageField'); if(f) f.value=location.href; })();
+(function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
 </script>
 </body>
 </html>
