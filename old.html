@@ -723,6 +723,55 @@ $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem
 
 /* ── FADE IN ─────────────────────────────────────────── */
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('is-visible');
+      obs.unobserve(e.target);
+    }
+  });
 }, { threshold: 0.08 });
-document.querySelectorAll('.fad
+
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+/* ── NEWSLETTER FORM ─────────────────────────────────── */
+(function () {
+  const form = $('newsletterForm');
+  const pageField = $('signupPageField');
+
+  if (pageField) pageField.value = window.location.href;
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('.signup-submit');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+
+      if (!res.ok) throw new Error('Form submit failed');
+
+      form.reset();
+      submitBtn.textContent = 'Subscribed';
+    } catch (err) {
+      submitBtn.textContent = 'Try again';
+      console.error(err);
+    }
+
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }, 2000);
+  });
+})();
+</script>
+</body>
+</html>
