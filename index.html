@@ -556,32 +556,24 @@
     <div class="wrap">
       <div class="sh rv">
         <span class="sh-title">Featured Release</span>
-        <a class="sh-more" href="future.html">View release</a>
+        <a class="sh-more" href="poetry.html">View release</a>
       </div>
       <div class="feat rv d1">
-        <a class="feat-art" href="future.html" aria-label="Future Boy by LT Drifta">
-          <img src="blank1400.png" alt="Future Boy"/>
+        <a class="feat-art" href="poetry.html" aria-label="Drum Poetry by LT Drifta">
+          <img src="cover2.png" alt="Drum Poetry"/>
         </a>
         <div class="feat-panel">
           <div>
             <div class="feat-label">Digital + Cassette · 2026</div>
-            <h2 class="feat-title">Future Boy</h2>
+            <h2 class="feat-title">Drum Poetry</h2>
             <div class="feat-artist">LT Drifta</div>
             <div class="feat-tags">
               <span class="tag">Jungle</span>
               <span class="tag">Hip-Hop</span>
             </div>
-            <div class="tl">
-              <div class="tl-row"><span class="tl-n">1</span><span class="tl-t">Temple Ball</span><span class="tl-d">1:17</span></div>
-              <div class="tl-row"><span class="tl-n">2</span><span class="tl-t">Counting Signals</span><span class="tl-d">3:03</span></div>
-              <div class="tl-row"><span class="tl-n">3</span><span class="tl-t">Escape from Industria <em>ft. Tyler Daley</em></span><span class="tl-d">5:15</span></div>
-              <div class="tl-row"><span class="tl-n">4</span><span class="tl-t">Love Supreme</span><span class="tl-d">3:32</span></div>
-              <div class="tl-row"><span class="tl-n">5</span><span class="tl-t">Nu Saigon Nights</span><span class="tl-d">1:04</span></div>
-              <div class="tl-row"><span class="tl-n">6</span><span class="tl-t">Without You</span><span class="tl-d">3:18</span></div>
-            </div>
           </div>
           <div class="feat-btns">
-            <a class="btn btn-white"  href="future.html">View Release</a>
+            <a class="btn btn-white"  href="poetry.html">View Release</a>
             <a class="btn btn-border" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
           </div>
         </div>
@@ -597,24 +589,20 @@
       </div>
       <div class="releases-grid rv d1">
 
-
-       <a class="rel-card" href="old.html">
-          <div class="rel-art"><img src="cover2.png" alt="Future Boy" loading="lazy"/></div>
+        <a class="rel-card" href="old.html">
+          <div class="rel-art"><img src="cover2.png" alt="Days Of Old" loading="lazy"/></div>
           <div class="rel-body">
             <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Days Of Old </div>
+            <div class="rel-title">Days Of Old <span class="rel-tag-new">New</span></div>
             <div class="rel-year">2026 · Digital + Cassette</div>
           </div>
         </a>
-
-
-        
 
         <a class="rel-card" href="future.html">
           <div class="rel-art"><img src="cas.PNG" alt="Future Boy" loading="lazy"/></div>
           <div class="rel-body">
             <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Future Boy <span class="rel-tag-new">New</span></div>
+            <div class="rel-title">Future Boy</div>
             <div class="rel-year">2026 · Digital + Cassette</div>
           </div>
         </a>
@@ -623,7 +611,7 @@
           <div class="rel-art"><img src="cover2.png" alt="Drum Poetry" loading="lazy"/></div>
           <div class="rel-body">
             <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Drum Poetry <span class="rel-tag-new">New</span></div>
+            <div class="rel-title">Drum Poetry</div>
             <div class="rel-year">2026 · Digital + Cassette</div>
           </div>
         </a>
@@ -969,8 +957,6 @@ document.querySelectorAll('.merch-add').forEach(btn => {
     const url = new URL(baseUrl, 'https://placeholder.com');
     if (colour) url.searchParams.set('colour', colour);
     if (size)   url.searchParams.set('size',   size);
-    // Strip the fake base — keep just the path+params if it's a Stripe link,
-    // or use the full constructed URL if it's already absolute
     const finalUrl = baseUrl.startsWith('http')
       ? url.toString()
       : baseUrl + (colour || size
