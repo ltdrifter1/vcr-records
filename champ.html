@@ -237,7 +237,7 @@
     <h2>Purchase complete</h2>
     <p>Thanks for supporting independent music. Your download is ready.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" id="dlMp3Modal" href="champ.mp3" download="LT Drifta - Champion Sound.mp3">Download MP3</a>
+      <a class="btn btn-fill" id="dlMp3Modal" href="champion.mp3" download="LT Drifta - Champion Sound.mp3">Download MP3</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -382,7 +382,7 @@
           </div>
           <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
           <div class="dl-links hidden" id="redeemDownloads">
-            <a class="btn btn-fill" href="rackemup.mp3" download="LT Drifta - Rack'em Up.mp3">Download MP3</a>
+            <a class="btn btn-fill" href="champion.mp3" download="LT Drifta - Champion.mp3">Download MP3</a>
           </div>
         </div>
 
@@ -546,7 +546,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
-  mp3:            'rackemupprev.mp3',
+  mp3:            'champion.mp3',
   stripeDigital:  'https://buy.stripe.com/REPLACE_DIGITAL_LINK',
   stripeCassette: 'https://buy.stripe.com/REPLACE_CASSETTE_LINK'
 };
@@ -621,13 +621,13 @@ function playTrack(idx) {
 
 async function safePlay() {
   if (audio.error) {
-    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place rackemupprev.mp3 beside this file.'};
+    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place champion.mp3 beside this file.'};
     setMsg(m[audio.error.code]||'Load failed.', true); return;
   }
   try { setMsg('Loading…'); await audio.play(); setMsg(''); }
   catch(e) {
     if (e.name==='NotAllowedError') setMsg('Tap again to start.', true);
-    else setMsg('Could not play — check rackemupprev.mp3 exists.', true);
+    else setMsg('Could not play — check champion.mp3 exists.', true);
   }
 }
 
@@ -640,7 +640,7 @@ audio.addEventListener('ended',          () => setPlaying(false));
 audio.addEventListener('waiting',        () => setMsg('Buffering…'));
 audio.addEventListener('error', () => {
   const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg((m[audio.error?.code]||'Load failed.')+' Check rackemupprev.mp3 exists.', true);
+  setMsg((m[audio.error?.code]||'Load failed.')+' Check champion.mp3 exists.', true);
 });
 
 audio.addEventListener('timeupdate', () => {
@@ -764,7 +764,7 @@ async function redeem() {
   USED.add(code); saveU();
   rdSt.textContent = 'Accepted — starting download…';
   try {
-    await forceDownload(CONFIG.mp3, "LT Drifta - Rack'em Up.mp3");
+    await forceDownload(CONFIG.mp3, "LT Drifta - Champion.mp3");
     rdSt.textContent = 'Download started.'; rdDL.classList.remove('hidden');
   } catch { rdSt.textContent = 'Use the button below.'; rdDL.classList.remove('hidden'); }
 }
