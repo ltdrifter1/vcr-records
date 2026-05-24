@@ -235,7 +235,7 @@
     <h2>Purchase complete</h2>
     <p>Thanks for supporting independent music. Your download is ready.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" id="dlMp3Modal" href="summer-madness.mp3" download="LT Drifta - Summer Madness.mp3">Download MP3</a>
+      <a class="btn btn-fill" id="dlMp3Modal" href="summermix1.mp3" download="LT Drifta - Summer Madness.mp3">Download MP3</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -360,7 +360,7 @@
           </div>
           <div class="buy-stack">
             <a class="btn btn-fill" id="buyBtn"
-               href="https://buy.stripe.com/PLACEHOLDER_DIGITAL"
+               href="https://buy.stripe.com/00w14o5zxdMs2Ry73TfrW0s"
                target="_blank" rel="noopener">Buy Digital — $4.50</a>
             <a class="btn btn-bc"
                href="https://ltdrifta.bandcamp.com"
@@ -382,7 +382,7 @@
           </div>
           <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
           <div class="dl-links hidden" id="redeemDownloads">
-            <a class="btn btn-fill" href="summer-madness.mp3" download="LT Drifta - Summer Madness.mp3">Download MP3</a>
+            <a class="btn btn-fill" href="summermix1.mp3" download="LT Drifta - Summer Madness.mp3">Download MP3</a>
           </div>
         </div>
 
@@ -564,9 +564,9 @@
 <script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
-  mp3:            'summer-madness.mp3',
-  stripeDigital:  'https://buy.stripe.com/PLACEHOLDER_DIGITAL',
-  stripeCassette: 'https://buy.stripe.com/PLACEHOLDER_CASSETTE'
+  mp3:            'summermix1.mp3',
+  stripeDigital:  'https://buy.stripe.com/00w14o5zxdMs2Ry73TfrW0s',
+  stripeCassette: 'https://buy.stripe.com/00w14o5zxdMs2Ry73TfrW0s'
 };
 
 /* ── TRACK CUE POINTS (seconds) ─────────────────────── */
@@ -637,13 +637,13 @@ function playTrack(idx) {
 
 async function safePlay() {
   if (audio.error) {
-    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place summer-madness.mp3 beside this file.'};
+    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place summermix1.mp3 beside this file.'};
     setMsg(m[audio.error.code]||'Load failed.', true); return;
   }
   try { setMsg('Loading…'); await audio.play(); setMsg(''); }
   catch(e) {
     if (e.name==='NotAllowedError') setMsg('Tap again to start.', true);
-    else setMsg('Could not play — check summer-madness.mp3 exists.', true);
+    else setMsg('Could not play — check summermix1.mp3 exists.', true);
   }
 }
 
@@ -656,7 +656,7 @@ audio.addEventListener('ended',          () => setPlaying(false));
 audio.addEventListener('waiting',        () => setMsg('Buffering…'));
 audio.addEventListener('error', () => {
   const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg((m[audio.error?.code]||'Load failed.')+' Check summer-madness.mp3 exists.', true);
+  setMsg((m[audio.error?.code]||'Load failed.')+' Check summermix1.mp3 exists.', true);
 });
 audio.addEventListener('timeupdate', () => {
   const d = getDur();
