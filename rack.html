@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>LT Drifta — Avec Toi | VCR Recordings</title>
-  <meta name="description" content="Avec Toi by LT Drifta — digital single. VCR Recordings."/>
+  <title>LT Drifta — Rack'em | VCR Recordings</title>
+  <meta name="description" content="Rack'em by LT Drifta — digital album. VCR Recordings."/>
   <meta name="theme-color" content="#000000"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,7 +235,7 @@
     <h2>Purchase complete</h2>
     <p>Thanks for supporting independent music. Your download is ready.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" id="dlMp3Modal" href="avecspring.mp3" download="LT Drifta - Avec Toi.mp3">Download MP3</a>
+      <a class="btn btn-fill" id="dlMp3Modal" href="rack.mp3" download="LT Drifta - Rack'em.mp3">Download MP3</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -264,7 +264,7 @@
     <div class="crumbs">
       <a href="index.html">Home</a><span>/</span>
       <a href="index.html#releases">Releases</a><span>/</span>
-      Avec Toi
+      Rack'em
     </div>
 
     <div class="product-grid" itemscope itemtype="https://schema.org/Product">
@@ -273,13 +273,13 @@
       <div class="left-col fade-up">
         <div class="artwork-wrap" id="artworkWrap">
           <span class="artwork-badge">Digital</span>
-          <img id="heroImg" src="blank1400.png" alt="Avec Toi artwork" itemprop="image"/>
+          <img id="heroImg" src="rack.png" alt="Rack'em artwork" itemprop="image"/>
         </div>
 
         <div class="player">
           <div class="player-head">
             <span class="player-lbl">Now playing</span>
-            <span class="player-track" id="ipTrackName">Avec Toi</span>
+            <span class="player-track" id="ipTrackName">Rack'em</span>
           </div>
           <div class="player-controls">
             <button class="play-btn" id="ipPlay" aria-label="Play / pause">
@@ -309,36 +309,38 @@
 
         <div class="r-block">
           <div class="r-artist">LT Drifta</div>
-          <h1 class="r-title" itemprop="name">Avec<br>Toi</h1>
+          <h1 class="r-title" itemprop="name">Rack'em</h1>
           <div class="r-meta-row">
             <div>
               <div class="r-price" id="priceDisplay">
-                <meta itemprop="priceCurrency" content="USD"/>
-                <meta itemprop="price" content="0.98"/>
-                $0.98
+                <meta itemprop="priceCurrency" content="CAD"/>
+                <meta itemprop="price" content="4.98"/>
+                $4.98
               </div>
-              <div class="r-price-note">USD</div>
+              <div class="r-price-note">CAD · Digital Album</div>
             </div>
             <div class="r-stock">In stock</div>
           </div>
           <div class="r-tags">
-           
+            <span class="tag">6 Tracks</span>
+            <span class="tag">MP3</span>
+            <span class="tag">FLAC</span>
           </div>
         </div>
 
         <div class="r-block">
           <div class="buy-stack">
             <a class="btn btn-fill" id="buyBtn"
-               href="https://buy.stripe.com/eVq28saTRaAgfEk1JzfrW0f"
-               target="_blank" rel="noopener">Buy Digital — $0.98</a>
+               href="https://ltdrifta.bandcamp.com/album/rack-em"
+               target="_blank" rel="noopener">Buy Digital — $4.98 CAD</a>
             <a class="btn btn-bc"
-               href="https://ltdrifta.bandcamp.com"
+               href="https://ltdrifta.bandcamp.com/album/rack-em"
                target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff;flex-shrink:0;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
               Bandcamp
             </a>
           </div>
-          <p class="small-note">Secure checkout via Stripe · Instant digital delivery</p>
+          <p class="small-note">Stream free · Download in MP3, FLAC and more via Bandcamp</p>
         </div>
 
         <div class="r-block">
@@ -350,7 +352,7 @@
           </div>
           <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
           <div class="dl-links hidden" id="redeemDownloads">
-            <a class="btn btn-fill" href="avecspring.mp3" download="LT Drifta - Avec Toi.mp3">Download MP3</a>
+            <a class="btn btn-fill" href="rack.mp3" download="LT Drifta - Rack'em.mp3">Download MP3</a>
           </div>
         </div>
 
@@ -361,21 +363,73 @@
           </div>
 
           <div class="tab-panel on" id="tab-track" role="tabpanel" style="padding-top:14px;">
-            <div class="tracklist">
-              <div class="track-row">
-                <span class="track-no">A/B</span>
-                <span class="track-title">Avec Toi/What Cool Spring Breezes Do</span>
-                <span class="track-dur" id="trackDuration">—</span>
+            <div class="tracklist" id="tracklist">
+
+              <div class="track-row" data-src="rack.mp3" data-title="Rack'em">
+                <span class="track-no">1</span>
+                <span class="track-title">Rack'em</span>
+                <span class="track-dur">2:57</span>
                 <button class="track-play-btn" aria-label="Play" type="button">
                   <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
                 </button>
               </div>
+
+              <div class="track-row" data-src="rack.mp3" data-title="Since I Left You">
+                <span class="track-no">2</span>
+                <span class="track-title">Since I Left You</span>
+                <span class="track-dur">6:45</span>
+                <button class="track-play-btn" aria-label="Play" type="button">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-src="rack.mp3" data-title="Unlucky">
+                <span class="track-no">3</span>
+                <span class="track-title">Unlucky</span>
+                <span class="track-dur">3:19</span>
+                <button class="track-play-btn" aria-label="Play" type="button">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-src="rack.mp3" data-title="Kiss of Life (Calm Acid Mix)">
+                <span class="track-no">4</span>
+                <span class="track-title">Kiss of Life (Calm Acid Mix)</span>
+                <span class="track-dur">9:01</span>
+                <button class="track-play-btn" aria-label="Play" type="button">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-src="rack.mp3" data-title="Hold On To It">
+                <span class="track-no">5</span>
+                <span class="track-title">Hold On To It</span>
+                <span class="track-dur">3:30</span>
+                <button class="track-play-btn" aria-label="Play" type="button">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
+              <div class="track-row" data-src="rack.mp3" data-title="Same Time">
+                <span class="track-no">6</span>
+                <span class="track-title">Same Time</span>
+                <span class="track-dur">3:57</span>
+                <button class="track-play-btn" aria-label="Play" type="button">
+                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+              </div>
+
             </div>
           </div>
 
           <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
-            <p class="details-text">Avec Toi/What Cool Breezes Do by LT Drifta. Digital single on VCR Recordings.</p>
+            <p class="details-text">Rack'em by LT Drifta. Digital album on VCR Recordings. 6 tracks · 29:29 total runtime. Available in MP3, FLAC and more via Bandcamp.</p>
           </div>
         </div>
 
@@ -411,7 +465,7 @@
         <div class="sc-row">
           <label><input type="checkbox" name="consent" value="yes" required/> I agree to receive emails</label>
         </div>
-        <input type="hidden" name="source" value="Avec Toi — release page">
+        <input type="hidden" name="source" value="Rack'em — release page">
         <input type="hidden" name="page" value="" id="signupPageField">
         <button class="signup-submit" type="submit">Subscribe</button>
       </form>
@@ -420,26 +474,42 @@
     <div class="footer-bottom">
       <span>© 2025 VCR Recordings</span>
       <div class="footer-bottom-links">
-        <a href="/cdn-cgi/l/email-protection#0d6179697f646b796c4d6a606c6461236e6260">Contact</a>
+        <a href="mailto:info@vcrrecords.com">Contact</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ── CONFIG ──────────────────────────────────────────── */
 const CONFIG = {
-  mp3:         'avecspring.mp3',
+  tracks: [
+    { src: 'rack.mp3',           title: "Rack'em" },
+    { src: 'sinceleftyou.mp3',   title: 'Since I Left You' },
+    { src: 'unlucky.mp3',        title: 'Unlucky' },
+    { src: 'kissoflife.mp3',     title: 'Kiss of Life (Calm Acid Mix)' },
+    { src: 'holdonit.mp3',       title: 'Hold On To It' },
+    { src: 'sametime.mp3',       title: 'Same Time' }
+  ],
   artistName:  'LT Drifta',
-  releaseName: 'Avec Toi',
-  stripeUrl:   'https://buy.stripe.com/eVq28saTRaAgfEk1JzfrW0f'
+  releaseName: "Rack'em"
 };
 
 /* ── AUDIO ───────────────────────────────────────────── */
 const audio = new Audio();
 audio.preload = 'auto';
-audio.src     = CONFIG.mp3;
 audio.volume  = 0.8;
+
+let currentIdx = 0;
+
+function loadTrack(idx, autoplay) {
+  currentIdx = idx;
+  const t = CONFIG.tracks[idx];
+  audio.src = t.src;
+  document.getElementById('ipTrackName').textContent = t.title;
+  updateActiveRow(idx);
+  if (autoplay) safePlay();
+}
 
 const fmt = s => {
   if (!isFinite(s)) return '0:00';
@@ -459,14 +529,18 @@ const seek     = document.getElementById('ipSeek');
 const volEl    = document.getElementById('ipVolume');
 const elapsed  = document.getElementById('ipElapsed');
 const remain   = document.getElementById('ipRemaining');
-const trackDur = document.getElementById('trackDuration');
 const pMsg     = document.getElementById('pMsg');
 
 function setMsg(t, e) { pMsg.textContent = t||''; pMsg.className = 'p-msg'+(e?' err':''); }
+
+function updateActiveRow(idx) {
+  document.querySelectorAll('.track-row').forEach((r, i) => r.classList.toggle('is-active', i === idx && !audio.paused));
+}
+
 function setPlaying(on) {
   playBtn.classList.toggle('on', on);
   waveEl.classList.toggle('on', on);
-  document.querySelectorAll('.track-row').forEach(r => r.classList.toggle('is-active', on));
+  updateActiveRow(currentIdx);
 }
 
 async function safePlay() {
@@ -477,19 +551,23 @@ async function safePlay() {
   try { setMsg('Loading…'); await audio.play(); setMsg(''); }
   catch(e) {
     if (e.name==='NotAllowedError') setMsg('Tap again to start.',true);
-    else setMsg('Could not play — check avecspring.mp3 exists.',true);
+    else setMsg('Could not play — check audio file exists.',true);
   }
 }
 
-audio.addEventListener('loadedmetadata', () => { seek.max = audio.duration; trackDur.textContent = fmt(audio.duration); setMsg(''); });
+audio.addEventListener('loadedmetadata', () => { seek.max = audio.duration; setMsg(''); });
 audio.addEventListener('canplay',        () => setMsg(''));
 audio.addEventListener('play',           () => { setPlaying(true); setMsg(''); });
 audio.addEventListener('pause',          () => setPlaying(false));
-audio.addEventListener('ended',          () => setPlaying(false));
+audio.addEventListener('ended',          () => {
+  setPlaying(false);
+  // advance to next track
+  if (currentIdx < CONFIG.tracks.length - 1) loadTrack(currentIdx + 1, true);
+});
 audio.addEventListener('waiting',        () => setMsg('Buffering…'));
 audio.addEventListener('error', () => {
   const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg((m[audio.error?.code]||'Load failed.')+' Check avecspring.mp3 exists.',true);
+  setMsg((m[audio.error?.code]||'Load failed.')+' Check audio files exist.',true);
 });
 audio.addEventListener('timeupdate', () => {
   if (!isFinite(audio.duration)) return;
@@ -503,9 +581,19 @@ playBtn.addEventListener('click', () => audio.paused ? safePlay() : audio.pause(
 seek.addEventListener('input',  () => { audio.currentTime = +seek.value||0; });
 volEl.addEventListener('input',  () => { audio.volume = +volEl.value||0.8; });
 
-document.querySelectorAll('.track-row').forEach(row => {
-  row.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
+// Track row click — load that track and play
+document.querySelectorAll('.track-row').forEach((row, idx) => {
+  row.addEventListener('click', () => {
+    if (idx === currentIdx) {
+      audio.paused ? safePlay() : audio.pause();
+    } else {
+      loadTrack(idx, true);
+    }
+  });
 });
+
+// Load first track on init (no autoplay)
+loadTrack(0, false);
 
 /* ── PURCHASE MODAL ──────────────────────────────────── */
 const modal = document.getElementById('purchaseModal');
@@ -524,17 +612,17 @@ if (sp.get('purchase')==='success'||sp.has('session_id')) setTimeout(openM, 600)
 
 /* ── REDEEM ──────────────────────────────────────────── */
 const CODE_BANK = new Set([
-  'AFR9Z7M','AFR2K4Y','AFR8Q5C','AFR6E2B','AFR3A7D','AFR2N8H','AFR7U2L','AFR6D4R',
-  'AFR3Y9X','AFR5F1V','AFR4E3T','AFR7K9P','AFR9V2E','AFR6T7N','AFR8M3K','AFR4P6J',
-  'AFR5Z8H','AFR7C2R','AFR3D5Q','AFR9F6S','AFR8G4T','AFR2H7V','AFR5J9W','AFR6K2X',
-  'AFR4L8Y','AFR7M1Z','AFR2N5C','AFR9P7D','AFR3Q9E','AFR5R2F','AFR7S4G','AFR9T6H',
-  'AFR2V8J','AFR4W1K','AFR6X3L','AFR8Y5M','AFR2Z7N','AFR3A9P','AFR5B2Q','AFR7C4R',
-  'AFR9D6S','AFR2E8T','AFR4F2V','AFR6G3W','AFR8H5X','AFR2J7Y','AFR4K9Z','AFR6L3Y',
-  'AFR8M5C','AFR2N7D'
+  'RCK1A2B','RCK3C4D','RCK5E6F','RCK7G8H','RCK9J1K','RCK2L3M','RCK4N5P','RCK6Q7R',
+  'RCK8S9T','RCK1U2V','RCK3W4X','RCK5Y6Z','RCK7A8C','RCK9D1E','RCK2F3G','RCK4H5J',
+  'RCK6K7L','RCK8M9N','RCK1P2Q','RCK3R4S','RCK5T6U','RCK7V8W','RCK9X1Y','RCK2Z3A',
+  'RCK4B5C','RCK6D7E','RCK8F9G','RCK1H2J','RCK3K4L','RCK5M6N','RCK7P8Q','RCK9R1S',
+  'RCK2T3U','RCK4V5W','RCK6X7Y','RCK8Z9B','RCK1C2D','RCK3E4F','RCK5G6H','RCK7J8K',
+  'RCK9L1M','RCK2N3P','RCK4Q5R','RCK6S7T','RCK8U9V','RCK1W2X','RCK3Y4Z','RCK5A6B',
+  'RCK7C8D','RCK9E1F'
 ].map(c => c.toUpperCase()));
 
-const USED   = new Set(JSON.parse(localStorage.getItem('afr_used_codes_avectoi')||'[]'));
-const saveU  = () => localStorage.setItem('afr_used_codes_avectoi', JSON.stringify([...USED]));
+const USED   = new Set(JSON.parse(localStorage.getItem('vcr_used_codes_rackem')||'[]'));
+const saveU  = () => localStorage.setItem('vcr_used_codes_rackem', JSON.stringify([...USED]));
 const rdStat = document.getElementById('redeemStatus');
 const rdDL   = document.getElementById('redeemDownloads');
 
@@ -557,7 +645,7 @@ async function redeem() {
   USED.add(code); saveU();
   rdStat.textContent='Accepted — starting download…';
   try {
-    await forceDownload(CONFIG.mp3, "LT Drifta - Avec Toi.mp3");
+    await forceDownload('rack.mp3', "LT Drifta - Rack'em.mp3");
     rdStat.textContent='Download started.'; rdDL.classList.remove('hidden');
   } catch { rdStat.textContent='Use the button below.'; rdDL.classList.remove('hidden'); }
 }
