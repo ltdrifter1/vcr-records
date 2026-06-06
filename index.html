@@ -303,8 +303,10 @@
       background: var(--line);
       border: 1px solid var(--line);
     }
+    /* 2-col on tablet and mobile */
     @media (max-width: 720px) { .releases-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 400px) { .releases-grid { grid-template-columns: 1fr; } }
+    /* stay 2-col all the way down — no single column fallback */
+
     .rel-card {
       display: block; background: var(--black);
       position: relative; overflow: hidden;
@@ -321,18 +323,20 @@
       .rel-card:hover .rel-title { color: var(--white); }
     }
     .rel-card:active .rel-art img { transform: scale(1.02); }
-    .rel-body { padding: 12px 14px 16px; }
+    .rel-body { padding: 10px 12px 14px; }
     .rel-artist {
-      font-size: 0.58rem; font-weight: 600;
+      font-size: 0.55rem; font-weight: 600;
       letter-spacing: 0.10em; text-transform: uppercase;
-      color: var(--mid); margin-bottom: 4px;
+      color: var(--mid); margin-bottom: 3px;
     }
     .rel-title {
-      font-size: 0.90rem; font-weight: 700;
+      font-size: 0.84rem; font-weight: 700;
       color: var(--off); line-height: 1.2;
       transition: color .15s;
     }
-    .rel-year { font-size: 0.58rem; color: var(--mid); margin-top: 4px; }
+    /* tighter title on small screens */
+    @media (max-width: 400px) { .rel-title { font-size: 0.76rem; } }
+    .rel-year { font-size: 0.55rem; color: var(--mid); margin-top: 3px; }
     .rel-tag-new {
       display: inline-block;
       font-size: 0.48rem; font-weight: 700;
@@ -378,22 +382,23 @@
       gap: 1px; background: var(--line);
       border: 1px solid var(--line);
     }
-    @media (max-width: 520px) { .artists-grid { grid-template-columns: 1fr; } }
+    /* 2-col on mobile for artists too */
+    @media (max-width: 520px) { .artists-grid { grid-template-columns: repeat(2, 1fr); } }
     .a-card {
       background: var(--black);
-      padding: clamp(18px,3.5vw,28px);
-      display: flex; flex-direction: column; gap: 14px;
+      padding: clamp(16px,3.5vw,28px);
+      display: flex; flex-direction: column; gap: 12px;
       transition: background .15s;
     }
     @media (hover:hover) { .a-card:hover { background: var(--dark); } }
     .a-img {
-      width: 56px; height: 56px; border-radius: 50%;
+      width: 52px; height: 52px; border-radius: 50%;
       object-fit: cover; border: 1px solid var(--line);
       background: var(--dark);
     }
-    .a-name { font-size: 0.96rem; font-weight: 700; }
+    .a-name { font-size: 0.92rem; font-weight: 700; }
     .a-role {
-      font-size: 0.62rem; font-weight: 600;
+      font-size: 0.58rem; font-weight: 600;
       letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--grey); margin-top: 2px;
     }
@@ -402,6 +407,69 @@
       font-size: 0.60rem; color: var(--mid);
       letter-spacing: 0.06em; text-transform: uppercase;
     }
+
+    /* ── MERCH ──────────────────────────────────────── */
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    /* 2-col on mobile instead of single column */
+    @media (max-width: 640px) { .merch-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .merch-item {
+      background: var(--black);
+      padding: clamp(14px, 3vw, 32px);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    @media (hover:hover) { .merch-item:hover { background: var(--dark); } }
+    .merch-img-wrap {
+      aspect-ratio: 1/1; overflow: hidden;
+      background: var(--dark);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .merch-img-wrap img {
+      width: 100%; height: 100%; object-fit: contain;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+      filter: brightness(.92);
+      padding: 8px;
+    }
+    @media (max-width: 640px) { .merch-img-wrap img { padding: 6px; } }
+    @media (hover:hover) { .merch-item:hover .merch-img-wrap img { transform: scale(1.04); filter: brightness(1); } }
+    .merch-name {
+      font-size: 0.84rem; font-weight: 700;
+      color: var(--off); line-height: 1.2;
+    }
+    @media (max-width: 400px) { .merch-name { font-size: 0.76rem; } }
+    .merch-price { font-size: 0.68rem; font-weight: 600; color: var(--mid); margin-top: 1px; }
+    .merch-options { display: flex; gap: 5px; flex-wrap: wrap; }
+    .merch-opt {
+      height: 30px; padding: 0 10px;
+      border: 1px solid var(--line);
+      background: transparent; color: var(--grey);
+      font-size: 0.58rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 2px; cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .merch-opt:active { background: var(--dark); }
+    @media (hover:hover) { .merch-opt:hover { border-color: var(--white); color: var(--white); } }
+    .merch-opt.selected { border-color: var(--white); color: var(--white); background: rgba(255,255,255,.06); }
+    .merch-add {
+      height: 42px; width: 100%;
+      background: var(--white); color: var(--black);
+      border: 1px solid var(--white); border-radius: 3px;
+      font-size: 0.64rem; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      cursor: pointer; margin-top: auto;
+      transition: background .13s, transform .10s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .merch-add:active { transform: scale(0.97); }
+    @media (hover:hover) { .merch-add:hover { background: var(--off); } }
 
     /* ── FOOTER ─────────────────────────────────────── */
     .footer { border-top: 1px solid var(--line); padding: 28px 0 calc(28px + var(--safe-b)); }
@@ -425,62 +493,6 @@
     }
     .footer-links a:active { color: var(--white); }
     @media (hover:hover) { .footer-links a:hover { color: var(--white); border-color: var(--line); } }
-
-    /* ── MERCH ──────────────────────────────────────── */
-    .merch-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-    }
-    @media (max-width: 640px) { .merch-grid { grid-template-columns: 1fr; } }
-    .merch-item {
-      background: var(--black);
-      padding: clamp(20px, 3.5vw, 32px);
-      display: flex; flex-direction: column; gap: 16px;
-    }
-    @media (hover:hover) { .merch-item:hover { background: var(--dark); } }
-    .merch-img-wrap {
-      aspect-ratio: 1/1; overflow: hidden;
-      background: var(--dark);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .merch-img-wrap img {
-      width: 100%; height: 100%; object-fit: contain;
-      transition: transform .5s cubic-bezier(.16,1,.3,1);
-      filter: brightness(.92);
-      padding: 12px;
-    }
-    @media (hover:hover) { .merch-item:hover .merch-img-wrap img { transform: scale(1.04); filter: brightness(1); } }
-    .merch-name { font-size: 0.88rem; font-weight: 700; color: var(--off); line-height: 1.2; }
-    .merch-price { font-size: 0.72rem; font-weight: 600; color: var(--mid); margin-top: 2px; }
-    .merch-options { display: flex; gap: 6px; flex-wrap: wrap; }
-    .merch-opt {
-      height: 32px; padding: 0 12px;
-      border: 1px solid var(--line);
-      background: transparent; color: var(--grey);
-      font-size: 0.62rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      border-radius: 2px; cursor: pointer;
-      transition: border-color .15s, color .15s, background .15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .merch-opt:active { background: var(--dark); }
-    @media (hover:hover) { .merch-opt:hover { border-color: var(--white); color: var(--white); } }
-    .merch-opt.selected { border-color: var(--white); color: var(--white); background: rgba(255,255,255,.06); }
-    .merch-add {
-      height: 44px; width: 100%;
-      background: var(--white); color: var(--black);
-      border: 1px solid var(--white); border-radius: 3px;
-      font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.10em; text-transform: uppercase;
-      cursor: pointer; margin-top: auto;
-      transition: background .13s, transform .10s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .merch-add:active { transform: scale(0.97); }
-    @media (hover:hover) { .merch-add:hover { background: var(--off); } }
 
     /* ── SCROLL REVEAL ──────────────────────────────── */
     .rv { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s ease; }
@@ -524,7 +536,6 @@
     <img src="ban2.avif" alt="Classic Jazz" loading="eager"/>
   </div>
 
-
   <div class="hero-content" id="heroContent">
     <div class="hero-badge" id="heroBadge" style="display:none"></div>
     <h1 class="hero-title" id="heroTitle"><br></h1>
@@ -538,7 +549,6 @@
   <div class="hero-dots" id="heroDots">
     <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
     <button class="hero-dot"        data-slide="1" aria-label="Slide 2"></button>
-
   </div>
 
   <div class="hero-progress">
@@ -587,12 +597,7 @@
       </div>
       <div class="releases-grid rv d1">
 
-
- 
-        
-
-
-             <a class="rel-card" href="summer.html">
+        <a class="rel-card" href="summer.html">
           <div class="rel-art"><img src="summer.PNG" alt=" " loading="lazy"/></div>
           <div class="rel-body">
             <div class="rel-artist">LT Drifta</div>
@@ -601,7 +606,7 @@
           </div>
         </a>
 
-                 <a class="rel-card" href="rack.html">
+        <a class="rel-card" href="rack.html">
           <div class="rel-art"><img src="rack.PNG" alt=" " loading="lazy"/></div>
           <div class="rel-body">
             <div class="rel-artist">LT Drifta</div>
@@ -609,7 +614,6 @@
             <div class="rel-year">2026 · Digital + Cassette</div>
           </div>
         </a>
-
 
         <a class="rel-card" href="champ.html">
           <div class="rel-art"><img src="champion.png" alt="Champion Sound" loading="lazy"/></div>
@@ -619,10 +623,6 @@
             <div class="rel-year">2026 · Digital + Cassette</div>
           </div>
         </a>
-
-  
-
-
 
         <a class="rel-card" href="lion.html">
           <div class="rel-art"><img src="lions.png" alt="Lions' Gate" loading="lazy"/></div>
@@ -641,8 +641,6 @@
             <div class="rel-year">2025 · Digital + Cassette</div>
           </div>
         </a>
-
-
 
       </div>
     </div>
@@ -679,7 +677,7 @@
       </div>
       <div class="merch-grid rv d1">
 
-        <!-- T-Shirt — default Black -->
+        <!-- T-Shirt -->
         <div class="merch-item">
           <div class="merch-img-wrap">
             <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
@@ -692,7 +690,7 @@
             <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
             <button class="merch-opt"          data-group="tshirt-colour" data-img="shirt2.png">White</button>
           </div>
-          <div class="merch-options" style="margin-top:-8px;">
+          <div class="merch-options" style="margin-top:-6px;">
             <button class="merch-opt selected" data-group="tshirt-size">S</button>
             <button class="merch-opt"          data-group="tshirt-size">M</button>
             <button class="merch-opt"          data-group="tshirt-size">L</button>
@@ -701,7 +699,7 @@
           <button class="merch-add" data-item="T-Shirt" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy Now</button>
         </div>
 
-        <!-- Hat — Black only -->
+        <!-- Hat -->
         <div class="merch-item">
           <div class="merch-img-wrap">
             <img id="hat-img" src="hat.png" alt="Hat"/>
@@ -716,7 +714,7 @@
           <button class="merch-add" data-item="Dad Cap" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy Now</button>
         </div>
 
-        <!-- Bikini — default Black -->
+        <!-- Bikini -->
         <div class="merch-item">
           <div class="merch-img-wrap">
             <img id="bikini-img" src="bikini.png" alt="Bikini"/>
@@ -729,7 +727,7 @@
             <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
             <button class="merch-opt"          data-group="bikini-colour" data-img="bikini2.png">White</button>
           </div>
-          <div class="merch-options" style="margin-top:-8px;">
+          <div class="merch-options" style="margin-top:-6px;">
             <button class="merch-opt selected" data-group="bikini-size">XS</button>
             <button class="merch-opt"          data-group="bikini-size">S</button>
             <button class="merch-opt"          data-group="bikini-size">M</button>
@@ -763,7 +761,6 @@
             <div class="a-role">Producer</div>
           </div>
         </div>
-        
         <div class="a-card">
           <img class="a-img" src="logo2.PNG" alt="Kairo"/>
           <div>
@@ -940,13 +937,11 @@ document.querySelectorAll('.merch-add').forEach(btn => {
     const card    = btn.closest('.merch-item');
     const baseUrl = btn.dataset.stripe;
 
-    // Read all selected options for this card
     const colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
     const sizeBtn   = card.querySelector('.merch-opt.selected[data-group$="-size"]');
     const colour    = colourBtn ? colourBtn.textContent.trim() : null;
     const size      = sizeBtn   ? sizeBtn.textContent.trim()   : null;
 
-    // Append colour + size as query params so they appear in Stripe order metadata
     const url = new URL(baseUrl, 'https://placeholder.com');
     if (colour) url.searchParams.set('colour', colour);
     if (size)   url.searchParams.set('size',   size);
