@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>T-Shirt — VCR Recordings Merch</title>
+  <meta name="description" content="VCR Recordings T-Shirt — premium label apparel. Black or white, sizes S–XL."/>
+  <meta name="theme-color" content="#050507"/>
+  <link rel="stylesheet" href="vcr.css"/>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">VCR<span>·</span>Recordings</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#releases">Releases</a>
+      <a href="artists.html">Artists</a>
+      <a href="shop.html" class="active">Merch</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-cart" href="shop.html" aria-label="Back to store">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-badge" data-count="0"></span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="shop.html">Merch</a>
+  <a href="artists.html">Artists</a>
+  <a href="index.html">Home</a>
+</div>
+
+<main>
+  <div class="wrap">
+    <div class="crumbs" style="padding-top:calc(var(--nav-h) + 16px)">
+      <a href="index.html">Home</a><span>/</span><a href="shop.html">Merch</a><span>/</span>T-Shirt
+    </div>
+
+    <div class="product-layout" data-product="tshirt">
+      <div class="product-gallery rv">
+        <div class="product-main">
+          <img id="productMainImg" data-product-image src="shirt.png" alt="VCR T-Shirt"/>
+        </div>
+        <div class="product-thumbs">
+          <button type="button" class="active" data-gallery-thumb="shirt.png" aria-label="Black tee">
+            <img src="shirt.png" alt=""/>
+          </button>
+          <button type="button" data-gallery-thumb="shirt2.png" aria-label="White tee">
+            <img src="shirt2.png" alt=""/>
+          </button>
+        </div>
+      </div>
+
+      <div class="product-info rv d1">
+        <div class="eyebrow">Apparel</div>
+        <h1>T-Shirt</h1>
+        <div class="product-price" id="productPrice">$30.00</div>
+        <p class="product-desc">Soft midweight tee with the VCR mark. Clean silhouette, collectible feel — made for nights out and quiet mornings after.</p>
+
+        <div class="product-opts">
+          <div>
+            <div class="opt-label">Colour</div>
+            <div class="merch-opts">
+              <button type="button" class="opt selected" data-option-group="colour" data-img="shirt.png" data-img-target="productMainImg" aria-pressed="true">Black</button>
+              <button type="button" class="opt" data-option-group="colour" data-img="shirt2.png" data-img-target="productMainImg" aria-pressed="false">White</button>
+            </div>
+          </div>
+          <div>
+            <div class="opt-label">Size</div>
+            <div class="merch-opts">
+              <button type="button" class="opt selected" data-option-group="size" aria-pressed="true">S</button>
+              <button type="button" class="opt" data-option-group="size" aria-pressed="false">M</button>
+              <button type="button" class="opt" data-option-group="size" aria-pressed="false">L</button>
+              <button type="button" class="opt" data-option-group="size" aria-pressed="false">XL</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sticky-atc glass-strong">
+          <div class="sticky-meta">
+            <strong>T-Shirt</strong>
+            <span id="stickyVariant">Black / S</span>
+          </div>
+          <button class="btn btn-primary" id="buyNow" type="button">Buy now — $30</button>
+        </div>
+        <p class="section-desc" style="margin-top:14px;font-size:.8rem">Secure checkout via Stripe. Colour and size pass through to your order.</p>
+      </div>
+    </div>
+
+    <section class="section" style="padding-top:0">
+      <div class="section-head rv">
+        <div>
+          <div class="eyebrow">Also available</div>
+          <h2 class="section-title">You may also like</h2>
+        </div>
+      </div>
+      <div class="recs-grid">
+        <a class="merch-card rv" href="product-hat.html">
+          <div class="merch-img"><img src="hat.png" alt="Dad Cap" loading="lazy"/></div>
+          <div class="merch-body">
+            <div class="merch-name">Dad Cap</div>
+            <div class="merch-price">$25.00</div>
+          </div>
+        </a>
+        <a class="merch-card rv d1" href="product-bikini.html">
+          <div class="merch-img"><img src="bikini.png" alt="Bikini" loading="lazy"/></div>
+          <div class="merch-body">
+            <div class="merch-name">Bikini</div>
+            <div class="merch-price">From $35.00</div>
+          </div>
+        </a>
+        <a class="merch-card rv d2" href="champ.html">
+          <div class="merch-img"><img src="champion.png" alt="Champion Sound" loading="lazy" style="object-fit:cover;width:100%;height:100%;padding:0"/></div>
+          <div class="merch-body">
+            <div class="merch-name">Champion Sound</div>
+            <div class="merch-price">Release · from $4.50</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">VCR Recordings</div>
+      <div class="footer-copy">© 2026 VCR Recordings.</div>
+    </div>
+    <div class="footer-links">
+      <a href="shop.html">Merch</a>
+      <a href="artists.html">Artists</a>
+    </div>
+  </div>
+</footer>
+
+<script src="vcr.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector('[data-product="tshirt"]');
+  const sticky = document.getElementById('stickyVariant');
+  const buy = document.getElementById('buyNow');
+  const STRIPE = 'https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o';
+
+  function selected(group) {
+    const el = root.querySelector(`[data-option-group="${group}"].selected`);
+    return el ? el.textContent.trim() : '';
+  }
+
+  function sync() {
+    const colour = selected('colour');
+    const size = selected('size');
+    sticky.textContent = `${colour} / ${size}`;
+  }
+
+  root.addEventListener('vcr:optionchange', sync);
+  sync();
+
+  buy.addEventListener('click', () => {
+    const colour = selected('colour');
+    const size = selected('size');
+    const img = document.getElementById('productMainImg').src;
+    window.VCR.addToCart({
+      id: 'tshirt',
+      title: 'T-Shirt',
+      price: 30,
+      colour,
+      size,
+      image: img,
+      stripe: STRIPE,
+      qty: 1
+    });
+    buy.textContent = 'Redirecting…';
+    buy.disabled = true;
+    const url = new URL(STRIPE);
+    url.searchParams.set('colour', colour);
+    url.searchParams.set('size', size);
+    setTimeout(() => { window.location.href = url.toString(); }, 350);
+  });
+});
+</script>
+</body>
+</html>

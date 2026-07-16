@@ -1,140 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="static/style.css" rel="stylesheet" />
-  <title>Analog Fog Recordings</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Merch — VCR Recordings</title>
+  <meta name="description" content="VCR Recordings merch — collectible tees, caps, and limited pieces from the label."/>
+  <meta name="theme-color" content="#050507"/>
+  <link rel="stylesheet" href="vcr.css"/>
 </head>
+<body>
 
-<body class="shop-page">
-   <header>
-<div class="hamburger-menu" onclick="toggleMenu()">
-  <button class="hamburger-icon" aria-label="Menu">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </button>
-  <span class="hamburger-label">MENU</span>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">VCR<span>·</span>Recordings</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#releases">Releases</a>
+      <a href="artists.html">Artists</a>
+      <a href="shop.html" class="active">Merch</a>
+      <a href="index.html#listen">Listen</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-cart" href="#shopGrid" aria-label="Browse merch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-badge" data-count="0"></span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html#releases">Releases</a>
+  <a href="artists.html">Artists</a>
+  <a href="shop.html">Merch</a>
+  <a href="index.html#listen">Listen</a>
 </div>
 
-
-
-      <nav class="header-links" aria-label="Main Navigation">
-        <ul>
-          <li><a href="home.html">Radio</a></li>
-           <li><a href="home.html">Mixtapes</a></li>
-            <li><a href="home.html">Latest Releases</a></li>
-          <li><a href="shop.html">Shop</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
-
-
-    <div class="logo-container">
-      <a href="home.html">
-        <img src="static/text.png" alt="Logo" class="logo" />
-      </a>
+<main>
+  <section class="shop-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Home</a><span>/</span>Merch</div>
+      <h1 class="rv">Merch Supply</h1>
+      <p class="rv d1">Collectible label pieces — photographed large, filtered clean, built to feel premium on mobile and desktop.</p>
     </div>
+  </section>
 
-    <div class="cart-container">
-      <a href="cart.html">
-        <img src="static/cart.png" alt="Shopping Cart" class="cart-icon" />
-   
-      </a>
-    </div>
-  </header>
-<div class="black-banner"></div>
-  <main>
-    
-      <div class="info-text">
-        <h2>Coming Soon! </h2>
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="shop-toolbar glass rv">
+        <label class="shop-search" for="shopSearch">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="shopSearch" type="search" placeholder="Search merch…" autocomplete="off"/>
+        </label>
+        <div class="shop-filters" role="group" aria-label="Filter products">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="apparel">Apparel</button>
+          <button class="filter-chip" data-filter="accessories">Accessories</button>
+          <button class="filter-chip" data-filter="limited">Limited</button>
+        </div>
       </div>
 
+      <div class="merch-grid" id="shopGrid">
+        <a class="merch-card rv"
+           href="product-tshirt.html"
+           data-category="apparel"
+           data-search="t-shirt tee shirt black white apparel">
+          <div class="merch-img"><img src="shirt.png" alt="VCR T-Shirt" loading="lazy"/></div>
+          <div class="merch-body">
+            <div>
+              <div class="merch-name">T-Shirt</div>
+              <div class="merch-price">From $30.00</div>
+            </div>
+            <div class="merch-opts" aria-hidden="true">
+              <span class="tag">Black</span>
+              <span class="tag">White</span>
+              <span class="tag">S–XL</span>
+            </div>
+            <span class="btn btn-primary btn-sm btn-block">View product</span>
+          </div>
+        </a>
 
-     
+        <a class="merch-card rv d1"
+           href="product-hat.html"
+           data-category="accessories"
+           data-search="hat dad cap accessories black">
+          <div class="merch-img"><img src="hat.png" alt="VCR Dad Cap" loading="lazy"/></div>
+          <div class="merch-body">
+            <div>
+              <div class="merch-name">Dad Cap</div>
+              <div class="merch-price">$25.00</div>
+            </div>
+            <div class="merch-opts" aria-hidden="true">
+              <span class="tag">Black</span>
+              <span class="tag">One size</span>
+            </div>
+            <span class="btn btn-primary btn-sm btn-block">View product</span>
+          </div>
+        </a>
 
-      <!-- Add more records here -->
+        <a class="merch-card rv d2"
+           href="product-bikini.html"
+           data-category="limited"
+           data-search="bikini swim limited black white">
+          <div class="merch-img"><img src="bikini.png" alt="VCR Bikini" loading="lazy"/></div>
+          <div class="merch-body">
+            <div>
+              <div class="merch-name">Bikini</div>
+              <div class="merch-price">From $35.00</div>
+            </div>
+            <div class="merch-opts" aria-hidden="true">
+              <span class="tag">Limited</span>
+              <span class="tag">XS–L</span>
+            </div>
+            <span class="btn btn-primary btn-sm btn-block">View product</span>
+          </div>
+        </a>
+      </div>
+
+      <p id="shopEmpty" class="section-desc" hidden style="margin-top:28px;text-align:center">No products match that search.</p>
     </div>
-  </main>
+  </section>
 
-  <!-- ========== FOOTER ========== -->
-<footer class="footer">
-  <div class="footer-top">
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="glass-panel rv" style="padding:clamp(24px,4vw,40px)">
+        <div class="eyebrow">Note</div>
+        <h2 class="section-title" style="margin-top:8px">Secure checkout</h2>
+        <p class="section-desc" style="margin-top:12px">Each product page includes colour and size selection, multiple product images, sticky add-to-cart, and Stripe checkout — built for a collectible buying experience.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">VCR Recordings</div>
+      <div class="footer-copy">© 2026 VCR Recordings. All rights reserved.</div>
+    </div>
     <div class="footer-links">
-      <ul>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/help">Help and Feedback</a></li>
-        <li><a href="/support">Support Analog Fog</a></li>
-      </ul>
+      <a href="artists.html">Artists</a>
+      <a href="shop.html">Merch</a>
+      <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+      <a href="contact.html">Contact</a>
     </div>
-    <div class="footer-apps">
-      
-    
-    </div>
-  </div>
-  <br><br>
-  <div class="footer-center">
-   <img src="static/logo-footer1.png" alt="Analog Fog logo" class="footer-logo">
-
-    <p class="footer-tagline">INDEPENDENT RECORD LABEL.</p>
-    <div class="footer-social">
-      <a href="https://bandcamp.com/felixtk" aria-label="Bandcamp">
-  <i class="fab fa-bandcamp"></i>
-</a>
-
-      <a href="https://soundcloud.com/felixtk" aria-label="SoundCloud">
-  <i class="fab fa-soundcloud"></i>
-</a>
-
-  
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/terms">Terms and Conditions</a>
-    <p>&copy; 2025 Analog Fog Recordings.</p>
-    <br>
-    <br>
   </div>
 </footer>
-  <script>
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-      document.getElementById('cart-count').textContent = cartCount;
-    }
 
-    function addToCart(name, price) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingItem = cart.find(item => item.name === name);
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        cart.push({ name, price, quantity: 1 });
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${name} added to cart!`);
-      updateCartCount();
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        button.addEventListener('click', () => {
-          const name = button.getAttribute('data-name');
-          const price = parseFloat(button.getAttribute('data-price'));
-          addToCart(name, price);
-        });
-      });
-      updateCartCount();
-    });
-
-    function toggleMenu() {
-      document.querySelector('.header-links').classList.toggle('show');
-    }
-  </script>
+<script src="vcr.js"></script>
 </body>
-
 </html>
