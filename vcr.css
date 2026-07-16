@@ -365,7 +365,15 @@ ul, ol { list-style: none; }
     background: rgba(255,255,255,0.06);
   }
 }
-.nav-cart svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.nav-cart svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .cart-badge {
   position: absolute;
   top: 4px; right: 4px;
@@ -495,19 +503,30 @@ ul, ol { list-style: none; }
 
 .hero-brand {
   font-family: var(--display);
-  font-size: clamp(3.4rem, 12vw, 8.5rem);
+  font-size: clamp(2.5rem, 9.5vw, 8rem);
   font-weight: 800;
-  line-height: 0.88;
-  letter-spacing: -0.045em;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
   margin-bottom: 18px;
-  text-wrap: balance;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 .hero-brand em {
   font-style: normal;
+  display: block;
   color: transparent;
   background: linear-gradient(120deg, #fff 20%, var(--accent) 90%);
   -webkit-background-clip: text;
   background-clip: text;
+}
+@media (max-width: 480px) {
+  .hero-brand {
+    font-size: min(2.45rem, 9.2vw);
+    letter-spacing: -0.06em;
+  }
+  .hero-brand em { font-size: 0.94em; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; }
 }
 
 .hero-lead {
@@ -834,18 +853,21 @@ ul, ol { list-style: none; }
 .merch-img {
   aspect-ratio: 1;
   background:
-    radial-gradient(circle at 50% 40%, rgba(126,224,200,0.08), transparent 55%),
+    radial-gradient(circle at 50% 40%, rgba(126,224,200,0.1), transparent 55%),
+    linear-gradient(165deg, rgba(255,255,255,0.04), transparent 60%),
     #0a0a0d;
   display: grid;
   place-items: center;
   overflow: hidden;
   position: relative;
+  padding: 18px;
 }
 .merch-img img {
-  width: 86%;
-  height: 86%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   transition: transform 0.6s var(--ease);
+  border-radius: var(--radius-sm);
 }
 .merch-body {
   padding: 18px 18px 20px;
@@ -1098,7 +1120,12 @@ ul, ol { list-style: none; }
   justify-content: space-between;
   margin: 28px 0 32px;
   padding: 14px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
+  background: rgba(16, 16, 22, 0.62);
+  border: 1px solid var(--glass-border-hi);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  box-shadow: var(--shadow-glass);
 }
 .shop-search {
   flex: 1;
@@ -1172,19 +1199,24 @@ ul, ol { list-style: none; }
 .product-main {
   aspect-ratio: 1;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
+  border: 1px solid var(--glass-border);
   background:
-    radial-gradient(circle at 50% 40%, rgba(126,224,200,0.08), transparent 55%),
+    linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015)),
+    radial-gradient(circle at 50% 35%, rgba(126,224,200,0.1), transparent 55%),
     #0a0a0d;
   display: grid;
   place-items: center;
   overflow: hidden;
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .product-main img {
-  width: 82%;
-  height: 82%;
+  width: 88%;
+  height: 88%;
   object-fit: contain;
   transition: opacity 0.3s;
+  border-radius: var(--radius-sm);
 }
 .product-thumbs {
   display: flex;
