@@ -1,9 +1,16 @@
-/* VCR release page — shared player, variants, cart */
+/* VCR release page — shared player, variants, cart + remote media */
 (function () {
   'use strict';
 
   function money(n) {
     return '$' + Number(n).toFixed(2);
+  }
+
+  function esc(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/"/g, '&quot;');
   }
 
   async function loadRelease(id) {
@@ -12,40 +19,58 @@
     return (data.releases || []).find((r) => r.id === id || r.slug === id);
   }
 
-  function render(release) {
+  function artistPage(release) {
+    const map = {
+      'lt-drifta': 'artist-lt-drifta.html',
+      leftwave: 'artist-leftwave.html',
+      'miles-hale': 'artist-miles-hale.html',
+      'f-hastings': 'artist-f-hastings.html',
+      'm-dot': 'artist-m-dot.html',
+    };
+    return map[release.artistId] || 'artists.html';
+  }
+
+  function render(release, mediaCfg) {
     const root = document.getElementById('releaseRoot');
     if (!root || !release) return;
 
+    const M = window.VCRMedia;
+    const preview = M.previewUrl(release, mediaCfg);
+    const download = M.downloadUrl(release, mediaCfg);
+    const folder = M.folderFor(release, mediaCfg);
+
     document.title = `${release.title} — ${release.artist} | VCR Recordings`;
     const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.content = `${release.title} by ${release.artist} — ${release.formats.join(' + ')}. VCR Recordings.`;
+    if (desc) {
+      desc.content = `${release.title} by ${release.artist} — ${(release.formats || []).join(' + ')}. VCR Recordings.`;
+    }
 
-    const artistHref = release.artistId === 'lt-drifta' ? 'artist-lt-drifta.html' : 'artists.html';
     const variants = release.variants || [];
     const active = variants[0] || { id: 'digital', label: 'Digital', price: 0, note: '' };
+    const tracks = release.tracks || [];
 
     root.innerHTML = `
       <div class="crumbs">
         <a href="index.html">Home</a><span>/</span>
         <a href="index.html#releases">Releases</a><span>/</span>
-        ${release.title}
+        ${esc(release.title)}
       </div>
 
       <div class="release-layout" itemscope itemtype="https://schema.org/MusicAlbum">
-        <meta itemprop="name" content="${release.title}"/>
+        <meta itemprop="name" content="${esc(release.title)}"/>
         <div itemprop="byArtist" itemscope itemtype="https://schema.org/MusicGroup">
-          <meta itemprop="name" content="${release.artist}"/>
+          <meta itemprop="name" content="${esc(release.artist)}"/>
         </div>
 
         <div class="release-art-col rv">
           <button type="button" class="release-art crt-frame" id="artZoom" aria-label="Zoom artwork">
-            <img src="${release.artwork}" alt="${release.title} artwork" itemprop="image"/>
-            <span class="release-badge">${release.formats.join(' + ')}</span>
+            <img src="${esc(release.artwork)}" alt="${esc(release.title)} artwork" itemprop="image"/>
+            <span class="release-badge">${esc((release.formats || []).join(' + '))}</span>
           </button>
           <div class="release-player glass-panel">
             <div class="rp-head">
               <span class="eyebrow">Preview</span>
-              <span id="rpTrack">${(release.tracks[0] && release.tracks[0].title) || release.title}</span>
+              <span id="rpTrack">${esc((tracks[0] && tracks[0].title) || release.title)}</span>
             </div>
             <div class="rp-controls">
               <button type="button" class="rp-play" id="rpPlay" aria-label="Play preview">
@@ -57,35 +82,40 @@
                 <div class="rp-times"><span id="rpEl">0:00</span><span id="rpRem">-0:00</span></div>
               </div>
             </div>
-            <audio id="rpAudio" preload="metadata" src="${release.preview || ''}"></audio>
+            <audio id="rpAudio" preload="metadata" crossorigin="anonymous" src="${esc(preview)}"></audio>
+            <p class="small-note" id="mediaHint" style="margin-top:10px"></p>
           </div>
         </div>
 
         <div class="release-info-col rv d1">
           <div class="release-block">
-            <a class="release-artist" href="${artistHref}">${release.artist}</a>
-            <h1 class="release-title">${release.title}</h1>
+            <a class="release-artist" href="${artistPage(release)}">${esc(release.artist)}</a>
+            <h1 class="release-title">${esc(release.title)}</h1>
             <div class="release-meta-row">
               <div>
                 <div class="release-price" id="priceDisplay">${money(active.price)}</div>
-                <div class="release-price-note">USD · ${release.year}</div>
+                <div class="release-price-note">USD · ${esc(release.year)}</div>
               </div>
               <div class="tag">In stock</div>
             </div>
             <div class="feat-tags" style="margin-top:14px">
-              ${(release.tags || []).map((t) => `<span class="tag">${t}</span>`).join('')}
+              ${(release.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
             </div>
           </div>
 
           <div class="release-block">
             <div class="opt-label">Format</div>
             <div class="merch-opts" id="variantOpts">
-              ${variants.map((v, i) => `
+              ${variants
+                .map(
+                  (v, i) => `
                 <button type="button" class="opt ${i === 0 ? 'selected' : ''}"
-                  data-variant="${v.id}" data-price="${v.price}" data-label="${v.label}"
-                  data-stripe="${v.stripe || ''}" data-note="${v.note || ''}"
-                  aria-pressed="${i === 0 ? 'true' : 'false'}">${v.label} · ${money(v.price)}</button>
-              `).join('')}
+                  data-variant="${esc(v.id)}" data-price="${v.price}" data-label="${esc(v.label)}"
+                  data-stripe="${esc(v.stripe || '')}" data-note="${esc(v.note || '')}"
+                  aria-pressed="${i === 0 ? 'true' : 'false'}">${esc(v.label)} · ${money(v.price)}</button>
+              `
+                )
+                .join('')}
             </div>
             <div class="opt-label" style="margin-top:16px">Qty</div>
             <div class="qty-wrap">
@@ -95,9 +125,12 @@
             </div>
             <div class="buy-stack" style="margin-top:18px">
               <button type="button" class="btn btn-primary btn-block" id="addCart">Add to cart — ${money(active.price)}</button>
-              <a class="btn btn-ghost btn-block" href="${release.bandcamp}" target="_blank" rel="noopener">Bandcamp</a>
+              <a class="btn btn-ghost btn-block" href="${esc(release.bandcamp || '#')}" target="_blank" rel="noopener">Bandcamp</a>
             </div>
-            <p class="small-note" id="buyNote">${active.note || ''}</p>
+            <p class="small-note" id="buyNote">${esc(active.note || '')}</p>
+            <p class="small-note">Digital downloads use the same media folder as streaming${
+              mediaCfg.baseUrl ? ` (<code>${esc(folder)}</code>)` : ''
+            }.</p>
           </div>
 
           <div class="release-block">
@@ -106,18 +139,22 @@
               <button class="tab-btn" type="button" data-tab="details" aria-selected="false">Details</button>
             </div>
             <div class="tab-panel on" id="tab-tracks">
-              <div class="release-tracks">
-                ${(release.tracks || []).map((t, i) => `
-                  <div class="rtrack">
+              <div class="release-tracks" id="trackList">
+                ${tracks
+                  .map((t, i) => {
+                    const src = M.trackUrl(release, t, mediaCfg);
+                    return `
+                  <button type="button" class="rtrack ${i === 0 ? 'is-active' : ''}" data-track-idx="${i}" data-src="${esc(src)}" data-title="${esc(t.title)}">
                     <span class="rtrack-n">${String(i + 1).padStart(2, '0')}</span>
-                    <span class="rtrack-t">${t.title}</span>
-                    <span class="rtrack-d">${t.duration || '—'}</span>
-                  </div>
-                `).join('')}
+                    <span class="rtrack-t">${esc(t.title)}</span>
+                    <span class="rtrack-d">${esc(t.duration || '—')}</span>
+                  </button>`;
+                  })
+                  .join('')}
               </div>
             </div>
             <div class="tab-panel" id="tab-details">
-              <p class="bio-text" style="font-size:1rem">${release.details || ''}</p>
+              <p class="bio-text" style="font-size:1rem">${esc(release.details || '')}</p>
             </div>
           </div>
         </div>
@@ -125,11 +162,11 @@
 
       <div class="zoom" id="zoom" hidden>
         <button type="button" class="zoom-close" aria-label="Close">×</button>
-        <img src="${release.artwork}" alt=""/>
+        <img src="${esc(release.artwork)}" alt=""/>
       </div>
     `;
 
-    wire(release, active);
+    wire(release, active, mediaCfg, { preview, download, folder });
   }
 
   function fmt(t) {
@@ -139,17 +176,28 @@
     return m + ':' + String(s).padStart(2, '0');
   }
 
-  function wire(release, active) {
+  function wire(release, active, mediaCfg, urls) {
     let current = active;
     const audio = document.getElementById('rpAudio');
     const play = document.getElementById('rpPlay');
     const seek = document.getElementById('rpSeek');
     const el = document.getElementById('rpEl');
     const rem = document.getElementById('rpRem');
+    const trackLabel = document.getElementById('rpTrack');
     const qty = document.getElementById('qtyInput');
     const priceEl = document.getElementById('priceDisplay');
     const addBtn = document.getElementById('addCart');
     const note = document.getElementById('buyNote');
+    const hint = document.getElementById('mediaHint');
+
+    if (!mediaCfg.baseUrl) {
+      hint.textContent =
+        'Media base URL not set — playing local/legacy files. Set data/media.json baseUrl to your synced public folder.';
+    } else if (!urls.preview) {
+      hint.textContent = 'No preview file configured for this release.';
+    } else {
+      hint.textContent = `Streaming from media folder · ${urls.folder}`;
+    }
 
     function syncBuy() {
       const q = Math.max(1, parseInt(qty.value || '1', 10));
@@ -157,6 +205,15 @@
       priceEl.textContent = money(current.price);
       addBtn.textContent = `Add to cart — ${money(current.price * q)}`;
       note.textContent = current.note || '';
+    }
+
+    function loadSrc(src, title) {
+      if (!src) return;
+      const playing = !audio.paused;
+      audio.src = src;
+      trackLabel.textContent = title || release.title;
+      audio.load();
+      if (playing) audio.play().catch(() => {});
     }
 
     document.getElementById('variantOpts').addEventListener('click', (e) => {
@@ -178,8 +235,14 @@
       syncBuy();
     });
 
-    document.getElementById('qtyMinus').onclick = () => { qty.value = Math.max(1, (+qty.value || 1) - 1); syncBuy(); };
-    document.getElementById('qtyPlus').onclick = () => { qty.value = (+qty.value || 1) + 1; syncBuy(); };
+    document.getElementById('qtyMinus').onclick = () => {
+      qty.value = Math.max(1, (+qty.value || 1) - 1);
+      syncBuy();
+    };
+    document.getElementById('qtyPlus').onclick = () => {
+      qty.value = (+qty.value || 1) + 1;
+      syncBuy();
+    };
     qty.addEventListener('change', syncBuy);
 
     addBtn.addEventListener('click', () => {
@@ -193,15 +256,39 @@
         image: release.artwork,
         stripe: current.stripe || null,
         qty: q,
+        releaseId: release.id,
+        download: urls.download || '',
+        mediaFolder: urls.folder || '',
       });
+      // Remember downloads for thank-you page after Stripe
+      try {
+        const key = 'vcr_pending_downloads';
+        const prev = JSON.parse(sessionStorage.getItem(key) || '[]');
+        const entry = {
+          releaseId: release.id,
+          title: `${release.artist} — ${release.title}`,
+          url: urls.download || '',
+          folder: urls.folder || '',
+        };
+        const next = prev.filter((x) => x.releaseId !== release.id).concat(entry);
+        sessionStorage.setItem(key, JSON.stringify(next));
+      } catch (_) {}
       addBtn.textContent = 'Added';
       setTimeout(syncBuy, 900);
     });
 
     play.addEventListener('click', () => {
-      if (!audio.src) return;
-      if (audio.paused) audio.play().catch(() => {});
-      else audio.pause();
+      if (!audio.src) {
+        hint.textContent = 'No audio URL available for this release.';
+        return;
+      }
+      if (audio.paused) {
+        audio.play().catch((err) => {
+          hint.textContent =
+            'Could not play audio (check media baseUrl, CORS, and that the file exists in the public folder).';
+          console.error(err);
+        });
+      } else audio.pause();
     });
     audio.addEventListener('play', () => play.classList.add('on'));
     audio.addEventListener('pause', () => play.classList.remove('on'));
@@ -214,6 +301,15 @@
     seek.addEventListener('input', () => {
       if (!audio.duration) return;
       audio.currentTime = (parseFloat(seek.value) / 100) * audio.duration;
+    });
+
+    document.getElementById('trackList')?.addEventListener('click', (e) => {
+      const row = e.target.closest('[data-track-idx]');
+      if (!row) return;
+      document.querySelectorAll('#trackList .rtrack').forEach((r) => r.classList.remove('is-active'));
+      row.classList.add('is-active');
+      loadSrc(row.dataset.src, row.dataset.title);
+      audio.play().catch(() => {});
     });
 
     document.querySelectorAll('.tab-btn').forEach((btn) => {
@@ -230,9 +326,23 @@
     });
 
     const zoom = document.getElementById('zoom');
-    document.getElementById('artZoom').onclick = () => { zoom.hidden = false; };
-    zoom.querySelector('.zoom-close').onclick = () => { zoom.hidden = true; };
-    zoom.onclick = (e) => { if (e.target === zoom) zoom.hidden = true; };
+    document.getElementById('artZoom').onclick = () => {
+      zoom.hidden = false;
+    };
+    zoom.querySelector('.zoom-close').onclick = () => {
+      zoom.hidden = true;
+    };
+    zoom.onclick = (e) => {
+      if (e.target === zoom) zoom.hidden = true;
+    };
+
+    // Style clickable tracks
+    document.querySelectorAll('#trackList .rtrack').forEach((r) => {
+      r.style.width = '100%';
+      r.style.textAlign = 'left';
+      r.style.background = 'transparent';
+      r.style.cursor = 'pointer';
+    });
 
     syncBuy();
     if (window.VCR && window.VCR.updateCartBadge) window.VCR.updateCartBadge();
@@ -243,15 +353,18 @@
     const id = document.body.dataset.release;
     if (!id) return;
     try {
+      const mediaCfg = await window.VCRMedia.loadMediaConfig();
       const release = await loadRelease(id);
       if (!release) {
-        document.getElementById('releaseRoot').innerHTML = '<p class="section-desc">Release not found.</p>';
+        document.getElementById('releaseRoot').innerHTML =
+          '<p class="section-desc">Release not found.</p>';
         return;
       }
-      render(release);
+      render(release, mediaCfg);
     } catch (err) {
       console.error(err);
-      document.getElementById('releaseRoot').innerHTML = '<p class="section-desc">Unable to load release.</p>';
+      document.getElementById('releaseRoot').innerHTML =
+        '<p class="section-desc">Unable to load release.</p>';
     }
   });
 })();
