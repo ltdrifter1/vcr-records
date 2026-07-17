@@ -465,7 +465,7 @@ ul, ol { list-style: none; }
 .nav-drawer a:last-child { border-bottom: none; }
 .nav-drawer a:active { color: var(--text); }
 
-/* ── HERO — 90s VHS / CRT ──────────────────────────────── */
+/* ── HERO — trippy line graphic (no photo) ─────────────── */
 .hero {
   position: relative;
   isolation: isolate;
@@ -476,136 +476,168 @@ ul, ol { list-style: none; }
   justify-content: flex-end;
   overflow: hidden;
   padding-top: var(--nav-h);
-  background: #1a1816;
-  color: #f2efe8;
+  background: #ebe6dc;
+  color: var(--ink);
 }
 
-.hero-media {
+.hero-art {
   position: absolute;
   inset: 0;
   z-index: 0;
-}
-.hero-media picture,
-.hero-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.hero-media img {
-  object-fit: cover;
-  object-position: 55% 45%;
-  transform: scale(1.06);
-  filter: contrast(1.08) saturate(0.85) brightness(0.92);
-  animation: heroDrift 22s linear infinite alternate, heroFlicker 4.5s steps(2, end) infinite;
-}
-@media (max-width: 700px) {
-  .hero-media img { object-position: 48% 42%; }
-}
-@keyframes heroDrift {
-  from { transform: scale(1.06) translate3d(0, 0, 0); }
-  to { transform: scale(1.14) translate3d(-1.8%, 1.2%, 0); }
-}
-@keyframes heroFlicker {
-  0%, 92%, 100% { opacity: 1; }
-  93% { opacity: 0.92; }
-  94% { opacity: 1; }
-  96% { opacity: 0.88; }
-  97% { opacity: 1; }
-}
-
-/* VHS stack: snow + scanlines + tracking */
-.hero-vhs {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
   pointer-events: none;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 35%, rgba(26, 167, 184, 0.1), transparent 55%),
+    radial-gradient(ellipse 55% 50% at 18% 70%, rgba(196, 61, 122, 0.08), transparent 50%),
+    #ebe6dc;
 }
 
-.hero-vhs-snow {
+/* Dense horizontal line field */
+.hero-art-field {
   position: absolute;
-  inset: -20%;
-  opacity: 0.28;
-  mix-blend-mode: screen;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  animation: vhsSnow 0.18s steps(4) infinite;
+  inset: -5%;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 2px,
+      rgba(18, 17, 16, 0.07) 2px 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 11px,
+      rgba(18, 17, 16, 0.035) 11px 12px
+    );
+  transform-origin: 60% 40%;
+  animation: lineFieldDrift 18s linear infinite alternate;
 }
-@keyframes vhsSnow {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-2%, 3%); }
-  50% { transform: translate(3%, -2%); }
-  75% { transform: translate(-1%, -3%); }
-  100% { transform: translate(2%, 1%); }
+@keyframes lineFieldDrift {
+  from { transform: scale(1.02) rotate(-0.4deg); }
+  to { transform: scale(1.08) rotate(0.6deg) translate(-1.5%, 1%); }
 }
 
-.hero-vhs-scan {
+/* Concentric ring moiré */
+.hero-art-rings {
+  position: absolute;
+  width: min(140vw, 1600px);
+  aspect-ratio: 1;
+  right: -28%;
+  top: -18%;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0 7px,
+      rgba(26, 167, 184, 0.22) 7px 8px,
+      transparent 8px 15px,
+      rgba(196, 61, 122, 0.16) 15px 16px
+    );
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  animation: ringsPulse 14s var(--ease) infinite alternate;
+}
+.hero-art-rings::before {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle at 48% 52%,
+      transparent 0 5px,
+      rgba(18, 17, 16, 0.12) 5px 6px
+    );
+  animation: ringsSpin 40s linear infinite;
+}
+@keyframes ringsPulse {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.12) translate(-3%, 2%); }
+}
+@keyframes ringsSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Wavy interference lines */
+.hero-art-waves {
   position: absolute;
   inset: 0;
-  opacity: 0.42;
+}
+.hero-art-waves svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.hero-art-waves path {
+  fill: none;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+.hero-art-waves .w1 { stroke: rgba(26, 167, 184, 0.55); animation: waveSlide 9s ease-in-out infinite alternate; }
+.hero-art-waves .w2 { stroke: rgba(18, 17, 16, 0.35); animation: waveSlide 11s ease-in-out infinite alternate-reverse; }
+.hero-art-waves .w3 { stroke: rgba(196, 61, 122, 0.45); animation: waveSlide 8s ease-in-out infinite alternate; }
+.hero-art-waves .w4 { stroke: rgba(18, 17, 16, 0.28); animation: waveSlide 13s ease-in-out infinite alternate-reverse; }
+.hero-art-waves .w5 { stroke: rgba(26, 167, 184, 0.4); animation: waveSlide 10s ease-in-out infinite alternate; }
+@keyframes waveSlide {
+  from { transform: translateX(-2%); }
+  to { transform: translateX(2.5%); }
+}
+
+/* Fine CRT scanlines over the graphic */
+.hero-art-scan {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.22) 0px,
-    rgba(0, 0, 0, 0.22) 1px,
+    rgba(18, 17, 16, 0.16) 0px,
+    rgba(18, 17, 16, 0.16) 1px,
     transparent 1px,
     transparent 3px
   );
-  background-size: 100% 3px;
-  animation: vhsScanDrift 8s linear infinite;
   mix-blend-mode: multiply;
+  animation: scanCreep 6s linear infinite;
 }
-.hero-vhs-scan::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(180, 255, 220, 0.03) 0px,
-    transparent 1px,
-    transparent 2px
-  );
-  mix-blend-mode: screen;
-  animation: vhsScanFlicker 0.12s steps(2) infinite;
-}
-@keyframes vhsScanDrift {
+@keyframes scanCreep {
   from { background-position: 0 0; }
   to { background-position: 0 3px; }
 }
-@keyframes vhsScanFlicker {
-  from { opacity: 0.55; }
-  to { opacity: 0.9; }
+
+/* Soft snow / static flecks */
+.hero-art-snow {
+  position: absolute;
+  inset: -15%;
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.07 0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: snowJitter 0.2s steps(3) infinite;
+}
+@keyframes snowJitter {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-1.5%, 2%); }
+  66% { transform: translate(2%, -1%); }
+  100% { transform: translate(-1%, -2%); }
 }
 
-.hero-vhs-track {
+/* Rolling tracking band */
+.hero-art-track {
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 18%;
+  left: -5%;
+  right: -5%;
+  height: 14%;
   top: -20%;
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(255, 255, 255, 0.06) 40%,
-    rgba(0, 220, 255, 0.08) 50%,
-    rgba(255, 60, 180, 0.06) 60%,
+    rgba(26, 167, 184, 0.12) 45%,
+    rgba(196, 61, 122, 0.1) 55%,
     transparent
   );
-  mix-blend-mode: screen;
-  animation: vhsTrack 7s linear infinite;
-  opacity: 0.65;
+  mix-blend-mode: multiply;
+  animation: trackRoll 6.5s linear infinite;
 }
-@keyframes vhsTrack {
-  0% { top: -25%; }
+@keyframes trackRoll {
+  0% { top: -20%; }
   100% { top: 110%; }
-}
-
-.hero-vhs-vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 75% 65% at 50% 45%, transparent 35%, rgba(10, 8, 8, 0.55) 100%),
-    linear-gradient(180deg, rgba(10, 8, 8, 0.35) 0%, transparent 28%, transparent 55%, rgba(10, 8, 8, 0.82) 100%),
-    linear-gradient(90deg, rgba(10, 8, 8, 0.45) 0%, transparent 40%, transparent 70%, rgba(10, 8, 8, 0.25) 100%);
 }
 
 .hero-content {
@@ -634,33 +666,30 @@ ul, ol { list-style: none; }
   width: min(520px, 86vw);
   height: auto;
   filter:
-    drop-shadow(1.5px 0 0 rgba(0, 220, 255, 0.55))
-    drop-shadow(-1.5px 0 0 rgba(255, 60, 180, 0.45))
-    drop-shadow(0 0 24px rgba(180, 255, 220, 0.15));
-  animation: logoSettle 1.2s var(--ease) 0.12s both, logoGlitch 5.5s steps(1, end) infinite;
+    drop-shadow(1.5px 0 0 rgba(26, 167, 184, 0.35))
+    drop-shadow(-1.5px 0 0 rgba(196, 61, 122, 0.28))
+    drop-shadow(0 12px 28px rgba(18, 17, 16, 0.08));
+  animation: logoSettle 1.2s var(--ease) 0.12s both, logoGlitch 6s steps(1, end) infinite;
 }
 @keyframes logoSettle {
   from { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.985); }
   to { opacity: 1; transform: none; }
 }
 @keyframes logoGlitch {
-  0%, 86%, 100% { transform: none; }
-  87% { transform: translate3d(2px, -1px, 0) skewX(-0.4deg); }
-  88% { transform: translate3d(-3px, 1px, 0); }
-  89% { transform: none; }
-  94% { transform: translate3d(1px, 0, 0); }
-  95% { transform: none; }
+  0%, 88%, 100% { transform: none; }
+  89% { transform: translate3d(2px, -1px, 0) skewX(-0.35deg); }
+  90% { transform: translate3d(-2px, 1px, 0); }
+  91% { transform: none; }
 }
 
 .hero-lead {
   max-width: 30ch;
   font-size: clamp(1rem, 2.1vw, 1.15rem);
-  color: rgba(242, 239, 232, 0.88);
+  color: var(--ink);
   line-height: 1.45;
   margin: 0 0 28px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
   animation: heroRise 1.05s var(--ease) 0.18s both;
 }
 
@@ -669,27 +698,6 @@ ul, ol { list-style: none; }
   flex-wrap: wrap;
   gap: 10px;
   animation: heroRise 1.05s var(--ease) 0.28s both;
-}
-
-.hero--vhs .btn-primary {
-  background: #f2efe8;
-  color: #121110;
-  border-color: #f2efe8;
-}
-.hero--vhs .btn-primary:hover {
-  background: #fff;
-  box-shadow: 3px 0 0 rgba(0, 220, 255, 0.7), -3px 0 0 rgba(255, 60, 180, 0.55) !important;
-}
-.hero--vhs .btn-ghost {
-  background: rgba(18, 17, 16, 0.35);
-  color: #f2efe8;
-  border-color: rgba(242, 239, 232, 0.35);
-  backdrop-filter: blur(10px);
-}
-.hero--vhs .btn-ghost:hover {
-  background: rgba(18, 17, 16, 0.55);
-  border-color: rgba(242, 239, 232, 0.55);
-  box-shadow: 3px 0 0 rgba(0, 220, 255, 0.4), -3px 0 0 rgba(255, 60, 180, 0.3);
 }
 
 .hero-scroll {
@@ -701,7 +709,7 @@ ul, ol { list-style: none; }
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(242, 239, 232, 0.55);
+  color: var(--muted);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -720,23 +728,7 @@ ul, ol { list-style: none; }
   50% { transform: scaleX(1.45); opacity: 1; }
 }
 @media (hover: hover) {
-  .hero-scroll:hover { color: #f2efe8; }
-}
-
-/* Nav sits over dark VHS hero — keep readable */
-.hero--vhs ~ .site-nav,
-body:has(.hero--vhs) .site-nav:not(.scrolled) {
-  background: transparent;
-}
-body:has(.hero--vhs) .site-nav:not(.scrolled) {
-  background: linear-gradient(180deg, rgba(10, 8, 8, 0.55), transparent);
-}
-body:has(.hero--vhs) .site-nav:not(.scrolled) .nav-links a,
-body:has(.hero--vhs) .site-nav:not(.scrolled) .nav-cart {
-  color: rgba(242, 239, 232, 0.82);
-}
-body:has(.hero--vhs) .site-nav:not(.scrolled) .nav-ham span {
-  background: #f2efe8;
+  .hero-scroll:hover { color: var(--ink); }
 }
 
 @media (max-width: 560px) {
@@ -749,15 +741,17 @@ body:has(.hero--vhs) .site-nav:not(.scrolled) .nav-ham span {
   .hero-actions { flex-direction: column; align-items: stretch; width: 100%; }
   .hero-actions .btn { width: 100%; }
   .hero-scroll { right: 16px; }
-  .hero-vhs-snow { opacity: 0.22; }
+  .hero-art-rings { right: -45%; top: -10%; opacity: 0.7; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-media img,
-  .hero-vhs-snow,
-  .hero-vhs-scan,
-  .hero-vhs-scan::after,
-  .hero-vhs-track,
+  .hero-art-field,
+  .hero-art-rings,
+  .hero-art-rings::before,
+  .hero-art-waves path,
+  .hero-art-scan,
+  .hero-art-snow,
+  .hero-art-track,
   .hero-content,
   .hero-logo,
   .hero-lead,
@@ -765,8 +759,8 @@ body:has(.hero--vhs) .site-nav:not(.scrolled) .nav-ham span {
   .hero-scroll::before {
     animation: none !important;
   }
-  .hero-vhs-snow { opacity: 0.18; }
-  .hero-vhs-track { display: none; }
+  .hero-art-track { display: none; }
+  .hero-art-snow { opacity: 0.12; }
 }
 
 /* ── Release cards ─────────────────────────────────────── */
