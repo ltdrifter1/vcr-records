@@ -129,48 +129,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   render();
 
-  document.getElementById('checkoutBtn').addEventListener('click', async () => {
-    const { cart, sub } = render();
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const { cart } = render();
     if (!cart.items.length) { msg.textContent = 'Your cart is empty.'; return; }
-    const email = (document.getElementById('cartEmail').value || '').trim();
-    msg.textContent = 'Starting checkout…';
-    const payload = {
-      email,
-      items: cart.items.map((i) => ({
-        name: `${i.title}${i.color ? ' — ' + i.color : ''}${i.size ? ' / ' + i.size : ''}`,
-        image: i.image ? new URL(i.image, location.origin).href : null,
-        unitAmount: i.price,
-        quantity: i.qty,
-      })),
-    };
-    try {
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (data && data.url) {
-        location.href = data.url;
-        return;
-      }
-      // Fallback: if API unavailable, use first item Stripe payment link
-      const first = cart.items.find((i) => i.stripe);
-      if (first && first.stripe) {
-        msg.textContent = 'Opening Stripe payment link…';
-        location.href = first.stripe;
-        return;
-      }
-      msg.textContent = 'Unable to start checkout. Try again later.';
-    } catch (e) {
-      const first = cart.items.find((i) => i.stripe);
-      if (first && first.stripe) {
-        msg.textContent = 'Checkout API offline — opening Stripe link…';
-        setTimeout(() => { location.href = first.stripe; }, 400);
-      } else {
-        msg.textContent = 'Network error starting checkout.';
-      }
+
+    const withLink = cart.items.filter((i) => i.stripe);
+    if (!withLink.length) {
+      msg.textContent = 'No Stripe payment link on these items. Update product/release data.';
+      return;
     }
+
+    // Static checkout: open Stripe Payment Links (no serverless API)
+    msg.textContent = 'Opening Stripe…';
+    location.href = withLink[0].stripe;
   });
 });
 </script>
