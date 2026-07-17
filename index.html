@@ -44,22 +44,24 @@
 </div>
 
 <section class="hero" id="top">
-  <div class="hero-media">
-    <img src="img/vcr-hero-banner.webp" alt="" fetchpriority="high"/>
+  <div class="hero-media" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 700px)" srcset="img/vcr-hero-banner-mobile.webp"/>
+      <img src="img/vcr-hero-banner.webp" alt="" width="2400" height="1350" fetchpriority="high" decoding="async"/>
+    </picture>
   </div>
-  <div class="hero-glitch" aria-hidden="true"></div>
-  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
   <div class="hero-content">
-    <p class="hero-kicker">Independent label</p>
-    <h1 class="sr-only">VCR Recordings</h1>
-    <img class="hero-logo" src="img/vcr-logo-hero.webp" alt="VCR Recordings"/>
-    <p class="hero-lead">Underground electronic music with analog grit — jungle, hip-hop, and future-facing sound.</p>
+    <h1 class="hero-brand">
+      <img class="hero-logo" src="img/vcr-logo-hero-ink.webp" alt="VCR Recordings" width="1010" height="658"/>
+    </h1>
+    <p class="hero-lead">Analog grit for the underground — jungle, hip-hop, and future-facing electronics.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#releases">Browse Catalog</a>
       <a class="btn btn-ghost" href="shop.html">Shop Merch</a>
     </div>
   </div>
-  <div class="hero-scroll" aria-hidden="true">Scroll</div>
+  <a class="hero-scroll" href="#featured">Scroll</a>
 </section>
 
 <main>
