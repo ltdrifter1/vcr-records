@@ -63,7 +63,8 @@
 
   function addToCart(item) {
     const cart = loadCart();
-    const key = [item.id, item.color, item.size].filter(Boolean).join('|');
+    const color = item.color || item.colour || null;
+    const key = [item.id, color, item.size].filter(Boolean).join('|');
     const existing = cart.items.find((i) => i.key === key);
     if (existing) {
       existing.qty += item.qty || 1;
@@ -73,7 +74,7 @@
         id: item.id,
         title: item.title,
         price: item.price,
-        color: item.color || null,
+        color: color,
         size: item.size || null,
         image: item.image || null,
         stripe: item.stripe || null,
@@ -202,20 +203,22 @@
     }
 
     chips.forEach((chip) => {
-      chip.addEventListener('click', () => {
+      chip.onclick = () => {
         chips.forEach((c) => c.classList.remove('active'));
         chip.classList.add('active');
         filter = chip.dataset.filter || 'all';
         apply();
-      });
+      };
     });
 
     if (search) {
-      search.addEventListener('input', () => {
+      search.oninput = () => {
         query = search.value.trim().toLowerCase();
         apply();
-      });
+      };
     }
+
+    apply();
   }
 
   /* ── Product gallery ─────────────────────────────────── */

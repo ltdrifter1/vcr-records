@@ -1,41 +1,58 @@
-// server.js
+// server.js — VCR Recordings Stripe Checkout
 import express from "express";
 import Stripe from "stripe";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.json());
+app.use(express.static(__dirname));
 
-// put your own secret key in an env var in production
-const stripe = new Stripe("sk_test_51SHZpbQz93X7VhM7ZG2my7l8Uxomx1OQuwQGf3hVYtkuDHOqtYt8Z35to2hJiohxctDOqb4NMpRVFOjCEb698PFL00NISTQ6ao");
+const secret = process.env.STRIPE_SECRET_KEY;
+if (!secret) {
+  console.warn("STRIPE_SECRET_KEY not set — /create-checkout-session will return 503.");
+}
+const stripe = secret ? new Stripe(secret) : null;
+
+const SITE_URL = process.env.SITE_URL || "https://www.vcrrecords.com";
 
 app.post("/create-checkout-session", async (req, res) => {
-  try{
+  if (!stripe) {
+    return res.status(503).json({ error: "Stripe is not configured" });
+  }
+  try {
     const { items, email } = req.body;
-
-    const line_items = (items || []).map(it => ({
+    const line_items = (items || []).map((it) => ({
       price_data: {
         currency: "usd",
-        product_data: { name: it.name, images: it.image ? [it.image] : [] },
+        product_data: {
+          name: it.name,
+          images: it.image ? [it.image] : [],
+        },
         unit_amount: Math.round((it.unitAmount || 0) * 100),
       },
       quantity: it.quantity || 1,
     }));
 
+    if (!line_items.length) {
+      return res.status(400).json({ error: "No items" });
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
       customer_email: email || undefined,
-      success_url: "https://yourdomain.com/thank-you.html",
-      cancel_url: "https://yourdomain.com/checkout.html",
-      // automatic_tax: { enabled: true }, // enable if using Stripe Tax
-      // shipping_address_collection: { allowed_countries: ['US','CA'] },
+      success_url: `${SITE_URL}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${SITE_URL}/cart.html`,
     });
 
     res.json({ url: session.url });
-  }catch(err){
+  } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unable to create checkout session" });
   }
 });
 
-app.listen(3000, () => console.log("Server on http://localhost:3000"));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`VCR server on http://localhost:${port}`));
