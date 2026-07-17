@@ -21,7 +21,7 @@
       <a href="shop.html" class="active">Merch</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-cart" href="cart.html" aria-label="Cart">
+      <a class="nav-cart" href="cart.html" aria-label="Cart" data-cart-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
         <span class="cart-badge" data-count="0"></span>
       </a>
@@ -47,11 +47,11 @@
     <div class="product-layout" data-product="hat">
       <div class="product-gallery rv">
         <div class="product-main">
-          <img id="productMainImg" data-product-image src="hat.png" alt="VCR Dad Cap"/>
+          <img id="productMainImg" data-product-image src="img/hat.webp" alt="VCR Dad Cap"/>
         </div>
         <div class="product-thumbs">
-          <button type="button" class="active" data-gallery-thumb="hat.png" aria-label="Hat front">
-            <img src="hat.png" alt=""/>
+          <button type="button" class="active" data-gallery-thumb="img/hat.webp" aria-label="Hat front">
+            <img src="img/hat.webp" alt=""/>
           </button>
         </div>
       </div>
@@ -76,7 +76,7 @@
             <strong>Dad Cap</strong>
             <span>Black · One size</span>
           </div>
-          <button class="btn btn-primary" id="addCartBtn" type="button">Add to cart — $25</button>
+          <button class="btn btn-primary" id="addCartBtn" type="button" data-label="Add to cart — $25">Add to cart — $25</button>
         </div>
       </div>
     </div>
@@ -90,21 +90,21 @@
       </div>
       <div class="recs-grid">
         <a class="merch-card rv" href="product-tshirt.html">
-          <div class="merch-img"><img src="shirt.png" alt="T-Shirt" loading="lazy"/></div>
+          <div class="merch-img"><img src="img/shirt.webp" alt="T-Shirt" loading="lazy"/></div>
           <div class="merch-body">
             <div class="merch-name">T-Shirt</div>
             <div class="merch-price">From $30.00</div>
           </div>
         </a>
         <a class="merch-card rv d1" href="product-bikini.html">
-          <div class="merch-img"><img src="bikini.png" alt="Bikini" loading="lazy"/></div>
+          <div class="merch-img"><img src="img/bikini.webp" alt="Bikini" loading="lazy"/></div>
           <div class="merch-body">
             <div class="merch-name">Bikini</div>
             <div class="merch-price">From $35.00</div>
           </div>
         </a>
         <a class="merch-card rv d2" href="summer.html">
-          <div class="merch-img"><img src="summer.PNG" alt="Summer Madness" loading="lazy" style="object-fit:cover;width:100%;height:100%;padding:0"/></div>
+          <div class="merch-img"><img src="img/summer.webp" alt="Summer Madness" loading="lazy" style="object-fit:cover;width:100%;height:100%;padding:0"/></div>
           <div class="merch-body">
             <div class="merch-name">Summer Madness</div>
             <div class="merch-price">Release</div>
@@ -143,8 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
       stripe: STRIPE,
       qty: 1
     });
-    buy.textContent = 'Added — view cart';
-    setTimeout(() => { window.location.href = 'cart.html'; }, 500);
+    buy.textContent = 'Added';
+    setTimeout(() => { buy.textContent = buy.dataset.label || 'Add to cart'; }, 1200);
   });
 });
 </script>

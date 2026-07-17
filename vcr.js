@@ -61,6 +61,100 @@
     });
   }
 
+  function money(n) {
+    return '$' + Number(n || 0).toFixed(2);
+  }
+
+  function ensureCartDrawer() {
+    if (document.getElementById('cartDrawer')) return;
+    const el = document.createElement('div');
+    el.id = 'cartDrawerRoot';
+    el.innerHTML = `
+      <div class="cart-scrim" id="cartScrim" hidden></div>
+      <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Cart">
+        <div class="cart-drawer-head">
+          <strong>Cart</strong>
+          <button type="button" class="cart-drawer-close" id="cartDrawerClose" aria-label="Close cart">×</button>
+        </div>
+        <div class="cart-drawer-body" id="cartDrawerBody"></div>
+        <div class="cart-drawer-foot">
+          <div class="cart-line"><span>Subtotal</span><strong id="cartDrawerSub">$0.00</strong></div>
+          <a class="btn btn-primary btn-block" href="cart.html">View cart & checkout</a>
+          <p class="cart-drawer-empty-hint small-note" id="cartDrawerHint"></p>
+        </div>
+      </aside>`;
+    document.body.appendChild(el);
+    document.getElementById('cartScrim').addEventListener('click', closeCartDrawer);
+    document.getElementById('cartDrawerClose').addEventListener('click', closeCartDrawer);
+  }
+
+  function renderCartDrawer() {
+    ensureCartDrawer();
+    const body = document.getElementById('cartDrawerBody');
+    const subEl = document.getElementById('cartDrawerSub');
+    const hint = document.getElementById('cartDrawerHint');
+    const cart = loadCart();
+    if (!cart.items.length) {
+      body.innerHTML = `<div class="cart-empty" style="padding:28px 8px">Your cart is empty.<div style="margin-top:14px"><a class="btn btn-ghost btn-sm" href="shop.html">Shop merch</a></div></div>`;
+      subEl.textContent = '$0.00';
+      hint.textContent = '';
+      return;
+    }
+    let sub = 0;
+    body.innerHTML = cart.items
+      .map((it, idx) => {
+        sub += it.price * it.qty;
+        return `<div class="cart-drawer-item">
+          <img src="${it.image || 'blank1400.png'}" alt=""/>
+          <div>
+            <div class="cart-item-title">${it.title}</div>
+            <div class="cart-item-meta">${[it.color, it.size].filter(Boolean).join(' · ') || 'Standard'} · ×${it.qty}</div>
+            <button type="button" class="cart-remove" data-rm="${idx}">Remove</button>
+          </div>
+          <strong>${money(it.price * it.qty)}</strong>
+        </div>`;
+      })
+      .join('');
+    subEl.textContent = money(sub);
+    hint.textContent = 'Checkout runs through Stripe on the cart page.';
+    body.querySelectorAll('[data-rm]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const c = loadCart();
+        c.items.splice(parseInt(btn.dataset.rm, 10), 1);
+        saveCart(c);
+        renderCartDrawer();
+      });
+    });
+  }
+
+  function openCartDrawer() {
+    ensureCartDrawer();
+    renderCartDrawer();
+    document.getElementById('cartDrawer').classList.add('on');
+    document.getElementById('cartDrawer').setAttribute('aria-hidden', 'false');
+    document.getElementById('cartScrim').hidden = false;
+  }
+
+  function closeCartDrawer() {
+    const d = document.getElementById('cartDrawer');
+    if (!d) return;
+    d.classList.remove('on');
+    d.setAttribute('aria-hidden', 'true');
+    document.getElementById('cartScrim').hidden = true;
+  }
+
+  function initCartDrawer() {
+    ensureCartDrawer();
+    document.querySelectorAll('[data-cart-toggle]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        // On cart page, don't intercept
+        if (location.pathname.endsWith('/cart.html') || location.pathname.endsWith('cart.html')) return;
+        e.preventDefault();
+        openCartDrawer();
+      });
+    });
+  }
+
   function addToCart(item) {
     const cart = loadCart();
     const color = item.color || item.colour || null;
@@ -83,6 +177,7 @@
     }
     saveCart(cart);
     showToast(`${item.title} added`);
+    openCartDrawer();
     return cart;
   }
 
@@ -247,6 +342,10 @@
     cartCount,
     updateCartBadge,
     showToast,
+    initShopFilters,
+    openCartDrawer,
+    closeCartDrawer,
+    renderCartDrawer,
   };
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -257,6 +356,7 @@
     initListen();
     initShopFilters();
     initGallery();
+    initCartDrawer();
     updateCartBadge();
   });
 })();

@@ -21,7 +21,7 @@
       <a href="shop.html" class="active">Merch</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-cart" href="cart.html" aria-label="Cart">
+      <a class="nav-cart" href="cart.html" aria-label="Cart" data-cart-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
         <span class="cart-badge" data-count="0"></span>
       </a>
@@ -47,14 +47,14 @@
     <div class="product-layout" data-product="bikini">
       <div class="product-gallery rv">
         <div class="product-main">
-          <img id="productMainImg" data-product-image src="bikini.png" alt="VCR Bikini"/>
+          <img id="productMainImg" data-product-image src="img/bikini.webp" alt="VCR Bikini"/>
         </div>
         <div class="product-thumbs">
-          <button type="button" class="active" data-gallery-thumb="bikini.png" aria-label="Black">
-            <img src="bikini.png" alt=""/>
+          <button type="button" class="active" data-gallery-thumb="img/bikini.webp" aria-label="Black">
+            <img src="img/bikini.webp" alt=""/>
           </button>
-          <button type="button" data-gallery-thumb="bikini2.png" aria-label="White">
-            <img src="bikini2.png" alt=""/>
+          <button type="button" data-gallery-thumb="img/bikini2.webp" aria-label="White">
+            <img src="img/bikini2.webp" alt=""/>
           </button>
         </div>
       </div>
@@ -69,8 +69,8 @@
           <div>
             <div class="opt-label">Colour</div>
             <div class="merch-opts">
-              <button type="button" class="opt selected" data-option-group="colour" data-img="bikini.png" data-img-target="productMainImg" aria-pressed="true">Black</button>
-              <button type="button" class="opt" data-option-group="colour" data-img="bikini2.png" data-img-target="productMainImg" aria-pressed="false">White</button>
+              <button type="button" class="opt selected" data-option-group="colour" data-img="img/bikini.webp" data-img-target="productMainImg" aria-pressed="true">Black</button>
+              <button type="button" class="opt" data-option-group="colour" data-img="img/bikini2.webp" data-img-target="productMainImg" aria-pressed="false">White</button>
             </div>
           </div>
           <div>
@@ -89,7 +89,7 @@
             <strong>Bikini</strong>
             <span id="stickyVariant">Black / XS</span>
           </div>
-          <button class="btn btn-primary" id="addCartBtn" type="button">Add to cart — $35</button>
+          <button class="btn btn-primary" id="addCartBtn" type="button" data-label="Add to cart — $35">Add to cart — $35</button>
         </div>
       </div>
     </div>
@@ -103,21 +103,21 @@
       </div>
       <div class="recs-grid">
         <a class="merch-card rv" href="product-tshirt.html">
-          <div class="merch-img"><img src="shirt.png" alt="T-Shirt" loading="lazy"/></div>
+          <div class="merch-img"><img src="img/shirt.webp" alt="T-Shirt" loading="lazy"/></div>
           <div class="merch-body">
             <div class="merch-name">T-Shirt</div>
             <div class="merch-price">From $30.00</div>
           </div>
         </a>
         <a class="merch-card rv d1" href="product-hat.html">
-          <div class="merch-img"><img src="hat.png" alt="Dad Cap" loading="lazy"/></div>
+          <div class="merch-img"><img src="img/hat.webp" alt="Dad Cap" loading="lazy"/></div>
           <div class="merch-body">
             <div class="merch-name">Dad Cap</div>
             <div class="merch-price">$25.00</div>
           </div>
         </a>
         <a class="merch-card rv d2" href="classic.html">
-          <div class="merch-img"><img src="class.png" alt="Classic Jazz" loading="lazy" style="object-fit:cover;width:100%;height:100%;padding:0"/></div>
+          <div class="merch-img"><img src="img/classic.webp" alt="Classic Jazz" loading="lazy" style="object-fit:cover;width:100%;height:100%;padding:0"/></div>
           <div class="merch-body">
             <div class="merch-name">Classic Jazz</div>
             <div class="merch-price">Release</div>
@@ -174,8 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
       stripe: STRIPE,
       qty: 1
     });
-    buy.textContent = 'Added — view cart';
-    setTimeout(() => { window.location.href = 'cart.html'; }, 500);
+    buy.textContent = 'Added';
+    setTimeout(() => { buy.textContent = buy.dataset.label || 'Add to cart'; }, 1200);
   });
 });
 </script>

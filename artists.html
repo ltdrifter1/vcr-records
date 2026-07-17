@@ -23,7 +23,7 @@
       <a href="index.html#listen">Listen</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-cart" href="cart.html" aria-label="Cart">
+      <a class="nav-cart" href="cart.html" aria-label="Cart" data-cart-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
         <span class="cart-badge" data-count="0"></span>
       </a>
@@ -53,32 +53,7 @@
 
   <section class="section" style="padding-top:12px">
     <div class="wrap">
-      <div class="artists-grid">
-        <a class="a-card rv" href="artist-lt-drifta.html">
-          <img src="ltd.PNG" alt="LT Drifta" loading="lazy"/>
-          <div class="a-card-shade"></div>
-          <div class="a-card-body">
-            <div class="a-name">LT Drifta</div>
-            <div class="a-role">Artist · Producer</div>
-          </div>
-        </a>
-        <a class="a-card rv d1" href="artist-leftwave.html">
-          <img src="logo2.PNG" alt="Leftwave" loading="lazy"/>
-          <div class="a-card-shade"></div>
-          <div class="a-card-body">
-            <div class="a-name">Leftwave</div>
-            <div class="a-role">Artist</div>
-          </div>
-        </a>
-        <a class="a-card rv d2" href="artist-miles-hale.html">
-          <img src="vcr1.webp" alt="Miles Hale" loading="lazy"/>
-          <div class="a-card-shade"></div>
-          <div class="a-card-body">
-            <div class="a-name">Miles Hale</div>
-            <div class="a-role">Artist · Producer</div>
-          </div>
-        </a>
-      </div>
+      <div class="artists-grid" id="artistsGrid" data-from-json="true"></div>
     </div>
   </section>
 </main>
@@ -100,5 +75,6 @@
 </footer>
 
 <script src="vcr.js"></script>
+<script src="artists-data.js"></script>
 </body>
 </html>

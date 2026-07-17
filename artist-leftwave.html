@@ -4,12 +4,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Leftwave — VCR Recordings</title>
-  <meta name="description" content="Leftwave — artist on VCR Recordings. Atmospheric electronic music from the underground."/>
+  <meta name="description" content="Leftwave on VCR Recordings."/>
   <meta name="theme-color" content="#f2efe8"/>
   <link rel="stylesheet" href="vcr.css"/>
 </head>
-<body>
-
+<body data-artist="leftwave">
 <header class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-brand" aria-label="VCR Recordings home">
@@ -19,152 +18,36 @@
       <a href="index.html#releases">Releases</a>
       <a href="artists.html" class="active">Artists</a>
       <a href="shop.html">Merch</a>
-      <a href="index.html#listen">Listen</a>
+      <a href="cart.html">Cart</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-cart" href="cart.html" aria-label="Cart">
+      <a class="nav-cart" href="cart.html" aria-label="Cart" data-cart-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
         <span class="cart-badge" data-count="0"></span>
       </a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
-
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="index.html#releases">Releases</a>
   <a href="artists.html">Artists</a>
   <a href="shop.html">Merch</a>
-  <a href="index.html#listen">Listen</a>
+  <a href="cart.html">Cart</a>
 </div>
-
-<section class="artist-hero">
-  <div class="artist-hero-media">
-    <img src="logo2.PNG" alt="Leftwave" fetchpriority="high"/>
-  </div>
-  <div class="artist-hero-shade" aria-hidden="true"></div>
-  <div class="artist-hero-content">
-    <div class="crumbs" style="color:rgba(244,244,242,.55)">
-      <a href="index.html">Home</a><span>/</span><a href="artists.html">Artists</a><span>/</span>Leftwave
-    </div>
-    <h1>Leftwave</h1>
-    <div class="artist-meta-row">
-      <span class="tag">Artist</span>
-      <span class="tag">Electronic</span>
-      <span class="tag">Atmosphere</span>
-    </div>
-    <div class="social-links">
-      <a href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-      <a href="https://www.instagram.com/ltdrifta" target="_blank" rel="noopener">Instagram</a>
-    </div>
-  </div>
-</section>
-
-<main>
-  <section class="section">
-    <div class="wrap bio-grid">
-      <div class="bio-text rv">
-        <p>Leftwave arrives as a quieter current inside the VCR ecosystem — textures first, rhythm second, emotion always close to the surface.</p>
-        <p>Where pressure builds elsewhere on the label, Leftwave leans into space: soft distortion, submerged melodies, and electronic forms that feel cinematic without losing the underground edge. The project sits naturally beside VCR’s cassette culture — music that rewards listening in full, not fragments.</p>
-      </div>
-      <aside class="bio-aside glass-panel rv d1">
-        <div class="label">Profile</div>
-        <ul class="stat-list">
-          <li><span>Label</span><strong>VCR Recordings</strong></li>
-          <li><span>Role</span><strong>Artist</strong></li>
-          <li><span>Tone</span><strong>Atmospheric / Electronic</strong></li>
-          <li><span>Status</span><strong>Active</strong></li>
-        </ul>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-head rv">
-        <div>
-          <div class="eyebrow">From the label</div>
-          <h2 class="section-title">Releases &amp; Listening</h2>
-          <p class="section-desc">Explore the wider VCR catalog while Leftwave’s next chapter lands.</p>
-        </div>
-        <a class="link-more" href="index.html#releases">Browse catalog</a>
-      </div>
-      <div class="releases-grid">
-        <a class="rel-card rv" href="champ.html">
-          <div class="rel-art"><img src="champion.png" alt="Champion Sound" loading="lazy"/></div>
-          <div class="rel-body">
-            <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Champion Sound</div>
-            <div class="rel-meta">Featured on VCR</div>
-          </div>
-        </a>
-        <a class="rel-card rv d1" href="lion.html">
-          <div class="rel-art"><img src="lions.png" alt="Lions' Gate" loading="lazy"/></div>
-          <div class="rel-body">
-            <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Lions' Gate</div>
-            <div class="rel-meta">Listen now</div>
-          </div>
-        </a>
-        <a class="rel-card rv d2" href="classic.html">
-          <div class="rel-art"><img src="class.png" alt="Classic Jazz" loading="lazy"/></div>
-          <div class="rel-body">
-            <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Classic Jazz</div>
-            <div class="rel-meta">Digital + Cassette</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-head rv">
-        <div>
-          <div class="eyebrow">More from VCR</div>
-          <h2 class="section-title">Related Artists</h2>
-        </div>
-      </div>
-      <div class="related-grid">
-        <a class="a-card rv" href="artist-lt-drifta.html" style="aspect-ratio:16/10">
-          <img src="ltd.PNG" alt="LT Drifta" loading="lazy"/>
-          <div class="a-card-shade"></div>
-          <div class="a-card-body">
-            <div class="a-name">LT Drifta</div>
-            <div class="a-role">Artist · Producer</div>
-          </div>
-        </a>
-        <a class="a-card rv d1" href="artist-miles-hale.html" style="aspect-ratio:16/10">
-          <img src="vcr1.webp" alt="Miles Hale" loading="lazy"/>
-          <div class="a-card-shade"></div>
-          <div class="a-card-body">
-            <div class="a-name">Miles Hale</div>
-            <div class="a-role">Artist · Producer</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-</main>
-
+<main id="artistRoot"><p class="wrap section-desc" style="padding-top:calc(var(--nav-h) + 40px)">Loading…</p></main>
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <div>
       <div class="footer-brand">VCR Recordings</div>
-      <div class="footer-copy">© 2026 VCR Recordings. All rights reserved.</div>
+      <div class="footer-copy">© 2026 VCR Recordings.</div>
     </div>
     <div class="footer-links">
       <a href="artists.html">Artists</a>
-      <a href="shop.html">Merch</a>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
     </div>
   </div>
 </footer>
-
 <script src="vcr.js"></script>
+<script src="artists-data.js"></script>
 </body>
 </html>
