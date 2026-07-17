@@ -1564,43 +1564,7 @@ ul, ol { list-style: none; }
 }
 
 
-/* ── VHS modern flourishes ─────────────────────────────── */
-.vhs-modern {}
-
-.hero-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(18,17,16,0.04) 0 1px,
-      transparent 1px 3px
-    );
-  mix-blend-mode: multiply;
-  opacity: 0.7;
-  z-index: 1;
-}
-
-.hero-tracking {
-  position: absolute;
-  left: 0; right: 0;
-  height: 2px;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(26,167,184,0.35), rgba(196,61,122,0.28), transparent);
-  animation: trackingSweep 7.5s linear infinite;
-  opacity: 0.55;
-}
-@keyframes trackingSweep {
-  0% { top: 12%; opacity: 0; }
-  8% { opacity: 0.55; }
-  50% { top: 78%; }
-  92% { opacity: 0.35; }
-  100% { top: 88%; opacity: 0; }
-}
-
+/* ── Analog flourishes ─────────────────────────────────── */
 .hero-logo {
   filter:
     drop-shadow(1px 0 0 rgba(26,167,184,0.18))
@@ -1647,6 +1611,5 @@ ul, ol { list-style: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-tracking { display: none; }
   .hero-logo { animation: none; }
 }
