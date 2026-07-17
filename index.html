@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>VCR Recordings — Independent Electronic Music</title>
   <meta name="description" content="VCR Recordings — independent electronic music. Jungle, house, hip-hop and experimental releases from the underground."/>
-  <meta name="theme-color" content="#050507"/>
+  <meta name="theme-color" content="#f5f4f1"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <link rel="stylesheet" href="vcr.css"/>
 </head>
@@ -13,7 +13,9 @@
 
 <header class="site-nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-brand">VCR<span>·</span>Recordings</a>
+    <a href="index.html" class="nav-brand" aria-label="VCR Recordings home">
+      <img src="vcr-logo-nav.png" alt="VCR Recordings"/>
+    </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#featured">Featured</a>
       <a href="#releases">Releases</a>
@@ -43,12 +45,15 @@
 
 <section class="hero" id="top">
   <div class="hero-media">
-    <img src="logo2.avif" alt="" fetchpriority="high"/>
+    <img src="vcr-hero-banner.jpg" alt="" fetchpriority="high"/>
   </div>
+  <div class="hero-glitch" aria-hidden="true"></div>
   <div class="hero-shade" aria-hidden="true"></div>
   <div class="hero-content">
-    <h1 class="hero-brand">VCR <em>Recordings</em></h1>
-    <p class="hero-lead">Independent electronic music from the underground — jungle, hip-hop, and future-facing sound.</p>
+    <p class="hero-kicker">Independent label</p>
+    <h1 class="sr-only">VCR Recordings</h1>
+    <img class="hero-logo" src="vcr-logo-hero.png" alt="VCR Recordings"/>
+    <p class="hero-lead">Underground electronic music with analog grit — jungle, hip-hop, and future-facing sound.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#releases">Browse Catalog</a>
       <a class="btn btn-ghost" href="shop.html">Shop Merch</a>
