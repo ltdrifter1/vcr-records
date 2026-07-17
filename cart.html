@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Cart — VCR Recordings</title>
+  <meta name="description" content="Your VCR Recordings cart."/>
+  <meta name="theme-color" content="#f2efe8"/>
+  <link rel="stylesheet" href="vcr.css"/>
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" aria-label="VCR Recordings home">
+      <img src="vcr-logo-nav.png" alt="VCR Recordings"/>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#releases">Releases</a>
+      <a href="artists.html">Artists</a>
+      <a href="shop.html">Merch</a>
+      <a href="cart.html" class="active">Cart</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-cart" href="cart.html" data-cart-toggle aria-label="Cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-badge" data-count="0"></span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html#releases">Releases</a>
+  <a href="artists.html">Artists</a>
+  <a href="shop.html">Merch</a>
+  <a href="cart.html">Cart</a>
+</div>
+
+<main>
+  <section class="shop-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Home</a><span>/</span>Cart</div>
+      <h1>Cart</h1>
+      <p>Review your items, then continue to secure Stripe Checkout.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap cart-layout">
+      <div id="cartItems"></div>
+      <aside class="cart-summary glass-panel">
+        <div class="eyebrow">Summary</div>
+        <div class="cart-line"><span class="muted">Subtotal</span><span id="cartSub">$0.00</span></div>
+        <div class="cart-line"><span class="muted">Shipping</span><span>Calculated at checkout</span></div>
+        <div class="cart-line cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+        <button type="button" class="btn btn-primary btn-block" id="checkoutBtn" style="margin-top:16px">Checkout with Stripe</button>
+        <a class="btn btn-ghost btn-block" href="shop.html" style="margin-top:8px">Continue shopping</a>
+        <p class="small-note" id="cartMsg" role="status"></p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">VCR Recordings</div>
+      <div class="footer-copy">© 2026 VCR Recordings.</div>
+    </div>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="vcr.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const money = (n) => '$' + (n || 0).toFixed(2);
+  const itemsEl = document.getElementById('cartItems');
+  const subEl = document.getElementById('cartSub');
+  const totEl = document.getElementById('cartTotal');
+  const msg = document.getElementById('cartMsg');
+
+  function render() {
+    const cart = window.VCR.loadCart();
+    itemsEl.innerHTML = '';
+    let sub = 0;
+    if (!cart.items.length) {
+      itemsEl.innerHTML = '<div class="cart-empty glass-panel">Your cart is empty.<br><br><a class="btn btn-primary" href="shop.html">Browse merch</a></div>';
+    } else {
+      cart.items.forEach((it, idx) => {
+        sub += it.price * it.qty;
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML = `
+          <img src="${it.image || 'blank1400.png'}" alt=""/>
+          <div>
+            <div class="cart-item-title">${it.title}</div>
+            <div class="cart-item-meta">${[it.color, it.size].filter(Boolean).join(' · ') || 'Standard'} · ${money(it.price)}</div>
+            <div class="qty-wrap" style="margin-top:10px">
+              <button type="button" class="qty-btn" data-act="dec" aria-label="Decrease">−</button>
+              <input class="qty-input" value="${it.qty}" readonly aria-label="Quantity"/>
+              <button type="button" class="qty-btn" data-act="inc" aria-label="Increase">+</button>
+            </div>
+            <button type="button" class="cart-remove" data-act="rm">Remove</button>
+          </div>
+          <div><strong>${money(it.price * it.qty)}</strong></div>`;
+        row.querySelector('[data-act="dec"]').onclick = () => {
+          it.qty = Math.max(1, it.qty - 1); window.VCR.saveCart(cart); render();
+        };
+        row.querySelector('[data-act="inc"]').onclick = () => {
+          it.qty += 1; window.VCR.saveCart(cart); render();
+        };
+        row.querySelector('[data-act="rm"]').onclick = () => {
+          cart.items.splice(idx, 1); window.VCR.saveCart(cart); render();
+        };
+        itemsEl.appendChild(row);
+      });
+    }
+    subEl.textContent = money(sub);
+    totEl.textContent = money(sub);
+    return { cart, sub };
+  }
+
+  render();
+
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const { cart } = render();
+    if (!cart.items.length) { msg.textContent = 'Your cart is empty.'; return; }
+
+    const withLink = cart.items.filter((i) => i.stripe);
+    if (!withLink.length) {
+      msg.textContent = 'No Stripe payment link on these items. Update product/release data.';
+      return;
+    }
+
+    // Static checkout: open Stripe Payment Links (no serverless API)
+    msg.textContent = 'Opening Stripe…';
+    location.href = withLink[0].stripe;
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Contact — VCR Recordings</title>
+  <meta name="description" content="Contact VCR Recordings."/>
+  <meta name="theme-color" content="#f2efe8"/>
+  <link rel="stylesheet" href="vcr.css"/>
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" aria-label="VCR Recordings home">
+      <img src="vcr-logo-nav.png" alt="VCR Recordings"/>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#releases">Releases</a>
+      <a href="artists.html">Artists</a>
+      <a href="shop.html">Merch</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-cart" href="cart.html" data-cart-toggle aria-label="Cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-badge" data-count="0"></span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html#releases">Releases</a>
+  <a href="artists.html">Artists</a>
+  <a href="shop.html">Merch</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+  <section class="shop-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Home</a><span>/</span>Contact</div>
+      <h1 class="rv">Contact</h1>
+      <p class="rv d1">A&R, press, bookings, merch — send a note.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <form class="contact-form glass-panel rv" style="padding:24px" action="mailto:hello@vcrrecords.com" method="post" enctype="text/plain">
+        <label>Name
+          <input name="name" type="text" required autocomplete="name"/>
+        </label>
+        <label>Email
+          <input name="email" type="email" required autocomplete="email"/>
+        </label>
+        <label>Message
+          <textarea name="message" required placeholder="Tell us what’s up"></textarea>
+        </label>
+        <button class="btn btn-primary" type="submit">Send</button>
+        <p class="small-note">Or email <a href="mailto:hello@vcrrecords.com">hello@vcrrecords.com</a></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">VCR Recordings</div>
+      <div class="footer-copy">© 2026 VCR Recordings.</div>
+    </div>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="shop.html">Merch</a>
+    </div>
+  </div>
+</footer>
+<script src="vcr.js"></script>
+</body>
+</html>

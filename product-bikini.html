@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Bikini — VCR Recordings Merch</title>
+  <meta name="description" content="VCR Recordings Bikini — limited label piece. Black or white, sizes XS–L."/>
+  <meta name="theme-color" content="#f2efe8"/>
+  <link rel="stylesheet" href="vcr.css"/>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" aria-label="VCR Recordings home">
+      <img src="vcr-logo-nav.png" alt="VCR Recordings"/>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#releases">Releases</a>
+      <a href="artists.html">Artists</a>
+      <a href="shop.html" class="active">Merch</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-cart" href="cart.html" aria-label="Cart" data-cart-toggle>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-badge" data-count="0"></span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="shop.html">Merch</a>
+  <a href="artists.html">Artists</a>
+  <a href="index.html">Home</a>
+</div>
+
+<main>
+  <div class="wrap">
+    <div class="crumbs" style="padding-top:calc(var(--nav-h) + 16px)">
+      <a href="index.html">Home</a><span>/</span><a href="shop.html">Merch</a><span>/</span>Bikini
+    </div>
+
+    <div class="product-layout" data-product="bikini">
+      <div class="product-gallery rv">
+        <div class="product-main">
+          <img id="productMainImg" data-product-image src="img/bikini.webp" alt="VCR Bikini"/>
+        </div>
+        <div class="product-thumbs">
+          <button type="button" class="active" data-gallery-thumb="img/bikini.webp" aria-label="Black">
+            <img src="img/bikini.webp" alt=""/>
+          </button>
+          <button type="button" data-gallery-thumb="img/bikini2.webp" aria-label="White">
+            <img src="img/bikini2.webp" alt=""/>
+          </button>
+        </div>
+      </div>
+
+      <div class="product-info rv d1">
+        <div class="eyebrow">Limited</div>
+        <h1>Bikini</h1>
+        <div class="product-price">From $35.00</div>
+        <p class="product-desc">A limited VCR piece with bold presence. Multiple colourways, clean product photography, and a sticky checkout path built for mobile.</p>
+
+        <div class="product-opts">
+          <div>
+            <div class="opt-label">Colour</div>
+            <div class="merch-opts">
+              <button type="button" class="opt selected" data-option-group="colour" data-img="img/bikini.webp" data-img-target="productMainImg" aria-pressed="true">Black</button>
+              <button type="button" class="opt" data-option-group="colour" data-img="img/bikini2.webp" data-img-target="productMainImg" aria-pressed="false">White</button>
+            </div>
+          </div>
+          <div>
+            <div class="opt-label">Size</div>
+            <div class="merch-opts">
+              <button type="button" class="opt selected" data-option-group="size" aria-pressed="true">XS</button>
+              <button type="button" class="opt" data-option-group="size" aria-pressed="false">S</button>
+              <button type="button" class="opt" data-option-group="size" aria-pressed="false">M</button>
+              <button type="button" class="opt" data-option-group="size" aria-pressed="false">L</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sticky-atc glass-strong">
+          <div class="sticky-meta">
+            <strong>Bikini</strong>
+            <span id="stickyVariant">Black / XS</span>
+          </div>
+          <button class="btn btn-primary" id="addCartBtn" type="button" data-label="Add to cart — $35">Add to cart — $35</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" style="padding-top:0">
+      <div class="section-head rv">
+        <div>
+          <div class="eyebrow">Also available</div>
+          <h2 class="section-title">You may also like</h2>
+        </div>
+      </div>
+      <div class="recs-grid">
+        <a class="merch-card rv" href="product-tshirt.html">
+          <div class="merch-img"><img src="img/shirt.webp" alt="T-Shirt" loading="lazy"/></div>
+          <div class="merch-body">
+            <div class="merch-name">T-Shirt</div>
+            <div class="merch-price">From $30.00</div>
+          </div>
+        </a>
+        <a class="merch-card rv d1" href="product-hat.html">
+          <div class="merch-img"><img src="img/hat.webp" alt="Dad Cap" loading="lazy"/></div>
+          <div class="merch-body">
+            <div class="merch-name">Dad Cap</div>
+            <div class="merch-price">$25.00</div>
+          </div>
+        </a>
+        <a class="merch-card rv d2" href="classic.html">
+          <div class="merch-img"><img src="img/classic.webp" alt="Classic Jazz" loading="lazy" style="object-fit:cover;width:100%;height:100%;padding:0"/></div>
+          <div class="merch-body">
+            <div class="merch-name">Classic Jazz</div>
+            <div class="merch-price">Release</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">VCR Recordings</div>
+      <div class="footer-copy">© 2026 VCR Recordings.</div>
+    </div>
+    <div class="footer-links">
+      <a href="shop.html">Merch</a>
+      <a href="artists.html">Artists</a>
+    </div>
+  </div>
+</footer>
+
+<script src="vcr.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector('[data-product="bikini"]');
+  const sticky = document.getElementById('stickyVariant');
+  const buy = document.getElementById('addCartBtn');
+  const STRIPE = 'https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m';
+
+  function selected(group) {
+    const el = root.querySelector(`[data-option-group="${group}"].selected`);
+    return el ? el.textContent.trim() : '';
+  }
+
+  function sync() {
+    sticky.textContent = `${selected('colour')} / ${selected('size')}`;
+  }
+
+  root.addEventListener('vcr:optionchange', sync);
+  sync();
+
+  buy.addEventListener('click', () => {
+    const colour = selected('colour');
+    const size = selected('size');
+    window.VCR.addToCart({
+      id: 'bikini',
+      title: 'Bikini',
+      price: 35,
+      colour,
+      size,
+      image: document.getElementById('productMainImg').src,
+      stripe: STRIPE,
+      qty: 1
+    });
+    buy.textContent = 'Added';
+    setTimeout(() => { buy.textContent = buy.dataset.label || 'Add to cart'; }, 1200);
+  });
+});
+</script>
+</body>
+</html>

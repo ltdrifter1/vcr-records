@@ -1,0 +1,24 @@
+{
+  "baseUrl": "",
+  "folderTemplate": "{id}",
+  "notes": [
+    "iCloud Drive cannot stream publicly (auth + CORS). Keep masters in iCloud, sync the same tree to a public host, then set baseUrl.",
+    "Recommended public hosts: Cloudflare R2, AWS S3, Backblaze B2, Bunny Storage, or any static file host with CORS enabled for vcrrecords.com.",
+    "Suggested layout (mirror in iCloud and public bucket): releases/<release-id>/preview.mp3, 01-track.mp3, download.zip",
+    "Set baseUrl to the public origin that contains those folders, e.g. https://media.vcrrecords.com/releases",
+    "Each release uses mediaFolder (defaults to release id). Preview, track files, and digital downloads all resolve from that same folder.",
+    "Until baseUrl is set, the site falls back to local/legacy audio files in the repo."
+  ],
+  "example": {
+    "baseUrl": "https://media.vcrrecords.com/releases",
+    "icloudRoot": "iCloud Drive/VCR Media/releases",
+    "releaseFolder": {
+      "champion-sound": [
+        "preview.mp3",
+        "01-hold-you.mp3",
+        "02-lakeshore-west.mp3",
+        "download.zip"
+      ]
+    }
+  }
+}

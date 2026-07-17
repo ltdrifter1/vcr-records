@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Thank you — VCR Recordings</title>
+  <meta name="theme-color" content="#f2efe8"/>
+  <link rel="stylesheet" href="vcr.css"/>
+</head>
+<body>
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" aria-label="VCR Recordings home">
+      <img src="vcr-logo-nav.png" alt="VCR Recordings"/>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Merch</a>
+      <a href="cart.html" class="nav-cart" data-cart-toggle aria-label="Cart">Cart <span class="cart-badge" hidden>0</span></a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="shop-hero">
+    <div class="wrap">
+      <h1>Thank you</h1>
+      <p>Your order is confirmed. A receipt is on the way if you shared an email at checkout.</p>
+
+      <div id="downloadPanel" class="download-panel glass-panel" hidden>
+        <div class="eyebrow">Digital downloads</div>
+        <p class="section-desc" style="margin-top:8px;max-width:36rem">
+          Same folder as the stream — grab your files below.
+        </p>
+        <ul id="downloadList" class="download-list"></ul>
+        <p class="small-note" id="downloadNote"></p>
+      </div>
+
+      <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:10px">
+        <a class="btn btn-primary" href="index.html#releases">Back to catalog</a>
+        <a class="btn btn-ghost" href="shop.html">Merch</a>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="vcr.js"></script>
+<script src="media.js"></script>
+<script>
+  try {
+    localStorage.setItem('vcr_cart_v1', JSON.stringify({ items: [] }));
+  } catch (e) {}
+  if (window.VCR && window.VCR.updateCartBadge) window.VCR.updateCartBadge();
+
+  (async function () {
+    const panel = document.getElementById('downloadPanel');
+    const list = document.getElementById('downloadList');
+    const note = document.getElementById('downloadNote');
+    let pending = [];
+    try {
+      pending = JSON.parse(sessionStorage.getItem('vcr_pending_downloads') || '[]');
+    } catch (_) {}
+
+    if (!pending.length) return;
+
+    const mediaCfg = await window.VCRMedia.loadMediaConfig();
+    let releases = [];
+    try {
+      const res = await fetch('data/releases.json', { cache: 'no-store' });
+      const data = await res.json();
+      releases = data.releases || [];
+    } catch (_) {}
+
+    const items = pending.map((p) => {
+      const release = releases.find((r) => r.id === p.releaseId);
+      let url = p.url || '';
+      let folder = p.folder || '';
+      if (release) {
+        folder = window.VCRMedia.folderFor(release, mediaCfg);
+        url = window.VCRMedia.downloadUrl(release, mediaCfg) || url;
+      }
+      return {
+        title: p.title || (release ? release.artist + ' — ' + release.title : p.releaseId),
+        url,
+        folder,
+      };
+    }).filter((x) => x.url);
+
+    if (!items.length) return;
+
+    list.innerHTML = items
+      .map(
+        (item) => `
+      <li>
+        <div>
+          <strong>${item.title.replace(/</g, '&lt;')}</strong>
+          ${item.folder ? `<span class="small-note" style="display:block;margin:0">Folder · ${item.folder.replace(/</g, '&lt;')}</span>` : ''}
+        </div>
+        <a class="btn btn-primary" href="${item.url.replace(/"/g, '&quot;')}" download>Download</a>
+      </li>`
+      )
+      .join('');
+
+    panel.hidden = false;
+    note.textContent = mediaCfg.baseUrl
+      ? 'Files come from your public media folder (synced from iCloud).'
+      : 'Set data/media.json baseUrl to serve packs from your synced public folder.';
+
+    try {
+      sessionStorage.removeItem('vcr_pending_downloads');
+    } catch (_) {}
+  })();
+</script>
+</body>
+</html>
