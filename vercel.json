@@ -2,6 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": false,
   "trailingSlash": false,
+  "functions": {
+    "api/create-checkout-session.js": {
+      "memory": 1024,
+      "maxDuration": 15,
+      "includeFiles": "api/_lib/**"
+    }
+  },
   "headers": [
     {
       "source": "/data/(.*)",

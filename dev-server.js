@@ -2,7 +2,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createCheckoutSession, getStripe } from './lib/create-checkout.js';
+import { createCheckoutSession, getStripe } from './api/_lib/create-checkout.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -15,7 +15,7 @@ if (!getStripe()) {
 
 async function checkoutHandler(req, res) {
   try {
-    const result = await createCheckoutSession(req.body || {});
+    const result = await createCheckoutSession(req.body || {}, req);
     res.json(result);
   } catch (err) {
     console.error(err);
@@ -31,7 +31,7 @@ async function checkoutHandler(req, res) {
 }
 
 app.post('/api/create-checkout-session', checkoutHandler);
-app.post('/create-checkout-session', checkoutHandler); // legacy local path
+app.post('/create-checkout-session', checkoutHandler);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`VCR server on http://localhost:${port}`));

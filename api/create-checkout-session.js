@@ -1,19 +1,46 @@
-import { createCheckoutSession } from '../lib/create-checkout.js';
+import { createCheckoutSession } from './_lib/create-checkout.js';
 
-export async function POST(request) {
+/**
+ * Classic Vercel Node.js serverless handler.
+ * GET returns a health JSON so opening the URL in a browser does not crash.
+ */
+export default async function handler(req, res) {
   try {
-    const body = await request.json();
-    const result = await createCheckoutSession(body);
-    return Response.json(result);
+    if (req.method === 'GET' || req.method === 'HEAD') {
+      return res.status(200).json({
+        ok: true,
+        endpoint: '/api/create-checkout-session',
+        method: 'POST',
+        stripeConfigured: Boolean(process.env.STRIPE_SECRET_KEY),
+      });
+    }
+
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST, GET');
+      return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body || '{}');
+      } catch {
+        return res.status(400).json({ error: 'Invalid JSON body' });
+      }
+    }
+    if (!body || typeof body !== 'object') body = {};
+
+    const result = await createCheckoutSession(body, req);
+    return res.status(200).json(result);
   } catch (err) {
-    console.error(err);
-    const status = err.status || 500;
+    console.error('checkout error', err);
+    const status = Number(err.status) || 500;
     const message =
       status === 503
         ? 'Stripe is not configured'
         : status === 400
-          ? err.message
+          ? err.message || 'Bad request'
           : 'Unable to create checkout session';
-    return Response.json({ error: message }, { status });
+    return res.status(status).json({ error: message });
   }
 }
