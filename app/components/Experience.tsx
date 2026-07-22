@@ -295,7 +295,7 @@ export default function Experience() {
       </Canvas>
 
       <FilmFX />
-      <CustomCursor enabled={canLook} />
+      <CustomCursor enabled />
       <MuteControl visible={canLook} unlocked={live} faded={videoFocused} />
       <GyroButton visible={canLook} gyroRef={gyroRef} />
       <TopNav visible={canLook} activeId={active} onOpen={open} />

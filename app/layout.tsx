@@ -19,11 +19,11 @@ const body = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'VCR Records — Video Cassette Recordings',
+  title: 'VCR Recordings — Independent Electronic Music',
   description:
-    'Step inside the VCR Records store. A full 360° illustrated jungle & drum and bass record shop. Look around, explore, and discover.',
+    'Step inside the VCR Recordings store. A full 360° illustrated record shop. Look around, explore, and discover.',
   keywords: [
-    'VCR Records',
+    'VCR Recordings',
     'jungle',
     'drum and bass',
     'record store',
@@ -32,14 +32,14 @@ export const metadata: Metadata = {
     'underground',
   ],
   openGraph: {
-    title: 'VCR Records',
-    description: 'An interactive 360° underground record-store. Look around, explore, discover.',
+    title: 'VCR Recordings',
+    description: 'An interactive 360° record store. Look around, explore, discover.',
     type: 'website',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#e9b21d',
+  themeColor: '#0b1f18',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
