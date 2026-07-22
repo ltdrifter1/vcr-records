@@ -200,38 +200,31 @@ export default function Experience() {
     (id: string) => {
       if (!lookEnabledRef.current || controls.lookAnimating) return;
 
-      // Toggle off if same focused feature re-clicked via nav
-      if (focusedRef.current === id && (active === id || id === 'cash-register')) {
-        close({ force: true });
-        return;
-      }
-
       const section = SECTION_BY_ID[id];
       if (!section) return;
 
-      openedAt.current = Date.now();
-      setShowCompass(false);
-      setCrtArmed(false);
-
-      // —— Shop / cash register: lookto + glow latch + outbound (no panel) ——
+      // —— Shop / cash register = balmingtiger shopbag ——
+      // No lookto, no glow latch (hoverOut always clears). Click → SFX +
+      // window.open after 500ms (data.js clickShopbag).
       if (id === 'cash-register') {
         playSfx('shop');
         panelOpenRef.current.value = false;
         setActive(null);
-        setFocusedId(id);
-        focusedRef.current = id;
-        focusReadyAt.current = Date.now() + (reduceMotion ? 0 : 2100);
-
-        if (reduceMotion) {
-          controls.lookTarget.x = uToYaw(section.lookU ?? section.u);
-          controls.lookTarget.y = vToPitch(section.lookV ?? section.v);
-          controls.mfov = section.lookFov;
-        } else {
-          lookToSection(controls, section, { duration: 2 });
-        }
-        window.open(SHOP_URL, '_blank', 'noopener,noreferrer');
+        window.setTimeout(() => {
+          window.open(SHOP_URL, '_blank', 'noopener,noreferrer');
+        }, 500);
         return;
       }
+
+      // Toggle off if same focused feature re-clicked via nav
+      if (focusedRef.current === id && active === id) {
+        close({ force: true });
+        return;
+      }
+
+      openedAt.current = Date.now();
+      setShowCompass(false);
+      setCrtArmed(false);
 
       // —— Listening booth (+ other panels): lookto + glow latch + panel ——
       panelOpenRef.current.value = true;

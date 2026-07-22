@@ -61,6 +61,11 @@ export type Section = {
   lookFov: number;
   /** Object SFX key played on focus (see lib/audio.ts). */
   sfx: string;
+  /**
+   * balmingtiger shopbag: glow is hover-only (no active_scene latch).
+   * Music/tour/contact latch while focused; shop does not.
+   */
+  glowLatches?: boolean;
   /** list rendered inside the panel */
   items: SectionItem[];
 };
@@ -222,12 +227,14 @@ export const SECTIONS: Section[] = [
     intro:
       'The drawer sticks unless you hit it just right. Fresh pressings, dusty repress, and a tin of badges by the till.',
     accent: '#9dff8a',
-    u: 0.58,
-    v: 0.52,
-    w: 5.5,
-    h: 5,
+    // File u≈0.422 → spherical u = 1 − file_u after BackSide flip
+    u: 0.578,
+    v: 0.521,
+    w: 6.2,
+    h: 5.6,
     lookFov: 70,
     sfx: 'shop',
+    glowLatches: false,
     items: [
       { label: 'VCR-013 — Dread at the Controls', meta: '12" Vinyl', detail: '£12', cta: 'Buy', thumb: '13', href: '#shop' },
       { label: 'VCR-011 — Nocturne LP', meta: 'Double 12"', detail: '£18', cta: 'Buy', thumb: '11', href: '#shop' },
