@@ -16,13 +16,38 @@ export type SectionItem = {
   cta?: string;
   /** Outbound / mailto / hash link for the CTA. */
   href?: string;
-  /** Accent letter / glyph shown in the glass thumb. */
+  /** Accent letter / glyph fallback when no thumbSrc. */
   thumb?: string;
+  /** Real cover / flyer art under /public/panel-thumbs. */
+  thumbSrc?: string;
   /** Music nest — track list shown in level-2 detail. */
   tracks?: TrackItem[];
   /** Music nest — streaming pills. */
   listenOn?: ListenLink[];
 };
+
+const T = {
+  atHome: '/panel-thumbs/at-home.webp',
+  summer: '/panel-thumbs/summer.webp',
+  lions: '/panel-thumbs/lions.webp',
+  rack: '/panel-thumbs/rack.webp',
+  testpress: '/panel-thumbs/testpress.webp',
+  classic: '/panel-thumbs/classic.webp',
+  poetry: '/panel-thumbs/poetry.webp',
+  future: '/panel-thumbs/future.webp',
+  ltd: '/panel-thumbs/ltd.webp',
+  vcr: '/panel-thumbs/vcr.webp',
+  logo: '/panel-thumbs/logo.webp',
+  email: '/panel-thumbs/email.webp',
+  info: '/panel-thumbs/info.webp',
+  ig: '/panel-thumbs/ig.webp',
+  yt: '/panel-thumbs/yt.webp',
+  shop: '/panel-thumbs/shop.webp',
+  about: '/panel-thumbs/about.webp',
+  bc: '/panel-thumbs/bc.webp',
+  cover1: '/panel-thumbs/cover1.webp',
+  cover2: '/panel-thumbs/cover2.webp',
+} as const;
 
 export type Section = {
   /** stable id / route slug */
@@ -126,6 +151,7 @@ export const SECTIONS: Section[] = [
         detail: 'Listen',
         cta: 'Open',
         thumb: 'AH',
+        thumbSrc: T.atHome,
         href: SHOP.atHome,
         tracks: [
           { title: 'TRACK 1 — At Home', duration: '—' },
@@ -142,6 +168,7 @@ export const SECTIONS: Section[] = [
         detail: 'Listen',
         cta: 'Open',
         thumb: 'SM',
+        thumbSrc: T.summer,
         href: SHOP.summer,
         tracks: [
           { title: 'TRACK 1 — Summer Mix', duration: '—' },
@@ -158,6 +185,7 @@ export const SECTIONS: Section[] = [
         detail: 'Listen',
         cta: 'Open',
         thumb: 'LG',
+        thumbSrc: T.lions,
         href: SHOP.lion,
         tracks: [
           { title: 'TRACK 1 — Lions Gate', duration: '—' },
@@ -174,6 +202,7 @@ export const SECTIONS: Section[] = [
         detail: 'Listen',
         cta: 'Open',
         thumb: 'RK',
+        thumbSrc: T.rack,
         href: SHOP.rack,
         tracks: [
           { title: 'Full album on Bandcamp', duration: '' },
@@ -189,6 +218,7 @@ export const SECTIONS: Section[] = [
         detail: 'Browse',
         cta: 'Open',
         thumb: 'VC',
+        thumbSrc: T.vcr,
         href: BANDCAMP,
         tracks: [
           { title: 'Everything on the label Bandcamp', duration: '' },
@@ -214,10 +244,10 @@ export const SECTIONS: Section[] = [
     lookFov: 20,
     sfx: 'video',
     items: [
-      { label: 'About VCR Recordings', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', href: YOUTUBE_ABOUT },
-      { label: 'Test Press — LT Drifta', meta: 'Release film / audio', detail: 'Watch', cta: 'Open', thumb: 'TP', href: SHOP.testpress },
-      { label: 'Classic Cuts', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'CL', href: SHOP.classic },
-      { label: 'Future Boy', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'FB', href: SHOP.future },
+      { label: 'About VCR Recordings', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', thumbSrc: T.yt, href: YOUTUBE_ABOUT },
+      { label: 'Test Press — LT Drifta', meta: 'Release film / audio', detail: 'Watch', cta: 'Open', thumb: 'TP', thumbSrc: T.testpress, href: SHOP.testpress },
+      { label: 'Classic Cuts', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'CL', thumbSrc: T.classic, href: SHOP.classic },
+      { label: 'Future Boy', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'FB', thumbSrc: T.future, href: SHOP.future },
     ],
   },
   {
@@ -237,12 +267,12 @@ export const SECTIONS: Section[] = [
     lookFov: 85,
     sfx: 'artists',
     items: [
-      { label: 'LT Drifta', meta: 'Jungle / Steppa', detail: 'Bandcamp', cta: 'Listen', thumb: 'LD', href: 'https://ltdrifta.bandcamp.com' },
-      { label: 'Inlet Knight', meta: 'At Home', detail: 'Bandcamp', cta: 'Listen', thumb: 'IK', href: 'https://inletknight.bandcamp.com' },
-      { label: 'Drifta', meta: 'Lions Gate', detail: 'Bandcamp', cta: 'Listen', thumb: 'DR', href: 'https://drifta.bandcamp.com' },
-      { label: 'Felix Hastings', meta: 'Edits / singles', detail: 'Bandcamp', cta: 'Listen', thumb: 'FH', href: 'https://fhastings.bandcamp.com' },
-      { label: 'VCR Recordings', meta: 'Full label', detail: 'Bandcamp', cta: 'Browse', thumb: 'VC', href: BANDCAMP },
-      { label: 'All releases', meta: 'In the shop', detail: 'Catalog', cta: 'Shop', thumb: 'SH', href: SHOP.home },
+      { label: 'LT Drifta', meta: 'Jungle / Steppa', detail: 'Bandcamp', cta: 'Listen', thumb: 'LD', thumbSrc: T.ltd, href: 'https://ltdrifta.bandcamp.com' },
+      { label: 'Inlet Knight', meta: 'At Home', detail: 'Bandcamp', cta: 'Listen', thumb: 'IK', thumbSrc: T.atHome, href: 'https://inletknight.bandcamp.com' },
+      { label: 'Drifta', meta: 'Lions Gate', detail: 'Bandcamp', cta: 'Listen', thumb: 'DR', thumbSrc: T.lions, href: 'https://drifta.bandcamp.com' },
+      { label: 'Felix Hastings', meta: 'Edits / singles', detail: 'Bandcamp', cta: 'Listen', thumb: 'FH', thumbSrc: T.cover1, href: 'https://fhastings.bandcamp.com' },
+      { label: 'VCR Recordings', meta: 'Full label', detail: 'Bandcamp', cta: 'Browse', thumb: 'VC', thumbSrc: T.vcr, href: BANDCAMP },
+      { label: 'All releases', meta: 'In the shop', detail: 'Catalog', cta: 'Shop', thumb: 'SH', thumbSrc: T.shop, href: SHOP.home },
     ],
   },
   {
@@ -264,11 +294,11 @@ export const SECTIONS: Section[] = [
     sfx: 'shop',
     glowLatches: false,
     items: [
-      { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', href: SHOP.atHome },
-      { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', href: SHOP.summer },
-      { label: 'Lions Gate — Drifta', meta: 'Single', detail: 'Buy / stream', cta: 'Buy', thumb: 'LG', href: SHOP.lion },
-      { label: 'Rack Em — LT Drifta', meta: 'Album', detail: 'Buy / stream', cta: 'Buy', thumb: 'RK', href: SHOP.rack },
-      { label: 'Full shop', meta: 'All releases', detail: 'Browse', cta: 'Shop', thumb: 'SH', href: SHOP.home },
+      { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
+      { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', thumbSrc: T.summer, href: SHOP.summer },
+      { label: 'Lions Gate — Drifta', meta: 'Single', detail: 'Buy / stream', cta: 'Buy', thumb: 'LG', thumbSrc: T.lions, href: SHOP.lion },
+      { label: 'Rack Em — LT Drifta', meta: 'Album', detail: 'Buy / stream', cta: 'Buy', thumb: 'RK', thumbSrc: T.rack, href: SHOP.rack },
+      { label: 'Full shop', meta: 'All releases', detail: 'Browse', cta: 'Shop', thumb: 'SH', thumbSrc: T.shop, href: SHOP.home },
     ],
   },
   {
@@ -288,11 +318,11 @@ export const SECTIONS: Section[] = [
     lookFov: 80,
     sfx: 'archive',
     items: [
-      { label: 'About the label', meta: 'Story', detail: 'Read', cta: 'View', thumb: 'AB', href: SHOP.about },
-      { label: 'Poetry / Drum Poetry', meta: 'Release', detail: 'Open', cta: 'View', thumb: 'PO', href: SHOP.poetry },
-      { label: 'Classic archive', meta: 'Cuts', detail: 'Open', cta: 'View', thumb: 'CL', href: SHOP.classic },
-      { label: 'Bandcamp catalog', meta: 'Everything', detail: 'Browse', cta: 'View', thumb: 'BC', href: BANDCAMP },
-      { label: 'Instagram board', meta: '@vcr_recordings', detail: 'Follow', cta: 'View', thumb: 'IG', href: INSTAGRAM },
+      { label: 'About the label', meta: 'Story', detail: 'Read', cta: 'View', thumb: 'AB', thumbSrc: T.about, href: SHOP.about },
+      { label: 'Poetry / Drum Poetry', meta: 'Release', detail: 'Open', cta: 'View', thumb: 'PO', thumbSrc: T.poetry, href: SHOP.poetry },
+      { label: 'Classic archive', meta: 'Cuts', detail: 'Open', cta: 'View', thumb: 'CL', thumbSrc: T.classic, href: SHOP.classic },
+      { label: 'Bandcamp catalog', meta: 'Everything', detail: 'Browse', cta: 'View', thumb: 'BC', thumbSrc: T.bc, href: BANDCAMP },
+      { label: 'Instagram board', meta: '@vcr_recordings', detail: 'Follow', cta: 'View', thumb: 'IG', thumbSrc: T.ig, href: INSTAGRAM },
     ],
   },
   {
@@ -313,10 +343,10 @@ export const SECTIONS: Section[] = [
     lookFov: 60,
     sfx: 'phone',
     items: [
-      { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', href: CONTACT_EMAIL },
-      { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', href: DEMOS_EMAIL },
-      { label: '@vcr_recordings', meta: 'Instagram', detail: 'Follow', cta: 'Follow', thumb: '@', href: INSTAGRAM },
-      { label: 'Contact page', meta: 'In the shop', detail: 'Open', cta: 'Open', thumb: 'CT', href: SHOP.contact },
+      { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', thumbSrc: T.email, href: CONTACT_EMAIL },
+      { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', thumbSrc: T.info, href: DEMOS_EMAIL },
+      { label: '@vcr_recordings', meta: 'Instagram', detail: 'Follow', cta: 'Follow', thumb: '@', thumbSrc: T.ig, href: INSTAGRAM },
+      { label: 'Contact page', meta: 'In the shop', detail: 'Open', cta: 'Open', thumb: 'CT', thumbSrc: T.shop, href: SHOP.contact },
     ],
   },
   {
@@ -336,10 +366,10 @@ export const SECTIONS: Section[] = [
     lookFov: 70,
     sfx: 'door',
     items: [
-      { label: 'About VCR Recordings', meta: 'Origin story', detail: 'Read', cta: 'Read', thumb: 'AB', href: SHOP.about },
-      { label: 'Label Bandcamp', meta: 'The catalog', detail: 'Browse', cta: 'Open', thumb: 'BC', href: BANDCAMP },
-      { label: 'Watch the intro', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', href: YOUTUBE_ABOUT },
-      { label: 'Instagram', meta: '@vcr_recordings', detail: 'Follow', cta: 'Follow', thumb: 'IG', href: INSTAGRAM },
+      { label: 'About VCR Recordings', meta: 'Origin story', detail: 'Read', cta: 'Read', thumb: 'AB', thumbSrc: T.about, href: SHOP.about },
+      { label: 'Label Bandcamp', meta: 'The catalog', detail: 'Browse', cta: 'Open', thumb: 'BC', thumbSrc: T.bc, href: BANDCAMP },
+      { label: 'Watch the intro', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', thumbSrc: T.yt, href: YOUTUBE_ABOUT },
+      { label: 'Instagram', meta: '@vcr_recordings', detail: 'Follow', cta: 'Follow', thumb: 'IG', thumbSrc: T.ig, href: INSTAGRAM },
     ],
   },
 ];

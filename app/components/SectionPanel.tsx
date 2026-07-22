@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import gsap from 'gsap';
 
 import { SECTION_BY_ID, type SectionItem } from '@/app/data/sections';
@@ -21,6 +21,7 @@ export default function SectionPanel({
   const [detail, setDetail] = useState<SectionItem | null>(null);
   const level1 = useRef<HTMLDivElement>(null);
   const level2 = useRef<HTMLDivElement>(null);
+  const backBtn = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -29,7 +30,11 @@ export default function SectionPanel({
     if (activeId) {
       setShownId(activeId);
       setDetail(null);
-      const raf = requestAnimationFrame(() => setOpen(true));
+      const raf = requestAnimationFrame(() => {
+        setOpen(true);
+        // Move focus into the dialog for keyboard users
+        backBtn.current?.focus({ preventScroll: true });
+      });
       return () => cancelAnimationFrame(raf);
     }
 
@@ -40,7 +45,7 @@ export default function SectionPanel({
 
   useEffect(() => {
     if (!activeId) return;
-    const onKey = (e: KeyboardEvent) => {
+    const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (detail) setDetail(null);
         else onClose();
@@ -87,16 +92,22 @@ export default function SectionPanel({
       return;
     }
     if (!item.href) return;
-    const external =
-      item.href.startsWith('http') ||
-      item.href.startsWith('mailto:') ||
-      item.href.startsWith('/shop');
     if (item.href.startsWith('mailto:')) {
       window.location.href = item.href;
       return;
     }
-    if (external) {
+    if (
+      item.href.startsWith('http') ||
+      item.href.startsWith('/shop')
+    ) {
       window.open(item.href, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const onRowKey = (e: KeyboardEvent<HTMLElement>, item: SectionItem) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openItem(item);
     }
   };
 
@@ -120,6 +131,7 @@ export default function SectionPanel({
         onPointerDown={(e) => e.stopPropagation()}
       >
         <button
+          ref={backBtn}
           className="panel-back"
           onClick={handleBack}
           aria-label={detail ? 'Back' : 'Close'}
@@ -135,20 +147,35 @@ export default function SectionPanel({
               <h2 className="panel-title">{section.title}</h2>
               <p className="panel-intro">{section.intro}</p>
 
-              <div className="panel-list">
+              <div className="panel-list" role="list">
                 {section.items.map((it, i) => (
                   <article
                     key={i}
                     className="panel-row"
+                    role="listitem"
+                    tabIndex={0}
                     data-cursor="click"
+                    aria-label={`${it.cta ?? 'Open'} ${it.label}`}
                     onClick={() => openItem(it)}
+                    onKeyDown={(e) => onRowKey(e, it)}
                   >
                     <div
-                      className="panel-thumb"
-                      style={{ background: `color-mix(in srgb, ${section.accent} 55%, #1a1410)` }}
+                      className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}`}
+                      style={
+                        it.thumbSrc
+                          ? undefined
+                          : {
+                              background: `color-mix(in srgb, ${section.accent} 55%, #1a1410)`,
+                            }
+                      }
                       aria-hidden
                     >
-                      <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
+                      {it.thumbSrc ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={it.thumbSrc} alt="" width={72} height={72} loading="lazy" />
+                      ) : (
+                        <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
+                      )}
                     </div>
                     <div className="panel-row-body">
                       <span className="pc-label">{it.label}</span>
@@ -169,7 +196,19 @@ export default function SectionPanel({
               <div className="panel-level panel-level-2" ref={level2}>
                 <p className="panel-kicker">{section.kicker}</p>
                 <h2 className="panel-title panel-title-sm">{detail.label}</h2>
-                {detail.meta && <p className="panel-intro">{detail.meta}{detail.detail ? ` · ${detail.detail}` : ''}</p>}
+                {detail.meta && (
+                  <p className="panel-intro">
+                    {detail.meta}
+                    {detail.detail ? ` · ${detail.detail}` : ''}
+                  </p>
+                )}
+
+                {detail.thumbSrc && (
+                  <div className="panel-detail-art" aria-hidden>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={detail.thumbSrc} alt="" width={120} height={120} />
+                  </div>
+                )}
 
                 <ul className="panel-tracks">
                   {(detail.tracks ?? []).map((t, i) => (

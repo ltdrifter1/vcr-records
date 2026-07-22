@@ -5,28 +5,32 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>VCR Recordings — Independent Electronic Music</title>
   <meta name="description" content="VCR Recordings — independent electronic music. Jungle, house, hip-hop and experimental music."/>
-  <meta name="theme-color" content="#f5f5f7"/>
+  <meta name="theme-color" content="#0b1f18"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f5f5f7;
+      /* Soft bridge from the 360 PNW/cel homepage — keep catalog light, echo forest + mint */
+      --bg: #f2f5f3;
       --surface: #ffffff;
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-      --dim: #86868b;
-      --line: rgba(0,0,0,.08);
-      --fill: rgba(0,0,0,.04);
-      --fill-hi: rgba(0,0,0,.07);
-      --shadow: 0 2px 16px rgba(0,0,0,.05);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,.08);
+      --text: #14261c;
+      --muted: #5a6b62;
+      --dim: #7a8a82;
+      --line: rgba(20, 38, 28, .10);
+      --fill: rgba(20, 38, 28, .04);
+      --fill-hi: rgba(20, 38, 28, .07);
+      --accent: #16382c;
+      --mint: #7dffb3;
+      --butter: #ffe566;
+      --shadow: 0 2px 16px rgba(20, 38, 28, .06);
+      --shadow-lg: 0 12px 40px rgba(20, 38, 28, .09);
       --radius: 18px;
       --pill: 980px;
       --ease: cubic-bezier(.25,.1,.25,1);
       --dur: 300ms;
-      --sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
       --wrap: 1080px;
@@ -51,18 +55,27 @@
       font-family: inherit; cursor: pointer; border: none; background: none;
       -webkit-tap-highlight-color: transparent;
     }
-    ::selection { background: rgba(0,0,0,.12); }
+    ::selection { background: rgba(125, 255, 179, .35); color: #0b1f18; }
 
     /* NAV */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       height: calc(var(--nav-h) + var(--safe-t));
       padding-top: var(--safe-t);
-      background: rgba(245,245,247,.82);
+      background: rgba(242, 245, 243, .86);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid transparent;
       transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .nav::before {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--mint) 55%, var(--butter));
+      opacity: .85;
+      pointer-events: none;
     }
     .nav.scrolled {
       background: rgba(255,255,255,.9);
@@ -133,11 +146,11 @@
       transition: opacity var(--dur) var(--ease), transform 180ms var(--ease), background var(--dur) var(--ease);
     }
     .btn:active { transform: scale(.97); }
-    .btn-dark { background: #1d1d1f; color: #fff; }
+    .btn-dark { background: var(--accent); color: #fff; }
     .btn-ghost { background: var(--fill-hi); color: var(--text); }
     @media (hover:hover) {
-      .btn-dark:hover { opacity: .86; }
-      .btn-ghost:hover { background: rgba(0,0,0,.1); }
+      .btn-dark:hover { opacity: .9; background: #0b1f18; }
+      .btn-ghost:hover { background: rgba(20,38,28,.1); }
     }
 
     /* Layout */
@@ -513,7 +526,7 @@
   <section class="listen" id="listen">
     <div class="listen-inner">
       <div id="listenBlock"
-           data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f5f5f7/linkcol=1d1d1f/transparent=true/autoplay=1/">
+           data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f2f5f3/linkcol=16382c/transparent=true/autoplay=1/">
         <button class="listen-trig" id="listenTrig" aria-label="Play Inlet Knight — At Home on Bandcamp">
           <div class="listen-play">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
