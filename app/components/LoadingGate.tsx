@@ -5,9 +5,8 @@ import { useProgress } from '@react-three/drei';
 import gsap from 'gsap';
 
 /**
- * Entry gate — balmingtiger gold full-bleed + CLICK TO ENTER.
- * Fade out 0.4s (no shutters) then cinematic intro starts in Scene
- * (ceiling → pan → settle on listening booth).
+ * Entry gate — PNW modern field + 90s cel glow brand mark.
+ * Fade out 0.4s then cinematic intro starts in Scene.
  */
 export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
   const { progress, active } = useProgress();
@@ -23,7 +22,11 @@ export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
     const p = Math.round(progress);
     setPct((prev) => (p > prev ? p : prev));
     if (bar.current) {
-      gsap.to(bar.current, { scaleX: Math.max(0.02, progress / 100), duration: 0.5, ease: 'power2.out' });
+      gsap.to(bar.current, {
+        scaleX: Math.max(0.02, progress / 100),
+        duration: 0.5,
+        ease: 'power2.out',
+      });
     }
   }, [progress]);
 
@@ -38,7 +41,12 @@ export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
 
   useEffect(() => {
     if (ready && enterBtn.current) {
-      gsap.to(enterBtn.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' });
+      gsap.to(enterBtn.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+      });
     }
   }, [ready]);
 
@@ -56,12 +64,19 @@ export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
   };
 
   return (
-    <div className="gate" ref={root} role="dialog" aria-label="Enter VCR Records">
+    <div className="gate" ref={root} role="dialog" aria-label="Enter VCR Recordings">
+      <div className="gate-atmosphere" aria-hidden>
+        <span className="gate-mist gate-mist-a" />
+        <span className="gate-mist gate-mist-b" />
+        <span className="gate-orb gate-orb-a" />
+        <span className="gate-orb gate-orb-b" />
+        <span className="gate-grain" />
+      </div>
+
       <div className="gate-inner" ref={inner}>
-        <p className="gate-eyebrow">Est. 1993</p>
         <h1 className="gate-mark">
-          VCR
-          <span className="reel">RECORDS</span>
+          <span className="gate-mark-vcr">VCR</span>
+          <span className="gate-mark-recordings">RECORDINGS</span>
         </h1>
         <p className="gate-sub">Best experienced with your device&apos;s audio enabled</p>
 
@@ -79,6 +94,7 @@ export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
           ref={enterBtn}
           onClick={enter}
           disabled={!ready}
+          data-cursor="click"
         >
           {ready ? 'CLICK TO ENTER' : 'LOADING…'}
         </button>

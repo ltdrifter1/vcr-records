@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Desktop custom cursor — balmingtiger pattern:
- * SVG follow + horizontal tilt (mouseX → ±70°) + click state.
- * ease_xy = ease_rot = 1 (instant, no lag).
+ * Desktop custom cursor — chunky 90s cartoon hand.
+ * Follow + light tilt (mouseX → ±28°) + click/hover press state.
+ * ease_xy = ease_rot = 1 (instant).
  */
 export default function CustomCursor({ enabled }: { enabled: boolean }) {
   const el = useRef<HTMLDivElement>(null);
@@ -24,12 +24,12 @@ export default function CustomCursor({ enabled }: { enabled: boolean }) {
     if (!ok) return;
     document.documentElement.classList.add('has-custom-cursor');
 
-    // balmingtiger: ease_xy = ease_rot = 1 → snap each frame
     const tick = () => {
       const p = pos.current;
       const node = el.current;
       if (node) {
-        node.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-12px, -2px) rotateZ(${p.rot * 70}deg)`;
+        // Hotspot near tip of pointing finger
+        node.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-10px, -4px) rotateZ(${p.rot * 28}deg)`;
       }
       raf.current = requestAnimationFrame(tick);
     };
@@ -71,7 +71,7 @@ export default function CustomCursor({ enabled }: { enabled: boolean }) {
 
   return (
     <div className={`custom-cursor${clicking ? ' is-down' : ''}`} ref={el} aria-hidden>
-      <img src={src} alt="" width={50} height={50} draggable={false} />
+      <img src={src} alt="" width={56} height={56} draggable={false} />
     </div>
   );
 }
