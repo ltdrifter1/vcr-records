@@ -99,14 +99,15 @@ export default function Experience() {
 
   useEffect(() => {
     if (!canLook) return;
-    const dismiss = () => setShowCompass(false);
-    const id = setTimeout(dismiss, 8000);
-    window.addEventListener('pointerdown', dismiss, { once: true });
-    return () => {
-      clearTimeout(id);
-      window.removeEventListener('pointerdown', dismiss);
-    };
+    // Persist until the visitor opens something (or 14s) —
+    // don't kill the hint on the first drag.
+    const id = setTimeout(() => setShowCompass(false), 14000);
+    return () => clearTimeout(id);
   }, [canLook]);
+
+  useEffect(() => {
+    if (active || focusedId) setShowCompass(false);
+  }, [active, focusedId]);
 
   const openedAt = useRef(0);
 
@@ -302,7 +303,7 @@ export default function Experience() {
 
       {live && (
         <div className="compass" style={{ opacity: showCompass ? 1 : 0 }}>
-          Click & drag to look around
+          Drag to look · click glowing objects
         </div>
       )}
 

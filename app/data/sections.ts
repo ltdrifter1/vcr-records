@@ -70,11 +70,32 @@ export type Section = {
   items: SectionItem[];
 };
 
+const BANDCAMP = 'https://vcrrecordings.bandcamp.com';
+const INSTAGRAM = 'https://www.instagram.com/vcr_recordings';
+const CONTACT_EMAIL = 'mailto:charlie@vcrrecords.com';
+const DEMOS_EMAIL = 'mailto:info@vcrrecords.com';
+const YOUTUBE_ABOUT = 'https://www.youtube.com/watch?v=AUAqGMaGjk4';
+
+/** Real listen destinations — VCR Recordings Bandcamp is the catalog home. */
 const STREAM = [
-  { label: 'Spotify', href: 'https://open.spotify.com' },
-  { label: 'Apple', href: 'https://music.apple.com' },
-  { label: 'Bandcamp', href: 'https://bandcamp.com' },
+  { label: 'Bandcamp', href: BANDCAMP },
+  { label: 'Instagram', href: INSTAGRAM },
 ];
+
+/** Deep links into the existing /shop catalog (same-origin). */
+const SHOP = {
+  home: '/shop/',
+  atHome: '/shop/home.html',
+  summer: '/shop/summer.html',
+  lion: '/shop/lion.html',
+  rack: '/shop/rack.html',
+  testpress: '/shop/testpress.html',
+  classic: '/shop/classic.html',
+  future: '/shop/future.html',
+  poetry: '/shop/poetry.html',
+  contact: '/shop/contact.html',
+  about: '/shop/about.html',
+} as const;
 
 /**
  * Discoverable hotspots around the 360° store.
@@ -100,70 +121,77 @@ export const SECTIONS: Section[] = [
     sfx: 'music',
     items: [
       {
-        label: 'Tape 001 — Midnight Amen',
-        meta: 'Continuous mix',
-        detail: '62 min',
+        label: 'At Home — Inlet Knight',
+        meta: 'Featured release',
+        detail: 'Listen',
         cta: 'Open',
-        thumb: '01',
+        thumb: 'AH',
+        href: SHOP.atHome,
         tracks: [
-          { title: 'TRACK 1 — Warm Up', duration: '12:04' },
-          { title: 'TRACK 2 — Amen Drop', duration: '14:22' },
-          { title: 'TRACK 3 — Fog Roll', duration: '18:10' },
-          { title: 'TRACK 4 — Outro Dust', duration: '17:24' },
+          { title: 'TRACK 1 — At Home', duration: '—' },
+          { title: 'Full release on Bandcamp', duration: '' },
         ],
-        listenOn: STREAM,
+        listenOn: [
+          { label: 'Bandcamp', href: 'https://inletknight.bandcamp.com' },
+          { label: 'Shop page', href: SHOP.atHome },
+        ],
       },
       {
-        label: 'Tape 002 — Hydro Steppers',
+        label: 'Summer Mix — LT Drifta',
         meta: 'Continuous mix',
-        detail: '58 min',
+        detail: 'Listen',
         cta: 'Open',
-        thumb: '02',
+        thumb: 'SM',
+        href: SHOP.summer,
         tracks: [
-          { title: 'TRACK 1 — Wet Concrete', duration: '11:40' },
-          { title: 'TRACK 2 — Steppa Line', duration: '15:02' },
-          { title: 'TRACK 3 — Pressure', duration: '16:18' },
-          { title: 'TRACK 4 — Drain', duration: '15:00' },
+          { title: 'TRACK 1 — Summer Mix', duration: '—' },
+          { title: 'Full release on Bandcamp', duration: '' },
         ],
-        listenOn: STREAM,
+        listenOn: [
+          { label: 'Bandcamp', href: 'https://ltdrifta.bandcamp.com' },
+          { label: 'Shop page', href: SHOP.summer },
+        ],
       },
       {
-        label: 'Tape 003 — Rolling Out',
-        meta: 'Continuous mix',
-        detail: '71 min',
+        label: 'Lions Gate — Drifta',
+        meta: 'Single',
+        detail: 'Listen',
         cta: 'Open',
-        thumb: '03',
+        thumb: 'LG',
+        href: SHOP.lion,
         tracks: [
-          { title: 'TRACK 1 — Ignition', duration: '13:11' },
-          { title: 'TRACK 2 — Motorway', duration: '19:44' },
-          { title: 'TRACK 3 — Hard Shoulder', duration: '18:20' },
-          { title: 'TRACK 4 — Home', duration: '19:45' },
+          { title: 'TRACK 1 — Lions Gate', duration: '—' },
+          { title: 'Full release on Bandcamp', duration: '' },
         ],
-        listenOn: STREAM,
+        listenOn: [
+          { label: 'Bandcamp', href: 'https://drifta.bandcamp.com' },
+          { label: 'Shop page', href: SHOP.lion },
+        ],
       },
       {
-        label: 'Dubplate Special — Wax Only',
-        meta: 'Vinyl rip',
-        detail: '44 min',
+        label: 'Rack Em — LT Drifta',
+        meta: 'Album',
+        detail: 'Listen',
         cta: 'Open',
-        thumb: 'DP',
+        thumb: 'RK',
+        href: SHOP.rack,
         tracks: [
-          { title: 'TRACK 1 — Plate A', duration: '22:00' },
-          { title: 'TRACK 2 — Plate B', duration: '22:00' },
+          { title: 'Full album on Bandcamp', duration: '' },
         ],
-        listenOn: STREAM,
+        listenOn: [
+          { label: 'Bandcamp', href: 'https://ltdrifta.bandcamp.com/album/rack-em' },
+          { label: 'Shop page', href: SHOP.rack },
+        ],
       },
       {
-        label: 'Late Licks — 4am Selection',
-        meta: 'Continuous mix',
-        detail: '90 min',
+        label: 'VCR Recordings — Full Catalog',
+        meta: 'Label Bandcamp',
+        detail: 'Browse',
         cta: 'Open',
-        thumb: '4A',
+        thumb: 'VC',
+        href: BANDCAMP,
         tracks: [
-          { title: 'TRACK 1 — After Hours', duration: '22:30' },
-          { title: 'TRACK 2 — Last Bus', duration: '24:10' },
-          { title: 'TRACK 3 — Sunrise Filter', duration: '21:40' },
-          { title: 'TRACK 4 — Sleepwalker', duration: '21:40' },
+          { title: 'Everything on the label Bandcamp', duration: '' },
         ],
         listenOn: STREAM,
       },
@@ -186,10 +214,10 @@ export const SECTIONS: Section[] = [
     lookFov: 20,
     sfx: 'video',
     items: [
-      { label: 'Warehouse Tape — Sector 7', meta: 'VHS transfer', detail: '1994', cta: 'Play', thumb: 'VH', href: '#play' },
-      { label: 'Pirate Ident Reel', meta: 'Off-air capture', detail: '1995', cta: 'Play', thumb: 'PI', href: '#play' },
-      { label: 'Studio Session — Time Stretch', meta: 'MiniDV', detail: '1996', cta: 'Play', thumb: 'SS', href: '#play' },
-      { label: 'Carnival Soundsystem', meta: 'Hi8 transfer', detail: '1997', cta: 'Play', thumb: 'CS', href: '#play' },
+      { label: 'About VCR Recordings', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', href: YOUTUBE_ABOUT },
+      { label: 'Test Press — LT Drifta', meta: 'Release film / audio', detail: 'Watch', cta: 'Open', thumb: 'TP', href: SHOP.testpress },
+      { label: 'Classic Cuts', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'CL', href: SHOP.classic },
+      { label: 'Future Boy', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'FB', href: SHOP.future },
     ],
   },
   {
@@ -209,12 +237,12 @@ export const SECTIONS: Section[] = [
     lookFov: 85,
     sfx: 'artists',
     items: [
-      { label: 'Tenor Fly', meta: 'Roller / Steppa', detail: 'VCR-002', cta: 'Bio', thumb: 'TF' },
-      { label: 'Sister Circuit', meta: 'Ragga Jungle', detail: 'VCR-004', cta: 'Bio', thumb: 'SC' },
-      { label: 'Lowend Doctrine', meta: 'Tech / Minimal', detail: 'VCR-006', cta: 'Bio', thumb: 'LD' },
-      { label: 'The Amen Collective', meta: 'Breakcore', detail: 'VCR-008', cta: 'Bio', thumb: 'AC' },
-      { label: 'Nocturne', meta: 'Atmospheric D&B', detail: 'VCR-011', cta: 'Bio', thumb: 'NO' },
-      { label: 'Dread at the Controls', meta: 'Dub / Jungle', detail: 'VCR-013', cta: 'Bio', thumb: 'DC' },
+      { label: 'LT Drifta', meta: 'Jungle / Steppa', detail: 'Bandcamp', cta: 'Listen', thumb: 'LD', href: 'https://ltdrifta.bandcamp.com' },
+      { label: 'Inlet Knight', meta: 'At Home', detail: 'Bandcamp', cta: 'Listen', thumb: 'IK', href: 'https://inletknight.bandcamp.com' },
+      { label: 'Drifta', meta: 'Lions Gate', detail: 'Bandcamp', cta: 'Listen', thumb: 'DR', href: 'https://drifta.bandcamp.com' },
+      { label: 'Felix Hastings', meta: 'Edits / singles', detail: 'Bandcamp', cta: 'Listen', thumb: 'FH', href: 'https://fhastings.bandcamp.com' },
+      { label: 'VCR Recordings', meta: 'Full label', detail: 'Bandcamp', cta: 'Browse', thumb: 'VC', href: BANDCAMP },
+      { label: 'All releases', meta: 'In the shop', detail: 'Catalog', cta: 'Shop', thumb: 'SH', href: SHOP.home },
     ],
   },
   {
@@ -236,11 +264,11 @@ export const SECTIONS: Section[] = [
     sfx: 'shop',
     glowLatches: false,
     items: [
-      { label: 'VCR-013 — Dread at the Controls', meta: '12" Vinyl', detail: '£12', cta: 'Buy', thumb: '13', href: '#shop' },
-      { label: 'VCR-011 — Nocturne LP', meta: 'Double 12"', detail: '£18', cta: 'Buy', thumb: '11', href: '#shop' },
-      { label: 'Logo Tee — Tungsten Orange', meta: 'Heavyweight cotton', detail: '£24', cta: 'Buy', thumb: 'TE', href: '#shop' },
-      { label: 'Enamel Pin Set', meta: '3 pieces', detail: '£9', cta: 'Buy', thumb: 'PN', href: '#shop' },
-      { label: 'Slipmat — Spinning Reel', meta: 'Pair', detail: '£15', cta: 'Buy', thumb: 'SM', href: '#shop' },
+      { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', href: SHOP.atHome },
+      { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', href: SHOP.summer },
+      { label: 'Lions Gate — Drifta', meta: 'Single', detail: 'Buy / stream', cta: 'Buy', thumb: 'LG', href: SHOP.lion },
+      { label: 'Rack Em — LT Drifta', meta: 'Album', detail: 'Buy / stream', cta: 'Buy', thumb: 'RK', href: SHOP.rack },
+      { label: 'Full shop', meta: 'All releases', detail: 'Browse', cta: 'Shop', thumb: 'SH', href: SHOP.home },
     ],
   },
   {
@@ -260,11 +288,11 @@ export const SECTIONS: Section[] = [
     lookFov: 80,
     sfx: 'archive',
     items: [
-      { label: 'HELTER SKELTER', meta: 'New Year’s Eve', detail: '1994', cta: 'View', thumb: 'HS' },
-      { label: 'DREAMSCAPE', meta: 'Aerodrome', detail: '1995', cta: 'View', thumb: 'DR' },
-      { label: 'JUNGLE FEVER', meta: 'Sanctuary', detail: '1995', cta: 'View', thumb: 'JF' },
-      { label: 'RAVE ON', meta: 'The Edge', detail: '1996', cta: 'View', thumb: 'RO' },
-      { label: 'TIME STRETCH', meta: 'Basement sessions', detail: '1997', cta: 'View', thumb: 'TS' },
+      { label: 'About the label', meta: 'Story', detail: 'Read', cta: 'View', thumb: 'AB', href: SHOP.about },
+      { label: 'Poetry / Drum Poetry', meta: 'Release', detail: 'Open', cta: 'View', thumb: 'PO', href: SHOP.poetry },
+      { label: 'Classic archive', meta: 'Cuts', detail: 'Open', cta: 'View', thumb: 'CL', href: SHOP.classic },
+      { label: 'Bandcamp catalog', meta: 'Everything', detail: 'Browse', cta: 'View', thumb: 'BC', href: BANDCAMP },
+      { label: 'Instagram board', meta: '@vcr_recordings', detail: 'Follow', cta: 'View', thumb: 'IG', href: INSTAGRAM },
     ],
   },
   {
@@ -277,17 +305,18 @@ export const SECTIONS: Section[] = [
     intro:
       'Still takes 10p. The number on the card behind the glass hasn’t changed since ’93 — ring it and somebody actually answers.',
     accent: '#ff5e5e',
-    u: 0.37,
-    v: 0.48,
-    w: 3.8,
-    h: 8,
+    // Red payphone in pano (file u≈0.514 → spherical 1−file_u)
+    u: 0.486,
+    v: 0.406,
+    w: 4.2,
+    h: 7.5,
     lookFov: 60,
     sfx: 'phone',
     items: [
-      { label: 'demos@vcrrecords.fm', meta: 'Send a dubplate', detail: 'WAV / 320', cta: 'Email', thumb: 'DM', href: 'mailto:demos@vcrrecords.fm' },
-      { label: 'bookings@vcrrecords.fm', meta: 'Soundsystem hire', detail: 'UK + EU', cta: 'Email', thumb: 'BK', href: 'mailto:bookings@vcrrecords.fm' },
-      { label: '@vcrrecords', meta: 'Find us', detail: 'Everywhere', cta: 'Follow', thumb: '@', href: 'https://instagram.com' },
-      { label: 'Open 11–7', meta: 'In person', detail: 'Tue – Sun', cta: 'Map', thumb: '11' },
+      { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', href: CONTACT_EMAIL },
+      { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', href: DEMOS_EMAIL },
+      { label: '@vcr_recordings', meta: 'Instagram', detail: 'Follow', cta: 'Follow', thumb: '@', href: INSTAGRAM },
+      { label: 'Contact page', meta: 'In the shop', detail: 'Open', cta: 'Open', thumb: 'CT', href: SHOP.contact },
     ],
   },
   {
@@ -307,10 +336,10 @@ export const SECTIONS: Section[] = [
     lookFov: 70,
     sfx: 'door',
     items: [
-      { label: 'Est. 1993', meta: 'Origin', detail: 'A back room in the rain', cta: 'Read', thumb: '93' },
-      { label: 'VCR — Video Cassette Recordings', meta: 'The name', detail: 'Tape culture', cta: 'Read', thumb: 'VC' },
-      { label: 'First press: 300 copies', meta: 'VCR-001', detail: 'Sold from a holdall', cta: 'Read', thumb: '01' },
-      { label: 'Still independent', meta: 'No majors', detail: '30+ years', cta: 'Read', thumb: 'SI' },
+      { label: 'About VCR Recordings', meta: 'Origin story', detail: 'Read', cta: 'Read', thumb: 'AB', href: SHOP.about },
+      { label: 'Label Bandcamp', meta: 'The catalog', detail: 'Browse', cta: 'Open', thumb: 'BC', href: BANDCAMP },
+      { label: 'Watch the intro', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', href: YOUTUBE_ABOUT },
+      { label: 'Instagram', meta: '@vcr_recordings', detail: 'Follow', cta: 'Follow', thumb: 'IG', href: INSTAGRAM },
     ],
   },
 ];
