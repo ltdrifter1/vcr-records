@@ -5,26 +5,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>VCR Recordings — Independent Electronic Music</title>
   <meta name="description" content="VCR Recordings — independent electronic music. Jungle, house, hip-hop and experimental music."/>
-  <meta name="theme-color" content="#000000"/>
+  <meta name="theme-color" content="#f5f5f7"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:        #000000;
-      --surface:   #1d1d1f;
-      --raised:    #2a2a2c;
-      --text:      #f5f5f7;
-      --muted:     #a1a1a6;
-      --dim:       #6e6e73;
-      --line:      rgba(255,255,255,.08);
-      --line-hi:   rgba(255,255,255,.14);
-      --fill:      rgba(255,255,255,.04);
-      --fill-hi:   rgba(255,255,255,.08);
+      --bg:        #f5f5f7;
+      --surface:   #ffffff;
+      --raised:    #fbfbfd;
+      --text:      #1d1d1f;
+      --muted:     #6e6e73;
+      --dim:       #86868b;
+      --line:      rgba(0,0,0,.06);
+      --line-hi:   rgba(0,0,0,.1);
+      --fill:      rgba(0,0,0,.03);
+      --fill-hi:   rgba(0,0,0,.06);
+      --shadow:    0 2px 12px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.05);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,.06), 0 16px 48px rgba(0,0,0,.08);
 
-      --radius:    12px;
-      --radius-lg: 20px;
+      --radius:    14px;
+      --radius-lg: 22px;
       --radius-pill: 980px;
       --ease:      cubic-bezier(.25,.1,.25,1);
       --dur:       320ms;
@@ -55,18 +57,17 @@
       font-family: inherit; cursor: pointer; border: none; background: none;
       -webkit-tap-highlight-color: transparent;
     }
-    ::selection { background: rgba(255,255,255,.18); color: var(--text); }
+    ::selection { background: rgba(0,0,0,.12); color: var(--text); }
 
-    /* Quiet atmosphere */
     .atm { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
     .atm-fog {
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(40,40,45,.5) 0%, transparent 60%);
+      background: radial-gradient(ellipse 90% 55% at 50% -10%, rgba(255,255,255,.9) 0%, transparent 55%);
     }
     .atm-grain {
       position: absolute; inset: 0;
-      opacity: var(--grain, 0.02);
-      mix-blend-mode: overlay;
+      opacity: var(--grain, 0.018);
+      mix-blend-mode: multiply;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 160px;
       transition: opacity 300ms linear;
@@ -74,18 +75,13 @@
     .atm-grain-scroll {
       position: absolute; inset: -8%;
       opacity: 0;
-      mix-blend-mode: soft-light;
+      mix-blend-mode: multiply;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
       background-size: 120px;
       transform: translate3d(0, var(--grain-y, 0px), 0);
     }
 
-    .surface {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-    }
-
-    /* ── NAV ── */
+    /* NAV */
     .nav-shell {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       padding: calc(12px + var(--safe-t)) 16px 0;
@@ -96,13 +92,17 @@
       max-width: var(--wrap); margin: 0 auto;
       height: 52px; display: flex; align-items: center; justify-content: space-between;
       padding: 0 8px 0 12px; border-radius: var(--radius-pill);
-      background: rgba(29,29,31,.72);
+      background: rgba(255,255,255,.72);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(255,255,255,.08);
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 4px 24px rgba(0,0,0,.04);
       transition: height var(--dur) var(--ease), background var(--dur) var(--ease);
     }
-    .nav-shell.scrolled .nav { height: 44px; background: rgba(29,29,31,.86); }
+    .nav-shell.scrolled .nav {
+      height: 44px;
+      background: rgba(255,255,255,.88);
+    }
     .nav-logo {
       display: flex; align-items: center; height: 100%;
       padding: 6px 8px;
@@ -110,7 +110,7 @@
     }
     .nav-logo img { height: 32px; width: auto; }
     .nav-shell.scrolled .nav-logo img { height: 26px; }
-    @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
+    @media (hover:hover) { .nav-logo:hover { opacity: .65; } }
 
     .nav-links { display: flex; gap: 0; margin-right: 4px; }
     .nav-links a {
@@ -140,9 +140,10 @@
       display: none; position: fixed;
       top: calc(68px + var(--safe-t)); left: 16px; right: 16px; z-index: 290;
       border-radius: var(--radius-lg); padding: 8px 20px calc(12px + var(--safe-b));
-      background: rgba(29,29,31,.94);
+      background: rgba(255,255,255,.96);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,.08);
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: var(--shadow-lg);
       animation: drawerIn 280ms var(--ease);
     }
     .nav-drawer.on { display: block; }
@@ -153,7 +154,7 @@
     }
     .nav-drawer a:last-child { border-bottom: none; }
 
-    /* ── HERO ── */
+    /* HERO */
     .hero {
       position: relative; z-index: 1;
       min-height: 100svh;
@@ -175,7 +176,7 @@
       color: var(--dim); margin-bottom: 28px;
     }
     .hero-emblem {
-      width: min(100%, 400px);
+      width: min(100%, 420px);
       margin-bottom: 28px;
     }
     .hero-emblem img {
@@ -196,7 +197,7 @@
       max-width: 28ch;
       margin-bottom: 36px;
     }
-    .hero-lede em { font-style: normal; color: var(--text); font-weight: 500; }
+    .hero-lede em { font-style: normal; color: var(--text); font-weight: 600; }
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
     .hero-feature {
@@ -205,6 +206,7 @@
       display: flex; align-items: flex-end;
       border-radius: var(--radius-lg) 0 0 var(--radius-lg);
       margin: 24px 0 24px 0;
+      box-shadow: var(--shadow-lg);
     }
     @media (max-width: 900px) {
       .hero-feature {
@@ -212,7 +214,7 @@
         border-radius: var(--radius-lg);
       }
     }
-    .hero-feature-art { position: absolute; inset: 0; }
+    .hero-feature-art { position: absolute; inset: 0; background: #e8e8ed; }
     .hero-feature-art img {
       width: 100%; height: 100%; object-fit: cover;
       transition: opacity .7s var(--ease);
@@ -220,17 +222,18 @@
     .hero-feature-art.fade img { opacity: 0; }
     .hero-feature-veil {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.72) 100%);
+      background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.55) 100%);
     }
     .hero-feature-card {
       position: relative; z-index: 2;
       margin: 24px; padding: 20px 22px;
       border-radius: var(--radius-lg);
       max-width: 300px;
-      background: rgba(29,29,31,.72);
+      background: rgba(255,255,255,.86);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.5);
+      box-shadow: var(--shadow);
       transition: transform var(--dur) var(--ease);
     }
     @media (hover:hover) { .hero-feature-card:hover { transform: scale(1.02); } }
@@ -252,7 +255,7 @@
     }
     .hero-feature-link::after { content: '›'; font-size: 18px; line-height: 1; }
 
-    /* Buttons — Apple Store style */
+    /* Buttons */
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
       height: 44px; padding: 0 22px;
@@ -263,13 +266,11 @@
       transition: background var(--dur) var(--ease), transform 200ms var(--ease), opacity var(--dur) var(--ease);
     }
     .btn:active { transform: scale(.97); }
-    .btn-solid { background: var(--text); color: #000; }
-    .btn-ghost {
-      background: var(--fill-hi); color: var(--text);
-    }
+    .btn-solid { background: var(--text); color: #fff; }
+    .btn-ghost { background: var(--fill-hi); color: var(--text); }
     @media (hover:hover) {
-      .btn-solid:hover { opacity: .88; }
-      .btn-ghost:hover { background: rgba(255,255,255,.14); }
+      .btn-solid:hover { opacity: .85; }
+      .btn-ghost:hover { background: rgba(0,0,0,.1); }
     }
 
     /* Layout */
@@ -318,7 +319,8 @@
     .feat-main {
       position: relative; border-radius: var(--radius-lg); overflow: hidden;
       aspect-ratio: 4/5; max-height: 680px;
-      display: block; background: var(--surface);
+      display: block; background: #e8e8ed;
+      box-shadow: var(--shadow-lg);
       transition: transform var(--dur) var(--ease);
     }
     @media (max-width: 800px) { .feat-main { aspect-ratio: 1; max-height: none; } }
@@ -330,21 +332,23 @@
     @media (hover:hover) { .feat-main:hover img { transform: scale(1.03); } }
     .feat-main-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.8) 100%);
+      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.7) 100%);
       display: flex; flex-direction: column; justify-content: flex-end;
       padding: 28px;
+      color: #fff;
     }
-    .feat-main-meta { font-size: 12px; font-weight: 500; color: var(--dim); margin-bottom: 6px; }
+    .feat-main-meta { font-size: 12px; font-weight: 500; color: rgba(255,255,255,.65); margin-bottom: 6px; }
     .feat-main-title {
       font-size: clamp(32px, 5vw, 48px); font-weight: 600;
       letter-spacing: -.03em; line-height: 1.05;
     }
-    .feat-main-artist { margin-top: 6px; color: var(--muted); font-size: 15px; }
+    .feat-main-artist { margin-top: 6px; color: rgba(255,255,255,.75); font-size: 15px; }
 
     .feat-side { display: flex; flex-direction: column; gap: 16px; }
     .feat-side-copy {
       padding: 28px; border-radius: var(--radius-lg);
       background: var(--surface);
+      box-shadow: var(--shadow);
       flex: 1;
       display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
     }
@@ -366,22 +370,25 @@
     .listen-card {
       padding: 18px 20px; border-radius: var(--radius-lg);
       background: var(--surface);
+      box-shadow: var(--shadow);
       display: flex; align-items: center; gap: 14px;
       width: 100%; text-align: left;
-      transition: background var(--dur) var(--ease);
+      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
-    @media (hover:hover) { .listen-card:hover { background: var(--raised); } }
+    @media (hover:hover) {
+      .listen-card:hover { box-shadow: var(--shadow-lg); }
+      .listen-card:hover .listen-ring { transform: scale(1.05); }
+    }
     .listen-ring {
       width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
       background: var(--text);
       display: grid; place-items: center;
       transition: transform var(--dur) var(--ease);
     }
-    @media (hover:hover) { .listen-card:hover .listen-ring { transform: scale(1.05); } }
-    .listen-ring svg { width: 14px; height: 14px; fill: #000; margin-left: 2px; }
+    .listen-ring svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
     .listen-name { font-size: 16px; font-weight: 600; letter-spacing: -.015em; }
     .listen-sub { font-size: 12px; font-weight: 500; color: var(--dim); margin-top: 2px; }
-    .listen-embed { display: none; margin-top: 12px; border-radius: var(--radius); overflow: hidden; }
+    .listen-embed { display: none; margin-top: 12px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
     .listen-embed.on { display: block; }
 
     /* Catalog */
@@ -395,17 +402,18 @@
     .rel {
       display: block; border-radius: var(--radius-lg); overflow: hidden;
       background: var(--surface);
-      transition: transform var(--dur) var(--ease);
+      box-shadow: var(--shadow);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .rel-lead { grid-row: span 2; }
     @media (max-width: 720px) {
       .rel-lead { grid-column: 1 / -1; grid-row: auto; }
     }
     @media (hover:hover) {
-      .rel:hover { transform: scale(1.015); }
+      .rel:hover { transform: scale(1.015); box-shadow: var(--shadow-lg); }
       .rel:hover .rel-art img { transform: scale(1.03); }
     }
-    .rel-art { position: relative; overflow: hidden; background: #111; aspect-ratio: 1; }
+    .rel-art { position: relative; overflow: hidden; background: #e8e8ed; aspect-ratio: 1; }
     .rel-art img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform .6s var(--ease);
@@ -444,14 +452,15 @@
       display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: center;
       padding: 14px; border-radius: var(--radius-lg);
       background: var(--surface);
-      transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+      box-shadow: var(--shadow);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .a-card:hover { background: var(--raised); transform: scale(1.01); }
+      .a-card:hover { transform: scale(1.01); box-shadow: var(--shadow-lg); }
     }
     .a-img {
       width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
-      background: #111;
+      background: #e8e8ed;
     }
     .a-name { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
     .a-role { font-size: 13px; color: var(--dim); margin-top: 2px; }
@@ -466,15 +475,16 @@
       border-radius: var(--radius-lg);
       padding: 14px; display: flex; flex-direction: column; gap: 12px;
       background: var(--surface);
-      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
+      box-shadow: var(--shadow);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .merch-item:hover { transform: scale(1.015); background: var(--raised); }
+      .merch-item:hover { transform: scale(1.015); box-shadow: var(--shadow-lg); }
       .merch-item:hover .merch-img img { transform: scale(1.03); }
     }
     .merch-img {
       aspect-ratio: 1; border-radius: 14px; overflow: hidden;
-      background: #111;
+      background: #f5f5f7;
       display: flex; align-items: center; justify-content: center;
     }
     .merch-img img {
@@ -492,20 +502,21 @@
       transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
     }
     @media (hover:hover) { .merch-opt:hover { color: var(--text); } }
-    .merch-opt.selected { background: var(--text); color: #000; }
+    .merch-opt.selected { background: var(--text); color: #fff; }
     .merch-add {
       height: 40px; width: 100%; margin-top: auto;
-      background: var(--text); color: #000;
+      background: var(--text); color: #fff;
       border-radius: var(--radius-pill);
       font-size: 13px; font-weight: 500;
       transition: opacity var(--dur) var(--ease), transform 200ms var(--ease);
     }
     .merch-add:active { transform: scale(.97); }
-    @media (hover:hover) { .merch-add:hover { opacity: .88; } }
+    @media (hover:hover) { .merch-add:hover { opacity: .85; } }
 
     /* Footer */
     .footer {
       position: relative; z-index: 1;
+      background: #fff;
       border-top: 1px solid var(--line);
       padding: 80px 0 calc(40px + var(--safe-b));
     }
@@ -538,7 +549,8 @@
     .footer-form {
       display: flex; gap: 8px; padding: 4px;
       border-radius: var(--radius-pill);
-      background: var(--surface);
+      background: var(--bg);
+      border: 1px solid var(--line);
     }
     .footer-form input {
       flex: 1; min-width: 0; height: 40px; padding: 0 16px;
@@ -548,12 +560,12 @@
     .footer-form input::placeholder { color: var(--dim); }
     .footer-form button {
       height: 40px; padding: 0 18px; border-radius: var(--radius-pill);
-      background: var(--text); color: #000;
+      background: var(--text); color: #fff;
       font-size: 13px; font-weight: 500;
       transition: opacity var(--dur) var(--ease);
       white-space: nowrap;
     }
-    @media (hover:hover) { .footer-form button:hover { opacity: .88; } }
+    @media (hover:hover) { .footer-form button:hover { opacity: .85; } }
     .footer-note { font-size: 13px; color: var(--dim); margin-top: 12px; }
     .footer-bottom {
       display: flex; align-items: center; justify-content: space-between;
@@ -627,7 +639,7 @@
   <div class="hero-brand">
     <p class="hero-kicker">Independent Electronic Music</p>
     <div class="hero-emblem">
-      <img src="vcr-script.png" alt="VCR Recordings" width="743" height="461" fetchpriority="high"/>
+      <img src="vcr-script.png" alt="VCR Recordings" width="746" height="461" fetchpriority="high"/>
     </div>
     <p class="hero-lede">Pacific Northwest sounds. <em>Cassette culture.</em> Electronic music from the edge of the continent.</p>
     <div class="hero-actions">
@@ -687,7 +699,7 @@
 
           <div id="listen" class="rv d3">
             <div id="listenBlock"
-                 data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=000000/linkcol=a1a1a6/transparent=true/autoplay=1/">
+                 data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f5f5f7/linkcol=1d1d1f/transparent=true/autoplay=1/">
               <button class="listen-card" id="listenTrig" aria-label="Play Inlet Knight — on Bandcamp">
                 <div class="listen-ring">
                   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -854,7 +866,7 @@
   <div class="footer-inner">
     <div class="footer-grid">
       <div>
-        <img class="footer-mark" src="vcr-script.png" alt="VCR Recordings" width="743" height="461" loading="lazy"/>
+        <img class="footer-mark" src="vcr-script.png" alt="VCR Recordings" width="746" height="461" loading="lazy"/>
         <p class="footer-manifesto">
           Music made in the rain.
           <span>Pressed for the drive home.</span>
@@ -947,8 +959,8 @@
       var p = Math.min(1, y / max);
       shell.classList.toggle('scrolled', y > 40);
       if (!reduce) {
-        grain.style.setProperty('--grain', String((0.018 + p * 0.028).toFixed(3)));
-        grainScroll.style.opacity = String((0.012 + p * 0.035).toFixed(3));
+        grain.style.setProperty('--grain', String((0.014 + p * 0.02).toFixed(3)));
+        grainScroll.style.opacity = String((0.01 + p * 0.025).toFixed(3));
         grainScroll.style.setProperty('--grain-y', (y * 0.03).toFixed(1) + 'px');
       }
       ticking = false;
@@ -986,7 +998,7 @@ lt.addEventListener('click', function () {
   f.title = 'Bandcamp player';
   f.src = lb.dataset.src;
   f.allow = 'autoplay';
-  f.style.cssText = 'width:100%;height:80px;display:block;border:0;background:#000;';
+  f.style.cssText = 'width:100%;height:80px;display:block;border:0;background:#f5f5f7;';
   f.onload = function () { lt.style.display = 'none'; le.classList.add('on'); };
   le.appendChild(f);
 });
