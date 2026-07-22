@@ -16,8 +16,9 @@
  *   start at ceiling → soft yaw pan → land on listening booth
  *   while fisheye 1→0.3 and fov 160→explore over ~3s
  */
-export const PANO_WIDTH = 2048;
-export const PANO_HEIGHT = 1024;
+/** Equirect source — upscaled 4K for cleaner lookto FOV~20 punch-ins. */
+export const PANO_WIDTH = 4096;
+export const PANO_HEIGHT = 2048;
 export const PANO_ASPECT = PANO_WIDTH / PANO_HEIGHT;
 
 export const SPHERE_RADIUS = 48;
