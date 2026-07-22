@@ -523,8 +523,13 @@
     /* ── RELEASES GRID ───────────────────────────────── */
     .releases-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (min-width: 801px) {
+      .releases-grid .rel-card:first-child .rel-title { font-size: 1.45rem; }
+      .releases-grid .rel-card:first-child .rel-body { padding: 20px 20px 22px; }
     }
     @media (max-width: 800px) { .releases-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
 
