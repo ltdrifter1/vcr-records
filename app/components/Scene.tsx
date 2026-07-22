@@ -263,10 +263,11 @@ function prepTex(tex: THREE.Texture, gl: THREE.WebGLRenderer) {
   tex.wrapS = THREE.RepeatWrapping;
   tex.repeat.x = -1;
   tex.offset.x = 1;
-  tex.anisotropy = Math.min(4, gl.capabilities.getMaxAnisotropy());
-  tex.minFilter = THREE.LinearFilter;
+  // Higher anisotropy + mipmaps keep walls cleaner when zoomed into the CRT.
+  tex.anisotropy = Math.min(16, gl.capabilities.getMaxAnisotropy());
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
   tex.magFilter = THREE.LinearFilter;
-  tex.generateMipmaps = false;
   tex.needsUpdate = true;
 }
 

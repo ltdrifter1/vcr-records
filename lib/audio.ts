@@ -21,11 +21,14 @@ const SFX: Record<string, string> = {
   archive: '/audio/archive.mp3',
   artists: '/audio/artists.mp3',
   door: '/audio/door.mp3',
-  // Ambient diegetic toys (reuse masters)
-  cushion: '/audio/click.mp3',
-  crate: '/audio/archive.mp3',
-  poster: '/audio/focus.mp3',
-  stool: '/audio/music.mp3',
+  // Unique diegetic toys (balmingtiger cushion / owl / fire / globe class)
+  cushion: '/audio/cushion.mp3',
+  crate: '/audio/crate.mp3',
+  poster: '/audio/poster.mp3',
+  stool: '/audio/stool.mp3',
+  owl: '/audio/owl.mp3',
+  fire: '/audio/fire.mp3',
+  wonder: '/audio/wonder.mp3',
 };
 
 function ensureBgm() {

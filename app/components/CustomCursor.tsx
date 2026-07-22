@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from 'react';
  * Desktop custom cursor — chunky 90s cartoon hand.
  * Follow + light tilt (mouseX → ±28°) + click/hover press state.
  * ease_xy = ease_rot = 1 (instant).
+ *
+ * Hover sources:
+ *   1) DOM targets (buttons, panel rows, …)
+ *   2) 3D hotspots / ambient toys via `document.documentElement.cursor-hot`
  */
 export default function CustomCursor({ enabled }: { enabled: boolean }) {
   const el = useRef<HTMLDivElement>(null);
@@ -14,6 +18,8 @@ export default function CustomCursor({ enabled }: { enabled: boolean }) {
   const [ok, setOk] = useState(false);
   const pos = useRef({ x: -100, y: -100, rot: 0 });
   const raf = useRef(0);
+  const domHot = useRef(false);
+  const sceneHot = useRef(false);
 
   useEffect(() => {
     const fine = window.matchMedia('(pointer: fine)').matches;
@@ -24,12 +30,21 @@ export default function CustomCursor({ enabled }: { enabled: boolean }) {
     if (!ok) return;
     document.documentElement.classList.add('has-custom-cursor');
 
+    const syncHover = () => {
+      const next = domHot.current || sceneHot.current;
+      setHovering((prev) => (prev === next ? prev : next));
+    };
+
     const tick = () => {
       const p = pos.current;
       const node = el.current;
       if (node) {
-        // Hotspot near tip of pointing finger
         node.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) translate(-10px, -4px) rotateZ(${p.rot * 28}deg)`;
+      }
+      const hot = document.documentElement.classList.contains('cursor-hot');
+      if (hot !== sceneHot.current) {
+        sceneHot.current = hot;
+        syncHover();
       }
       raf.current = requestAnimationFrame(tick);
     };
@@ -45,10 +60,13 @@ export default function CustomCursor({ enabled }: { enabled: boolean }) {
     const over = (e: Event) => {
       const t = e.target as HTMLElement | null;
       if (!t) return;
-      const hit = t.closest(
+      const hit = !!t.closest(
         'button, a, [data-cursor="click"], .top-nav-hit, .panel-back, .panel-row',
       );
-      setHovering(!!hit);
+      if (hit !== domHot.current) {
+        domHot.current = hit;
+        syncHover();
+      }
     };
 
     window.addEventListener('pointermove', move, { passive: true });

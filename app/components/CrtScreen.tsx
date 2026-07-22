@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
 import gsap from 'gsap';
 import * as THREE from 'three';
 
@@ -14,10 +15,10 @@ const crt = SECTION_BY_ID['crt-tv'];
 export const CRT_DEFAULT_SRC = '/videos/crt_loop.mp4';
 
 /**
- * CRT video plane — balmingtiger TV videoplayer pattern:
- * alpha 0 until Videos is focused; fade in 0.4s; unmute + BGM duck
- * only after lookto completes (`armed`). Panel picks swap `src` in-place
- * (stay in the room — no window.open for primary Watch).
+ * CRT stage — balmingtiger TV stack:
+ *   black / off backing → video plane → plastic frame bezel
+ * Alpha 0 until Videos is focused + armed (post-lookto).
+ * Panel picks swap `src` in-place (stay in the room).
  */
 export default function CrtScreen({
   activeId,
@@ -25,24 +26,47 @@ export default function CrtScreen({
   src = CRT_DEFAULT_SRC,
 }: {
   activeId: string | null;
-  /** True after lookto finishes on the CRT (or reduce-motion instant open). */
   armed?: boolean;
-  /** Channel / clip URL played on the tube. */
   src?: string;
 }) {
-  const mesh = useRef<THREE.Mesh>(null);
-  const mat = useRef<THREE.MeshBasicMaterial>(null);
-  const opacity = useRef({ a: 0 });
+  const group = useRef<THREE.Group>(null);
+  const videoMesh = useRef<THREE.Mesh>(null);
+  const frameMesh = useRef<THREE.Mesh>(null);
+  const backOffMesh = useRef<THREE.Mesh>(null);
+  const backOnMesh = useRef<THREE.Mesh>(null);
+  const videoMat = useRef<THREE.MeshBasicMaterial>(null);
+  const backOffMat = useRef<THREE.MeshBasicMaterial>(null);
+  const backOnMat = useRef<THREE.MeshBasicMaterial>(null);
+  const frameMat = useRef<THREE.MeshBasicMaterial>(null);
+
+  const opacity = useRef({ video: 0, stage: 0 });
   const revealed = useRef(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const texRef = useRef<THREE.VideoTexture | null>(null);
+
+  const [backOffMap, backOnMap, frameMap] = useTexture([
+    '/hotspots/crt_backing_off.webp',
+    '/hotspots/crt_backing_playing.webp',
+    '/hotspots/crt_frame.webp',
+  ]);
+
   const playing = activeId === 'crt-tv' && armed;
   const [x, y, z] = useMemo(
     () => uvToSpherical(crt.u, crt.v, SPHERE_RADIUS - 0.8),
     [],
   );
 
-  // Own the <video> so we can swap channels without remounting the mesh.
+  const screenW = crt.w * 0.52;
+  const screenH = crt.h * 0.42;
+  const frameW = crt.w * 0.72;
+  const frameH = crt.h * 0.62;
+
+  useLayoutEffect(() => {
+    backOffMap.colorSpace = THREE.SRGBColorSpace;
+    backOnMap.colorSpace = THREE.SRGBColorSpace;
+    frameMap.colorSpace = THREE.SRGBColorSpace;
+  }, [backOffMap, backOnMap, frameMap]);
+
   useLayoutEffect(() => {
     const video = document.createElement('video');
     video.src = src;
@@ -58,9 +82,9 @@ export default function CrtScreen({
     tex.minFilter = THREE.LinearFilter;
     tex.magFilter = THREE.LinearFilter;
     texRef.current = tex;
-    if (mat.current) {
-      mat.current.map = tex;
-      mat.current.needsUpdate = true;
+    if (videoMat.current) {
+      videoMat.current.map = tex;
+      videoMat.current.needsUpdate = true;
     }
 
     return () => {
@@ -89,14 +113,14 @@ export default function CrtScreen({
   }, [src, playing]);
 
   useEffect(() => {
-    if (mat.current && texRef.current && mat.current.map !== texRef.current) {
-      mat.current.map = texRef.current;
-      mat.current.needsUpdate = true;
+    if (videoMat.current && texRef.current && videoMat.current.map !== texRef.current) {
+      videoMat.current.map = texRef.current;
+      videoMat.current.needsUpdate = true;
     }
   }, [playing, src]);
 
   useLayoutEffect(() => {
-    mesh.current?.lookAt(origin);
+    group.current?.lookAt(origin);
   }, [x, y, z]);
 
   useEffect(() => {
@@ -110,12 +134,19 @@ export default function CrtScreen({
         revealed.current = true;
         gsap.fromTo(
           opacity.current,
-          { a: 0 },
-          { a: 1, duration: 0.4, ease: 'power1.inOut', overwrite: true },
+          { video: 0, stage: 0 },
+          {
+            video: 1,
+            stage: 1,
+            duration: 0.4,
+            ease: 'power1.inOut',
+            overwrite: true,
+          },
         );
       } else {
         gsap.to(opacity.current, {
-          a: 1,
+          video: 1,
+          stage: 1,
           duration: 0.4,
           ease: 'power1.inOut',
           overwrite: true,
@@ -138,7 +169,8 @@ export default function CrtScreen({
       });
     } else {
       gsap.to(opacity.current, {
-        a: 0,
+        video: 0,
+        stage: 0,
         duration: 0.35,
         ease: 'power1.inOut',
         overwrite: true,
@@ -152,21 +184,65 @@ export default function CrtScreen({
   }, [playing]);
 
   useFrame(() => {
-    if (mat.current) mat.current.opacity = opacity.current.a;
+    const { video: vA, stage: sA } = opacity.current;
+    if (videoMat.current) videoMat.current.opacity = vA;
+    // Off backing fades out as video comes in; playing black sits behind tube
+    if (backOffMat.current) backOffMat.current.opacity = sA * (1 - vA * 0.92);
+    if (backOnMat.current) backOnMat.current.opacity = sA * Math.min(1, vA + 0.15);
+    if (frameMat.current) frameMat.current.opacity = sA;
     if (texRef.current) texRef.current.needsUpdate = true;
   });
 
   return (
-    <mesh ref={mesh} position={[x, y, z]} renderOrder={2}>
-      <planeGeometry args={[crt.w * 0.55, crt.h * 0.48]} />
-      <meshBasicMaterial
-        ref={mat}
-        toneMapped={false}
-        side={THREE.DoubleSide}
-        transparent
-        opacity={0}
-        depthWrite={false}
-      />
-    </mesh>
+    <group ref={group} position={[x, y, z]}>
+      {/* z: slightly in front of sphere wall; stack like BT zorder */}
+      <mesh ref={backOffMesh} position={[0, 0, 0.01]} renderOrder={2} raycast={() => null}>
+        <planeGeometry args={[screenW * 1.05, screenH * 1.05]} />
+        <meshBasicMaterial
+          ref={backOffMat}
+          map={backOffMap}
+          toneMapped={false}
+          transparent
+          opacity={0}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh ref={backOnMesh} position={[0, 0, 0.015]} renderOrder={3} raycast={() => null}>
+        <planeGeometry args={[screenW * 1.02, screenH * 1.02]} />
+        <meshBasicMaterial
+          ref={backOnMat}
+          map={backOnMap}
+          toneMapped={false}
+          transparent
+          opacity={0}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh ref={videoMesh} position={[0, 0, 0.03]} renderOrder={4} raycast={() => null}>
+        <planeGeometry args={[screenW, screenH]} />
+        <meshBasicMaterial
+          ref={videoMat}
+          toneMapped={false}
+          transparent
+          opacity={0}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh ref={frameMesh} position={[0, 0, 0.045]} renderOrder={5} raycast={() => null}>
+        <planeGeometry args={[frameW, frameH]} />
+        <meshBasicMaterial
+          ref={frameMat}
+          map={frameMap}
+          toneMapped={false}
+          transparent
+          opacity={0}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </group>
   );
 }
