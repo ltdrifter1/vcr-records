@@ -1,20 +1,18 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { isMuted, setMuted, unlockAudio } from '@/lib/audio';
+import { isMuted, onMuteChange, setMuted } from '@/lib/audio';
 
 /**
  * balmingtiger mute toggle — bottom-right (mobile top-right).
  * Fades out during Videos focus instead of unmounting.
+ * Starts muted until CLICK TO ENTER unmutes the bus.
  */
 export default function MuteControl({
   visible,
-  unlocked,
   faded = false,
 }: {
   visible: boolean;
-  /** True after gate enter — audio may unlock on unmute. */
-  unlocked: boolean;
   /** Hide during CRT video focus (0.3s opacity tween). */
   faded?: boolean;
 }) {
@@ -22,13 +20,8 @@ export default function MuteControl({
 
   useEffect(() => {
     setMutedState(isMuted());
+    return onMuteChange(setMutedState);
   }, []);
-
-  useEffect(() => {
-    if (unlocked && !muted) {
-      void unlockAudio();
-    }
-  }, [unlocked, muted]);
 
   const toggle = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();

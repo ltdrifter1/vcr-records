@@ -4,9 +4,11 @@
 import gsap from 'gsap';
 
 let bgm: HTMLAudioElement | null = null;
+/** Start muted until CLICK TO ENTER (browser gesture), then live like BT. */
 let muted = true;
 let duckTween: gsap.core.Tween | null = null;
 const volume = { bgm: 0.45, sfx: 0.55, target: 0.45 };
+const listeners = new Set<(muted: boolean) => void>();
 
 const SFX: Record<string, string> = {
   click: '/audio/click.mp3',
@@ -19,6 +21,11 @@ const SFX: Record<string, string> = {
   archive: '/audio/archive.mp3',
   artists: '/audio/artists.mp3',
   door: '/audio/door.mp3',
+  // Ambient diegetic toys (reuse masters)
+  cushion: '/audio/click.mp3',
+  crate: '/audio/archive.mp3',
+  poster: '/audio/focus.mp3',
+  stool: '/audio/music.mp3',
 };
 
 function ensureBgm() {
@@ -31,8 +38,20 @@ function ensureBgm() {
   return bgm;
 }
 
+function notify() {
+  for (const fn of listeners) fn(muted);
+}
+
 export function isMuted() {
   return muted;
+}
+
+/** Subscribe to mute bus changes (MuteControl sync). */
+export function onMuteChange(fn: (muted: boolean) => void) {
+  listeners.add(fn);
+  return () => {
+    listeners.delete(fn);
+  };
 }
 
 export async function unlockAudio() {
@@ -48,11 +67,33 @@ export async function unlockAudio() {
   }
 }
 
+/**
+ * balmingtiger enter: unmute + start BGM on the same user gesture as CLICK TO ENTER.
+ */
+export async function enterWithAudio() {
+  muted = false;
+  if (typeof document !== 'undefined') {
+    document.documentElement.classList.toggle('is-muted', false);
+  }
+  notify();
+  const a = ensureBgm();
+  if (!a) return;
+  duckTween?.kill();
+  volume.target = volume.bgm;
+  a.volume = volume.bgm;
+  try {
+    await a.play();
+  } catch {
+    /* autoplay blocked — mute toggle can retry */
+  }
+}
+
 export async function setMuted(next: boolean) {
   muted = next;
   if (typeof document !== 'undefined') {
     document.documentElement.classList.toggle('is-muted', muted);
   }
+  notify();
   const a = ensureBgm();
   if (!a) return;
   duckTween?.kill();
