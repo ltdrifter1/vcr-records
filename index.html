@@ -9,32 +9,28 @@
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:        #f5f5f7;
-      --surface:   #ffffff;
-      --raised:    #fbfbfd;
-      --text:      #1d1d1f;
-      --muted:     #6e6e73;
-      --dim:       #86868b;
-      --line:      rgba(0,0,0,.06);
-      --line-hi:   rgba(0,0,0,.1);
-      --fill:      rgba(0,0,0,.03);
-      --fill-hi:   rgba(0,0,0,.06);
-      --shadow:    0 2px 12px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.05);
-      --shadow-lg: 0 4px 20px rgba(0,0,0,.06), 0 16px 48px rgba(0,0,0,.08);
-
-      --radius:    14px;
-      --radius-lg: 22px;
-      --radius-pill: 980px;
-      --ease:      cubic-bezier(.25,.1,.25,1);
-      --dur:       320ms;
-
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --dim: #86868b;
+      --line: rgba(0,0,0,.08);
+      --fill: rgba(0,0,0,.04);
+      --fill-hi: rgba(0,0,0,.07);
+      --shadow: 0 2px 16px rgba(0,0,0,.05);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.08);
+      --radius: 18px;
+      --pill: 980px;
+      --ease: cubic-bezier(.25,.1,.25,1);
+      --dur: 300ms;
       --sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
-      --wrap: 1120px;
+      --wrap: 1080px;
+      --nav-h: 52px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,12 +40,10 @@
       background: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
-      font-weight: 400;
-      letter-spacing: -.01em;
-      line-height: 1.47059;
       font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -.01em;
     }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
@@ -57,446 +51,382 @@
       font-family: inherit; cursor: pointer; border: none; background: none;
       -webkit-tap-highlight-color: transparent;
     }
-    ::selection { background: rgba(0,0,0,.12); color: var(--text); }
+    ::selection { background: rgba(0,0,0,.12); }
 
-    .atm { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-    .atm-fog {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 90% 55% at 50% -10%, rgba(255,255,255,.9) 0%, transparent 55%);
-    }
-    .atm-grain {
-      position: absolute; inset: 0;
-      opacity: var(--grain, 0.018);
-      mix-blend-mode: multiply;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 160px;
-      transition: opacity 300ms linear;
-    }
-    .atm-grain-scroll {
-      position: absolute; inset: -8%;
-      opacity: 0;
-      mix-blend-mode: multiply;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-      background-size: 120px;
-      transform: translate3d(0, var(--grain-y, 0px), 0);
-    }
-
-    /* NAV */
-    .nav-shell {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      padding: calc(12px + var(--safe-t)) 16px 0;
-      transition: padding var(--dur) var(--ease);
-    }
-    .nav-shell.scrolled { padding-top: calc(6px + var(--safe-t)); }
+    /* ── NAV ── */
     .nav {
-      max-width: var(--wrap); margin: 0 auto;
-      height: 52px; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 8px 0 12px; border-radius: var(--radius-pill);
-      background: rgba(255,255,255,.72);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      height: calc(var(--nav-h) + var(--safe-t));
+      padding-top: var(--safe-t);
+      background: rgba(245,245,247,.78);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(0,0,0,.06);
-      box-shadow: 0 4px 24px rgba(0,0,0,.04);
-      transition: height var(--dur) var(--ease), background var(--dur) var(--ease);
+      border-bottom: 1px solid transparent;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
     }
-    .nav-shell.scrolled .nav {
-      height: 44px;
-      background: rgba(255,255,255,.88);
+    .nav.scrolled {
+      background: rgba(255,255,255,.86);
+      border-bottom-color: var(--line);
     }
-    .nav-logo {
-      display: flex; align-items: center; height: 100%;
-      padding: 6px 8px;
-      transition: opacity var(--dur) var(--ease);
+    .nav-inner {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      height: var(--nav-h);
+      padding: 0 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-logo img { height: 32px; width: auto; }
-    .nav-shell.scrolled .nav-logo img { height: 26px; }
-    @media (hover:hover) { .nav-logo:hover { opacity: .65; } }
-
-    .nav-links { display: flex; gap: 0; margin-right: 4px; }
+    .nav-logo img { height: 28px; width: auto; }
+    .nav-links { display: flex; gap: 4px; }
     .nav-links a {
-      padding: 8px 14px;
+      padding: 8px 12px;
       font-size: 12px; font-weight: 500;
-      letter-spacing: -.01em;
       color: var(--muted);
-      border-radius: var(--radius-pill);
+      border-radius: var(--pill);
       transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
     @media (hover:hover) {
       .nav-links a:hover { color: var(--text); background: var(--fill-hi); }
     }
     .nav-ham {
-      display: none; flex-direction: column; gap: 5px; padding: 12px; margin-right: 2px;
+      display: none; flex-direction: column; gap: 5px; padding: 10px;
     }
     .nav-ham span {
       display: block; width: 16px; height: 1.5px; background: var(--muted);
-      border-radius: 1px; transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease), background var(--dur) var(--ease);
+      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
     }
     .nav-ham.on span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--text); }
     .nav-ham.on span:nth-child(2) { opacity: 0; }
     .nav-ham.on span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--text); }
-    @media (max-width: 700px) { .nav-links { display: none; } .nav-ham { display: flex; } }
+    @media (max-width: 680px) { .nav-links { display: none; } .nav-ham { display: flex; } }
 
     .nav-drawer {
       display: none; position: fixed;
-      top: calc(68px + var(--safe-t)); left: 16px; right: 16px; z-index: 290;
-      border-radius: var(--radius-lg); padding: 8px 20px calc(12px + var(--safe-b));
+      top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
       background: rgba(255,255,255,.96);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(0,0,0,.06);
-      box-shadow: var(--shadow-lg);
-      animation: drawerIn 280ms var(--ease);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 22px calc(16px + var(--safe-b));
     }
     .nav-drawer.on { display: block; }
-    @keyframes drawerIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
     .nav-drawer a {
-      display: block; padding: 14px 0; border-bottom: 1px solid var(--line);
+      display: block; padding: 14px 0;
+      border-bottom: 1px solid var(--line);
       font-size: 15px; font-weight: 500; color: var(--muted);
     }
     .nav-drawer a:last-child { border-bottom: none; }
 
-    /* HERO */
+    /* ── HERO: one story, full bleed ── */
     .hero {
-      position: relative; z-index: 1;
+      position: relative;
       min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero-media {
+      position: absolute; inset: 0;
+      background: #111;
+    }
+    .hero-media img {
+      width: 100%; height: 100%; object-fit: cover;
+      transform: scale(1.02);
+      transition: opacity .8s var(--ease), transform 10s linear;
+    }
+    .hero-media.fade img { opacity: 0; }
+    .hero-veil {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.1) 35%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.78) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      width: 100%; max-width: var(--wrap);
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 32px + var(--safe-t)) 22px calc(48px + var(--safe-b));
       display: grid;
-      grid-template-columns: 1fr 1.05fr;
-      padding-top: calc(64px + var(--safe-t));
+      grid-template-columns: 1fr;
+      gap: 48px;
     }
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-    }
-
-    .hero-brand {
-      display: flex; flex-direction: column; justify-content: center;
-      padding: clamp(48px, 8vw, 96px) clamp(24px, 5vw, 64px);
-    }
-    .hero-kicker {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .06em; text-transform: uppercase;
-      color: var(--dim); margin-bottom: 28px;
-    }
-    .hero-emblem {
-      width: min(100%, 420px);
-      margin-bottom: 28px;
-    }
-    .hero-emblem img {
-      width: 100%; height: auto;
-      opacity: 0;
-      animation: fadeUp .9s var(--ease) .05s both;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: none; }
-    }
-    .hero-lede {
-      font-size: clamp(19px, 2.2vw, 24px);
-      font-weight: 400;
-      line-height: 1.4;
-      letter-spacing: -.015em;
-      color: var(--muted);
-      max-width: 28ch;
-      margin-bottom: 36px;
-    }
-    .hero-lede em { font-style: normal; color: var(--text); font-weight: 600; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .hero-feature {
-      position: relative; overflow: hidden;
-      min-height: 72svh;
-      display: flex; align-items: flex-end;
-      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
-      margin: 24px 0 24px 0;
-      box-shadow: var(--shadow-lg);
-    }
-    @media (max-width: 900px) {
-      .hero-feature {
-        min-height: 58svh; margin: 0 16px 24px;
-        border-radius: var(--radius-lg);
+    @media (min-width: 860px) {
+      .hero-content {
+        grid-template-columns: 1.1fr .9fr;
+        align-items: end;
+        gap: 40px;
+        padding-bottom: calc(64px + var(--safe-b));
       }
     }
-    .hero-feature-art { position: absolute; inset: 0; background: #e8e8ed; }
-    .hero-feature-art img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: opacity .7s var(--ease);
+
+    .hero-brand-lockup {
+      max-width: 280px;
+      margin-bottom: 28px;
+      filter: brightness(0) invert(1);
     }
-    .hero-feature-art.fade img { opacity: 0; }
-    .hero-feature-veil {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.55) 100%);
-    }
-    .hero-feature-card {
-      position: relative; z-index: 2;
-      margin: 24px; padding: 20px 22px;
-      border-radius: var(--radius-lg);
-      max-width: 300px;
-      background: rgba(255,255,255,.86);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(255,255,255,.5);
-      box-shadow: var(--shadow);
-      transition: transform var(--dur) var(--ease);
-    }
-    @media (hover:hover) { .hero-feature-card:hover { transform: scale(1.02); } }
-    .hero-feature-label {
+    .hero-brand-lockup img { width: 100%; height: auto; }
+    .hero-kicker {
       font-size: 12px; font-weight: 600;
-      color: var(--dim); margin-bottom: 6px;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 12px;
     }
-    .hero-feature-title {
-      font-size: 28px; font-weight: 600;
-      letter-spacing: -.02em; line-height: 1.1;
-      margin-bottom: 4px;
+    .hero-title {
+      font-size: clamp(48px, 9vw, 80px);
+      font-weight: 600;
+      letter-spacing: -.04em;
+      line-height: .95;
+      margin-bottom: 10px;
     }
-    .hero-feature-artist {
-      font-size: 15px; color: var(--muted); margin-bottom: 14px;
+    .hero-artist {
+      font-size: 19px; font-weight: 400;
+      color: rgba(255,255,255,.72);
+      margin-bottom: 28px;
     }
-    .hero-feature-link {
-      font-size: 14px; font-weight: 500; color: var(--text);
-      display: inline-flex; align-items: center; gap: 4px;
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .hero-meta {
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      max-width: 360px;
+      justify-self: start;
     }
-    .hero-feature-link::after { content: '›'; font-size: 18px; line-height: 1; }
+    @media (min-width: 860px) { .hero-meta { justify-self: end; } }
+    .hero-meta p {
+      font-size: 15px; line-height: 1.5;
+      color: rgba(255,255,255,.78);
+      margin-bottom: 18px;
+    }
+    .hero-meta-row {
+      display: flex; justify-content: space-between; gap: 12px;
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,.5);
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
 
     /* Buttons */
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
       height: 44px; padding: 0 22px;
-      border-radius: var(--radius-pill);
+      border-radius: var(--pill);
       font-size: 14px; font-weight: 500;
-      letter-spacing: -.01em;
-      border: none;
-      transition: background var(--dur) var(--ease), transform 200ms var(--ease), opacity var(--dur) var(--ease);
+      transition: opacity var(--dur) var(--ease), transform 180ms var(--ease), background var(--dur) var(--ease);
     }
     .btn:active { transform: scale(.97); }
-    .btn-solid { background: var(--text); color: #fff; }
-    .btn-ghost { background: var(--fill-hi); color: var(--text); }
+    .btn-light { background: #fff; color: #000; }
+    .btn-dark { background: #1d1d1f; color: #fff; }
+    .btn-ghost-light {
+      background: rgba(255,255,255,.14); color: #fff;
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .btn-ghost-dark { background: var(--fill-hi); color: var(--text); }
     @media (hover:hover) {
-      .btn-solid:hover { opacity: .85; }
-      .btn-ghost:hover { background: rgba(0,0,0,.1); }
+      .btn-light:hover, .btn-dark:hover { opacity: .86; }
+      .btn-ghost-light:hover { background: rgba(255,255,255,.22); }
+      .btn-ghost-dark:hover { background: rgba(0,0,0,.1); }
     }
 
-    /* Layout */
-    main { position: relative; z-index: 1; }
+    /* ── SECTIONS ── */
     .band {
       max-width: var(--wrap);
       margin: 0 auto;
-      padding: 0 clamp(20px, 4vw, 40px);
+      padding: 0 22px;
     }
-    .section { padding: clamp(72px, 10vw, 120px) 0; }
-    .eyebrow {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .04em; text-transform: uppercase;
-      color: var(--dim); margin-bottom: 10px;
+    .section {
+      padding: 88px 0;
     }
+    @media (min-width: 800px) { .section { padding: 112px 0; } }
+
     .section-head {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px; align-items: end;
-      margin-bottom: clamp(32px, 5vw, 48px);
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+    .section-head .eyebrow {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 8px;
     }
     .section-head h2 {
-      font-size: clamp(36px, 6vw, 56px);
-      font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1.05;
-    }
-    .section-head p {
-      max-width: 26ch; font-size: 15px;
-      color: var(--muted); line-height: 1.5; text-align: right;
-    }
-    @media (max-width: 640px) {
-      .section-head { grid-template-columns: 1fr; }
-      .section-head p { text-align: left; }
-    }
-
-    /* Featured */
-    .feat-layout {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 20px;
-      align-items: stretch;
-    }
-    @media (max-width: 800px) { .feat-layout { grid-template-columns: 1fr; } }
-
-    .feat-main {
-      position: relative; border-radius: var(--radius-lg); overflow: hidden;
-      aspect-ratio: 4/5; max-height: 680px;
-      display: block; background: #e8e8ed;
-      box-shadow: var(--shadow-lg);
-      transition: transform var(--dur) var(--ease);
-    }
-    @media (max-width: 800px) { .feat-main { aspect-ratio: 1; max-height: none; } }
-    @media (hover:hover) { .feat-main:hover { transform: scale(1.01); } }
-    .feat-main img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .7s var(--ease);
-    }
-    @media (hover:hover) { .feat-main:hover img { transform: scale(1.03); } }
-    .feat-main-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.7) 100%);
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 28px;
-      color: #fff;
-    }
-    .feat-main-meta { font-size: 12px; font-weight: 500; color: rgba(255,255,255,.65); margin-bottom: 6px; }
-    .feat-main-title {
-      font-size: clamp(32px, 5vw, 48px); font-weight: 600;
-      letter-spacing: -.03em; line-height: 1.05;
-    }
-    .feat-main-artist { margin-top: 6px; color: rgba(255,255,255,.75); font-size: 15px; }
-
-    .feat-side { display: flex; flex-direction: column; gap: 16px; }
-    .feat-side-copy {
-      padding: 28px; border-radius: var(--radius-lg);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      flex: 1;
-      display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
-    }
-    .feat-side-copy h3 {
-      font-size: clamp(22px, 2.5vw, 28px);
-      font-weight: 600; letter-spacing: -.02em;
-      line-height: 1.2; margin-bottom: 10px;
-    }
-    .feat-side-copy p { font-size: 15px; color: var(--muted); line-height: 1.5; }
-    .feat-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-    .tag {
-      font-size: 12px; font-weight: 500;
-      padding: 6px 12px; border-radius: var(--radius-pill);
-      background: var(--fill-hi); color: var(--muted);
-    }
-    .feat-side-btns { display: flex; flex-direction: column; gap: 10px; }
-    .feat-side-btns .btn { width: 100%; }
-
-    .listen-card {
-      padding: 18px 20px; border-radius: var(--radius-lg);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      display: flex; align-items: center; gap: 14px;
-      width: 100%; text-align: left;
-      transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-    }
-    @media (hover:hover) {
-      .listen-card:hover { box-shadow: var(--shadow-lg); }
-      .listen-card:hover .listen-ring { transform: scale(1.05); }
-    }
-    .listen-ring {
-      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-      background: var(--text);
-      display: grid; place-items: center;
-      transition: transform var(--dur) var(--ease);
-    }
-    .listen-ring svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
-    .listen-name { font-size: 16px; font-weight: 600; letter-spacing: -.015em; }
-    .listen-sub { font-size: 12px; font-weight: 500; color: var(--dim); margin-top: 2px; }
-    .listen-embed { display: none; margin-top: 12px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-    .listen-embed.on { display: block; }
-
-    /* Catalog */
-    .catalog {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 720px) { .catalog { grid-template-columns: 1fr 1fr; } }
-
-    .rel {
-      display: block; border-radius: var(--radius-lg); overflow: hidden;
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-    }
-    .rel-lead { grid-row: span 2; }
-    @media (max-width: 720px) {
-      .rel-lead { grid-column: 1 / -1; grid-row: auto; }
-    }
-    @media (hover:hover) {
-      .rel:hover { transform: scale(1.015); box-shadow: var(--shadow-lg); }
-      .rel:hover .rel-art img { transform: scale(1.03); }
-    }
-    .rel-art { position: relative; overflow: hidden; background: #e8e8ed; aspect-ratio: 1; }
-    .rel-art img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .6s var(--ease);
-    }
-    .rel-body { padding: 16px 18px 18px; }
-    .rel-lead .rel-body { padding: 20px 22px 22px; }
-    .rel-artist {
-      font-size: 12px; font-weight: 500;
-      color: var(--dim); margin-bottom: 4px;
-    }
-    .rel-title {
-      font-size: 18px; font-weight: 600;
-      letter-spacing: -.02em; line-height: 1.15;
-    }
-    .rel-lead .rel-title { font-size: clamp(24px, 3vw, 32px); }
-    .rel-year { font-size: 13px; color: var(--dim); margin-top: 6px; }
-
-    /* Artists + Merch */
-    .split {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: clamp(40px, 6vw, 72px);
-    }
-    @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 72px; } }
-
-    .section-title {
       font-size: clamp(32px, 5vw, 48px);
       font-weight: 600;
       letter-spacing: -.03em;
       line-height: 1.05;
-      margin-bottom: 28px;
+      margin-bottom: 10px;
+    }
+    .section-head p {
+      font-size: 17px; color: var(--muted); line-height: 1.45;
     }
 
-    .artists-col { display: flex; flex-direction: column; gap: 10px; }
-    .a-card {
-      display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: center;
-      padding: 14px; border-radius: var(--radius-lg);
+    /* ── LISTEN ── */
+    .listen {
       background: var(--surface);
-      box-shadow: var(--shadow);
-      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+      border-block: 1px solid var(--line);
+      padding: 0;
+    }
+    .listen-inner {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+    .listen-trig {
+      width: 100%;
+      display: flex; align-items: center; gap: 18px;
+      padding: 28px 0;
+      text-align: left;
+      transition: opacity var(--dur) var(--ease);
+    }
+    .listen-play {
+      width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+      background: var(--text);
+      display: grid; place-items: center;
+      transition: transform var(--dur) var(--ease);
+    }
+    .listen-play svg { width: 16px; height: 16px; fill: #fff; margin-left: 2px; }
+    @media (hover:hover) {
+      .listen-trig:hover .listen-play { transform: scale(1.06); }
+    }
+    .listen-copy { flex: 1; min-width: 0; }
+    .listen-label {
+      font-size: 12px; font-weight: 600;
+      color: var(--dim); margin-bottom: 4px;
+    }
+    .listen-title {
+      font-size: 20px; font-weight: 600;
+      letter-spacing: -.02em;
+    }
+    .listen-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
+    .listen-embed { display: none; padding-bottom: 24px; }
+    .listen-embed.on { display: block; }
+
+    /* ── CATALOG: equal tiles ── */
+    .catalog {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 760px) {
+      .catalog {
+        grid-template-columns: none;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 14px;
+        padding-bottom: 8px;
+        margin: 0 -22px;
+        padding-left: 22px; padding-right: 22px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .catalog::-webkit-scrollbar { display: none; }
+      .catalog .rel { flex: 0 0 min(72vw, 280px); scroll-snap-align: start; }
+    }
+
+    .rel {
+      display: block;
+      transition: transform var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .a-card:hover { transform: scale(1.01); box-shadow: var(--shadow-lg); }
+      .rel:hover { transform: translateY(-3px); }
+      .rel:hover .rel-art img { transform: scale(1.03); }
+      .rel:hover .rel-title { color: #000; }
     }
-    .a-img {
-      width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+    .rel-art {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      overflow: hidden;
       background: #e8e8ed;
-    }
-    .a-name { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
-    .a-role { font-size: 13px; color: var(--dim); margin-top: 2px; }
-
-    .merch-rail {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 600px) { .merch-rail { grid-template-columns: 1fr; } }
-
-    .merch-item {
-      border-radius: var(--radius-lg);
-      padding: 14px; display: flex; flex-direction: column; gap: 12px;
-      background: var(--surface);
       box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .rel-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s var(--ease);
+    }
+    .rel-artist {
+      font-size: 12px; font-weight: 500;
+      color: var(--dim); margin-bottom: 3px;
+    }
+    .rel-title {
+      font-size: 19px; font-weight: 600;
+      letter-spacing: -.02em; line-height: 1.15;
+      transition: color var(--dur) var(--ease);
+    }
+    .rel-year { font-size: 13px; color: var(--dim); margin-top: 5px; }
+
+    /* ── ARTISTS: editorial list ── */
+    .artists {
+      background: var(--surface);
+      border-block: 1px solid var(--line);
+    }
+    .artist-list { display: flex; flex-direction: column; }
+    .artist-row {
+      display: grid;
+      grid-template-columns: 88px 1fr auto;
+      gap: 20px; align-items: center;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .artist-row:last-child { border-bottom: none; }
+    @media (max-width: 520px) {
+      .artist-row { grid-template-columns: 72px 1fr; }
+      .artist-meta { display: none; }
+    }
+    .artist-row img {
+      width: 88px; height: 88px; border-radius: 50%;
+      object-fit: cover; background: #e8e8ed;
+    }
+    @media (max-width: 520px) {
+      .artist-row img { width: 72px; height: 72px; }
+    }
+    .artist-name {
+      font-size: 24px; font-weight: 600;
+      letter-spacing: -.025em;
+    }
+    .artist-role { font-size: 14px; color: var(--muted); margin-top: 3px; }
+    .artist-meta {
+      font-size: 13px; font-weight: 500; color: var(--dim);
+      text-align: right;
+    }
+
+    /* ── MERCH: full width grid ── */
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 760px) {
+      .merch-grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+
+    .merch-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 14px;
       transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .merch-item:hover { transform: scale(1.015); box-shadow: var(--shadow-lg); }
-      .merch-item:hover .merch-img img { transform: scale(1.03); }
+      .merch-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+      .merch-card:hover .merch-img img { transform: scale(1.03); }
     }
     .merch-img {
       aspect-ratio: 1; border-radius: 14px; overflow: hidden;
-      background: #f5f5f7;
+      background: var(--bg);
       display: flex; align-items: center; justify-content: center;
     }
     .merch-img img {
-      width: 100%; height: 100%; object-fit: contain; padding: 12px;
+      width: 100%; height: 100%; object-fit: contain; padding: 16px;
       transition: transform .5s var(--ease);
     }
-    .merch-name { font-size: 16px; font-weight: 600; letter-spacing: -.015em; }
-    .merch-price { font-size: 13px; color: var(--dim); margin-top: 2px; }
+    .merch-name { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+    .merch-price { font-size: 14px; color: var(--dim); margin-top: 2px; }
     .merch-options { display: flex; gap: 6px; flex-wrap: wrap; }
     .merch-opt {
-      height: 28px; padding: 0 11px;
-      border-radius: var(--radius-pill);
+      height: 30px; padding: 0 12px;
+      border-radius: var(--pill);
       background: var(--fill-hi); color: var(--muted);
       font-size: 12px; font-weight: 500;
       transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
@@ -504,87 +434,80 @@
     @media (hover:hover) { .merch-opt:hover { color: var(--text); } }
     .merch-opt.selected { background: var(--text); color: #fff; }
     .merch-add {
-      height: 40px; width: 100%; margin-top: auto;
+      height: 42px; width: 100%; margin-top: auto;
+      border-radius: var(--pill);
       background: var(--text); color: #fff;
-      border-radius: var(--radius-pill);
-      font-size: 13px; font-weight: 500;
-      transition: opacity var(--dur) var(--ease), transform 200ms var(--ease);
+      font-size: 14px; font-weight: 500;
+      transition: opacity var(--dur) var(--ease), transform 180ms var(--ease);
     }
     .merch-add:active { transform: scale(.97); }
-    @media (hover:hover) { .merch-add:hover { opacity: .85; } }
+    @media (hover:hover) { .merch-add:hover { opacity: .86; } }
 
-    /* Footer */
+    /* ── FOOTER ── */
     .footer {
-      position: relative; z-index: 1;
       background: #fff;
       border-top: 1px solid var(--line);
-      padding: 80px 0 calc(40px + var(--safe-b));
+      padding: 64px 0 calc(36px + var(--safe-b));
     }
-    .footer-inner {
-      max-width: var(--wrap); margin: 0 auto;
-      padding: 0 clamp(20px, 4vw, 40px);
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
     }
-    .footer-grid {
-      display: grid; grid-template-columns: 1.1fr .9fr;
-      gap: 48px; margin-bottom: 56px;
-    }
-    @media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr; gap: 36px; } }
-    .footer-mark {
-      width: min(240px, 60vw); margin-bottom: 24px;
+    @media (max-width: 700px) { .footer-top { grid-template-columns: 1fr; } }
+    .footer-logo {
+      width: min(180px, 50vw);
+      margin-bottom: 18px;
     }
     .footer-manifesto {
-      font-size: clamp(24px, 3.5vw, 32px);
-      font-weight: 600;
-      letter-spacing: -.025em;
-      line-height: 1.2;
+      font-size: 22px; font-weight: 600;
+      letter-spacing: -.025em; line-height: 1.25;
       max-width: 16ch;
     }
     .footer-manifesto span {
-      display: block; font-weight: 400; color: var(--muted); margin-top: 6px;
+      display: block; font-weight: 400; color: var(--muted); margin-top: 4px;
     }
     .footer-newsletter label {
       display: block; font-size: 12px; font-weight: 600;
-      color: var(--dim); margin-bottom: 12px;
+      color: var(--dim); margin-bottom: 10px;
     }
     .footer-form {
       display: flex; gap: 8px; padding: 4px;
-      border-radius: var(--radius-pill);
+      border-radius: var(--pill);
       background: var(--bg);
       border: 1px solid var(--line);
     }
     .footer-form input {
       flex: 1; min-width: 0; height: 40px; padding: 0 16px;
-      background: transparent; border: none; outline: none;
-      color: var(--text); font-family: inherit; font-size: 15px;
+      border: none; outline: none; background: transparent;
+      font-family: inherit; font-size: 15px; color: var(--text);
     }
     .footer-form input::placeholder { color: var(--dim); }
     .footer-form button {
-      height: 40px; padding: 0 18px; border-radius: var(--radius-pill);
+      height: 40px; padding: 0 18px; border-radius: var(--pill);
       background: var(--text); color: #fff;
-      font-size: 13px; font-weight: 500;
-      transition: opacity var(--dur) var(--ease);
-      white-space: nowrap;
+      font-size: 13px; font-weight: 500; white-space: nowrap;
     }
-    @media (hover:hover) { .footer-form button:hover { opacity: .85; } }
-    .footer-note { font-size: 13px; color: var(--dim); margin-top: 12px; }
+    .footer-note { font-size: 13px; color: var(--dim); margin-top: 10px; }
     .footer-bottom {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; flex-wrap: wrap; padding-top: 28px; border-top: 1px solid var(--line);
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: space-between; align-items: center;
+      padding-top: 24px; border-top: 1px solid var(--line);
     }
-    .footer-brand { font-size: 13px; font-weight: 600; letter-spacing: -.01em; }
-    .footer-copy { font-size: 12px; color: var(--dim); margin-top: 4px; }
-    .footer-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .footer-copy { font-size: 12px; color: var(--dim); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 6px; }
     .footer-links a {
-      padding: 8px 14px; border-radius: var(--radius-pill);
-      font-size: 13px; font-weight: 500;
-      color: var(--muted); background: var(--fill);
+      padding: 8px 12px; border-radius: var(--pill);
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      background: var(--fill);
       transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
     @media (hover:hover) {
       .footer-links a:hover { color: var(--text); background: var(--fill-hi); }
     }
 
-    .rv { opacity: 0; transform: translateY(12px); transition: opacity .55s var(--ease), transform .55s var(--ease); }
+    .rv { opacity: 0; transform: translateY(14px); transition: opacity .55s var(--ease), transform .55s var(--ease); }
     .rv.in { opacity: 1; transform: none; }
     .d1 { transition-delay: .06s; }
     .d2 { transition-delay: .12s; }
@@ -593,269 +516,230 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
       }
       .rv { opacity: 1; transform: none; }
-      .atm-grain-scroll { display: none; }
     }
   </style>
 </head>
 <body>
 
-<div class="atm" aria-hidden="true">
-  <div class="atm-fog"></div>
-  <div class="atm-grain" id="atmGrain"></div>
-  <div class="atm-grain-scroll" id="atmGrainScroll"></div>
-</div>
-
-<div class="nav-shell" id="navShell">
-  <header class="nav">
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
     <a href="#top" class="nav-logo" aria-label="VCR Recordings home">
       <img src="vcr-script-nav.png" alt="VCR Recordings" width="162" height="100"/>
     </a>
-    <nav class="nav-links" aria-label="Primary navigation">
-      <a href="#featured">Featured</a>
+    <nav class="nav-links" aria-label="Primary">
       <a href="#releases">Releases</a>
       <a href="#listen">Listen</a>
-      <a href="#roster">Artists</a>
+      <a href="#artists">Artists</a>
       <a href="#merch">Merch</a>
     </nav>
     <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-  </header>
-</div>
+  </div>
+</header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="#featured">Featured</a>
   <a href="#releases">Releases</a>
   <a href="#listen">Listen</a>
-  <a href="#roster">Artists</a>
+  <a href="#artists">Artists</a>
   <a href="#merch">Merch</a>
 </div>
 
+<!-- HERO: single featured story -->
 <section class="hero" id="top">
-  <div class="hero-brand">
-    <p class="hero-kicker">Independent Electronic Music</p>
-    <div class="hero-emblem">
-      <img src="vcr-script.png" alt="VCR Recordings" width="746" height="461" fetchpriority="high"/>
-    </div>
-    <p class="hero-lede">Pacific Northwest sounds. <em>Cassette culture.</em> Electronic music from the edge of the continent.</p>
-    <div class="hero-actions">
-      <a class="btn btn-solid" href="#featured">Latest release</a>
-      <a class="btn btn-ghost" href="#releases">Browse catalog</a>
-    </div>
+  <div class="hero-media" id="heroMedia">
+    <img src="at_home.png" alt="" id="heroImg" fetchpriority="high"/>
   </div>
+  <div class="hero-veil" aria-hidden="true"></div>
 
-  <div class="hero-feature">
-    <div class="hero-feature-art" id="heroArt">
-      <img src="at_home.png" alt="" id="heroArtImg"/>
+  <div class="hero-content">
+    <div>
+      <div class="hero-brand-lockup">
+        <img src="vcr-script.png" alt="VCR Recordings" width="746" height="461"/>
+      </div>
+      <p class="hero-kicker">Latest release</p>
+      <h1 class="hero-title" id="heroTitle">At Home</h1>
+      <p class="hero-artist" id="heroArtist">Inlet Knight</p>
+      <div class="hero-actions">
+        <a class="btn btn-light" id="heroPrimary" href="home.html">View release</a>
+        <a class="btn btn-ghost-light" href="#listen">Listen</a>
+      </div>
     </div>
-    <div class="hero-feature-veil" aria-hidden="true"></div>
-    <a class="hero-feature-card" href="home.html" id="heroCard">
-      <div class="hero-feature-label" id="heroLabel">Now featured</div>
-      <div class="hero-feature-title" id="heroTitle">At Home</div>
-      <div class="hero-feature-artist" id="heroArtist">Inlet Knight</div>
-      <span class="hero-feature-link">View release</span>
-    </a>
+
+    <aside class="hero-meta">
+      <p>House music for quiet evenings. Digital and cassette on VCR Recordings.</p>
+      <div class="hero-meta-row">
+        <span>2026</span>
+        <span>Digital + Cassette</span>
+        <span>House</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- LISTEN -->
+<section class="listen" id="listen">
+  <div class="listen-inner">
+    <div id="listenBlock"
+         data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f5f5f7/linkcol=1d1d1f/transparent=true/autoplay=1/">
+      <button class="listen-trig" id="listenTrig" aria-label="Play Inlet Knight — At Home on Bandcamp">
+        <div class="listen-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="listen-copy">
+          <div class="listen-label">Listen now</div>
+          <div class="listen-title">Inlet Knight — At Home</div>
+          <div class="listen-sub">Play on Bandcamp</div>
+        </div>
+      </button>
+      <div class="listen-embed" id="listenEmbed"></div>
+    </div>
   </div>
 </section>
 
 <main>
 
-  <section class="section" id="featured">
-    <div class="band">
-      <div class="section-head rv">
-        <div>
-          <p class="eyebrow">Featured</p>
-          <h2>At Home</h2>
-        </div>
-        <p>Digital and cassette from Inlet Knight.</p>
-      </div>
-
-      <div class="feat-layout">
-        <a class="feat-main rv d1" href="home.html" aria-label="At Home by Inlet Knight">
-          <img src="at_home.png" alt="At Home"/>
-          <div class="feat-main-overlay">
-            <div class="feat-main-meta">Digital + Cassette · 2026</div>
-            <div class="feat-main-title">At Home</div>
-            <div class="feat-main-artist">Inlet Knight</div>
-          </div>
-        </a>
-
-        <div class="feat-side">
-          <div class="feat-side-copy rv d2">
-            <div>
-              <h3>House for quiet evenings.</h3>
-              <p>The latest from Inlet Knight on VCR Recordings.</p>
-              <div class="feat-tags"><span class="tag">House</span></div>
-            </div>
-            <div class="feat-side-btns">
-              <a class="btn btn-solid" href="home.html">View release</a>
-              <a class="btn btn-ghost" href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-            </div>
-          </div>
-
-          <div id="listen" class="rv d3">
-            <div id="listenBlock"
-                 data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f5f5f7/linkcol=1d1d1f/transparent=true/autoplay=1/">
-              <button class="listen-card" id="listenTrig" aria-label="Play Inlet Knight — on Bandcamp">
-                <div class="listen-ring">
-                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-                <div>
-                  <div class="listen-name">Inlet Knight — At Home</div>
-                  <div class="listen-sub">Play on Bandcamp</div>
-                </div>
-              </button>
-              <div class="listen-embed" id="listenEmbed"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- RELEASES -->
   <section class="section" id="releases">
     <div class="band">
       <div class="section-head rv">
-        <div>
-          <p class="eyebrow">Catalog</p>
-          <h2>Releases</h2>
-        </div>
-        <p>Selected works — digital and cassette.</p>
+        <p class="eyebrow">Catalog</p>
+        <h2>Releases</h2>
+        <p>Selected works from the label.</p>
       </div>
 
       <div class="catalog">
-        <a class="rel rel-lead rv d1" href="home.html">
+        <a class="rel rv d1" href="home.html">
           <div class="rel-art"><img src="at_home.png" alt="At Home" loading="lazy"/></div>
-          <div class="rel-body">
-            <div class="rel-artist">Inlet Knight</div>
-            <div class="rel-title">At Home</div>
-            <div class="rel-year">2026 · Digital + Cassette</div>
-          </div>
+          <div class="rel-artist">Inlet Knight</div>
+          <div class="rel-title">At Home</div>
+          <div class="rel-year">2026 · Digital + Cassette</div>
         </a>
 
         <a class="rel rv d2" href="summer.html">
           <div class="rel-art"><img src="summer.PNG" alt="Summer Madness" loading="lazy"/></div>
-          <div class="rel-body">
-            <div class="rel-artist">LT Drifta</div>
-            <div class="rel-title">Summer Madness</div>
-            <div class="rel-year">2026 · Digital + Cassette</div>
-          </div>
+          <div class="rel-artist">LT Drifta</div>
+          <div class="rel-title">Summer Madness</div>
+          <div class="rel-year">2026 · Digital + Cassette</div>
         </a>
 
         <a class="rel rv d3" href="lion.html">
           <div class="rel-art"><img src="blank1400.png" alt="Lions' Gate" loading="lazy"/></div>
-          <div class="rel-body">
-            <div class="rel-artist">Charlie Archer</div>
-            <div class="rel-title">Lions' Gate</div>
-            <div class="rel-year">2025 · Digital</div>
-          </div>
+          <div class="rel-artist">Charlie Archer</div>
+          <div class="rel-title">Lions' Gate</div>
+          <div class="rel-year">2025 · Digital</div>
         </a>
       </div>
     </div>
   </section>
 
-  <section class="section" id="roster">
+  <!-- ARTISTS -->
+  <section class="artists section" id="artists">
     <div class="band">
-      <div class="split">
+      <div class="section-head rv">
+        <p class="eyebrow">Roster</p>
+        <h2>Artists</h2>
+        <p>The people behind the music.</p>
+      </div>
 
-        <div id="artists">
-          <div class="rv">
-            <p class="eyebrow">Roster</p>
-            <h2 class="section-title">Artists</h2>
+      <div class="artist-list rv d1">
+        <div class="artist-row">
+          <img src="logo2.PNG" alt=""/>
+          <div>
+            <div class="artist-name">Inlet Knight</div>
+            <div class="artist-role">Artist · Producer</div>
           </div>
-          <div class="artists-col">
-            <div class="a-card rv d1">
-              <img class="a-img" src="logo2.PNG" alt="Inlet Knight"/>
-              <div>
-                <div class="a-name">Inlet Knight</div>
-                <div class="a-role">Artist · Producer</div>
-              </div>
-            </div>
-            <div class="a-card rv d2">
-              <img class="a-img" src="logo2.PNG" alt="Charlie Archer"/>
-              <div>
-                <div class="a-name">Charlie Archer</div>
-                <div class="a-role">Producer</div>
-              </div>
-            </div>
-            <div class="a-card rv d3">
-              <img class="a-img" src="logo2.PNG" alt="L.T. Drifta"/>
-              <div>
-                <div class="a-name">L.T. Drifta</div>
-                <div class="a-role">Artist</div>
-              </div>
-            </div>
+          <div class="artist-meta">At Home</div>
+        </div>
+        <div class="artist-row">
+          <img src="logo2.PNG" alt=""/>
+          <div>
+            <div class="artist-name">Charlie Archer</div>
+            <div class="artist-role">Producer</div>
           </div>
+          <div class="artist-meta">Lions' Gate</div>
+        </div>
+        <div class="artist-row">
+          <img src="logo2.PNG" alt=""/>
+          <div>
+            <div class="artist-name">L.T. Drifta</div>
+            <div class="artist-role">Artist</div>
+          </div>
+          <div class="artist-meta">Summer Madness</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MERCH -->
+  <section class="section" id="merch">
+    <div class="band">
+      <div class="section-head rv">
+        <p class="eyebrow">Shop</p>
+        <h2>Merch</h2>
+        <p>Wear the label.</p>
+      </div>
+
+      <div class="merch-grid">
+        <div class="merch-card rv d1">
+          <div class="merch-img">
+            <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
+          </div>
+          <div>
+            <div class="merch-name">T-Shirt</div>
+            <div class="merch-price">From $30.00</div>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
+            <button class="merch-opt" data-group="tshirt-colour" data-img="shirt2.png">White</button>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="tshirt-size">S</button>
+            <button class="merch-opt" data-group="tshirt-size">M</button>
+            <button class="merch-opt" data-group="tshirt-size">L</button>
+            <button class="merch-opt" data-group="tshirt-size">XL</button>
+          </div>
+          <button class="merch-add" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy</button>
         </div>
 
-        <div id="merch">
-          <div class="rv">
-            <p class="eyebrow">Shop</p>
-            <h2 class="section-title">Merch</h2>
+        <div class="merch-card rv d2">
+          <div class="merch-img">
+            <img id="hat-img" src="hat.png" alt="Hat"/>
           </div>
-          <div class="merch-rail">
-            <div class="merch-item rv d1">
-              <div class="merch-img">
-                <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
-              </div>
-              <div>
-                <div class="merch-name">T-Shirt</div>
-                <div class="merch-price">From $30.00</div>
-              </div>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
-                <button class="merch-opt" data-group="tshirt-colour" data-img="shirt2.png">White</button>
-              </div>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="tshirt-size">S</button>
-                <button class="merch-opt" data-group="tshirt-size">M</button>
-                <button class="merch-opt" data-group="tshirt-size">L</button>
-                <button class="merch-opt" data-group="tshirt-size">XL</button>
-              </div>
-              <button class="merch-add" data-item="T-Shirt" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy</button>
-            </div>
-
-            <div class="merch-item rv d2">
-              <div class="merch-img">
-                <img id="hat-img" src="hat.png" alt="Hat"/>
-              </div>
-              <div>
-                <div class="merch-name">Hat</div>
-                <div class="merch-price">$25.00</div>
-              </div>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
-              </div>
-              <button class="merch-add" data-item="Dad Cap" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy</button>
-            </div>
-
-            <div class="merch-item rv d3">
-              <div class="merch-img">
-                <img id="bikini-img" src="bikini.png" alt="Bikini"/>
-              </div>
-              <div>
-                <div class="merch-name">Bikini</div>
-                <div class="merch-price">From $35.00</div>
-              </div>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
-                <button class="merch-opt" data-group="bikini-colour" data-img="bikini2.png">White</button>
-              </div>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="bikini-size">XS</button>
-                <button class="merch-opt" data-group="bikini-size">S</button>
-                <button class="merch-opt" data-group="bikini-size">M</button>
-                <button class="merch-opt" data-group="bikini-size">L</button>
-              </div>
-              <button class="merch-add" data-item="Bikini" data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">Buy</button>
-            </div>
+          <div>
+            <div class="merch-name">Hat</div>
+            <div class="merch-price">$25.00</div>
           </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
+          </div>
+          <button class="merch-add" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy</button>
         </div>
 
+        <div class="merch-card rv d3">
+          <div class="merch-img">
+            <img id="bikini-img" src="bikini.png" alt="Bikini"/>
+          </div>
+          <div>
+            <div class="merch-name">Bikini</div>
+            <div class="merch-price">From $35.00</div>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
+            <button class="merch-opt" data-group="bikini-colour" data-img="bikini2.png">White</button>
+          </div>
+          <div class="merch-options">
+            <button class="merch-opt selected" data-group="bikini-size">XS</button>
+            <button class="merch-opt" data-group="bikini-size">S</button>
+            <button class="merch-opt" data-group="bikini-size">M</button>
+            <button class="merch-opt" data-group="bikini-size">L</button>
+          </div>
+          <button class="merch-add" data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">Buy</button>
+        </div>
       </div>
     </div>
   </section>
@@ -863,16 +747,16 @@
 </main>
 
 <footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-grid">
+  <div class="band">
+    <div class="footer-top">
       <div>
-        <img class="footer-mark" src="vcr-script.png" alt="VCR Recordings" width="746" height="461" loading="lazy"/>
+        <img class="footer-logo" src="vcr-script.png" alt="VCR Recordings" width="746" height="461" loading="lazy"/>
         <p class="footer-manifesto">
           Music made in the rain.
           <span>Pressed for the drive home.</span>
         </p>
       </div>
-      <div class="footer-newsletter">
+      <div>
         <label for="newsletterEmail">Stay in the loop</label>
         <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
           <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
@@ -883,11 +767,10 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div>
-        <div class="footer-brand">VCR Recordings</div>
-        <div class="footer-copy">© 2025 VCR Recordings. All rights reserved.</div>
-      </div>
+      <p class="footer-copy">© 2025 VCR Recordings</p>
       <div class="footer-links">
+        <a href="#releases">Releases</a>
+        <a href="#merch">Merch</a>
         <a href="https://vcrrecordings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
         <a href="https://www.instagram.com/vcr_recordings" target="_blank" rel="noopener">Instagram</a>
         <a href="/cdn-cgi/l/email-protection#93ffe7f7e1faf5e7f2d3f4fef2faffbdf0fcfe">Email</a>
@@ -898,78 +781,21 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
+/* Nav scroll */
 (function () {
-  var INTERVAL = 6500;
-  var items = [
-    { art: 'at_home.png', href: 'home.html', label: 'Now featured', title: 'At Home', artist: 'Inlet Knight' },
-    { art: 'summer.PNG', href: 'summer.html', label: 'Digital + Cassette', title: 'Summer Madness', artist: 'LT Drifta' }
-  ];
-  var artWrap = document.getElementById('heroArt');
-  var artImg = document.getElementById('heroArtImg');
-  var card = document.getElementById('heroCard');
-  var label = document.getElementById('heroLabel');
-  var title = document.getElementById('heroTitle');
-  var artist = document.getElementById('heroArtist');
-  var i = 0, paused = false, timer;
-
-  function go(next) {
-    artWrap.classList.add('fade');
-    card.style.opacity = '.5';
-    setTimeout(function () {
-      var s = items[next];
-      artImg.src = s.art;
-      card.href = s.href;
-      card.setAttribute('aria-label', s.title + ' by ' + s.artist);
-      label.textContent = s.label;
-      title.textContent = s.title;
-      artist.textContent = s.artist;
-      artWrap.classList.remove('fade');
-      card.style.opacity = '1';
-      card.style.transition = 'opacity 400ms cubic-bezier(.25,.1,.25,1), transform 320ms cubic-bezier(.25,.1,.25,1)';
-      i = next;
-    }, 240);
-  }
-
-  function start() {
-    clearInterval(timer);
-    timer = setInterval(function () {
-      if (!paused) go((i + 1) % items.length);
-    }, INTERVAL);
-  }
-
-  var hero = document.getElementById('top');
-  hero.addEventListener('mouseenter', function () { paused = true; });
-  hero.addEventListener('mouseleave', function () { paused = false; });
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
-})();
-
-(function () {
-  var shell = document.getElementById('navShell');
-  var grain = document.getElementById('atmGrain');
-  var grainScroll = document.getElementById('atmGrainScroll');
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav = document.getElementById('nav');
   var ticking = false;
-
-  function onScroll() {
+  window.addEventListener('scroll', function () {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
-      var y = window.scrollY || 0;
-      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      var p = Math.min(1, y / max);
-      shell.classList.toggle('scrolled', y > 40);
-      if (!reduce) {
-        grain.style.setProperty('--grain', String((0.014 + p * 0.02).toFixed(3)));
-        grainScroll.style.opacity = String((0.01 + p * 0.025).toFixed(3));
-        grainScroll.style.setProperty('--grain-y', (y * 0.03).toFixed(1) + 'px');
-      }
+      nav.classList.toggle('scrolled', window.scrollY > 20);
       ticking = false;
     });
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  }, { passive: true });
 })();
 
+/* Menu */
 var navHam = document.getElementById('navHam');
 var navDrawer = document.getElementById('navDrawer');
 navHam.addEventListener('click', function () {
@@ -987,22 +813,24 @@ navDrawer.querySelectorAll('a').forEach(function (a) {
   });
 });
 
+/* Bandcamp */
 var lb = document.getElementById('listenBlock');
 var lt = document.getElementById('listenTrig');
 var le = document.getElementById('listenEmbed');
 lt.addEventListener('click', function () {
   if (le.classList.contains('on')) return;
-  lt.style.opacity = '.35';
+  lt.style.opacity = '.4';
   lt.style.pointerEvents = 'none';
   var f = document.createElement('iframe');
   f.title = 'Bandcamp player';
   f.src = lb.dataset.src;
   f.allow = 'autoplay';
-  f.style.cssText = 'width:100%;height:80px;display:block;border:0;background:#f5f5f7;';
+  f.style.cssText = 'width:100%;height:80px;display:block;border:0;background:#f5f5f7;border-radius:12px;';
   f.onload = function () { lt.style.display = 'none'; le.classList.add('on'); };
   le.appendChild(f);
 });
 
+/* Merch */
 var MERCH_IMG_MAP = {
   'tshirt-colour': document.getElementById('tshirt-img'),
   'bikini-colour': document.getElementById('bikini-img'),
@@ -1017,10 +845,9 @@ document.querySelectorAll('.merch-opt').forEach(function (btn) {
     if (btn.dataset.img && MERCH_IMG_MAP[group]) MERCH_IMG_MAP[group].src = btn.dataset.img;
   });
 });
-
 document.querySelectorAll('.merch-add').forEach(function (btn) {
   btn.addEventListener('click', function () {
-    var card = btn.closest('.merch-item');
+    var card = btn.closest('.merch-card');
     var baseUrl = btn.dataset.stripe;
     var colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
     var sizeBtn = card.querySelector('.merch-opt.selected[data-group$="-size"]');
@@ -1029,9 +856,7 @@ document.querySelectorAll('.merch-add').forEach(function (btn) {
     var url = new URL(baseUrl, 'https://placeholder.com');
     if (colour) url.searchParams.set('colour', colour);
     if (size) url.searchParams.set('size', size);
-    var finalUrl = baseUrl.startsWith('http')
-      ? url.toString()
-      : baseUrl + (colour || size ? '?' + url.searchParams.toString() : '');
+    var finalUrl = baseUrl.startsWith('http') ? url.toString() : baseUrl;
     var original = btn.textContent;
     btn.textContent = 'Redirecting…';
     btn.disabled = true;
@@ -1042,11 +867,12 @@ document.querySelectorAll('.merch-add').forEach(function (btn) {
   });
 });
 
+/* Reveal */
 var obs = new IntersectionObserver(function (entries) {
   for (var e of entries) {
     if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
   }
-}, { threshold: .06, rootMargin: '0px 0px -24px 0px' });
+}, { threshold: .08, rootMargin: '0px 0px -20px 0px' });
 document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
 </script>
 </body>
