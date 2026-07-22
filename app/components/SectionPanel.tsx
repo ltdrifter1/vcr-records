@@ -12,9 +12,12 @@ import { SECTION_BY_ID, type SectionItem } from '@/app/data/sections';
 export default function SectionPanel({
   activeId,
   onClose,
+  onPlayCrt,
 }: {
   activeId: string | null;
   onClose: () => void;
+  /** Play a local video on the in-room CRT (Videos section). */
+  onPlayCrt?: (src: string) => void;
 }) {
   const [shownId, setShownId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -89,6 +92,11 @@ export default function SectionPanel({
   const openItem = (item: SectionItem) => {
     if (isMusic && item.tracks?.length) {
       setDetail(item);
+      return;
+    }
+    // Videos: stay in the room — swap the CRT channel.
+    if (item.videoSrc && onPlayCrt) {
+      onPlayCrt(item.videoSrc);
       return;
     }
     if (!item.href) return;
@@ -182,9 +190,22 @@ export default function SectionPanel({
                       {it.meta && <span className="pc-meta">{it.meta}</span>}
                       {it.detail && <span className="pc-detail">{it.detail}</span>}
                       <div className="panel-cta-wrap">
-                        {(it.cta || (isMusic && it.tracks)) && (
+                        {(it.cta || (isMusic && it.tracks) || it.videoSrc) && (
                           <span className="panel-cta">{it.cta ?? 'Open'}</span>
                         )}
+                        {it.videoSrc && it.href ? (
+                          <a
+                            className="panel-cta panel-cta-pill panel-cta-secondary"
+                            href={it.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-cursor="click"
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            Open page
+                          </a>
+                        ) : null}
                       </div>
                     </div>
                   </article>

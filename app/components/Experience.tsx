@@ -15,7 +15,8 @@ import { usePanControls } from './usePanControls';
 import { SECTION_BY_ID, SHOP_URL } from '@/app/data/sections';
 import { lookToSection, resetCamera, restoreExploreFov } from '@/lib/lookTo';
 import { MFOV_EXPLORE, START_LOOK_U, START_LOOK_V, uToYaw, vToPitch } from '@/lib/pano';
-import { playSfx, unlockAudio } from '@/lib/audio';
+import { enterWithAudio, playSfx } from '@/lib/audio';
+import { CRT_DEFAULT_SRC } from './CrtScreen';
 
 const TWO_PI = Math.PI * 2;
 
@@ -48,6 +49,7 @@ export default function Experience() {
   const [active, setActive] = useState<string | null>(null);
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [crtArmed, setCrtArmed] = useState(false);
+  const [crtSrc, setCrtSrc] = useState(CRT_DEFAULT_SRC);
   const [live, setLive] = useState(false);
   const [canLook, setCanLook] = useState(false);
   const [showCompass, setShowCompass] = useState(false);
@@ -87,7 +89,7 @@ export default function Experience() {
     setLive(true);
     setCanLook(false);
     setShowCompass(false);
-    void unlockAudio();
+    void enterWithAudio();
   }, []);
 
   const handleIntroComplete = useCallback(() => {
@@ -129,6 +131,7 @@ export default function Experience() {
       setFocusedId(null);
       focusedRef.current = null;
       setCrtArmed(false);
+      setCrtSrc(CRT_DEFAULT_SRC);
       if (!opts?.silent) playSfx('click');
       if (!reduceMotion) resetCamera(controls, 2);
       else snapFront();
@@ -148,12 +151,22 @@ export default function Experience() {
       setFocusedId(null);
       focusedRef.current = null;
       setCrtArmed(false);
+      setCrtSrc(CRT_DEFAULT_SRC);
       if (!opts?.silent) playSfx('click');
       if (!reduceMotion) restoreExploreFov(controls, 1.2);
       else controls.mfov = MFOV_EXPLORE;
     },
     [controls, reduceMotion],
   );
+
+  /** Swap the in-room CRT channel (Videos panel Play). */
+  const playCrt = useCallback((src: string) => {
+    setCrtSrc(src || CRT_DEFAULT_SRC);
+    // Keep tube armed if Videos is already focused; otherwise arm after lookto.
+    if (focusedRef.current === 'crt-tv' || activeRef.current === 'crt-tv') {
+      setCrtArmed(true);
+    }
+  }, []);
 
   // Zoom / pan away while locked → free (listening booth + cash register first)
   useEffect(() => {
@@ -226,6 +239,7 @@ export default function Experience() {
       openedAt.current = Date.now();
       setShowCompass(false);
       setCrtArmed(false);
+      if (id !== 'crt-tv') setCrtSrc(CRT_DEFAULT_SRC);
 
       // —— Listening booth (+ other panels): lookto + glow latch + panel ——
       panelOpenRef.current.value = true;
@@ -290,6 +304,7 @@ export default function Experience() {
             activeId={active}
             focusedId={focusedId}
             crtArmed={crtArmed}
+            crtSrc={crtSrc}
             gyroRef={gyroRef}
           />
         </Suspense>
@@ -297,7 +312,7 @@ export default function Experience() {
 
       <FilmFX />
       <CustomCursor enabled />
-      <MuteControl visible={canLook} unlocked={live} faded={videoFocused} />
+      <MuteControl visible={canLook} faded={videoFocused} />
       <GyroButton visible={canLook} gyroRef={gyroRef} />
       <TopNav visible={canLook} activeId={active} onOpen={open} />
 
@@ -307,7 +322,11 @@ export default function Experience() {
         </div>
       )}
 
-      <SectionPanel activeId={active} onClose={() => close()} />
+      <SectionPanel
+        activeId={active}
+        onClose={() => close()}
+        onPlayCrt={playCrt}
+      />
       <LoadingGate onEntered={handleEntered} />
     </div>
   );

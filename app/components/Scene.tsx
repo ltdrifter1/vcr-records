@@ -33,7 +33,8 @@ import DustField from './DustField';
 import Hotspot from './Hotspot';
 import LampHotspot from './LampHotspot';
 import FisheyePass from './FisheyePass';
-import CrtScreen from './CrtScreen';
+import CrtScreen, { CRT_DEFAULT_SRC } from './CrtScreen';
+import AmbientHits from './AmbientHits';
 
 const TWO_PI = Math.PI * 2;
 const DEG = Math.PI / 180;
@@ -63,6 +64,8 @@ type Props = {
   /** Glow latch — stays on while lookto-focused (incl. shop without panel). */
   focusedId?: string | null;
   crtArmed?: boolean;
+  /** Current CRT channel URL. */
+  crtSrc?: string;
   gyroRef?: { current: GyroHandle };
 };
 
@@ -281,6 +284,7 @@ export default function Scene({
   activeId = null,
   focusedId = null,
   crtArmed = false,
+  crtSrc = CRT_DEFAULT_SRC,
   gyroRef,
 }: Props) {
   const [texOn, texOff] = useTexture([TEXTURE_SRC, TEXTURE_OFF_SRC]);
@@ -365,7 +369,8 @@ export default function Scene({
       </mesh>
 
       <group>
-        <CrtScreen activeId={activeId} armed={crtArmed} />
+        <CrtScreen activeId={activeId} armed={crtArmed} src={crtSrc} />
+        <AmbientHits controls={controls} debug={debug} />
         {SECTIONS.map((s) => (
           <Hotspot
             key={s.id}

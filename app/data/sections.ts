@@ -20,6 +20,11 @@ export type SectionItem = {
   thumb?: string;
   /** Real cover / flyer art under /public/panel-thumbs. */
   thumbSrc?: string;
+  /**
+   * Local video URL played on the in-room CRT (Videos section).
+   * When set, primary row click stays in the room instead of window.open.
+   */
+  videoSrc?: string;
   /** Music nest — track list shown in level-2 detail. */
   tracks?: TrackItem[];
   /** Music nest — streaming pills. */
@@ -243,11 +248,49 @@ export const SECTIONS: Section[] = [
     h: 4.2,
     lookFov: 20,
     sfx: 'video',
+    // balmingtiger: TV glow extinguishes while watching (no active latch)
+    glowLatches: false,
     items: [
-      { label: 'About VCR Recordings', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', thumbSrc: T.yt, href: YOUTUBE_ABOUT },
-      { label: 'Test Press — LT Drifta', meta: 'Release film / audio', detail: 'Watch', cta: 'Open', thumb: 'TP', thumbSrc: T.testpress, href: SHOP.testpress },
-      { label: 'Classic Cuts', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'CL', thumbSrc: T.classic, href: SHOP.classic },
-      { label: 'Future Boy', meta: 'Shop page', detail: 'Watch', cta: 'Open', thumb: 'FB', thumbSrc: T.future, href: SHOP.future },
+      {
+        label: 'Channel A — Store Loop',
+        meta: 'In-CRT',
+        detail: 'Watch',
+        cta: 'Play',
+        thumb: 'A',
+        thumbSrc: T.yt,
+        videoSrc: '/videos/channel_a.mp4',
+        href: YOUTUBE_ABOUT,
+      },
+      {
+        label: 'Channel B — Banter Tape',
+        meta: 'In-CRT',
+        detail: 'Watch',
+        cta: 'Play',
+        thumb: 'B',
+        thumbSrc: T.testpress,
+        videoSrc: '/videos/channel_b.mp4',
+        href: SHOP.testpress,
+      },
+      {
+        label: 'Classic Cuts',
+        meta: 'In-CRT + page',
+        detail: 'Watch',
+        cta: 'Play',
+        thumb: 'CL',
+        thumbSrc: T.classic,
+        videoSrc: '/videos/crt_loop.mp4',
+        href: SHOP.classic,
+      },
+      {
+        label: 'Future Boy',
+        meta: 'In-CRT + page',
+        detail: 'Watch',
+        cta: 'Play',
+        thumb: 'FB',
+        thumbSrc: T.future,
+        videoSrc: '/videos/channel_a.mp4',
+        href: SHOP.future,
+      },
     ],
   },
   {
