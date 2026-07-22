@@ -30,7 +30,7 @@
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
       --wrap: 1080px;
-      --nav-h: 52px;
+      --nav-h: 56px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,19 +53,19 @@
     }
     ::selection { background: rgba(0,0,0,.12); }
 
-    /* ── NAV ── */
+    /* NAV */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       height: calc(var(--nav-h) + var(--safe-t));
       padding-top: var(--safe-t);
-      background: rgba(245,245,247,.78);
+      background: rgba(245,245,247,.82);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid transparent;
       transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
     }
     .nav.scrolled {
-      background: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.9);
       border-bottom-color: var(--line);
     }
     .nav-inner {
@@ -75,8 +75,17 @@
       padding: 0 22px;
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-logo img { height: 28px; width: auto; }
-    .nav-links { display: flex; gap: 4px; }
+    .nav-logo {
+      display: flex; align-items: center;
+      transition: opacity var(--dur) var(--ease);
+    }
+    .nav-logo img, .nav-logo svg {
+      height: 40px; width: auto;
+      display: block;
+    }
+    @media (hover:hover) { .nav-logo:hover { opacity: .65; } }
+
+    .nav-links { display: flex; gap: 2px; }
     .nav-links a {
       padding: 8px 12px;
       font-size: 12px; font-weight: 500;
@@ -115,97 +124,6 @@
     }
     .nav-drawer a:last-child { border-bottom: none; }
 
-    /* ── HERO: one story, full bleed ── */
-    .hero {
-      position: relative;
-      min-height: 100svh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      color: #fff;
-      overflow: hidden;
-    }
-    .hero-media {
-      position: absolute; inset: 0;
-      background: #111;
-    }
-    .hero-media img {
-      width: 100%; height: 100%; object-fit: cover;
-      transform: scale(1.02);
-      transition: opacity .8s var(--ease), transform 10s linear;
-    }
-    .hero-media.fade img { opacity: 0; }
-    .hero-veil {
-      position: absolute; inset: 0;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.1) 35%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.78) 100%);
-    }
-    .hero-content {
-      position: relative; z-index: 2;
-      width: 100%; max-width: var(--wrap);
-      margin: 0 auto;
-      padding: calc(var(--nav-h) + 32px + var(--safe-t)) 22px calc(48px + var(--safe-b));
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-    }
-    @media (min-width: 860px) {
-      .hero-content {
-        grid-template-columns: 1.1fr .9fr;
-        align-items: end;
-        gap: 40px;
-        padding-bottom: calc(64px + var(--safe-b));
-      }
-    }
-
-    .hero-brand-lockup {
-      max-width: 280px;
-      margin-bottom: 28px;
-      filter: brightness(0) invert(1);
-    }
-    .hero-brand-lockup img { width: 100%; height: auto; }
-    .hero-kicker {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: rgba(255,255,255,.55);
-      margin-bottom: 12px;
-    }
-    .hero-title {
-      font-size: clamp(48px, 9vw, 80px);
-      font-weight: 600;
-      letter-spacing: -.04em;
-      line-height: .95;
-      margin-bottom: 10px;
-    }
-    .hero-artist {
-      font-size: 19px; font-weight: 400;
-      color: rgba(255,255,255,.72);
-      margin-bottom: 28px;
-    }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-    .hero-meta {
-      background: rgba(255,255,255,.1);
-      backdrop-filter: blur(16px) saturate(140%);
-      -webkit-backdrop-filter: blur(16px) saturate(140%);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: var(--radius);
-      padding: 22px 24px;
-      max-width: 360px;
-      justify-self: start;
-    }
-    @media (min-width: 860px) { .hero-meta { justify-self: end; } }
-    .hero-meta p {
-      font-size: 15px; line-height: 1.5;
-      color: rgba(255,255,255,.78);
-      margin-bottom: 18px;
-    }
-    .hero-meta-row {
-      display: flex; justify-content: space-between; gap: 12px;
-      font-size: 12px; font-weight: 500;
-      color: rgba(255,255,255,.5);
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,.12);
-    }
-
     /* Buttons */
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -215,29 +133,24 @@
       transition: opacity var(--dur) var(--ease), transform 180ms var(--ease), background var(--dur) var(--ease);
     }
     .btn:active { transform: scale(.97); }
-    .btn-light { background: #fff; color: #000; }
     .btn-dark { background: #1d1d1f; color: #fff; }
-    .btn-ghost-light {
-      background: rgba(255,255,255,.14); color: #fff;
-      border: 1px solid rgba(255,255,255,.2);
-    }
-    .btn-ghost-dark { background: var(--fill-hi); color: var(--text); }
+    .btn-ghost { background: var(--fill-hi); color: var(--text); }
     @media (hover:hover) {
-      .btn-light:hover, .btn-dark:hover { opacity: .86; }
-      .btn-ghost-light:hover { background: rgba(255,255,255,.22); }
-      .btn-ghost-dark:hover { background: rgba(0,0,0,.1); }
+      .btn-dark:hover { opacity: .86; }
+      .btn-ghost:hover { background: rgba(0,0,0,.1); }
     }
 
-    /* ── SECTIONS ── */
+    /* Layout */
+    .page-start {
+      padding-top: calc(var(--nav-h) + var(--safe-t));
+    }
     .band {
       max-width: var(--wrap);
       margin: 0 auto;
       padding: 0 22px;
     }
-    .section {
-      padding: 88px 0;
-    }
-    @media (min-width: 800px) { .section { padding: 112px 0; } }
+    .section { padding: 80px 0; }
+    @media (min-width: 800px) { .section { padding: 100px 0; } }
 
     .section-head {
       margin-bottom: 36px;
@@ -259,11 +172,63 @@
       font-size: 17px; color: var(--muted); line-height: 1.45;
     }
 
-    /* ── LISTEN ── */
+    /* FEATURED — compact, not a banner */
+    .featured {
+      padding: 40px 0 24px;
+    }
+    .featured-card {
+      display: grid;
+      grid-template-columns: minmax(200px, 380px) 1fr;
+      gap: 0;
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    @media (max-width: 720px) {
+      .featured-card { grid-template-columns: 1fr; }
+    }
+    .featured-art {
+      aspect-ratio: 1;
+      background: #e8e8ed;
+      overflow: hidden;
+    }
+    .featured-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s var(--ease);
+    }
+    @media (hover:hover) {
+      .featured-card:hover .featured-art img { transform: scale(1.03); }
+    }
+    .featured-body {
+      padding: clamp(24px, 4vw, 40px);
+      display: flex; flex-direction: column; justify-content: center; gap: 20px;
+    }
+    .featured-label {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--dim);
+    }
+    .featured-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 600;
+      letter-spacing: -.035em;
+      line-height: 1.02;
+      margin-top: 6px;
+    }
+    .featured-artist {
+      font-size: 17px; color: var(--muted); margin-top: 8px;
+    }
+    .featured-desc {
+      font-size: 15px; color: var(--muted); line-height: 1.5;
+      max-width: 36ch;
+    }
+    .featured-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* LISTEN */
     .listen {
       background: var(--surface);
       border-block: 1px solid var(--line);
-      padding: 0;
     }
     .listen-inner {
       max-width: var(--wrap);
@@ -275,7 +240,6 @@
       display: flex; align-items: center; gap: 18px;
       padding: 28px 0;
       text-align: left;
-      transition: opacity var(--dur) var(--ease);
     }
     .listen-play {
       width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
@@ -287,20 +251,17 @@
     @media (hover:hover) {
       .listen-trig:hover .listen-play { transform: scale(1.06); }
     }
-    .listen-copy { flex: 1; min-width: 0; }
     .listen-label {
-      font-size: 12px; font-weight: 600;
-      color: var(--dim); margin-bottom: 4px;
+      font-size: 12px; font-weight: 600; color: var(--dim); margin-bottom: 4px;
     }
     .listen-title {
-      font-size: 20px; font-weight: 600;
-      letter-spacing: -.02em;
+      font-size: 20px; font-weight: 600; letter-spacing: -.02em;
     }
     .listen-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
     .listen-embed { display: none; padding-bottom: 24px; }
     .listen-embed.on { display: block; }
 
-    /* ── CATALOG: equal tiles ── */
+    /* CATALOG */
     .catalog {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -308,54 +269,36 @@
     }
     @media (max-width: 760px) {
       .catalog {
-        grid-template-columns: none;
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         gap: 14px;
-        padding-bottom: 8px;
         margin: 0 -22px;
-        padding-left: 22px; padding-right: 22px;
+        padding: 0 22px 8px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
       }
       .catalog::-webkit-scrollbar { display: none; }
       .catalog .rel { flex: 0 0 min(72vw, 280px); scroll-snap-align: start; }
     }
-
-    .rel {
-      display: block;
-      transition: transform var(--dur) var(--ease);
-    }
+    .rel { display: block; transition: transform var(--dur) var(--ease); }
     @media (hover:hover) {
       .rel:hover { transform: translateY(-3px); }
       .rel:hover .rel-art img { transform: scale(1.03); }
-      .rel:hover .rel-title { color: #000; }
     }
     .rel-art {
-      aspect-ratio: 1;
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: #e8e8ed;
-      box-shadow: var(--shadow);
-      margin-bottom: 14px;
+      aspect-ratio: 1; border-radius: var(--radius); overflow: hidden;
+      background: #e8e8ed; box-shadow: var(--shadow); margin-bottom: 14px;
     }
     .rel-art img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform .6s var(--ease);
     }
-    .rel-artist {
-      font-size: 12px; font-weight: 500;
-      color: var(--dim); margin-bottom: 3px;
-    }
-    .rel-title {
-      font-size: 19px; font-weight: 600;
-      letter-spacing: -.02em; line-height: 1.15;
-      transition: color var(--dur) var(--ease);
-    }
+    .rel-artist { font-size: 12px; font-weight: 500; color: var(--dim); margin-bottom: 3px; }
+    .rel-title { font-size: 19px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
     .rel-year { font-size: 13px; color: var(--dim); margin-top: 5px; }
 
-    /* ── ARTISTS: editorial list ── */
+    /* ARTISTS */
     .artists {
       background: var(--surface);
       border-block: 1px solid var(--line);
@@ -372,25 +315,17 @@
     @media (max-width: 520px) {
       .artist-row { grid-template-columns: 72px 1fr; }
       .artist-meta { display: none; }
+      .artist-row img { width: 72px; height: 72px; }
     }
     .artist-row img {
       width: 88px; height: 88px; border-radius: 50%;
       object-fit: cover; background: #e8e8ed;
     }
-    @media (max-width: 520px) {
-      .artist-row img { width: 72px; height: 72px; }
-    }
-    .artist-name {
-      font-size: 24px; font-weight: 600;
-      letter-spacing: -.025em;
-    }
+    .artist-name { font-size: 24px; font-weight: 600; letter-spacing: -.025em; }
     .artist-role { font-size: 14px; color: var(--muted); margin-top: 3px; }
-    .artist-meta {
-      font-size: 13px; font-weight: 500; color: var(--dim);
-      text-align: right;
-    }
+    .artist-meta { font-size: 13px; font-weight: 500; color: var(--dim); text-align: right; }
 
-    /* ── MERCH: full width grid ── */
+    /* MERCH */
     .merch-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -399,7 +334,6 @@
     @media (max-width: 760px) {
       .merch-grid { grid-template-columns: 1fr; max-width: 420px; }
     }
-
     .merch-card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -443,7 +377,7 @@
     .merch-add:active { transform: scale(.97); }
     @media (hover:hover) { .merch-add:hover { opacity: .86; } }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     .footer {
       background: #fff;
       border-top: 1px solid var(--line);
@@ -457,7 +391,7 @@
     }
     @media (max-width: 700px) { .footer-top { grid-template-columns: 1fr; } }
     .footer-logo {
-      width: min(180px, 50vw);
+      width: min(140px, 42vw);
       margin-bottom: 18px;
     }
     .footer-manifesto {
@@ -522,15 +456,15 @@
     }
   </style>
 </head>
-<body>
+<body id="top">
 
-<!-- NAV -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-logo" aria-label="VCR Recordings home">
-      <img src="vcr-script-nav.png" alt="VCR Recordings" width="162" height="100"/>
+    <a href="#top" class="nav-logo" aria-label="VCR Records home">
+      <img src="vcr-globe.svg" alt="VCR Records" width="280" height="200"/>
     </a>
     <nav class="nav-links" aria-label="Primary">
+      <a href="#featured">Featured</a>
       <a href="#releases">Releases</a>
       <a href="#listen">Listen</a>
       <a href="#artists">Artists</a>
@@ -543,245 +477,230 @@
 </header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="#featured">Featured</a>
   <a href="#releases">Releases</a>
   <a href="#listen">Listen</a>
   <a href="#artists">Artists</a>
   <a href="#merch">Merch</a>
 </div>
 
-<!-- HERO: single featured story -->
-<section class="hero" id="top">
-  <div class="hero-media" id="heroMedia">
-    <img src="at_home.png" alt="" id="heroImg" fetchpriority="high"/>
-  </div>
-  <div class="hero-veil" aria-hidden="true"></div>
+<div class="page-start">
 
-  <div class="hero-content">
-    <div>
-      <div class="hero-brand-lockup">
-        <img src="vcr-script.png" alt="VCR Recordings" width="746" height="461"/>
-      </div>
-      <p class="hero-kicker">Latest release</p>
-      <h1 class="hero-title" id="heroTitle">At Home</h1>
-      <p class="hero-artist" id="heroArtist">Inlet Knight</p>
-      <div class="hero-actions">
-        <a class="btn btn-light" id="heroPrimary" href="home.html">View release</a>
-        <a class="btn btn-ghost-light" href="#listen">Listen</a>
-      </div>
-    </div>
-
-    <aside class="hero-meta">
-      <p>House music for quiet evenings. Digital and cassette on VCR Recordings.</p>
-      <div class="hero-meta-row">
-        <span>2026</span>
-        <span>Digital + Cassette</span>
-        <span>House</span>
-      </div>
-    </aside>
-  </div>
-</section>
-
-<!-- LISTEN -->
-<section class="listen" id="listen">
-  <div class="listen-inner">
-    <div id="listenBlock"
-         data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f5f5f7/linkcol=1d1d1f/transparent=true/autoplay=1/">
-      <button class="listen-trig" id="listenTrig" aria-label="Play Inlet Knight — At Home on Bandcamp">
-        <div class="listen-play">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="listen-copy">
-          <div class="listen-label">Listen now</div>
-          <div class="listen-title">Inlet Knight — At Home</div>
-          <div class="listen-sub">Play on Bandcamp</div>
-        </div>
-      </button>
-      <div class="listen-embed" id="listenEmbed"></div>
-    </div>
-  </div>
-</section>
-
-<main>
-
-  <!-- RELEASES -->
-  <section class="section" id="releases">
+  <!-- FEATURED (compact card, not hero banner) -->
+  <section class="featured" id="featured">
     <div class="band">
-      <div class="section-head rv">
-        <p class="eyebrow">Catalog</p>
-        <h2>Releases</h2>
-        <p>Selected works from the label.</p>
-      </div>
+      <a class="featured-card" href="home.html" aria-label="At Home by Inlet Knight">
+        <div class="featured-art">
+          <img src="at_home.png" alt="At Home" fetchpriority="high"/>
+        </div>
+        <div class="featured-body">
+          <div>
+            <div class="featured-label">Latest release</div>
+            <h1 class="featured-title">At Home</h1>
+            <div class="featured-artist">Inlet Knight</div>
+          </div>
+          <p class="featured-desc">House music for quiet evenings. Digital and cassette on VCR Recordings.</p>
+          <div class="featured-actions">
+            <span class="btn btn-dark">View release</span>
+            <span class="btn btn-ghost">2026 · House</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
 
-      <div class="catalog">
-        <a class="rel rv d1" href="home.html">
-          <div class="rel-art"><img src="at_home.png" alt="At Home" loading="lazy"/></div>
-          <div class="rel-artist">Inlet Knight</div>
-          <div class="rel-title">At Home</div>
-          <div class="rel-year">2026 · Digital + Cassette</div>
-        </a>
-
-        <a class="rel rv d2" href="summer.html">
-          <div class="rel-art"><img src="summer.PNG" alt="Summer Madness" loading="lazy"/></div>
-          <div class="rel-artist">LT Drifta</div>
-          <div class="rel-title">Summer Madness</div>
-          <div class="rel-year">2026 · Digital + Cassette</div>
-        </a>
-
-        <a class="rel rv d3" href="lion.html">
-          <div class="rel-art"><img src="blank1400.png" alt="Lions' Gate" loading="lazy"/></div>
-          <div class="rel-artist">Charlie Archer</div>
-          <div class="rel-title">Lions' Gate</div>
-          <div class="rel-year">2025 · Digital</div>
-        </a>
+  <!-- LISTEN -->
+  <section class="listen" id="listen">
+    <div class="listen-inner">
+      <div id="listenBlock"
+           data-src="https://bandcamp.com/EmbeddedPlayer/track=4140921124/size=small/bgcol=f5f5f7/linkcol=1d1d1f/transparent=true/autoplay=1/">
+        <button class="listen-trig" id="listenTrig" aria-label="Play Inlet Knight — At Home on Bandcamp">
+          <div class="listen-play">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div>
+            <div class="listen-label">Listen now</div>
+            <div class="listen-title">Inlet Knight — At Home</div>
+            <div class="listen-sub">Play on Bandcamp</div>
+          </div>
+        </button>
+        <div class="listen-embed" id="listenEmbed"></div>
       </div>
     </div>
   </section>
 
-  <!-- ARTISTS -->
-  <section class="artists section" id="artists">
+  <main>
+
+    <section class="section" id="releases">
+      <div class="band">
+        <div class="section-head rv">
+          <p class="eyebrow">Catalog</p>
+          <h2>Releases</h2>
+          <p>Selected works from the label.</p>
+        </div>
+        <div class="catalog">
+          <a class="rel rv d1" href="home.html">
+            <div class="rel-art"><img src="at_home.png" alt="At Home" loading="lazy"/></div>
+            <div class="rel-artist">Inlet Knight</div>
+            <div class="rel-title">At Home</div>
+            <div class="rel-year">2026 · Digital + Cassette</div>
+          </a>
+          <a class="rel rv d2" href="summer.html">
+            <div class="rel-art"><img src="summer.PNG" alt="Summer Madness" loading="lazy"/></div>
+            <div class="rel-artist">LT Drifta</div>
+            <div class="rel-title">Summer Madness</div>
+            <div class="rel-year">2026 · Digital + Cassette</div>
+          </a>
+          <a class="rel rv d3" href="lion.html">
+            <div class="rel-art"><img src="blank1400.png" alt="Lions' Gate" loading="lazy"/></div>
+            <div class="rel-artist">Charlie Archer</div>
+            <div class="rel-title">Lions' Gate</div>
+            <div class="rel-year">2025 · Digital</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="artists section" id="artists">
+      <div class="band">
+        <div class="section-head rv">
+          <p class="eyebrow">Roster</p>
+          <h2>Artists</h2>
+          <p>The people behind the music.</p>
+        </div>
+        <div class="artist-list rv d1">
+          <div class="artist-row">
+            <img src="logo2.PNG" alt=""/>
+            <div>
+              <div class="artist-name">Inlet Knight</div>
+              <div class="artist-role">Artist · Producer</div>
+            </div>
+            <div class="artist-meta">At Home</div>
+          </div>
+          <div class="artist-row">
+            <img src="logo2.PNG" alt=""/>
+            <div>
+              <div class="artist-name">Charlie Archer</div>
+              <div class="artist-role">Producer</div>
+            </div>
+            <div class="artist-meta">Lions' Gate</div>
+          </div>
+          <div class="artist-row">
+            <img src="logo2.PNG" alt=""/>
+            <div>
+              <div class="artist-name">L.T. Drifta</div>
+              <div class="artist-role">Artist</div>
+            </div>
+            <div class="artist-meta">Summer Madness</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="merch">
+      <div class="band">
+        <div class="section-head rv">
+          <p class="eyebrow">Shop</p>
+          <h2>Merch</h2>
+          <p>Wear the label.</p>
+        </div>
+        <div class="merch-grid">
+          <div class="merch-card rv d1">
+            <div class="merch-img">
+              <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
+            </div>
+            <div>
+              <div class="merch-name">T-Shirt</div>
+              <div class="merch-price">From $30.00</div>
+            </div>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
+              <button class="merch-opt" data-group="tshirt-colour" data-img="shirt2.png">White</button>
+            </div>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="tshirt-size">S</button>
+              <button class="merch-opt" data-group="tshirt-size">M</button>
+              <button class="merch-opt" data-group="tshirt-size">L</button>
+              <button class="merch-opt" data-group="tshirt-size">XL</button>
+            </div>
+            <button class="merch-add" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy</button>
+          </div>
+          <div class="merch-card rv d2">
+            <div class="merch-img">
+              <img id="hat-img" src="hat.png" alt="Hat"/>
+            </div>
+            <div>
+              <div class="merch-name">Hat</div>
+              <div class="merch-price">$25.00</div>
+            </div>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
+            </div>
+            <button class="merch-add" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy</button>
+          </div>
+          <div class="merch-card rv d3">
+            <div class="merch-img">
+              <img id="bikini-img" src="bikini.png" alt="Bikini"/>
+            </div>
+            <div>
+              <div class="merch-name">Bikini</div>
+              <div class="merch-price">From $35.00</div>
+            </div>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
+              <button class="merch-opt" data-group="bikini-colour" data-img="bikini2.png">White</button>
+            </div>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="bikini-size">XS</button>
+              <button class="merch-opt" data-group="bikini-size">S</button>
+              <button class="merch-opt" data-group="bikini-size">M</button>
+              <button class="merch-opt" data-group="bikini-size">L</button>
+            </div>
+            <button class="merch-add" data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">Buy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
     <div class="band">
-      <div class="section-head rv">
-        <p class="eyebrow">Roster</p>
-        <h2>Artists</h2>
-        <p>The people behind the music.</p>
+      <div class="footer-top">
+        <div>
+          <img class="footer-logo" src="vcr-globe.svg" alt="VCR Records" width="280" height="200" loading="lazy"/>
+          <p class="footer-manifesto">
+            Music made in the rain.
+            <span>Pressed for the drive home.</span>
+          </p>
+        </div>
+        <div>
+          <label for="newsletterEmail">Stay in the loop</label>
+          <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+            <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+            <button type="submit">Join</button>
+          </form>
+          <p class="footer-note">Occasional releases only.</p>
+        </div>
       </div>
-
-      <div class="artist-list rv d1">
-        <div class="artist-row">
-          <img src="logo2.PNG" alt=""/>
-          <div>
-            <div class="artist-name">Inlet Knight</div>
-            <div class="artist-role">Artist · Producer</div>
-          </div>
-          <div class="artist-meta">At Home</div>
-        </div>
-        <div class="artist-row">
-          <img src="logo2.PNG" alt=""/>
-          <div>
-            <div class="artist-name">Charlie Archer</div>
-            <div class="artist-role">Producer</div>
-          </div>
-          <div class="artist-meta">Lions' Gate</div>
-        </div>
-        <div class="artist-row">
-          <img src="logo2.PNG" alt=""/>
-          <div>
-            <div class="artist-name">L.T. Drifta</div>
-            <div class="artist-role">Artist</div>
-          </div>
-          <div class="artist-meta">Summer Madness</div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 VCR Recordings</p>
+        <div class="footer-links">
+          <a href="#releases">Releases</a>
+          <a href="#merch">Merch</a>
+          <a href="https://vcrrecordings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+          <a href="https://www.instagram.com/vcr_recordings" target="_blank" rel="noopener">Instagram</a>
+          <a href="/cdn-cgi/l/email-protection#93ffe7f7e1faf5e7f2d3f4fef2faffbdf0fcfe">Email</a>
         </div>
       </div>
     </div>
-  </section>
+  </footer>
 
-  <!-- MERCH -->
-  <section class="section" id="merch">
-    <div class="band">
-      <div class="section-head rv">
-        <p class="eyebrow">Shop</p>
-        <h2>Merch</h2>
-        <p>Wear the label.</p>
-      </div>
-
-      <div class="merch-grid">
-        <div class="merch-card rv d1">
-          <div class="merch-img">
-            <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
-          </div>
-          <div>
-            <div class="merch-name">T-Shirt</div>
-            <div class="merch-price">From $30.00</div>
-          </div>
-          <div class="merch-options">
-            <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
-            <button class="merch-opt" data-group="tshirt-colour" data-img="shirt2.png">White</button>
-          </div>
-          <div class="merch-options">
-            <button class="merch-opt selected" data-group="tshirt-size">S</button>
-            <button class="merch-opt" data-group="tshirt-size">M</button>
-            <button class="merch-opt" data-group="tshirt-size">L</button>
-            <button class="merch-opt" data-group="tshirt-size">XL</button>
-          </div>
-          <button class="merch-add" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy</button>
-        </div>
-
-        <div class="merch-card rv d2">
-          <div class="merch-img">
-            <img id="hat-img" src="hat.png" alt="Hat"/>
-          </div>
-          <div>
-            <div class="merch-name">Hat</div>
-            <div class="merch-price">$25.00</div>
-          </div>
-          <div class="merch-options">
-            <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
-          </div>
-          <button class="merch-add" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy</button>
-        </div>
-
-        <div class="merch-card rv d3">
-          <div class="merch-img">
-            <img id="bikini-img" src="bikini.png" alt="Bikini"/>
-          </div>
-          <div>
-            <div class="merch-name">Bikini</div>
-            <div class="merch-price">From $35.00</div>
-          </div>
-          <div class="merch-options">
-            <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
-            <button class="merch-opt" data-group="bikini-colour" data-img="bikini2.png">White</button>
-          </div>
-          <div class="merch-options">
-            <button class="merch-opt selected" data-group="bikini-size">XS</button>
-            <button class="merch-opt" data-group="bikini-size">S</button>
-            <button class="merch-opt" data-group="bikini-size">M</button>
-            <button class="merch-opt" data-group="bikini-size">L</button>
-          </div>
-          <button class="merch-add" data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">Buy</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="footer">
-  <div class="band">
-    <div class="footer-top">
-      <div>
-        <img class="footer-logo" src="vcr-script.png" alt="VCR Recordings" width="746" height="461" loading="lazy"/>
-        <p class="footer-manifesto">
-          Music made in the rain.
-          <span>Pressed for the drive home.</span>
-        </p>
-      </div>
-      <div>
-        <label for="newsletterEmail">Stay in the loop</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-        <p class="footer-note">Occasional releases only.</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2025 VCR Recordings</p>
-      <div class="footer-links">
-        <a href="#releases">Releases</a>
-        <a href="#merch">Merch</a>
-        <a href="https://vcrrecordings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-        <a href="https://www.instagram.com/vcr_recordings" target="_blank" rel="noopener">Instagram</a>
-        <a href="/cdn-cgi/l/email-protection#93ffe7f7e1faf5e7f2d3f4fef2faffbdf0fcfe">Email</a>
-      </div>
-    </div>
-  </div>
-</footer>
+</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
-/* Nav scroll */
 (function () {
   var nav = document.getElementById('nav');
   var ticking = false;
@@ -789,13 +708,12 @@
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
+      nav.classList.toggle('scrolled', window.scrollY > 12);
       ticking = false;
     });
   }, { passive: true });
 })();
 
-/* Menu */
 var navHam = document.getElementById('navHam');
 var navDrawer = document.getElementById('navDrawer');
 navHam.addEventListener('click', function () {
@@ -813,7 +731,6 @@ navDrawer.querySelectorAll('a').forEach(function (a) {
   });
 });
 
-/* Bandcamp */
 var lb = document.getElementById('listenBlock');
 var lt = document.getElementById('listenTrig');
 var le = document.getElementById('listenEmbed');
@@ -830,7 +747,6 @@ lt.addEventListener('click', function () {
   le.appendChild(f);
 });
 
-/* Merch */
 var MERCH_IMG_MAP = {
   'tshirt-colour': document.getElementById('tshirt-img'),
   'bikini-colour': document.getElementById('bikini-img'),
@@ -867,7 +783,6 @@ document.querySelectorAll('.merch-add').forEach(function (btn) {
   });
 });
 
-/* Reveal */
 var obs = new IntersectionObserver(function (entries) {
   for (var e of entries) {
     if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
