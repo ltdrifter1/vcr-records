@@ -53,13 +53,8 @@ export default function Hotspot({
   const canLatch = section.glowLatches !== false;
   const isFocused = canLatch && focusedId === section.id;
 
-  // Prefer RGBA authored glow (cash uses silhouette WebP like shopbag_glow.png)
-  const glowSrc =
-    section.id === 'cash-register'
-      ? `/hotspots/cash-register_glow.webp`
-      : section.id === 'listening-booth'
-        ? `/hotspots/${section.id}_glow_v2.webp`
-        : `/hotspots/${section.id}_glow.webp`;
+  // Prefer authored RGBA silhouette glows (`*_glow.webp`).
+  const glowSrc = `/hotspots/${section.id}_glow.webp`;
   const glowMap = useTexture(glowSrc);
   useLayoutEffect(() => {
     glowMap.colorSpace = THREE.SRGBColorSpace;

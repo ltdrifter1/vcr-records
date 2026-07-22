@@ -86,8 +86,17 @@ export default function SectionPanel({
       setDetail(item);
       return;
     }
-    if (item.href && item.href !== '#play' && item.href !== '#shop') {
-      window.open(item.href, item.href.startsWith('mailto:') ? '_self' : '_blank');
+    if (!item.href) return;
+    const external =
+      item.href.startsWith('http') ||
+      item.href.startsWith('mailto:') ||
+      item.href.startsWith('/shop');
+    if (item.href.startsWith('mailto:')) {
+      window.location.href = item.href;
+      return;
+    }
+    if (external) {
+      window.open(item.href, '_blank', 'noopener,noreferrer');
     }
   };
 
