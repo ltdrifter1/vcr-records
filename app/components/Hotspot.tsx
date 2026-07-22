@@ -14,11 +14,15 @@ const tmp = new THREE.Vector3();
 const origin = new THREE.Vector3(0, 0, 0);
 
 /**
- * Hotspot — balmingtiger pattern:
- *   invisible hit plane + authored glow PNG
- *   hover → glow alpha 0→1 (0.4s power1.inOut)
- *   focused (lookto lock) → glow stays latched; hoverOut is a no-op while focused
- *   release focus → glow 1→0
+ * Hotspot — balmingtiger pattern (3d.xml + site_scripts.js):
+ *   invisible hit plane (default hotspot) + authored glow PNG (alpha 0)
+ *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
+ *   hoverOut → glow alpha 1→0 (same tween) — EXCEPT music/tour/contact
+ *              which early-return while active_scene matches (latch)
+ *   shopbag  → never latches; click opens outbound URL (no lookto)
+ *
+ * Blending: krpano uses normal alpha (not additive). Additive washed out
+ * on the bright cel room.
  */
 export default function Hotspot({
   section,
@@ -30,7 +34,7 @@ export default function Hotspot({
   section: Section;
   onOpen: (id: string) => void;
   controls: Controls;
-  /** Glow latch id (panel open OR shop lookto lock). */
+  /** Glow latch id (panel open OR lookto lock). Ignored when glowLatches=false. */
   focusedId?: string | null;
   debug?: boolean;
 }) {
@@ -44,16 +48,56 @@ export default function Hotspot({
   const env = useSceneEnv();
   const { camera, gl } = useThree();
   const [x, y, z] = uvToSpherical(section.u, section.v, SPHERE_RADIUS - 0.5);
-  const isFocused = focusedId === section.id;
 
-  // Authored object glow — listening/cash use v2 silhouettes (BT-style)
+  // balmingtiger: shopbag glowLatches=false; music/tour/contact latch
+  const canLatch = section.glowLatches !== false;
+  const isFocused = canLatch && focusedId === section.id;
+
+  // Prefer RGBA authored glow (cash uses silhouette WebP like shopbag_glow.png)
   const glowSrc =
-    section.id === 'listening-booth' || section.id === 'cash-register'
-      ? `/hotspots/${section.id}_glow_v2.webp`
-      : `/hotspots/${section.id}_glow.webp`;
+    section.id === 'cash-register'
+      ? `/hotspots/cash-register_glow.webp`
+      : section.id === 'listening-booth'
+        ? `/hotspots/${section.id}_glow_v2.webp`
+        : `/hotspots/${section.id}_glow.webp`;
   const glowMap = useTexture(glowSrc);
   useLayoutEffect(() => {
     glowMap.colorSpace = THREE.SRGBColorSpace;
+    // Some legacy glows were saved as lossy RGB (no alpha). Convert
+    // luminance → alpha so NormalBlending matches krpano / shopbag PNGs.
+    const img = glowMap.image as
+      | HTMLImageElement
+      | HTMLCanvasElement
+      | ImageBitmap
+      | undefined;
+    if (img && 'width' in img && img.width) {
+      const w = img.width;
+      const h = img.height;
+      const c = document.createElement('canvas');
+      c.width = w;
+      c.height = h;
+      const ctx = c.getContext('2d', { willReadFrequently: true });
+      if (ctx) {
+        ctx.drawImage(img as CanvasImageSource, 0, 0);
+        const data = ctx.getImageData(0, 0, w, h);
+        let hasTrans = false;
+        for (let i = 3; i < data.data.length; i += 4) {
+          if (data.data[i] < 250) {
+            hasTrans = true;
+            break;
+          }
+        }
+        if (!hasTrans) {
+          for (let i = 0; i < data.data.length; i += 4) {
+            const lum = Math.max(data.data[i], data.data[i + 1], data.data[i + 2]);
+            data.data[i + 3] = lum;
+          }
+          ctx.putImageData(data, 0, 0);
+          glowMap.image = c;
+          glowMap.format = THREE.RGBAFormat;
+        }
+      }
+    }
     glowMap.needsUpdate = true;
   }, [glowMap]);
 
@@ -62,7 +106,7 @@ export default function Hotspot({
     glowMesh.current?.lookAt(origin);
   }, [x, y, z]);
 
-  // balmingtiger hoverIn / hoverOut — latch while focused (hoverOutMusic early-return)
+  // hoverIn / hoverOut — identical GSAP numbers to site_scripts.js
   useLayoutEffect(() => {
     const on = isFocused || hovered;
     gsap.to(glow.current, {
@@ -85,9 +129,11 @@ export default function Hotspot({
       ? THREE.MathUtils.clamp(1 - (dist - 0.08) / 0.55, 0, 1)
       : 0;
 
-    // Hints only — glow is GSAP/focus driven (BT has no proximity glow)
+    // Hints only — BT glow is pointer hover / active_scene, not proximity
     let hintTarget = Math.max(proximity * 0.95, hovered || isFocused ? 1 : 0);
-    if (!env.live.value || (env.panelOpen.value && !isFocused)) hintTarget = 0;
+    if (!env.live.value || (env.panelOpen.value && !isFocused && !hovered)) {
+      hintTarget = 0;
+    }
 
     opacity.current += (hintTarget - opacity.current) * 0.18;
     el.style.opacity = opacity.current.toFixed(3);
@@ -97,11 +143,9 @@ export default function Hotspot({
       glowMat.current.opacity = glow.current.a;
       glowMat.current.visible = glow.current.a > 0.02;
     }
+    // BT keeps glow scale locked to the default hotspot (same ath/atv/scale)
     if (glowMesh.current) {
-      const s = isFocused ? 1.06 : hovered ? 1.02 : 1;
-      glowMesh.current.scale.setScalar(
-        THREE.MathUtils.lerp(glowMesh.current.scale.x, s, 0.12),
-      );
+      glowMesh.current.scale.setScalar(1);
     }
   });
 
@@ -111,10 +155,14 @@ export default function Hotspot({
     onOpen(section.id);
   };
 
+  // Glow plane matches default hotspot footprint (BT same scale for both)
+  const gw = section.w * 1.15;
+  const gh = section.h * 1.15;
+
   return (
     <group position={[x, y, z]}>
       <mesh ref={glowMesh} renderOrder={2} raycast={() => null}>
-        <planeGeometry args={[section.w * 1.9, section.h * 1.9]} />
+        <planeGeometry args={[gw, gh]} />
         <meshBasicMaterial
           ref={glowMat}
           map={glowMap}
@@ -122,7 +170,8 @@ export default function Hotspot({
           transparent
           depthWrite={false}
           depthTest={false}
-          blending={THREE.AdditiveBlending}
+          // krpano hotspot alpha — NOT AdditiveBlending (washes out on cel walls)
+          blending={THREE.NormalBlending}
           opacity={0}
           side={THREE.DoubleSide}
           toneMapped={false}
@@ -139,8 +188,9 @@ export default function Hotspot({
           document.documentElement.classList.add('cursor-hot');
         }}
         onPointerOut={() => {
-          // balmingtiger: hoverOut is a no-op while this scene is active —
-          // local hovered clears, but isFocused keeps glow latched via GSAP.
+          // balmingtiger hoverOutShopbag: always fades (no latch).
+          // music/tour/contact: hoverOut early-returns while active —
+          // local hovered clears, isFocused keeps glow via GSAP.
           setHovered(false);
           document.documentElement.classList.remove('cursor-hot');
           gl.domElement.style.cursor = '';
