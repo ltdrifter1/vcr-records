@@ -109,20 +109,30 @@ export default function TopNav({
       </Swiper>
 
       {/* Invisible hit zones over visible slots (balmingtiger .hit-b) */}
-      <div className="top-nav-hits" aria-hidden={false}>
-        {[0, 1, 2, 3, 4].map((slot) => (
-          <button
-            key={slot}
-            type="button"
-            className="top-nav-hit"
-            aria-label={`Open nav slot ${slot + 1}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              openAtSlot(slot);
-            }}
-            onPointerDown={(e) => e.stopPropagation()}
-          />
-        ))}
+      <div className="top-nav-hits">
+        {[0, 1, 2, 3, 4].map((slot) => {
+          const sw = swiperRef.current;
+          const targetReal = sw ? (sw.realIndex + slot) % items.length : slot % items.length;
+          const section = items[targetReal];
+          const label = section
+            ? slot === 0 && activeId === section.id
+              ? `Close ${section.nav}`
+              : `Open ${section.nav}`
+            : `Open nav slot ${slot + 1}`;
+          return (
+            <button
+              key={slot}
+              type="button"
+              className="top-nav-hit"
+              aria-label={label}
+              onClick={(e) => {
+                e.stopPropagation();
+                openAtSlot(slot);
+              }}
+              onPointerDown={(e) => e.stopPropagation()}
+            />
+          );
+        })}
       </div>
     </div>
   );
