@@ -147,6 +147,12 @@ export default function Hotspot({
     const el = inner.current;
     if (!m || !el) return;
 
+    // Keep hit + glow planes facing the camera origin every frame so
+    // edge glow stays registered through lookto / FOV changes.
+    m.lookAt(origin);
+    glowMesh.current?.lookAt(origin);
+    edgeMesh.current?.lookAt(origin);
+
     m.getWorldPosition(tmp).project(camera);
     const inFront = tmp.z > -1 && tmp.z < 1;
     const dist = Math.hypot(tmp.x, tmp.y);

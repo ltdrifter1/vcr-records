@@ -9,13 +9,18 @@ import { NAV_ORDER, SECTIONS, SHOP_URL } from '@/app/data/sections';
 
 const NAV_ITEMS = NAV_ORDER.map((id) => SECTIONS.find((s) => s.id === id)!).filter(Boolean);
 
+function slotCountForWidth(w: number) {
+  if (w <= 570) return 3;
+  if (w <= 900) return 4;
+  return 5;
+}
+
 /**
- * Conveyor top nav — balmingtiger MENU CONVEYOR pattern:
- * Swiper loop, ~5 visible labels, click slides chosen item into the
- * active (left) slot then opens that section.
+ * Conveyor top nav — balmingtiger MENU CONVEYOR pattern.
  *
- * Shop is special (BT menu-shop): go straight to /shop/index.html — no lookto,
- * no conveyor delay. Uses a real <a> hit so navigation always works.
+ * Hit zones are a CSS grid matched to the visible slide count (not a
+ * space-between flex that drifted from Swiper's slide geometry). That
+ * misalignment previously left dead click areas between labels.
  */
 export default function TopNav({
   visible,
@@ -28,24 +33,52 @@ export default function TopNav({
 }) {
   const swiperRef = useRef<SwiperType | null>(null);
   const transitioning = useRef(false);
+  const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [realIndex, setRealIndex] = useState(0);
+  const [slots, setSlots] = useState(5);
   const items = NAV_ITEMS;
+
+  useEffect(() => {
+    const sync = () => setSlots(slotCountForWidth(window.innerWidth));
+    sync();
+    window.addEventListener('resize', sync);
+    return () => window.removeEventListener('resize', sync);
+  }, []);
+
+  const clearTransitionLock = () => {
+    transitioning.current = false;
+    if (transitionTimer.current) {
+      clearTimeout(transitionTimer.current);
+      transitionTimer.current = null;
+    }
+  };
+
+  const lockTransition = (ms = 900) => {
+    transitioning.current = true;
+    if (transitionTimer.current) clearTimeout(transitionTimer.current);
+    // Failsafe — Swiper loop can skip transitionEnd; never leave clicks dead.
+    transitionTimer.current = setTimeout(() => {
+      transitioning.current = false;
+      transitionTimer.current = null;
+    }, ms);
+  };
 
   // Sync conveyor when a hotspot / panel opens a section.
   useEffect(() => {
     const sw = swiperRef.current;
-    if (!sw || !activeId || transitioning.current) return;
+    if (!sw || !activeId) return;
     const idx = items.findIndex((s) => s.id === activeId);
     if (idx < 0) return;
     if (sw.realIndex === idx) return;
-    transitioning.current = true;
+    lockTransition(900);
     sw.slideToLoop(idx, 800);
   }, [activeId, items]);
+
+  useEffect(() => () => clearTransitionLock(), []);
 
   if (!visible) return null;
 
   const goShop = () => {
-    // Hard navigate — same tab, catalog index. Do not wait on conveyor.
     window.location.assign(SHOP_URL);
   };
 
@@ -73,27 +106,29 @@ export default function TopNav({
 
     if (transitioning.current) return;
 
-    // Clicking the already-active left slot toggles close via onOpen.
-    if (slot === 0 && activeId === section.id) {
-      openSection(section);
-      return;
-    }
-
     if (slot === 0) {
       openSection(section);
       return;
     }
 
-    transitioning.current = true;
+    lockTransition(950);
     sw.slideToLoop(targetReal, 800);
     window.setTimeout(() => {
-      transitioning.current = false;
+      clearTransitionLock();
       openSection(section);
     }, 820);
   };
 
   return (
-    <div className="top-nav-wrap" aria-label="Store sections">
+    <div
+      className="top-nav-wrap"
+      aria-label="Store sections"
+      style={
+        {
+          ['--nav-slots' as string]: String(slots),
+        } as React.CSSProperties
+      }
+    >
       <Swiper
         className="top-nav-swiper"
         loop
@@ -116,9 +151,8 @@ export default function TopNav({
           setRealIndex(sw.realIndex);
         }}
         onSlideChangeTransitionEnd={(sw) => {
-          transitioning.current = false;
+          clearTransitionLock();
           setRealIndex(sw.realIndex);
-          // Keep realIndex in the base set after loop jumps
           if (sw.realIndex >= items.length) {
             sw.slideToLoop(sw.realIndex % items.length, 0);
           }
@@ -138,9 +172,9 @@ export default function TopNav({
         })}
       </Swiper>
 
-      {/* Invisible hit zones over visible slots (balmingtiger .hit-b) */}
-      <div className="top-nav-hits">
-        {[0, 1, 2, 3, 4].map((slot) => {
+      {/* Hit zones — grid aligned to visible slots */}
+      <div className="top-nav-hits" role="presentation">
+        {Array.from({ length: slots }, (_, slot) => {
           const targetReal = (realIndex + slot) % items.length;
           const section = items[targetReal];
           const isShop = section?.id === 'cash-register';
@@ -152,7 +186,6 @@ export default function TopNav({
                 : `Open ${section.nav}`
             : `Open nav slot ${slot + 1}`;
 
-          // Real anchor for Shop — works even if JS handlers are blocked mid-transition.
           if (isShop) {
             return (
               <a
@@ -160,10 +193,7 @@ export default function TopNav({
                 className="top-nav-hit"
                 href={SHOP_URL}
                 aria-label={label}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // Same-tab hard nav (default <a> behavior). Prevent double-handling.
-                }}
+                onClick={(e) => e.stopPropagation()}
                 onPointerDown={(e) => e.stopPropagation()}
               />
             );
