@@ -95,7 +95,7 @@ export default function Hotspot({
   const glow = useRef({ a: 0 });
   const [hovered, setHovered] = useState(false);
   const env = useSceneEnv();
-  const { camera, gl } = useThree();
+  const { camera } = useThree();
   const [x, y, z] = uvToSpherical(section.u, section.v, SPHERE_RADIUS - 0.5);
 
   const canLatch = section.glowLatches !== false;
@@ -245,13 +245,12 @@ export default function Hotspot({
           e.stopPropagation();
           if (!env.live.value) return;
           setHovered(true);
+          // CSS: html.cursor-hot → pointer on stage canvas (single hit surface).
           document.documentElement.classList.add('cursor-hot');
-          gl.domElement.style.cursor = 'pointer';
         }}
         onPointerOut={() => {
           setHovered(false);
           document.documentElement.classList.remove('cursor-hot');
-          gl.domElement.style.cursor = '';
         }}
         onClick={handleClick}
         userData={{ hotspotId: section.id, nav: section.nav }}

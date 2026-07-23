@@ -7,6 +7,9 @@
  *   cameraX     → lookTarget.x  (yaw, radians)
  *   cameraY     → lookTarget.y  (pitch, radians)
  *   cameraScale → mfov          (degrees; smaller = more zoomed in)
+ *
+ * Soft close clears focus without moving the camera (BT BACK).
+ * CRT drag-end calls resetToFront (BT video Observer).
  */
 
 export type Vec2 = { x: number; y: number };

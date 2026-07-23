@@ -4,6 +4,7 @@ import { useEffect, useRef, type RefObject } from 'react';
 import gsap from 'gsap';
 import type { Controls } from './types';
 import { interruptCameraAnimation } from './AnimationManager';
+import { createControls } from './CameraController';
 import {
   DRAG_INERTIA,
   FOLLOW_OFF_DUR,
@@ -14,6 +15,7 @@ import {
   MFOV_MAX,
   MFOV_MIN,
   MOUSE_FOV_CHANGE,
+  autoPitchLimit,
   mfovToHorizontalFov,
   mfovToVerticalFov,
 } from '@/lib/pano';
@@ -46,19 +48,10 @@ export function useInteractionManager(
   enabledRef: RefObject<boolean>,
   onDragEndRef?: RefObject<(() => void) | null>,
   onInterruptLookRef?: RefObject<(() => void) | null>,
+  /** When set, follow-mouse lean will not re-enable while a section is focused. */
+  focusedRef?: RefObject<{ value: string | null }>,
 ) {
-  const controls = useRef<Controls>({
-    lookTarget: { x: 0, y: 0 },
-    velocity: { x: 0, y: 0 },
-    dragging: false,
-    dragged: false,
-    mfov: MFOV_EXPLORE,
-    fisheye: 0.3,
-    pointer: { x: 0, y: 0 },
-    followFactor: 0,
-    userControl: false,
-    lookAnimating: false,
-  }).current;
+  const controls = useRef<Controls>(createControls({ mfov: MFOV_EXPLORE })).current;
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -83,6 +76,12 @@ export function useInteractionManager(
 
     const w = () => Math.max(1, stage.clientWidth || window.innerWidth);
     const h = () => Math.max(1, stage.clientHeight || window.innerHeight);
+    const aspect = () => w() / h();
+
+    const clampPitch = (pitch: number) => {
+      const max = autoPitchLimit(controls.mfov, aspect());
+      return Math.max(-max, Math.min(max, pitch));
+    };
 
     const killFollowTweens = () => {
       followTween?.kill();
@@ -92,9 +91,9 @@ export function useInteractionManager(
     };
 
     const perPixel = () => {
-      const aspect = w() / h();
-      const vfov = mfovToVerticalFov(controls.mfov, aspect) * DEG;
-      const hfov = mfovToHorizontalFov(controls.mfov, aspect) * DEG;
+      const a = aspect();
+      const vfov = mfovToVerticalFov(controls.mfov, a) * DEG;
+      const hfov = mfovToHorizontalFov(controls.mfov, a) * DEG;
       return { yaw: hfov / w(), pitch: vfov / h() };
     };
 
@@ -191,7 +190,7 @@ export function useInteractionManager(
       const dYaw = dx * yaw;
       const dPitch = dy * pitch;
       controls.lookTarget.x = wrapYaw(controls.lookTarget.x + dYaw);
-      controls.lookTarget.y += dPitch;
+      controls.lookTarget.y = clampPitch(controls.lookTarget.y + dPitch);
 
       const retain = 1 - DRAG_INERTIA;
       controls.velocity.x = (dYaw / dt) * retain;
@@ -212,6 +211,7 @@ export function useInteractionManager(
         followDelay = gsap.delayedCall(FOLLOW_REENABLE_DELAY, () => {
           // Stay locked while a section is focused — glow framing must not drift.
           if (controls.lookAnimating) return;
+          if (focusedRef?.current?.value) return;
           followTween = gsap.to(controls, {
             followFactor: 1,
             duration: FOLLOW_REENABLE_DUR,
@@ -240,15 +240,17 @@ export function useInteractionManager(
         controls.lookTarget.x = wrapYaw(controls.lookTarget.x - step);
         controls.velocity.x = 0;
       } else if (e.key === 'ArrowUp') {
-        controls.lookTarget.y += step;
+        controls.lookTarget.y = clampPitch(controls.lookTarget.y + step);
         controls.velocity.y = 0;
       } else if (e.key === 'ArrowDown') {
-        controls.lookTarget.y -= step;
+        controls.lookTarget.y = clampPitch(controls.lookTarget.y - step);
         controls.velocity.y = 0;
       } else if (e.key === '+' || e.key === '=') {
         controls.mfov = Math.max(MFOV_MIN, controls.mfov - MOUSE_FOV_CHANGE * 3);
+        controls.lookTarget.y = clampPitch(controls.lookTarget.y);
       } else if (e.key === '-' || e.key === '_') {
         controls.mfov = Math.min(MFOV_MAX, controls.mfov + MOUSE_FOV_CHANGE * 3);
+        controls.lookTarget.y = clampPitch(controls.lookTarget.y);
       }
     };
 
@@ -259,6 +261,7 @@ export function useInteractionManager(
       const delta =
         Math.sign(e.deltaY) * MOUSE_FOV_CHANGE * Math.min(8, Math.abs(e.deltaY) / 40);
       controls.mfov = Math.min(MFOV_MAX, Math.max(MFOV_MIN, controls.mfov + delta));
+      controls.lookTarget.y = clampPitch(controls.lookTarget.y);
     };
 
     const pinchDist = (t: TouchList) => {
@@ -290,6 +293,7 @@ export function useInteractionManager(
         MFOV_MAX,
         Math.max(MFOV_MIN, pinchStartMfov + delta),
       );
+      controls.lookTarget.y = clampPitch(controls.lookTarget.y);
     };
 
     const onTouchEnd = (e: TouchEvent) => {
@@ -322,7 +326,7 @@ export function useInteractionManager(
       stage.removeEventListener('touchend', onTouchEnd);
       stage.removeEventListener('touchcancel', onTouchEnd);
     };
-  }, [stageRef, enabledRef, onDragEndRef, onInterruptLookRef, controls]);
+  }, [stageRef, enabledRef, onDragEndRef, onInterruptLookRef, focusedRef, controls]);
 
   return controls;
 }

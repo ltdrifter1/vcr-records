@@ -102,11 +102,9 @@ function AmbientMesh({
         e.stopPropagation();
         if (!env.live.value) return;
         document.documentElement.classList.add('cursor-hot');
-        document.body.style.cursor = 'pointer';
       }}
       onPointerOut={() => {
         document.documentElement.classList.remove('cursor-hot');
-        document.body.style.cursor = '';
       }}
       userData={{ ambientId: hit.id }}
     >

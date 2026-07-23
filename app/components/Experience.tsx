@@ -24,6 +24,9 @@ import { CRT_DEFAULT_SRC } from './CrtScreen';
 /**
  * Root experience — virtual spherical camera, not page scroll.
  * Navigation animates yaw / pitch / MFOV via AnimationManager (rAF).
+ *
+ * Canvas model (balmingtiger):
+ *   one continuous room; panels are HUD; drag-end only resets CRT focus.
  */
 export default function Experience() {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -54,6 +57,7 @@ export default function Experience() {
     lookEnabledRef,
     onDragEndRef,
     onInterruptLookRef,
+    focusedIdRef,
   );
 
   const lookEnabledHold = useRef(false);
@@ -95,10 +99,12 @@ export default function Experience() {
   }, []);
 
   // Keep FX / vignette locked to visualViewport (iOS Safari chrome).
+  // While focused, re-adapt lookto MFOV for the new aspect (rotate / URL bar).
   useEffect(() => {
     const publish = () => {
       const m = measureViewport(stageRef.current);
       syncViewportCssVars(m);
+      nav.reframeFocused(m);
     };
     publish();
     const vv = window.visualViewport;
@@ -110,7 +116,7 @@ export default function Experience() {
       vv?.removeEventListener('resize', publish);
       vv?.removeEventListener('scroll', publish);
     };
-  }, []);
+  }, [nav]);
 
   const handleEntered = useCallback(async () => {
     lookEnabledRef.current = false;
@@ -131,23 +137,13 @@ export default function Experience() {
     setCanLook(true);
   }, [nav]);
 
-  // Zoom / pan away while locked → free
-  useEffect(() => {
-    let raf = 0;
-    const tick = () => {
-      nav.tickFreeFocus();
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [nav]);
-
-  // Drag / wheel interrupts lookto; drag-end frees focus
+  // Drag interrupts lookto; CRT drag-end resets like BT video Observer.
+  // Other sections keep the HUD open while roaming the same canvas.
   useEffect(() => {
     onInterruptLookRef.current = () => nav.interruptLook();
     onDragEndRef.current = () => {
-      if (navState.focusedId || navState.panelOpen) {
-        nav.freeFocus({ silent: true });
+      if (navState.focusedId === 'crt-tv') {
+        nav.resetToFront({ silent: true });
       }
     };
     return () => {

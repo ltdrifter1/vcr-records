@@ -90,7 +90,8 @@ export default function LampHotspot({
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    if (controls.dragged || controls.lookAnimating || !env.live.value) return;
+    // BT hotspots stay clickable during lookto (capture=false); only suppress drag slips.
+    if (controls.dragged || !env.live.value) return;
     onToggle();
   };
 
@@ -116,12 +117,10 @@ export default function LampHotspot({
           if (!env.live.value) return;
           setHovered(true);
           document.documentElement.classList.add('cursor-hot');
-          document.body.style.cursor = 'pointer';
         }}
         onPointerOut={() => {
           setHovered(false);
           document.documentElement.classList.remove('cursor-hot');
-          document.body.style.cursor = '';
         }}
         onClick={handleClick}
         userData={{ hotspotId: 'lamp', nav: 'Lights' }}
