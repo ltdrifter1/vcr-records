@@ -76,13 +76,13 @@ const desktop = {
   console.log(`✓ CRT lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
-// 3) Music booth: desktop authored 60; phone adapted
+// 3) Music booth: desktop authored 95 (room view); phone adapted wider
 {
-  const music = { w: 6, h: 9, lookFov: 60 };
+  const music = { w: 6, h: 9, lookFov: 95 };
   const desk = resolveLookMfov(music, desktop);
   const mob = resolveLookMfov(music, phone);
-  assert.equal(desk, 60);
-  assert.ok(mob > 60, `mobile music mfov ${mob} should widen past 60`);
+  assert.equal(desk, 95);
+  assert.ok(mob > 95, `mobile music mfov ${mob} should widen past 95`);
   console.log(`✓ music lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
