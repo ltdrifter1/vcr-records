@@ -4,10 +4,14 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import gsap from 'gsap';
 
 import { SECTION_BY_ID, type SectionItem } from '@/app/data/sections';
+import { attachScrollActiveItems } from '@/lib/scrollActiveItems';
 
 /**
  * Glass menu panel — balmingtiger `.menu-panel` pattern:
  * left-docked frosted glass, thumb rows + CTA pills, music nested detail.
+ *
+ * Scroll-near: one `.panel-row` nearest the scroller center gets
+ * `data-scroll-active` (glow + restrained scale). Scroll is source of truth.
  */
 export default function SectionPanel({
   activeId,
@@ -77,6 +81,21 @@ export default function SectionPanel({
       if (b) gsap.set(b, { opacity: 0 });
     }
   }, [detail]);
+
+  // One scroll-active controller for the level-1 item list.
+  useEffect(() => {
+    const root = level1.current;
+    if (!root || !open || !shownId || detail) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return attachScrollActiveItems(root, {
+      itemSelector: '.panel-row',
+      horizontalSelector: '[data-scroll-list]',
+      enabled: true,
+      reducedMotion,
+      hysteresisPx: 28,
+    });
+  }, [open, shownId, detail]);
 
   const section = shownId ? SECTION_BY_ID[shownId] : null;
   const isMusic = section?.id === 'listening-booth';
@@ -159,7 +178,7 @@ export default function SectionPanel({
               <h2 className="panel-title">{section.title}</h2>
               <p className="panel-intro">{section.intro}</p>
 
-              <div className="panel-list" role="list">
+              <div className="panel-list" role="list" data-scroll-list>
                 {section.items.map((it, i) => (
                   <article
                     key={i}
