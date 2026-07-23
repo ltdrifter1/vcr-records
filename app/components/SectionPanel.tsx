@@ -125,7 +125,11 @@ export default function SectionPanel({
       style={{ display: section ? 'block' : 'none' }}
       aria-hidden={!open}
     >
-      <div className="panel-scrim" onPointerDown={onClose} />
+      {/*
+        Scrim does not capture the panorama (BT: drag while panel open).
+        Close via × / Esc / nav; drag-away frees focus in Experience.
+      */}
+      <div className="panel-scrim" aria-hidden />
       <aside
         className={`panel${isMusic && detail ? ' has-detail' : ''}`}
         style={

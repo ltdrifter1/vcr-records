@@ -52,7 +52,7 @@ export default function DustField({ count = 200 }: { count?: number }) {
   });
 
   return (
-    <points ref={points}>
+    <points ref={points} raycast={() => null}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
         <bufferAttribute attach="attributes-size" args={[sizes, 1]} />
@@ -64,7 +64,7 @@ export default function DustField({ count = 200 }: { count?: number }) {
         transparent
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.55}
+        opacity={0.45}
         toneMapped={false}
       />
     </points>

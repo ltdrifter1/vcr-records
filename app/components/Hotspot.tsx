@@ -110,6 +110,17 @@ export default function Hotspot({
       ease: 'power1.inOut',
       overwrite: true,
     });
+    // Subtle press-in on the hit mesh — tasteful motion without redesign
+    if (mesh.current) {
+      gsap.to(mesh.current.scale, {
+        x: on ? 1.03 : 1,
+        y: on ? 1.03 : 1,
+        z: on ? 1.03 : 1,
+        duration: 0.28,
+        ease: 'power2.out',
+        overwrite: true,
+      });
+    }
   }, [isFocused, hovered]);
 
   useFrame(() => {
@@ -146,7 +157,15 @@ export default function Hotspot({
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    if (controls.dragged || controls.lookAnimating) return;
+    if (!env.live.value || controls.dragged) return;
+    // Non-latching targets (shop / CRT): brief glow pulse for touch feedback
+    if (!canLatch) {
+      gsap.fromTo(
+        glow.current,
+        { a: Math.max(glow.current.a, 0.35) },
+        { a: 1, duration: 0.18, yoyo: true, repeat: 1, ease: 'power1.inOut', overwrite: true },
+      );
+    }
     onOpen(section.id);
   };
 
@@ -181,6 +200,7 @@ export default function Hotspot({
           if (!env.live.value) return;
           setHovered(true);
           document.documentElement.classList.add('cursor-hot');
+          gl.domElement.style.cursor = 'pointer';
         }}
         onPointerOut={() => {
           // balmingtiger hoverOutShopbag: always fades (no latch).
@@ -192,6 +212,7 @@ export default function Hotspot({
         }}
         onClick={handleClick}
         userData={{ hotspotId: section.id, nav: section.nav }}
+        aria-label={`${section.nav}: ${section.hint}`}
       >
         <planeGeometry args={[section.w, section.h]} />
         <meshBasicMaterial

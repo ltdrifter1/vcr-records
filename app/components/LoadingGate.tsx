@@ -7,11 +7,17 @@ import gsap from 'gsap';
 /**
  * Entry gate — PNW modern field + 90s cel glow brand mark.
  * Fade out 0.4s then cinematic intro starts in Scene.
+ * Audio unlock must run in the click gesture (not deferred to GSAP alone).
  */
-export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
+export default function LoadingGate({
+  onEntered,
+}: {
+  onEntered: () => void | Promise<void>;
+}) {
   const { progress, active } = useProgress();
   const [ready, setReady] = useState(false);
   const [pct, setPct] = useState(0);
+  const [entering, setEntering] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLElement>(null);
@@ -50,13 +56,19 @@ export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
     }
   }, [ready]);
 
-  const enter = () => {
-    if (!ready) return;
+  const enter = async () => {
+    if (!ready || entering) return;
+    setEntering(true);
+    // Unlock audio inside the user gesture before the fade tween.
+    try {
+      await onEntered();
+    } catch {
+      /* scene still enters even if audio fails */
+    }
     gsap.to(root.current, {
       opacity: 0,
       duration: 0.4,
       ease: 'power1.inOut',
-      onStart: () => onEntered(),
       onComplete: () => {
         if (root.current) root.current.style.display = 'none';
       },
@@ -92,8 +104,8 @@ export default function LoadingGate({ onEntered }: { onEntered: () => void }) {
           type="button"
           className="gate-enter"
           ref={enterBtn}
-          onClick={enter}
-          disabled={!ready}
+          onClick={() => void enter()}
+          disabled={!ready || entering}
           data-cursor="click"
         >
           {ready ? 'CLICK TO ENTER' : 'LOADING…'}

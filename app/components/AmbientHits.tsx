@@ -82,7 +82,7 @@ function AmbientMesh({
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    if (!env.live.value || controls.dragged || controls.lookAnimating) return;
+    if (!env.live.value || controls.dragged) return;
     playSfx(hit.sfx);
     if (hit.wonder) {
       const href = WONDER_LINKS[Math.floor(Math.random() * WONDER_LINKS.length)];
@@ -102,11 +102,14 @@ function AmbientMesh({
         e.stopPropagation();
         if (!env.live.value) return;
         document.documentElement.classList.add('cursor-hot');
+        document.body.style.cursor = 'pointer';
       }}
       onPointerOut={() => {
         document.documentElement.classList.remove('cursor-hot');
+        document.body.style.cursor = '';
       }}
       userData={{ ambientId: hit.id }}
+      aria-label={hit.wonder ? 'Open a surprise link' : `Play ${hit.id} sound`}
     >
       <planeGeometry args={[hit.w, hit.h]} />
       <meshBasicMaterial

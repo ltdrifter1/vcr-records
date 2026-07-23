@@ -30,6 +30,7 @@ import type { GyroHandle } from '@/lib/gyro';
 import { SECTIONS, SECTION_BY_ID } from '@/app/data/sections';
 import { SceneContext, type SceneEnv, type Controls } from './sceneContext';
 import DustField from './DustField';
+import LightBeams from './LightBeams';
 import Hotspot from './Hotspot';
 import LampHotspot from './LampHotspot';
 import FisheyePass from './FisheyePass';
@@ -387,8 +388,9 @@ export default function Scene({
         )}
       </group>
 
-      {/* Tiny floating flecks only — cel rooms don't want tungsten beams/dust storms */}
-      <DustField count={reduceMotion ? 0 : 12} />
+      {/* Soft tungsten shafts when lights are on — atmospheric, not a redesign */}
+      {lightsOn && <LightBeams />}
+      <DustField count={reduceMotion ? 0 : 48} />
 
       <FisheyePass amountRef={fisheyeRef} />
     </SceneContext.Provider>

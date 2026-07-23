@@ -25,10 +25,10 @@ export default function MuteControl({
 
   const toggle = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const next = !muted;
-    setMutedState(next);
-    await setMuted(next);
-  }, [muted]);
+    // Rely on the bus notify() for UI state — avoids optimistic desync
+    // when play() fails under autoplay policy.
+    await setMuted(!isMuted());
+  }, []);
 
   if (!visible) return null;
 
@@ -36,9 +36,10 @@ export default function MuteControl({
     <button
       type="button"
       className={`mute-control${faded ? ' is-faded' : ''}`}
-      onClick={toggle}
+      onClick={(e) => void toggle(e)}
       onPointerDown={(e) => e.stopPropagation()}
       aria-label={muted ? 'Unmute' : 'Mute'}
+      aria-pressed={!muted}
       title={muted ? 'Unmute' : 'Mute'}
       data-cursor="click"
       tabIndex={faded ? -1 : 0}
