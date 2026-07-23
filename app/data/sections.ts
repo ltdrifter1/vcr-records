@@ -92,10 +92,12 @@ export type Section = {
   /** Object SFX key played on focus (see lib/audio.ts). */
   sfx: string;
   /**
-   * When false, glow is hover-only (no focusedId latch). CRT uses this.
+   * When false, glow is hover-only (no focusedId latch). CRT / shop use this.
    * Default true — glow stays while the section is focused (lookto/panel).
    */
   glowLatches?: boolean;
+  /** Flip glow map on X (plane UV vs BackSide wall parity). */
+  glowFlipX?: boolean;
   /** list rendered inside the panel */
   items: SectionItem[];
 };
@@ -383,6 +385,7 @@ export const SECTIONS: Section[] = [
     sfx: 'shop',
     // shopbag: hover glow only — click navigates to /shop/index.html
     glowLatches: false,
+    glowFlipX: true,
     items: [
       { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
       { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', thumbSrc: T.summer, href: SHOP.summer },
