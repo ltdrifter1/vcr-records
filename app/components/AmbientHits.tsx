@@ -109,7 +109,6 @@ function AmbientMesh({
         document.body.style.cursor = '';
       }}
       userData={{ ambientId: hit.id }}
-      aria-label={hit.wonder ? 'Open a surprise link' : `Play ${hit.id} sound`}
     >
       <planeGeometry args={[hit.w, hit.h]} />
       <meshBasicMaterial

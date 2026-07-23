@@ -212,7 +212,6 @@ export default function Hotspot({
         }}
         onClick={handleClick}
         userData={{ hotspotId: section.id, nav: section.nav }}
-        aria-label={`${section.nav}: ${section.hint}`}
       >
         <planeGeometry args={[section.w, section.h]} />
         <meshBasicMaterial
