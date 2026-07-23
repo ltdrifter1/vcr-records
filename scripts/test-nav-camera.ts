@@ -16,7 +16,7 @@ import {
   resolveLookMfov,
   yawDelta,
 } from '../lib/navigation';
-import { MFOV_EXPLORE, mfovToHorizontalFov } from '../lib/pano';
+import { MFOV_EXPLORE, mfovToHorizontalFov, uToYaw, uvToSpherical, vToPitch } from '../lib/pano';
 
 const phone = {
   width: 390,
@@ -201,6 +201,65 @@ const desktop = {
   assert.equal(controls.lookTarget.y, pitchBefore);
   assert.ok(controls.mfov > 20, `reframe should widen CRT mfov on phone, got ${controls.mfov}`);
   console.log(`✓ reframeFocused adapts mfov→${controls.mfov.toFixed(1)} without re-aiming`);
+}
+
+// 9) Equirect yaw phase — looking at authored u must sample file_u ≈ 1−u
+//    (and hotspot must sit on the same ray). Regression for Music→poster-wall bug.
+{
+  const cameraForward = (yaw: number, pitch: number) => {
+    const cp = Math.cos(pitch);
+    const sp = Math.sin(pitch);
+    const cy = Math.cos(yaw);
+    const sy = Math.sin(yaw);
+    return { x: -sy * cp, y: sp, z: -cy * cp };
+  };
+
+  const sphereGeomU = (P: { x: number; y: number; z: number }) => {
+    const r = Math.hypot(P.x, P.y, P.z);
+    const x = P.x / r;
+    const y = P.y / r;
+    const z = P.z / r;
+    const theta = Math.acos(Math.max(-1, Math.min(1, y)));
+    const st = Math.sin(theta) || 1e-9;
+    let phi = Math.atan2(z / st, -x / st);
+    if (phi < 0) phi += Math.PI * 2;
+    return phi / (Math.PI * 2);
+  };
+
+  const fileUFromDir = (P: { x: number; y: number; z: number }) => {
+    // texture.repeat.x = -1, offset.x = 1 → file_u = 1 − geomU
+    const geomU = sphereGeomU(P);
+    return ((1 - geomU) % 1 + 1) % 1;
+  };
+
+  const check = (label: string, u: number, v: number) => {
+    const yaw = uToYaw(u);
+    const pitch = vToPitch(v);
+    const fwd = cameraForward(yaw, pitch);
+    const [hx, hy, hz] = uvToSpherical(u, v, 1);
+    const hot = { x: hx, y: hy, z: hz };
+    const fileCam = fileUFromDir(fwd);
+    const fileHot = fileUFromDir(hot);
+    const want = ((1 - u) % 1 + 1) % 1;
+    const dot = fwd.x * hot.x + fwd.y * hot.y + fwd.z * hot.z;
+    assert.ok(
+      Math.abs(fileCam - want) < 0.02,
+      `${label}: camera file ${fileCam} should ≈ 1−u=${want}`,
+    );
+    assert.ok(
+      Math.abs(fileHot - want) < 0.02,
+      `${label}: hotspot file ${fileHot} should ≈ 1−u=${want}`,
+    );
+    assert.ok(dot > 0.99, `${label}: hotspot must lie on camera forward (dot=${dot})`);
+  };
+
+  check('Music lookto', 0.18, 0.42);
+  check('Music hit', 0.2, 0.4);
+  check('Videos lookto', 0.29, 0.43);
+  check('Videos hit', 0.3, 0.42);
+  check('Phone', 0.486, 0.406);
+  check('Register', 0.573, 0.53);
+  console.log('✓ lookto/hotspot yaw phase: file_u ≈ 1−authored_u (Music≠poster wall)');
 }
 
 console.log('\nAll nav camera checks passed.');
