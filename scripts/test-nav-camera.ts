@@ -61,23 +61,25 @@ const desktop = {
   console.log('✓ adaptMfovToViewport preserves HFOV; phone no longer over-zooms');
 }
 
-// 2) CRT lookto: phone wider than desktop raw punch
+// 2) CRT lookto: desktop keeps authored 20; phone widens
 {
   const crt = { w: 4.5, h: 4.2, lookFov: 20 };
   const desk = resolveLookMfov(crt, desktop);
   const mob = resolveLookMfov(crt, phone);
+  assert.equal(desk, 20, `desktop CRT should stay authored 20, got ${desk}`);
   assert.ok(mob > desk, `mobile CRT mfov ${mob} should be > desktop ${desk}`);
   assert.ok(mob >= 35 && mob <= 55, `mobile CRT mfov ${mob} in BT-like 40 band`);
   console.log(`✓ CRT lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
-// 3) Large hotspot never clips below adapted author FOV
+// 3) Music booth: desktop authored 60; phone adapted
 {
-  const bins = { w: 16, h: 7, lookFov: 85 };
-  const mob = resolveLookMfov(bins, phone);
-  const adapted = adaptMfovToViewport(85, phone.aspect);
-  assert.ok(mob >= adapted - 0.01, `bins mfov ${mob} >= adapted ${adapted}`);
-  console.log(`✓ bins lookto mobile=${mob.toFixed(1)} (adapted=${adapted.toFixed(1)})`);
+  const music = { w: 6, h: 9, lookFov: 60 };
+  const desk = resolveLookMfov(music, desktop);
+  const mob = resolveLookMfov(music, phone);
+  assert.equal(desk, 60);
+  assert.ok(mob > 60, `mobile music mfov ${mob} should widen past 60`);
+  console.log(`✓ music lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
 // 4) horizontalFovToMfov inverse

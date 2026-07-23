@@ -103,7 +103,10 @@ export function createNavigationController(
   };
 
   const open = (id: string, viewport?: ViewportMetrics) => {
-    if (!lookEnabled) return;
+    // Gate on the shared controls flag the intro sets — avoids a stale
+    // closed-over `lookEnabled` boolean after controller recreation.
+    if (!controls.userControl && !lookEnabled) return;
+    lookEnabled = true;
     const section = SECTION_BY_ID[id];
     if (!section) return;
 
@@ -154,7 +157,7 @@ export function createNavigationController(
 
   /** Zoom / pan away while locked → free (rAF poll from Experience). */
   const tickFreeFocus = () => {
-    if (!lookEnabled || controls.lookAnimating || !isFocusReady(navState)) return;
+    if (!controls.userControl || controls.lookAnimating || !isFocusReady(navState)) return;
     const id = navState.focusedId;
     if (!id) return;
     const section = SECTION_BY_ID[id];
