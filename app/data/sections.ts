@@ -150,14 +150,16 @@ export const SECTIONS: Section[] = [
     intro:
       'The foam ear-cups still smell of cigarettes and rain. Drop the needle and the room disappears — just you, a stool, and 174 beats per minute.',
     accent: '#ffb347',
+    // Hit / glow on the headphone alcove (LISTENING STATION doorway).
     u: 0.2,
     v: 0.4,
-    // Aim slightly into the booth glass for a composed focus frame
-    lookU: 0.205,
-    lookV: 0.38,
+    // Lookto: bias slightly left of the booth so the left glass panel
+    // doesn't cover the station; wider MFOV = room view, not punch-in.
+    lookU: 0.17,
+    lookV: 0.43,
     w: 6,
     h: 9,
-    lookFov: 60,
+    lookFov: 95,
     sfx: 'music',
     goldEdge: true,
     items: [
