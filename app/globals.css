@@ -69,28 +69,6 @@ main {
 .stage.can-look.dragging {
   cursor: grabbing;
 }
-html.has-custom-cursor,
-html.has-custom-cursor * {
-  cursor: none !important;
-}
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  pointer-events: none;
-  transform: translate3d(-100px, -100px, 0);
-  will-change: transform;
-}
-.custom-cursor img {
-  display: block;
-  width: 56px;
-  height: 56px;
-  filter: drop-shadow(0 2px 0 rgba(20, 38, 28, 0.25));
-}
-.custom-cursor.is-down img {
-  opacity: 0.92;
-}
 .mute-control,
 .lights-control,
 .gyro-control {
@@ -373,7 +351,6 @@ html.has-custom-cursor * {
     linear-gradient(165deg, #0f2a20 0%, var(--pnw-deep) 42%, #081612 100%);
   color: var(--cel-cream);
   overflow: hidden;
-  cursor: none;
 }
 .gate-atmosphere {
   position: absolute;
@@ -905,27 +882,57 @@ html.has-custom-cursor * {
   }
 }
 
-/* ---------- ambient guidance ---------- */
-.compass {
+/* ---------- first-visit drag cue (never blocks the scene) ---------- */
+.drag-hint {
   position: fixed;
   left: 50%;
-  bottom: clamp(18px, 4vh, 40px);
+  bottom: clamp(20px, 4.5vh, 44px);
   transform: translateX(-50%);
   z-index: 16;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  max-width: min(92vw, 420px);
-  text-align: center;
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-weight: 800;
-  font-size: clamp(11px, 2.6vw, 13px);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  gap: 10px;
+  max-width: min(92vw, 360px);
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
   color: #fff;
-  text-shadow: 1px 1px 0 #000, 0 0 18px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(11px, 2.4vw, 12px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65), 0 0 16px rgba(0, 0, 0, 0.4);
   pointer-events: none;
-  transition: opacity 0.6s ease;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  user-select: none;
+}
+.drag-hint.is-on {
+  opacity: 1;
+}
+.drag-hint-glyph {
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.92);
+  opacity: 0.9;
+  animation: drag-hint-nudge 1.8s ease-in-out infinite;
+}
+.drag-hint-label {
+  white-space: nowrap;
+}
+
+@keyframes drag-hint-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateX(3px);
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -934,6 +941,12 @@ html.has-custom-cursor * {
   .gate-orb,
   .gate-mark-vcr,
   .gate-mark-recordings {
+    animation: none;
+  }
+  .drag-hint {
+    transition: none;
+  }
+  .drag-hint-glyph {
     animation: none;
   }
 }
