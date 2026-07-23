@@ -373,7 +373,6 @@ export const SECTIONS: Section[] = [
     intro:
       'The drawer sticks unless you hit it just right. Fresh pressings, dusty repress, and a tin of badges by the till.',
     accent: '#9dff8a',
-<<<<<<< HEAD
     // Measured on store_pano_v3.webp: register body file≈(1655–1845, 995–1175).
     // Spherical u = 1 − file_u after BackSide flip. Hit must cover the full
     // painted register (~190×180px) — old ~5–6 unit plane only hit ~70–85px
@@ -385,14 +384,6 @@ export const SECTIONS: Section[] = [
     w: 15.7,
     h: 15.0,
     lookFov: 58,
-=======
-    // File u≈0.422 → spherical u = 1 − file_u after BackSide flip
-    u: 0.578,
-    v: 0.521,
-    w: 6.2,
-    h: 5.6,
-    lookFov: 70,
->>>>>>> origin/main
     sfx: 'shop',
     items: [
       { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
