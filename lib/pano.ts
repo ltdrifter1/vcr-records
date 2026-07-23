@@ -159,8 +159,8 @@ export function uvToLocal(u: number, v: number): [number, number, number] {
 }
 
 /** v3 — bright 90s cartoon room (cache-bust from darker underground v2). */
-export const TEXTURE_SRC = '/textures/store_pano_v4.webp';
-/** Lights-off twin — warm practicals (CRT / neon / lamp), not a flat darken. */
-export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v4.webp';
-export const LQIP_SRC = '/textures/store_pano_lqip_v4.webp';
+export const TEXTURE_SRC = '/textures/store_pano_v3.webp';
+/** Darkened twin of the store — balmingtiger lights_off scene. */
+export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v3.webp';
+export const LQIP_SRC = '/textures/store_pano_lqip_v3.webp';
 export const CRT_VIDEO_SRC = '/videos/crt_loop.mp4';

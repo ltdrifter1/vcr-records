@@ -73,7 +73,7 @@ export type Section = {
   accent: string;
   /**
    * Normalised hotspot position on the equirectangular store
-   * (public/textures/store_pano_v4.webp, 4096×2048).
+   * (public/textures/store_pano_v3.webp, 4096×2048).
    * u: around full 360° yaw after BackSide U-flip (1 − texture_u) · v: top→bottom
    */
   u: number;
@@ -403,12 +403,12 @@ export const SECTIONS: Section[] = [
       'Layer over layer over layer. Pull one flyer and three come with it. Every party that ever mattered is buried in here somewhere.',
     accent: '#ffe66d',
     u: 0.44,
-    v: 0.33,
+    v: 0.34,
     lookU: 0.43,
-    lookV: 0.31,
-    // Tier-2: spaced electronic flyers on the yellow wall
-    w: 9.5,
-    h: 5.4,
+    lookV: 0.32,
+    // Tighter hit after thinning the flyer collage
+    w: 9,
+    h: 5.2,
     lookFov: 75,
     sfx: 'archive',
     items: [
