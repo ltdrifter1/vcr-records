@@ -86,7 +86,7 @@ export type Section = {
   h: number;
   /**
    * MFOV used by lookto when focusing this feature
-   * (balmingtiger zooms in: music 60, video 20, tour 80, contact 60).
+   * (Music ~95 room view; Videos ~50 CRT+stand; bins/archive wider).
    */
   lookFov: number;
   /** Object SFX key played on focus (see lib/audio.ts). */
@@ -272,13 +272,18 @@ export const SECTIONS: Section[] = [
     title: 'The CRT',
     kicker: 'Videos',
     intro:
-      'Static rolls until it doesn’t. Hand-dubbed VHS sets, pirate TV idents and grainy warehouse footage nobody was supposed to keep.',
+      'Static rolls until it doesn’t. Hand-dubbed VHS sets, pirate TV idents and grainy warehouse footage nobody was supposed to keep. Pick a channel — it plays on this set.',
     accent: '#7ad7ff',
+    // Hit / glow / video plane stay on the tube face.
     u: 0.3,
     v: 0.42,
+    // Lookto: bias left so the glass panel clears the set; mid MFOV
+    // shows the CRT + stand (not a screen-only punch-in like FOV 20).
+    lookU: 0.28,
+    lookV: 0.44,
     w: 4.5,
     h: 4.2,
-    lookFov: 20,
+    lookFov: 50,
     sfx: 'video',
     // balmingtiger: TV glow extinguishes while watching (no active latch)
     glowLatches: false,
@@ -286,7 +291,7 @@ export const SECTIONS: Section[] = [
     items: [
       {
         label: 'Store Loop',
-        meta: 'In-CRT',
+        meta: 'Default channel',
         detail: 'Ambient',
         cta: 'Play',
         thumb: 'A',
@@ -296,8 +301,8 @@ export const SECTIONS: Section[] = [
       },
       {
         label: 'Banter Tape',
-        meta: 'In-CRT',
-        detail: 'Warehouse',
+        meta: 'Warehouse cut',
+        detail: 'In-room',
         cta: 'Play',
         thumb: 'B',
         thumbSrc: T.testpress,
@@ -306,8 +311,8 @@ export const SECTIONS: Section[] = [
       },
       {
         label: 'Classic Cuts',
-        meta: 'In-CRT + page',
-        detail: 'Watch',
+        meta: 'Archive reel',
+        detail: 'In-room',
         cta: 'Play',
         thumb: 'CL',
         thumbSrc: T.classic,
@@ -316,8 +321,8 @@ export const SECTIONS: Section[] = [
       },
       {
         label: 'Future Boy',
-        meta: 'In-CRT + page',
-        detail: 'Watch',
+        meta: 'Promo reel',
+        detail: 'In-room',
         cta: 'Play',
         thumb: 'FB',
         thumbSrc: T.future,
@@ -326,8 +331,8 @@ export const SECTIONS: Section[] = [
       },
       {
         label: 'Lions Gate',
-        meta: 'In-CRT + page',
-        detail: 'Watch',
+        meta: 'Drifta',
+        detail: 'In-room',
         cta: 'Play',
         thumb: 'LG',
         thumbSrc: T.lions,
@@ -336,8 +341,8 @@ export const SECTIONS: Section[] = [
       },
       {
         label: 'At Home',
-        meta: 'In-CRT + page',
-        detail: 'Watch',
+        meta: 'Inlet Knight',
+        detail: 'In-room',
         cta: 'Play',
         thumb: 'AH',
         thumbSrc: T.atHome,
