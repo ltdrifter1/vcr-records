@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 
-import { NAV_ORDER, SECTIONS } from '@/app/data/sections';
+import { NAV_ORDER, SECTIONS, SHOP_URL } from '@/app/data/sections';
 
 const NAV_ITEMS = NAV_ORDER.map((id) => SECTIONS.find((s) => s.id === id)!).filter(Boolean);
 
@@ -13,6 +13,8 @@ const NAV_ITEMS = NAV_ORDER.map((id) => SECTIONS.find((s) => s.id === id)!).filt
  * Conveyor top nav — balmingtiger MENU CONVEYOR pattern:
  * Swiper loop, ~5 visible labels, click slides chosen item into the
  * active (left) slot then opens that section.
+ *
+ * Shop is special (BT menu-shop): go straight to the catalog — no lookto/panel.
  */
 export default function TopNav({
   visible,
@@ -40,6 +42,15 @@ export default function TopNav({
 
   if (!visible) return null;
 
+  const openSection = (section: (typeof items)[number]) => {
+    // Top-nav Shop → catalog index (same tab). In-room register still uses onOpen.
+    if (section.id === 'cash-register') {
+      window.location.assign(SHOP_URL);
+      return;
+    }
+    onOpen(section.id);
+  };
+
   const openAtSlot = (slot: number) => {
     const sw = swiperRef.current;
     if (!sw || transitioning.current) return;
@@ -50,12 +61,12 @@ export default function TopNav({
 
     // Clicking the already-active left slot toggles close via onOpen.
     if (slot === 0 && activeId === section.id) {
-      onOpen(section.id);
+      openSection(section);
       return;
     }
 
     if (slot === 0) {
-      onOpen(section.id);
+      openSection(section);
       return;
     }
 
@@ -63,7 +74,7 @@ export default function TopNav({
     sw.slideToLoop(targetReal, 800);
     window.setTimeout(() => {
       transitioning.current = false;
-      onOpen(section.id);
+      openSection(section);
     }, 820);
   };
 

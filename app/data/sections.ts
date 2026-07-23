@@ -473,10 +473,9 @@ export const SECTION_BY_ID = Object.fromEntries(
 ) as Record<string, Section>;
 
 /**
- * Outbound shop — opens the existing VCR site (new tab, no panel).
- * Served from public/shop/ beside this 360 homepage.
+ * Outbound shop catalog — public/shop/index.html beside this 360 homepage.
  */
-export const SHOP_URL = '/shop/';
+export const SHOP_URL = '/shop/index.html';
 
 /** Primary conveyor nav order (balmingtiger: music / video / …). */
 export const NAV_ORDER = [
