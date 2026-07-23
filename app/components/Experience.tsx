@@ -12,7 +12,7 @@ import MuteControl from './MuteControl';
 import GyroButton, { createGyro } from './GyroButton';
 import DragHint from './DragHint';
 import { usePanControls } from './usePanControls';
-import { SECTION_BY_ID } from '@/app/data/sections';
+import { SECTION_BY_ID, SHOP_URL } from '@/app/data/sections';
 import { interruptLookTo, lookToSection, resetCamera, restoreExploreFov } from '@/lib/lookTo';
 import { MFOV_EXPLORE, START_LOOK_U, START_LOOK_V, uToYaw, vToPitch } from '@/lib/pano';
 import { enterWithAudio, playSfx } from '@/lib/audio';
@@ -216,6 +216,19 @@ export default function Experience() {
 
       const section = SECTION_BY_ID[id];
       if (!section) return;
+
+      // —— Shop / cash register = balmingtiger shopbag ——
+      // Hover glow only; click → catalog index (same tab).
+      if (id === 'cash-register') {
+        interruptLookTo(controls);
+        playSfx('shop');
+        panelOpenRef.current.value = false;
+        setActive(null);
+        setFocusedId(null);
+        focusedRef.current = null;
+        window.location.assign(SHOP_URL);
+        return;
+      }
 
       // Toggle off if same focused feature re-clicked via nav
       if (focusedRef.current === id && active === id) {
