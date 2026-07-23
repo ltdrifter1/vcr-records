@@ -31,6 +31,7 @@ import { SECTIONS, SECTION_BY_ID } from '@/app/data/sections';
 import { SceneContext, type SceneEnv, type Controls } from './sceneContext';
 import DustField from './DustField';
 import LightBeams from './LightBeams';
+import Flicker from './Flicker';
 import Hotspot from './Hotspot';
 import LampHotspot from './LampHotspot';
 import FisheyePass from './FisheyePass';
@@ -388,8 +389,14 @@ export default function Scene({
         )}
       </group>
 
-      {/* Soft tungsten shafts when lights are on — atmospheric, not a redesign */}
-      {lightsOn && <LightBeams />}
+      {/* Soft tungsten shafts + signage flicker when lights are on */}
+      {lightsOn && !reduceMotion && (
+        <>
+          <LightBeams />
+          <Flicker />
+        </>
+      )}
+      {lightsOn && reduceMotion && <LightBeams />}
       <DustField count={reduceMotion ? 0 : 48} />
 
       <FisheyePass amountRef={fisheyeRef} />

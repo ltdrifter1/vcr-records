@@ -43,7 +43,8 @@ const WONDER_LINKS = [
 const HITS: AmbientHit[] = [
   { id: 'stool', u: 0.19, v: 0.58, w: 3.2, h: 2.4, sfx: 'stool' },
   { id: 'crate', u: 0.46, v: 0.72, w: 4.5, h: 3.2, sfx: 'crate' },
-  { id: 'poster', u: 0.5, v: 0.28, w: 3.5, h: 3.5, sfx: 'poster' },
+  // Moved off the flyer collage so it doesn't steal Archive hits
+  { id: 'poster', u: 0.62, v: 0.3, w: 3.2, h: 3.2, sfx: 'poster' },
   { id: 'cushion', u: 0.62, v: 0.68, w: 3.8, h: 2.6, sfx: 'cushion' },
   // Soft “owl” perch near the listening booth upper shelf
   { id: 'owl', u: 0.16, v: 0.32, w: 2.6, h: 2.4, sfx: 'owl' },
