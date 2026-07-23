@@ -98,6 +98,11 @@ export type Section = {
   glowLatches?: boolean;
   /** Flip glow map on X (plane UV vs BackSide wall parity). */
   glowFlipX?: boolean;
+  /**
+   * balmingtiger-style dual hover layers: gold fill (`*_glow`) +
+   * gold edge rim (`*_edge`). Cash / CRT / listening booth.
+   */
+  goldEdge?: boolean;
   /** list rendered inside the panel */
   items: SectionItem[];
 };
@@ -154,6 +159,7 @@ export const SECTIONS: Section[] = [
     h: 9,
     lookFov: 60,
     sfx: 'music',
+    goldEdge: true,
     items: [
       {
         label: 'At Home — Inlet Knight',
@@ -274,6 +280,7 @@ export const SECTIONS: Section[] = [
     sfx: 'video',
     // balmingtiger: TV glow extinguishes while watching (no active latch)
     glowLatches: false,
+    goldEdge: true,
     items: [
       {
         label: 'Store Loop',
@@ -386,6 +393,7 @@ export const SECTIONS: Section[] = [
     // shopbag: hover glow only — click navigates to /shop/index.html
     glowLatches: false,
     glowFlipX: true,
+    goldEdge: true,
     items: [
       { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
       { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', thumbSrc: T.summer, href: SHOP.summer },

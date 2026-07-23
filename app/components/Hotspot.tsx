@@ -13,16 +13,64 @@ import { useSceneEnv, type Controls } from './sceneContext';
 const tmp = new THREE.Vector3();
 const origin = new THREE.Vector3(0, 0, 0);
 
+/** Warm gold — matches balmingtiger lp/shopbag glow PNGs (~255,239,168). */
+const GOLD_TINT = '#fff0b0';
+
+function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
+  map.colorSpace = THREE.SRGBColorSpace;
+  const img = map.image as
+    | HTMLImageElement
+    | HTMLCanvasElement
+    | ImageBitmap
+    | undefined;
+  if (img && 'width' in img && img.width) {
+    const w = img.width;
+    const h = img.height;
+    const c = document.createElement('canvas');
+    c.width = w;
+    c.height = h;
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    if (ctx) {
+      ctx.drawImage(img as CanvasImageSource, 0, 0);
+      const data = ctx.getImageData(0, 0, w, h);
+      let hasTrans = false;
+      for (let i = 3; i < data.data.length; i += 4) {
+        if (data.data[i] < 250) {
+          hasTrans = true;
+          break;
+        }
+      }
+      if (!hasTrans) {
+        for (let i = 0; i < data.data.length; i += 4) {
+          const lum = Math.max(data.data[i], data.data[i + 1], data.data[i + 2]);
+          data.data[i + 3] = lum;
+        }
+        ctx.putImageData(data, 0, 0);
+        map.image = c;
+        map.format = THREE.RGBAFormat;
+      }
+    }
+  }
+  if (flipX) {
+    map.wrapS = THREE.RepeatWrapping;
+    map.repeat.x = -1;
+    map.offset.x = 1;
+  } else {
+    map.wrapS = THREE.ClampToEdgeWrapping;
+    map.repeat.x = 1;
+    map.offset.x = 0;
+  }
+  map.needsUpdate = true;
+}
+
 /**
  * Hotspot — balmingtiger pattern (3d.xml + site_scripts.js):
- *   invisible hit plane (default hotspot) + authored glow PNG (alpha 0)
+ *   invisible hit plane + authored glow PNG (alpha 0)
+ *   optional second edge layer (`*_edge.webp`) for gold rim on hover
  *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
- *   hoverOut → glow alpha 1→0 (same tween) — EXCEPT latched sections
- *              which keep glow while focusedId matches (active_scene)
- *   glowLatches=false (CRT) → hover-only; click still lookto + panel
+ *   hoverOut → glow alpha 1→0 — EXCEPT latched sections while focused
  *
- * Blending: krpano uses normal alpha (not additive). Additive washed out
- * on the bright cel room.
+ * Blending: krpano uses normal alpha (not additive).
  */
 export default function Hotspot({
   section,
@@ -34,13 +82,14 @@ export default function Hotspot({
   section: Section;
   onOpen: (id: string) => void;
   controls: Controls;
-  /** Glow latch id (panel open OR lookto lock). Ignored when glowLatches=false. */
   focusedId?: string | null;
   debug?: boolean;
 }) {
   const mesh = useRef<THREE.Mesh>(null);
   const glowMesh = useRef<THREE.Mesh>(null);
+  const edgeMesh = useRef<THREE.Mesh>(null);
   const glowMat = useRef<THREE.MeshBasicMaterial>(null);
+  const edgeMat = useRef<THREE.MeshBasicMaterial>(null);
   const inner = useRef<HTMLDivElement>(null);
   const opacity = useRef(0);
   const glow = useRef({ a: 0 });
@@ -49,67 +98,27 @@ export default function Hotspot({
   const { camera, gl } = useThree();
   const [x, y, z] = uvToSpherical(section.u, section.v, SPHERE_RADIUS - 0.5);
 
-  // CRT sets glowLatches=false (hover-only); other nav hotspots latch on focus
   const canLatch = section.glowLatches !== false;
   const isFocused = canLatch && focusedId === section.id;
+  const useEdge = !!section.goldEdge;
+  const gold = !!section.goldEdge;
 
-  // Prefer authored RGBA silhouette glows (`*_glow.webp`).
   const glowSrc = `/hotspots/${section.id}_glow.webp`;
+  const edgeSrc = `/hotspots/${section.id}_edge.webp`;
+
+  // Always call the same number of hooks: load a tiny fallback when no edge.
   const glowMap = useTexture(glowSrc);
+  const edgeMap = useTexture(useEdge ? edgeSrc : glowSrc);
+
   useLayoutEffect(() => {
-    glowMap.colorSpace = THREE.SRGBColorSpace;
-    // Some legacy glows were saved as lossy RGB (no alpha). Convert
-    // luminance → alpha so NormalBlending matches krpano / shopbag PNGs.
-    const img = glowMap.image as
-      | HTMLImageElement
-      | HTMLCanvasElement
-      | ImageBitmap
-      | undefined;
-    if (img && 'width' in img && img.width) {
-      const w = img.width;
-      const h = img.height;
-      const c = document.createElement('canvas');
-      c.width = w;
-      c.height = h;
-      const ctx = c.getContext('2d', { willReadFrequently: true });
-      if (ctx) {
-        ctx.drawImage(img as CanvasImageSource, 0, 0);
-        const data = ctx.getImageData(0, 0, w, h);
-        let hasTrans = false;
-        for (let i = 3; i < data.data.length; i += 4) {
-          if (data.data[i] < 250) {
-            hasTrans = true;
-            break;
-          }
-        }
-        if (!hasTrans) {
-          for (let i = 0; i < data.data.length; i += 4) {
-            const lum = Math.max(data.data[i], data.data[i + 1], data.data[i + 2]);
-            data.data[i + 3] = lum;
-          }
-          ctx.putImageData(data, 0, 0);
-          glowMap.image = c;
-          glowMap.format = THREE.RGBAFormat;
-        }
-      }
-    }
-    glowMap.needsUpdate = true;
-    // Some silhouettes were authored in file-UV space; flip to match the
-    // in-room view after the BackSide equirect U-mirror.
-    if (section.glowFlipX) {
-      glowMap.wrapS = THREE.RepeatWrapping;
-      glowMap.repeat.x = -1;
-      glowMap.offset.x = 1;
-    } else {
-      glowMap.wrapS = THREE.ClampToEdgeWrapping;
-      glowMap.repeat.x = 1;
-      glowMap.offset.x = 0;
-    }
-  }, [glowMap, section.glowFlipX]);
+    prepGlowMap(glowMap, section.glowFlipX);
+    if (useEdge) prepGlowMap(edgeMap, section.glowFlipX);
+  }, [glowMap, edgeMap, section.glowFlipX, useEdge]);
 
   useLayoutEffect(() => {
     mesh.current?.lookAt(origin);
     glowMesh.current?.lookAt(origin);
+    edgeMesh.current?.lookAt(origin);
   }, [x, y, z]);
 
   // hoverIn / hoverOut — identical GSAP numbers to site_scripts.js
@@ -121,7 +130,6 @@ export default function Hotspot({
       ease: 'power1.inOut',
       overwrite: true,
     });
-    // Subtle press-in on the hit mesh — tasteful motion without redesign
     if (mesh.current) {
       gsap.to(mesh.current.scale, {
         x: on ? 1.03 : 1,
@@ -146,7 +154,6 @@ export default function Hotspot({
       ? THREE.MathUtils.clamp(1 - (dist - 0.08) / 0.55, 0, 1)
       : 0;
 
-    // Hints only — BT glow is pointer hover / active_scene, not proximity
     let hintTarget = Math.max(proximity * 0.95, hovered || isFocused ? 1 : 0);
     if (!env.live.value || (env.panelOpen.value && !isFocused && !hovered)) {
       hintTarget = 0;
@@ -156,20 +163,23 @@ export default function Hotspot({
     el.style.opacity = opacity.current.toFixed(3);
     el.style.visibility = opacity.current < 0.02 ? 'hidden' : 'visible';
 
+    const a = glow.current.a;
     if (glowMat.current) {
-      glowMat.current.opacity = glow.current.a;
-      glowMat.current.visible = glow.current.a > 0.02;
+      glowMat.current.opacity = a * (gold ? 0.88 : 1);
+      glowMat.current.visible = a > 0.02;
     }
-    // BT keeps glow scale locked to the default hotspot (same ath/atv/scale)
-    if (glowMesh.current) {
-      glowMesh.current.scale.setScalar(1);
+    if (edgeMat.current) {
+      // Edge rim leads slightly brighter for “gold around the edges”
+      edgeMat.current.opacity = a;
+      edgeMat.current.visible = useEdge && a > 0.02;
     }
+    if (glowMesh.current) glowMesh.current.scale.setScalar(1);
+    if (edgeMesh.current) edgeMesh.current.scale.setScalar(1.04);
   });
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     if (!env.live.value || controls.dragged) return;
-    // Non-latching targets (shop / CRT): brief glow pulse for touch feedback
     if (!canLatch) {
       gsap.fromTo(
         glow.current,
@@ -180,28 +190,47 @@ export default function Hotspot({
     onOpen(section.id);
   };
 
-  // Glow plane matches default hotspot footprint (BT same scale for both)
+  // BT: glow + default share the same ath/atv/scale footprint
   const gw = section.w * 1.15;
   const gh = section.h * 1.15;
 
   return (
     <group position={[x, y, z]}>
+      {/* Soft gold fill silhouette */}
       <mesh ref={glowMesh} renderOrder={2} raycast={() => null}>
         <planeGeometry args={[gw, gh]} />
         <meshBasicMaterial
           ref={glowMat}
           map={glowMap}
-          color="#ffffff"
+          color={gold ? GOLD_TINT : '#ffffff'}
           transparent
           depthWrite={false}
           depthTest={false}
-          // krpano hotspot alpha — NOT AdditiveBlending (washes out on cel walls)
           blending={THREE.NormalBlending}
           opacity={0}
           side={THREE.DoubleSide}
           toneMapped={false}
         />
       </mesh>
+
+      {/* Second layer: gold edge rim / outer halo */}
+      {useEdge && (
+        <mesh ref={edgeMesh} renderOrder={2} raycast={() => null}>
+          <planeGeometry args={[gw * 1.06, gh * 1.06]} />
+          <meshBasicMaterial
+            ref={edgeMat}
+            map={edgeMap}
+            color={GOLD_TINT}
+            transparent
+            depthWrite={false}
+            depthTest={false}
+            blending={THREE.NormalBlending}
+            opacity={0}
+            side={THREE.DoubleSide}
+            toneMapped={false}
+          />
+        </mesh>
+      )}
 
       <mesh
         ref={mesh}
@@ -214,7 +243,6 @@ export default function Hotspot({
           gl.domElement.style.cursor = 'pointer';
         }}
         onPointerOut={() => {
-          // Latched sections: local hovered clears, isFocused keeps glow via GSAP.
           setHovered(false);
           document.documentElement.classList.remove('cursor-hot');
           gl.domElement.style.cursor = '';
