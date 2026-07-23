@@ -92,10 +92,12 @@ export type Section = {
   /** Object SFX key played on focus (see lib/audio.ts). */
   sfx: string;
   /**
-   * When false, glow is hover-only (no focusedId latch). CRT uses this.
+   * When false, glow is hover-only (no focusedId latch). CRT / shop use this.
    * Default true — glow stays while the section is focused (lookto/panel).
    */
   glowLatches?: boolean;
+  /** Flip glow map on X (plane UV vs BackSide wall parity). */
+  glowFlipX?: boolean;
   /** list rendered inside the panel */
   items: SectionItem[];
 };
@@ -114,7 +116,7 @@ const STREAM = [
 
 /** Deep links into the existing /shop catalog (same-origin). */
 const SHOP = {
-  home: '/shop/',
+  home: '/shop/index.html',
   atHome: '/shop/home.html',
   summer: '/shop/summer.html',
   lion: '/shop/lion.html',
@@ -373,18 +375,17 @@ export const SECTIONS: Section[] = [
     intro:
       'The drawer sticks unless you hit it just right. Fresh pressings, dusty repress, and a tin of badges by the till.',
     accent: '#9dff8a',
-    // Measured on store_pano_v3.webp: register body file≈(1655–1845, 995–1175).
-    // Spherical u = 1 − file_u after BackSide flip. Hit must cover the full
-    // painted register (~190×180px) — old ~5–6 unit plane only hit ~70–85px
-    // (top corner), so glow/hover never read on the object.
+    // Register body on store_pano_v3 (file≈1655–1845, 995–1175).
+    // Spherical u = 1 − file_u after BackSide flip.
     u: 0.573,
     v: 0.53,
-    lookU: 0.573,
-    lookV: 0.52,
-    w: 15.7,
-    h: 15.0,
+    w: 15.4,
+    h: 14.7,
     lookFov: 58,
     sfx: 'shop',
+    // shopbag: hover glow only — click navigates to /shop/index.html
+    glowLatches: false,
+    glowFlipX: true,
     items: [
       { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
       { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', thumbSrc: T.summer, href: SHOP.summer },

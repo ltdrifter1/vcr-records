@@ -94,7 +94,18 @@ export default function Hotspot({
       }
     }
     glowMap.needsUpdate = true;
-  }, [glowMap]);
+    // Some silhouettes were authored in file-UV space; flip to match the
+    // in-room view after the BackSide equirect U-mirror.
+    if (section.glowFlipX) {
+      glowMap.wrapS = THREE.RepeatWrapping;
+      glowMap.repeat.x = -1;
+      glowMap.offset.x = 1;
+    } else {
+      glowMap.wrapS = THREE.ClampToEdgeWrapping;
+      glowMap.repeat.x = 1;
+      glowMap.offset.x = 0;
+    }
+  }, [glowMap, section.glowFlipX]);
 
   useLayoutEffect(() => {
     mesh.current?.lookAt(origin);
