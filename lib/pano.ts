@@ -131,14 +131,31 @@ export function followZoomScale(mfovDeg: number, aspect: number): number {
   return Math.max(1, z);
 }
 
+/**
+ * Equirect U → camera yaw (radians).
+ *
+ * Authored convention (sections.ts / cash-register comments):
+ *   spherical_u = 1 − file_u
+ *   → looking at `u` must sample pano file_u = 1 − u
+ *
+ * Three.js SphereGeometry + BackSide + texture.repeat.x = −1 needs a
+ * −π/2 yaw phase so that convention holds. Without it, Music lookto at
+ * u≈0.17 aimed at the poster wall (file≈0.58) instead of the Listening
+ * Station (file≈0.83), and Videos missed the CRT.
+ */
 export function uToYaw(u: number): number {
-  return (u - 0.5) * Math.PI * 2;
+  return (u - 0.5) * Math.PI * 2 - Math.PI / 2;
 }
 
 export function vToPitch(v: number): number {
   return (0.5 - v) * Math.PI;
 }
 
+/**
+ * World position on the inside of the equirect sphere for authored UV.
+ * Must match the camera forward at `rotation.y = uToYaw(u)`,
+ * `rotation.x = vToPitch(v)` (YXZ) so hotspots sit on what lookto frames.
+ */
 export function uvToSpherical(
   u: number,
   v: number,
@@ -147,10 +164,14 @@ export function uvToSpherical(
   const yaw = uToYaw(u);
   const pitch = vToPitch(v);
   const cp = Math.cos(pitch);
+  const sp = Math.sin(pitch);
+  const sy = Math.sin(yaw);
+  const cy = Math.cos(yaw);
+  // Camera forward with YXZ at (yaw, pitch): Ry*Rx*(0,0,-1)
   return [
-    Math.sin(yaw) * cp * radius,
-    Math.sin(pitch) * radius,
-    -Math.cos(yaw) * cp * radius,
+    -sy * cp * radius,
+    sp * radius,
+    -cy * cp * radius,
   ];
 }
 

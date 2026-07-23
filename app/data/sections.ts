@@ -153,10 +153,10 @@ export const SECTIONS: Section[] = [
     // Hit / glow on the headphone alcove (LISTENING STATION doorway).
     u: 0.2,
     v: 0.4,
-    // Lookto: bias slightly left of the booth so the left glass panel
-    // doesn't cover the station; wider MFOV = room view, not punch-in.
-    lookU: 0.17,
-    lookV: 0.43,
+    // Lookto frames the Listening Station room (file_u ≈ 1−lookU).
+    // Slight left bias so the left glass panel doesn't cover the booth.
+    lookU: 0.18,
+    lookV: 0.42,
     w: 6,
     h: 9,
     lookFov: 95,
@@ -277,10 +277,10 @@ export const SECTIONS: Section[] = [
     // Hit / glow / video plane stay on the tube face.
     u: 0.3,
     v: 0.42,
-    // Lookto: bias left so the glass panel clears the set; mid MFOV
-    // shows the CRT + stand (not a screen-only punch-in like FOV 20).
-    lookU: 0.28,
-    lookV: 0.44,
+    // Lookto frames the CRT + stand (file_u ≈ 1−lookU). Slight left bias
+    // clears the glass panel; MFOV 50 = set in room, not screen punch-in.
+    lookU: 0.29,
+    lookV: 0.43,
     w: 4.5,
     h: 4.2,
     lookFov: 50,
