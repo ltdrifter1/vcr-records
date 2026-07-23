@@ -56,6 +56,7 @@ type Props = {
   /** Hotspots live only after intro unlocks look. */
   liveRef: { value: boolean };
   panelOpenRef: { value: boolean };
+  focusedIdRef?: { value: string | null };
   onOpen: (id: string) => void;
   onIntroComplete?: () => void;
   debug?: boolean;
@@ -215,7 +216,13 @@ function Rig({
     // —— followmousecontrol: view.rx / view.ry lean ——
     let fYaw = 0;
     let fPitch = 0;
-    if (looking && !env.reduceMotion && controls.followFactor > 0.001) {
+    // Follow-mouse lean off while a section is focused — keeps glow framing locked.
+    const followAllowed =
+      looking &&
+      !env.reduceMotion &&
+      !env.focusedId.value &&
+      controls.followFactor > 0.001;
+    if (followAllowed) {
       const z = followZoomScale(controls.mfov, aspect);
       const amp = (controls.followFactor / z) * FOLLOW_RANGE;
       const targetYaw = -controls.pointer.x * amp;
@@ -235,7 +242,13 @@ function Rig({
     let gYaw = 0;
     let gPitch = 0;
     const gyro = gyroRef?.current;
-    if (looking && gyro?.enabled && !controls.dragging && !controls.lookAnimating) {
+    if (
+      looking &&
+      gyro?.enabled &&
+      !controls.dragging &&
+      !controls.lookAnimating &&
+      !env.focusedId.value
+    ) {
       gYaw = gyro.yaw;
       gPitch = gyro.pitch;
     }
@@ -278,6 +291,7 @@ export default function Scene({
   enteredRef,
   liveRef,
   panelOpenRef,
+  focusedIdRef = { value: null },
   onOpen,
   onIntroComplete,
   debug = false,
@@ -310,6 +324,10 @@ export default function Scene({
     });
   }, [lightsOn]);
 
+  useEffect(() => {
+    focusedIdRef.value = focusedId;
+  }, [focusedId, focusedIdRef]);
+
   const env = useMemo<SceneEnv>(
     () => ({
       look: { x: 0, y: 0 },
@@ -317,8 +335,9 @@ export default function Scene({
       live: liveRef,
       panelOpen: panelOpenRef,
       reduceMotion,
+      focusedId: focusedIdRef,
     }),
-    [liveRef, panelOpenRef, reduceMotion],
+    [liveRef, panelOpenRef, reduceMotion, focusedIdRef],
   );
 
   useFrame(() => {

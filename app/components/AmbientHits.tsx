@@ -49,13 +49,13 @@ const HITS: AmbientHit[] = [
   { id: 'owl', u: 0.16, v: 0.32, w: 2.6, h: 2.4, sfx: 'owl' },
   // Warm crackle near the lamp / back corner
   { id: 'fire', u: 0.38, v: 0.55, w: 2.8, h: 2.6, sfx: 'fire' },
-  // Globe / wonder — clear of the cash-register hit (u≈0.57, v≈0.53)
+  // Globe / wonder — clear of phone-booth (u≈0.486) and cash-register (u≈0.57)
   {
     id: 'wonder',
-    u: 0.48,
-    v: 0.42,
-    w: 2.6,
-    h: 2.6,
+    u: 0.55,
+    v: 0.62,
+    w: 2.4,
+    h: 2.4,
     sfx: 'wonder',
     wonder: true,
   },

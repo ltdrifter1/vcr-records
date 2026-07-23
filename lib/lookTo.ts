@@ -1,156 +1,49 @@
-import gsap from 'gsap';
-import type { Controls } from '@/app/components/sceneContext';
+/**
+ * Backward-compatible lookto API — delegates to the unified navigation engine.
+ * Prefer importing from `@/lib/navigation` in new code.
+ */
+import type { Controls } from '@/lib/navigation/types';
 import type { Section } from '@/app/data/sections';
 import {
-  MFOV_EXPLORE,
-  MFOV_LOOKTO_MIN,
-  MFOV_MAX,
-  START_LOOK_U,
-  START_LOOK_V,
-  uToYaw,
-  vToPitch,
-} from '@/lib/pano';
+  animateCamera,
+  frontLookTarget,
+  interruptCameraAnimation,
+  measureViewport,
+  resolveLookTarget,
+} from '@/lib/navigation';
+import { MFOV_EXPLORE } from '@/lib/pano';
 
-const TWO_PI = Math.PI * 2;
-
-/** Shortest-path yaw delta into (−π, π]. */
-function yawDelta(from: number, to: number) {
-  let d = (to - from) % TWO_PI;
-  if (d > Math.PI) d -= TWO_PI;
-  if (d < -Math.PI) d += TWO_PI;
-  return d;
-}
-
-let activeTween: gsap.core.Tween | gsap.core.Timeline | null = null;
-
-/**
- * Kill any in-flight lookto / FOV tween and unlock user drag immediately.
- * Returns true if something was interrupted.
- */
 export function interruptLookTo(controls: Controls) {
-  if (!activeTween && !controls.lookAnimating) return false;
-  activeTween?.kill();
-  activeTween = null;
-  controls.lookAnimating = false;
-  controls.velocity.x = 0;
-  controls.velocity.y = 0;
-  return true;
+  return interruptCameraAnimation(controls);
 }
 
-/**
- * balmingtiger `lookto(h,v,fov,tween(easeinoutquart,…))` equivalent.
- * Tweens look + MFOV toward a hotspot. User drag/wheel/nav can interrupt.
- */
 export function lookToSection(
   controls: Controls,
   section: Section,
   opts: { duration?: number; onComplete?: () => void } = {},
 ) {
-  const duration = opts.duration ?? 1.55;
-  const targetYaw = uToYaw(section.lookU ?? section.u);
-  const targetPitch = vToPitch(section.lookV ?? section.v);
-  // Mobile: softer video punch (balmingtiger video ~40 on small screens).
-  let targetMfov = section.lookFov ?? 80;
-  if (typeof window !== 'undefined' && section.id === 'crt-tv') {
-    const narrow = window.matchMedia('(max-width: 570px)').matches;
-    targetMfov = narrow ? 40 : Math.min(targetMfov, 20);
-  }
-  targetMfov = Math.min(MFOV_MAX, Math.max(MFOV_LOOKTO_MIN, targetMfov));
-
-  interruptLookTo(controls);
-  controls.velocity.x = 0;
-  controls.velocity.y = 0;
-  controls.lookAnimating = true;
-  controls.followFactor = 0;
-
-  const startYaw = controls.lookTarget.x;
-  const delta = yawDelta(startYaw, targetYaw);
-  const proxy = {
-    t: 0,
-    pitch: controls.lookTarget.y,
-    mfov: controls.mfov,
-  };
-
-  const tl = gsap.timeline({
-    onComplete: () => {
-      if (activeTween !== tl) return;
-      controls.lookTarget.x = targetYaw;
-      controls.lookTarget.y = targetPitch;
-      controls.mfov = targetMfov;
-      controls.lookAnimating = false;
-      activeTween = null;
-      opts.onComplete?.();
-    },
-    onInterrupt: () => {
-      if (activeTween === tl) activeTween = null;
-      controls.lookAnimating = false;
-    },
+  const viewport = measureViewport();
+  const target = resolveLookTarget(section, viewport);
+  return animateCamera(controls, target, {
+    duration: opts.duration ?? 1.55,
+    onComplete: opts.onComplete,
   });
-
-  tl.to(
-    proxy,
-    {
-      t: 1,
-      pitch: targetPitch,
-      mfov: targetMfov,
-      duration,
-      // ≈ krpano / GSAP easeinoutquart
-      ease: 'power4.inOut',
-      onUpdate: () => {
-        controls.lookTarget.x = startYaw + delta * proxy.t;
-        controls.lookTarget.y = proxy.pitch;
-        controls.mfov = proxy.mfov;
-      },
-    },
-    0,
-  );
-
-  activeTween = tl;
-  return tl;
 }
 
-/** Restore explore FOV after closing a panel (keep current look). */
 export function restoreExploreFov(controls: Controls, duration = 1.1) {
-  interruptLookTo(controls);
-  controls.lookAnimating = true;
-  controls.velocity.x = 0;
-  controls.velocity.y = 0;
-  const tw = gsap.to(controls, {
-    mfov: MFOV_EXPLORE,
-    duration,
-    ease: 'power4.inOut',
-    onComplete: () => {
-      if (activeTween !== tw) return;
-      controls.lookAnimating = false;
-      activeTween = null;
+  return animateCamera(
+    controls,
+    {
+      yaw: controls.lookTarget.x,
+      pitch: controls.lookTarget.y,
+      mfov: MFOV_EXPLORE,
     },
-    onInterrupt: () => {
-      if (activeTween === tw) activeTween = null;
-      controls.lookAnimating = false;
-    },
-  });
-  activeTween = tw;
-  return tw;
+    { duration },
+  );
 }
 
-/** Full reset like balmingtiger `lookto(0,0,120,…)` — front of store. */
 export function resetCamera(controls: Controls, duration = 1.55) {
-  const front = {
-    id: '_front',
-    object: '',
-    nav: '',
-    hint: '',
-    title: '',
-    kicker: '',
-    intro: '',
-    accent: '#fff',
-    u: START_LOOK_U,
-    v: START_LOOK_V,
-    w: 1,
-    h: 1,
-    lookFov: MFOV_EXPLORE,
-    sfx: 'click',
-    items: [],
-  } satisfies Section;
-  return lookToSection(controls, front, { duration });
+  return animateCamera(controls, frontLookTarget(measureViewport()), {
+    duration,
+  });
 }
