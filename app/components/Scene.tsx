@@ -63,7 +63,7 @@ type Props = {
   lightsOn?: boolean;
   onToggleLights?: () => void;
   activeId?: string | null;
-  /** Glow latch — stays on while lookto-focused (incl. shop without panel). */
+  /** Glow latch — stays on while lookto-focused. */
   focusedId?: string | null;
   crtArmed?: boolean;
   /** Current CRT channel URL. */

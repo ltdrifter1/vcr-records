@@ -17,9 +17,9 @@ const origin = new THREE.Vector3(0, 0, 0);
  * Hotspot — balmingtiger pattern (3d.xml + site_scripts.js):
  *   invisible hit plane (default hotspot) + authored glow PNG (alpha 0)
  *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
- *   hoverOut → glow alpha 1→0 (same tween) — EXCEPT music/tour/contact
- *              which early-return while active_scene matches (latch)
- *   shopbag  → never latches; click opens outbound URL (no lookto)
+ *   hoverOut → glow alpha 1→0 (same tween) — EXCEPT latched sections
+ *              which keep glow while focusedId matches (active_scene)
+ *   glowLatches=false (CRT) → hover-only; click still lookto + panel
  *
  * Blending: krpano uses normal alpha (not additive). Additive washed out
  * on the bright cel room.
@@ -49,7 +49,7 @@ export default function Hotspot({
   const { camera, gl } = useThree();
   const [x, y, z] = uvToSpherical(section.u, section.v, SPHERE_RADIUS - 0.5);
 
-  // balmingtiger: shopbag glowLatches=false; music/tour/contact latch
+  // CRT sets glowLatches=false (hover-only); other nav hotspots latch on focus
   const canLatch = section.glowLatches !== false;
   const isFocused = canLatch && focusedId === section.id;
 
@@ -203,9 +203,7 @@ export default function Hotspot({
           gl.domElement.style.cursor = 'pointer';
         }}
         onPointerOut={() => {
-          // balmingtiger hoverOutShopbag: always fades (no latch).
-          // music/tour/contact: hoverOut early-returns while active —
-          // local hovered clears, isFocused keeps glow via GSAP.
+          // Latched sections: local hovered clears, isFocused keeps glow via GSAP.
           setHovered(false);
           document.documentElement.classList.remove('cursor-hot');
           gl.domElement.style.cursor = '';
