@@ -1,5 +1,5 @@
 /**
- * Camera / viewport math checks for the unified navigation engine.
+ * Camera / viewport / navigation interaction checks.
  * Run: npx tsx scripts/test-nav-camera.ts
  */
 import assert from 'node:assert/strict';
@@ -7,12 +7,16 @@ import assert from 'node:assert/strict';
 import {
   DESIGN_ASPECT,
   adaptMfovToViewport,
+  createControls,
+  createNavState,
+  createNavigationController,
   easeInOutQuart,
+  frontLookTarget,
   horizontalFovToMfov,
   resolveLookMfov,
   yawDelta,
 } from '../lib/navigation';
-import { mfovToHorizontalFov } from '../lib/pano';
+import { MFOV_EXPLORE, mfovToHorizontalFov } from '../lib/pano';
 
 const phone = {
   width: 390,
@@ -101,6 +105,102 @@ const desktop = {
   assert.equal(easeInOutQuart(1), 1);
   assert.ok(easeInOutQuart(0.5) > 0.4 && easeInOutQuart(0.5) < 0.6);
   console.log('✓ yawDelta + easeInOutQuart');
+}
+
+// 6) Soft close keeps camera pose (BT BACK) — no front snap
+{
+  const controls = createControls({
+    lookTarget: { x: 0.4, y: -0.1 },
+    mfov: 45,
+    userControl: true,
+    followFactor: 0,
+  });
+  const navState = createNavState();
+  let active: string | null = 'listening-booth';
+  let focused: string | null = 'listening-booth';
+  navState.activeId = 'listening-booth';
+  navState.focusedId = 'listening-booth';
+  navState.panelOpen = true;
+
+  const nav = createNavigationController(controls, navState, {
+    onActiveChange: (id) => {
+      active = id;
+    },
+    onFocusedChange: (id) => {
+      focused = id;
+    },
+    reduceMotion: true,
+  });
+  nav.setLookEnabled(true);
+
+  const yawBefore = controls.lookTarget.x;
+  const pitchBefore = controls.lookTarget.y;
+  const mfovBefore = controls.mfov;
+  nav.close({ force: true, silent: true });
+
+  assert.equal(active, null);
+  assert.equal(focused, null);
+  assert.equal(navState.panelOpen, false);
+  assert.equal(controls.lookTarget.x, yawBefore, 'soft close must keep yaw');
+  assert.equal(controls.lookTarget.y, pitchBefore, 'soft close must keep pitch');
+  assert.equal(controls.mfov, mfovBefore, 'soft close must keep mfov');
+  console.log('✓ soft close clears HUD without moving the camera');
+}
+
+// 7) CRT resetToFront snaps to explore front (BT video drag)
+{
+  const controls = createControls({
+    lookTarget: { x: 0.9, y: 0.2 },
+    mfov: 28,
+    userControl: true,
+  });
+  const navState = createNavState();
+  navState.activeId = 'crt-tv';
+  navState.focusedId = 'crt-tv';
+  navState.panelOpen = true;
+
+  const nav = createNavigationController(controls, navState, {
+    onActiveChange: () => {},
+    onFocusedChange: () => {},
+    reduceMotion: true,
+  });
+  nav.setLookEnabled(true);
+  nav.resetToFront({ silent: true });
+
+  const front = frontLookTarget();
+  assert.equal(navState.focusedId, null);
+  assert.ok(Math.abs(controls.lookTarget.x - front.yaw) < 1e-9);
+  assert.ok(Math.abs(controls.lookTarget.y - front.pitch) < 1e-9);
+  assert.equal(controls.mfov, MFOV_EXPLORE);
+  console.log('✓ resetToFront restores explore front framing');
+}
+
+// 8) reframeFocused only changes MFOV
+{
+  const controls = createControls({
+    lookTarget: { x: 0.33, y: 0.05 },
+    mfov: 20,
+    userControl: true,
+  });
+  const navState = createNavState();
+  navState.activeId = 'crt-tv';
+  navState.focusedId = 'crt-tv';
+  navState.panelOpen = true;
+
+  const nav = createNavigationController(controls, navState, {
+    onActiveChange: () => {},
+    onFocusedChange: () => {},
+    reduceMotion: true,
+  });
+  nav.setLookEnabled(true);
+
+  const yawBefore = controls.lookTarget.x;
+  const pitchBefore = controls.lookTarget.y;
+  nav.reframeFocused(phone);
+  assert.equal(controls.lookTarget.x, yawBefore);
+  assert.equal(controls.lookTarget.y, pitchBefore);
+  assert.ok(controls.mfov > 20, `reframe should widen CRT mfov on phone, got ${controls.mfov}`);
+  console.log(`✓ reframeFocused adapts mfov→${controls.mfov.toFixed(1)} without re-aiming`);
 }
 
 console.log('\nAll nav camera checks passed.');

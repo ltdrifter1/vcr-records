@@ -712,6 +712,8 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   inset: 0;
   padding: 48px 16px 18px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
 }
@@ -975,6 +977,8 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   .panel-list {
     flex-direction: row;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
     gap: 14px;
     padding-bottom: 8px;
   }

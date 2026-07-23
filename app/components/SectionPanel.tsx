@@ -146,7 +146,8 @@ export default function SectionPanel({
     >
       {/*
         Scrim does not capture the panorama (BT: drag while panel open).
-        Close via × / Esc / nav; drag-away frees focus in Experience.
+        Soft close via × / Esc / nav toggle — camera stays on the canvas.
+        CRT drag-end resets to front (BT video Observer).
       */}
       <div className="panel-scrim" aria-hidden />
       <aside

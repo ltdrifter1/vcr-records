@@ -71,7 +71,8 @@ export default function TopNav({
   if (!visible) return null;
 
   const goShop = () => {
-    window.location.assign(SHOP_URL);
+    // BT shopbag — leave the canvas, open catalog in a new tab.
+    window.open(SHOP_URL, '_blank', 'noopener,noreferrer');
   };
 
   const openSection = (section: (typeof items)[number]) => {
@@ -178,6 +179,8 @@ export default function TopNav({
                 <a
                   className={`top-nav-item${isActiveSlot ? ' is-active-slot' : ''}`}
                   href={SHOP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Open Shop"
                   aria-current={open ? 'true' : undefined}
                   onClick={(e) => {
