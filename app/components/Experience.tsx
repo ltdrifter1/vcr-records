@@ -8,9 +8,9 @@ import LoadingGate from './LoadingGate';
 import SectionPanel from './SectionPanel';
 import FilmFX from './FilmFX';
 import TopNav from './TopNav';
-import CustomCursor from './CustomCursor';
 import MuteControl from './MuteControl';
 import GyroButton, { createGyro } from './GyroButton';
+import DragHint from './DragHint';
 import { usePanControls } from './usePanControls';
 import { SECTION_BY_ID, SHOP_URL } from '@/app/data/sections';
 import { lookToSection, resetCamera, restoreExploreFov } from '@/lib/lookTo';
@@ -50,9 +50,7 @@ export default function Experience() {
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [crtArmed, setCrtArmed] = useState(false);
   const [crtSrc, setCrtSrc] = useState(CRT_DEFAULT_SRC);
-  const [live, setLive] = useState(false);
   const [canLook, setCanLook] = useState(false);
-  const [showCompass, setShowCompass] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [maxDpr, setMaxDpr] = useState(2);
   const [debug, setDebug] = useState(false);
@@ -86,9 +84,7 @@ export default function Experience() {
     lookEnabledRef.current = false;
     liveRef.current.value = false;
     enteredRef.current.value = true;
-    setLive(true);
     setCanLook(false);
-    setShowCompass(false);
     void enterWithAudio();
   }, []);
 
@@ -96,20 +92,7 @@ export default function Experience() {
     lookEnabledRef.current = true;
     liveRef.current.value = true;
     setCanLook(true);
-    setShowCompass(true);
   }, []);
-
-  useEffect(() => {
-    if (!canLook) return;
-    // Persist until the visitor opens something (or 14s) —
-    // don't kill the hint on the first drag.
-    const id = setTimeout(() => setShowCompass(false), 14000);
-    return () => clearTimeout(id);
-  }, [canLook]);
-
-  useEffect(() => {
-    if (active || focusedId) setShowCompass(false);
-  }, [active, focusedId]);
 
   const openedAt = useRef(0);
 
@@ -237,7 +220,6 @@ export default function Experience() {
       }
 
       openedAt.current = Date.now();
-      setShowCompass(false);
       setCrtArmed(false);
       if (id !== 'crt-tv') setCrtSrc(CRT_DEFAULT_SRC);
 
@@ -311,16 +293,10 @@ export default function Experience() {
       </Canvas>
 
       <FilmFX />
-      <CustomCursor enabled />
       <MuteControl visible={canLook} faded={videoFocused} />
       <GyroButton visible={canLook} gyroRef={gyroRef} />
       <TopNav visible={canLook} activeId={active} onOpen={open} />
-
-      {live && (
-        <div className="compass" style={{ opacity: showCompass ? 1 : 0 }}>
-          Drag to look · click glowing objects
-        </div>
-      )}
+      <DragHint active={canLook} controls={controls} reduceMotion={reduceMotion} />
 
       <SectionPanel
         activeId={active}
