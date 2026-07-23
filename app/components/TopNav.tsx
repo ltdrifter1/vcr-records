@@ -9,18 +9,13 @@ import { NAV_ORDER, SECTIONS, SHOP_URL } from '@/app/data/sections';
 
 const NAV_ITEMS = NAV_ORDER.map((id) => SECTIONS.find((s) => s.id === id)!).filter(Boolean);
 
-function slotCountForWidth(w: number) {
-  if (w <= 570) return 3;
-  if (w <= 900) return 4;
-  return 5;
-}
-
 /**
  * Conveyor top nav — balmingtiger MENU CONVEYOR pattern.
  *
- * Hit zones are a CSS grid matched to the visible slide count (not a
- * space-between flex that drifted from Swiper's slide geometry). That
- * misalignment previously left dead click areas between labels.
+ * Click path uses Swiper's `clickedRealIndex` (loop-safe). Invisible hit
+ * overlays were desynced from labels (especially with slidesPerView 3.2),
+ * so PC clicks missed / opened the wrong section while Shop `<a>` still
+ * worked on iOS.
  */
 export default function TopNav({
   visible,
@@ -34,29 +29,26 @@ export default function TopNav({
   const swiperRef = useRef<SwiperType | null>(null);
   const transitioning = useRef(false);
   const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastActivateAt = useRef(0);
   const [realIndex, setRealIndex] = useState(0);
-  const [slots, setSlots] = useState(5);
   const items = NAV_ITEMS;
 
-  useEffect(() => {
-    const sync = () => setSlots(slotCountForWidth(window.innerWidth));
-    sync();
-    window.addEventListener('resize', sync);
-    return () => window.removeEventListener('resize', sync);
-  }, []);
-
-  const clearTransitionLock = () => {
+  const clearTimers = () => {
     transitioning.current = false;
     if (transitionTimer.current) {
       clearTimeout(transitionTimer.current);
       transitionTimer.current = null;
+    }
+    if (openTimer.current) {
+      clearTimeout(openTimer.current);
+      openTimer.current = null;
     }
   };
 
   const lockTransition = (ms = 900) => {
     transitioning.current = true;
     if (transitionTimer.current) clearTimeout(transitionTimer.current);
-    // Failsafe — Swiper loop can skip transitionEnd; never leave clicks dead.
     transitionTimer.current = setTimeout(() => {
       transitioning.current = false;
       transitionTimer.current = null;
@@ -74,7 +66,7 @@ export default function TopNav({
     sw.slideToLoop(idx, 800);
   }, [activeId, items]);
 
-  useEffect(() => () => clearTransitionLock(), []);
+  useEffect(() => () => clearTimers(), []);
 
   if (!visible) return null;
 
@@ -90,31 +82,40 @@ export default function TopNav({
     onOpen(section.id);
   };
 
-  const openAtSlot = (slot: number) => {
-    const sw = swiperRef.current;
-    if (!sw) return;
+  /** Activate a nav item by real index (loop-safe). */
+  const activateIndex = (idx: number) => {
+    const now = performance.now();
+    // React slide onClick + Swiper onClick can both fire — take one.
+    if (now - lastActivateAt.current < 450) return;
+    lastActivateAt.current = now;
 
-    const targetReal = (sw.realIndex + slot) % items.length;
-    const section = items[targetReal];
+    const section = items[((idx % items.length) + items.length) % items.length];
     if (!section) return;
 
-    // Shop: navigate immediately (ignore conveyor transition lock / delay).
     if (section.id === 'cash-register') {
       goShop();
       return;
     }
 
-    if (transitioning.current) return;
-
-    if (slot === 0) {
+    const sw = swiperRef.current;
+    if (!sw) {
       openSection(section);
       return;
     }
 
+    // Already the active (left) slot — open / toggle immediately.
+    if (sw.realIndex === idx) {
+      openSection(section);
+      return;
+    }
+
+    if (transitioning.current) return;
+
     lockTransition(950);
-    sw.slideToLoop(targetReal, 800);
-    window.setTimeout(() => {
-      clearTransitionLock();
+    sw.slideToLoop(idx, 800);
+    if (openTimer.current) clearTimeout(openTimer.current);
+    openTimer.current = setTimeout(() => {
+      clearTimers();
       openSection(section);
     }, 820);
   };
@@ -123,11 +124,8 @@ export default function TopNav({
     <div
       className="top-nav-wrap"
       aria-label="Store sections"
-      style={
-        {
-          ['--nav-slots' as string]: String(slots),
-        } as React.CSSProperties
-      }
+      // Keep stage pan from starting when interacting with the conveyor.
+      onPointerDown={(e) => e.stopPropagation()}
     >
       <Swiper
         className="top-nav-swiper"
@@ -135,7 +133,7 @@ export default function TopNav({
         slidesPerView={5}
         spaceBetween={16}
         speed={800}
-        allowTouchMove={false}
+        allowTouchMove
         slideToClickedSlide={false}
         watchSlidesProgress
         breakpoints={{
@@ -151,69 +149,67 @@ export default function TopNav({
           setRealIndex(sw.realIndex);
         }}
         onSlideChangeTransitionEnd={(sw) => {
-          clearTransitionLock();
+          transitioning.current = false;
+          if (transitionTimer.current) {
+            clearTimeout(transitionTimer.current);
+            transitionTimer.current = null;
+          }
           setRealIndex(sw.realIndex);
           if (sw.realIndex >= items.length) {
             sw.slideToLoop(sw.realIndex % items.length, 0);
           }
         }}
+        onClick={(sw) => {
+          // Loop clones are outside React — Swiper's clickedRealIndex is authoritative.
+          const raw = (sw as SwiperType & { clickedRealIndex?: number }).clickedRealIndex;
+          const idx = typeof raw === 'number' ? raw : -1;
+          if (idx < 0) return;
+          activateIndex(idx);
+        }}
       >
-        {items.map((s) => {
+        {items.map((s, i) => {
           const open = activeId === s.id;
+          const isActiveSlot = realIndex === i;
+          const isShop = s.id === 'cash-register';
+
           return (
             <SwiperSlide key={s.id} className={`top-nav-slide${open ? ' is-open' : ''}`}>
-              <div className="top-nav-item" aria-current={open ? 'true' : undefined}>
-                <span className="top-nav-label">{s.nav.toUpperCase()}</span>
-                <span className="top-nav-line" aria-hidden />
-                {open && <span className="top-nav-close">×</span>}
-              </div>
+              {isShop ? (
+                <a
+                  className={`top-nav-item${isActiveSlot ? ' is-active-slot' : ''}`}
+                  href={SHOP_URL}
+                  aria-label="Open Shop"
+                  aria-current={open ? 'true' : undefined}
+                  onClick={(e) => {
+                    // Hard nav — don't also run Swiper onClick open path.
+                    e.stopPropagation();
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <span className="top-nav-label">{s.nav.toUpperCase()}</span>
+                  <span className="top-nav-line" aria-hidden />
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  className={`top-nav-item${isActiveSlot ? ' is-active-slot' : ''}`}
+                  aria-label={open && isActiveSlot ? `Close ${s.nav}` : `Open ${s.nav}`}
+                  aria-current={open ? 'true' : undefined}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    activateIndex(i);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <span className="top-nav-label">{s.nav.toUpperCase()}</span>
+                  <span className="top-nav-line" aria-hidden />
+                  {open && <span className="top-nav-close">×</span>}
+                </button>
+              )}
             </SwiperSlide>
           );
         })}
       </Swiper>
-
-      {/* Hit zones — grid aligned to visible slots */}
-      <div className="top-nav-hits" role="presentation">
-        {Array.from({ length: slots }, (_, slot) => {
-          const targetReal = (realIndex + slot) % items.length;
-          const section = items[targetReal];
-          const isShop = section?.id === 'cash-register';
-          const label = section
-            ? isShop
-              ? 'Open Shop'
-              : slot === 0 && activeId === section.id
-                ? `Close ${section.nav}`
-                : `Open ${section.nav}`
-            : `Open nav slot ${slot + 1}`;
-
-          if (isShop) {
-            return (
-              <a
-                key={slot}
-                className="top-nav-hit"
-                href={SHOP_URL}
-                aria-label={label}
-                onClick={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-              />
-            );
-          }
-
-          return (
-            <button
-              key={slot}
-              type="button"
-              className="top-nav-hit"
-              aria-label={label}
-              onClick={(e) => {
-                e.stopPropagation();
-                openAtSlot(slot);
-              }}
-              onPointerDown={(e) => e.stopPropagation()}
-            />
-          );
-        })}
-      </div>
     </div>
   );
 }

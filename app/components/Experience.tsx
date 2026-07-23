@@ -156,11 +156,18 @@ export default function Experience() {
     };
   }, [nav, navState]);
 
+  // Keep controller look-enabled in sync with the intro unlock flag.
+  useEffect(() => {
+    nav.setLookEnabled(lookEnabledHold.current || canLook);
+  }, [nav, canLook]);
+
   const open = useCallback(
     (id: string) => {
+      // Belt-and-suspenders: intro sets controls.userControl; also force-enable.
+      if (canLook) nav.setLookEnabled(true);
       nav.open(id, measureViewport(stageRef.current));
     },
-    [nav],
+    [nav, canLook],
   );
 
   const close = useCallback(() => nav.close(), [nav]);

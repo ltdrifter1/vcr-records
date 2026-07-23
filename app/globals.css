@@ -86,7 +86,7 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
 .mute-control:focus-visible,
 .gyro-control:focus-visible,
 .gate-enter:focus-visible,
-.top-nav-hit:focus-visible,
+.top-nav-item:focus-visible,
 .panel-back:focus-visible,
 .panel-row:focus-visible {
   outline: 2px solid var(--cel-mint);
@@ -237,19 +237,26 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   top: 0;
   left: 20px;
   width: var(--menuwidth);
-  z-index: 30;
+  z-index: 50;
   padding: 10px 0 0;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .top-nav-swiper {
   width: 100%;
   overflow: hidden;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .top-nav-slide {
   height: auto;
+  pointer-events: auto;
+  cursor: pointer;
 }
 .top-nav-item {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  display: block;
+  width: 100%;
   position: relative;
   color: #fff;
   font-family: var(--font-body), system-ui, sans-serif;
@@ -259,12 +266,19 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   padding: 14px 4px 14px;
   text-shadow: 1px 1px 2px rgba(40, 40, 40, 0.65);
   user-select: none;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .top-nav-label {
   display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  pointer-events: none;
 }
 .top-nav-line {
   position: absolute;
@@ -275,6 +289,7 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   background: #fff;
   box-shadow: 1px 1px 1px rgba(40, 40, 40, 0.45);
   opacity: 0.95;
+  pointer-events: none;
 }
 .top-nav-close {
   position: absolute;
@@ -283,38 +298,11 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   font-size: 18px;
   line-height: 1;
   font-weight: 700;
-}
-.top-nav-hits {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(var(--nav-slots, 5), minmax(0, 1fr));
-  column-gap: var(--buttonspacing, 16px);
   pointer-events: none;
-  z-index: 2;
 }
-.top-nav-hit {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  height: 56px;
-  width: 100%;
-  min-width: 0;
-  pointer-events: auto;
-  cursor: pointer;
-  padding: 0;
-  border-radius: 2px;
-  outline: 2px solid transparent;
+.top-nav-item:focus-visible {
+  outline: 2px solid #7dffb3;
   outline-offset: 2px;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  /* Enlarge tap target without shifting the grid */
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.top-nav-hit:focus-visible {
-  outline-color: #7dffb3;
   background: rgba(125, 255, 179, 0.12);
 }
 .panel-back:focus-visible,
@@ -329,9 +317,6 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   .top-nav-wrap {
     --buttonspacing: 12px;
   }
-  .top-nav-hit {
-    height: 54px;
-  }
 }
 @media (max-width: 570px) {
   .top-nav-wrap {
@@ -344,16 +329,13 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   }
   .top-nav-item {
     font-size: 11px;
-    padding: 10px 2px 12px;
+    padding: 12px 2px 14px;
   }
   .top-nav-line {
     display: none;
   }
   .top-nav-close {
     display: none;
-  }
-  .top-nav-hit {
-    height: 52px;
   }
 }
 

@@ -2,22 +2,16 @@ import {
   MFOV_EXPLORE,
   MFOV_LOOKTO_MIN,
   MFOV_MAX,
-  SPHERE_RADIUS,
+  MFOV_RATIO,
   START_LOOK_U,
   START_LOOK_V,
   uToYaw,
   vToPitch,
 } from '@/lib/pano';
 import type { Section } from '@/app/data/sections';
-import {
-  adaptMfovToViewport,
-  horizontalFovToMfov,
-  measureViewport,
-  verticalFovToMfov,
-} from './ViewportManager';
+import { adaptMfovToViewport, measureViewport } from './ViewportManager';
 import type { Controls, LookTarget, ViewportMetrics } from './types';
 
-// re-export measure for callers that import CameraController
 export { measureViewport };
 
 /**
@@ -62,43 +56,32 @@ export function snapExploreFront(controls: Controls) {
 }
 
 /**
- * Derive lookto MFOV from world hotspot size + current viewport.
+ * Lookto MFOV — one engine, all devices.
  *
- * One engine for every device:
- *   1. Angular size of the hotspot on the sphere wall
- *   2. Safe margins from ViewportManager (nav / panel / iOS insets)
- *   3. Authored lookFov adapted to current aspect (never raw on portrait)
- *
- * Result = max(fit, adapted) clamped — never over-zoom, never clip the target.
+ * Desktop / landscape: use the authored lookFov (already tuned).
+ * Portrait: remap so horizontal FOV matches the design framing
+ * (fixes iPhone over-zoom without hardcoded per-section mobile coords).
  */
 export function resolveLookMfov(
   section: Pick<Section, 'w' | 'h' | 'lookFov'>,
   viewport: ViewportMetrics,
 ): number {
   const aspect = Math.max(0.05, viewport.aspect);
-  const dist = SPHERE_RADIUS - 0.5;
-  const angW = 2 * Math.atan((section.w * 0.5) / dist);
-  const angH = 2 * Math.atan((section.h * 0.5) / dist);
+  const authored = section.lookFov;
 
-  const fillX = Math.min(0.78, Math.max(0.42, 1 - 2 * viewport.safeMarginX));
-  const fillY = Math.min(0.7, Math.max(0.36, 1 - 2 * viewport.safeMarginY));
+  let mfov: number;
+  if (aspect >= MFOV_RATIO) {
+    // Landscape-ish — keep author values (desktop feel was correct).
+    mfov = authored;
+  } else {
+    // Portrait — preserve design horizontal FOV.
+    mfov = adaptMfovToViewport(authored, aspect);
+  }
 
-  const needH = (angW / fillX) * (180 / Math.PI);
-  const needV = (angH / fillY) * (180 / Math.PI);
-
-  const fromH = horizontalFovToMfov(needH, aspect);
-  const fromV = verticalFovToMfov(needV, aspect);
-  const fit = Math.max(fromH, fromV);
-
-  // Aspect-adapted author FOV — stops portrait punch-ins from crushing the frame
-  const adapted = adaptMfovToViewport(section.lookFov, aspect);
-
-  // Wider (larger MFOV) wins → no clipping, no mobile over-zoom
-  const mfov = Math.max(fit, adapted);
   return Math.min(MFOV_MAX, Math.max(MFOV_LOOKTO_MIN, mfov));
 }
 
-/** World aim for a section — same UV on every device (no mobile look offsets). */
+/** World aim for a section — same UV on every device. */
 export function resolveLookTarget(
   section: Pick<Section, 'u' | 'v' | 'lookU' | 'lookV' | 'w' | 'h' | 'lookFov'>,
   viewport?: ViewportMetrics,
@@ -115,7 +98,6 @@ export function frontLookTarget(_viewport?: ViewportMetrics): LookTarget {
   return {
     yaw: uToYaw(START_LOOK_U),
     pitch: vToPitch(START_LOOK_V),
-    // Explore FOV stays authored — only lookto punch-ins adapt to aspect.
     mfov: MFOV_EXPLORE,
   };
 }
