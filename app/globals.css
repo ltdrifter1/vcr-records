@@ -69,6 +69,20 @@ main {
 .stage.can-look.dragging {
   cursor: grabbing;
 }
+/* Hotspot / ambient / lamp hover — pointer over grab */
+html.cursor-hot .stage.can-look:not(.dragging),
+html.cursor-hot .stage.can-look:not(.dragging) canvas {
+  cursor: pointer !important;
+}
+.mute-control:focus-visible,
+.gyro-control:focus-visible,
+.gate-enter:focus-visible,
+.top-nav-hit:focus-visible,
+.panel-back:focus-visible,
+.panel-row:focus-visible {
+  outline: 2px solid var(--cel-mint);
+  outline-offset: 3px;
+}
 .mute-control,
 .lights-control,
 .gyro-control {
@@ -137,12 +151,45 @@ main {
   }
 }
 
-/* ---------- quiet grade over cel room ---------- */
+/* ---------- quiet grade + ambient glow over cel room ---------- */
 .fx-layer {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 20;
+}
+.fx-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(48px);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  will-change: transform, opacity;
+}
+.fx-glow-a {
+  width: min(70vw, 720px);
+  height: min(70vw, 720px);
+  left: -8%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(255, 176, 72, 0.28) 0%, rgba(255, 176, 72, 0) 68%);
+  animation: fx-glow-drift-a 14s ease-in-out infinite alternate;
+}
+.fx-glow-b {
+  width: min(55vw, 560px);
+  height: min(55vw, 560px);
+  right: -6%;
+  bottom: 8%;
+  background: radial-gradient(circle, rgba(122, 215, 255, 0.18) 0%, rgba(122, 215, 255, 0) 70%);
+  animation: fx-glow-drift-b 18s ease-in-out infinite alternate;
+}
+.fx-glow-c {
+  width: min(48vw, 480px);
+  height: min(48vw, 480px);
+  left: 38%;
+  top: -10%;
+  background: radial-gradient(circle, rgba(125, 255, 179, 0.14) 0%, rgba(125, 255, 179, 0) 72%);
+  animation: fx-glow-drift-c 16s ease-in-out infinite alternate;
 }
 .fx-edge {
   position: absolute;
@@ -152,6 +199,22 @@ main {
     rgba(0, 0, 0, 0) 62%,
     rgba(20, 12, 6, 0.12) 100%
   );
+}
+@keyframes fx-glow-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.42; }
+  to { transform: translate3d(6%, -4%, 0) scale(1.08); opacity: 0.62; }
+}
+@keyframes fx-glow-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.35; }
+  to { transform: translate3d(-5%, 5%, 0) scale(1.1); opacity: 0.55; }
+}
+@keyframes fx-glow-drift-c {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
+  to { transform: translate3d(4%, 6%, 0) scale(1.06); opacity: 0.5; }
+}
+.fx-layer.is-static .fx-glow {
+  animation: none;
+  opacity: 0.38;
 }
 
 /* ---------- top nav conveyor (balmingtiger MENU CONVEYOR) ---------- */
@@ -597,7 +660,8 @@ main {
   position: absolute;
   inset: 0;
   background: transparent;
-  pointer-events: auto;
+  /* Let panorama drag / hotspot hits through while the glass panel is open */
+  pointer-events: none;
 }
 .panel {
   --singlebuttonwidth: calc(((100vw - 40px) - (16px * 3)) / 4);
@@ -948,5 +1012,12 @@ main {
   }
   .drag-hint-glyph {
     animation: none;
+  }
+  .hint-pulse {
+    animation: none;
+  }
+  .fx-glow {
+    animation: none;
+    opacity: 0.38;
   }
 }

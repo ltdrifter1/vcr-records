@@ -24,15 +24,29 @@ function yawDelta(from: number, to: number) {
 let activeTween: gsap.core.Tween | gsap.core.Timeline | null = null;
 
 /**
- * balmingtiger `lookto(h,v,fov,tween(easeinoutquart,2))` equivalent.
- * Tweens look + MFOV toward a hotspot, locking drag while in flight.
+ * Kill any in-flight lookto / FOV tween and unlock user drag immediately.
+ * Returns true if something was interrupted.
+ */
+export function interruptLookTo(controls: Controls) {
+  if (!activeTween && !controls.lookAnimating) return false;
+  activeTween?.kill();
+  activeTween = null;
+  controls.lookAnimating = false;
+  controls.velocity.x = 0;
+  controls.velocity.y = 0;
+  return true;
+}
+
+/**
+ * balmingtiger `lookto(h,v,fov,tween(easeinoutquart,…))` equivalent.
+ * Tweens look + MFOV toward a hotspot. User drag/wheel/nav can interrupt.
  */
 export function lookToSection(
   controls: Controls,
   section: Section,
   opts: { duration?: number; onComplete?: () => void } = {},
 ) {
-  const duration = opts.duration ?? 2;
+  const duration = opts.duration ?? 1.55;
   const targetYaw = uToYaw(section.lookU ?? section.u);
   const targetPitch = vToPitch(section.lookV ?? section.v);
   // Mobile: softer video punch (balmingtiger video ~40 on small screens).
@@ -43,7 +57,7 @@ export function lookToSection(
   }
   targetMfov = Math.min(MFOV_MAX, Math.max(MFOV_LOOKTO_MIN, targetMfov));
 
-  activeTween?.kill();
+  interruptLookTo(controls);
   controls.velocity.x = 0;
   controls.velocity.y = 0;
   controls.lookAnimating = true;
@@ -59,11 +73,17 @@ export function lookToSection(
 
   const tl = gsap.timeline({
     onComplete: () => {
+      if (activeTween !== tl) return;
       controls.lookTarget.x = targetYaw;
       controls.lookTarget.y = targetPitch;
       controls.mfov = targetMfov;
       controls.lookAnimating = false;
+      activeTween = null;
       opts.onComplete?.();
+    },
+    onInterrupt: () => {
+      if (activeTween === tl) activeTween = null;
+      controls.lookAnimating = false;
     },
   });
 
@@ -90,8 +110,8 @@ export function lookToSection(
 }
 
 /** Restore explore FOV after closing a panel (keep current look). */
-export function restoreExploreFov(controls: Controls, duration = 1.2) {
-  activeTween?.kill();
+export function restoreExploreFov(controls: Controls, duration = 1.1) {
+  interruptLookTo(controls);
   controls.lookAnimating = true;
   controls.velocity.x = 0;
   controls.velocity.y = 0;
@@ -100,6 +120,12 @@ export function restoreExploreFov(controls: Controls, duration = 1.2) {
     duration,
     ease: 'power4.inOut',
     onComplete: () => {
+      if (activeTween !== tw) return;
+      controls.lookAnimating = false;
+      activeTween = null;
+    },
+    onInterrupt: () => {
+      if (activeTween === tw) activeTween = null;
       controls.lookAnimating = false;
     },
   });
@@ -108,7 +134,7 @@ export function restoreExploreFov(controls: Controls, duration = 1.2) {
 }
 
 /** Full reset like balmingtiger `lookto(0,0,120,…)` — front of store. */
-export function resetCamera(controls: Controls, duration = 2) {
+export function resetCamera(controls: Controls, duration = 1.55) {
   const front = {
     id: '_front',
     object: '',

@@ -17,7 +17,9 @@ import {
   mfovToVerticalFov,
 } from '@/lib/pano';
 
-const DRAG_THRESHOLD = 5;
+/** Desktop: tight. Touch: tolerate finger jitter so taps still count as clicks. */
+const DRAG_THRESHOLD_MOUSE = 5;
+const DRAG_THRESHOLD_TOUCH = 14;
 const TWO_PI = Math.PI * 2;
 const DEG = Math.PI / 180;
 
@@ -41,11 +43,13 @@ const wrapYaw = (y: number) => {
  *   - mouse-wheel / trackpad FOV zoom (fovmin…fovmax)
  *   - Arrow keys for a11y
  *   - onDragEnd when a real drag completed (exit focused section)
+ *   - onInterruptLook when the user grabs / scrolls during lookto
  */
 export function usePanControls(
   stageRef: RefObject<HTMLElement | null>,
   enabledRef: RefObject<boolean>,
   onDragEndRef?: RefObject<(() => void) | null>,
+  onInterruptLookRef?: RefObject<(() => void) | null>,
 ) {
   const controls = useRef<Controls>({
     lookTarget: { x: 0, y: 0 },
@@ -70,6 +74,7 @@ export function usePanControls(
     let lastY = 0;
     let lastT = 0;
     let touch = false;
+    let dragThreshold = DRAG_THRESHOLD_MOUSE;
     let followTween: gsap.core.Tween | null = null;
     let followDelay: gsap.core.Tween | null = null;
 
@@ -99,9 +104,17 @@ export function usePanControls(
       controls.pointer.y = (e.clientY - rect.top) / ph - 0.5;
     };
 
+    const interruptLook = () => {
+      if (!controls.lookAnimating) return;
+      onInterruptLookRef?.current?.();
+    };
+
     const onDown = (e: PointerEvent) => {
-      if (!enabledRef.current || !controls.userControl || controls.lookAnimating) return;
+      if (!enabledRef.current || !controls.userControl) return;
       if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+      // User grab interrupts cinematic lookto immediately.
+      interruptLook();
 
       syncPointer(e);
       controls.dragging = true;
@@ -111,7 +124,8 @@ export function usePanControls(
       startX = lastX = e.clientX;
       startY = lastY = e.clientY;
       lastT = performance.now();
-      touch = e.pointerType === 'touch';
+      touch = e.pointerType === 'touch' || e.pointerType === 'pen';
+      dragThreshold = touch ? DRAG_THRESHOLD_TOUCH : DRAG_THRESHOLD_MOUSE;
       stage.classList.add('dragging');
 
       // vtourskin: onmousedown → tween(followfactor, 0.0, 0.2)
@@ -154,7 +168,7 @@ export function usePanControls(
       controls.velocity.x = (dYaw / dt) * retain;
       controls.velocity.y = (dPitch / dt) * retain;
 
-      if (Math.hypot(e.clientX - startX, e.clientY - startY) > DRAG_THRESHOLD) {
+      if (Math.hypot(e.clientX - startX, e.clientY - startY) > dragThreshold) {
         controls.dragged = true;
       }
     };
@@ -185,6 +199,7 @@ export function usePanControls(
 
       if (wasDrag) {
         onDragEndRef?.current?.();
+        // Keep dragged true through the synthetic click, then clear.
         window.setTimeout(() => {
           if (!controls.dragging) controls.dragged = false;
         }, 0);
@@ -192,7 +207,8 @@ export function usePanControls(
     };
 
     const onKey = (e: KeyboardEvent) => {
-      if (!enabledRef.current || !controls.userControl || controls.lookAnimating) return;
+      if (!enabledRef.current || !controls.userControl) return;
+      if (controls.lookAnimating) interruptLook();
       const step = LOOK_KEY_STEP;
       if (e.key === 'ArrowLeft') {
         controls.lookTarget.x = wrapYaw(controls.lookTarget.x + step);
@@ -214,7 +230,8 @@ export function usePanControls(
     };
 
     const onWheel = (e: WheelEvent) => {
-      if (!enabledRef.current || !controls.userControl || controls.lookAnimating) return;
+      if (!enabledRef.current || !controls.userControl) return;
+      interruptLook();
       e.preventDefault();
       // krpano mousefovchange — wheel up zooms in (smaller FOV)
       const delta = Math.sign(e.deltaY) * MOUSE_FOV_CHANGE * Math.min(8, Math.abs(e.deltaY) / 40);
@@ -237,7 +254,7 @@ export function usePanControls(
       stage.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKey);
     };
-  }, [stageRef, enabledRef, onDragEndRef, controls]);
+  }, [stageRef, enabledRef, onDragEndRef, onInterruptLookRef, controls]);
 
   return controls;
 }

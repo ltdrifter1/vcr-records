@@ -145,6 +145,9 @@ export const SECTIONS: Section[] = [
     accent: '#ffb347',
     u: 0.2,
     v: 0.4,
+    // Aim slightly into the booth glass for a composed focus frame
+    lookU: 0.205,
+    lookV: 0.38,
     w: 6,
     h: 9,
     lookFov: 60,
@@ -344,6 +347,9 @@ export const SECTIONS: Section[] = [
     accent: '#ff7a9c',
     u: 0.34,
     v: 0.78,
+    // Hit rect is wide — lookto centers on the primary crate face
+    lookU: 0.33,
+    lookV: 0.7,
     w: 16,
     h: 7,
     lookFov: 85,
@@ -395,6 +401,8 @@ export const SECTIONS: Section[] = [
     accent: '#ffe66d',
     u: 0.44,
     v: 0.36,
+    lookU: 0.43,
+    lookV: 0.34,
     w: 12,
     h: 6,
     lookFov: 80,

@@ -96,7 +96,7 @@ export default function LampHotspot({
 
   return (
     <group position={[x, y, z]}>
-      <mesh ref={glowMesh} renderOrder={1}>
+      <mesh ref={glowMesh} renderOrder={1} raycast={() => null}>
         <planeGeometry args={[5.5, 7]} />
         <meshBasicMaterial
           ref={glowMat}
@@ -116,13 +116,16 @@ export default function LampHotspot({
           if (!env.live.value) return;
           setHovered(true);
           document.documentElement.classList.add('cursor-hot');
+          document.body.style.cursor = 'pointer';
         }}
         onPointerOut={() => {
           setHovered(false);
           document.documentElement.classList.remove('cursor-hot');
+          document.body.style.cursor = '';
         }}
         onClick={handleClick}
         userData={{ hotspotId: 'lamp', nav: 'Lights' }}
+        aria-label={lightsOn ? 'Kill the lights' : 'Lights up'}
       >
         <planeGeometry args={[3.2, 4.5]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />

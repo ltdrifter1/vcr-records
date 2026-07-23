@@ -13,7 +13,7 @@ import GyroButton, { createGyro } from './GyroButton';
 import DragHint from './DragHint';
 import { usePanControls } from './usePanControls';
 import { SECTION_BY_ID, SHOP_URL } from '@/app/data/sections';
-import { lookToSection, resetCamera, restoreExploreFov } from '@/lib/lookTo';
+import { interruptLookTo, lookToSection, resetCamera, restoreExploreFov } from '@/lib/lookTo';
 import { MFOV_EXPLORE, START_LOOK_U, START_LOOK_V, uToYaw, vToPitch } from '@/lib/pano';
 import { enterWithAudio, playSfx } from '@/lib/audio';
 import { CRT_DEFAULT_SRC } from './CrtScreen';
@@ -41,22 +41,29 @@ export default function Experience() {
   const panelOpenRef = useRef({ value: false });
   const gyroRef = useRef(createGyro());
   const onDragEndRef = useRef<(() => void) | null>(null);
+  const onInterruptLookRef = useRef<(() => void) | null>(null);
   const activeRef = useRef<string | null>(null);
   const focusedRef = useRef<string | null>(null);
-  /** Ignore zoom-away until lookto has landed. */
+  /** Ignore zoom-away until lookto has landed (or been interrupted). */
   const focusReadyAt = useRef(0);
 
   const [active, setActive] = useState<string | null>(null);
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [crtArmed, setCrtArmed] = useState(false);
   const [crtSrc, setCrtSrc] = useState(CRT_DEFAULT_SRC);
+  const [entered, setEntered] = useState(false);
   const [canLook, setCanLook] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [maxDpr, setMaxDpr] = useState(2);
   const [debug, setDebug] = useState(false);
   const [lightsOn, setLightsOn] = useState(true);
 
-  const controls = usePanControls(stageRef, lookEnabledRef, onDragEndRef);
+  const controls = usePanControls(
+    stageRef,
+    lookEnabledRef,
+    onDragEndRef,
+    onInterruptLookRef,
+  );
 
   useEffect(() => {
     activeRef.current = active;
@@ -80,12 +87,13 @@ export default function Experience() {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  const handleEntered = useCallback(() => {
+  const handleEntered = useCallback(async () => {
     lookEnabledRef.current = false;
     liveRef.current.value = false;
     enteredRef.current.value = true;
+    setEntered(true);
     setCanLook(false);
-    void enterWithAudio();
+    await enterWithAudio();
   }, []);
 
   const handleIntroComplete = useCallback(() => {
@@ -104,11 +112,12 @@ export default function Experience() {
     controls.velocity.y = 0;
   }, [controls]);
 
-  /** Explicit close (Esc / scrim / nav toggle) — BT resetCamera to front. */
+  /** Explicit close (Esc / panel back / nav toggle) — BT resetCamera to front. */
   const close = useCallback(
     (opts?: { force?: boolean; silent?: boolean }) => {
       if (!panelOpenRef.current.value && !focusedRef.current) return;
-      if (!opts?.force && Date.now() - openedAt.current < 350) return;
+      if (!opts?.force && Date.now() - openedAt.current < 280) return;
+      interruptLookTo(controls);
       panelOpenRef.current.value = false;
       setActive(null);
       setFocusedId(null);
@@ -116,7 +125,7 @@ export default function Experience() {
       setCrtArmed(false);
       setCrtSrc(CRT_DEFAULT_SRC);
       if (!opts?.silent) playSfx('click');
-      if (!reduceMotion) resetCamera(controls, 2);
+      if (!reduceMotion) resetCamera(controls, 1.55);
       else snapFront();
     },
     [controls, reduceMotion, snapFront],
@@ -128,7 +137,8 @@ export default function Experience() {
    */
   const freeFocus = useCallback(
     (opts?: { silent?: boolean }) => {
-      if (!focusedRef.current) return;
+      if (!focusedRef.current && !panelOpenRef.current.value) return;
+      interruptLookTo(controls);
       panelOpenRef.current.value = false;
       setActive(null);
       setFocusedId(null);
@@ -136,7 +146,7 @@ export default function Experience() {
       setCrtArmed(false);
       setCrtSrc(CRT_DEFAULT_SRC);
       if (!opts?.silent) playSfx('click');
-      if (!reduceMotion) restoreExploreFov(controls, 1.2);
+      if (!reduceMotion) restoreExploreFov(controls, 1.1);
       else controls.mfov = MFOV_EXPLORE;
     },
     [controls, reduceMotion],
@@ -145,13 +155,12 @@ export default function Experience() {
   /** Swap the in-room CRT channel (Videos panel Play). */
   const playCrt = useCallback((src: string) => {
     setCrtSrc(src || CRT_DEFAULT_SRC);
-    // Keep tube armed if Videos is already focused; otherwise arm after lookto.
     if (focusedRef.current === 'crt-tv' || activeRef.current === 'crt-tv') {
       setCrtArmed(true);
     }
   }, []);
 
-  // Zoom / pan away while locked → free (listening booth + cash register first)
+  // Zoom / pan away while locked → free
   useEffect(() => {
     let raf = 0;
     const tick = () => {
@@ -183,30 +192,40 @@ export default function Experience() {
     return () => cancelAnimationFrame(raf);
   }, [controls, freeFocus]);
 
-  // balmingtiger: drag-end exits primarily in video mode
+  // Drag / wheel interrupts lookto; drag-end frees focus (BT video + panels)
   useEffect(() => {
+    onInterruptLookRef.current = () => {
+      interruptLookTo(controls);
+      // Allow free-focus checks immediately after user takes over.
+      focusReadyAt.current = 0;
+    };
     onDragEndRef.current = () => {
-      if (activeRef.current === 'crt-tv') close({ force: true });
+      if (focusedRef.current || panelOpenRef.current.value) {
+        freeFocus({ silent: true });
+      }
     };
     return () => {
+      onInterruptLookRef.current = null;
       onDragEndRef.current = null;
     };
-  }, [close]);
+  }, [controls, freeFocus]);
 
   const open = useCallback(
     (id: string) => {
-      if (!lookEnabledRef.current || controls.lookAnimating) return;
+      if (!lookEnabledRef.current) return;
 
       const section = SECTION_BY_ID[id];
       if (!section) return;
 
       // —— Shop / cash register = balmingtiger shopbag ——
-      // No lookto, no glow latch (hoverOut always clears). Click → SFX +
-      // window.open after 500ms (data.js clickShopbag).
+      // No lookto, no glow latch. Click → SFX + window.open after 500ms.
       if (id === 'cash-register') {
+        interruptLookTo(controls);
         playSfx('shop');
         panelOpenRef.current.value = false;
         setActive(null);
+        setFocusedId(null);
+        focusedRef.current = null;
         window.setTimeout(() => {
           window.open(SHOP_URL, '_blank', 'noopener,noreferrer');
         }, 500);
@@ -223,15 +242,16 @@ export default function Experience() {
       setCrtArmed(false);
       if (id !== 'crt-tv') setCrtSrc(CRT_DEFAULT_SRC);
 
-      // —— Listening booth (+ other panels): lookto + glow latch + panel ——
+      // —— lookto + glow latch + panel ——
       panelOpenRef.current.value = true;
       setActive(id);
       setFocusedId(id);
       focusedRef.current = id;
-      focusReadyAt.current = Date.now() + (reduceMotion ? 0 : 2100);
+      focusReadyAt.current = Date.now() + (reduceMotion ? 0 : 1600);
       playSfx(section.sfx || 'focus');
 
       if (reduceMotion) {
+        interruptLookTo(controls);
         controls.lookTarget.x = uToYaw(section.lookU ?? section.u);
         controls.lookTarget.y = vToPitch(section.lookV ?? section.v);
         controls.mfov = section.lookFov;
@@ -239,7 +259,7 @@ export default function Experience() {
         return;
       }
       lookToSection(controls, section, {
-        duration: 2,
+        duration: 1.55,
         onComplete: () => {
           if (id === 'crt-tv') setCrtArmed(true);
         },
@@ -292,8 +312,8 @@ export default function Experience() {
         </Suspense>
       </Canvas>
 
-      <FilmFX />
-      <MuteControl visible={canLook} faded={videoFocused} />
+      <FilmFX reduceMotion={reduceMotion} />
+      <MuteControl visible={entered} faded={videoFocused} />
       <GyroButton visible={canLook} gyroRef={gyroRef} />
       <TopNav visible={canLook} activeId={active} onOpen={open} />
       <DragHint active={canLook} controls={controls} reduceMotion={reduceMotion} />
