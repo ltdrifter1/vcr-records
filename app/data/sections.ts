@@ -73,7 +73,7 @@ export type Section = {
   accent: string;
   /**
    * Normalised hotspot position on the equirectangular store
-   * (public/textures/store_pano_v3.webp, 4096×2048).
+   * (public/textures/store_pano_v3.webp, 2048×1024).
    * u: around full 360° yaw after BackSide U-flip (1 − texture_u) · v: top→bottom
    */
   u: number;
@@ -373,6 +373,7 @@ export const SECTIONS: Section[] = [
     intro:
       'The drawer sticks unless you hit it just right. Fresh pressings, dusty repress, and a tin of badges by the till.',
     accent: '#9dff8a',
+<<<<<<< HEAD
     // Measured on store_pano_v3.webp: register body file≈(1655–1845, 995–1175).
     // Spherical u = 1 − file_u after BackSide flip. Hit must cover the full
     // painted register (~190×180px) — old ~5–6 unit plane only hit ~70–85px
@@ -384,6 +385,14 @@ export const SECTIONS: Section[] = [
     w: 15.7,
     h: 15.0,
     lookFov: 58,
+=======
+    // File u≈0.422 → spherical u = 1 − file_u after BackSide flip
+    u: 0.578,
+    v: 0.521,
+    w: 6.2,
+    h: 5.6,
+    lookFov: 70,
+>>>>>>> origin/main
     sfx: 'shop',
     items: [
       { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
@@ -404,13 +413,12 @@ export const SECTIONS: Section[] = [
       'Layer over layer over layer. Pull one flyer and three come with it. Every party that ever mattered is buried in here somewhere.',
     accent: '#ffe66d',
     u: 0.44,
-    v: 0.34,
+    v: 0.36,
     lookU: 0.43,
-    lookV: 0.32,
-    // Tighter hit after thinning the flyer collage
-    w: 9,
-    h: 5.2,
-    lookFov: 75,
+    lookV: 0.34,
+    w: 12,
+    h: 6,
+    lookFov: 80,
     sfx: 'archive',
     items: [
       { label: 'About the label', meta: 'Story', detail: 'Read', cta: 'View', thumb: 'AB', thumbSrc: T.about, href: SHOP.about },
