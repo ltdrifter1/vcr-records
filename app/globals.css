@@ -774,17 +774,62 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   display: flex;
   gap: 12px;
   cursor: pointer;
-  transition: opacity 0.2s ease, outline-color 0.15s ease;
+  /* Scale via CSS var so scroll-active can compose without fighting other systems */
+  --row-scale: 1;
+  transform: scale(var(--row-scale));
+  transform-origin: center left;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    filter 0.25s ease,
+    outline-color 0.15s ease;
   border-radius: 2px;
   outline: 2px solid transparent;
   outline-offset: 3px;
+  will-change: transform;
 }
-.panel-row:hover {
+.panel-row:hover:not([data-scroll-active='true']) {
   opacity: 0.82;
 }
 .panel-row:focus-visible {
   outline-color: var(--cel-mint, #7dffb3);
   opacity: 1;
+}
+/* Scroll-near active — one item nearest the scroller center */
+.panel-row[data-scroll-active='true'] {
+  --row-scale: 1.04;
+  opacity: 1;
+  z-index: 1;
+  filter: drop-shadow(
+    0 0 14px color-mix(in srgb, var(--panel-accent, #7dffb3) 55%, transparent)
+  );
+}
+.panel-list[data-has-scroll-active='true']
+  .panel-row:not([data-scroll-active='true']) {
+  opacity: 0.72;
+}
+@media (max-width: 570px) {
+  .panel-row {
+    transform-origin: center center;
+  }
+  .panel-row[data-scroll-active='true'] {
+    /* Milder zoom in the crowded horizontal tray */
+    --row-scale: 1.03;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel-row {
+    transition: outline-color 0.15s ease;
+    will-change: auto;
+  }
+  .panel-row[data-scroll-active='true'] {
+    --row-scale: 1;
+    filter: none;
+  }
+  .panel-list[data-has-scroll-active='true']
+    .panel-row:not([data-scroll-active='true']) {
+    opacity: 1;
+  }
 }
 .panel-thumb {
   flex: 0 0 72px;
