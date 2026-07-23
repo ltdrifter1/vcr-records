@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
@@ -14,7 +14,8 @@ const NAV_ITEMS = NAV_ORDER.map((id) => SECTIONS.find((s) => s.id === id)!).filt
  * Swiper loop, ~5 visible labels, click slides chosen item into the
  * active (left) slot then opens that section.
  *
- * Shop is special (BT menu-shop): go straight to the catalog — no lookto/panel.
+ * Shop is special (BT menu-shop): go straight to /shop/index.html — no lookto,
+ * no conveyor delay. Uses a real <a> hit so navigation always works.
  */
 export default function TopNav({
   visible,
@@ -27,6 +28,7 @@ export default function TopNav({
 }) {
   const swiperRef = useRef<SwiperType | null>(null);
   const transitioning = useRef(false);
+  const [realIndex, setRealIndex] = useState(0);
   const items = NAV_ITEMS;
 
   // Sync conveyor when a hotspot / panel opens a section.
@@ -42,10 +44,14 @@ export default function TopNav({
 
   if (!visible) return null;
 
+  const goShop = () => {
+    // Hard navigate — same tab, catalog index. Do not wait on conveyor.
+    window.location.assign(SHOP_URL);
+  };
+
   const openSection = (section: (typeof items)[number]) => {
-    // Top-nav Shop → catalog index (same tab). In-room register still uses onOpen.
     if (section.id === 'cash-register') {
-      window.location.assign(SHOP_URL);
+      goShop();
       return;
     }
     onOpen(section.id);
@@ -53,11 +59,19 @@ export default function TopNav({
 
   const openAtSlot = (slot: number) => {
     const sw = swiperRef.current;
-    if (!sw || transitioning.current) return;
+    if (!sw) return;
 
     const targetReal = (sw.realIndex + slot) % items.length;
     const section = items[targetReal];
     if (!section) return;
+
+    // Shop: navigate immediately (ignore conveyor transition lock / delay).
+    if (section.id === 'cash-register') {
+      goShop();
+      return;
+    }
+
+    if (transitioning.current) return;
 
     // Clicking the already-active left slot toggles close via onOpen.
     if (slot === 0 && activeId === section.id) {
@@ -96,9 +110,14 @@ export default function TopNav({
         }}
         onSwiper={(sw) => {
           swiperRef.current = sw;
+          setRealIndex(sw.realIndex);
+        }}
+        onSlideChange={(sw) => {
+          setRealIndex(sw.realIndex);
         }}
         onSlideChangeTransitionEnd={(sw) => {
           transitioning.current = false;
+          setRealIndex(sw.realIndex);
           // Keep realIndex in the base set after loop jumps
           if (sw.realIndex >= items.length) {
             sw.slideToLoop(sw.realIndex % items.length, 0);
@@ -122,14 +141,34 @@ export default function TopNav({
       {/* Invisible hit zones over visible slots (balmingtiger .hit-b) */}
       <div className="top-nav-hits">
         {[0, 1, 2, 3, 4].map((slot) => {
-          const sw = swiperRef.current;
-          const targetReal = sw ? (sw.realIndex + slot) % items.length : slot % items.length;
+          const targetReal = (realIndex + slot) % items.length;
           const section = items[targetReal];
+          const isShop = section?.id === 'cash-register';
           const label = section
-            ? slot === 0 && activeId === section.id
-              ? `Close ${section.nav}`
-              : `Open ${section.nav}`
+            ? isShop
+              ? 'Open Shop'
+              : slot === 0 && activeId === section.id
+                ? `Close ${section.nav}`
+                : `Open ${section.nav}`
             : `Open nav slot ${slot + 1}`;
+
+          // Real anchor for Shop — works even if JS handlers are blocked mid-transition.
+          if (isShop) {
+            return (
+              <a
+                key={slot}
+                className="top-nav-hit"
+                href={SHOP_URL}
+                aria-label={label}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Same-tab hard nav (default <a> behavior). Prevent double-handling.
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+              />
+            );
+          }
+
           return (
             <button
               key={slot}
