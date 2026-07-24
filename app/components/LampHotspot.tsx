@@ -68,11 +68,11 @@ export default function LampHotspot({
   useLayoutEffect(() => {
     gsap.to(glow.current, {
       a: lightsOn ? (hovered ? 1 : 0.55) : hovered ? 0.7 : 0.12,
-      duration: 0.4,
+      duration: env.reduceMotion ? 0 : 0.4,
       ease: 'power1.inOut',
       overwrite: true,
     });
-  }, [lightsOn, hovered]);
+  }, [lightsOn, hovered, env.reduceMotion]);
 
   useFrame(({ camera }) => {
     if (glowMat.current) glowMat.current.opacity = glow.current.a;

@@ -118,9 +118,10 @@ export default function TopNav({
         slideToClickedSlide={false}
         watchSlidesProgress
         breakpoints={{
-          0: { slidesPerView: 3.2, spaceBetween: 10 },
-          570: { slidesPerView: 4, spaceBetween: 12 },
-          900: { slidesPerView: 5, spaceBetween: 16 },
+          0: { slidesPerView: 3.2, spaceBetween: 8 },
+          570: { slidesPerView: 4.2, spaceBetween: 10 },
+          900: { slidesPerView: 5.5, spaceBetween: 14 },
+          1200: { slidesPerView: 7, spaceBetween: 16 },
         }}
         onSwiper={(sw) => {
           swiperRef.current = sw;

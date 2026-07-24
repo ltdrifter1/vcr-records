@@ -12,16 +12,21 @@ import {
 } from '@/lib/audio';
 
 function canNest(item: SectionItem) {
-  return Boolean(item.tracks?.length || item.listenOn?.length || item.previewSrc);
+  return Boolean(
+    item.tracks?.length || item.listenOn?.length || item.previewSrc || item.body,
+  );
 }
 
 function outboundLinks(item: SectionItem) {
   return (item.listenOn ?? []).filter((l) => l.href && !l.href.startsWith('#'));
 }
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 /**
  * Glass menu panel — balmingtiger `.menu-panel` pattern:
- * left-docked frosted glass, thumb rows + CTA pills, music/shop nested detail.
+ * left-docked frosted glass, thumb rows + CTA pills, music/shop/lore nested detail.
  *
  * Scroll-near: one `.panel-row` nearest the scroller center gets
  * `data-scroll-active` (glow + restrained scale). Scroll is source of truth.
@@ -30,11 +35,13 @@ export default function SectionPanel({
   activeId,
   onClose,
   onPlayCrt,
+  reduceMotion = false,
 }: {
   activeId: string | null;
   onClose: () => void;
   /** Play a local video on the in-room CRT (Videos section). */
   onPlayCrt?: (src: string) => void;
+  reduceMotion?: boolean;
 }) {
   const [shownId, setShownId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -42,6 +49,7 @@ export default function SectionPanel({
   const [playingSrc, setPlayingSrc] = useState<string | null>(null);
   const level1 = useRef<HTMLDivElement>(null);
   const level2 = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
   const backBtn = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -55,7 +63,6 @@ export default function SectionPanel({
       setDetail(null);
       const raf = requestAnimationFrame(() => {
         setOpen(true);
-        // Move focus into the dialog for keyboard users
         backBtn.current?.focus({ preventScroll: true });
       });
       return () => cancelAnimationFrame(raf);
@@ -64,8 +71,8 @@ export default function SectionPanel({
     setOpen(false);
     setDetail(null);
     stopPreview();
-    closeTimer.current = setTimeout(() => setShownId(null), 420);
-  }, [activeId]);
+    closeTimer.current = setTimeout(() => setShownId(null), reduceMotion ? 0 : 420);
+  }, [activeId, reduceMotion]);
 
   useEffect(() => {
     if (!activeId) return;
@@ -81,43 +88,78 @@ export default function SectionPanel({
     return () => window.removeEventListener('keydown', onKey);
   }, [activeId, detail, onClose]);
 
-  // Nested music/shop detail fade (balmingtiger openSingleAlbum 0.4s power1.inOut)
+  // Focus trap while the glass panel is open (TopNav stays mouse-reachable).
+  useEffect(() => {
+    if (!open || !activeId) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const onTab = (e: globalThis.KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const nodes = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => !el.hasAttribute('disabled') && el.offsetParent !== null,
+      );
+      if (nodes.length === 0) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey) {
+        if (active === first || !panel.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !panel.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener('keydown', onTab, true);
+    return () => window.removeEventListener('keydown', onTab, true);
+  }, [open, activeId, detail]);
+
+  // Nested detail fade (balmingtiger openSingleAlbum 0.4s power1.inOut)
   useEffect(() => {
     const a = level1.current;
     const b = level2.current;
     if (!a) return;
+    const dur = reduceMotion ? 0 : 0.35;
+    const dur2 = reduceMotion ? 0 : 0.4;
     if (detail) {
-      gsap.to(a, { opacity: 0, duration: 0.35, ease: 'power1.inOut', overwrite: true });
+      gsap.to(a, { opacity: 0, duration: dur, ease: 'power1.inOut', overwrite: true });
       if (b) {
         gsap.fromTo(
           b,
           { opacity: 0 },
-          { opacity: 1, duration: 0.4, ease: 'power1.inOut', overwrite: true },
+          { opacity: 1, duration: dur2, ease: 'power1.inOut', overwrite: true },
         );
       }
     } else {
-      gsap.to(a, { opacity: 1, duration: 0.35, ease: 'power1.inOut', overwrite: true });
+      gsap.to(a, { opacity: 1, duration: dur, ease: 'power1.inOut', overwrite: true });
       if (b) gsap.set(b, { opacity: 0 });
     }
-  }, [detail]);
+  }, [detail, reduceMotion]);
 
   // One scroll-active controller for the level-1 item list.
   useEffect(() => {
     const root = level1.current;
     if (!root || !open || !shownId || detail) return;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     return attachScrollActiveItems(root, {
       itemSelector: '.panel-row',
       horizontalSelector: '[data-scroll-list]',
       enabled: true,
-      reducedMotion,
+      reducedMotion: reduceMotion,
       hysteresisPx: 28,
     });
-  }, [open, shownId, detail]);
+  }, [open, shownId, detail, reduceMotion]);
 
   const section = shownId ? SECTION_BY_ID[shownId] : null;
-  const nestable = section?.id === 'listening-booth' || section?.id === 'cash-register';
+  const nestable =
+    section?.id === 'listening-booth' ||
+    section?.id === 'cash-register' ||
+    section?.id === 'flyer-wall' ||
+    section?.id === 'back-room-door';
 
   const handleBack = () => {
     if (detail) {
@@ -179,6 +221,7 @@ export default function SectionPanel({
       */}
       <div className="panel-scrim" aria-hidden />
       <aside
+        ref={panelRef}
         className={`panel${nestable && detail ? ' has-detail' : ''}`}
         style={
           section
@@ -283,6 +326,8 @@ export default function SectionPanel({
                   </div>
                 )}
 
+                {detail.body && <p className="panel-body">{detail.body}</p>}
+
                 {detail.previewSrc && (
                   <button
                     type="button"
@@ -309,7 +354,11 @@ export default function SectionPanel({
                 {outboundLinks(detail).length > 0 && (
                   <div className="panel-listen">
                     <span className="streaming-title">
-                      {section.id === 'cash-register' ? 'BUY / LISTEN:' : 'LISTEN ON:'}
+                      {section.id === 'cash-register'
+                        ? 'BUY / LISTEN:'
+                        : section.id === 'flyer-wall' || section.id === 'back-room-door'
+                          ? 'LINKS:'
+                          : 'LISTEN ON:'}
                     </span>
                     <div className="panel-cta-wrap">
                       {outboundLinks(detail).map((l) => (
@@ -317,8 +366,8 @@ export default function SectionPanel({
                           key={l.label}
                           className="panel-cta panel-cta-pill"
                           href={l.href}
-                          target="_blank"
-                          rel="noreferrer"
+                          target={l.href.startsWith('mailto:') ? undefined : '_blank'}
+                          rel={l.href.startsWith('mailto:') ? undefined : 'noreferrer'}
                           data-cursor="click"
                           onClick={(e) => e.stopPropagation()}
                         >

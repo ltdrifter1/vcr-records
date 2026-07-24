@@ -318,11 +318,11 @@ export default function Scene({
   useEffect(() => {
     gsap.to(lightsBlend.current, {
       v: lightsOn ? 1 : 0,
-      duration: 0.85,
+      duration: reduceMotion ? 0 : 0.85,
       ease: 'power2.inOut',
       overwrite: true,
     });
-  }, [lightsOn]);
+  }, [lightsOn, reduceMotion]);
 
   useEffect(() => {
     focusedIdRef.value = focusedId;
@@ -390,7 +390,12 @@ export default function Scene({
       </mesh>
 
       <group>
-        <CrtScreen activeId={activeId} armed={crtArmed} src={crtSrc} />
+        <CrtScreen
+          activeId={activeId}
+          armed={crtArmed}
+          src={crtSrc}
+          reduceMotion={reduceMotion}
+        />
         <AmbientHits controls={controls} debug={debug} />
         {SECTIONS.map((s) => (
           <Hotspot
@@ -411,7 +416,7 @@ export default function Scene({
       {lightsOn && <LightBeams />}
       <DustField count={reduceMotion ? 0 : 48} />
 
-      <FisheyePass amountRef={fisheyeRef} />
+      <FisheyePass amountRef={fisheyeRef} reduceMotion={reduceMotion} />
     </SceneContext.Provider>
   );
 }

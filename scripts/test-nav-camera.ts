@@ -17,6 +17,12 @@ import {
   yawDelta,
 } from '../lib/navigation';
 import { MFOV_EXPLORE, mfovToHorizontalFov, uToYaw, uvToSpherical, vToPitch } from '../lib/pano';
+import {
+  HASH_BY_SECTION_ID,
+  NAV_ORDER,
+  SECTION_BY_ID,
+  SECTION_ID_BY_HASH,
+} from '../app/data/sections';
 
 const phone = {
   width: 390,
@@ -229,6 +235,26 @@ const desktop = {
   assert.equal(navState.panelOpen, true);
   assert.ok(controls.mfov < MFOV_EXPLORE, 'shop lookto should punch in from explore FOV');
   console.log('✓ cash-register opens in-room shop panel');
+}
+
+// 11) Lore is in NAV_ORDER; hash map covers every nav section
+{
+  assert.ok(NAV_ORDER.includes('back-room-door'), 'Lore must be in conveyor');
+  for (const id of NAV_ORDER) {
+    const hash = HASH_BY_SECTION_ID[id];
+    assert.ok(hash, `missing hash for ${id}`);
+    assert.equal(SECTION_ID_BY_HASH[hash], id);
+    assert.ok(SECTION_BY_ID[id], `missing section ${id}`);
+  }
+  // No nestable archive/lore item should still eject to /shop
+  for (const id of ['flyer-wall', 'back-room-door'] as const) {
+    for (const item of SECTION_BY_ID[id].items) {
+      if (item.href?.startsWith('/shop')) {
+        assert.fail(`${id} still links to legacy shop: ${item.label}`);
+      }
+    }
+  }
+  console.log('✓ Lore in nav + hash map + no dead /shop panel hrefs');
 }
 
 // 9) Equirect yaw phase — looking at authored u must sample file_u ≈ 1−u

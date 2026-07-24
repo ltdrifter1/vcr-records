@@ -28,9 +28,10 @@ export default function LoadingGate({
     const p = Math.round(progress);
     setPct((prev) => (p > prev ? p : prev));
     if (bar.current) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       gsap.to(bar.current, {
         scaleX: Math.max(0.02, progress / 100),
-        duration: 0.5,
+        duration: reduce ? 0 : 0.5,
         ease: 'power2.out',
       });
     }
@@ -39,7 +40,8 @@ export default function LoadingGate({
   useEffect(() => {
     const elapsed = Date.now() - mounted.current;
     if (!active && progress >= 100) {
-      const wait = Math.max(0, 1000 - elapsed);
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const wait = reduce ? 0 : Math.max(0, 1000 - elapsed);
       const id = setTimeout(() => setReady(true), wait);
       return () => clearTimeout(id);
     }
@@ -47,10 +49,11 @@ export default function LoadingGate({
 
   useEffect(() => {
     if (ready && enterBtn.current) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       gsap.to(enterBtn.current, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
+        duration: reduce ? 0 : 0.8,
         ease: 'power3.out',
       });
     }
@@ -65,9 +68,10 @@ export default function LoadingGate({
     } catch {
       /* scene still enters even if audio fails */
     }
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     gsap.to(root.current, {
       opacity: 0,
-      duration: 0.4,
+      duration: reduce ? 0 : 0.4,
       ease: 'power1.inOut',
       onComplete: () => {
         if (root.current) root.current.style.display = 'none';

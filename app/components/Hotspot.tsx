@@ -125,11 +125,11 @@ export default function Hotspot({
     const on = isFocused || hovered;
     gsap.to(glow.current, {
       a: on ? 1 : 0,
-      duration: 0.4,
+      duration: env.reduceMotion ? 0 : 0.4,
       ease: 'power1.inOut',
       overwrite: true,
     });
-  }, [isFocused, hovered]);
+  }, [isFocused, hovered, env.reduceMotion]);
 
   useFrame(() => {
     const m = mesh.current;

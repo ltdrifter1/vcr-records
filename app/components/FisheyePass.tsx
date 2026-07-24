@@ -11,7 +11,13 @@ import * as THREE from 'three';
  * Mild barrel only — keep expand/curve restrained so the packed store
  * doesn't feel squeezed or over-warped at explore FOV 120.
  */
-export default function FisheyePass({ amountRef }: { amountRef: { current: number } }) {
+export default function FisheyePass({
+  amountRef,
+  reduceMotion = false,
+}: {
+  amountRef: { current: number };
+  reduceMotion?: boolean;
+}) {
   const { gl, scene, camera, size } = useThree();
   const fbo = useFBO({ samples: 0, depthBuffer: true });
   const amountSmooth = useRef(0.3);
@@ -94,6 +100,14 @@ export default function FisheyePass({ amountRef }: { amountRef: { current: numbe
   );
 
   useFrame(() => {
+    // Skip FBO warp under reduced motion — render the scene straight through.
+    if (reduceMotion) {
+      amountSmooth.current = 0;
+      gl.setRenderTarget(null);
+      gl.render(scene, camera);
+      return;
+    }
+
     amountSmooth.current += (amountRef.current - amountSmooth.current) * 0.45;
     const k = Math.max(0, amountSmooth.current);
     const cam = camera as THREE.PerspectiveCamera;
