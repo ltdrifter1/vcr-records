@@ -86,7 +86,7 @@ export type Section = {
   h: number;
   /**
    * MFOV used by lookto when focusing this feature
-   * (Music ~95 room view; Videos ~50 CRT+stand; bins/archive wider).
+   * (Music ~95 room view; Videos ~22 watch punch-in like BT).
    */
   lookFov: number;
   /** Object SFX key played on focus (see lib/audio.ts). */
@@ -277,13 +277,13 @@ export const SECTIONS: Section[] = [
     // Hit / glow / video plane stay on the tube face.
     u: 0.3,
     v: 0.42,
-    // Lookto frames the CRT + stand (file_u ≈ 1−lookU). Slight left bias
-    // clears the glass panel; MFOV 50 = set in room, not screen punch-in.
-    lookU: 0.29,
-    lookV: 0.43,
+    // Watch mode (BT video lookto fov 20 desktop / ~40 phone).
+    // Aim the tube glass; portrait adapt widens so it doesn't over-crop.
+    lookU: 0.3,
+    lookV: 0.415,
     w: 4.5,
     h: 4.2,
-    lookFov: 50,
+    lookFov: 22,
     sfx: 'video',
     // balmingtiger: TV glow extinguishes while watching (no active latch)
     glowLatches: false,

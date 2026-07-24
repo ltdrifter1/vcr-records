@@ -65,11 +65,11 @@ function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
 
 /**
  * Hotspot — balmingtiger pattern (3d.xml + site_scripts.js):
- *   invisible hit plane + authored glow PNG (alpha 0)
- *   optional second edge layer (`*_edge.webp`) for gold rim on hover
+ *   invisible hit plane + glow PNG at the SAME ath/atv/scale footprint
  *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
  *   hoverOut → glow alpha 1→0 — EXCEPT latched sections while focused
  *
+ * Gold-edge props: soft fill + rim, both locked to hit size (no 1.15× halo).
  * Blending: krpano uses normal alpha (not additive).
  */
 export default function Hotspot({
@@ -101,7 +101,6 @@ export default function Hotspot({
   const canLatch = section.glowLatches !== false;
   const isFocused = canLatch && focusedId === section.id;
   const useEdge = !!section.goldEdge;
-  const gold = !!section.goldEdge;
 
   const glowSrc = `/hotspots/${section.id}_glow.webp`;
   const edgeSrc = `/hotspots/${section.id}_edge.webp`;
@@ -121,7 +120,7 @@ export default function Hotspot({
     edgeMesh.current?.lookAt(origin);
   }, [x, y, z]);
 
-  // hoverIn / hoverOut — identical GSAP numbers to site_scripts.js
+  // hoverIn / hoverOut — alpha only (BT does not scale the hotspot on hover)
   useLayoutEffect(() => {
     const on = isFocused || hovered;
     gsap.to(glow.current, {
@@ -130,16 +129,6 @@ export default function Hotspot({
       ease: 'power1.inOut',
       overwrite: true,
     });
-    if (mesh.current) {
-      gsap.to(mesh.current.scale, {
-        x: on ? 1.03 : 1,
-        y: on ? 1.03 : 1,
-        z: on ? 1.03 : 1,
-        duration: 0.28,
-        ease: 'power2.out',
-        overwrite: true,
-      });
-    }
   }, [isFocused, hovered]);
 
   useFrame(() => {
@@ -147,8 +136,7 @@ export default function Hotspot({
     const el = inner.current;
     if (!m || !el) return;
 
-    // Keep hit + glow planes facing the camera origin every frame so
-    // edge glow stays registered through lookto / FOV changes.
+    // Keep hit + glow planes facing the camera origin every frame.
     m.lookAt(origin);
     glowMesh.current?.lookAt(origin);
     edgeMesh.current?.lookAt(origin);
@@ -171,16 +159,14 @@ export default function Hotspot({
 
     const a = glow.current.a;
     if (glowMat.current) {
-      glowMat.current.opacity = a * (gold ? 0.88 : 1);
+      // Soft fill under the rim (or full silhouette when no edge asset).
+      glowMat.current.opacity = a * (useEdge ? 0.55 : 1);
       glowMat.current.visible = a > 0.02;
     }
     if (edgeMat.current) {
-      // Edge rim leads slightly brighter for “gold around the edges”
       edgeMat.current.opacity = a;
       edgeMat.current.visible = useEdge && a > 0.02;
     }
-    if (glowMesh.current) glowMesh.current.scale.setScalar(1);
-    if (edgeMesh.current) edgeMesh.current.scale.setScalar(1.04);
   });
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
@@ -196,19 +182,19 @@ export default function Hotspot({
     onOpen(section.id);
   };
 
-  // BT: glow + default share the same ath/atv/scale footprint
-  const gw = section.w * 1.15;
-  const gh = section.h * 1.15;
+  // BT: glow + default share the same ath/atv/scale footprint (hit size).
+  const gw = section.w;
+  const gh = section.h;
 
   return (
     <group position={[x, y, z]}>
-      {/* Soft gold fill silhouette */}
+      {/* Silhouette fill — same size as hit plane */}
       <mesh ref={glowMesh} renderOrder={2} raycast={() => null}>
         <planeGeometry args={[gw, gh]} />
         <meshBasicMaterial
           ref={glowMat}
           map={glowMap}
-          color={gold ? GOLD_TINT : '#ffffff'}
+          color={useEdge ? GOLD_TINT : '#ffffff'}
           transparent
           depthWrite={false}
           depthTest={false}
@@ -219,10 +205,10 @@ export default function Hotspot({
         />
       </mesh>
 
-      {/* Second layer: gold edge rim / outer halo */}
+      {/* Optional gold rim — registered to the same footprint (no outer halo) */}
       {useEdge && (
         <mesh ref={edgeMesh} renderOrder={2} raycast={() => null}>
-          <planeGeometry args={[gw * 1.06, gh * 1.06]} />
+          <planeGeometry args={[gw, gh]} />
           <meshBasicMaterial
             ref={edgeMat}
             map={edgeMap}

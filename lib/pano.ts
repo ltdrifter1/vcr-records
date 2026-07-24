@@ -27,10 +27,10 @@ export const SPHERE_RADIUS = 48;
 export const MFOV_RATIO = 4 / 3;
 
 /**
- * Explore MFOV. Slightly wider than krpano's 120 so the painted shop
- * reads roomier (balmingtiger feel) without going back to 140.
+ * Explore MFOV — krpano / balmingtiger default (fov="120").
+ * Wider values make the packed store feel crowded; 120 reads roomier.
  */
-export const MFOV_EXPLORE = 130;
+export const MFOV_EXPLORE = 120;
 export const MFOV_INTRO = 160;
 /**
  * Free-look wheel clamp (krpano fovmin/fovmax).

@@ -6,11 +6,10 @@ import { useFBO } from '@react-three/drei';
 import * as THREE from 'three';
 
 /**
- * krpano-style view.fisheye.
+ * krpano-style view.fisheye (balmingtiger explore = 0.3).
  *
- * Renders slightly wider than the base FOV, then shows nearly that full
- * wide frame with mild barrel curvature — so explore stays ZOOMED OUT
- * (floor + ceiling + side walls), matching balmingtiger after intro.
+ * Mild barrel only — keep expand/curve restrained so the packed store
+ * doesn't feel squeezed or over-warped at explore FOV 120.
  */
 export default function FisheyePass({ amountRef }: { amountRef: { current: number } }) {
   const { gl, scene, camera, size } = useThree();
@@ -44,10 +43,9 @@ export default function FisheyePass({ amountRef }: { amountRef: { current: numbe
 
             float k = clamp(uAmount, 0.0, 1.0);
             float r2 = dot(p, p);
-            // Barrel curve only — do NOT shrink toward centre (that zoomed us in).
-            float radial = 1.0 + k * 0.22 * r2;
-            // Slight overall shrink so barrel edges stay inside the wide FBO
-            float fit = 1.0 / (1.0 + k * 0.22);
+            // Soft barrel (was 0.22 — too much pinch on a dense pano).
+            float radial = 1.0 + k * 0.12 * r2;
+            float fit = 1.0 / (1.0 + k * 0.12);
             vec2 q = p * radial * fit;
 
             q.x = clamp(q.x, -uAspect * 0.995, uAspect * 0.995);
@@ -56,10 +54,9 @@ export default function FisheyePass({ amountRef }: { amountRef: { current: numbe
             vec2 uv = q * 0.5 + 0.5;
 
             vec4 col = texture2D(tDiffuse, uv);
-            // Soft cel lift
-            col.rgb = pow(max(col.rgb, 0.0), vec3(0.9));
-            col.rgb = mix(col.rgb, smoothstep(0.06, 0.94, col.rgb), 0.2);
-            col.rgb *= vec3(1.05, 1.03, 0.99);
+            // Light grade — avoid crushing midtones into a "crowded" look.
+            col.rgb = pow(max(col.rgb, 0.0), vec3(0.94));
+            col.rgb = mix(col.rgb, smoothstep(0.04, 0.96, col.rgb), 0.1);
             gl_FragColor = col;
           }
         `,
@@ -102,8 +99,8 @@ export default function FisheyePass({ amountRef }: { amountRef: { current: numbe
     const cam = camera as THREE.PerspectiveCamera;
     const baseFov = cam.fov;
 
-    // Extra width for curved edges + intro punch. Explore k=0.3 → ~12% wider.
-    const expand = 1 + k * 0.4;
+    // Explore k=0.3 → ~6% wider (was ~12%). Intro k=1 still opens up.
+    const expand = 1 + k * 0.2;
 
     if (k < 0.008) {
       gl.setRenderTarget(null);
