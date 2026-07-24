@@ -1065,6 +1065,22 @@ html.has-custom-cursor * {
     height: auto;
     max-height: min(52vh, 420px);
   }
+  /* While nesting, collapse to a compact thumb tray under the sheet */
+  .panel-root.open .panel.is-nesting {
+    max-height: 132px;
+  }
+  .panel.is-nesting .panel-kicker,
+  .panel.is-nesting .panel-title,
+  .panel.is-nesting .panel-intro {
+    display: none;
+  }
+  .panel.is-nesting .panel-level-1 {
+    padding-top: 36px;
+  }
+  /* In-panel level-2 is desktop-only; mobile uses .panel-nest-sheet */
+  .panel-level-2 {
+    display: none !important;
+  }
   .panel-list {
     flex-direction: row;
     overflow-x: auto;
@@ -1078,10 +1094,65 @@ html.has-custom-cursor * {
     min-width: 124px;
     max-width: 160px;
   }
+  .panel-row.is-selected {
+    outline: 1px solid color-mix(in srgb, var(--panel-accent, #7dffb3) 70%, #fff);
+    outline-offset: 2px;
+  }
   .panel-thumb {
     width: 100%;
     height: 90px;
     flex-basis: auto;
+  }
+
+  /* Dedicated nest sheet (BT level-2-mobile) */
+  .panel-nest-sheet {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: calc(64px + 140px + env(safe-area-inset-bottom, 0px));
+    z-index: 46;
+    max-height: min(52vh, 440px);
+    overflow: hidden;
+    pointer-events: auto;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 4px;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  }
+  .panel-nest-inner {
+    padding: 48px 16px 18px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    max-height: min(52vh, 440px);
+    display: flex;
+    flex-direction: column;
+  }
+  .panel-nest-back {
+    background: rgba(150, 150, 150, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 4px;
+    min-width: 52px;
+  }
+  .panel-nest-sheet .panel-detail-art {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .panel-nest-sheet .panel-detail-art img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 571px) {
+  .panel-nest-sheet {
+    display: none !important;
   }
 }
 
@@ -1163,6 +1234,9 @@ html.has-custom-cursor * {
     transition: none;
   }
   .panel-preview-btn {
+    transition: none;
+  }
+  .panel-nest-sheet {
     transition: none;
   }
   .custom-cursors img {
