@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import gsap from 'gsap';
@@ -14,6 +14,7 @@ import {
   FRICTION_STOP,
   INTRO_CEILING_V,
   INTRO_SETTLE_ID,
+  LQIP_SRC,
   MFOV_INTRO,
   SPHERE_RADIUS,
   START_LOOK_U,
@@ -303,17 +304,60 @@ export default function Scene({
   crtSrc = CRT_DEFAULT_SRC,
   gyroRef,
 }: Props) {
-  const [texOn, texOff] = useTexture([TEXTURE_SRC, TEXTURE_OFF_SRC]);
+  // Gate Suspense resolves on tiny LQIP — full 4K pans load in the background.
+  const texLqip = useTexture(LQIP_SRC);
+  const [texOn, setTexOn] = useState<THREE.Texture | null>(null);
+  const [texOff, setTexOff] = useState<THREE.Texture | null>(null);
   const { gl } = useThree();
   const fisheyeRef = useRef(FISHEYE_INTRO);
   const lightsBlend = useRef({ v: lightsOn ? 1 : 0 });
+  const hiBlend = useRef({ v: 0 });
+  const matLqip = useRef<THREE.MeshBasicMaterial>(null);
   const matOn = useRef<THREE.MeshBasicMaterial>(null);
   const matOff = useRef<THREE.MeshBasicMaterial>(null);
 
   useEffect(() => {
-    prepTex(texOn, gl);
-    prepTex(texOff, gl);
-  }, [texOn, texOff, gl]);
+    prepTex(texLqip, gl);
+  }, [texLqip, gl]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loader = new THREE.TextureLoader();
+    let onTex: THREE.Texture | null = null;
+    let offTex: THREE.Texture | null = null;
+    Promise.all([loader.loadAsync(TEXTURE_SRC), loader.loadAsync(TEXTURE_OFF_SRC)])
+      .then(([on, off]) => {
+        if (cancelled) {
+          on.dispose();
+          off.dispose();
+          return;
+        }
+        prepTex(on, gl);
+        prepTex(off, gl);
+        onTex = on;
+        offTex = off;
+        setTexOn(on);
+        setTexOff(off);
+      })
+      .catch(() => {
+        /* keep LQIP if full pans fail */
+      });
+    return () => {
+      cancelled = true;
+      onTex?.dispose();
+      offTex?.dispose();
+    };
+  }, [gl]);
+
+  useEffect(() => {
+    if (!texOn || !texOff) return;
+    gsap.to(hiBlend.current, {
+      v: 1,
+      duration: reduceMotion ? 0 : 0.85,
+      ease: 'power2.out',
+      overwrite: true,
+    });
+  }, [texOn, texOff, reduceMotion]);
 
   useEffect(() => {
     gsap.to(lightsBlend.current, {
@@ -341,9 +385,11 @@ export default function Scene({
   );
 
   useFrame(() => {
+    const hi = hiBlend.current.v;
     const on = lightsBlend.current.v;
-    if (matOn.current) matOn.current.opacity = on;
-    if (matOff.current) matOff.current.opacity = 1 - on;
+    if (matLqip.current) matLqip.current.opacity = 1 - hi;
+    if (matOn.current) matOn.current.opacity = on * hi;
+    if (matOff.current) matOff.current.opacity = (1 - on) * hi;
   });
 
   return (
@@ -359,12 +405,12 @@ export default function Scene({
 
       <color attach="background" args={['#000000']} />
 
-      {/* Lights-on sphere */}
+      {/* Progressive base — sharp enough to enter before 4K lands */}
       <mesh>
-        <sphereGeometry args={[SPHERE_RADIUS, 96, 64]} />
+        <sphereGeometry args={[SPHERE_RADIUS + 0.04, 64, 48]} />
         <meshBasicMaterial
-          ref={matOn}
-          map={texOn}
+          ref={matLqip}
+          map={texLqip}
           toneMapped={false}
           side={THREE.BackSide}
           depthWrite={false}
@@ -374,12 +420,27 @@ export default function Scene({
         />
       </mesh>
 
+      {/* Lights-on sphere (fades in when full texture ready) */}
+      <mesh>
+        <sphereGeometry args={[SPHERE_RADIUS, 96, 64]} />
+        <meshBasicMaterial
+          ref={matOn}
+          map={texOn ?? texLqip}
+          toneMapped={false}
+          side={THREE.BackSide}
+          depthWrite={false}
+          transparent
+          opacity={0}
+          color="#ffffff"
+        />
+      </mesh>
+
       {/* Lights-off sphere (crossfades) */}
       <mesh>
         <sphereGeometry args={[SPHERE_RADIUS - 0.02, 96, 64]} />
         <meshBasicMaterial
           ref={matOff}
-          map={texOff}
+          map={texOff ?? texLqip}
           toneMapped={false}
           side={THREE.BackSide}
           depthWrite={false}

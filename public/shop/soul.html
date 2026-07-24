@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vcr-pnw.css" />
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VCR Records</title>
@@ -11,15 +16,15 @@
   <!-- Page-scoped styles -->
   <style>
   :root{
-    --paper-bg:  #f5f1e8;
-    --paper-line:#d9d2c2;
+    --paper-bg:  #f2f5f3;
+    --paper-line:rgba(20, 38, 28, .12);
     --ink:       #111;
     --muted:     #555;
     --overlay-bg: rgba(0,0,0,.9);
 
     /* gold buttons */
-    --gold:       #c8a455;
-    --gold-hover: #dbb769;
+    --gold:       #2a6b52;
+    --gold-hover: #1f5541;
     --gold-press: #b89242;
   }
 
@@ -337,7 +342,7 @@
   </div>
 </div>
 
-<body>
+<body data-vcr-theme="paper">
 
   <!-- Header -->
 <header class="site-header">
@@ -1007,5 +1012,9 @@ const CODE_BANK = new Set([
   })();
   </script>
 
+
+<aside class="vcr-enter-store" aria-label="Return to the immersive store">
+  <a href="/">Enter the 360 store <span>Enter</span></a>
+</aside>
 </body>
 </html>

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vcr-pnw.css" />
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>LT Drifta — Drum Poetry | VCR Recordings</title>
   <meta name="description" content="Drum Poetry by LT Drifta — digital + cassette. VCR Recordings."/>
-  <meta name="theme-color" content="#000000"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
-  <style>
+  <meta name="theme-color" content="#0b1f18"/>
+<style>
     :root {
       --black:  #000;
       --bg:     #0a0a0a;
@@ -20,10 +22,10 @@
       --text:   #f2f2ee;
       --sub:    rgba(242,242,238,.50);
       --dim:    rgba(242,242,238,.28);
-      --green:  #3ecf8e;
+      --green:  #7dffb3;
       --red:    #f87171;
       --amber:  #f59e0b;
-      --sans:   'Archivo', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --sans:   'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -224,7 +226,7 @@
     .fade-up.is-visible { opacity: 1; transform: none; }
   </style>
 </head>
-<body>
+<body data-vcr-theme="dark">
 
 <!-- MODAL -->
 <div class="modal-overlay" id="purchaseModal">
@@ -748,5 +750,9 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
 (function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
 </script>
+
+<aside class="vcr-enter-store" aria-label="Return to the immersive store">
+  <a href="/">Enter the 360 store <span>Enter</span></a>
+</aside>
 </body>
 </html>
