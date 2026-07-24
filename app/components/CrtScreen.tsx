@@ -19,6 +19,9 @@ export const CRT_DEFAULT_SRC = '/videos/crt_loop.mp4';
  *   black / off backing → video plane → plastic frame bezel
  * Alpha 0 until Videos is focused + armed (post-lookto).
  * Panel picks swap `src` in-place (stay in the room).
+ *
+ * Sizing: video fills the painted tube glass; frame sits around it.
+ * (Previously screen was ~0.52× hit footprint — read as a postage stamp.)
  */
 export default function CrtScreen({
   activeId,
@@ -56,10 +59,11 @@ export default function CrtScreen({
     [],
   );
 
-  const screenW = crt.w * 0.52;
-  const screenH = crt.h * 0.42;
-  const frameW = crt.w * 0.72;
-  const frameH = crt.h * 0.62;
+  // Tube glass ≈ 70%×58% of the full-set hit footprint; frame hugs the chassis.
+  const screenW = crt.w * 0.7;
+  const screenH = crt.h * 0.58;
+  const frameW = crt.w * 0.88;
+  const frameH = crt.h * 0.78;
 
   useLayoutEffect(() => {
     backOffMap.colorSpace = THREE.SRGBColorSpace;
@@ -197,7 +201,7 @@ export default function CrtScreen({
     <group ref={group} position={[x, y, z]}>
       {/* z: slightly in front of sphere wall; stack like BT zorder */}
       <mesh ref={backOffMesh} position={[0, 0, 0.01]} renderOrder={2} raycast={() => null}>
-        <planeGeometry args={[screenW * 1.05, screenH * 1.05]} />
+        <planeGeometry args={[screenW * 1.04, screenH * 1.04]} />
         <meshBasicMaterial
           ref={backOffMat}
           map={backOffMap}

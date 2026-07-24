@@ -65,14 +65,14 @@ const desktop = {
   console.log('✓ adaptMfovToViewport preserves HFOV; phone no longer over-zooms');
 }
 
-// 2) CRT lookto: desktop authored 50 (set + stand); phone widens
+// 2) CRT watch mode: desktop authored 22 (BT ~20); phone widens toward ~40
 {
-  const crt = { w: 4.5, h: 4.2, lookFov: 50 };
+  const crt = { w: 4.5, h: 4.2, lookFov: 22 };
   const desk = resolveLookMfov(crt, desktop);
   const mob = resolveLookMfov(crt, phone);
-  assert.equal(desk, 50, `desktop CRT should stay authored 50, got ${desk}`);
+  assert.equal(desk, 22, `desktop CRT should stay authored 22, got ${desk}`);
   assert.ok(mob > desk, `mobile CRT mfov ${mob} should be > desktop ${desk}`);
-  assert.ok(mob >= 70 && mob <= 120, `mobile CRT mfov ${mob} in readable band`);
+  assert.ok(mob >= 35 && mob <= 55, `mobile CRT mfov ${mob} in BT-like ~40 band`);
   console.log(`✓ CRT lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
@@ -255,7 +255,7 @@ const desktop = {
 
   check('Music lookto', 0.18, 0.42);
   check('Music hit', 0.2, 0.4);
-  check('Videos lookto', 0.29, 0.43);
+  check('Videos lookto', 0.3, 0.415);
   check('Videos hit', 0.3, 0.42);
   check('Phone', 0.486, 0.406);
   check('Register', 0.573, 0.53);
