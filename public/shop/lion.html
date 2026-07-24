@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vcr-pnw.css" />
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Charlie Archer — Lions' Gate | VCR Recordings</title>
   <meta name="description" content="Lions' Gate by Charlie Archer — digital single. VCR Recordings."/>
-  <meta name="theme-color" content="#f5f5f7"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
+  <meta name="theme-color" content="#f2f5f3"/>
+<style>
     :root {
-      --bg: #f5f5f7;
+      --bg: #f2f5f3;
       --surface: #ffffff;
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-      --dim: #86868b;
-      --line: rgba(0,0,0,.08);
-      --line-hi: rgba(0,0,0,.12);
-      --fill: rgba(0,0,0,.04);
-      --fill-hi: rgba(0,0,0,.07);
-      --shadow: 0 2px 16px rgba(0,0,0,.05);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,.08);
-      --green: #34c759;
+      --text: #14261c;
+      --muted: #5a6b62;
+      --dim: #7a8a82;
+      --line: rgba(20, 38, 28, .10);
+      --line-hi: rgba(20, 38, 28, .14);
+      --fill: rgba(20, 38, 28, .04);
+      --fill-hi: rgba(20, 38, 28, .07);
+      --shadow: 0 2px 16px rgba(20, 38, 28, .06);
+      --shadow-lg: 0 12px 40px rgba(20, 38, 28, .09);
+      --green: #2a6b52;
       --red: #ff3b30;
       --radius: 18px;
       --pill: 980px;
       --ease: cubic-bezier(.25,.1,.25,1);
       --dur: 300ms;
-      --sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
       --wrap: 1080px;
@@ -55,13 +57,13 @@
       -webkit-tap-highlight-color: transparent;
     }
     button { cursor: pointer; border: none; background: none; }
-    ::selection { background: rgba(0,0,0,.12); }
+    ::selection { background: rgba(125, 255, 179, .35); }
 
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       height: calc(var(--nav-h) + var(--safe-t));
       padding-top: var(--safe-t);
-      background: rgba(245,245,247,.82);
+      background: rgba(242,245,243,.86);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid transparent;
@@ -226,7 +228,7 @@
     }
     .wave span {
       display: block; width: 2px; min-height: 2px; border-radius: 999px;
-      flex-shrink: 0; background: rgba(0,0,0,.12); transform-origin: bottom;
+      flex-shrink: 0; background: rgba(125, 255, 179, .35); transform-origin: bottom;
     }
     .wave.on span {
       background: var(--text); opacity: .45;
@@ -553,7 +555,7 @@
     }
   </style>
 </head>
-<body>
+<body data-vcr-theme="light">
 
 <div class="modal-overlay" id="purchaseModal">
   <div class="modal">
@@ -927,5 +929,9 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
 (function(){ const f=document.getElementById('signupPageField'); if(f) f.value=location.href; })();
 </script>
+
+<aside class="vcr-enter-store" aria-label="Return to the immersive store">
+  <a href="/">Enter the 360 store <span>Enter</span></a>
+</aside>
 </body>
 </html>

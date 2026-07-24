@@ -460,6 +460,68 @@
     .d2 { transition-delay: .12s; }
     .d3 { transition-delay: .18s; }
 
+    /* Sticky bridge back into the 360 store */
+    .enter-store {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 280;
+      padding: 12px 16px calc(12px + var(--safe-b));
+      background: linear-gradient(180deg, transparent, rgba(242, 245, 243, .92) 28%, rgba(242, 245, 243, .98));
+      pointer-events: none;
+    }
+    .enter-store-inner {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px 12px 18px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(125, 255, 179, .18);
+      pointer-events: auto;
+      transition: transform 180ms var(--ease), background var(--dur) var(--ease);
+    }
+    .enter-store-copy { min-width: 0; }
+    .enter-store-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(125, 255, 179, .9);
+      margin-bottom: 2px;
+    }
+    .enter-store-title {
+      font-size: 15px; font-weight: 600; letter-spacing: -.02em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .enter-store-btn {
+      flex-shrink: 0;
+      height: 40px; padding: 0 16px;
+      border-radius: var(--pill);
+      background: var(--mint);
+      color: #0b1f18;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    @media (hover:hover) {
+      .enter-store-inner:hover { background: #0b1f18; }
+      .enter-store-inner:hover .enter-store-btn { background: #fff; }
+    }
+    .enter-store-inner:active { transform: scale(.985); }
+    body { padding-bottom: calc(88px + var(--safe-b)); }
+    .nav-cta {
+      display: none;
+      height: 34px; padding: 0 14px;
+      border-radius: var(--pill);
+      background: var(--accent); color: #fff;
+      font-size: 12px; font-weight: 600;
+      white-space: nowrap;
+      transition: opacity var(--dur) var(--ease);
+    }
+    @media (min-width: 681px) { .nav-cta { display: inline-flex; align-items: center; } }
+    @media (hover:hover) { .nav-cta:hover { opacity: .88; } }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: .01ms !important;
@@ -483,6 +545,7 @@
       <a href="#artists">Artists</a>
       <a href="#merch">Merch</a>
     </nav>
+    <a class="nav-cta" href="/">Enter 360 store</a>
     <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -495,6 +558,7 @@
   <a href="#listen">Listen</a>
   <a href="#artists">Artists</a>
   <a href="#merch">Merch</a>
+  <a href="/">Enter the 360 store</a>
 </div>
 
 <div class="page-start">
@@ -676,6 +740,16 @@
     </section>
 
   </main>
+
+  <aside class="enter-store" aria-label="Return to the immersive store">
+    <a class="enter-store-inner" href="/">
+      <div class="enter-store-copy">
+        <div class="enter-store-label">VCR Recordings</div>
+        <div class="enter-store-title">Enter the 360 store</div>
+      </div>
+      <span class="enter-store-btn">Enter</span>
+    </a>
+  </aside>
 
   <footer class="footer">
     <div class="band">

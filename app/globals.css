@@ -467,6 +467,35 @@ html.has-custom-cursor * {
   color: var(--cel-cream);
   overflow: hidden;
 }
+.gate-lqip {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  overflow: hidden;
+}
+.gate-lqip.is-on {
+  opacity: 1;
+}
+.gate-lqip img {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  object-fit: cover;
+  object-position: 42% 48%;
+  filter: saturate(1.05) contrast(1.04);
+  transform: scale(1.04);
+}
+.gate-lqip-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 22, 18, 0.55) 0%, rgba(8, 22, 18, 0.28) 42%, rgba(8, 22, 18, 0.72) 100%),
+    radial-gradient(70% 55% at 50% 40%, transparent 0%, rgba(8, 22, 18, 0.45) 100%);
+}
 .gate-atmosphere {
   position: absolute;
   inset: 0;
@@ -1216,6 +1245,9 @@ html.has-custom-cursor * {
   .gate-mark-vcr,
   .gate-mark-recordings {
     animation: none;
+  }
+  .gate-lqip {
+    transition: none;
   }
   .drag-hint {
     transition: none;

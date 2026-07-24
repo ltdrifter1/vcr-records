@@ -4,8 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useProgress } from '@react-three/drei';
 import gsap from 'gsap';
 
+import { LQIP_SRC } from '@/lib/pano';
+
 /**
  * Entry gate — PNW modern field + 90s cel glow brand mark.
+ * LQIP store preview sits under the mist so load already feels like the room.
  * Fade out 0.4s then cinematic intro starts in Scene.
  * Audio unlock must run in the click gesture (not deferred to GSAP alone).
  */
@@ -18,11 +21,23 @@ export default function LoadingGate({
   const [ready, setReady] = useState(false);
   const [pct, setPct] = useState(0);
   const [entering, setEntering] = useState(false);
+  const [lqipOn, setLqipOn] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLElement>(null);
   const enterBtn = useRef<HTMLButtonElement>(null);
   const mounted = useRef(Date.now());
+
+  // Progressive feel — paint the store behind the brand as soon as LQIP lands.
+  useEffect(() => {
+    const img = new Image();
+    img.src = LQIP_SRC;
+    if (img.complete) {
+      setLqipOn(true);
+      return;
+    }
+    img.onload = () => setLqipOn(true);
+  }, []);
 
   useEffect(() => {
     const p = Math.round(progress);
@@ -81,6 +96,11 @@ export default function LoadingGate({
 
   return (
     <div className="gate" ref={root} role="dialog" aria-label="Enter VCR Recordings">
+      <div className={`gate-lqip${lqipOn ? ' is-on' : ''}`} aria-hidden>
+        <img src={LQIP_SRC} alt="" draggable={false} />
+        <span className="gate-lqip-veil" />
+      </div>
+
       <div className="gate-atmosphere" aria-hidden>
         <span className="gate-mist gate-mist-a" />
         <span className="gate-mist gate-mist-b" />
@@ -96,7 +116,14 @@ export default function LoadingGate({
         </h1>
         <p className="gate-sub">Best experienced with your device&apos;s audio enabled</p>
 
-        <div className="gate-bar" aria-hidden>
+        <div
+          className="gate-bar"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={pct}
+          aria-label="Loading store"
+        >
           <i ref={bar} />
         </div>
         <div className="gate-status">

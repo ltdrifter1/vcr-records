@@ -1,12 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");
+
 :root {
-  --bg: #0d0d0d;
-  --text: #f5f5f5;
-  --accent: #ff2d55;
+  /* PNW bridge — match /shop/index.html + 360 homepage */
+  --bg: #f2f5f3;
+  --text: #14261c;
+  --muted: #5a6b62;
+  --accent: #16382c;
+  --mint: #7dffb3;
+  --butter: #ffe566;
+  --line: rgba(20, 38, 28, 0.1);
+  --surface: #ffffff;
+  --sans: "Outfit", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
 }
 
 /* ===== Base ===== */
 body {
-  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--sans);
   background: var(--bg);
   color: var(--text);
   margin: 0;
@@ -19,8 +28,8 @@ a { text-decoration: none; color: var(--text); }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #000; /* solid black */
-  border-bottom: 1px solid #222;
+  background: #0b1f18;
+  border-bottom: 1px solid rgba(125, 255, 179, 0.12);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -112,7 +121,7 @@ audio::-webkit-media-controls-timeline,
 audio::-webkit-media-controls-volume-slider { filter: invert(1) brightness(1.2); }
 
 /* ===== Footer ===== */
-.site-footer { background: #0b0b0b; color: #f5f5f5; padding: 3rem 2rem 2rem; font-size: 0.9rem; }
+.site-footer { background: #0b1f18; color: #f2f5f3; padding: 3rem 2rem 2rem; font-size: 0.9rem; }
 .footer-columns { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
 .footer-col { flex: 1 1 300px; min-width: 260px; }
 .footer-col h4, .footer-col h5 { font-size: 0.95rem; text-transform: uppercase; font-weight: bold; margin-bottom: 1rem; }
