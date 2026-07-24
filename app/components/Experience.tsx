@@ -20,6 +20,11 @@ import {
   useInteractionManager,
 } from '@/lib/navigation';
 import { enterWithAudio, playSfx } from '@/lib/audio';
+import {
+  hashFromSectionId,
+  readSectionHash,
+  sectionIdFromHash,
+} from '@/lib/sectionHash';
 import { CRT_DEFAULT_SRC } from './CrtScreen';
 
 /**
@@ -28,9 +33,11 @@ import { CRT_DEFAULT_SRC } from './CrtScreen';
  *
  * Canvas model (balmingtiger):
  *   one continuous room; panels are HUD; drag-end only resets CRT focus.
+ * Hash deep links: /#music /#shop /#lore …
  */
 export default function Experience() {
   const stageRef = useRef<HTMLDivElement>(null);
+  const canvasWrapRef = useRef<HTMLDivElement>(null);
   const enteredRef = useRef({ value: false });
   const lookEnabledRef = useRef(false);
   const liveRef = useRef({ value: false });
@@ -39,6 +46,8 @@ export default function Experience() {
   const gyroRef = useRef(createGyro());
   const onDragEndRef = useRef<(() => void) | null>(null);
   const onInterruptLookRef = useRef<(() => void) | null>(null);
+  const hashBridgeReady = useRef(false);
+  const applyingHash = useRef(false);
 
   const navState = useMemo(() => createNavState(), []);
 
@@ -90,17 +99,23 @@ export default function Experience() {
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener('change', onChange);
+    const apply = () => {
+      const on = mq.matches;
+      setReduceMotion(on);
+      document.documentElement.classList.toggle('reduce-motion', on);
+    };
+    apply();
+    mq.addEventListener('change', apply);
 
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
     setMaxDpr(isTouch ? 1.6 : 2);
-    return () => mq.removeEventListener('change', onChange);
+    return () => {
+      mq.removeEventListener('change', apply);
+      document.documentElement.classList.remove('reduce-motion');
+    };
   }, []);
 
   // Keep FX / vignette locked to visualViewport (iOS Safari chrome).
-  // While focused, re-adapt lookto MFOV for the new aspect (rotate / URL bar).
   useEffect(() => {
     const publish = () => {
       const m = measureViewport(stageRef.current);
@@ -138,8 +153,6 @@ export default function Experience() {
     setCanLook(true);
   }, [nav]);
 
-  // Drag interrupts lookto; CRT drag-end resets like BT video Observer.
-  // Other sections keep the HUD open while roaming the same canvas.
   useEffect(() => {
     onInterruptLookRef.current = () => nav.interruptLook();
     onDragEndRef.current = () => {
@@ -153,14 +166,12 @@ export default function Experience() {
     };
   }, [nav, navState]);
 
-  // Keep controller look-enabled in sync with the intro unlock flag.
   useEffect(() => {
     nav.setLookEnabled(lookEnabledHold.current || canLook);
   }, [nav, canLook]);
 
   const open = useCallback(
     (id: string) => {
-      // Belt-and-suspenders: intro sets controls.userControl; also force-enable.
       if (canLook) nav.setLookEnabled(true);
       nav.open(id, measureViewport(stageRef.current));
     },
@@ -168,6 +179,54 @@ export default function Experience() {
   );
 
   const close = useCallback(() => nav.close(), [nav]);
+
+  // After intro unlock: honor initial hash, then keep URL ↔ panel in sync.
+  useEffect(() => {
+    if (!canLook) return;
+
+    const initial = readSectionHash();
+    if (initial) {
+      applyingHash.current = true;
+      open(initial);
+      window.setTimeout(() => {
+        applyingHash.current = false;
+      }, 50);
+    }
+    hashBridgeReady.current = true;
+
+    const onPop = () => {
+      const id = sectionIdFromHash(window.location.hash);
+      applyingHash.current = true;
+      if (id) open(id);
+      else close();
+      window.setTimeout(() => {
+        applyingHash.current = false;
+      }, 50);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [canLook, open, close]);
+
+  // Push history when the user opens/closes a section (not during popstate/hash apply).
+  useEffect(() => {
+    if (!hashBridgeReady.current || applyingHash.current) return;
+    if (typeof window === 'undefined') return;
+
+    const next = hashFromSectionId(active);
+    const url = `${window.location.pathname}${window.location.search}${next}`;
+    const cur = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (url === cur) return;
+
+    window.history.pushState(active ? { sectionId: active } : {}, '', url);
+  }, [active]);
+
+  // Inert the WebGL surface while a panel is open (keyboard trap lives in SectionPanel).
+  useEffect(() => {
+    const wrap = canvasWrapRef.current;
+    if (!wrap) return;
+    if (active) wrap.setAttribute('inert', '');
+    else wrap.removeAttribute('inert');
+  }, [active]);
 
   const playCrt = useCallback((src: string) => {
     setCrtSrc(src || CRT_DEFAULT_SRC);
@@ -185,41 +244,43 @@ export default function Experience() {
 
   return (
     <div className={`stage${canLook ? ' can-look' : ''}`} ref={stageRef}>
-      <Canvas
-        dpr={[1, maxDpr]}
-        gl={{
-          antialias: true,
-          alpha: false,
-          powerPreference: 'high-performance',
-          preserveDrawingBuffer: false,
-        }}
-        camera={{ fov: 100, position: [0, 0, 0], near: 0.1, far: 200 }}
-        onCreated={({ gl, camera }) => {
-          gl.setClearColor('#000000', 1);
-          camera.rotation.order = 'YXZ';
-        }}
-      >
-        <Suspense fallback={null}>
-          <Scene
-            controls={controls}
-            reduceMotion={reduceMotion}
-            enteredRef={enteredRef.current}
-            liveRef={liveRef.current}
-            panelOpenRef={panelOpenRef.current}
-            focusedIdRef={focusedIdRef.current}
-            onOpen={open}
-            onIntroComplete={handleIntroComplete}
-            debug={debug}
-            lightsOn={lightsOn}
-            onToggleLights={toggleLights}
-            activeId={active}
-            focusedId={focusedId}
-            crtArmed={crtArmed}
-            crtSrc={crtSrc}
-            gyroRef={gyroRef}
-          />
-        </Suspense>
-      </Canvas>
+      <div className="stage-canvas" ref={canvasWrapRef}>
+        <Canvas
+          dpr={[1, maxDpr]}
+          gl={{
+            antialias: true,
+            alpha: false,
+            powerPreference: 'high-performance',
+            preserveDrawingBuffer: false,
+          }}
+          camera={{ fov: 100, position: [0, 0, 0], near: 0.1, far: 200 }}
+          onCreated={({ gl, camera }) => {
+            gl.setClearColor('#000000', 1);
+            camera.rotation.order = 'YXZ';
+          }}
+        >
+          <Suspense fallback={null}>
+            <Scene
+              controls={controls}
+              reduceMotion={reduceMotion}
+              enteredRef={enteredRef.current}
+              liveRef={liveRef.current}
+              panelOpenRef={panelOpenRef.current}
+              focusedIdRef={focusedIdRef.current}
+              onOpen={open}
+              onIntroComplete={handleIntroComplete}
+              debug={debug}
+              lightsOn={lightsOn}
+              onToggleLights={toggleLights}
+              activeId={active}
+              focusedId={focusedId}
+              crtArmed={crtArmed}
+              crtSrc={crtSrc}
+              gyroRef={gyroRef}
+            />
+          </Suspense>
+        </Canvas>
+      </div>
 
       <FilmFX reduceMotion={reduceMotion} />
       <CustomCursor active={entered} />
@@ -228,7 +289,12 @@ export default function Experience() {
       <TopNav visible={canLook} activeId={active} onOpen={open} />
       <DragHint active={canLook} controls={controls} reduceMotion={reduceMotion} />
 
-      <SectionPanel activeId={active} onClose={close} onPlayCrt={playCrt} />
+      <SectionPanel
+        activeId={active}
+        onClose={close}
+        onPlayCrt={playCrt}
+        reduceMotion={reduceMotion}
+      />
       <LoadingGate onEntered={handleEntered} />
     </div>
   );

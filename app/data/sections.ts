@@ -34,6 +34,10 @@ export type SectionItem = {
   tracks?: TrackItem[];
   /** Music / Shop nest — streaming + buy pills. */
   listenOn?: ListenLink[];
+  /**
+   * In-panel prose for Archive / Lore nests (stays in-room — no /shop eject).
+   */
+  body?: string;
 };
 
 const T = {
@@ -145,21 +149,6 @@ const BUY = {
   ltdBc: 'https://ltdrifta.bandcamp.com',
   driftaBc: 'https://drifta.bandcamp.com',
   rackBc: 'https://ltdrifta.bandcamp.com/album/rack-em',
-} as const;
-
-/** Deep links into the existing /shop catalog (same-origin). */
-const SHOP = {
-  home: '/shop/index.html',
-  atHome: '/shop/home.html',
-  summer: '/shop/summer.html',
-  lion: '/shop/lion.html',
-  rack: '/shop/rack.html',
-  testpress: '/shop/testpress.html',
-  classic: '/shop/classic.html',
-  future: '/shop/future.html',
-  poetry: '/shop/poetry.html',
-  contact: '/shop/contact.html',
-  about: '/shop/about.html',
 } as const;
 
 /**
@@ -339,7 +328,7 @@ export const SECTIONS: Section[] = [
         thumb: 'B',
         thumbSrc: T.testpress,
         videoSrc: '/videos/channel_b.mp4',
-        href: SHOP.testpress,
+        href: BANDCAMP,
       },
       {
         label: 'Classic Cuts',
@@ -349,7 +338,7 @@ export const SECTIONS: Section[] = [
         thumb: 'CL',
         thumbSrc: T.classic,
         videoSrc: '/videos/channel_classic.mp4',
-        href: SHOP.classic,
+        href: BANDCAMP,
       },
       {
         label: 'Future Boy',
@@ -359,7 +348,7 @@ export const SECTIONS: Section[] = [
         thumb: 'FB',
         thumbSrc: T.future,
         videoSrc: '/videos/channel_future.mp4',
-        href: SHOP.future,
+        href: BANDCAMP,
       },
       {
         label: 'Lions Gate',
@@ -369,7 +358,7 @@ export const SECTIONS: Section[] = [
         thumb: 'LG',
         thumbSrc: T.lions,
         videoSrc: '/videos/channel_lions.mp4',
-        href: SHOP.lion,
+        href: BUY.driftaBc,
       },
       {
         label: 'At Home',
@@ -379,7 +368,7 @@ export const SECTIONS: Section[] = [
         thumb: 'AH',
         thumbSrc: T.atHome,
         videoSrc: '/videos/channel_athome.mp4',
-        href: SHOP.atHome,
+        href: BUY.inletBc,
       },
     ],
   },
@@ -565,9 +554,43 @@ export const SECTIONS: Section[] = [
     lookFov: 80,
     sfx: 'archive',
     items: [
-      { label: 'About the label', meta: 'Story', detail: 'Read', cta: 'View', thumb: 'AB', thumbSrc: T.about, href: SHOP.about },
-      { label: 'Poetry / Drum Poetry', meta: 'Release', detail: 'Open', cta: 'View', thumb: 'PO', thumbSrc: T.poetry, href: SHOP.poetry },
-      { label: 'Classic archive', meta: 'Cuts', detail: 'Open', cta: 'View', thumb: 'CL', thumbSrc: T.classic, href: SHOP.classic },
+      {
+        label: 'About the label',
+        meta: 'Story',
+        detail: 'Read',
+        cta: 'Open',
+        thumb: 'AB',
+        thumbSrc: T.about,
+        body:
+          'VCR Recordings is an independent electronic label from the Pacific Northwest — jungle, house, and experimental cuts pressed for the people who still linger in the shop after closing.',
+        listenOn: [
+          { label: 'Bandcamp', href: BANDCAMP },
+          { label: 'Instagram', href: INSTAGRAM },
+          { label: 'Email', href: CONTACT_EMAIL },
+        ],
+      },
+      {
+        label: 'Poetry / Drum Poetry',
+        meta: 'Release',
+        detail: 'Open',
+        cta: 'Open',
+        thumb: 'PO',
+        thumbSrc: T.poetry,
+        body:
+          'Drum Poetry lives on the flyer wall — clipped tempos, spoken edges, and the kind of night that stains the carpet. Stream it on Bandcamp; the paper copy never left this room.',
+        listenOn: [{ label: 'Bandcamp', href: BANDCAMP }],
+      },
+      {
+        label: 'Classic archive',
+        meta: 'Cuts',
+        detail: 'Open',
+        cta: 'Open',
+        thumb: 'CL',
+        thumbSrc: T.classic,
+        body:
+          'Classic Cuts is the cold-storage reel: edits and leftovers that never made the window display. Flip through on Bandcamp, or play the archive channel on the CRT.',
+        listenOn: [{ label: 'Bandcamp', href: BANDCAMP }],
+      },
       { label: 'Bandcamp catalog', meta: 'Everything', detail: 'Browse', cta: 'View', thumb: 'BC', thumbSrc: T.bc, href: BANDCAMP },
       { label: 'Instagram board', meta: '@vcr_recordings', detail: 'Follow', cta: 'View', thumb: 'IG', thumbSrc: T.ig, href: INSTAGRAM },
     ],
@@ -599,7 +622,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'back-room-door',
     object: 'Back Room Door',
-    nav: 'Label Lore',
+    nav: 'Lore',
     hint: 'Staff only — push anyway',
     title: 'Back Room',
     kicker: 'Label Lore',
@@ -613,7 +636,21 @@ export const SECTIONS: Section[] = [
     lookFov: 70,
     sfx: 'door',
     items: [
-      { label: 'About VCR Recordings', meta: 'Origin story', detail: 'Read', cta: 'Read', thumb: 'AB', thumbSrc: T.about, href: SHOP.about },
+      {
+        label: 'About VCR Recordings',
+        meta: 'Origin story',
+        detail: 'Read',
+        cta: 'Open',
+        thumb: 'AB',
+        thumbSrc: T.about,
+        body:
+          'One borrowed sampler, two decks, and a fridge full of nothing. VCR Recordings grew out of late shifts and blank tapes — still independent, still Pacific Northwest, still built for the listening booth.',
+        listenOn: [
+          { label: 'Bandcamp', href: BANDCAMP },
+          { label: 'Instagram', href: INSTAGRAM },
+          { label: 'Email', href: CONTACT_EMAIL },
+        ],
+      },
       { label: 'Label Bandcamp', meta: 'The catalog', detail: 'Browse', cta: 'Open', thumb: 'BC', thumbSrc: T.bc, href: BANDCAMP },
       { label: 'Watch the intro', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', thumbSrc: T.yt, href: YOUTUBE_ABOUT },
       { label: 'Instagram', meta: '@vcr_recordings', detail: 'Follow', cta: 'Follow', thumb: 'IG', thumbSrc: T.ig, href: INSTAGRAM },
@@ -630,7 +667,7 @@ export const SECTION_BY_ID = Object.fromEntries(
  */
 export const SHOP_URL = '/shop/index.html';
 
-/** Primary conveyor nav order (balmingtiger: music / video / …). */
+/** Primary conveyor nav order (includes Lore / back-room). */
 export const NAV_ORDER = [
   'listening-booth',
   'crt-tv',
@@ -638,4 +675,23 @@ export const NAV_ORDER = [
   'cash-register',
   'flyer-wall',
   'phone-booth',
+  'back-room-door',
 ] as const;
+
+/**
+ * URL hash slugs ↔ section ids (shareable deep links).
+ * Example: https://vcrrecords.com/#shop
+ */
+export const HASH_BY_SECTION_ID: Record<string, string> = {
+  'listening-booth': 'music',
+  'crt-tv': 'videos',
+  'record-bins': 'artists',
+  'cash-register': 'shop',
+  'flyer-wall': 'archive',
+  'phone-booth': 'contact',
+  'back-room-door': 'lore',
+};
+
+export const SECTION_ID_BY_HASH: Record<string, string> = Object.fromEntries(
+  Object.entries(HASH_BY_SECTION_ID).map(([id, hash]) => [hash, id]),
+);

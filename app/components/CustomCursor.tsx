@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * Branded floating cursor — balmingtiger `.cursors` pattern.
  * Desktop / fine pointer only; touch + coarse pointers keep native cursors.
+ * Click glyph: pointerdown, canvas `cursor-hot`, or `[data-cursor="click"]` hover.
  */
 export default function CustomCursor({ active }: { active: boolean }) {
   const root = useRef<HTMLDivElement>(null);
@@ -42,6 +43,13 @@ export default function CustomCursor({ active }: { active: boolean }) {
       last.current = { x: e.clientX, y: e.clientY, t: now };
       pos.current.x = e.clientX;
       pos.current.y = e.clientY;
+
+      const t = e.target;
+      const clickable =
+        t instanceof Element &&
+        Boolean(t.closest('[data-cursor="click"], a[href], button, [role="button"]'));
+      const canvasHot = document.documentElement.classList.contains('cursor-hot');
+      setHot(clickable || canvasHot);
     };
 
     const onDown = () => setPressing(true);
@@ -50,7 +58,6 @@ export default function CustomCursor({ active }: { active: boolean }) {
     const tick = () => {
       const el = root.current;
       if (el) {
-        // Soft rotate from horizontal velocity (BT rotates up to ~70deg).
         const target = Math.max(-0.9, Math.min(0.9, pos.current.vx * 18));
         pos.current.rot += (target - pos.current.rot) * 0.18;
         pos.current.vx *= 0.86;
@@ -78,11 +85,10 @@ export default function CustomCursor({ active }: { active: boolean }) {
     if (!enabled) return;
     const rootEl = document.documentElement;
     const syncHot = () => {
-      setHot(rootEl.classList.contains('cursor-hot'));
+      if (rootEl.classList.contains('cursor-hot')) setHot(true);
     };
     const obs = new MutationObserver(syncHot);
     obs.observe(rootEl, { attributes: true, attributeFilter: ['class'] });
-    syncHot();
     return () => obs.disconnect();
   }, [enabled]);
 

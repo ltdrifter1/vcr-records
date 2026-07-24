@@ -27,10 +27,12 @@ export default function CrtScreen({
   activeId,
   armed = false,
   src = CRT_DEFAULT_SRC,
+  reduceMotion = false,
 }: {
   activeId: string | null;
   armed?: boolean;
   src?: string;
+  reduceMotion?: boolean;
 }) {
   const group = useRef<THREE.Group>(null);
   const videoMesh = useRef<THREE.Mesh>(null);
@@ -132,6 +134,8 @@ export default function CrtScreen({
     if (!video) return;
 
     setBgmDucked(playing);
+    const fade = reduceMotion ? 0 : 0.4;
+    const volDur = reduceMotion ? 0 : 0.6;
 
     if (playing) {
       if (!revealed.current) {
@@ -142,7 +146,7 @@ export default function CrtScreen({
           {
             video: 1,
             stage: 1,
-            duration: 0.4,
+            duration: fade,
             ease: 'power1.inOut',
             overwrite: true,
           },
@@ -151,7 +155,7 @@ export default function CrtScreen({
         gsap.to(opacity.current, {
           video: 1,
           stage: 1,
-          duration: 0.4,
+          duration: fade,
           ease: 'power1.inOut',
           overwrite: true,
         });
@@ -161,7 +165,7 @@ export default function CrtScreen({
       const vol = { v: 0 };
       gsap.to(vol, {
         v: 0.55,
-        duration: 0.6,
+        duration: volDur,
         ease: 'power1.inOut',
         onUpdate: () => {
           video.volume = vol.v;
@@ -175,7 +179,7 @@ export default function CrtScreen({
       gsap.to(opacity.current, {
         video: 0,
         stage: 0,
-        duration: 0.35,
+        duration: reduceMotion ? 0 : 0.35,
         ease: 'power1.inOut',
         overwrite: true,
       });
@@ -185,7 +189,7 @@ export default function CrtScreen({
     }
 
     return () => setBgmDucked(false);
-  }, [playing]);
+  }, [playing, reduceMotion]);
 
   useFrame(() => {
     const { video: vA, stage: sA } = opacity.current;

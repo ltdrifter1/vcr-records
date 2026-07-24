@@ -231,6 +231,8 @@ export function useInteractionManager(
 
     const onKey = (e: KeyboardEvent) => {
       if (!enabledRef.current || !controls.userControl) return;
+      // While a section panel is open, leave arrows to the dialog / trap.
+      if (focusedRef?.current?.value) return;
       if (controls.lookAnimating) interruptLook();
       const step = LOOK_KEY_STEP;
       if (e.key === 'ArrowLeft') {

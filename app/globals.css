@@ -71,6 +71,16 @@ main {
   cursor: default;
   touch-action: none;
 }
+.stage-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.stage-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
 /* Grab cursor only after the intro drop/zoom unlocks look-around */
 .stage.can-look {
   cursor: grab;
@@ -808,6 +818,14 @@ html.has-custom-cursor * {
   max-width: 36ch;
   margin: 0 0 18px;
 }
+.panel-body {
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 0 16px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
 .panel-list {
   display: flex;
   flex-direction: column;
@@ -1140,5 +1158,18 @@ html.has-custom-cursor * {
   .fx-glow {
     animation: none;
     opacity: 0.38;
+  }
+  .panel {
+    transition: none;
+  }
+  .panel-preview-btn {
+    transition: none;
+  }
+  .custom-cursors img {
+    transition: none;
+  }
+  .mute-control,
+  .gyro-control {
+    transition: none;
   }
 }
