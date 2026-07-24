@@ -1,7 +1,8 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
-import { type ThreeEvent } from '@react-three/fiber';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { useFrame, type ThreeEvent } from '@react-three/fiber';
+import gsap from 'gsap';
 import * as THREE from 'three';
 
 import { SPHERE_RADIUS, uvToSpherical } from '@/lib/pano';
@@ -20,6 +21,8 @@ type AmbientHit = {
    * instead of (or after) playing SFX.
    */
   wonder?: boolean;
+  /** Soft glow tint on hover / click */
+  accent: string;
 };
 
 /** Outbound “globe” destinations — Bandcamp / IG / maps rabbit holes. */
@@ -34,20 +37,16 @@ const WONDER_LINKS = [
 ];
 
 /**
- * Non-nav diegetic toys — balmingtiger cushion / owl / fire / globe class.
- * Invisible click meshes: unique SFX, plus one wonder object that opens
- * a random outbound link (globe parity).
+ * Non-nav diegetic toys — cushion / owl / fire / globe class.
+ * Soft glow + scale punch on hover/click so curiosity reads as intentional.
  */
 const HITS: AmbientHit[] = [
-  { id: 'stool', u: 0.19, v: 0.58, w: 3.2, h: 2.4, sfx: 'stool' },
-  { id: 'crate', u: 0.46, v: 0.72, w: 4.5, h: 3.2, sfx: 'crate' },
-  { id: 'poster', u: 0.5, v: 0.28, w: 3.5, h: 3.5, sfx: 'poster' },
-  { id: 'cushion', u: 0.62, v: 0.68, w: 3.8, h: 2.6, sfx: 'cushion' },
-  // Soft “owl” perch near the listening booth upper shelf
-  { id: 'owl', u: 0.16, v: 0.32, w: 2.6, h: 2.4, sfx: 'owl' },
-  // Warm crackle near the lamp / back corner
-  { id: 'fire', u: 0.38, v: 0.55, w: 2.8, h: 2.6, sfx: 'fire' },
-  // Globe / wonder — clear of phone-booth (u≈0.486) and cash-register (u≈0.57)
+  { id: 'stool', u: 0.19, v: 0.58, w: 3.2, h: 2.4, sfx: 'stool', accent: '#7dffb3' },
+  { id: 'crate', u: 0.46, v: 0.72, w: 4.5, h: 3.2, sfx: 'crate', accent: '#ffe566' },
+  { id: 'poster', u: 0.5, v: 0.28, w: 3.5, h: 3.5, sfx: 'poster', accent: '#ffb347' },
+  { id: 'cushion', u: 0.62, v: 0.68, w: 3.8, h: 2.6, sfx: 'cushion', accent: '#ff7a9c' },
+  { id: 'owl', u: 0.16, v: 0.32, w: 2.6, h: 2.4, sfx: 'owl', accent: '#c9a6ff' },
+  { id: 'fire', u: 0.38, v: 0.55, w: 2.8, h: 2.6, sfx: 'fire', accent: '#ff5e5e' },
   {
     id: 'wonder',
     u: 0.55,
@@ -56,6 +55,7 @@ const HITS: AmbientHit[] = [
     h: 2.4,
     sfx: 'wonder',
     wonder: true,
+    accent: '#e9b21d',
   },
 ];
 
@@ -70,18 +70,72 @@ function AmbientMesh({
   controls: Controls;
   debug?: boolean;
 }) {
-  const mesh = useRef<THREE.Mesh>(null);
+  const group = useRef<THREE.Group>(null);
+  const hitMesh = useRef<THREE.Mesh>(null);
+  const glowMesh = useRef<THREE.Mesh>(null);
+  const glowMat = useRef<THREE.MeshBasicMaterial>(null);
   const env = useSceneEnv();
+  const [hovered, setHovered] = useState(false);
+  const glow = useRef({ a: 0 });
   const [x, y, z] = uvToSpherical(hit.u, hit.v, SPHERE_RADIUS - 0.55);
 
   useLayoutEffect(() => {
-    mesh.current?.lookAt(origin);
+    group.current?.lookAt(origin);
   }, [x, y, z]);
+
+  useLayoutEffect(() => {
+    const target = hovered ? (hit.wonder ? 0.42 : 0.28) : 0;
+    gsap.to(glow.current, {
+      a: target,
+      duration: env.reduceMotion ? 0 : 0.28,
+      ease: 'power1.out',
+      overwrite: true,
+    });
+  }, [hovered, hit.wonder, env.reduceMotion]);
+
+  useFrame(() => {
+    if (glowMat.current) glowMat.current.opacity = glow.current.a;
+    group.current?.lookAt(origin);
+  });
+
+  const pulse = () => {
+    const g = group.current;
+    if (!g) return;
+    if (env.reduceMotion) {
+      glow.current.a = hit.wonder ? 0.55 : 0.4;
+      return;
+    }
+    gsap.fromTo(
+      g.scale,
+      { x: 1, y: 1, z: 1 },
+      {
+        x: 1.08,
+        y: 1.08,
+        z: 1.08,
+        duration: 0.12,
+        yoyo: true,
+        repeat: 1,
+        ease: 'power2.out',
+        overwrite: true,
+      },
+    );
+    gsap.fromTo(
+      glow.current,
+      { a: hit.wonder ? 0.55 : 0.4 },
+      {
+        a: hovered ? (hit.wonder ? 0.42 : 0.28) : 0,
+        duration: 0.55,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      },
+    );
+  };
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     if (!env.live.value || controls.dragged) return;
     playSfx(hit.sfx);
+    pulse();
     if (hit.wonder) {
       const href = WONDER_LINKS[Math.floor(Math.random() * WONDER_LINKS.length)];
       window.setTimeout(() => {
@@ -90,31 +144,52 @@ function AmbientMesh({
     }
   };
 
+  const glowW = hit.w * 0.55;
+  const glowH = hit.h * 0.55;
+
   return (
-    <mesh
-      ref={mesh}
-      position={[x, y, z]}
-      renderOrder={1}
-      onClick={onClick}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        if (!env.live.value) return;
-        document.documentElement.classList.add('cursor-hot');
-      }}
-      onPointerOut={() => {
-        document.documentElement.classList.remove('cursor-hot');
-      }}
-      userData={{ ambientId: hit.id }}
-    >
-      <planeGeometry args={[hit.w, hit.h]} />
-      <meshBasicMaterial
-        transparent
-        opacity={debug ? 0.22 : 0}
-        color={debug ? (hit.wonder ? '#ffe66d' : '#7dffb3') : '#ffffff'}
-        depthWrite={false}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <group ref={group} position={[x, y, z]}>
+      {/* Soft diegetic glow — visible on hover / click */}
+      <mesh ref={glowMesh} position={[0, 0, 0.02]} renderOrder={2} raycast={() => null}>
+        <planeGeometry args={[glowW, glowH]} />
+        <meshBasicMaterial
+          ref={glowMat}
+          transparent
+          opacity={0}
+          color={hit.accent}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <mesh
+        ref={hitMesh}
+        position={[0, 0, 0]}
+        renderOrder={1}
+        onClick={onClick}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          if (!env.live.value) return;
+          setHovered(true);
+          document.documentElement.classList.add('cursor-hot');
+        }}
+        onPointerOut={() => {
+          setHovered(false);
+          document.documentElement.classList.remove('cursor-hot');
+        }}
+        userData={{ ambientId: hit.id }}
+      >
+        <planeGeometry args={[hit.w, hit.h]} />
+        <meshBasicMaterial
+          transparent
+          opacity={debug ? 0.22 : 0}
+          color={debug ? hit.accent : '#ffffff'}
+          depthWrite={false}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </group>
   );
 }
 
