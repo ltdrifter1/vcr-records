@@ -5,17 +5,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 
-import { NAV_ORDER, SECTIONS, SHOP_URL } from '@/app/data/sections';
+import { NAV_ORDER, SECTIONS } from '@/app/data/sections';
 
 const NAV_ITEMS = NAV_ORDER.map((id) => SECTIONS.find((s) => s.id === id)!).filter(Boolean);
 
 /**
  * Conveyor top nav — balmingtiger MENU CONVEYOR pattern.
  *
- * Click path uses Swiper's `clickedRealIndex` (loop-safe). Invisible hit
- * overlays were desynced from labels (especially with slidesPerView 3.2),
- * so PC clicks missed / opened the wrong section while Shop `<a>` still
- * worked on iOS.
+ * Click path uses Swiper's `clickedRealIndex` (loop-safe). Shop opens the
+ * in-room counter panel like every other section (no eject to /shop).
  */
 export default function TopNav({
   visible,
@@ -70,19 +68,6 @@ export default function TopNav({
 
   if (!visible) return null;
 
-  const goShop = () => {
-    // BT shopbag — leave the canvas, open catalog in a new tab.
-    window.open(SHOP_URL, '_blank', 'noopener,noreferrer');
-  };
-
-  const openSection = (section: (typeof items)[number]) => {
-    if (section.id === 'cash-register') {
-      goShop();
-      return;
-    }
-    onOpen(section.id);
-  };
-
   /** Activate a nav item by real index (loop-safe). */
   const activateIndex = (idx: number) => {
     const now = performance.now();
@@ -93,20 +78,15 @@ export default function TopNav({
     const section = items[((idx % items.length) + items.length) % items.length];
     if (!section) return;
 
-    if (section.id === 'cash-register') {
-      goShop();
-      return;
-    }
-
     const sw = swiperRef.current;
     if (!sw) {
-      openSection(section);
+      onOpen(section.id);
       return;
     }
 
     // Already the active (left) slot — open / toggle immediately.
     if (sw.realIndex === idx) {
-      openSection(section);
+      onOpen(section.id);
       return;
     }
 
@@ -117,7 +97,7 @@ export default function TopNav({
     if (openTimer.current) clearTimeout(openTimer.current);
     openTimer.current = setTimeout(() => {
       clearTimers();
-      openSection(section);
+      onOpen(section.id);
     }, 820);
   };
 
@@ -171,44 +151,24 @@ export default function TopNav({
         {items.map((s, i) => {
           const open = activeId === s.id;
           const isActiveSlot = realIndex === i;
-          const isShop = s.id === 'cash-register';
 
           return (
             <SwiperSlide key={s.id} className={`top-nav-slide${open ? ' is-open' : ''}`}>
-              {isShop ? (
-                <a
-                  className={`top-nav-item${isActiveSlot ? ' is-active-slot' : ''}`}
-                  href={SHOP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Open Shop"
-                  aria-current={open ? 'true' : undefined}
-                  onClick={(e) => {
-                    // Hard nav — don't also run Swiper onClick open path.
-                    e.stopPropagation();
-                  }}
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <span className="top-nav-label">{s.nav.toUpperCase()}</span>
-                  <span className="top-nav-line" aria-hidden />
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  className={`top-nav-item${isActiveSlot ? ' is-active-slot' : ''}`}
-                  aria-label={open && isActiveSlot ? `Close ${s.nav}` : `Open ${s.nav}`}
-                  aria-current={open ? 'true' : undefined}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    activateIndex(i);
-                  }}
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <span className="top-nav-label">{s.nav.toUpperCase()}</span>
-                  <span className="top-nav-line" aria-hidden />
-                  {open && <span className="top-nav-close">×</span>}
-                </button>
-              )}
+              <button
+                type="button"
+                className={`top-nav-item${isActiveSlot ? ' is-active-slot' : ''}`}
+                aria-label={open && isActiveSlot ? `Close ${s.nav}` : `Open ${s.nav}`}
+                aria-current={open ? 'true' : undefined}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  activateIndex(i);
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+              >
+                <span className="top-nav-label">{s.nav.toUpperCase()}</span>
+                <span className="top-nav-line" aria-hidden />
+                {open && <span className="top-nav-close">×</span>}
+              </button>
             </SwiperSlide>
           );
         })}

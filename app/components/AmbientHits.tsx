@@ -22,15 +22,13 @@ type AmbientHit = {
   wonder?: boolean;
 };
 
-/** Outbound “globe” destinations — Bandcamp / IG / maps / shop rabbit holes. */
+/** Outbound “globe” destinations — Bandcamp / IG / maps rabbit holes. */
 const WONDER_LINKS = [
   'https://vcrrecordings.bandcamp.com',
   'https://www.instagram.com/vcr_recordings',
   'https://ltdrifta.bandcamp.com',
   'https://inletknight.bandcamp.com',
   'https://drifta.bandcamp.com',
-  '/shop/',
-  '/shop/about.html',
   'https://www.google.com/maps/@49.2827,-123.1207,3a,75y,90t/data=!3m1!1e3',
   'https://www.google.com/maps/@45.5231,-122.6765,3a,75y,120t/data=!3m1!1e3',
 ];

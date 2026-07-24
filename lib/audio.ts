@@ -14,6 +14,12 @@ const listeners = new Set<(muted: boolean) => void>();
 /** One reusable element per SFX key — avoids stacking / leaks. */
 const sfxPool = new Map<string, HTMLAudioElement>();
 
+/* ---------- in-booth release previews (Listening Booth / Shop) ---------- */
+let preview: HTMLAudioElement | null = null;
+let previewSrc: string | null = null;
+let previewEndTimer: ReturnType<typeof setTimeout> | null = null;
+const previewListeners = new Set<(src: string | null) => void>();
+
 const SFX: Record<string, string> = {
   click: '/audio/click.mp3',
   focus: '/audio/focus.mp3',
@@ -50,6 +56,17 @@ function notify() {
   for (const fn of listeners) fn(muted);
 }
 
+function notifyPreview() {
+  for (const fn of previewListeners) fn(previewSrc);
+}
+
+function clearPreviewTimer() {
+  if (previewEndTimer) {
+    clearTimeout(previewEndTimer);
+    previewEndTimer = null;
+  }
+}
+
 /** Pause when the tab hides; resume BGM when visible again if unmuted. */
 function bindAudioLifecycle() {
   if (lifecycleBound || typeof document === 'undefined') return;
@@ -60,6 +77,7 @@ function bindAudioLifecycle() {
     if (!a) return;
     if (document.hidden) {
       a.pause();
+      preview?.pause();
       return;
     }
     if (!muted) {
@@ -67,12 +85,16 @@ function bindAudioLifecycle() {
       void a.play().catch(() => {
         /* user can retry via mute control */
       });
+      if (previewSrc && preview) {
+        void preview.play().catch(() => stopPreview());
+      }
     }
   };
 
   document.addEventListener('visibilitychange', onVisibility);
   window.addEventListener('pagehide', () => {
     bgm?.pause();
+    preview?.pause();
   });
 }
 
@@ -86,6 +108,99 @@ export function onMuteChange(fn: (muted: boolean) => void) {
   return () => {
     listeners.delete(fn);
   };
+}
+
+/** Subscribe to which preview src is currently playing (null = idle). */
+export function onPreviewChange(fn: (src: string | null) => void) {
+  previewListeners.add(fn);
+  fn(previewSrc);
+  return () => {
+    previewListeners.delete(fn);
+  };
+}
+
+export function getPreviewSrc() {
+  return previewSrc;
+}
+
+/**
+ * balmingtiger muteBGMVolume / unmuteBGMVolume — 0.6s power1.inOut tween.
+ * ducked=true → near silence; false → restore target level.
+ */
+export function setBgmDucked(ducked: boolean, duration = 0.6) {
+  const a = ensureBgm();
+  if (!a || muted) return;
+  duckTween?.kill();
+  const to = ducked ? 0.02 : volume.bgm;
+  volume.target = to;
+  const proxy = { v: a.volume };
+  duckTween = gsap.to(proxy, {
+    v: to,
+    duration,
+    ease: 'power1.inOut',
+    onUpdate: () => {
+      if (!muted && a) a.volume = proxy.v;
+    },
+  });
+}
+
+/** Stop booth preview and restore BGM level. */
+export function stopPreview() {
+  clearPreviewTimer();
+  if (preview) {
+    try {
+      preview.pause();
+      preview.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+  }
+  if (previewSrc) {
+    previewSrc = null;
+    notifyPreview();
+  }
+  setBgmDucked(false, 0.5);
+}
+
+/**
+ * Play a short release preview in the room.
+ * Ducks BGM; auto-stops at natural end (clips are ~35s).
+ * Same src while playing → toggle off.
+ */
+export async function playPreview(src: string) {
+  if (typeof window === 'undefined') return false;
+  if (!src) return false;
+
+  if (previewSrc === src) {
+    stopPreview();
+    return false;
+  }
+
+  stopPreview();
+  if (muted) return false;
+
+  if (!preview) {
+    preview = new Audio();
+    preview.preload = 'auto';
+    preview.addEventListener('ended', () => stopPreview());
+  }
+
+  previewSrc = src;
+  notifyPreview();
+  preview.src = src;
+  preview.volume = Math.min(0.85, volume.sfx + 0.2);
+  setBgmDucked(true, 0.45);
+
+  try {
+    await preview.play();
+    // Safety cap — even if a long file is wired by mistake.
+    clearPreviewTimer();
+    previewEndTimer = setTimeout(() => stopPreview(), 40_000);
+    return true;
+  } catch {
+    stopPreview();
+    return false;
+  }
 }
 
 /**
@@ -120,6 +235,8 @@ export async function setMuted(next: boolean) {
   if (!a) return;
   duckTween?.kill();
   if (muted) {
+    // Preview rides the same mute bus — kill it when silencing the room.
+    stopPreview();
     a.volume = 0;
     a.pause();
     return;
@@ -152,25 +269,4 @@ export function playSfx(name: keyof typeof SFX | string) {
   } catch {
     /* ignore decode / play failures */
   }
-}
-
-/**
- * balmingtiger muteBGMVolume / unmuteBGMVolume — 0.6s power1.inOut tween.
- * ducked=true → near silence; false → restore target level.
- */
-export function setBgmDucked(ducked: boolean, duration = 0.6) {
-  const a = ensureBgm();
-  if (!a || muted) return;
-  duckTween?.kill();
-  const to = ducked ? 0.02 : volume.bgm;
-  volume.target = to;
-  const proxy = { v: a.volume };
-  duckTween = gsap.to(proxy, {
-    v: to,
-    duration,
-    ease: 'power1.inOut',
-    onUpdate: () => {
-      if (!muted && a) a.volume = proxy.v;
-    },
-  });
 }
