@@ -11,6 +11,7 @@ import TopNav from './TopNav';
 import MuteControl from './MuteControl';
 import GyroButton, { createGyro } from './GyroButton';
 import DragHint from './DragHint';
+import CustomCursor from './CustomCursor';
 import {
   createNavState,
   createNavigationController,
@@ -221,6 +222,7 @@ export default function Experience() {
       </Canvas>
 
       <FilmFX reduceMotion={reduceMotion} />
+      <CustomCursor active={entered} />
       <MuteControl visible={entered} faded={videoFocused} />
       <GyroButton visible={canLook} gyroRef={gyroRef} />
       <TopNav visible={canLook} activeId={active} onOpen={open} />

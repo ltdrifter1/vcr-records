@@ -1,12 +1,12 @@
 import gsap from 'gsap';
 import type { Section } from '@/app/data/sections';
-import { SECTION_BY_ID, SHOP_URL } from '@/app/data/sections';
+import { SECTION_BY_ID } from '@/app/data/sections';
 import {
   FOLLOW_REENABLE_DELAY,
   FOLLOW_REENABLE_DUR,
   MFOV_EXPLORE,
 } from '@/lib/pano';
-import { playSfx } from '@/lib/audio';
+import { playSfx, stopPreview } from '@/lib/audio';
 import {
   animateCamera,
   interruptCameraAnimation,
@@ -33,7 +33,7 @@ const LOOKTO_DURATION = 2;
 const REFRAME_DURATION = 0.45;
 
 /**
- * High-level navigation — open / close / resetToFront / shop.
+ * High-level navigation — open / close / resetToFront.
  * Owns focus state + camera lookto; never uses anchors or page scroll.
  *
  * Canvas model (BT parity):
@@ -41,6 +41,7 @@ const REFRAME_DURATION = 0.45;
  *   - soft close (BACK / Esc / nav toggle) → clear HUD only; camera stays
  *   - CRT drag-end → resetToFront (BT video Observer onDragEnd)
  *   - other sections stay focused while the user pans (one room, HUD open)
+ *   - Shop opens the counter panel in-room (no eject to /shop)
  */
 export function createNavigationController(
   controls: Controls,
@@ -59,6 +60,7 @@ export function createNavigationController(
     cbs.onFocusedChange(null);
     cbs.onCrtArm?.(false);
     cbs.onCrtSrcReset?.();
+    stopPreview();
   };
 
   /** Desktop follow-mouse lean — same timing as InteractionManager mouseup. */
@@ -78,21 +80,6 @@ export function createNavigationController(
         overwrite: true,
       });
     });
-  };
-
-  /**
-   * Shop / cash-register → catalog in a new tab (BT shopbag `window.open`).
-   * Stays on the canvas; does not move the camera.
-   */
-  const goShop = () => {
-    playSfx('shop');
-    // Clear video/panel chrome if any, without resetting the view.
-    if (navState.focusedId || navState.panelOpen) {
-      interruptCameraAnimation(controls);
-      clearFocus(navState);
-      notifyCleared();
-    }
-    window.open(SHOP_URL, '_blank', 'noopener,noreferrer');
   };
 
   /**
@@ -146,12 +133,6 @@ export function createNavigationController(
     const section = SECTION_BY_ID[id];
     if (!section) return;
 
-    // Shop / cash-register → catalog (balmingtiger shopbag)
-    if (id === 'cash-register') {
-      goShop();
-      return;
-    }
-
     // Toggle off if same focused feature re-clicked via nav
     if (navState.focusedId === id && navState.activeId === id) {
       close({ force: true });
@@ -161,6 +142,8 @@ export function createNavigationController(
     openedAt = Date.now();
     cbs.onCrtArm?.(false);
     if (id !== 'crt-tv') cbs.onCrtSrcReset?.();
+    // Leaving Music/Shop stops any booth preview.
+    stopPreview();
 
     const vp = viewport ?? measureViewport();
     const target = resolveLookTarget(section, vp);
@@ -253,7 +236,6 @@ export function createNavigationController(
     },
     resetToFront,
     reframeFocused,
-    goShop,
     interruptLook,
     setLookEnabled,
     getSection: (id: string): Section | undefined => SECTION_BY_ID[id],

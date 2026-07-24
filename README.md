@@ -1,16 +1,16 @@
 # VCR Records
 
 `vcrrecords.com` homepage is the immersive **360° store** (Next.js).  
-The previous static marketing/shop site lives unchanged at **`/shop`**.
+The previous static marketing/shop site lives unchanged at **`/shop`** (legacy deep links / SEO).
 
 ## Routes
 
 | Path | What |
 |---|---|
 | `/` | 360° illustrated record store (enter → look around → hotspots) |
-| `/shop/` | Existing VCR site (HTML pages, releases, etc.) |
+| `/shop/` | Legacy VCR HTML catalog (kept; primary Shop UX is in-room) |
 
-Top-nav **Shop** and the cash-register hotspot open `/shop/` in a **new tab**.
+Top-nav **Shop** and the cash-register hotspot open the **in-room counter panel**. Checkout still goes to Stripe / Bandcamp in a new tab.
 
 ## Develop
 

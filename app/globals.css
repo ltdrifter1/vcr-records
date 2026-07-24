@@ -83,6 +83,49 @@ html.cursor-hot .stage.can-look:not(.dragging),
 html.cursor-hot .stage.can-look:not(.dragging) canvas {
   cursor: pointer !important;
 }
+/* Branded floating cursor — hide system cursor on fine pointers */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+.custom-cursors {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  z-index: 80;
+  pointer-events: none;
+  transform: translate3d(-100px, -100px, 0);
+  will-change: transform;
+}
+.custom-cursors img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.12s ease;
+}
+.custom-cursors .custom-cursor-default {
+  opacity: 1;
+}
+.custom-cursors .custom-cursor-click {
+  opacity: 0;
+}
+.custom-cursors.is-click .custom-cursor-default {
+  opacity: 0;
+}
+.custom-cursors.is-click .custom-cursor-click {
+  opacity: 1;
+}
+@media (pointer: coarse), (max-width: 570px) {
+  .custom-cursors {
+    display: none !important;
+  }
+}
 .mute-control:focus-visible,
 .gyro-control:focus-visible,
 .gate-enter:focus-visible,
@@ -956,6 +999,36 @@ html.cursor-hot .stage.can-look:not(.dragging) canvas {
   font-weight: 800;
   letter-spacing: 0.16em;
   margin-bottom: 10px;
+}
+.panel-preview-btn {
+  appearance: none;
+  align-self: flex-start;
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 0;
+  background: var(--cel-cream, #fff8e8);
+  color: var(--pnw-deep, #0b1f18);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.panel-preview-btn:hover {
+  background: var(--cel-mint, #7dffb3);
+}
+.panel-preview-btn.is-playing {
+  background: var(--cel-mint, #7dffb3);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+  transform: translate(1px, 1px);
+}
+.panel-preview-btn:focus-visible {
+  outline: 2px solid var(--cel-mint, #7dffb3);
+  outline-offset: 3px;
 }
 @media (max-width: 570px) {
   .panel {

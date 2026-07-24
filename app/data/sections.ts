@@ -25,9 +25,14 @@ export type SectionItem = {
    * When set, primary row click stays in the room instead of window.open.
    */
   videoSrc?: string;
-  /** Music nest — track list shown in level-2 detail. */
+  /**
+   * Short in-room audio preview (Listening Booth / Shop).
+   * Plays through the shared preview bus; ducks BGM.
+   */
+  previewSrc?: string;
+  /** Music / Shop nest — track list shown in level-2 detail. */
   tracks?: TrackItem[];
-  /** Music nest — streaming pills. */
+  /** Music / Shop nest — streaming + buy pills. */
   listenOn?: ListenLink[];
 };
 
@@ -119,6 +124,29 @@ const STREAM = [
   { label: 'Instagram', href: INSTAGRAM },
 ];
 
+/** Short booth previews under /public/audio/previews. */
+const PREVIEW = {
+  atHome: '/audio/previews/at-home.mp3',
+  summer: '/audio/previews/summer.mp3',
+  lions: '/audio/previews/lions-gate.mp3',
+  rack: '/audio/previews/rack-em.mp3',
+} as const;
+
+/** Stripe + Bandcamp buy destinations (checkout only — browse stays in-room). */
+const BUY = {
+  atHomeDigital: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
+  summerDigital: 'https://buy.stripe.com/00w14o5zxdMs2Ry73TfrW0s',
+  lionsDigital: 'https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i',
+  rackDigital: 'https://buy.stripe.com/bJe8wQd1ZbEk77O87XfrW0t',
+  tee: 'https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o',
+  hat: 'https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n',
+  bikini: 'https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m',
+  inletBc: 'https://inletknight.bandcamp.com',
+  ltdBc: 'https://ltdrifta.bandcamp.com',
+  driftaBc: 'https://drifta.bandcamp.com',
+  rackBc: 'https://ltdrifta.bandcamp.com/album/rack-em',
+} as const;
+
 /** Deep links into the existing /shop catalog (same-origin). */
 const SHOP = {
   home: '/shop/index.html',
@@ -170,15 +198,16 @@ export const SECTIONS: Section[] = [
         cta: 'Open',
         thumb: 'AH',
         thumbSrc: T.atHome,
-        href: SHOP.atHome,
+        href: BUY.inletBc,
+        previewSrc: PREVIEW.atHome,
         tracks: [
           { title: '01. After All', duration: '2:22' },
           { title: '02. Will I See You Again?', duration: '3:58' },
           { title: '03. At Home', duration: '3:44' },
         ],
         listenOn: [
-          { label: 'Bandcamp', href: 'https://inletknight.bandcamp.com' },
-          { label: 'Shop page', href: SHOP.atHome },
+          { label: 'Bandcamp', href: BUY.inletBc },
+          { label: 'Buy Digital', href: BUY.atHomeDigital },
           { label: 'Label BC', href: BANDCAMP },
         ],
       },
@@ -189,7 +218,8 @@ export const SECTIONS: Section[] = [
         cta: 'Open',
         thumb: 'SM',
         thumbSrc: T.summer,
-        href: SHOP.summer,
+        href: BUY.ltdBc,
+        previewSrc: PREVIEW.summer,
         tracks: [
           { title: '01. Summer Madness', duration: '3:20' },
           { title: '02. Too Far', duration: '2:55' },
@@ -204,8 +234,8 @@ export const SECTIONS: Section[] = [
           { title: '11. Mood Indigo', duration: '3:02' },
         ],
         listenOn: [
-          { label: 'Bandcamp', href: 'https://ltdrifta.bandcamp.com' },
-          { label: 'Shop page', href: SHOP.summer },
+          { label: 'Bandcamp', href: BUY.ltdBc },
+          { label: 'Buy Digital', href: BUY.summerDigital },
           { label: 'Label BC', href: BANDCAMP },
         ],
       },
@@ -216,13 +246,14 @@ export const SECTIONS: Section[] = [
         cta: 'Open',
         thumb: 'LG',
         thumbSrc: T.lions,
-        href: SHOP.lion,
+        href: BUY.driftaBc,
+        previewSrc: PREVIEW.lions,
         tracks: [
           { title: '01. Lions Gate', duration: '3:09' },
         ],
         listenOn: [
-          { label: 'Bandcamp', href: 'https://drifta.bandcamp.com' },
-          { label: 'Shop page', href: SHOP.lion },
+          { label: 'Bandcamp', href: BUY.driftaBc },
+          { label: 'Buy Digital', href: BUY.lionsDigital },
           { label: 'Label BC', href: BANDCAMP },
         ],
       },
@@ -233,7 +264,8 @@ export const SECTIONS: Section[] = [
         cta: 'Open',
         thumb: 'RK',
         thumbSrc: T.rack,
-        href: SHOP.rack,
+        href: BUY.rackBc,
+        previewSrc: PREVIEW.rack,
         tracks: [
           { title: '01. Rack\'em', duration: '2:57' },
           { title: '02. Since I Left You', duration: '6:45' },
@@ -243,8 +275,8 @@ export const SECTIONS: Section[] = [
           { title: '06. Same Time', duration: '3:57' },
         ],
         listenOn: [
-          { label: 'Bandcamp', href: 'https://ltdrifta.bandcamp.com/album/rack-em' },
-          { label: 'Shop page', href: SHOP.rack },
+          { label: 'Bandcamp', href: BUY.rackBc },
+          { label: 'Buy Digital', href: BUY.rackDigital },
           { label: 'Label BC', href: BANDCAMP },
         ],
       },
@@ -376,7 +408,6 @@ export const SECTIONS: Section[] = [
       { label: 'Drifta', meta: 'Lions Gate', detail: 'Bandcamp', cta: 'Listen', thumb: 'DR', thumbSrc: T.lions, href: 'https://drifta.bandcamp.com' },
       { label: 'Felix Hastings', meta: 'Edits / singles', detail: 'Bandcamp', cta: 'Listen', thumb: 'FH', thumbSrc: T.cover1, href: 'https://fhastings.bandcamp.com' },
       { label: 'VCR Recordings', meta: 'Full label', detail: 'Bandcamp', cta: 'Browse', thumb: 'VC', thumbSrc: T.vcr, href: BANDCAMP },
-      { label: 'All releases', meta: 'In the shop', detail: 'Catalog', cta: 'Shop', thumb: 'SH', thumbSrc: T.shop, href: SHOP.home },
     ],
   },
   {
@@ -387,26 +418,132 @@ export const SECTIONS: Section[] = [
     title: 'The Counter',
     kicker: 'Shop',
     intro:
-      'The drawer sticks unless you hit it just right. Fresh pressings, dusty repress, and a tin of badges by the till.',
+      'The drawer sticks unless you hit it just right. Fresh pressings, dusty repress, and a tin of badges by the till — browse here, checkout only leaves for Stripe or Bandcamp.',
     accent: '#9dff8a',
     // Register body on store_pano_v3 (file≈1655–1845, 995–1175).
     // Spherical u = 1 − file_u after BackSide flip.
     u: 0.573,
     v: 0.53,
+    lookU: 0.57,
+    lookV: 0.52,
     w: 15.4,
     h: 14.7,
     lookFov: 58,
     sfx: 'shop',
-    // shopbag: hover glow only — click navigates to /shop/index.html
-    glowLatches: false,
     glowFlipX: true,
     goldEdge: true,
     items: [
-      { label: 'At Home — Inlet Knight', meta: 'Featured', detail: 'Buy / stream', cta: 'Buy', thumb: 'AH', thumbSrc: T.atHome, href: SHOP.atHome },
-      { label: 'Summer Mix — LT Drifta', meta: 'Mix', detail: 'Buy / stream', cta: 'Buy', thumb: 'SM', thumbSrc: T.summer, href: SHOP.summer },
-      { label: 'Lions Gate — Drifta', meta: 'Single', detail: 'Buy / stream', cta: 'Buy', thumb: 'LG', thumbSrc: T.lions, href: SHOP.lion },
-      { label: 'Rack Em — LT Drifta', meta: 'Album', detail: 'Buy / stream', cta: 'Buy', thumb: 'RK', thumbSrc: T.rack, href: SHOP.rack },
-      { label: 'Full shop', meta: 'All releases', detail: 'Browse', cta: 'Shop', thumb: 'SH', thumbSrc: T.shop, href: SHOP.home },
+      {
+        label: 'At Home — Inlet Knight',
+        meta: 'Digital + Cassette',
+        detail: 'From $3',
+        cta: 'Open',
+        thumb: 'AH',
+        thumbSrc: T.atHome,
+        href: BUY.atHomeDigital,
+        previewSrc: PREVIEW.atHome,
+        tracks: [
+          { title: 'Digital MP3 — $3 CAD', duration: '' },
+          { title: 'Cassette available via Stripe', duration: '' },
+        ],
+        listenOn: [
+          { label: 'Buy Digital', href: BUY.atHomeDigital },
+          { label: 'Bandcamp', href: BUY.inletBc },
+          { label: 'Preview', href: '#preview' },
+        ],
+      },
+      {
+        label: 'Summer Madness — LT Drifta',
+        meta: 'Digital + Cassette',
+        detail: 'From $7.98',
+        cta: 'Open',
+        thumb: 'SM',
+        thumbSrc: T.summer,
+        href: BUY.summerDigital,
+        previewSrc: PREVIEW.summer,
+        tracks: [
+          { title: 'Digital mix — $7.98', duration: '' },
+          { title: 'Cassette via Stripe', duration: '' },
+        ],
+        listenOn: [
+          { label: 'Buy Digital', href: BUY.summerDigital },
+          { label: 'Bandcamp', href: BUY.ltdBc },
+          { label: 'Preview', href: '#preview' },
+        ],
+      },
+      {
+        label: "Lions' Gate — Charlie Archer",
+        meta: 'Digital single',
+        detail: '$0.98',
+        cta: 'Open',
+        thumb: 'LG',
+        thumbSrc: T.lions,
+        href: BUY.lionsDigital,
+        previewSrc: PREVIEW.lions,
+        tracks: [
+          { title: 'Digital single — $0.98', duration: '' },
+        ],
+        listenOn: [
+          { label: 'Buy Digital', href: BUY.lionsDigital },
+          { label: 'Bandcamp', href: BUY.driftaBc },
+          { label: 'Preview', href: '#preview' },
+        ],
+      },
+      {
+        label: "Rack Em — LT Drifta",
+        meta: 'Album',
+        detail: '$4.98',
+        cta: 'Open',
+        thumb: 'RK',
+        thumbSrc: T.rack,
+        href: BUY.rackDigital,
+        previewSrc: PREVIEW.rack,
+        tracks: [
+          { title: 'Digital album — $4.98 CAD', duration: '' },
+          { title: '6 tracks', duration: '' },
+        ],
+        listenOn: [
+          { label: 'Buy Digital', href: BUY.rackDigital },
+          { label: 'Bandcamp', href: BUY.rackBc },
+          { label: 'Preview', href: '#preview' },
+        ],
+      },
+      {
+        label: 'T-Shirt',
+        meta: 'Merch',
+        detail: 'From $30',
+        cta: 'Buy',
+        thumb: 'TS',
+        thumbSrc: T.shop,
+        href: BUY.tee,
+      },
+      {
+        label: 'Hat',
+        meta: 'Merch',
+        detail: '$25',
+        cta: 'Buy',
+        thumb: 'HT',
+        thumbSrc: T.logo,
+        href: BUY.hat,
+      },
+      {
+        label: 'Bikini',
+        meta: 'Merch',
+        detail: 'From $35',
+        cta: 'Buy',
+        thumb: 'BK',
+        thumbSrc: T.vcr,
+        href: BUY.bikini,
+      },
+      {
+        label: 'Full catalog — Bandcamp',
+        meta: 'Everything',
+        detail: 'Browse',
+        cta: 'Open',
+        thumb: 'BC',
+        thumbSrc: T.bc,
+        href: BANDCAMP,
+      },
     ],
   },
   {
@@ -456,7 +593,7 @@ export const SECTIONS: Section[] = [
       { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', thumbSrc: T.email, href: CONTACT_EMAIL },
       { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', thumbSrc: T.info, href: DEMOS_EMAIL },
       { label: '@vcr_recordings', meta: 'Instagram', detail: 'Follow', cta: 'Follow', thumb: '@', thumbSrc: T.ig, href: INSTAGRAM },
-      { label: 'Contact page', meta: 'In the shop', detail: 'Open', cta: 'Open', thumb: 'CT', thumbSrc: T.shop, href: SHOP.contact },
+      { label: 'Booking / demos', meta: 'Write us', detail: 'Email', cta: 'Email', thumb: 'CT', thumbSrc: T.shop, href: CONTACT_EMAIL },
     ],
   },
   {
@@ -489,7 +626,7 @@ export const SECTION_BY_ID = Object.fromEntries(
 ) as Record<string, Section>;
 
 /**
- * Outbound shop catalog — public/shop/index.html beside this 360 homepage.
+ * Legacy static catalog — kept for deep links / SEO, but Shop nav stays in-room.
  */
 export const SHOP_URL = '/shop/index.html';
 

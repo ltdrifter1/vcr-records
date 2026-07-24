@@ -203,6 +203,34 @@ const desktop = {
   console.log(`✓ reframeFocused adapts mfov→${controls.mfov.toFixed(1)} without re-aiming`);
 }
 
+// 10) Shop / cash-register opens in-room panel (no eject)
+{
+  const controls = createControls({
+    lookTarget: { x: 0, y: 0 },
+    mfov: MFOV_EXPLORE,
+    userControl: true,
+  });
+  const navState = createNavState();
+  let active: string | null = null;
+  let focused: string | null = null;
+  const nav = createNavigationController(controls, navState, {
+    onActiveChange: (id) => {
+      active = id;
+    },
+    onFocusedChange: (id) => {
+      focused = id;
+    },
+    reduceMotion: true,
+  });
+  nav.setLookEnabled(true);
+  nav.open('cash-register', desktop);
+  assert.equal(active, 'cash-register');
+  assert.equal(focused, 'cash-register');
+  assert.equal(navState.panelOpen, true);
+  assert.ok(controls.mfov < MFOV_EXPLORE, 'shop lookto should punch in from explore FOV');
+  console.log('✓ cash-register opens in-room shop panel');
+}
+
 // 9) Equirect yaw phase — looking at authored u must sample file_u ≈ 1−u
 //    (and hotspot must sit on the same ray). Regression for Music→poster-wall bug.
 {
