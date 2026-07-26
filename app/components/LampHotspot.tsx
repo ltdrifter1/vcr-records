@@ -2,7 +2,6 @@
 
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
 import gsap from 'gsap';
 import * as THREE from 'three';
 
@@ -10,7 +9,6 @@ import { SPHERE_RADIUS, uvToSpherical } from '@/lib/pano';
 import { useSceneEnv, type Controls } from './sceneContext';
 
 const origin = new THREE.Vector3(0, 0, 0);
-const tmp = new THREE.Vector3();
 
 /** Ceiling lamp in the store — toggles lights on/off (balmingtiger lamp hotspot). */
 export const LAMP_U = 0.5;
@@ -21,17 +19,14 @@ function makeLampGlow() {
   c.width = 256;
   c.height = 256;
   const ctx = c.getContext('2d')!;
-  const g = ctx.createRadialGradient(128, 128, 8, 128, 128, 128);
-  g.addColorStop(0, 'rgba(255, 220, 120, 1)');
-  g.addColorStop(0.25, 'rgba(255, 180, 60, 0.85)');
-  g.addColorStop(0.55, 'rgba(255, 140, 40, 0.35)');
+  // Soft warm aura around the bulb — no filled slab, no label text.
+  const g = ctx.createRadialGradient(128, 128, 6, 128, 128, 128);
+  g.addColorStop(0, 'rgba(255, 230, 160, 0.95)');
+  g.addColorStop(0.2, 'rgba(255, 190, 80, 0.55)');
+  g.addColorStop(0.5, 'rgba(255, 150, 50, 0.18)');
   g.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 256, 256);
-  ctx.beginPath();
-  ctx.ellipse(128, 118, 28, 36, 0, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(255,245,200,0.9)';
-  ctx.fill();
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   return tex;
@@ -49,7 +44,6 @@ export default function LampHotspot({
   const mesh = useRef<THREE.Mesh>(null);
   const glowMesh = useRef<THREE.Mesh>(null);
   const glowMat = useRef<THREE.MeshBasicMaterial>(null);
-  const hint = useRef<HTMLDivElement>(null);
   const glow = useRef({ a: lightsOn ? 0.55 : 0.15 });
   const [hovered, setHovered] = useState(false);
   const env = useSceneEnv();
@@ -74,18 +68,8 @@ export default function LampHotspot({
     });
   }, [lightsOn, hovered, env.reduceMotion]);
 
-  useFrame(({ camera }) => {
+  useFrame(() => {
     if (glowMat.current) glowMat.current.opacity = glow.current.a;
-    const el = hint.current;
-    const m = mesh.current;
-    if (!el || !m) return;
-    m.getWorldPosition(tmp).project(camera);
-    const inFront = tmp.z > -1 && tmp.z < 1;
-    const dist = Math.hypot(tmp.x, tmp.y);
-    const near = inFront && dist < 0.55;
-    const show = env.live.value && !env.panelOpen.value && (hovered || near) ? 1 : 0;
-    el.style.opacity = String(show);
-    el.style.visibility = show < 0.02 ? 'hidden' : 'visible';
   });
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
@@ -102,6 +86,7 @@ export default function LampHotspot({
         <meshBasicMaterial
           ref={glowMat}
           map={tex}
+          color="#ffd27a"
           transparent
           depthWrite={false}
           blending={THREE.AdditiveBlending}
@@ -124,21 +109,10 @@ export default function LampHotspot({
         }}
         onClick={handleClick}
         userData={{ hotspotId: 'lamp', nav: 'Lights' }}
+        aria-label={lightsOn ? 'Turn lights off' : 'Turn lights on'}
       >
         <planeGeometry args={[3.2, 4.5]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
-        <Html center prepend occlude={false} zIndexRange={[20, 10]} style={{ pointerEvents: 'none' }} distanceFactor={30}>
-          <div
-            ref={hint}
-            className="hint"
-            data-hotspot="lamp"
-            style={{ opacity: 0, ['--hint-accent' as string]: '#ffc070' } as React.CSSProperties}
-          >
-            <span className={`hint-ring ${hovered ? 'hint-pulse' : ''}`} />
-            <span className="hint-label">{lightsOn ? 'Kill the lights' : 'Lights up'}</span>
-            <span className="hint-nav">Lights</span>
-          </div>
-        </Html>
       </mesh>
     </group>
   );

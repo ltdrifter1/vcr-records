@@ -240,32 +240,31 @@ const desktop = {
   console.log('✓ cash-register opens in-room shop panel');
 }
 
-// 11) Hash map covers every nav section; Lore removed; Contact is rotary phone
+// 11) Hash map covers every nav section; Archive/Lore gone; no glow hint text
 {
   assert.ok(
     !(NAV_ORDER as readonly string[]).includes('back-room-door'),
     'Lore must be removed from conveyor',
   );
+  assert.ok(
+    !(NAV_ORDER as readonly string[]).includes('flyer-wall'),
+    'Archive must be removed from conveyor',
+  );
+  assert.ok(!('flyer-wall' in SECTION_BY_ID), 'Archive section must be deleted');
   assert.ok(!('back-room-door' in SECTION_BY_ID), 'Lore section must be deleted');
   for (const id of NAV_ORDER) {
     const hash = HASH_BY_SECTION_ID[id];
     assert.ok(hash, `missing hash for ${id}`);
     assert.equal(SECTION_ID_BY_HASH[hash], id);
     assert.ok(SECTION_BY_ID[id], `missing section ${id}`);
+    assert.ok(SECTION_BY_ID[id].goldEdge, `${id} needs gold-edge glow`);
+    assert.ok(SECTION_BY_ID[id].hideHint, `${id} must not show glow label text`);
+    assert.equal(SECTION_BY_ID[id].hint.trim(), '', `${id} hint text must be empty`);
   }
   const phone = SECTION_BY_ID['phone-booth'];
-  assert.ok(phone.goldEdge, 'Contact should use warm gold-edge glow');
-  assert.equal(phone.hint.trim(), '', 'Contact hint text removed');
   assert.match(phone.title, /Phone/i);
   assert.ok(!/10p|Payphone/i.test(`${phone.intro}${phone.title}`));
-  for (const id of ['flyer-wall'] as const) {
-    for (const item of SECTION_BY_ID[id].items) {
-      if (item.href?.startsWith('/shop')) {
-        assert.fail(`${id} still links to legacy shop: ${item.label}`);
-      }
-    }
-  }
-  console.log('✓ Nav hash map + Lore removed + Contact phone copy');
+  console.log('✓ Nav hash map + Archive removed + edge glows without labels');
 }
 
 // 9) Equirect yaw phase — looking at authored u must sample file_u ≈ 1−u

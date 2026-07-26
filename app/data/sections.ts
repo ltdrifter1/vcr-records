@@ -35,7 +35,7 @@ export type SectionItem = {
   /** Music / Shop nest — streaming + buy pills. */
   listenOn?: ListenLink[];
   /**
-   * In-panel prose for Archive nests (stays in-room — no /shop eject).
+   * In-panel prose for nested detail (stays in-room — no /shop eject).
    */
   body?: string;
 };
@@ -109,8 +109,8 @@ export type Section = {
   /** Flip glow map on X (plane UV vs BackSide wall parity). */
   glowFlipX?: boolean;
   /**
-   * balmingtiger-style dual hover layers: gold fill (`*_glow`) +
-   * gold edge rim (`*_edge`). Cash / CRT / listening booth.
+   * balmingtiger-style outer-edge glow: loads `*_edge.webp` silhouette rim
+   * (not a filled glow slab). When false, falls back to `*_glow.webp`.
    */
   goldEdge?: boolean;
   /** Hide proximity / hover Html label over the hotspot glow. */
@@ -156,7 +156,7 @@ export const SECTIONS: Section[] = [
     id: 'listening-booth',
     object: 'Listening Booth',
     nav: 'Music',
-    hint: 'Slip on the headphones',
+    hint: '',
     title: 'The Listening Booth',
     kicker: 'Music',
     intro: '',
@@ -173,6 +173,7 @@ export const SECTIONS: Section[] = [
     lookFov: 95,
     sfx: 'music',
     goldEdge: true,
+    hideHint: true,
     items: [
       {
         label: 'At Home — Inlet Knight',
@@ -258,7 +259,7 @@ export const SECTIONS: Section[] = [
     id: 'cash-register',
     object: 'Cash Register',
     nav: 'Shop',
-    hint: 'Ring it up',
+    hint: '',
     title: 'The Counter',
     kicker: 'Shop',
     intro:
@@ -276,6 +277,7 @@ export const SECTIONS: Section[] = [
     sfx: 'shop',
     glowFlipX: true,
     goldEdge: true,
+    hideHint: true,
     items: [
       {
         label: 'At Home — Inlet Knight',
@@ -391,66 +393,6 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
-    id: 'flyer-wall',
-    object: 'Flyer Wall',
-    nav: 'Archive',
-    hint: 'Read between the staples',
-    title: 'The Wall',
-    kicker: 'Archive',
-    intro:
-      'Layer over layer over layer. Pull one flyer and three come with it. Every party that ever mattered is buried in here somewhere.',
-    accent: '#ffe66d',
-    u: 0.44,
-    v: 0.36,
-    lookU: 0.43,
-    lookV: 0.34,
-    w: 12,
-    h: 6,
-    lookFov: 80,
-    sfx: 'archive',
-    items: [
-      {
-        label: 'About the label',
-        meta: 'Story',
-        detail: 'Read',
-        cta: 'Open',
-        thumb: 'AB',
-        thumbSrc: T.about,
-        body:
-          'VCR Recordings is an independent electronic label from the Pacific Northwest — jungle, house, and experimental cuts pressed for the people who still linger in the shop after closing.',
-        listenOn: [
-          { label: 'Bandcamp', href: BANDCAMP },
-          { label: 'Instagram', href: INSTAGRAM },
-          { label: 'Email', href: CONTACT_EMAIL },
-        ],
-      },
-      {
-        label: 'Poetry / Drum Poetry',
-        meta: 'Release',
-        detail: 'Open',
-        cta: 'Open',
-        thumb: 'PO',
-        thumbSrc: T.poetry,
-        body:
-          'Drum Poetry lives on the flyer wall — clipped tempos, spoken edges, and the kind of night that stains the carpet. Stream it on Bandcamp; the paper copy never left this room.',
-        listenOn: [{ label: 'Bandcamp', href: BANDCAMP }],
-      },
-      {
-        label: 'Classic archive',
-        meta: 'Cuts',
-        detail: 'Open',
-        cta: 'Open',
-        thumb: 'CL',
-        thumbSrc: T.classic,
-        body:
-          'Classic Cuts is the cold-storage reel: edits and leftovers that never made the window display. Flip through on Bandcamp, or play the archive channel on the CRT.',
-        listenOn: [{ label: 'Bandcamp', href: BANDCAMP }],
-      },
-      { label: 'Bandcamp catalog', meta: 'Everything', detail: 'Browse', cta: 'View', thumb: 'BC', thumbSrc: T.bc, href: BANDCAMP },
-      { label: 'Instagram board', meta: '@vcr_recordings', detail: 'Follow', cta: 'View', thumb: 'IG', thumbSrc: T.ig, href: INSTAGRAM },
-    ],
-  },
-  {
     id: 'phone-booth',
     object: 'Rotary Phone',
     nav: 'Contact',
@@ -467,6 +409,7 @@ export const SECTIONS: Section[] = [
     lookFov: 60,
     sfx: 'phone',
     goldEdge: true,
+    hideHint: true,
     items: [
       { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', thumbSrc: T.email, href: CONTACT_EMAIL },
       { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', thumbSrc: T.info, href: DEMOS_EMAIL },
@@ -491,7 +434,6 @@ export const NAV_ORDER = [
   'crt-tv',
   'record-bins',
   'cash-register',
-  'flyer-wall',
   'phone-booth',
 ] as const;
 
@@ -504,7 +446,6 @@ export const HASH_BY_SECTION_ID: Record<string, string> = {
   'crt-tv': 'videos',
   'record-bins': 'artists',
   'cash-register': 'shop',
-  'flyer-wall': 'archive',
   'phone-booth': 'contact',
 };
 

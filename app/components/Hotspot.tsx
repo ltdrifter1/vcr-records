@@ -1,8 +1,8 @@
 'use client';
 
 import { useLayoutEffect, useRef, useState } from 'react';
-import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
-import { Html, useTexture } from '@react-three/drei';
+import { useFrame, type ThreeEvent } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
 import gsap from 'gsap';
 import * as THREE from 'three';
 
@@ -10,14 +10,22 @@ import { uvToSpherical, SPHERE_RADIUS } from '@/lib/pano';
 import type { Section } from '@/app/data/sections';
 import { useSceneEnv, type Controls } from './sceneContext';
 
-const tmp = new THREE.Vector3();
 const origin = new THREE.Vector3(0, 0, 0);
 
-/** Warm gold — balmingtiger hover glow (bright cream → amber aura). */
+/** Warm gold — balmingtiger hover glow (cream → amber outer aura). */
 const GOLD_TINT = '#ffe9a8';
-/** Outer bloom plane scale — BT aura spreads past the hit silhouette. */
-const BLOOM_SCALE = 1.18;
+const BLOOM_TINT = '#ffd27a';
+/** Outer bloom only — spreads soft aura past the silhouette edge. */
+const BLOOM_SCALE = 1.14;
+/** Morphological erode radius (px) when converting a filled map into a rim. */
+const EDGE_ERODE = 6;
 
+/**
+ * Prep glow/edge maps for additive rim rendering.
+ * Authored thin *_edge.webp masks are kept as silhouette rims.
+ * Filled slabs (the “orange block” failure mode) are morphologically
+ * thinned to outer edges so they can’t paint a solid rectangle.
+ */
 function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
   map.colorSpace = THREE.SRGBColorSpace;
   const img = map.image as
@@ -34,23 +42,69 @@ function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
     const ctx = c.getContext('2d', { willReadFrequently: true });
     if (ctx) {
       ctx.drawImage(img as CanvasImageSource, 0, 0);
-      const data = ctx.getImageData(0, 0, w, h);
+      const src = ctx.getImageData(0, 0, w, h);
+      const d = src.data;
+
       let hasTrans = false;
-      for (let i = 3; i < data.data.length; i += 4) {
-        if (data.data[i] < 250) {
+      for (let i = 3; i < d.length; i += 4) {
+        if (d[i] < 250) {
           hasTrans = true;
           break;
         }
       }
-      if (!hasTrans) {
-        for (let i = 0; i < data.data.length; i += 4) {
-          const lum = Math.max(data.data[i], data.data[i + 1], data.data[i + 2]);
-          data.data[i + 3] = lum;
-        }
-        ctx.putImageData(data, 0, 0);
-        map.image = c;
-        map.format = THREE.RGBAFormat;
+
+      const a = new Float32Array(w * h);
+      for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+        const lum = Math.max(d[i], d[i + 1], d[i + 2]) / 255;
+        a[p] = hasTrans ? d[i + 3] / 255 : lum;
       }
+
+      let solid = 0;
+      for (let i = 0; i < a.length; i++) if (a[i] > 0.55) solid++;
+      const filled = solid / a.length > 0.18;
+
+      const out = ctx.createImageData(w, h);
+      const o = out.data;
+
+      if (!filled) {
+        // Authored edge map — keep silhouette alpha, force white RGB for tint control.
+        for (let p = 0, i = 0; p < a.length; p++, i += 4) {
+          o[i] = 255;
+          o[i + 1] = 255;
+          o[i + 2] = 255;
+          o[i + 3] = Math.round(Math.min(1, a[p] * 1.15) * 255);
+        }
+      } else {
+        // Filled slab → outer rim only (mask − eroded).
+        const eroded = new Float32Array(a.length);
+        const r = EDGE_ERODE;
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            let m = 1;
+            for (let dy = -r; dy <= r; dy++) {
+              for (let dx = -r; dx <= r; dx++) {
+                if (dx * dx + dy * dy > r * r) continue;
+                const xx = Math.min(w - 1, Math.max(0, x + dx));
+                const yy = Math.min(h - 1, Math.max(0, y + dy));
+                m = Math.min(m, a[yy * w + xx]);
+              }
+            }
+            eroded[y * w + x] = m;
+          }
+        }
+        for (let p = 0, i = 0; p < a.length; p++, i += 4) {
+          const rim = Math.max(0, a[p] - eroded[p]);
+          const v = Math.min(1, rim * 2.6);
+          o[i] = 255;
+          o[i + 1] = 255;
+          o[i + 2] = 255;
+          o[i + 3] = Math.round(v * 255);
+        }
+      }
+
+      ctx.putImageData(out, 0, 0);
+      map.image = c;
+      map.format = THREE.RGBAFormat;
     }
   }
   if (flipX) {
@@ -66,13 +120,12 @@ function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
 }
 
 /**
- * Hotspot — balmingtiger pattern (3d.xml + site_scripts.js):
- *   invisible hit plane + glow PNGs registered to the hotspot footprint
+ * Hotspot — balmingtiger pattern:
+ *   invisible hit plane + warm OUTER-EDGE glow (not a filled block)
  *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
  *   hoverOut → glow alpha 1→0 — EXCEPT latched sections while focused
  *
- * Gold-edge props: warm fill + bright rim + outer bloom (Additive).
- * While lit, aura breathes (opacity + scale) — BT presence, not a thin line.
+ * No proximity / label text over the glow (nav labels live in TopNav only).
  */
 export default function Hotspot({
   section,
@@ -88,47 +141,35 @@ export default function Hotspot({
   debug?: boolean;
 }) {
   const mesh = useRef<THREE.Mesh>(null);
-  const glowMesh = useRef<THREE.Mesh>(null);
   const edgeMesh = useRef<THREE.Mesh>(null);
   const bloomMesh = useRef<THREE.Mesh>(null);
-  const glowMat = useRef<THREE.MeshBasicMaterial>(null);
   const edgeMat = useRef<THREE.MeshBasicMaterial>(null);
   const bloomMat = useRef<THREE.MeshBasicMaterial>(null);
-  const inner = useRef<HTMLDivElement>(null);
-  const opacity = useRef(0);
   const glow = useRef({ a: 0 });
   const breath = useRef(0);
   const [hovered, setHovered] = useState(false);
   const env = useSceneEnv();
-  const { camera } = useThree();
   const [x, y, z] = uvToSpherical(section.u, section.v, SPHERE_RADIUS - 0.5);
 
   const canLatch = section.glowLatches !== false;
   const isFocused = canLatch && focusedId === section.id;
-  const useEdge = !!section.goldEdge;
-  const hintText = section.hint?.trim() ?? '';
-  const showHint = !section.hideHint;
 
-  const glowSrc = `/hotspots/${section.id}_glow.webp`;
-  const edgeSrc = `/hotspots/${section.id}_edge.webp`;
-
-  // Always call the same number of hooks: load a tiny fallback when no edge.
-  const glowMap = useTexture(glowSrc);
-  const edgeMap = useTexture(useEdge ? edgeSrc : glowSrc);
+  // Prefer authored *_edge.webp (silhouette rim). Fall back to glow map.
+  const edgeSrc = section.goldEdge
+    ? `/hotspots/${section.id}_edge.webp`
+    : `/hotspots/${section.id}_glow.webp`;
+  const edgeMap = useTexture(edgeSrc);
 
   useLayoutEffect(() => {
-    prepGlowMap(glowMap, section.glowFlipX);
-    if (useEdge) prepGlowMap(edgeMap, section.glowFlipX);
-  }, [glowMap, edgeMap, section.glowFlipX, useEdge]);
+    prepGlowMap(edgeMap, section.glowFlipX);
+  }, [edgeMap, section.glowFlipX]);
 
   useLayoutEffect(() => {
     mesh.current?.lookAt(origin);
-    glowMesh.current?.lookAt(origin);
     edgeMesh.current?.lookAt(origin);
     bloomMesh.current?.lookAt(origin);
   }, [x, y, z]);
 
-  // hoverIn / hoverOut — alpha only (BT does not punch scale on hover enter)
   useLayoutEffect(() => {
     const on = isFocused || hovered;
     gsap.to(glow.current, {
@@ -141,65 +182,35 @@ export default function Hotspot({
 
   useFrame((_state, delta) => {
     const m = mesh.current;
-    const el = inner.current;
-    if (!m || !el) return;
+    if (!m) return;
 
-    // Keep hit + glow planes facing the camera origin every frame.
     m.lookAt(origin);
-    glowMesh.current?.lookAt(origin);
     edgeMesh.current?.lookAt(origin);
     bloomMesh.current?.lookAt(origin);
 
-    m.getWorldPosition(tmp).project(camera);
-    const inFront = tmp.z > -1 && tmp.z < 1;
-    const dist = Math.hypot(tmp.x, tmp.y);
-    const proximity = inFront
-      ? THREE.MathUtils.clamp(1 - (dist - 0.08) / 0.55, 0, 1)
-      : 0;
-
-    let hintTarget = showHint
-      ? Math.max(proximity * 0.95, hovered || isFocused ? 1 : 0)
-      : 0;
-    if (!env.live.value || (env.panelOpen.value && !isFocused && !hovered)) {
-      hintTarget = 0;
-    }
-
-    opacity.current += (hintTarget - opacity.current) * 0.18;
-    el.style.opacity = opacity.current.toFixed(3);
-    el.style.visibility =
-      !showHint || opacity.current < 0.02 ? 'hidden' : 'visible';
-
     const a = glow.current.a;
-    // Warm outer-edge breath — slow sine, stronger amplitude (BT aura).
     if (!env.reduceMotion && a > 0.02) {
-      breath.current += delta * 1.55;
+      breath.current += delta * 1.4;
     } else {
       breath.current = 0;
     }
     const wave = env.reduceMotion ? 0 : Math.sin(breath.current) * 0.5 + 0.5;
-    const breathAmp = a;
-    // Additive layers need lower base alpha but read much hotter on-screen.
-    const fillMul = useEdge ? 0.55 + wave * 0.22 : 0.95 + wave * 0.2;
-    const edgeMul = 0.85 + wave * 0.4;
-    const bloomMul = 0.55 + wave * 0.45;
-    const scaleMul = 1 + wave * 0.045 * breathAmp;
-    const bloomScale = BLOOM_SCALE * (1 + wave * 0.06 * breathAmp);
+    // Edge-only BT language: bright rim + soft outer bloom, no filled slab.
+    const edgeMul = 0.82 + wave * 0.32;
+    const bloomMul = 0.28 + wave * 0.24;
+    const scaleMul = 1 + wave * 0.025 * a;
+    const bloomScale = BLOOM_SCALE * (1 + wave * 0.035 * a);
 
-    if (glowMesh.current) glowMesh.current.scale.setScalar(scaleMul);
     if (edgeMesh.current) edgeMesh.current.scale.setScalar(scaleMul);
     if (bloomMesh.current) bloomMesh.current.scale.setScalar(bloomScale);
 
-    if (glowMat.current) {
-      glowMat.current.opacity = a * fillMul;
-      glowMat.current.visible = a > 0.02;
-    }
     if (edgeMat.current) {
       edgeMat.current.opacity = a * edgeMul;
-      edgeMat.current.visible = useEdge && a > 0.02;
+      edgeMat.current.visible = a > 0.02;
     }
     if (bloomMat.current) {
       bloomMat.current.opacity = a * bloomMul;
-      bloomMat.current.visible = useEdge && a > 0.02;
+      bloomMat.current.visible = a > 0.02;
     }
   });
 
@@ -216,75 +227,52 @@ export default function Hotspot({
     onOpen(section.id);
   };
 
-  // BT: glow + hit share the authored footprint; bloom spreads the outer aura.
   const gw = section.w;
   const gh = section.h;
 
   return (
     <group position={[x, y, z]}>
-      {/* Soft silhouette fill */}
-      <mesh ref={glowMesh} renderOrder={2} raycast={() => null}>
+      {/* Soft outer bloom — faint, wide, warm */}
+      <mesh ref={bloomMesh} renderOrder={1} raycast={() => null}>
         <planeGeometry args={[gw, gh]} />
         <meshBasicMaterial
-          ref={glowMat}
-          map={glowMap}
-          color={useEdge ? GOLD_TINT : '#ffffff'}
+          ref={bloomMat}
+          map={edgeMap}
+          color={BLOOM_TINT}
           transparent
           depthWrite={false}
           depthTest={false}
-          blending={useEdge ? THREE.AdditiveBlending : THREE.NormalBlending}
+          blending={THREE.AdditiveBlending}
           opacity={0}
           side={THREE.DoubleSide}
           toneMapped={false}
         />
       </mesh>
 
-      {/* Warm outer rim — bright core edge */}
-      {useEdge && (
-        <mesh ref={edgeMesh} renderOrder={3} raycast={() => null}>
-          <planeGeometry args={[gw, gh]} />
-          <meshBasicMaterial
-            ref={edgeMat}
-            map={edgeMap}
-            color={GOLD_TINT}
-            transparent
-            depthWrite={false}
-            depthTest={false}
-            blending={THREE.AdditiveBlending}
-            opacity={0}
-            side={THREE.DoubleSide}
-            toneMapped={false}
-          />
-        </mesh>
-      )}
-
-      {/* Wide aura bloom — BT thick gold halo beyond the silhouette */}
-      {useEdge && (
-        <mesh ref={bloomMesh} renderOrder={1} raycast={() => null}>
-          <planeGeometry args={[gw, gh]} />
-          <meshBasicMaterial
-            ref={bloomMat}
-            map={edgeMap}
-            color="#ffd27a"
-            transparent
-            depthWrite={false}
-            depthTest={false}
-            blending={THREE.AdditiveBlending}
-            opacity={0}
-            side={THREE.DoubleSide}
-            toneMapped={false}
-          />
-        </mesh>
-      )}
+      {/* Bright silhouette rim — the actual BT edge glow */}
+      <mesh ref={edgeMesh} renderOrder={2} raycast={() => null}>
+        <planeGeometry args={[gw, gh]} />
+        <meshBasicMaterial
+          ref={edgeMat}
+          map={edgeMap}
+          color={GOLD_TINT}
+          transparent
+          depthWrite={false}
+          depthTest={false}
+          blending={THREE.AdditiveBlending}
+          opacity={0}
+          side={THREE.DoubleSide}
+          toneMapped={false}
+        />
+      </mesh>
 
       <mesh
         ref={mesh}
-        renderOrder={4}
+        renderOrder={3}
         onPointerOver={(e) => {
           e.stopPropagation();
           if (!env.live.value) return;
           setHovered(true);
-          // CSS: html.cursor-hot → pointer on stage canvas (single hit surface).
           document.documentElement.classList.add('cursor-hot');
         }}
         onPointerOut={() => {
@@ -302,32 +290,6 @@ export default function Hotspot({
           depthWrite={false}
           side={THREE.DoubleSide}
         />
-
-        <Html
-          center
-          prepend
-          occlude={false}
-          zIndexRange={[20, 10]}
-          style={{ pointerEvents: 'none' }}
-          distanceFactor={28}
-        >
-          <div
-            ref={inner}
-            className="hint"
-            data-nav={section.nav}
-            data-hotspot={section.id}
-            style={
-              {
-                opacity: 0,
-                ['--hint-accent' as string]: section.accent,
-              } as React.CSSProperties
-            }
-          >
-            <span className={`hint-ring ${hovered || isFocused ? 'hint-pulse' : ''}`} />
-            {hintText ? <span className="hint-label">{hintText}</span> : null}
-            <span className="hint-nav">{section.nav}</span>
-          </div>
-        </Html>
       </mesh>
     </group>
   );
