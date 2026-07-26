@@ -385,7 +385,9 @@ export default function SectionPanel({
           <>
             <div className="panel-level panel-level-1" ref={level1}>
               <p className="panel-kicker">{section.kicker}</p>
-              <h2 className="panel-title">{section.title}</h2>
+              {section.title ? (
+                <h2 className="panel-title">{section.title}</h2>
+              ) : null}
               {section.intro ? (
                 <p className="panel-intro">{section.intro}</p>
               ) : null}
