@@ -285,8 +285,7 @@ export default function SectionPanel({
   }, [open, shownId, detail, reduceMotion, isMobile]);
 
   const section = shownId ? SECTION_BY_ID[shownId] : null;
-  const nestable =
-    section?.id === 'listening-booth' || section?.id === 'cash-register';
+  const nestable = section?.id === 'cash-register';
 
   const handleBack = () => {
     if (detail) {
@@ -364,7 +363,7 @@ export default function SectionPanel({
         }
         role="dialog"
         aria-modal="true"
-        aria-label={section?.title}
+        aria-label={section?.title || section?.kicker || section?.nav}
         onPointerDown={(e) => e.stopPropagation()}
       >
         <button

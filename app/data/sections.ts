@@ -56,6 +56,7 @@ const T = {
   email: '/panel-thumbs/email.webp',
   info: '/panel-thumbs/info.webp',
   ig: '/panel-thumbs/ig.webp',
+  charlie: '/panel-thumbs/charlie.webp',
   yt: '/panel-thumbs/yt.webp',
   shop: '/panel-thumbs/shop.webp',
   about: '/panel-thumbs/about.webp',
@@ -122,7 +123,6 @@ export type Section = {
 const BANDCAMP = 'https://vcrrecordings.bandcamp.com';
 const INSTAGRAM = 'https://www.instagram.com/vcr_recordings';
 const CONTACT_EMAIL = 'mailto:charlie@vcrrecords.com';
-const DEMOS_EMAIL = 'mailto:info@vcrrecords.com';
 /** Short booth previews under /public/audio/previews. */
 const PREVIEW = {
   atHome: '/audio/previews/at-home.mp3',
@@ -157,7 +157,7 @@ export const SECTIONS: Section[] = [
     object: 'Listening Booth',
     nav: 'Music',
     hint: '',
-    title: 'The Listening Booth',
+    title: '',
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
@@ -174,28 +174,8 @@ export const SECTIONS: Section[] = [
     sfx: 'music',
     goldEdge: true,
     hideHint: true,
-    items: [
-      {
-        label: 'At Home — Inlet Knight',
-        meta: 'Featured release',
-        detail: '3 tracks',
-        cta: 'Open',
-        thumb: 'AH',
-        thumbSrc: T.atHome,
-        href: BUY.inletBc,
-        previewSrc: PREVIEW.atHome,
-        tracks: [
-          { title: '01. After All', duration: '2:22' },
-          { title: '02. Will I See You Again?', duration: '3:58' },
-          { title: '03. At Home', duration: '3:44' },
-        ],
-        listenOn: [
-          { label: 'Bandcamp', href: BUY.inletBc },
-          { label: 'Buy Digital', href: BUY.atHomeDigital },
-          { label: 'Label BC', href: BANDCAMP },
-        ],
-      },
-    ],
+    // Coming soon — no release rows / no glow labels.
+    items: [],
   },
   {
     id: 'crt-tv',
@@ -397,9 +377,9 @@ export const SECTIONS: Section[] = [
     object: 'Rotary Phone',
     nav: 'Contact',
     hint: '',
-    title: 'The Phone',
+    title: '',
     kicker: 'Contact',
-    intro: 'Email the label, send a demo, or find us on Instagram.',
+    intro: '',
     accent: '#e8c07a',
     // Wall phone spot (file u≈0.514 → spherical 1−file_u)
     u: 0.486,
@@ -411,10 +391,24 @@ export const SECTIONS: Section[] = [
     goldEdge: true,
     hideHint: true,
     items: [
-      { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', thumbSrc: T.email, href: CONTACT_EMAIL },
-      { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', thumbSrc: T.info, href: DEMOS_EMAIL },
-      { label: '@vcr_recordings', meta: 'Instagram', detail: 'Follow', cta: 'Follow', thumb: '@', thumbSrc: T.ig, href: INSTAGRAM },
-      { label: 'Booking / demos', meta: 'Write us', detail: 'Email', cta: 'Email', thumb: 'CT', thumbSrc: T.shop, href: CONTACT_EMAIL },
+      {
+        label: 'Charlie',
+        meta: 'charlie@vcrrecords.com',
+        detail: 'Email',
+        cta: 'Email',
+        thumb: 'CH',
+        thumbSrc: T.charlie,
+        href: CONTACT_EMAIL,
+      },
+      {
+        label: '@vcr_recordings',
+        meta: 'Instagram',
+        detail: 'Follow',
+        cta: 'Follow',
+        thumb: '@',
+        thumbSrc: T.ig,
+        href: INSTAGRAM,
+      },
     ],
   },
 ];

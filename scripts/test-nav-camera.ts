@@ -85,8 +85,12 @@ const desktop = {
   console.log(`✓ CRT lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
-// 3) Music booth: desktop authored 95 (room view); phone adapted wider
+// 3) Music booth: desktop authored 95 (room view); phone adapted wider; coming soon
 {
+  const musicSec = SECTION_BY_ID['listening-booth'];
+  assert.equal(musicSec.items.length, 0, 'Music should be coming soon (no At Home row)');
+  assert.equal(musicSec.title.trim(), '', 'Music panel title cleared');
+  assert.ok(musicSec.hideHint, 'Music glow must not show Slip on headphones text');
   const music = { w: 6, h: 9, lookFov: 95 };
   const desk = resolveLookMfov(music, desktop);
   const mob = resolveLookMfov(music, phone);
@@ -262,8 +266,17 @@ const desktop = {
     assert.equal(SECTION_BY_ID[id].hint.trim(), '', `${id} hint text must be empty`);
   }
   const phone = SECTION_BY_ID['phone-booth'];
-  assert.match(phone.title, /Phone/i);
-  assert.ok(!/10p|Payphone/i.test(`${phone.intro}${phone.title}`));
+  assert.equal(phone.title.trim(), '', 'Contact title should be empty (kicker only)');
+  assert.equal(phone.intro.trim(), '', 'Contact intro cleared');
+  assert.equal(phone.items.length, 2, 'Contact is Charlie + Instagram only');
+  assert.ok(
+    phone.items.every((it) => !/info@|Booking/i.test(`${it.label}${it.meta ?? ''}`)),
+    'Contact must not include info@ or Booking',
+  );
+  assert.ok(
+    phone.items.some((it) => /charlie/i.test(`${it.label}${it.meta ?? ''}`)),
+    'Contact must include Charlie',
+  );
   console.log('✓ Nav hash map + Archive removed + edge glows without labels');
 }
 
