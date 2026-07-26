@@ -33,7 +33,7 @@ import { CRT_DEFAULT_SRC } from './CrtScreen';
  *
  * Canvas model (balmingtiger):
  *   one continuous room; panels are HUD; drag-end only resets CRT focus.
- * Hash deep links: /#music /#shop /#lore …
+ * Hash deep links: /#music /#shop /#contact …
  */
 export default function Experience() {
   const stageRef = useRef<HTMLDivElement>(null);

@@ -69,7 +69,8 @@ function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
  *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
  *   hoverOut → glow alpha 1→0 — EXCEPT latched sections while focused
  *
- * Gold-edge props: soft fill + rim, both locked to hit size (no 1.15× halo).
+ * Gold-edge props: soft fill + warm outer rim, both locked to hit size.
+ * While lit, the rim breathes (opacity + tiny scale) — BT-style presence.
  * Blending: krpano uses normal alpha (not additive).
  */
 export default function Hotspot({
@@ -93,6 +94,7 @@ export default function Hotspot({
   const inner = useRef<HTMLDivElement>(null);
   const opacity = useRef(0);
   const glow = useRef({ a: 0 });
+  const breath = useRef(0);
   const [hovered, setHovered] = useState(false);
   const env = useSceneEnv();
   const { camera } = useThree();
@@ -101,6 +103,7 @@ export default function Hotspot({
   const canLatch = section.glowLatches !== false;
   const isFocused = canLatch && focusedId === section.id;
   const useEdge = !!section.goldEdge;
+  const hintText = section.hint?.trim() ?? '';
 
   const glowSrc = `/hotspots/${section.id}_glow.webp`;
   const edgeSrc = `/hotspots/${section.id}_edge.webp`;
@@ -120,7 +123,7 @@ export default function Hotspot({
     edgeMesh.current?.lookAt(origin);
   }, [x, y, z]);
 
-  // hoverIn / hoverOut — alpha only (BT does not scale the hotspot on hover)
+  // hoverIn / hoverOut — alpha only (BT does not punch scale on hover)
   useLayoutEffect(() => {
     const on = isFocused || hovered;
     gsap.to(glow.current, {
@@ -131,7 +134,7 @@ export default function Hotspot({
     });
   }, [isFocused, hovered, env.reduceMotion]);
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     const m = mesh.current;
     const el = inner.current;
     if (!m || !el) return;
@@ -158,13 +161,27 @@ export default function Hotspot({
     el.style.visibility = opacity.current < 0.02 ? 'hidden' : 'visible';
 
     const a = glow.current.a;
+    // Warm outer-edge breath — slow sine, eased in with glow alpha.
+    if (!env.reduceMotion && a > 0.02) {
+      breath.current += delta * 1.35;
+    } else {
+      breath.current = 0;
+    }
+    const wave = env.reduceMotion ? 0 : Math.sin(breath.current) * 0.5 + 0.5;
+    const breathAmp = a * (useEdge ? 1 : 0.55);
+    const fillMul = useEdge ? 0.38 + wave * 0.1 : 0.85 + wave * 0.15;
+    const edgeMul = 0.72 + wave * 0.28;
+    const scaleMul = 1 + wave * 0.018 * breathAmp;
+
+    if (glowMesh.current) glowMesh.current.scale.setScalar(scaleMul);
+    if (edgeMesh.current) edgeMesh.current.scale.setScalar(scaleMul);
+
     if (glowMat.current) {
-      // Soft fill under the rim (or full silhouette when no edge asset).
-      glowMat.current.opacity = a * (useEdge ? 0.55 : 1);
+      glowMat.current.opacity = a * fillMul;
       glowMat.current.visible = a > 0.02;
     }
     if (edgeMat.current) {
-      edgeMat.current.opacity = a;
+      edgeMat.current.opacity = a * edgeMul;
       edgeMat.current.visible = useEdge && a > 0.02;
     }
   });
@@ -188,7 +205,7 @@ export default function Hotspot({
 
   return (
     <group position={[x, y, z]}>
-      {/* Silhouette fill — same size as hit plane */}
+      {/* Soft silhouette fill — same size as hit plane */}
       <mesh ref={glowMesh} renderOrder={2} raycast={() => null}>
         <planeGeometry args={[gw, gh]} />
         <meshBasicMaterial
@@ -205,7 +222,7 @@ export default function Hotspot({
         />
       </mesh>
 
-      {/* Optional gold rim — registered to the same footprint (no outer halo) */}
+      {/* Warm outer rim — BT gold-edge language */}
       {useEdge && (
         <mesh ref={edgeMesh} renderOrder={2} raycast={() => null}>
           <planeGeometry args={[gw, gh]} />
@@ -271,7 +288,7 @@ export default function Hotspot({
             }
           >
             <span className={`hint-ring ${hovered || isFocused ? 'hint-pulse' : ''}`} />
-            <span className="hint-label">{section.hint}</span>
+            {hintText ? <span className="hint-label">{hintText}</span> : null}
             <span className="hint-nav">{section.nav}</span>
           </div>
         </Html>

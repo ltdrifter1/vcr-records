@@ -35,7 +35,7 @@ export type SectionItem = {
   /** Music / Shop nest — streaming + buy pills. */
   listenOn?: ListenLink[];
   /**
-   * In-panel prose for Archive / Lore nests (stays in-room — no /shop eject).
+   * In-panel prose for Archive nests (stays in-room — no /shop eject).
    */
   body?: string;
 };
@@ -597,63 +597,26 @@ export const SECTIONS: Section[] = [
   },
   {
     id: 'phone-booth',
-    object: 'Phone Booth',
+    object: 'Rotary Phone',
     nav: 'Contact',
-    hint: 'Pick up the receiver',
-    title: 'The Payphone',
+    hint: '',
+    title: 'The Phone',
     kicker: 'Contact',
-    intro:
-      'Still takes 10p. The number on the card behind the glass hasn’t changed since ’93 — ring it and somebody actually answers.',
-    accent: '#ff5e5e',
-    // Red payphone in pano (file u≈0.514 → spherical 1−file_u)
+    intro: 'Email the label, send a demo, or find us on Instagram.',
+    accent: '#e8c07a',
+    // Wall phone spot (file u≈0.514 → spherical 1−file_u)
     u: 0.486,
-    v: 0.406,
-    w: 4.2,
-    h: 7.5,
+    v: 0.42,
+    w: 5.4,
+    h: 5.6,
     lookFov: 60,
     sfx: 'phone',
+    goldEdge: true,
     items: [
       { label: 'charlie@vcrrecords.com', meta: 'General', detail: 'Email', cta: 'Email', thumb: 'CH', thumbSrc: T.email, href: CONTACT_EMAIL },
       { label: 'info@vcrrecords.com', meta: 'Demos / info', detail: 'Email', cta: 'Email', thumb: 'IN', thumbSrc: T.info, href: DEMOS_EMAIL },
       { label: '@vcr_recordings', meta: 'Instagram', detail: 'Follow', cta: 'Follow', thumb: '@', thumbSrc: T.ig, href: INSTAGRAM },
       { label: 'Booking / demos', meta: 'Write us', detail: 'Email', cta: 'Email', thumb: 'CT', thumbSrc: T.shop, href: CONTACT_EMAIL },
-    ],
-  },
-  {
-    id: 'back-room-door',
-    object: 'Back Room Door',
-    nav: 'Lore',
-    hint: 'Staff only — push anyway',
-    title: 'Back Room',
-    kicker: 'Label Lore',
-    intro:
-      'Past the EXIT sign and the beaded curtain. This is where the label started: one borrowed sampler, two decks, and a fridge full of nothing.',
-    accent: '#c9a6ff',
-    u: 0.4,
-    v: 0.48,
-    w: 3.8,
-    h: 8,
-    lookFov: 70,
-    sfx: 'door',
-    items: [
-      {
-        label: 'About VCR Recordings',
-        meta: 'Origin story',
-        detail: 'Read',
-        cta: 'Open',
-        thumb: 'AB',
-        thumbSrc: T.about,
-        body:
-          'One borrowed sampler, two decks, and a fridge full of nothing. VCR Recordings grew out of late shifts and blank tapes — still independent, still Pacific Northwest, still built for the listening booth.',
-        listenOn: [
-          { label: 'Bandcamp', href: BANDCAMP },
-          { label: 'Instagram', href: INSTAGRAM },
-          { label: 'Email', href: CONTACT_EMAIL },
-        ],
-      },
-      { label: 'Label Bandcamp', meta: 'The catalog', detail: 'Browse', cta: 'Open', thumb: 'BC', thumbSrc: T.bc, href: BANDCAMP },
-      { label: 'Watch the intro', meta: 'YouTube', detail: 'Watch', cta: 'Play', thumb: 'YT', thumbSrc: T.yt, href: YOUTUBE_ABOUT },
-      { label: 'Instagram', meta: '@vcr_recordings', detail: 'Follow', cta: 'Follow', thumb: 'IG', thumbSrc: T.ig, href: INSTAGRAM },
     ],
   },
 ];
@@ -667,7 +630,7 @@ export const SECTION_BY_ID = Object.fromEntries(
  */
 export const SHOP_URL = '/shop/index.html';
 
-/** Primary conveyor nav order (includes Lore / back-room). */
+/** Primary conveyor nav order. */
 export const NAV_ORDER = [
   'listening-booth',
   'crt-tv',
@@ -675,7 +638,6 @@ export const NAV_ORDER = [
   'cash-register',
   'flyer-wall',
   'phone-booth',
-  'back-room-door',
 ] as const;
 
 /**
@@ -689,7 +651,6 @@ export const HASH_BY_SECTION_ID: Record<string, string> = {
   'cash-register': 'shop',
   'flyer-wall': 'archive',
   'phone-booth': 'contact',
-  'back-room-door': 'lore',
 };
 
 export const SECTION_ID_BY_HASH: Record<string, string> = Object.fromEntries(

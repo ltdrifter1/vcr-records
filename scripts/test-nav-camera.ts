@@ -237,24 +237,32 @@ const desktop = {
   console.log('✓ cash-register opens in-room shop panel');
 }
 
-// 11) Lore is in NAV_ORDER; hash map covers every nav section
+// 11) Hash map covers every nav section; Lore removed; Contact is rotary phone
 {
-  assert.ok(NAV_ORDER.includes('back-room-door'), 'Lore must be in conveyor');
+  assert.ok(
+    !(NAV_ORDER as readonly string[]).includes('back-room-door'),
+    'Lore must be removed from conveyor',
+  );
+  assert.ok(!('back-room-door' in SECTION_BY_ID), 'Lore section must be deleted');
   for (const id of NAV_ORDER) {
     const hash = HASH_BY_SECTION_ID[id];
     assert.ok(hash, `missing hash for ${id}`);
     assert.equal(SECTION_ID_BY_HASH[hash], id);
     assert.ok(SECTION_BY_ID[id], `missing section ${id}`);
   }
-  // No nestable archive/lore item should still eject to /shop
-  for (const id of ['flyer-wall', 'back-room-door'] as const) {
+  const phone = SECTION_BY_ID['phone-booth'];
+  assert.ok(phone.goldEdge, 'Contact should use warm gold-edge glow');
+  assert.equal(phone.hint.trim(), '', 'Contact hint text removed');
+  assert.match(phone.title, /Phone/i);
+  assert.ok(!/10p|Payphone/i.test(`${phone.intro}${phone.title}`));
+  for (const id of ['flyer-wall'] as const) {
     for (const item of SECTION_BY_ID[id].items) {
       if (item.href?.startsWith('/shop')) {
         assert.fail(`${id} still links to legacy shop: ${item.label}`);
       }
     }
   }
-  console.log('✓ Lore in nav + hash map + no dead /shop panel hrefs');
+  console.log('✓ Nav hash map + Lore removed + Contact phone copy');
 }
 
 // 9) Equirect yaw phase — looking at authored u must sample file_u ≈ 1−u
