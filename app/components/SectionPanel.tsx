@@ -41,7 +41,7 @@ function DetailBody({
   const linkTitle =
     sectionId === 'cash-register'
       ? 'BUY / LISTEN:'
-      : sectionId === 'flyer-wall' || sectionId === 'back-room-door'
+      : sectionId === 'flyer-wall'
         ? 'LINKS:'
         : 'LISTEN ON:';
 
@@ -116,7 +116,7 @@ function DetailBody({
 
 /**
  * Glass menu panel — balmingtiger `.menu-panel` pattern:
- * left-docked frosted glass, thumb rows + CTA pills, music/shop/lore nested detail.
+ * left-docked frosted glass, thumb rows + CTA pills, music/shop/archive nested detail.
  *
  * Mobile (≤570px): nest opens as a dedicated bottom sheet (BT level-2-mobile),
  * covering the tray so tracklists / buy pills aren’t cramped.
@@ -290,8 +290,7 @@ export default function SectionPanel({
   const nestable =
     section?.id === 'listening-booth' ||
     section?.id === 'cash-register' ||
-    section?.id === 'flyer-wall' ||
-    section?.id === 'back-room-door';
+    section?.id === 'flyer-wall';
 
   const handleBack = () => {
     if (detail) {
