@@ -122,12 +122,6 @@ const CONTACT_EMAIL = 'mailto:charlie@vcrrecords.com';
 const DEMOS_EMAIL = 'mailto:info@vcrrecords.com';
 const YOUTUBE_ABOUT = 'https://www.youtube.com/watch?v=AUAqGMaGjk4';
 
-/** Real listen destinations — VCR Recordings Bandcamp is the catalog home. */
-const STREAM = [
-  { label: 'Bandcamp', href: BANDCAMP },
-  { label: 'Instagram', href: INSTAGRAM },
-];
-
 /** Short booth previews under /public/audio/previews. */
 const PREVIEW = {
   atHome: '/audio/previews/at-home.mp3',
