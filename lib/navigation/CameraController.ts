@@ -2,6 +2,7 @@ import {
   MFOV_EXPLORE,
   MFOV_LOOKTO_MIN,
   MFOV_MAX,
+  MFOV_MIN,
   MFOV_RATIO,
   START_LOOK_U,
   START_LOOK_V,
@@ -33,6 +34,20 @@ export function createControls(initial?: Partial<Controls>): Controls {
   };
 }
 
+/**
+ * Explore MFOV for the live viewport — keeps design HFOV (~120°) on portrait
+ * so the room doesn’t tunnel / feel compressed on phones.
+ */
+export function resolveExploreMfov(viewport?: ViewportMetrics): number {
+  const vp = viewport ?? measureViewport();
+  const aspect = Math.max(0.05, vp.aspect);
+  const mfov =
+    aspect >= MFOV_RATIO
+      ? MFOV_EXPLORE
+      : adaptMfovToViewport(MFOV_EXPLORE, aspect);
+  return Math.min(MFOV_MAX, Math.max(MFOV_MIN, mfov));
+}
+
 export function readCamera(controls: Controls): LookTarget {
   return {
     yaw: controls.lookTarget.x,
@@ -47,10 +62,10 @@ export function writeCamera(controls: Controls, cam: Partial<LookTarget>) {
   if (cam.mfov != null) controls.mfov = cam.mfov;
 }
 
-export function snapExploreFront(controls: Controls) {
+export function snapExploreFront(controls: Controls, viewport?: ViewportMetrics) {
   controls.lookTarget.x = uToYaw(START_LOOK_U);
   controls.lookTarget.y = vToPitch(START_LOOK_V);
-  controls.mfov = MFOV_EXPLORE;
+  controls.mfov = resolveExploreMfov(viewport);
   controls.velocity.x = 0;
   controls.velocity.y = 0;
 }
@@ -94,10 +109,10 @@ export function resolveLookTarget(
   };
 }
 
-export function frontLookTarget(_viewport?: ViewportMetrics): LookTarget {
+export function frontLookTarget(viewport?: ViewportMetrics): LookTarget {
   return {
     yaw: uToYaw(START_LOOK_U),
     pitch: vToPitch(START_LOOK_V),
-    mfov: MFOV_EXPLORE,
+    mfov: resolveExploreMfov(viewport),
   };
 }

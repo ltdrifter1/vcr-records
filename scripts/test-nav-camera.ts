@@ -13,6 +13,7 @@ import {
   easeInOutQuart,
   frontLookTarget,
   horizontalFovToMfov,
+  resolveExploreMfov,
   resolveLookMfov,
   yawDelta,
 } from '../lib/navigation';
@@ -69,6 +70,23 @@ const desktop = {
     `phone MFOV ${adaptedPhone} must be wider than raw ${design} (was over-zooming)`,
   );
   console.log('✓ adaptMfovToViewport preserves HFOV; phone no longer over-zooms');
+}
+
+// 1b) Explore FOV adapts on portrait so the room doesn’t tunnel
+{
+  const desk = resolveExploreMfov(desktop);
+  const mob = resolveExploreMfov(phone);
+  assert.equal(desk, MFOV_EXPLORE, 'desktop explore stays authored 120');
+  assert.ok(mob > desk + 10, `phone explore ${mob} must widen past desktop ${desk}`);
+  const deskHfov = mfovToHorizontalFov(desk, desktop.aspect);
+  const mobHfov = mfovToHorizontalFov(mob, phone.aspect);
+  assert.ok(
+    Math.abs(mobHfov - deskHfov) < 12,
+    `phone HFOV ${mobHfov.toFixed(1)} should approach desktop ${deskHfov.toFixed(1)}`,
+  );
+  console.log(
+    `✓ explore FOV desktop=${desk.toFixed(1)} (H=${deskHfov.toFixed(1)}) phone=${mob.toFixed(1)} (H=${mobHfov.toFixed(1)})`,
+  );
 }
 
 // 2) CRT framing: mid lookto (not watch punch-in); phone widens further
@@ -148,7 +166,6 @@ const desktop = {
 
   const yawBefore = controls.lookTarget.x;
   const pitchBefore = controls.lookTarget.y;
-  const mfovBefore = controls.mfov;
   nav.close({ force: true, silent: true });
 
   assert.equal(active, null);
@@ -156,8 +173,11 @@ const desktop = {
   assert.equal(navState.panelOpen, false);
   assert.equal(controls.lookTarget.x, yawBefore, 'soft close must keep yaw');
   assert.equal(controls.lookTarget.y, pitchBefore, 'soft close must keep pitch');
-  assert.equal(controls.mfov, mfovBefore, 'soft close must keep mfov');
-  console.log('✓ soft close clears HUD without moving the camera');
+  assert.ok(
+    controls.mfov >= MFOV_EXPLORE - 0.5,
+    `soft close should restore explore FOV, got ${controls.mfov}`,
+  );
+  console.log('✓ soft close clears HUD and restores explore FOV');
 }
 
 // 7) CRT resetToFront snaps to explore front (BT video drag)
@@ -180,11 +200,11 @@ const desktop = {
   nav.setLookEnabled(true);
   nav.resetToFront({ silent: true });
 
-  const front = frontLookTarget();
+  const front = frontLookTarget(desktop);
   assert.equal(navState.focusedId, null);
   assert.ok(Math.abs(controls.lookTarget.x - front.yaw) < 1e-9);
   assert.ok(Math.abs(controls.lookTarget.y - front.pitch) < 1e-9);
-  assert.equal(controls.mfov, MFOV_EXPLORE);
+  assert.ok(Math.abs(controls.mfov - front.mfov) < 0.5);
   console.log('✓ resetToFront restores explore front framing');
 }
 

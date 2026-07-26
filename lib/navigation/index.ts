@@ -33,6 +33,7 @@ export {
   resolveLookMfov,
   resolveLookTarget,
   frontLookTarget,
+  resolveExploreMfov,
 } from './CameraController';
 
 export {

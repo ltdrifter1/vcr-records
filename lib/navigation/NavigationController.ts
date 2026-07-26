@@ -4,7 +4,6 @@ import { SECTION_BY_ID } from '@/app/data/sections';
 import {
   FOLLOW_REENABLE_DELAY,
   FOLLOW_REENABLE_DUR,
-  MFOV_EXPLORE,
 } from '@/lib/pano';
 import { playSfx, stopPreview } from '@/lib/audio';
 import {
@@ -13,6 +12,7 @@ import {
 } from './AnimationManager';
 import {
   frontLookTarget,
+  resolveExploreMfov,
   resolveLookTarget,
   writeCamera,
 } from './CameraController';
@@ -38,7 +38,7 @@ const REFRAME_DURATION = 0.45;
  *
  * Canvas model (BT parity):
  *   - open → lookto feature + open glass HUD (same continuous sphere)
- *   - soft close (BACK / Esc / nav toggle) → clear HUD only; camera stays
+ *   - soft close (BACK / Esc / nav toggle) → clear HUD; keep aim; restore explore FOV
  *   - CRT drag-end → resetToFront (BT video Observer onDragEnd)
  *   - other sections stay focused while the user pans (one room, HUD open)
  *   - Shop opens the counter panel in-room (no eject to /shop)
@@ -84,7 +84,9 @@ export function createNavigationController(
 
   /**
    * Soft close — BT BACK / closeAllPanels.
-   * Clears focus + panel + glow latch; leaves yaw / pitch / MFOV alone.
+   * Clears focus + panel + glow latch; keeps yaw / pitch.
+   * Restores explore MFOV so punch-ins (Shop/CRT/Contact) don’t leave
+   * the room feeling tunnelled after the HUD closes.
    */
   const close = (opts?: { force?: boolean; silent?: boolean }) => {
     if (!navState.panelOpen && !navState.focusedId) return;
@@ -94,7 +96,22 @@ export function createNavigationController(
     clearFocus(navState);
     notifyCleared();
     if (!opts?.silent) playSfx('click');
-    scheduleFollowRestore();
+
+    const explore = resolveExploreMfov(measureViewport());
+    if (cbs.reduceMotion) {
+      controls.mfov = explore;
+      scheduleFollowRestore();
+      return;
+    }
+    animateCamera(
+      controls,
+      {
+        yaw: controls.lookTarget.x,
+        pitch: controls.lookTarget.y,
+        mfov: explore,
+      },
+      { duration: 1.1, onComplete: scheduleFollowRestore },
+    );
   };
 
   /**
@@ -180,21 +197,25 @@ export function createNavigationController(
   };
 
   /**
-   * After rotate / iOS chrome resize: keep yaw/pitch, re-adapt lookto MFOV
-   * so portrait↔landscape framing stays correct while focused.
+   * After rotate / iOS chrome resize: keep yaw/pitch, re-adapt MFOV
+   * (lookto while focused, explore HFOV while free-looking).
    */
   const reframeFocused = (viewport?: ViewportMetrics) => {
-    const id = navState.focusedId;
-    if (!id || controls.lookAnimating || controls.dragging) return;
-    const section = SECTION_BY_ID[id];
-    if (!section) return;
-
+    if (controls.lookAnimating || controls.dragging) return;
     const vp = viewport ?? measureViewport();
-    const target = resolveLookTarget(section, vp);
-    if (Math.abs(controls.mfov - target.mfov) < 1.5) return;
+    const id = navState.focusedId;
+
+    const nextMfov = id
+      ? (() => {
+          const section = SECTION_BY_ID[id];
+          return section ? resolveLookTarget(section, vp).mfov : null;
+        })()
+      : resolveExploreMfov(vp);
+    if (nextMfov == null) return;
+    if (Math.abs(controls.mfov - nextMfov) < 1.5) return;
 
     if (cbs.reduceMotion) {
-      controls.mfov = target.mfov;
+      controls.mfov = nextMfov;
       return;
     }
     animateCamera(
@@ -202,7 +223,7 @@ export function createNavigationController(
       {
         yaw: controls.lookTarget.x,
         pitch: controls.lookTarget.y,
-        mfov: target.mfov,
+        mfov: nextMfov,
       },
       { duration: REFRAME_DURATION },
     );
@@ -223,8 +244,9 @@ export function createNavigationController(
       clearFocus(navState);
       notifyCleared();
       if (!opts?.silent) playSfx('click');
+      const explore = resolveExploreMfov(measureViewport());
       if (cbs.reduceMotion) {
-        controls.mfov = MFOV_EXPLORE;
+        controls.mfov = explore;
         scheduleFollowRestore();
         return;
       }
@@ -233,7 +255,7 @@ export function createNavigationController(
         {
           yaw: controls.lookTarget.x,
           pitch: controls.lookTarget.y,
-          mfov: MFOV_EXPLORE,
+          mfov: explore,
         },
         { duration: 1.1, onComplete: scheduleFollowRestore },
       );

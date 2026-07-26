@@ -253,7 +253,7 @@ export default function Experience() {
             powerPreference: 'high-performance',
             preserveDrawingBuffer: false,
           }}
-          camera={{ fov: 100, position: [0, 0, 0], near: 0.1, far: 200 }}
+          camera={{ fov: 120, position: [0, 0, 0], near: 0.1, far: 200 }}
           onCreated={({ gl, camera }) => {
             gl.setClearColor('#000000', 1);
             camera.rotation.order = 'YXZ';

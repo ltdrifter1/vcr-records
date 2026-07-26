@@ -71,9 +71,11 @@ main {
   position: fixed;
   inset: 0;
   width: 100%;
+  /* Prefer dvh last — -webkit-fill-available can undersize vs the live viewport */
   height: 100%;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
   height: 100dvh;
-  height: -webkit-fill-available;
   background: #000;
   cursor: default;
   touch-action: none;
@@ -276,33 +278,33 @@ html.has-custom-cursor * {
   inset: 0;
   background: radial-gradient(
     120% 100% at 50% 45%,
-    rgba(0, 0, 0, 0) 62%,
-    rgba(20, 12, 6, 0.12) 100%
+    rgba(0, 0, 0, 0) 72%,
+    rgba(20, 12, 6, 0.06) 100%
   );
 }
 @keyframes fx-glow-drift-a {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.42; }
-  to { transform: translate3d(6%, -4%, 0) scale(1.08); opacity: 0.62; }
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.28; }
+  to { transform: translate3d(6%, -4%, 0) scale(1.08); opacity: 0.42; }
 }
 @keyframes fx-glow-drift-b {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.35; }
-  to { transform: translate3d(-5%, 5%, 0) scale(1.1); opacity: 0.55; }
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.22; }
+  to { transform: translate3d(-5%, 5%, 0) scale(1.1); opacity: 0.36; }
 }
 @keyframes fx-glow-drift-c {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
-  to { transform: translate3d(4%, 6%, 0) scale(1.06); opacity: 0.5; }
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.2; }
+  to { transform: translate3d(4%, 6%, 0) scale(1.06); opacity: 0.34; }
 }
 .fx-layer.is-static .fx-glow {
   animation: none;
-  opacity: 0.38;
+  opacity: 0.26;
 }
 
 /* ---------- top nav conveyor (balmingtiger MENU CONVEYOR) ---------- */
 .top-nav-wrap {
-  --nav-gutter: 20px;
+  --nav-gutter: 12px;
   --buttonspacing: 16px;
   position: fixed;
-  top: max(10px, var(--sat-top));
+  top: max(6px, var(--sat-top));
   left: max(var(--nav-gutter), var(--sat-left));
   right: max(var(--nav-gutter), var(--sat-right));
   width: auto;
@@ -772,16 +774,16 @@ html.has-custom-cursor * {
   background:
     linear-gradient(
       90deg,
-      rgba(8, 18, 16, 0.72) 0%,
-      rgba(10, 22, 20, 0.42) 34%,
-      transparent 68%
+      rgba(8, 18, 16, 0.45) 0%,
+      rgba(10, 22, 20, 0.22) 28%,
+      transparent 58%
     ),
     linear-gradient(
       180deg,
-      rgba(8, 18, 16, 0.32) 0%,
-      transparent 26%,
-      transparent 74%,
-      rgba(8, 18, 16, 0.38) 100%
+      rgba(8, 18, 16, 0.18) 0%,
+      transparent 22%,
+      transparent 78%,
+      rgba(8, 18, 16, 0.22) 100%
     );
 }
 .panel {
@@ -1170,7 +1172,8 @@ html.has-custom-cursor * {
   }
   .panel-root.open .panel {
     height: auto;
-    max-height: min(52dvh, 420px);
+    /* Keep more of the sphere visible while HUD is open */
+    max-height: min(38dvh, 320px);
   }
   /* While nesting, collapse to a compact thumb tray under the sheet */
   .panel-root.open .panel.is-nesting {
