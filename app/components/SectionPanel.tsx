@@ -386,7 +386,9 @@ export default function SectionPanel({
             <div className="panel-level panel-level-1" ref={level1}>
               <p className="panel-kicker">{section.kicker}</p>
               <h2 className="panel-title">{section.title}</h2>
-              <p className="panel-intro">{section.intro}</p>
+              {section.intro ? (
+                <p className="panel-intro">{section.intro}</p>
+              ) : null}
 
               <div className="panel-list" role="list" data-scroll-list>
                 {section.items.map((it, i) => (
