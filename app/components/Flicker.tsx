@@ -13,11 +13,12 @@ export default function Flicker() {
 
   return (
     <group>
-      <AdditiveQuad u={0.5} v={0.28} w={3.2} h={3.2} tex={glow} color="#ff8a1e" base={0.42} flickerSpeed={2.4} flickerAmount={0.22} spike />
-      <AdditiveQuad u={0.55} v={0.36} w={2.2} h={1.1} tex={glow} color="#6dff8a" base={0.38} flickerSpeed={1.6} flickerAmount={0.2} spike />
-      <AdditiveQuad u={0.68} v={0.48} w={3.2} h={3} tex={glow} color="#9fd0ff" base={0.28} flickerSpeed={6.0} flickerAmount={0.4} spike />
-      <AdditiveQuad u={0.6} v={0.42} w={2.4} h={5.5} tex={glow} color="#ff4a3a" base={0.32} flickerSpeed={1.1} flickerAmount={0.16} />
-      <AdditiveQuad u={0.12} v={0.38} w={2.6} h={1.4} tex={glow} color="#ff3b3b" base={0.4} flickerSpeed={2.0} flickerAmount={0.25} spike />
+      {/* Hanging tungsten lamps over the aisle */}
+      <AdditiveQuad u={0.574} v={0.135} w={2.4} h={2.4} tex={glow} color="#ffc070" base={0.35} flickerSpeed={1.2} flickerAmount={0.12} />
+      <AdditiveQuad u={0.486} v={0.115} w={2.2} h={2.2} tex={glow} color="#ffd28a" base={0.32} flickerSpeed={0.9} flickerAmount={0.1} />
+      <AdditiveQuad u={0.395} v={0.125} w={2.4} h={2.4} tex={glow} color="#ffc070" base={0.35} flickerSpeed={1.4} flickerAmount={0.12} spike />
+      {/* LISTEN sign above the booth */}
+      <AdditiveQuad u={0.749} v={0.3} w={3.4} h={1.4} tex={glow} color="#fff2c0" base={0.22} flickerSpeed={2.2} flickerAmount={0.18} spike />
     </group>
   );
 }

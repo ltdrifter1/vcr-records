@@ -58,7 +58,7 @@ export const INTRO_PAN_DEG = 16;
  * equivalent of krpano hlookat=0, vlookat=0 for this equirect.
  */
 /** Front of store after BackSide U-flip (texture u ↔ 1−u). */
-export const START_LOOK_U = 0.32;
+export const START_LOOK_U = 0.42;
 /** Slight downward pitch lifts the horizon and exposes more floor depth. */
 export const START_LOOK_V = 0.53;
 
@@ -178,9 +178,9 @@ export function uvToLocal(u: number, v: number): [number, number, number] {
   return uvToSpherical(u, v, SPHERE_RADIUS - 0.35);
 }
 
-/** v3 — bright 90s cartoon room (cache-bust from darker underground v2). */
-export const TEXTURE_SRC = '/textures/store_pano_v3.webp';
+/** v4 — spacious 90s cel room: taller ceiling, deeper aisle, wrap-safe seam. */
+export const TEXTURE_SRC = '/textures/store_pano_v4.webp';
 /** Darkened twin of the store — balmingtiger lights_off scene. */
-export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v3.webp';
-export const LQIP_SRC = '/textures/store_pano_lqip_v3.webp';
+export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v4.webp';
+export const LQIP_SRC = '/textures/store_pano_lqip_v4.webp';
 export const CRT_VIDEO_SRC = '/videos/crt_loop.mp4';
