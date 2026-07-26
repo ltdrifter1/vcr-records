@@ -13,8 +13,10 @@ import { useSceneEnv, type Controls } from './sceneContext';
 const tmp = new THREE.Vector3();
 const origin = new THREE.Vector3(0, 0, 0);
 
-/** Warm gold — matches balmingtiger lp/shopbag glow PNGs (~255,239,168). */
-const GOLD_TINT = '#fff0b0';
+/** Warm gold — balmingtiger hover glow (bright cream → amber aura). */
+const GOLD_TINT = '#ffe9a8';
+/** Outer bloom plane scale — BT aura spreads past the hit silhouette. */
+const BLOOM_SCALE = 1.18;
 
 function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
   map.colorSpace = THREE.SRGBColorSpace;
@@ -65,13 +67,12 @@ function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
 
 /**
  * Hotspot — balmingtiger pattern (3d.xml + site_scripts.js):
- *   invisible hit plane + glow PNG at the SAME ath/atv/scale footprint
+ *   invisible hit plane + glow PNGs registered to the hotspot footprint
  *   hoverIn  → glow alpha 0→1, duration 0.4, ease power1.inOut
  *   hoverOut → glow alpha 1→0 — EXCEPT latched sections while focused
  *
- * Gold-edge props: soft fill + warm outer rim, both locked to hit size.
- * While lit, the rim breathes (opacity + tiny scale) — BT-style presence.
- * Blending: krpano uses normal alpha (not additive).
+ * Gold-edge props: warm fill + bright rim + outer bloom (Additive).
+ * While lit, aura breathes (opacity + scale) — BT presence, not a thin line.
  */
 export default function Hotspot({
   section,
@@ -89,8 +90,10 @@ export default function Hotspot({
   const mesh = useRef<THREE.Mesh>(null);
   const glowMesh = useRef<THREE.Mesh>(null);
   const edgeMesh = useRef<THREE.Mesh>(null);
+  const bloomMesh = useRef<THREE.Mesh>(null);
   const glowMat = useRef<THREE.MeshBasicMaterial>(null);
   const edgeMat = useRef<THREE.MeshBasicMaterial>(null);
+  const bloomMat = useRef<THREE.MeshBasicMaterial>(null);
   const inner = useRef<HTMLDivElement>(null);
   const opacity = useRef(0);
   const glow = useRef({ a: 0 });
@@ -121,9 +124,10 @@ export default function Hotspot({
     mesh.current?.lookAt(origin);
     glowMesh.current?.lookAt(origin);
     edgeMesh.current?.lookAt(origin);
+    bloomMesh.current?.lookAt(origin);
   }, [x, y, z]);
 
-  // hoverIn / hoverOut — alpha only (BT does not punch scale on hover)
+  // hoverIn / hoverOut — alpha only (BT does not punch scale on hover enter)
   useLayoutEffect(() => {
     const on = isFocused || hovered;
     gsap.to(glow.current, {
@@ -134,7 +138,7 @@ export default function Hotspot({
     });
   }, [isFocused, hovered, env.reduceMotion]);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     const m = mesh.current;
     const el = inner.current;
     if (!m || !el) return;
@@ -143,6 +147,7 @@ export default function Hotspot({
     m.lookAt(origin);
     glowMesh.current?.lookAt(origin);
     edgeMesh.current?.lookAt(origin);
+    bloomMesh.current?.lookAt(origin);
 
     m.getWorldPosition(tmp).project(camera);
     const inFront = tmp.z > -1 && tmp.z < 1;
@@ -161,20 +166,24 @@ export default function Hotspot({
     el.style.visibility = opacity.current < 0.02 ? 'hidden' : 'visible';
 
     const a = glow.current.a;
-    // Warm outer-edge breath — slow sine, eased in with glow alpha.
+    // Warm outer-edge breath — slow sine, stronger amplitude (BT aura).
     if (!env.reduceMotion && a > 0.02) {
-      breath.current += delta * 1.35;
+      breath.current += delta * 1.55;
     } else {
       breath.current = 0;
     }
     const wave = env.reduceMotion ? 0 : Math.sin(breath.current) * 0.5 + 0.5;
-    const breathAmp = a * (useEdge ? 1 : 0.55);
-    const fillMul = useEdge ? 0.38 + wave * 0.1 : 0.85 + wave * 0.15;
-    const edgeMul = 0.72 + wave * 0.28;
-    const scaleMul = 1 + wave * 0.018 * breathAmp;
+    const breathAmp = a;
+    // Additive layers need lower base alpha but read much hotter on-screen.
+    const fillMul = useEdge ? 0.55 + wave * 0.22 : 0.95 + wave * 0.2;
+    const edgeMul = 0.85 + wave * 0.4;
+    const bloomMul = 0.55 + wave * 0.45;
+    const scaleMul = 1 + wave * 0.045 * breathAmp;
+    const bloomScale = BLOOM_SCALE * (1 + wave * 0.06 * breathAmp);
 
     if (glowMesh.current) glowMesh.current.scale.setScalar(scaleMul);
     if (edgeMesh.current) edgeMesh.current.scale.setScalar(scaleMul);
+    if (bloomMesh.current) bloomMesh.current.scale.setScalar(bloomScale);
 
     if (glowMat.current) {
       glowMat.current.opacity = a * fillMul;
@@ -183,6 +192,10 @@ export default function Hotspot({
     if (edgeMat.current) {
       edgeMat.current.opacity = a * edgeMul;
       edgeMat.current.visible = useEdge && a > 0.02;
+    }
+    if (bloomMat.current) {
+      bloomMat.current.opacity = a * bloomMul;
+      bloomMat.current.visible = useEdge && a > 0.02;
     }
   });
 
@@ -199,13 +212,13 @@ export default function Hotspot({
     onOpen(section.id);
   };
 
-  // BT: glow + default share the same ath/atv/scale footprint (hit size).
+  // BT: glow + hit share the authored footprint; bloom spreads the outer aura.
   const gw = section.w;
   const gh = section.h;
 
   return (
     <group position={[x, y, z]}>
-      {/* Soft silhouette fill — same size as hit plane */}
+      {/* Soft silhouette fill */}
       <mesh ref={glowMesh} renderOrder={2} raycast={() => null}>
         <planeGeometry args={[gw, gh]} />
         <meshBasicMaterial
@@ -215,16 +228,16 @@ export default function Hotspot({
           transparent
           depthWrite={false}
           depthTest={false}
-          blending={THREE.NormalBlending}
+          blending={useEdge ? THREE.AdditiveBlending : THREE.NormalBlending}
           opacity={0}
           side={THREE.DoubleSide}
           toneMapped={false}
         />
       </mesh>
 
-      {/* Warm outer rim — BT gold-edge language */}
+      {/* Warm outer rim — bright core edge */}
       {useEdge && (
-        <mesh ref={edgeMesh} renderOrder={2} raycast={() => null}>
+        <mesh ref={edgeMesh} renderOrder={3} raycast={() => null}>
           <planeGeometry args={[gw, gh]} />
           <meshBasicMaterial
             ref={edgeMat}
@@ -233,7 +246,26 @@ export default function Hotspot({
             transparent
             depthWrite={false}
             depthTest={false}
-            blending={THREE.NormalBlending}
+            blending={THREE.AdditiveBlending}
+            opacity={0}
+            side={THREE.DoubleSide}
+            toneMapped={false}
+          />
+        </mesh>
+      )}
+
+      {/* Wide aura bloom — BT thick gold halo beyond the silhouette */}
+      {useEdge && (
+        <mesh ref={bloomMesh} renderOrder={1} raycast={() => null}>
+          <planeGeometry args={[gw, gh]} />
+          <meshBasicMaterial
+            ref={bloomMat}
+            map={edgeMap}
+            color="#ffd27a"
+            transparent
+            depthWrite={false}
+            depthTest={false}
+            blending={THREE.AdditiveBlending}
             opacity={0}
             side={THREE.DoubleSide}
             toneMapped={false}
@@ -243,7 +275,7 @@ export default function Hotspot({
 
       <mesh
         ref={mesh}
-        renderOrder={3}
+        renderOrder={4}
         onPointerOver={(e) => {
           e.stopPropagation();
           if (!env.live.value) return;
