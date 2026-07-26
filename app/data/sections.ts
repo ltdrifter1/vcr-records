@@ -42,6 +42,7 @@ export type SectionItem = {
 
 const T = {
   atHome: '/panel-thumbs/at-home.webp',
+  inletKnight: '/panel-thumbs/inlet-knight.webp',
   summer: '/panel-thumbs/summer.webp',
   lions: '/panel-thumbs/lions.webp',
   rack: '/panel-thumbs/rack.webp',
@@ -225,27 +226,32 @@ export const SECTIONS: Section[] = [
     id: 'record-bins',
     object: 'Record Bins',
     nav: 'Artists',
-    hint: 'Flick through the crates',
-    title: 'The Bins',
+    hint: '',
+    title: '',
     kicker: 'Artists',
-    intro:
-      'Cardboard sleeves softened by a thousand thumbs. Every divider is a name; every name kept this place breathing after dark.',
+    intro: '',
     accent: '#ff7a9c',
     u: 0.34,
     v: 0.78,
-    // Hit rect is wide — lookto centers on the primary crate face
+    // Zoomed out + aimed a bit higher over the crates
     lookU: 0.33,
-    lookV: 0.7,
+    lookV: 0.58,
     w: 16,
     h: 7,
-    lookFov: 85,
+    lookFov: 105,
     sfx: 'artists',
+    goldEdge: true,
+    hideHint: true,
     items: [
-      { label: 'LT Drifta', meta: 'Jungle / Steppa', detail: 'Bandcamp', cta: 'Listen', thumb: 'LD', thumbSrc: T.ltd, href: 'https://ltdrifta.bandcamp.com' },
-      { label: 'Inlet Knight', meta: 'At Home', detail: 'Bandcamp', cta: 'Listen', thumb: 'IK', thumbSrc: T.atHome, href: 'https://inletknight.bandcamp.com' },
-      { label: 'Drifta', meta: 'Lions Gate', detail: 'Bandcamp', cta: 'Listen', thumb: 'DR', thumbSrc: T.lions, href: 'https://drifta.bandcamp.com' },
-      { label: 'Felix Hastings', meta: 'Edits / singles', detail: 'Bandcamp', cta: 'Listen', thumb: 'FH', thumbSrc: T.cover1, href: 'https://fhastings.bandcamp.com' },
-      { label: 'VCR Recordings', meta: 'Full label', detail: 'Bandcamp', cta: 'Browse', thumb: 'VC', thumbSrc: T.vcr, href: BANDCAMP },
+      {
+        label: 'Inlet Knight',
+        meta: 'At Home',
+        detail: 'Bandcamp',
+        cta: 'Listen',
+        thumb: 'IK',
+        thumbSrc: T.inletKnight,
+        href: 'https://inletknight.bandcamp.com',
+      },
     ],
   },
   {
