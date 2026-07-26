@@ -743,6 +743,24 @@ html.has-custom-cursor * {
   background: transparent;
   /* Let panorama drag / hotspot hits through while the glass panel is open */
   pointer-events: none;
+  transition: background 0.4s ease-out;
+}
+/* Soft left wash so frosted type reads over busy cel art (BT readable glass) */
+.panel-root.open .panel-scrim {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6, 14, 12, 0.42) 0%,
+      rgba(6, 14, 12, 0.18) 26%,
+      transparent 58%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(6, 14, 12, 0.16) 0%,
+      transparent 28%,
+      transparent 72%,
+      rgba(6, 14, 12, 0.22) 100%
+    );
 }
 .panel {
   --singlebuttonwidth: calc(((100vw - 40px) - (16px * 3)) / 4);
@@ -751,12 +769,21 @@ html.has-custom-cursor * {
   top: 80px;
   width: min(330px, var(--singlebuttonwidth));
   max-height: 800px;
-  background: rgba(121, 121, 121, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* BT frosted glass: milky tint + heavy blur so type stays legible */
+  background:
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(180, 190, 185, 0.16) 45%,
+      rgba(40, 48, 44, 0.28) 100%
+    );
+  backdrop-filter: blur(48px) saturate(165%);
+  -webkit-backdrop-filter: blur(48px) saturate(165%);
   border: 0;
   border-radius: 0;
-  box-shadow: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 18px 48px rgba(0, 0, 0, 0.22);
   padding: 0;
   overflow: hidden;
   pointer-events: auto;
@@ -765,7 +792,7 @@ html.has-custom-cursor * {
   opacity: 0;
   height: 0;
   transition: height 0.4s ease-out, opacity 0.4s ease-out;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 .panel-root.open .panel {
   height: min(80vh, 800px);
@@ -776,11 +803,12 @@ html.has-custom-cursor * {
   top: 14px;
   left: 14px;
   z-index: 3;
-  min-width: 36px;
+  min-width: 52px;
   height: 28px;
   padding: 0 10px;
   border: 0;
-  background: transparent;
+  border-radius: 4px;
+  background: rgba(40, 44, 42, 0.45);
   color: #fff;
   font-family: var(--font-body), system-ui, sans-serif;
   font-size: 12px;
@@ -843,7 +871,7 @@ html.has-custom-cursor * {
   font-size: 13px;
   line-height: 1.45;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.92);
   max-width: 36ch;
   margin: 0 0 18px;
 }
@@ -1078,6 +1106,15 @@ html.has-custom-cursor * {
   outline-offset: 3px;
 }
 @media (max-width: 570px) {
+  .panel-root.open .panel-scrim {
+    background:
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(6, 14, 12, 0.28) 55%,
+        rgba(6, 14, 12, 0.5) 100%
+      );
+  }
   .panel {
     left: 10px;
     right: 10px;
@@ -1086,9 +1123,17 @@ html.has-custom-cursor * {
     width: auto;
     max-width: none;
     border-radius: 4px;
-    background: rgba(0, 0, 0, 0.42);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(20, 28, 24, 0.55) 100%
+      );
+    backdrop-filter: blur(40px) saturate(160%);
+    -webkit-backdrop-filter: blur(40px) saturate(160%);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 12px 36px rgba(0, 0, 0, 0.35);
   }
   .panel-root.open .panel {
     height: auto;
@@ -1144,12 +1189,19 @@ html.has-custom-cursor * {
     overflow: hidden;
     pointer-events: auto;
     color: #fff;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(12, 18, 16, 0.62) 100%
+      );
+    backdrop-filter: blur(44px) saturate(160%);
+    -webkit-backdrop-filter: blur(44px) saturate(160%);
     border-radius: 4px;
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 -10px 40px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
   }
   .panel-nest-inner {
     padding: 48px 16px 18px;
