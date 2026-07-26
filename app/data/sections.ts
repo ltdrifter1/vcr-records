@@ -109,8 +109,8 @@ export type Section = {
   /** Flip glow map on X (plane UV vs BackSide wall parity). */
   glowFlipX?: boolean;
   /**
-   * balmingtiger-style dual hover layers: gold fill (`*_glow`) +
-   * gold edge rim (`*_edge`). Cash / CRT / listening booth.
+   * balmingtiger-style outer-edge glow: loads `*_edge.webp` silhouette rim
+   * (not a filled glow slab). When false, falls back to `*_glow.webp`.
    */
   goldEdge?: boolean;
   /** Hide proximity / hover Html label over the hotspot glow. */
