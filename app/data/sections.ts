@@ -240,7 +240,7 @@ export const SECTIONS: Section[] = [
     nav: 'Shop',
     hint: '',
     title: '',
-    kicker: 'Shop',
+    kicker: 'New Releases',
     intro: '',
     accent: '#9dff8a',
     // v5 pano: register on the purple VCR RECORD SHOP counter (file x 958–1085).
