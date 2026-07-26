@@ -740,7 +740,13 @@ html.has-custom-cursor * {
 .panel-scrim {
   position: absolute;
   inset: 0;
-  background: transparent;
+  /* Soft left-edge wash so dock type stays readable over the busy pano */
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.18) min(28vw, 360px),
+    transparent min(46vw, 520px)
+  );
   /* Let panorama drag / hotspot hits through while the glass panel is open */
   pointer-events: none;
 }
@@ -751,7 +757,7 @@ html.has-custom-cursor * {
   top: 80px;
   width: min(330px, var(--singlebuttonwidth));
   max-height: 800px;
-  background: rgba(121, 121, 121, 0.1);
+  background: rgba(12, 22, 18, 0.32);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 0;
@@ -765,7 +771,21 @@ html.has-custom-cursor * {
   opacity: 0;
   height: 0;
   transition: height 0.4s ease-out, opacity 0.4s ease-out;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.28) 0%,
+    transparent 16%,
+    transparent 78%,
+    rgba(0, 0, 0, 0.32) 100%
+  );
 }
 .panel-root.open .panel {
   height: min(80vh, 800px);
@@ -1086,13 +1106,22 @@ html.has-custom-cursor * {
     width: auto;
     max-width: none;
     border-radius: 4px;
-    background: rgba(0, 0, 0, 0.42);
+    background: rgba(8, 16, 14, 0.55);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
   }
   .panel-root.open .panel {
     height: auto;
     max-height: min(52vh, 420px);
+  }
+  /* Mobile: full-bleed bottom wash instead of left-edge desktop scrim */
+  .panel-scrim {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 45%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
   }
   /* While nesting, collapse to a compact thumb tray under the sheet */
   .panel-root.open .panel.is-nesting {
@@ -1144,14 +1173,30 @@ html.has-custom-cursor * {
     overflow: hidden;
     pointer-events: auto;
     color: #fff;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(8, 16, 14, 0.62);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 4px;
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+  .panel-nest-sheet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.35) 0%,
+      transparent 20%,
+      transparent 75%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
   }
   .panel-nest-inner {
+    position: relative;
+    z-index: 1;
     padding: 48px 16px 18px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -1161,6 +1206,8 @@ html.has-custom-cursor * {
     flex-direction: column;
   }
   .panel-nest-back {
+    position: relative;
+    z-index: 2;
     background: rgba(150, 150, 150, 0.55);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
