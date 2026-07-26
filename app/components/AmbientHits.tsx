@@ -40,21 +40,21 @@ const WONDER_LINKS = [
  */
 const HITS: AmbientHit[] = [
   // Purple stool inside the LISTEN booth
-  { id: 'stool', u: 0.749, v: 0.571, w: 2.4, h: 2.2, sfx: 'stool' },
+  { id: 'stool', u: 0.759, v: 0.586, w: 2.4, h: 2.2, sfx: 'stool' },
   // Left wall bin run (outside the Artists island hotspot)
-  { id: 'crate', u: 0.635, v: 0.547, w: 4.5, h: 3.2, sfx: 'crate' },
+  { id: 'crate', u: 0.675, v: 0.547, w: 4.5, h: 3.2, sfx: 'crate' },
   // Framed posters left of the booth
   { id: 'poster', u: 0.813, v: 0.254, w: 3.5, h: 3.5, sfx: 'poster' },
   // Doormat by the entry door
-  { id: 'cushion', u: 0.124, v: 0.645, w: 3.5, h: 2, sfx: 'cushion' },
-  // Potted plant between bins and counter
-  { id: 'owl', u: 0.391, v: 0.425, w: 2.6, h: 2.4, sfx: 'owl' },
+  { id: 'cushion', u: 0.154, v: 0.645, w: 3.5, h: 2, sfx: 'cushion' },
+  // Potted plant at the bins island corner
+  { id: 'owl', u: 0.44, v: 0.464, w: 2.6, h: 2.4, sfx: 'owl' },
   // Warm lamp pool on the carpet
   { id: 'fire', u: 0.583, v: 0.742, w: 2.8, h: 2.6, sfx: 'fire' },
   // Globe / wonder — the door window looking onto the street
   {
     id: 'wonder',
-    u: 0.124,
+    u: 0.134,
     v: 0.459,
     w: 2.4,
     h: 2.4,

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-V4 panorama production bake.
+V5 panorama production bake — hand-drawn 90s cartoon pass.
 
-Input : art/vcr-pano-v4-src.png  (1536x1024 cel painting, wrap-aware edges)
-Output: public/textures/store_pano_v4.webp        4096x2048 lights-on
-        public/textures/store_pano_off_v4.webp    4096x2048 lights-off grade
-        public/textures/store_pano_lqip_v4.webp   512x256 preview
+Input : art/vcr-pano-v5-src.png  (1536x1024 pencil/marker cel painting,
+        wrap-aware edges, VCR RECORD SHOP lettering)
+Output: public/textures/store_pano_v5.webp        4096x2048 lights-on
+        public/textures/store_pano_off_v5.webp    4096x2048 lights-off grade
+        public/textures/store_pano_lqip_v5.webp   512x256 preview
         public/hotspots/<id>_edge.webp            silhouette rim masks
 
 The source is composed as a full 360-degree strip with both edges ending on
@@ -21,37 +22,38 @@ from PIL import Image, ImageFilter
 from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "art" / "vcr-pano-v4-src.png"
-OUT_ON = ROOT / "public" / "textures" / "store_pano_v4.webp"
-OUT_OFF = ROOT / "public" / "textures" / "store_pano_off_v4.webp"
-OUT_LQIP = ROOT / "public" / "textures" / "store_pano_lqip_v4.webp"
+SRC = ROOT / "art" / "vcr-pano-v5-src.png"
+OUT_ON = ROOT / "public" / "textures" / "store_pano_v5.webp"
+OUT_OFF = ROOT / "public" / "textures" / "store_pano_off_v5.webp"
+OUT_LQIP = ROOT / "public" / "textures" / "store_pano_lqip_v5.webp"
 HOTSPOT_DIR = ROOT / "public" / "hotspots"
 
 W, H = 4096, 2048
-SEAM_BAND = 96  # px cross-faded across the wrap seam
+SEAM_BAND = 128  # px cross-faded across the wrap seam
 
 # Landmark boxes in source pixels (1536x1024).
 # Spherical u = 1 - file_u (BackSide flip); w/h from angular span at R=47.5.
 TARGETS = {
-    "crt-tv": (66, 424, 230, 572),
-    "listening-booth": (312, 328, 458, 622),
-    "record-bins": (726, 452, 898, 642),
-    "cash-register": (948, 430, 1112, 644),
-    "phone-booth": (1112, 458, 1240, 554),
+    "crt-tv": (112, 432, 246, 566),
+    "listening-booth": (295, 330, 455, 640),
+    "record-bins": (725, 500, 855, 655),
+    "cash-register": (958, 462, 1085, 568),
+    "phone-booth": (1108, 498, 1222, 576),
 }
 
 # Known-good background sample points in source pixels (1536x1024):
 # flat cel fills for wall / carpet / ceiling / cabinet wood / counter purple.
 BG_POINTS = {
-    "wall": (1500, 400),
-    "wall_dark": (40, 470),
+    "wall": (1480, 400),
+    "wall_dark": (30, 470),
     "wall_mid": (700, 400),
-    "carpet": (700, 990),
-    "carpet_dark": (100, 950),
+    "carpet": (700, 980),
+    "carpet_dark": (80, 950),
     "ceiling": (760, 40),
-    "cabinet": (150, 582),
-    "counter": (1050, 660),
-    "counter_top": (1005, 588),
+    "cabinet": (150, 585),
+    "counter": (955, 630),
+    "counter_top": (950, 530),
+    "counter_edge": (980, 558),
 }
 
 # Per-target background refs — the object is whatever is far from these.
@@ -59,8 +61,15 @@ TARGET_BG = {
     "crt-tv": ("wall", "wall_dark", "wall_mid", "cabinet", "carpet"),
     "listening-booth": ("wall", "wall_dark", "wall_mid", "carpet"),
     "record-bins": ("wall", "wall_mid", "carpet", "carpet_dark", "ceiling"),
-    "cash-register": ("wall", "wall_mid", "counter", "counter_top", "carpet"),
-    "phone-booth": ("wall", "wall_mid", "counter", "counter_top"),
+    "cash-register": (
+        "wall",
+        "wall_mid",
+        "counter",
+        "counter_top",
+        "counter_edge",
+        "carpet",
+    ),
+    "phone-booth": ("wall", "wall_mid", "counter", "counter_top", "counter_edge"),
 }
 
 
@@ -70,7 +79,9 @@ def bake_pano() -> Image.Image:
         raise SystemExit(f"unexpected source size {src.size}")
 
     pano = src.resize((W, H), Image.Resampling.LANCZOS)
-    pano = pano.filter(ImageFilter.UnsharpMask(radius=2.2, percent=68, threshold=2))
+    # Two-pass unsharp keeps hand-drawn ink lines crisp after the 2.67x upscale.
+    pano = pano.filter(ImageFilter.UnsharpMask(radius=1.8, percent=85, threshold=2))
+    pano = pano.filter(ImageFilter.UnsharpMask(radius=3.6, percent=32, threshold=3))
 
     # Wrap band: cross-fade left/right edges so u=0 joins u=1 seamlessly.
     arr = np.asarray(pano).astype(np.float32)
@@ -89,10 +100,10 @@ def lights_off(pano: Image.Image) -> Image.Image:
     """Night grade: cool, dark, faint pools under the hanging lamps."""
     a = np.asarray(pano).astype(np.float32) / 255.0
 
-    dark = a ** 1.25
-    dark[..., 0] *= 0.34
-    dark[..., 1] *= 0.40
-    dark[..., 2] *= 0.58
+    dark = a ** 1.2
+    dark[..., 0] *= 0.4
+    dark[..., 1] *= 0.45
+    dark[..., 2] *= 0.62
 
     yy, xx = np.mgrid[0:pano.height, 0:pano.width].astype(np.float32)
     warm = np.zeros_like(a)
