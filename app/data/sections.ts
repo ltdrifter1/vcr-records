@@ -180,7 +180,7 @@ export const SECTIONS: Section[] = [
     object: 'CRT Television',
     nav: 'Videos',
     hint: '',
-    title: 'The CRT',
+    title: '',
     kicker: 'Videos',
     intro: '',
     accent: '#7ad7ff',
