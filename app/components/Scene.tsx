@@ -12,7 +12,7 @@ import {
   FOLLOW_RANGE_DEG,
   FOLLOW_SPEED,
   FRICTION_STOP,
-  INTRO_CEILING_V,
+  INTRO_DROP_V,
   LQIP_SRC,
   MFOV_INTRO,
   SPHERE_RADIUS,
@@ -73,8 +73,8 @@ type Props = {
 
 /**
  * Camera rig — balmingtiger / krpano parity + cinematic enter:
- * - Enter: ceiling → soft yaw pan → settle on the open store sightline
- *   while MFOV 160→132 + fisheye 1→0.3 (power3.inOut)
+ * - Enter: floor-center drop pose → single tilt UP to the level base view
+ *   on the room's central axis while MFOV 160→132 + fisheye 1→0.3
  * - Look locked during intro; usercontrol=all on complete
  * - Click-and-drag with instant tracking + draginertia/dragfriction
  * - followmousecontrol lean on desktop (view.rx / view.ry)
@@ -97,9 +97,9 @@ function Rig({
 }) {
   const { camera, size } = useThree();
   const settleYaw = uToYaw(START_LOOK_U);
-  const ceilingPitch = vToPitch(INTRO_CEILING_V);
+  const dropPitch = vToPitch(INTRO_DROP_V);
   const yaw = useRef(settleYaw);
-  const pitch = useRef(ceilingPitch);
+  const pitch = useRef(dropPitch);
   const followYaw = useRef(0);
   const followPitch = useRef(0);
   const wasEntered = useRef(false);
@@ -114,9 +114,10 @@ function Rig({
     cam.far = SPHERE_RADIUS * 3;
     cam.position.set(0, 0, 0);
     cam.rotation.order = 'YXZ';
-    // Pre-enter: aimed at the ceiling so CLICK TO ENTER reveals the drop
+    // Pre-enter: aimed at the floor center so CLICK TO ENTER reveals the
+    // little-planet drop in the middle of the room.
     controls.lookTarget.x = settleYaw;
-    controls.lookTarget.y = ceilingPitch;
+    controls.lookTarget.y = dropPitch;
     controls.velocity.x = 0;
     controls.velocity.y = 0;
     controls.mfov = MFOV_INTRO;
@@ -126,7 +127,7 @@ function Rig({
     controls.lookAnimating = false;
     fisheyeRef.current = FISHEYE_INTRO;
     yaw.current = settleYaw;
-    pitch.current = ceilingPitch;
+    pitch.current = dropPitch;
     followYaw.current = 0;
     followPitch.current = 0;
     wasEntered.current = false;
@@ -134,7 +135,7 @@ function Rig({
     return () => {
       introTween.current?.kill();
     };
-  }, [camera, controls, settleYaw, ceilingPitch, fisheyeRef]);
+  }, [camera, controls, settleYaw, dropPitch, fisheyeRef]);
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
