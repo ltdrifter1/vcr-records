@@ -390,63 +390,67 @@ export default function SectionPanel({
                 <p className="panel-intro">{section.intro}</p>
               ) : null}
 
-              <div className="panel-list" role="list" data-scroll-list>
-                {section.items.map((it, i) => (
-                  <article
-                    key={i}
-                    className={`panel-row${detail === it ? ' is-selected' : ''}`}
-                    role="listitem"
-                    tabIndex={0}
-                    data-cursor="click"
-                    aria-label={`${it.cta ?? 'Open'} ${it.label}`}
-                    aria-current={detail === it ? 'true' : undefined}
-                    onClick={() => openItem(it)}
-                    onKeyDown={(e) => onRowKey(e, it)}
-                  >
-                    <div
-                      className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}`}
-                      style={
-                        it.thumbSrc
-                          ? undefined
-                          : {
-                              background: `color-mix(in srgb, ${section.accent} 55%, #1a1410)`,
-                            }
-                      }
-                      aria-hidden
+              {section.items.length === 0 ? (
+                <p className="panel-intro panel-coming-soon">Coming soon.</p>
+              ) : (
+                <div className="panel-list" role="list" data-scroll-list>
+                  {section.items.map((it, i) => (
+                    <article
+                      key={i}
+                      className={`panel-row${detail === it ? ' is-selected' : ''}`}
+                      role="listitem"
+                      tabIndex={0}
+                      data-cursor="click"
+                      aria-label={`${it.cta ?? 'Open'} ${it.label}`}
+                      aria-current={detail === it ? 'true' : undefined}
+                      onClick={() => openItem(it)}
+                      onKeyDown={(e) => onRowKey(e, it)}
                     >
-                      {it.thumbSrc ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={it.thumbSrc} alt="" width={72} height={72} loading="lazy" />
-                      ) : (
-                        <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
-                      )}
-                    </div>
-                    <div className="panel-row-body">
-                      <span className="pc-label">{it.label}</span>
-                      {it.meta && <span className="pc-meta">{it.meta}</span>}
-                      {it.detail && <span className="pc-detail">{it.detail}</span>}
-                      <div className="panel-cta-wrap">
-                        {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
-                          <span className="panel-cta">{it.cta ?? 'Open'}</span>
+                      <div
+                        className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}`}
+                        style={
+                          it.thumbSrc
+                            ? undefined
+                            : {
+                                background: `color-mix(in srgb, ${section.accent} 55%, #1a1410)`,
+                              }
+                        }
+                        aria-hidden
+                      >
+                        {it.thumbSrc ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={it.thumbSrc} alt="" width={72} height={72} loading="lazy" />
+                        ) : (
+                          <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
                         )}
-                        {it.videoSrc && it.href && !it.href.startsWith('/shop') ? (
-                          <a
-                            className="panel-cta panel-cta-pill panel-cta-secondary"
-                            href={it.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            data-cursor="click"
-                            onClick={(e) => e.stopPropagation()}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            Open page
-                          </a>
-                        ) : null}
                       </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                      <div className="panel-row-body">
+                        <span className="pc-label">{it.label}</span>
+                        {it.meta && <span className="pc-meta">{it.meta}</span>}
+                        {it.detail && <span className="pc-detail">{it.detail}</span>}
+                        <div className="panel-cta-wrap">
+                          {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
+                            <span className="panel-cta">{it.cta ?? 'Open'}</span>
+                          )}
+                          {it.videoSrc && it.href && !it.href.startsWith('/shop') ? (
+                            <a
+                              className="panel-cta panel-cta-pill panel-cta-secondary"
+                              href={it.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-cursor="click"
+                              onClick={(e) => e.stopPropagation()}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            >
+                              Open page
+                            </a>
+                          ) : null}
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Desktop nest — stays inside the left glass panel */}

@@ -95,7 +95,7 @@ export type Section = {
   h: number;
   /**
    * MFOV used by lookto when focusing this feature
-   * (Music ~95 room view; Videos ~22 watch punch-in like BT).
+   * (Music ~95 room view; Videos framed mid — not watch punch-in).
    */
   lookFov: number;
   /** Object SFX key played on focus (see lib/audio.ts). */
@@ -112,6 +112,8 @@ export type Section = {
    * gold edge rim (`*_edge`). Cash / CRT / listening booth.
    */
   goldEdge?: boolean;
+  /** Hide proximity / hover Html label over the hotspot glow. */
+  hideHint?: boolean;
   /** list rendered inside the panel */
   items: SectionItem[];
 };
@@ -120,8 +122,6 @@ const BANDCAMP = 'https://vcrrecordings.bandcamp.com';
 const INSTAGRAM = 'https://www.instagram.com/vcr_recordings';
 const CONTACT_EMAIL = 'mailto:charlie@vcrrecords.com';
 const DEMOS_EMAIL = 'mailto:info@vcrrecords.com';
-const YOUTUBE_ABOUT = 'https://www.youtube.com/watch?v=AUAqGMaGjk4';
-
 /** Short booth previews under /public/audio/previews. */
 const PREVIEW = {
   atHome: '/audio/previews/at-home.mp3',
@@ -199,88 +199,27 @@ export const SECTIONS: Section[] = [
     id: 'crt-tv',
     object: 'CRT Television',
     nav: 'Videos',
-    hint: 'Adjust the antenna',
+    hint: '',
     title: 'The CRT',
     kicker: 'Videos',
-    intro:
-      'Static rolls until it doesn’t. Hand-dubbed VHS sets, pirate TV idents and grainy warehouse footage nobody was supposed to keep. Pick a channel — it plays on this set.',
+    intro: '',
     accent: '#7ad7ff',
-    // Hit / glow / video plane stay on the tube face.
+    // Hit / glow on the tube face (painted CRT in the pano).
     u: 0.3,
     v: 0.42,
-    // Watch mode (BT video lookto fov 20 desktop / ~40 phone).
-    // Aim the tube glass; portrait adapt widens so it doesn't over-crop.
+    // Frame the set in the room — not watch-mode punch-in (was fov 22 / too close).
     lookU: 0.3,
-    lookV: 0.415,
-    w: 4.5,
-    h: 4.2,
-    lookFov: 22,
+    lookV: 0.42,
+    w: 5.2,
+    h: 4.8,
+    lookFov: 52,
     sfx: 'video',
-    // balmingtiger: TV glow extinguishes while watching (no active latch)
-    glowLatches: false,
+    // Coming soon: keep warm gold aura latched while focused (no watch overlay).
+    glowLatches: true,
     goldEdge: true,
-    items: [
-      {
-        label: 'Store Loop',
-        meta: 'Default channel',
-        detail: 'Ambient',
-        cta: 'Play',
-        thumb: 'A',
-        thumbSrc: T.yt,
-        videoSrc: '/videos/channel_a.mp4',
-        href: YOUTUBE_ABOUT,
-      },
-      {
-        label: 'Banter Tape',
-        meta: 'Warehouse cut',
-        detail: 'In-room',
-        cta: 'Play',
-        thumb: 'B',
-        thumbSrc: T.testpress,
-        videoSrc: '/videos/channel_b.mp4',
-        href: BANDCAMP,
-      },
-      {
-        label: 'Classic Cuts',
-        meta: 'Archive reel',
-        detail: 'In-room',
-        cta: 'Play',
-        thumb: 'CL',
-        thumbSrc: T.classic,
-        videoSrc: '/videos/channel_classic.mp4',
-        href: BANDCAMP,
-      },
-      {
-        label: 'Future Boy',
-        meta: 'Promo reel',
-        detail: 'In-room',
-        cta: 'Play',
-        thumb: 'FB',
-        thumbSrc: T.future,
-        videoSrc: '/videos/channel_future.mp4',
-        href: BANDCAMP,
-      },
-      {
-        label: 'Lions Gate',
-        meta: 'Drifta',
-        detail: 'In-room',
-        cta: 'Play',
-        thumb: 'LG',
-        thumbSrc: T.lions,
-        videoSrc: '/videos/channel_lions.mp4',
-        href: BUY.driftaBc,
-      },
-      {
-        label: 'At Home',
-        meta: 'Inlet Knight',
-        detail: 'In-room',
-        cta: 'Play',
-        thumb: 'AH',
-        thumbSrc: T.atHome,
-        videoSrc: '/videos/channel_athome.mp4',
-        href: BUY.inletBc,
-      },
-    ],
+    hideHint: true,
+    // Channels cleared — blank tube + panel copy only.
+    items: [],
   },
   {
     id: 'record-bins',

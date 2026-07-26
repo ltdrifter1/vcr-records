@@ -107,6 +107,7 @@ export default function Hotspot({
   const isFocused = canLatch && focusedId === section.id;
   const useEdge = !!section.goldEdge;
   const hintText = section.hint?.trim() ?? '';
+  const showHint = !section.hideHint;
 
   const glowSrc = `/hotspots/${section.id}_glow.webp`;
   const edgeSrc = `/hotspots/${section.id}_edge.webp`;
@@ -156,14 +157,17 @@ export default function Hotspot({
       ? THREE.MathUtils.clamp(1 - (dist - 0.08) / 0.55, 0, 1)
       : 0;
 
-    let hintTarget = Math.max(proximity * 0.95, hovered || isFocused ? 1 : 0);
+    let hintTarget = showHint
+      ? Math.max(proximity * 0.95, hovered || isFocused ? 1 : 0)
+      : 0;
     if (!env.live.value || (env.panelOpen.value && !isFocused && !hovered)) {
       hintTarget = 0;
     }
 
     opacity.current += (hintTarget - opacity.current) * 0.18;
     el.style.opacity = opacity.current.toFixed(3);
-    el.style.visibility = opacity.current < 0.02 ? 'hidden' : 'visible';
+    el.style.visibility =
+      !showHint || opacity.current < 0.02 ? 'hidden' : 'visible';
 
     const a = glow.current.a;
     // Warm outer-edge breath — slow sine, stronger amplitude (BT aura).
