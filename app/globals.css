@@ -30,12 +30,17 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  /* iOS Safari: fill the layout viewport when dvh is flaky */
+  min-height: 100%;
+  min-height: -webkit-fill-available;
   background: var(--bg);
   color: var(--ink);
   overflow: hidden;
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
   /* Safe-area tokens consumed by ViewportManager */
   --sat-top: env(safe-area-inset-top, 0px);
   --sat-right: env(safe-area-inset-right, 0px);
@@ -65,11 +70,15 @@ main {
 .stage {
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100%;
   height: 100dvh;
-  width: 100vw;
+  height: -webkit-fill-available;
   background: #000;
   cursor: default;
   touch-action: none;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 .stage-canvas {
   position: absolute;
@@ -168,9 +177,9 @@ html.has-custom-cursor * {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
 }
 .mute-control {
-  right: 20px;
+  right: max(20px, var(--sat-right));
   left: auto;
-  bottom: 25px;
+  bottom: max(25px, calc(12px + var(--sat-bottom)));
   width: 30px;
   height: 30px;
   transition: opacity 0.3s ease, transform 0.15s ease, pointer-events 0s;
@@ -186,9 +195,10 @@ html.has-custom-cursor * {
   filter: drop-shadow(1px 1px 1px rgba(64, 64, 64, 0.75));
 }
 .gyro-control {
-  left: clamp(14px, 2.5vw, 28px);
-  bottom: clamp(14px, 3vh, 28px);
+  left: max(clamp(14px, 2.5vw, 28px), var(--sat-left));
+  bottom: max(clamp(14px, 3vh, 28px), calc(12px + var(--sat-bottom)));
   height: 32px;
+  min-height: 32px;
   padding: 0 4px;
 }
 .gyro-control.is-on {
@@ -201,15 +211,20 @@ html.has-custom-cursor * {
 }
 @media (max-width: 570px) {
   .mute-control {
-    top: 20px;
+    top: max(16px, calc(8px + var(--sat-top)));
     bottom: auto;
-    right: 15px;
-    width: 24px;
-    height: 24px;
+    right: max(12px, var(--sat-right));
+    width: 44px;
+    height: 44px;
   }
   .mute-control img {
     width: 22px;
     height: 22px;
+  }
+  .gyro-control {
+    /* Keep clear of bottom conveyor + home indicator */
+    bottom: max(72px, calc(64px + var(--sat-bottom)));
+    min-height: 44px;
   }
 }
 
@@ -284,14 +299,15 @@ html.has-custom-cursor * {
 
 /* ---------- top nav conveyor (balmingtiger MENU CONVEYOR) ---------- */
 .top-nav-wrap {
-  --menuwidth: calc(100vw - 40px);
+  --nav-gutter: 20px;
   --buttonspacing: 16px;
   position: fixed;
-  top: 0;
-  left: 20px;
-  width: var(--menuwidth);
+  top: max(10px, var(--sat-top));
+  left: max(var(--nav-gutter), var(--sat-left));
+  right: max(var(--nav-gutter), var(--sat-right));
+  width: auto;
   z-index: 50;
-  padding: 10px 0 0;
+  padding: 0;
   pointer-events: auto;
 }
 .top-nav-swiper {
@@ -303,6 +319,8 @@ html.has-custom-cursor * {
   height: auto;
   pointer-events: auto;
   cursor: pointer;
+  /* Even columns across the bar (5 sections) */
+  box-sizing: border-box;
 }
 .top-nav-item {
   appearance: none;
@@ -316,10 +334,10 @@ html.has-custom-cursor * {
   font-weight: 700;
   font-size: clamp(12px, 1.7vw, 16px);
   letter-spacing: 0.06em;
-  padding: 14px 4px 14px;
+  padding: 14px 6px 14px;
   text-shadow: 1px 1px 2px rgba(40, 40, 40, 0.65);
   user-select: none;
-  text-align: left;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
   pointer-events: auto;
@@ -335,8 +353,8 @@ html.has-custom-cursor * {
 }
 .top-nav-line {
   position: absolute;
-  left: 0;
-  right: 12%;
+  left: 10%;
+  right: 10%;
   bottom: 6px;
   height: 1px;
   background: #fff;
@@ -347,7 +365,7 @@ html.has-custom-cursor * {
 .top-nav-close {
   position: absolute;
   top: 6px;
-  right: 0;
+  right: 4px;
   font-size: 18px;
   line-height: 1;
   font-weight: 700;
@@ -368,21 +386,25 @@ html.has-custom-cursor * {
 }
 @media (max-width: 900px) {
   .top-nav-wrap {
+    --nav-gutter: 14px;
     --buttonspacing: 12px;
   }
 }
 @media (max-width: 570px) {
   .top-nav-wrap {
-    left: 10px;
-    --menuwidth: calc(100vw - 20px);
-    --buttonspacing: 10px;
+    --nav-gutter: 10px;
+    --buttonspacing: 8px;
     top: auto;
     bottom: 0;
-    padding: 0 0 calc(8px + env(safe-area-inset-bottom, 0px));
+    left: max(var(--nav-gutter), var(--sat-left));
+    right: max(var(--nav-gutter), var(--sat-right));
+    padding: 0 0 calc(8px + var(--sat-bottom));
   }
   .top-nav-item {
     font-size: 11px;
-    padding: 12px 2px 14px;
+    padding: 12px 2px calc(14px + 2px);
+    /* Larger hit target on iOS */
+    min-height: 44px;
   }
   .top-nav-line {
     display: none;
@@ -763,10 +785,13 @@ html.has-custom-cursor * {
     );
 }
 .panel {
-  --singlebuttonwidth: calc(((100vw - 40px) - (16px * 3)) / 4);
+  /* Width tracks one of the 5 evenly spaced top-nav slots */
+  --singlebuttonwidth: calc(
+    (100vw - max(40px, calc(var(--sat-left) + var(--sat-right))) - (14px * 4)) / 5
+  );
   position: fixed;
-  left: 20px;
-  top: 80px;
+  left: max(20px, var(--sat-left));
+  top: max(80px, calc(56px + var(--sat-top)));
   width: min(330px, var(--singlebuttonwidth));
   max-height: 800px;
   /* BT frosted glass — milky tint + brand wash so type stays readable */
@@ -795,7 +820,7 @@ html.has-custom-cursor * {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 .panel-root.open .panel {
-  height: min(80vh, 800px);
+  height: min(80dvh, 800px);
   opacity: 1;
 }
 .panel-back {
@@ -1124,10 +1149,10 @@ html.has-custom-cursor * {
       );
   }
   .panel {
-    left: 10px;
-    right: 10px;
+    left: max(10px, var(--sat-left));
+    right: max(10px, var(--sat-right));
     top: auto;
-    bottom: 64px;
+    bottom: calc(64px + var(--sat-bottom));
     width: auto;
     max-width: none;
     border-radius: 4px;
@@ -1145,7 +1170,7 @@ html.has-custom-cursor * {
   }
   .panel-root.open .panel {
     height: auto;
-    max-height: min(52vh, 420px);
+    max-height: min(52dvh, 420px);
   }
   /* While nesting, collapse to a compact thumb tray under the sheet */
   .panel-root.open .panel.is-nesting {

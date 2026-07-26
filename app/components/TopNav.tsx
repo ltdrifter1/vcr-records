@@ -111,17 +111,18 @@ export default function TopNav({
       <Swiper
         className="top-nav-swiper"
         loop
-        slidesPerView={5}
-        spaceBetween={16}
+        // Five nav sections — span the full bar so labels aren’t bunched left.
+        slidesPerView={items.length}
+        spaceBetween={12}
         speed={800}
         allowTouchMove
         slideToClickedSlide={false}
         watchSlidesProgress
         breakpoints={{
-          0: { slidesPerView: 3.2, spaceBetween: 8 },
-          570: { slidesPerView: 4.2, spaceBetween: 10 },
-          900: { slidesPerView: 5.5, spaceBetween: 14 },
-          1200: { slidesPerView: 7, spaceBetween: 16 },
+          0: { slidesPerView: items.length, spaceBetween: 6 },
+          570: { slidesPerView: items.length, spaceBetween: 10 },
+          900: { slidesPerView: items.length, spaceBetween: 14 },
+          1200: { slidesPerView: items.length, spaceBetween: 18 },
         }}
         onSwiper={(sw) => {
           swiperRef.current = sw;

@@ -241,6 +241,11 @@ const desktop = {
   assert.equal(focused, 'cash-register');
   assert.equal(navState.panelOpen, true);
   assert.ok(controls.mfov < MFOV_EXPLORE, 'shop lookto should punch in from explore FOV');
+  const shop = SECTION_BY_ID['cash-register'];
+  assert.equal(shop.title.trim(), '', 'Shop title cleared (no The Counter)');
+  assert.equal(shop.intro.trim(), '', 'Shop intro cleared');
+  assert.equal(shop.items.length, 1, 'Shop should only list Inlet Knight');
+  assert.match(shop.items[0].label, /Inlet Knight/i);
   console.log('✓ cash-register opens in-room shop panel');
 }
 
