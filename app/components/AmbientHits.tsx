@@ -39,19 +39,23 @@ const WONDER_LINKS = [
  * a random outbound link (globe parity).
  */
 const HITS: AmbientHit[] = [
-  { id: 'stool', u: 0.19, v: 0.58, w: 3.2, h: 2.4, sfx: 'stool' },
-  { id: 'crate', u: 0.46, v: 0.72, w: 4.5, h: 3.2, sfx: 'crate' },
-  { id: 'poster', u: 0.5, v: 0.28, w: 3.5, h: 3.5, sfx: 'poster' },
-  { id: 'cushion', u: 0.62, v: 0.68, w: 3.8, h: 2.6, sfx: 'cushion' },
-  // Soft “owl” perch near the listening booth upper shelf
-  { id: 'owl', u: 0.16, v: 0.32, w: 2.6, h: 2.4, sfx: 'owl' },
-  // Warm crackle near the lamp / back corner
-  { id: 'fire', u: 0.38, v: 0.55, w: 2.8, h: 2.6, sfx: 'fire' },
-  // Globe / wonder — clear of phone-booth (u≈0.486) and cash-register (u≈0.57)
+  // Purple stool inside the LISTEN booth
+  { id: 'stool', u: 0.749, v: 0.571, w: 2.4, h: 2.2, sfx: 'stool' },
+  // Left wall bin run (outside the Artists island hotspot)
+  { id: 'crate', u: 0.635, v: 0.547, w: 4.5, h: 3.2, sfx: 'crate' },
+  // Framed posters left of the booth
+  { id: 'poster', u: 0.813, v: 0.254, w: 3.5, h: 3.5, sfx: 'poster' },
+  // Doormat by the entry door
+  { id: 'cushion', u: 0.124, v: 0.645, w: 3.5, h: 2, sfx: 'cushion' },
+  // Potted plant between bins and counter
+  { id: 'owl', u: 0.391, v: 0.425, w: 2.6, h: 2.4, sfx: 'owl' },
+  // Warm lamp pool on the carpet
+  { id: 'fire', u: 0.583, v: 0.742, w: 2.8, h: 2.6, sfx: 'fire' },
+  // Globe / wonder — the door window looking onto the street
   {
     id: 'wonder',
-    u: 0.55,
-    v: 0.62,
+    u: 0.124,
+    v: 0.459,
     w: 2.4,
     h: 2.4,
     sfx: 'wonder',
