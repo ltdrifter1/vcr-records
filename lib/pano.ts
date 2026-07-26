@@ -27,18 +27,18 @@ export const SPHERE_RADIUS = 48;
 export const MFOV_RATIO = 4 / 3;
 
 /**
- * Explore MFOV — krpano / balmingtiger default (fov="120").
- * Wider values make the packed store feel crowded; 120 reads roomier.
+ * Explore MFOV — widened for VCR's denser room so architecture reads larger
+ * and more of the ceiling / floor sightline remains visible.
  */
-export const MFOV_EXPLORE = 120;
+export const MFOV_EXPLORE = 132;
 export const MFOV_INTRO = 160;
 /**
  * Free-look wheel clamp (krpano fovmin/fovmax).
  * lookto may punch below this (video ~20) — wheel/keys stay in this range.
  */
 export const MFOV_MIN = 70;
-/** Slightly above BT’s 140 so portrait can recover desktop HFOV (~120°). */
-export const MFOV_MAX = 152;
+/** Allows portrait to preserve the authored 132° horizontal explore view. */
+export const MFOV_MAX = 160;
 /** Absolute floor for lookto punch-ins (video). */
 export const MFOV_LOOKTO_MIN = 20;
 
@@ -53,16 +53,14 @@ export const INTRO_DUR = 3.0;
 export const INTRO_CEILING_V = 0.1;
 /** Soft yaw swing amplitude during the drop (degrees). */
 export const INTRO_PAN_DEG = 16;
-/** Hotspot the intro lands on (camera only — no panel). */
-export const INTRO_SETTLE_ID = 'listening-booth';
-
 /**
  * Designed "front" of the store (listening booth / bins / CRT),
  * equivalent of krpano hlookat=0, vlookat=0 for this equirect.
  */
 /** Front of store after BackSide U-flip (texture u ↔ 1−u). */
 export const START_LOOK_U = 0.32;
-export const START_LOOK_V = 0.5;
+/** Slight downward pitch lifts the horizon and exposes more floor depth. */
+export const START_LOOK_V = 0.53;
 
 /**
  * krpano vtourskin defaults:
