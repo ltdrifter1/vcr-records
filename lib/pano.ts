@@ -37,7 +37,8 @@ export const MFOV_INTRO = 160;
  * lookto may punch below this (video ~20) — wheel/keys stay in this range.
  */
 export const MFOV_MIN = 70;
-export const MFOV_MAX = 140;
+/** Slightly above BT’s 140 so portrait can recover desktop HFOV (~120°). */
+export const MFOV_MAX = 152;
 /** Absolute floor for lookto punch-ins (video). */
 export const MFOV_LOOKTO_MIN = 20;
 

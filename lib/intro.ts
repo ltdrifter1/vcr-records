@@ -10,11 +10,12 @@ import {
   INTRO_DUR,
   INTRO_PAN_DEG,
   INTRO_SETTLE_ID,
-  MFOV_EXPLORE,
   MFOV_INTRO,
   uToYaw,
   vToPitch,
 } from '@/lib/pano';
+import { resolveExploreMfov } from '@/lib/navigation/CameraController';
+import { measureViewport } from '@/lib/navigation/ViewportManager';
 
 const DEG = Math.PI / 180;
 
@@ -55,6 +56,8 @@ export function playEnterIntro(
     controls.velocity.y = 0;
   };
 
+  const exploreMfov = resolveExploreMfov(measureViewport());
+
   // Ceiling pose under the gate / first enter frame
   applyLook(settleYaw, ceilingPitch, MFOV_INTRO, FISHEYE_INTRO);
   controls.userControl = false;
@@ -62,7 +65,7 @@ export function playEnterIntro(
   controls.lookAnimating = true;
 
   if (opts.reduceMotion) {
-    applyLook(settleYaw, settlePitch, MFOV_EXPLORE, FISHEYE_EXPLORE);
+    applyLook(settleYaw, settlePitch, exploreMfov, FISHEYE_EXPLORE);
     controls.lookAnimating = false;
     controls.userControl = true;
     if (typeof window !== 'undefined' && !window.matchMedia('(pointer: coarse)').matches) {
@@ -79,7 +82,7 @@ export function playEnterIntro(
     { t: 0, mfov: MFOV_INTRO, fisheye: FISHEYE_INTRO },
     {
       t: 1,
-      mfov: MFOV_EXPLORE,
+      mfov: exploreMfov,
       fisheye: FISHEYE_EXPLORE,
       duration: INTRO_DUR,
       delay: INTRO_DELAY,
@@ -95,7 +98,7 @@ export function playEnterIntro(
         applyLook(yaw, pitch, proxy.mfov, proxy.fisheye);
       },
       onComplete: () => {
-        applyLook(settleYaw, settlePitch, MFOV_EXPLORE, FISHEYE_EXPLORE);
+        applyLook(settleYaw, settlePitch, exploreMfov, FISHEYE_EXPLORE);
         controls.lookAnimating = false;
         controls.userControl = true;
         if (typeof window !== 'undefined' && !window.matchMedia('(pointer: coarse)').matches) {

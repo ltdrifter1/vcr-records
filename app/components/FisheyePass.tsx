@@ -49,9 +49,9 @@ export default function FisheyePass({
 
             float k = clamp(uAmount, 0.0, 1.0);
             float r2 = dot(p, p);
-            // Soft barrel (was 0.22 — too much pinch on a dense pano).
-            float radial = 1.0 + k * 0.12 * r2;
-            float fit = 1.0 / (1.0 + k * 0.12);
+            // Soft barrel — enough presence for roomy explore without dense-pano pinch.
+            float radial = 1.0 + k * 0.16 * r2;
+            float fit = 1.0 / (1.0 + k * 0.16);
             vec2 q = p * radial * fit;
 
             q.x = clamp(q.x, -uAspect * 0.995, uAspect * 0.995);
@@ -113,8 +113,8 @@ export default function FisheyePass({
     const cam = camera as THREE.PerspectiveCamera;
     const baseFov = cam.fov;
 
-    // Explore k=0.3 → ~6% wider (was ~12%). Intro k=1 still opens up.
-    const expand = 1 + k * 0.2;
+    // Explore k=0.3 → ~10.5% wider FOV before UV fit (opens the room).
+    const expand = 1 + k * 0.35;
 
     if (k < 0.008) {
       gl.setRenderTarget(null);
