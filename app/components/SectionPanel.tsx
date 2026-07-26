@@ -373,7 +373,7 @@ export default function SectionPanel({
           aria-label={detail && !isMobile ? 'Back' : 'Close'}
           data-cursor="click"
         >
-          {detail && !isMobile ? 'BACK' : '×'}
+          {detail && !isMobile ? 'Back' : '×'}
         </button>
 
         {section && (
@@ -477,7 +477,7 @@ export default function SectionPanel({
             aria-label="Back"
             data-cursor="click"
           >
-            BACK
+            Back
           </button>
           <div className="panel-nest-inner">{nestDetail}</div>
         </div>
