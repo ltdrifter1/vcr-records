@@ -160,17 +160,21 @@ export function createNavigationController(
     gsap.killTweensOf(controls, 'followFactor');
     controls.followFactor = 0;
 
+    // Videos coming soon — leave the painted CRT blank (no watch overlay / video plane).
+    const armCrt =
+      id === 'crt-tv' && (SECTION_BY_ID['crt-tv']?.items.length ?? 0) > 0;
+
     if (cbs.reduceMotion) {
       interruptCameraAnimation(controls);
       writeCamera(controls, target);
-      if (id === 'crt-tv') cbs.onCrtArm?.(true);
+      if (armCrt) cbs.onCrtArm?.(true);
       return;
     }
 
     animateCamera(controls, target, {
       duration: LOOKTO_DURATION,
       onComplete: () => {
-        if (id === 'crt-tv') cbs.onCrtArm?.(true);
+        if (armCrt) cbs.onCrtArm?.(true);
       },
     });
   };
