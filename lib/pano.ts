@@ -46,21 +46,24 @@ export const MFOV_LOOKTO_MIN = 20;
 export const FISHEYE_EXPLORE = 0.3;
 export const FISHEYE_INTRO = 1.0;
 
-/** Enter tween — ceiling → pan → settle on hotspot. */
+/** Enter tween — floor-center drop → tilt up to the room's base view. */
 export const INTRO_DELAY = 0.35;
 export const INTRO_DUR = 3.0;
-/** Looking up at the lamp / ceiling at enter (equirect v). */
-export const INTRO_CEILING_V = 0.1;
-/** Soft yaw swing amplitude during the drop (degrees). */
-export const INTRO_PAN_DEG = 16;
 /**
- * Designed "front" of the store (listening booth / bins / CRT),
- * equivalent of krpano hlookat=0, vlookat=0 for this equirect.
+ * Pre-enter / drop pose: looking almost straight DOWN at the floor in the
+ * middle of the room (krpano-style vlookat≈90 little-planet drop).
+ * Kept just off the exact nadir to avoid equirect pole smearing.
  */
-/** Front of store after BackSide U-flip (texture u ↔ 1−u). */
-export const START_LOOK_U = 0.42;
-/** Slight downward pitch lifts the horizon and exposes more floor depth. */
-export const START_LOOK_V = 0.53;
+export const INTRO_DROP_V = 0.96;
+/**
+ * Base view — the room's central axis (aisle vanishing point), the
+ * equivalent of krpano hlookat=0 / vlookat=0. The intro tilts up to this
+ * pose and every reset returns to it.
+ */
+/** Center of the aisle after BackSide U-flip (texture u ↔ 1−u). */
+export const START_LOOK_U = 0.5;
+/** Level base view (vlookat 0). */
+export const START_LOOK_V = 0.5;
 
 /**
  * krpano vtourskin defaults:
