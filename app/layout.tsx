@@ -34,6 +34,14 @@ export const metadata: Metadata = {
     'immersive',
     'underground',
   ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'VCR Recordings',
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     title: 'VCR Recordings',
     description: 'An interactive 360° record store. Look around, explore, discover.',
