@@ -76,7 +76,7 @@ const desktop = {
 {
   const desk = resolveExploreMfov(desktop);
   const mob = resolveExploreMfov(phone);
-  assert.equal(desk, MFOV_EXPLORE, 'desktop explore stays authored 120');
+  assert.equal(desk, MFOV_EXPLORE, 'desktop explore stays at authored MFOV');
   assert.ok(mob > desk + 10, `phone explore ${mob} must widen past desktop ${desk}`);
   const deskHfov = mfovToHorizontalFov(desk, desktop.aspect);
   const mobHfov = mfovToHorizontalFov(mob, phone.aspect);

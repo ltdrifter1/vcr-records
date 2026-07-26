@@ -1,7 +1,6 @@
 import gsap from 'gsap';
 
 import type { Controls } from '@/app/components/sceneContext';
-import { SECTION_BY_ID } from '@/app/data/sections';
 import {
   FISHEYE_EXPLORE,
   FISHEYE_INTRO,
@@ -9,8 +8,9 @@ import {
   INTRO_DELAY,
   INTRO_DUR,
   INTRO_PAN_DEG,
-  INTRO_SETTLE_ID,
   MFOV_INTRO,
+  START_LOOK_U,
+  START_LOOK_V,
   uToYaw,
   vToPitch,
 } from '@/lib/pano';
@@ -30,7 +30,7 @@ export type IntroLookRefs = {
  * shaped to what the room reads as:
  *   1. Start looking at the ceiling
  *   2. Soft yaw pan back and forth while dropping the fisheye punch
- *   3. Settle on the listening-booth hotspot (no panel open)
+ *   3. Settle on the open store sightline (no panel open)
  * then unlock usercontrol.
  */
 export function playEnterIntro(
@@ -38,9 +38,8 @@ export function playEnterIntro(
   refs: IntroLookRefs,
   opts: { reduceMotion?: boolean; onComplete?: () => void } = {},
 ) {
-  const settle = SECTION_BY_ID[INTRO_SETTLE_ID] ?? SECTION_BY_ID['listening-booth'];
-  const settleYaw = uToYaw(settle?.u ?? 0.2);
-  const settlePitch = vToPitch(settle?.v ?? 0.4);
+  const settleYaw = uToYaw(START_LOOK_U);
+  const settlePitch = vToPitch(START_LOOK_V);
   const ceilingPitch = vToPitch(INTRO_CEILING_V);
   const panAmp = INTRO_PAN_DEG * DEG;
 

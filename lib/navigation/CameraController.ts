@@ -35,7 +35,7 @@ export function createControls(initial?: Partial<Controls>): Controls {
 }
 
 /**
- * Explore MFOV for the live viewport — keeps design HFOV (~120°) on portrait
+ * Explore MFOV for the live viewport — keeps design HFOV (~132°) on portrait
  * so the room doesn’t tunnel / feel compressed on phones.
  */
 export function resolveExploreMfov(viewport?: ViewportMetrics): number {

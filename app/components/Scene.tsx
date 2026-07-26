@@ -13,7 +13,6 @@ import {
   FOLLOW_SPEED,
   FRICTION_STOP,
   INTRO_CEILING_V,
-  INTRO_SETTLE_ID,
   LQIP_SRC,
   MFOV_INTRO,
   SPHERE_RADIUS,
@@ -28,7 +27,7 @@ import {
 } from '@/lib/pano';
 import { playEnterIntro } from '@/lib/intro';
 import type { GyroHandle } from '@/lib/gyro';
-import { SECTIONS, SECTION_BY_ID } from '@/app/data/sections';
+import { SECTIONS } from '@/app/data/sections';
 import { SceneContext, type SceneEnv, type Controls } from './sceneContext';
 import DustField from './DustField';
 import LightBeams from './LightBeams';
@@ -74,8 +73,8 @@ type Props = {
 
 /**
  * Camera rig — balmingtiger / krpano parity + cinematic enter:
- * - Enter: ceiling → soft yaw pan → settle on listening booth
- *   while MFOV 160→130 + fisheye 1→0.3 (power3.inOut)
+ * - Enter: ceiling → soft yaw pan → settle on the open store sightline
+ *   while MFOV 160→132 + fisheye 1→0.3 (power3.inOut)
  * - Look locked during intro; usercontrol=all on complete
  * - Click-and-drag with instant tracking + draginertia/dragfriction
  * - followmousecontrol lean on desktop (view.rx / view.ry)
@@ -97,8 +96,7 @@ function Rig({
   gyroRef?: { current: GyroHandle };
 }) {
   const { camera, size } = useThree();
-  const settle = SECTION_BY_ID[INTRO_SETTLE_ID];
-  const settleYaw = uToYaw(settle?.u ?? START_LOOK_U);
+  const settleYaw = uToYaw(START_LOOK_U);
   const ceilingPitch = vToPitch(INTRO_CEILING_V);
   const yaw = useRef(settleYaw);
   const pitch = useRef(ceilingPitch);
