@@ -181,9 +181,9 @@ export function uvToLocal(u: number, v: number): [number, number, number] {
   return uvToSpherical(u, v, SPHERE_RADIUS - 0.35);
 }
 
-/** v5 — hand-drawn 90s cartoon room: bright pencil/marker cel, wrap-safe seam. */
-export const TEXTURE_SRC = '/textures/store_pano_v5.webp';
+/** v6 — polished 90s cartoon room: clean cel ink + skate-shop stickers, wrap-safe seam. */
+export const TEXTURE_SRC = '/textures/store_pano_v6.webp';
 /** Darkened twin of the store — balmingtiger lights_off scene. */
-export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v5.webp';
-export const LQIP_SRC = '/textures/store_pano_lqip_v5.webp';
+export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v6.webp';
+export const LQIP_SRC = '/textures/store_pano_lqip_v6.webp';
 export const CRT_VIDEO_SRC = '/videos/crt_loop.mp4';
