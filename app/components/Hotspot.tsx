@@ -27,96 +27,100 @@ const EDGE_ERODE = 6;
  * thinned to outer edges so they can’t paint a solid rectangle.
  */
 function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
-  map.colorSpace = THREE.SRGBColorSpace;
-  const img = map.image as
-    | HTMLImageElement
-    | HTMLCanvasElement
-    | ImageBitmap
-    | undefined;
-  if (img && 'width' in img && img.width) {
-    const w = img.width;
-    const h = img.height;
-    const c = document.createElement('canvas');
-    c.width = w;
-    c.height = h;
-    const ctx = c.getContext('2d', { willReadFrequently: true });
-    if (ctx) {
-      ctx.drawImage(img as CanvasImageSource, 0, 0);
-      const src = ctx.getImageData(0, 0, w, h);
-      const d = src.data;
+  try {
+    map.colorSpace = THREE.SRGBColorSpace;
+    const img = map.image as
+      | HTMLImageElement
+      | HTMLCanvasElement
+      | ImageBitmap
+      | undefined;
+    if (img && 'width' in img && img.width) {
+      const w = img.width;
+      const h = img.height;
+      const c = document.createElement('canvas');
+      c.width = w;
+      c.height = h;
+      const ctx = c.getContext('2d', { willReadFrequently: true });
+      if (ctx) {
+        ctx.drawImage(img as CanvasImageSource, 0, 0);
+        const src = ctx.getImageData(0, 0, w, h);
+        const d = src.data;
 
-      let hasTrans = false;
-      for (let i = 3; i < d.length; i += 4) {
-        if (d[i] < 250) {
-          hasTrans = true;
-          break;
-        }
-      }
-
-      const a = new Float32Array(w * h);
-      for (let i = 0, p = 0; i < d.length; i += 4, p++) {
-        const lum = Math.max(d[i], d[i + 1], d[i + 2]) / 255;
-        a[p] = hasTrans ? d[i + 3] / 255 : lum;
-      }
-
-      let solid = 0;
-      for (let i = 0; i < a.length; i++) if (a[i] > 0.55) solid++;
-      const filled = solid / a.length > 0.18;
-
-      const out = ctx.createImageData(w, h);
-      const o = out.data;
-
-      if (!filled) {
-        // Authored edge map — keep silhouette alpha, force white RGB for tint control.
-        for (let p = 0, i = 0; p < a.length; p++, i += 4) {
-          o[i] = 255;
-          o[i + 1] = 255;
-          o[i + 2] = 255;
-          o[i + 3] = Math.round(Math.min(1, a[p] * 1.15) * 255);
-        }
-      } else {
-        // Filled slab → outer rim only (mask − eroded).
-        const eroded = new Float32Array(a.length);
-        const r = EDGE_ERODE;
-        for (let y = 0; y < h; y++) {
-          for (let x = 0; x < w; x++) {
-            let m = 1;
-            for (let dy = -r; dy <= r; dy++) {
-              for (let dx = -r; dx <= r; dx++) {
-                if (dx * dx + dy * dy > r * r) continue;
-                const xx = Math.min(w - 1, Math.max(0, x + dx));
-                const yy = Math.min(h - 1, Math.max(0, y + dy));
-                m = Math.min(m, a[yy * w + xx]);
-              }
-            }
-            eroded[y * w + x] = m;
+        let hasTrans = false;
+        for (let i = 3; i < d.length; i += 4) {
+          if (d[i] < 250) {
+            hasTrans = true;
+            break;
           }
         }
-        for (let p = 0, i = 0; p < a.length; p++, i += 4) {
-          const rim = Math.max(0, a[p] - eroded[p]);
-          const v = Math.min(1, rim * 2.6);
-          o[i] = 255;
-          o[i + 1] = 255;
-          o[i + 2] = 255;
-          o[i + 3] = Math.round(v * 255);
-        }
-      }
 
-      ctx.putImageData(out, 0, 0);
-      map.image = c;
-      map.format = THREE.RGBAFormat;
+        const a = new Float32Array(w * h);
+        for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+          const lum = Math.max(d[i], d[i + 1], d[i + 2]) / 255;
+          a[p] = hasTrans ? d[i + 3] / 255 : lum;
+        }
+
+        let solid = 0;
+        for (let i = 0; i < a.length; i++) if (a[i] > 0.55) solid++;
+        const filled = solid / a.length > 0.18;
+
+        const out = ctx.createImageData(w, h);
+        const o = out.data;
+
+        if (!filled) {
+          // Authored edge map — keep silhouette alpha, force white RGB for tint control.
+          for (let p = 0, i = 0; p < a.length; p++, i += 4) {
+            o[i] = 255;
+            o[i + 1] = 255;
+            o[i + 2] = 255;
+            o[i + 3] = Math.round(Math.min(1, a[p] * 1.15) * 255);
+          }
+        } else {
+          // Filled slab → outer rim only (mask − eroded).
+          const eroded = new Float32Array(a.length);
+          const r = EDGE_ERODE;
+          for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+              let m = 1;
+              for (let dy = -r; dy <= r; dy++) {
+                for (let dx = -r; dx <= r; dx++) {
+                  if (dx * dx + dy * dy > r * r) continue;
+                  const xx = Math.min(w - 1, Math.max(0, x + dx));
+                  const yy = Math.min(h - 1, Math.max(0, y + dy));
+                  m = Math.min(m, a[yy * w + xx]);
+                }
+              }
+              eroded[y * w + x] = m;
+            }
+          }
+          for (let p = 0, i = 0; p < a.length; p++, i += 4) {
+            const rim = Math.max(0, a[p] - eroded[p]);
+            const v = Math.min(1, rim * 2.6);
+            o[i] = 255;
+            o[i + 1] = 255;
+            o[i + 2] = 255;
+            o[i + 3] = Math.round(v * 255);
+          }
+        }
+
+        ctx.putImageData(out, 0, 0);
+        map.image = c;
+        map.format = THREE.RGBAFormat;
+      }
     }
+    if (flipX) {
+      map.wrapS = THREE.RepeatWrapping;
+      map.repeat.x = -1;
+      map.offset.x = 1;
+    } else {
+      map.wrapS = THREE.ClampToEdgeWrapping;
+      map.repeat.x = 1;
+      map.offset.x = 0;
+    }
+    map.needsUpdate = true;
+  } catch {
+    /* keep original map if canvas prep fails */
   }
-  if (flipX) {
-    map.wrapS = THREE.RepeatWrapping;
-    map.repeat.x = -1;
-    map.offset.x = 1;
-  } else {
-    map.wrapS = THREE.ClampToEdgeWrapping;
-    map.repeat.x = 1;
-    map.offset.x = 0;
-  }
-  map.needsUpdate = true;
 }
 
 /**

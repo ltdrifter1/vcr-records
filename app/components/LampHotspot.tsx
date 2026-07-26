@@ -109,7 +109,6 @@ export default function LampHotspot({
         }}
         onClick={handleClick}
         userData={{ hotspotId: 'lamp', nav: 'Lights' }}
-        aria-label={lightsOn ? 'Turn lights off' : 'Turn lights on'}
       >
         <planeGeometry args={[3.2, 4.5]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
