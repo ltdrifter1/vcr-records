@@ -1,7 +1,8 @@
 # VCR Records
 
-`vcrrecords.com` homepage is the immersive **360° store** (Next.js).  
-The previous static marketing/shop site lives unchanged at **`/shop`** (legacy deep links / SEO).
+`vcrrecords.com` is the immersive **360° store** (Next.js).  
+Legacy catalog URLs under `/shop` redirect to a thin brand bridge that
+sends visitors into the room.
 
 ## Routes
 
@@ -9,9 +10,14 @@ The previous static marketing/shop site lives unchanged at **`/shop`** (legacy d
 |---|---|
 | `/` | 360° illustrated record store (enter → look around → hotspots) |
 | `/#music` `#videos` `#artists` `#shop` `#contact` | Deep-link a section after enter |
-| `/shop/` | Legacy VCR HTML catalog (kept; primary Shop UX is in-room) |
+| `/shop` | Brand bridge → enter the store (`/#shop`). Old `/shop/*.html` URLs 301 here. |
 
 Top-nav **Shop** and the cash-register hotspot open the **in-room counter panel**. Checkout still goes to Stripe / Bandcamp in a new tab. Browser Back closes the panel / restores the prior section.
+
+## Content
+
+In-room releases, CRT channels, and shop rows live in **`app/data/catalog.ts`** —
+edit that file to add or change what the store plays and sells.
 
 ## Develop
 
@@ -21,7 +27,7 @@ npm run dev
 ```
 
 - 360 app: http://localhost:3000  
-- Legacy site: http://localhost:3000/shop/
+- Shop bridge: http://localhost:3000/shop
 
 ## Deploy
 

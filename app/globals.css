@@ -1572,3 +1572,187 @@ html.has-custom-cursor * {
     transition: none;
   }
 }
+
+/* ---------- /shop brand bridge (legacy catalog collapsed) ---------- */
+.shop-bridge {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(233, 178, 29, 0.16), transparent 55%),
+    radial-gradient(90% 70% at 80% 110%, rgba(255, 229, 102, 0.14), transparent 50%),
+    linear-gradient(165deg, #fbf6ea 0%, #f4ecda 42%, #eadfc6 100%);
+  color: #2b2317;
+  overflow: hidden;
+}
+.shop-bridge-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.shop-bridge-mist {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.5;
+}
+.shop-bridge-mist-a {
+  width: 50vw;
+  height: 32vh;
+  left: -6%;
+  bottom: 10%;
+  background: rgba(216, 196, 156, 0.4);
+}
+.shop-bridge-mist-b {
+  width: 42vw;
+  height: 28vh;
+  right: -4%;
+  top: 12%;
+  background: rgba(233, 178, 29, 0.12);
+}
+.shop-bridge-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.5) 0.5px, transparent 1px),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.4) 0.6px, transparent 1px);
+  background-size: 7px 7px, 11px 11px;
+  mix-blend-mode: soft-light;
+}
+.shop-bridge-inner {
+  position: relative;
+  width: min(560px, 90vw);
+  text-align: center;
+  z-index: 1;
+}
+.shop-bridge-kicker {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(74, 62, 44, 0.7);
+  margin: 0 0 18px;
+}
+.shop-bridge-mark {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(48px, 12vw, 96px);
+  line-height: 0.88;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+.shop-bridge-vcr {
+  display: block;
+  color: #2b2317;
+  text-shadow:
+    0 0 12px rgba(233, 178, 29, 0.35),
+    0 2px 0 rgba(255, 247, 224, 0.9);
+}
+.shop-bridge-recordings {
+  display: block;
+  margin-top: 0.06em;
+  font-size: 0.72em;
+  letter-spacing: 0.04em;
+  color: var(--amber);
+  -webkit-text-stroke: 1px rgba(43, 35, 23, 0.35);
+  text-shadow:
+    0 0 10px rgba(255, 229, 102, 0.65),
+    0 3px 0 rgba(255, 247, 224, 0.85);
+}
+.shop-bridge-lede {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(15px, 2.4vw, 17px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: rgba(43, 35, 23, 0.78);
+  max-width: 36ch;
+  margin: 28px auto 36px;
+}
+.shop-bridge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 20px;
+  margin-bottom: 40px;
+}
+.shop-bridge-cta {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2b2317;
+  background: #2b2317;
+  color: #fff7e0;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 28px;
+  box-shadow: 0 8px 0 rgba(43, 35, 23, 0.22);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.25s ease;
+}
+.shop-bridge-cta:hover {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #2b2317;
+  transform: translateY(2px);
+  box-shadow:
+    0 0 24px rgba(233, 178, 29, 0.45),
+    0 4px 0 rgba(43, 35, 23, 0.22);
+}
+.shop-bridge-link {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(43, 35, 23, 0.72);
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(43, 35, 23, 0.28);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.shop-bridge-link:hover {
+  color: #2b2317;
+  border-color: var(--amber);
+}
+.shop-bridge-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.shop-bridge-list a {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: rgba(43, 35, 23, 0.62);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.shop-bridge-list a:hover {
+  color: #2b2317;
+}
+.shop-bridge-cta:focus-visible,
+.shop-bridge-link:focus-visible,
+.shop-bridge-list a:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}

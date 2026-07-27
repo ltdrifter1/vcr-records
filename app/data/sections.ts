@@ -246,9 +246,10 @@ export const SECTION_BY_ID = Object.fromEntries(
 ) as Record<string, Section>;
 
 /**
- * Legacy static catalog — kept for deep links / SEO, but Shop nav stays in-room.
+ * Legacy static catalog URL — now a thin brand bridge into the 360 room.
+ * Prefer deep links like `/#shop` for in-app navigation.
  */
-export const SHOP_URL = '/shop/index.html';
+export const SHOP_URL = '/shop';
 
 /** Primary conveyor nav order. */
 export const NAV_ORDER = [

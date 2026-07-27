@@ -318,7 +318,6 @@ export default function SectionPanel({
       return;
     }
     if (!item.href) return;
-    if (item.href.startsWith('/shop')) return;
     openOutbound(item.href);
   };
 
@@ -458,19 +457,19 @@ export default function SectionPanel({
                             {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
                               <span className="panel-cta">{it.cta ?? 'Open'}</span>
                             )}
-                            {it.videoSrc && it.href && !it.href.startsWith('/shop') ? (
-                              <a
-                                className="panel-cta panel-cta-pill panel-cta-secondary"
-                                href={it.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                data-cursor="click"
-                                onClick={(e) => e.stopPropagation()}
-                                onKeyDown={(e) => e.stopPropagation()}
-                              >
-                                Open page
-                              </a>
-                            ) : null}
+                          {it.videoSrc && it.href ? (
+                            <a
+                              className="panel-cta panel-cta-pill panel-cta-secondary"
+                              href={it.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-cursor="click"
+                              onClick={(e) => e.stopPropagation()}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            >
+                              Open page
+                            </a>
+                          ) : null}
                           </div>
                         )}
                       </div>
