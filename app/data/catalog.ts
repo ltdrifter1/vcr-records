@@ -7,9 +7,9 @@
  *      Each row opens a nest with transport, track list, and LISTEN ON pills.
  *      Use `body` for the short shelf blurb. Drop preview MP3s in
  *      /public/audio/previews and cover art in /public/panel-thumbs.
- *  · CRT_CHANNELS   → rows in the Videos panel. `videoSrc` plays the file
- *      on the in-room CRT (put MP4s in /public/videos); rows with only
- *      `href` open in a new tab.
+ *  · CRT_CHANNELS   → channel-guide rows in the Videos panel. `videoSrc`
+ *      plays on the in-room CRT; use `body` for the guide blurb. Rows with
+ *      only `href` open outbound (e.g. YouTube).
  *  · ARTISTS        → roster rows in the Artists (record bins) panel.
  *  · SHOP_ITEMS     → shelf rows in the Shop (New Releases) panel.
  * ─────────────────────────────────────────────────────────────────────────
@@ -194,42 +194,47 @@ export const CRT_CHANNELS: SectionItem[] = [
   {
     label: 'VCR-TV',
     meta: 'Station ID',
-    detail: 'Now playing in-store',
-    cta: 'Watch',
+    detail: 'House loop',
+    cta: 'Tune',
     thumbSrc: ART.vcr,
     videoSrc: VIDEO.station,
+    body: 'The in-store station — logo glitch on the tube.',
   },
   {
     label: 'At Home',
     meta: 'Inlet Knight',
-    detail: 'In-store loop',
-    cta: 'Watch',
+    detail: 'Release loop',
+    cta: 'Tune',
     thumbSrc: ART.atHome,
     videoSrc: VIDEO.atHome,
+    body: 'Late-night sleeve art cycling on the glass.',
   },
   {
     label: "Lions' Gate",
     meta: 'Charlie Archer',
-    detail: 'In-store loop',
-    cta: 'Watch',
+    detail: 'Release loop',
+    cta: 'Tune',
     thumbSrc: ART.lions,
     videoSrc: VIDEO.lions,
+    body: 'A short gate — keep the CRT warm.',
   },
   {
     label: 'Classic',
     meta: 'VCR Recordings',
     detail: 'Archive loop',
-    cta: 'Watch',
+    cta: 'Tune',
     thumbSrc: ART.classic,
     videoSrc: VIDEO.classic,
+    body: 'Deep catalog static — vinyl-label haze.',
   },
   {
     label: 'Future',
     meta: 'VCR Recordings',
     detail: 'Archive loop',
-    cta: 'Watch',
+    cta: 'Tune',
     thumbSrc: ART.future,
     videoSrc: VIDEO.future,
+    body: 'What’s next on the shelf, broadcast soft.',
   },
   {
     label: 'Inlet Knight',
@@ -238,6 +243,7 @@ export const CRT_CHANNELS: SectionItem[] = [
     cta: 'Open',
     thumbSrc: ART.yt,
     href: 'https://www.youtube.com/watch?v=AUAqGMaGjk4',
+    body: 'Step out for the full clip — then come back to the room.',
   },
 ];
 

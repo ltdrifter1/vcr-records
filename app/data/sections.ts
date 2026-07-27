@@ -115,7 +115,7 @@ export const SECTIONS: Section[] = [
     hint: '',
     title: '',
     kicker: 'Videos',
-    intro: '',
+    intro: 'Tune the tube — channels stay in the room.',
     accent: '#7ad7ff',
     // v9 pano: CRT on the low cabinet — u/v is the tube-glass center and
     // w/h are tube-locked so the CrtScreen video/frame overlays sit on the

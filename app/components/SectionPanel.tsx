@@ -202,12 +202,18 @@ export default function SectionPanel({
   activeId,
   onClose,
   onPlayCrt,
+  crtSrc = null,
+  crtArmed = false,
   reduceMotion = false,
 }: {
   activeId: string | null;
   onClose: () => void;
   /** Play a local video on the in-room CRT (Videos section). */
   onPlayCrt?: (src: string) => void;
+  /** Current CRT channel URL — drives “Now on the tube” live state. */
+  crtSrc?: string | null;
+  /** True once Videos lookto has armed the tube. */
+  crtArmed?: boolean;
   reduceMotion?: boolean;
 }) {
   const [shownId, setShownId] = useState<string | null>(null);
@@ -385,8 +391,13 @@ export default function SectionPanel({
   // Sections whose rows open the in-panel detail nest (previews / tracks).
   const nestable =
     section?.id === 'cash-register' || section?.id === 'listening-booth';
+  const channelGuide = section?.id === 'crt-tv';
   const artistPanel = section?.id === 'record-bins';
   const heroKicker = Boolean(section?.kicker?.trim() && !section.title?.trim());
+  const liveChannel =
+    channelGuide && crtArmed && crtSrc
+      ? section?.items.find((it) => it.videoSrc && it.videoSrc === crtSrc) ?? null
+      : null;
 
   const handleBack = () => {
     if (detail) {
@@ -487,105 +498,120 @@ export default function SectionPanel({
               {section.intro ? (
                 <p className="panel-intro">{section.intro}</p>
               ) : null}
+              {liveChannel ? (
+                <p className="panel-on-air" role="status" aria-live="polite">
+                  <span className="panel-on-air-dot" aria-hidden />
+                  Now on the tube
+                  <span className="panel-on-air-sep" aria-hidden>
+                    ·
+                  </span>
+                  <span className="panel-on-air-title">{liveChannel.label}</span>
+                </p>
+              ) : null}
 
               {section.items.length === 0 ? (
                 <p className="panel-intro panel-coming-soon">Coming soon.</p>
               ) : (
                 <div
-                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}${nestable ? ' panel-list--shelf' : ''}`}
+                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}${nestable ? ' panel-list--shelf' : ''}${channelGuide ? ' panel-list--channels' : ''}`}
                   role="list"
                   data-scroll-list
                 >
-                  {section.items.map((it, i) => (
-                    <article
-                      key={i}
-                      className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${detail === it ? ' is-selected' : ''}`}
-                      role="listitem"
-                      tabIndex={0}
-                      data-cursor="click"
-                      aria-label={`${it.cta ?? 'Open'} ${it.label}${it.meta ? ` — ${it.meta}` : ''}`}
-                      aria-current={detail === it ? 'true' : undefined}
-                      onClick={() => openItem(it)}
-                      onKeyDown={(e) => onRowKey(e, it)}
-                    >
-                      <div
-                        className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}${nestable ? ' panel-thumb--shelf' : ''}`}
-                        style={
-                          it.thumbSrc
-                            ? undefined
-                            : {
-                                background: `color-mix(in srgb, ${section.accent} 55%, #1a1410)`,
-                              }
-                        }
-                        aria-hidden
+                  {section.items.map((it, i) => {
+                    const onTube =
+                      channelGuide &&
+                      Boolean(crtArmed && it.videoSrc && it.videoSrc === crtSrc);
+                    const shelfLike = nestable || channelGuide;
+                    return (
+                      <article
+                        key={i}
+                        className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${channelGuide ? ' panel-row--channel' : ''}${onTube ? ' is-on-air' : ''}${detail === it ? ' is-selected' : ''}`}
+                        role="listitem"
+                        tabIndex={0}
+                        data-cursor="click"
+                        aria-label={`${it.cta ?? 'Open'} ${it.label}${it.meta ? ` — ${it.meta}` : ''}${onTube ? ' — now on the tube' : ''}`}
+                        aria-current={onTube || detail === it ? 'true' : undefined}
+                        onClick={() => openItem(it)}
+                        onKeyDown={(e) => onRowKey(e, it)}
                       >
-                        {it.thumbSrc ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={it.thumbSrc}
-                            alt=""
-                            width={nestable ? 132 : 72}
-                            height={nestable ? 132 : 72}
-                            loading="lazy"
-                          />
-                        ) : (
-                          <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
-                        )}
-                      </div>
-                      <div className="panel-row-body">
-                        <span className="pc-label">{it.label}</span>
-                        {it.meta && (
-                          <span className={`pc-meta${artistPanel ? ' pc-location' : ''}`}>
-                            {it.meta}
-                          </span>
-                        )}
-                        {nestable && it.body ? (
-                          <p className="pc-blurb">{it.body}</p>
-                        ) : null}
-                        {artistPanel && it.href && it.detail ? (
-                          <a
-                            className="pc-outbound"
-                            href={it.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            data-cursor="click"
-                            onClick={(e) => e.stopPropagation()}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            {it.detail}
-                          </a>
-                        ) : (
-                          it.detail && <span className="pc-detail">{it.detail}</span>
-                        )}
-                        {/* Shelf rows are the CTA — no pill chrome. Videos keep remote pills. */}
-                        {!artistPanel && !nestable && (
-                          <div className="panel-cta-wrap">
-                            {(it.cta || it.videoSrc) && (
-                              <span className="panel-cta">{it.cta ?? 'Open'}</span>
-                            )}
-                            {it.videoSrc && it.href ? (
-                              <a
-                                className="panel-cta panel-cta-pill panel-cta-secondary"
-                                href={it.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                data-cursor="click"
-                                onClick={(e) => e.stopPropagation()}
-                                onKeyDown={(e) => e.stopPropagation()}
-                              >
-                                Open page
-                              </a>
-                            ) : null}
-                          </div>
-                        )}
-                        {nestable && (
-                          <span className="pc-shelf-hint" aria-hidden>
-                            {it.previewSrc ? 'Step in to listen' : 'Open'}
-                          </span>
-                        )}
-                      </div>
-                    </article>
-                  ))}
+                        <div
+                          className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}${shelfLike ? ' panel-thumb--shelf' : ''}`}
+                          style={
+                            it.thumbSrc
+                              ? undefined
+                              : {
+                                  background: `color-mix(in srgb, ${section.accent} 55%, #1a1410)`,
+                                }
+                          }
+                          aria-hidden
+                        >
+                          {it.thumbSrc ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={it.thumbSrc}
+                              alt=""
+                              width={shelfLike ? 132 : 72}
+                              height={shelfLike ? 132 : 72}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
+                          )}
+                        </div>
+                        <div className="panel-row-body">
+                          <span className="pc-label">{it.label}</span>
+                          {it.meta && (
+                            <span className={`pc-meta${artistPanel ? ' pc-location' : ''}`}>
+                              {it.meta}
+                            </span>
+                          )}
+                          {shelfLike && it.body ? (
+                            <p className="pc-blurb">{it.body}</p>
+                          ) : null}
+                          {artistPanel && it.href && it.detail ? (
+                            <a
+                              className="pc-outbound"
+                              href={it.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-cursor="click"
+                              onClick={(e) => e.stopPropagation()}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            >
+                              {it.detail}
+                            </a>
+                          ) : null}
+                          {!artistPanel && !channelGuide && it.detail ? (
+                            <span className="pc-detail">{it.detail}</span>
+                          ) : null}
+                          {channelGuide && it.detail ? (
+                            <span className={`pc-detail${onTube ? ' is-live' : ''}`}>
+                              {onTube ? 'On the tube' : it.detail}
+                            </span>
+                          ) : null}
+                          {!artistPanel && !nestable && !channelGuide && it.cta ? (
+                            <div className="panel-cta-wrap">
+                              <span className="panel-cta">{it.cta}</span>
+                            </div>
+                          ) : null}
+                          {nestable && (
+                            <span className="pc-shelf-hint" aria-hidden>
+                              {it.previewSrc ? 'Step in to listen' : 'Open'}
+                            </span>
+                          )}
+                          {channelGuide && (
+                            <span className="pc-shelf-hint" aria-hidden>
+                              {onTube
+                                ? 'Playing'
+                                : it.videoSrc
+                                  ? 'Tune the tube'
+                                  : 'Open outside'}
+                            </span>
+                          )}
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
               )}
             </div>

@@ -314,6 +314,8 @@ export default function Experience() {
         activeId={active}
         onClose={close}
         onPlayCrt={playCrt}
+        crtSrc={crtSrc}
+        crtArmed={crtArmed}
         reduceMotion={reduceMotion}
       />
       <LoadingGate onEntered={handleEntered} />
