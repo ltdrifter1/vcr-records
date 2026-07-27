@@ -393,7 +393,11 @@ export default function SectionPanel({
     section?.id === 'cash-register' || section?.id === 'listening-booth';
   const channelGuide = section?.id === 'crt-tv';
   const artistPanel = section?.id === 'record-bins';
-  const heroKicker = Boolean(section?.kicker?.trim() && !section.title?.trim());
+  const contactPanel = section?.id === 'phone-booth';
+  // Hero kickers for browse panels; Contact stays BT-compact (no giant title).
+  const heroKicker = Boolean(
+    section?.kicker?.trim() && !section.title?.trim() && !contactPanel,
+  );
   const liveChannel =
     channelGuide && crtArmed && crtSrc
       ? section?.items.find((it) => it.videoSrc && it.videoSrc === crtSrc) ?? null
@@ -465,7 +469,7 @@ export default function SectionPanel({
       <div className="panel-scrim" aria-hidden />
       <aside
         ref={panelRef}
-        className={`panel${desktopNest ? ' has-detail' : ''}${mobileNest ? ' is-nesting' : ''}`}
+        className={`panel${desktopNest ? ' has-detail' : ''}${mobileNest ? ' is-nesting' : ''}${contactPanel ? ' is-contact' : ''}`}
         style={
           section
             ? ({ ['--panel-accent' as string]: section.accent } as React.CSSProperties)
@@ -480,18 +484,20 @@ export default function SectionPanel({
           ref={backBtn}
           className="panel-back"
           onClick={handleBack}
-          aria-label={detail && !isMobile ? 'Back' : 'Close'}
+          aria-label="Back"
           data-cursor="click"
         >
-          {detail && !isMobile ? 'Back' : '×'}
+          Back
         </button>
 
         {section && (
           <>
             <div className="panel-level panel-level-1" ref={level1}>
-              <p className={`panel-kicker${heroKicker ? ' is-hero' : ''}`}>
-                {section.kicker}
-              </p>
+              {section.kicker ? (
+                <p className={`panel-kicker${heroKicker ? ' is-hero' : ''}`}>
+                  {section.kicker}
+                </p>
+              ) : null}
               {section.title ? (
                 <h2 className="panel-title">{section.title}</h2>
               ) : null}
@@ -513,7 +519,7 @@ export default function SectionPanel({
                 <p className="panel-intro panel-coming-soon">Coming soon.</p>
               ) : (
                 <div
-                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}${nestable ? ' panel-list--shelf' : ''}${channelGuide ? ' panel-list--channels' : ''}`}
+                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}${nestable ? ' panel-list--shelf' : ''}${channelGuide ? ' panel-list--channels' : ''}${contactPanel ? ' panel-list--contact' : ''}`}
                   role="list"
                   data-scroll-list
                 >
@@ -525,7 +531,7 @@ export default function SectionPanel({
                     return (
                       <article
                         key={i}
-                        className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${channelGuide ? ' panel-row--channel' : ''}${onTube ? ' is-on-air' : ''}${detail === it ? ' is-selected' : ''}`}
+                        className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${channelGuide ? ' panel-row--channel' : ''}${contactPanel ? ' panel-row--contact' : ''}${onTube ? ' is-on-air' : ''}${detail === it ? ' is-selected' : ''}`}
                         role="listitem"
                         tabIndex={0}
                         data-cursor="click"
@@ -535,7 +541,7 @@ export default function SectionPanel({
                         onKeyDown={(e) => onRowKey(e, it)}
                       >
                         <div
-                          className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}${shelfLike ? ' panel-thumb--shelf' : ''}`}
+                          className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}${shelfLike ? ' panel-thumb--shelf' : ''}${contactPanel ? ' panel-thumb--contact' : ''}`}
                           style={
                             it.thumbSrc
                               ? undefined
@@ -550,8 +556,8 @@ export default function SectionPanel({
                             <img
                               src={it.thumbSrc}
                               alt=""
-                              width={shelfLike ? 132 : 72}
-                              height={shelfLike ? 132 : 72}
+                              width={shelfLike ? 132 : contactPanel ? 64 : 72}
+                              height={shelfLike ? 132 : contactPanel ? 64 : 72}
                               loading="lazy"
                             />
                           ) : (

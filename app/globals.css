@@ -954,9 +954,10 @@ html.has-custom-cursor * {
   background: rgba(255, 255, 255, 0.14);
   color: #fff;
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
   text-shadow: none;
   backdrop-filter: blur(12px);
@@ -1706,6 +1707,73 @@ html.has-custom-cursor * {
   filter: none;
   --row-scale: 1;
 }
+
+/* Contact — balmingtiger panel-contact denser type (14px titles, 12px meta) */
+.panel.is-contact {
+  height: auto;
+  max-height: min(72dvh, 430px);
+}
+.panel-list--contact {
+  gap: 22px;
+  margin-top: 2px;
+}
+.panel-row--contact {
+  align-items: flex-start;
+  gap: 14px;
+}
+.panel-thumb--contact {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 8px 18px rgba(0, 0, 0, 0.24);
+}
+.panel-row--contact .panel-row-body {
+  padding-top: 0;
+  gap: 2px;
+}
+.panel-row--contact .pc-label {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+.panel-row--contact .pc-meta {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.68);
+  overflow-wrap: anywhere;
+}
+.panel-row--contact .pc-detail {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.panel-row--contact .panel-cta-wrap {
+  margin-top: 8px;
+  gap: 6px;
+}
+.panel-row--contact .panel-cta {
+  padding: 5px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.panel-list--contact[data-has-scroll-active='true']
+  .panel-row--contact:not([data-scroll-active='true']) {
+  opacity: 0.78;
+}
+
 .panel-cta-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -1924,6 +1992,33 @@ html.has-custom-cursor * {
   .panel-row--artist .panel-thumb {
     width: 72px;
     height: 72px;
+  }
+  .panel.is-contact {
+    height: auto;
+    max-height: none;
+  }
+  .panel-list--contact {
+    gap: 14px;
+  }
+  .panel-row--contact {
+    flex-direction: column;
+    min-width: 132px;
+    max-width: 168px;
+    gap: 8px;
+  }
+  .panel-thumb--contact,
+  .panel-row--contact .panel-thumb {
+    width: 100%;
+    height: 96px;
+    flex: 0 0 auto;
+  }
+  .panel-row--contact .pc-label {
+    font-size: 12px;
+    line-height: 1.15;
+  }
+  .panel-row--contact .pc-meta,
+  .panel-row--contact .pc-detail {
+    font-size: 11px;
   }
   .panel-kicker.is-hero {
     font-size: clamp(38px, 10vw, 48px);

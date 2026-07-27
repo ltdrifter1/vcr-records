@@ -433,6 +433,7 @@ const desktop = {
   const phone = SECTION_BY_ID['phone-booth'];
   assert.equal(phone.title.trim(), '', 'Contact title should be empty (kicker only)');
   assert.equal(phone.intro.trim(), '', 'Contact intro cleared');
+  assert.equal(phone.kicker, 'Contact', 'Contact keeps a compact kicker label');
   assert.equal(phone.items.length, 2, 'Contact is Charlie + Instagram only');
   assert.ok(
     phone.items.every((it) => !/info@|Booking/i.test(`${it.label}${it.meta ?? ''}`)),
