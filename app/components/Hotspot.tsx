@@ -7,38 +7,13 @@ import gsap from 'gsap';
 import * as THREE from 'three';
 
 import { uvToSpherical, SPHERE_RADIUS } from '@/lib/pano';
+import { GLOW } from '@/lib/glow';
 import type { Section } from '@/app/data/sections';
 import { useSceneEnv, type Controls } from './sceneContext';
 
-const origin = new THREE.Vector3(0, 0, 0);
+export { GLOW } from '@/lib/glow';
 
-/**
- * Glow tuning — the single place to adjust after new `*_edge.webp` maps
- * drop into public/hotspots/. Swap the files, then tune breath/opacity here.
- */
-export const GLOW = {
-  /** Warm gold rim — balmingtiger hover glow (cream). */
-  edgeTint: '#ffe9a8',
-  /** Amber outer aura behind the rim. */
-  bloomTint: '#ffd27a',
-  /** Bloom quad size vs the rim quad — spreads aura past the silhouette. */
-  bloomScale: 1.14,
-  /** Hover fade in/out duration (s). */
-  hoverFade: 0.4,
-  /** Breath speed (rad/s of the sine wave). */
-  breathSpeed: 1.4,
-  /** Rim opacity = edgeBase + wave * edgeAmp. */
-  edgeBase: 0.82,
-  edgeAmp: 0.32,
-  /** Bloom opacity = bloomBase + wave * bloomAmp. */
-  bloomBase: 0.28,
-  bloomAmp: 0.24,
-  /** Scale swell of rim / bloom quads at breath peak. */
-  edgeSwell: 0.025,
-  bloomSwell: 0.035,
-  /** Morphological erode radius (px) converting a filled map into a rim. */
-  erodePx: 6,
-} as const;
+const origin = new THREE.Vector3(0, 0, 0);
 
 /**
  * Prep glow/edge maps for additive rim rendering.
@@ -212,28 +187,40 @@ export default function Hotspot({
     edgeMesh.current?.lookAt(origin);
     bloomMesh.current?.lookAt(origin);
 
-    // Post-settle invitation: soft breath layered under hover/focus alpha.
-    const inviting =
-      !isFocused &&
-      !hovered &&
-      !env.reduceMotion &&
-      env.live.value &&
-      env.inviteUntil.value > 0 &&
-      performance.now() < env.inviteUntil.value;
-    let inviteA = 0;
-    if (inviting) {
-      const remain = env.inviteUntil.value - performance.now();
-      const fade = Math.min(1, remain / 900);
-      inviteA = 0.44 * fade;
-    }
+    const now = performance.now();
+    const settleActive =
+      env.inviteUntil.value > 0 && now < env.inviteUntil.value;
+    const settleFade = settleActive
+      ? Math.min(1, (env.inviteUntil.value - now) / 900)
+      : 0;
 
-    const a = Math.max(glow.current.a, inviteA);
-    if (!env.reduceMotion && a > 0.02) {
-      breath.current += delta * (inviting ? GLOW.breathSpeed * 0.85 : GLOW.breathSpeed);
-    } else {
+    // Always-on idle breath while the room is live — hover/focus ride above it.
+    const hot = isFocused || hovered;
+    if (env.live.value && !env.reduceMotion) {
+      const speed = hot
+        ? GLOW.breathSpeed
+        : settleActive
+          ? GLOW.breathSpeed * 0.9
+          : GLOW.idleBreathSpeed;
+      breath.current += delta * speed;
+    } else if (!env.live.value) {
       breath.current = 0;
     }
-    const wave = env.reduceMotion ? 0 : Math.sin(breath.current) * 0.5 + 0.5;
+    const wave = env.reduceMotion ? 0.55 : Math.sin(breath.current) * 0.5 + 0.5;
+
+    let idleA = 0;
+    if (env.live.value && !isFocused && !hovered) {
+      const panelMul = env.panelOpen.value ? GLOW.idlePanelMul : 1;
+      idleA = env.reduceMotion
+        ? GLOW.idleBase * panelMul
+        : (GLOW.idleBase + wave * GLOW.idleAmp) * panelMul;
+      // Stronger post-settle pulse, then the idle floor keeps whispering.
+      if (settleActive && !env.panelOpen.value) {
+        idleA = Math.max(idleA, GLOW.settleBoost * settleFade);
+      }
+    }
+
+    const a = Math.max(glow.current.a, idleA);
     // Edge-only BT language: bright rim + soft outer bloom, no filled slab.
     const edgeMul = GLOW.edgeBase + wave * GLOW.edgeAmp;
     const bloomMul = GLOW.bloomBase + wave * GLOW.bloomAmp;

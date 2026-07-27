@@ -25,6 +25,7 @@ import {
   SECTION_BY_ID,
   SECTION_ID_BY_HASH,
 } from '../app/data/sections';
+import { GLOW } from '../lib/glow';
 
 const phone = {
   width: 390,
@@ -461,6 +462,15 @@ const desktop = {
   check('Phone', 0.486, 0.406);
   check('Register', 0.573, 0.53);
   console.log('✓ lookto/hotspot yaw phase: file_u ≈ 1−authored_u (Music≠poster wall)');
+}
+
+// 13) Idle glow floor stays alive after settle (phone discoverability)
+{
+  assert.ok(GLOW.idleBase >= 0.18, 'idle glow floor must stay visible without hover');
+  assert.ok(GLOW.idleBase < GLOW.settleBoost, 'settle boost should read louder than idle');
+  assert.ok(GLOW.idlePanelMul > 0 && GLOW.idlePanelMul < 0.35, 'panel should dim — not kill — other glows');
+  assert.ok(GLOW.idleBreathSpeed < GLOW.breathSpeed, 'idle breath should be calmer than hover');
+  console.log('✓ idle hotspot glow policy');
 }
 
 console.log('\nAll nav camera checks passed.');
