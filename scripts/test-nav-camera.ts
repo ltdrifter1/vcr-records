@@ -95,7 +95,10 @@ const desktop = {
   assert.equal(crt.lookFov, 48, 'CRT lookFov should frame the set, not fov 22 punch-in');
   assert.ok(crt.glowLatches !== false, 'CRT glow should latch while Videos is focused');
   assert.ok(crt.hideHint, 'CRT glow should have no proximity text');
-  assert.equal(crt.items.length, 0, 'CRT channels cleared (coming soon)');
+  assert.ok(
+    crt.items.some((i) => i.videoSrc),
+    'CRT needs at least one in-room channel (videoSrc)',
+  );
   const desk = resolveLookMfov(crt, desktop);
   const mob = resolveLookMfov(crt, phone);
   assert.equal(desk, 48, `desktop CRT should stay authored 48, got ${desk}`);
@@ -106,7 +109,11 @@ const desktop = {
 // 3) Music booth: desktop authored 95 (room view); phone adapted wider; coming soon
 {
   const musicSec = SECTION_BY_ID['listening-booth'];
-  assert.equal(musicSec.items.length, 0, 'Music should be coming soon (no At Home row)');
+  assert.ok(musicSec.items.length >= 3, 'Music booth lists the catalog releases');
+  assert.ok(
+    musicSec.items.every((i) => i.previewSrc),
+    'every Music release needs a booth preview',
+  );
   assert.equal(musicSec.title.trim(), '', 'Music panel title cleared');
   assert.ok(musicSec.hideHint, 'Music glow must not show Slip on headphones text');
   const music = { w: 6, h: 9, lookFov: 95 };

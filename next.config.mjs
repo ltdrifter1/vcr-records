@@ -2,13 +2,27 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['three'],
-  // public/shop/index.html is the catalog. Without these, /shop 404s
-  // (Next redirects /shop/ → /shop, then misses the static index).
-  skipTrailingSlashRedirect: true,
-  async rewrites() {
+  /**
+   * Legacy /shop/*.html product pages are gone. Send every old catalog URL
+   * to the thin /shop bridge (App Router), which points into the 360 room.
+   */
+  async redirects() {
     return [
-      { source: '/shop', destination: '/shop/index.html' },
-      { source: '/shop/', destination: '/shop/index.html' },
+      {
+        source: '/shop/index.html',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/shop/:path*.html',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/shop/',
+        destination: '/shop',
+        permanent: true,
+      },
     ];
   },
 };

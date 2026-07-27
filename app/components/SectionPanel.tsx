@@ -285,7 +285,9 @@ export default function SectionPanel({
   }, [open, shownId, detail, reduceMotion, isMobile]);
 
   const section = shownId ? SECTION_BY_ID[shownId] : null;
-  const nestable = section?.id === 'cash-register';
+  // Sections whose rows open the in-panel detail nest (previews / tracks).
+  const nestable =
+    section?.id === 'cash-register' || section?.id === 'listening-booth';
   const artistPanel = section?.id === 'record-bins';
   const heroKicker = Boolean(section?.kicker?.trim() && !section.title?.trim());
 
@@ -316,7 +318,6 @@ export default function SectionPanel({
       return;
     }
     if (!item.href) return;
-    if (item.href.startsWith('/shop')) return;
     openOutbound(item.href);
   };
 
@@ -456,19 +457,19 @@ export default function SectionPanel({
                             {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
                               <span className="panel-cta">{it.cta ?? 'Open'}</span>
                             )}
-                            {it.videoSrc && it.href && !it.href.startsWith('/shop') ? (
-                              <a
-                                className="panel-cta panel-cta-pill panel-cta-secondary"
-                                href={it.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                data-cursor="click"
-                                onClick={(e) => e.stopPropagation()}
-                                onKeyDown={(e) => e.stopPropagation()}
-                              >
-                                Open page
-                              </a>
-                            ) : null}
+                          {it.videoSrc && it.href ? (
+                            <a
+                              className="panel-cta panel-cta-pill panel-cta-secondary"
+                              href={it.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-cursor="click"
+                              onClick={(e) => e.stopPropagation()}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            >
+                              Open page
+                            </a>
+                          ) : null}
                           </div>
                         )}
                       </div>

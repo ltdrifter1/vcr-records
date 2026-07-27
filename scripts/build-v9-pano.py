@@ -49,6 +49,17 @@ PLANES = {
 }
 # CRT hit plane (sections.ts w/h) — tube-locked for the video overlay stack.
 CRT_PLANE = (0.8691, 0.4736, 21.7, 16.5)
+
+# Ambient toy sprites — alpha-cut object billboards that wiggle on click.
+# MUST mirror the `toy` planes in app/components/AmbientHits.tsx.
+# Modes: dark = near-black object on lighter bg (headphones);
+#        flood = ink-closed standalone object (plant stand);
+#        patch = soft rounded-rect crop (flat floor objects like the mat).
+TOY_SPRITES = {
+    "stool": (0.735, 0.4346, 8.0, 10.0, "dark"),  # headphones + stand
+    "owl": (0.4271, 0.4727, 20.0, 28.5, "flood"),  # plant on its stand
+    "cushion": (0.09, 0.617, 26.0, 7.6, "patch"),  # doormat
+}
 MASK_PLANE_RADIUS = 47.5  # SPHERE_RADIUS - 0.5 (Hotspot.tsx)
 CRT_PLANE_RADIUS = 47.2  # SPHERE_RADIUS - 0.8 (CrtScreen.tsx)
 
@@ -271,6 +282,68 @@ def rounded_rect_alpha(tw: int, th: int, rel_w: float, rel_h: float, radius_frac
     return np.clip(0.5 - dist / feather, 0, 1)
 
 
+def _keep_center_component(obj: np.ndarray, th: int, tw: int) -> np.ndarray:
+    labels, n = ndimage.label(obj)
+    if n > 1:
+        cy, cx = th // 2, tw // 2
+        center_label = labels[cy, cx]
+        if center_label == 0:
+            ys, xs = np.nonzero(obj)
+            if len(ys):
+                idx = np.argmin((ys - cy) ** 2 + (xs - cx) ** 2)
+                center_label = labels[ys[idx], xs[idx]]
+        if center_label:
+            obj = labels == center_label
+    return obj
+
+
+def toy_sprite(
+    pano_arr: np.ndarray, u: float, v: float, pw: float, ph: float, mode: str
+) -> Image.Image:
+    """Alpha-cut billboard of a painted toy (filled silhouette, soft edge)."""
+    scale = 512 / max(pw, ph)
+    tw = max(2, round(pw * scale))
+    th = max(2, round(ph * scale))
+    crop = project_pano_to_plane(pano_arr, u, v, pw, ph, MASK_PLANE_RADIUS, tw, th)
+    lum = crop.astype(np.float32).max(axis=2)
+
+    if mode == "patch":
+        yy, xx = np.mgrid[0:th, 0:tw].astype(np.float32)
+        rx = np.abs(xx - tw / 2) / (tw / 2 * 0.92)
+        ry = np.abs(yy - th / 2) / (th / 2 * 0.88)
+        d = np.maximum(rx, ry)
+        alpha = np.clip((1 - d) * 8, 0, 1)
+    else:
+        if mode == "dark":
+            # Near-black AND neutral — keeps the gray headphones, drops the
+            # warm brown shadow on the wood panel behind them.
+            spread = crop.astype(np.float32).max(axis=2) - crop.astype(
+                np.float32
+            ).min(axis=2)
+            obj = (lum < 90) & (spread < 35)
+            obj = ndimage.binary_closing(obj, iterations=2)
+        else:  # flood — only true black ink blocks the fill (soft shadows pass)
+            ink = ndimage.binary_dilation(lum < 60, iterations=1)
+            free = ~ink
+            labels, _ = ndimage.label(free)
+            border_labels = np.unique(
+                np.concatenate(
+                    [labels[0, :], labels[-1, :], labels[:, 0], labels[:, -1]]
+                )
+            )
+            bg = np.isin(labels, border_labels[border_labels != 0])
+            obj = ~bg
+            obj = ndimage.binary_closing(obj, iterations=2)
+        obj = ndimage.binary_fill_holes(obj)
+        obj = ndimage.binary_opening(obj, iterations=3)
+        obj = _keep_center_component(obj, th, tw)
+        obj = ndimage.binary_fill_holes(obj)
+        alpha = np.clip(ndimage.gaussian_filter(obj.astype(np.float32), 1.2), 0, 1)
+
+    out = np.dstack([crop, (alpha * 255).astype(np.uint8)])
+    return Image.fromarray(out)
+
+
 def crt_overlays(pano_arr: np.ndarray) -> None:
     """Bezel frame (tube hole) + tube backings, in CrtScreen plane space."""
     u, v, w, h = CRT_PLANE
@@ -330,6 +403,13 @@ def main() -> None:
         print(f"wrote {out.name} {mask.size} rim={100 * (cover > 30).mean():.1f}%")
 
     crt_overlays(pano_arr)
+
+    for sid, (u, v, pw, ph, mode) in TOY_SPRITES.items():
+        sprite = toy_sprite(pano_arr, u, v, pw, ph, mode)
+        out = HOTSPOT_DIR / f"toy_{sid}.webp"
+        sprite.save(out, "WEBP", quality=90)
+        cover = np.asarray(sprite)[..., 3]
+        print(f"wrote {out.name} {sprite.size} fill={100 * (cover > 30).mean():.1f}%")
 
 
 if __name__ == "__main__":
