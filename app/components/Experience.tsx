@@ -153,8 +153,8 @@ export default function Experience() {
     lookEnabledHold.current = true;
     nav.setLookEnabled(true);
     liveRef.current.value = true;
-    // Soft glow invitation over the settled room (~3.2s).
-    inviteUntilRef.current.value = performance.now() + 3200;
+    // Stronger idle pulse on settle; quieter always-on glow continues after.
+    inviteUntilRef.current.value = performance.now() + 4200;
     setCanLook(true);
   }, [nav]);
 

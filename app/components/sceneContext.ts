@@ -15,8 +15,9 @@ export type SceneEnv = {
   /** Glow latch id — follow-mouse lean stays off while set. */
   focusedId: { value: string | null };
   /**
-   * Post-settle invitation window — soft hotspot breath until this
-   * performance.now() timestamp (0 = off).
+   * Post-settle boost window — stronger idle breath until this
+   * performance.now() timestamp (0 = off). After it ends, idle glow
+   * continues at the quieter always-on floor.
    */
   inviteUntil: { value: number };
 };
