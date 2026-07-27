@@ -259,24 +259,6 @@ export const ARTISTS: SectionItem[] = [
     thumbSrc: ART.inletKnight,
     href: BUY.inletBc,
   },
-  {
-    label: 'Charlie Archer',
-    meta: 'Cumberland, BC',
-    detail: 'Producer',
-    cta: 'Buy',
-    thumb: 'CA',
-    thumbSrc: ART.charlie,
-    href: BUY.lionsDigital,
-  },
-  {
-    label: 'L.T. Drifta',
-    meta: 'Vancouver Island',
-    detail: 'Artist',
-    cta: 'Listen',
-    thumb: 'LT',
-    thumbSrc: ART.ltd,
-    href: BUY.ltdBc,
-  },
 ];
 
 /* ── SHOP — New Releases counter ───────────────────────────────────────── */
