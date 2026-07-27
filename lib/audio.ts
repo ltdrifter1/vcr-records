@@ -1,15 +1,31 @@
 /**
  * Audio bus — BGM loop + object SFX + balmingtiger-style volume tweens.
  * HTMLAudioElement only (no AudioContext). Unlocks on CLICK TO ENTER.
+ *
+ * Levels:
+ *   bed     → light elevator BGM under the room
+ *   panel   → soft duck while a glass HUD is open
+ *   preview → near-silence under booth / CRT playback
  */
 import gsap from 'gsap';
 
 let bgm: HTMLAudioElement | null = null;
 /** Start muted until CLICK TO ENTER (browser gesture), then live like BT. */
 let muted = true;
-let duckTween: gsap.core.Tween | null = null;
+let volTween: gsap.core.Tween | null = null;
 let lifecycleBound = false;
-const volume = { bgm: 0.45, sfx: 0.55, target: 0.45 };
+/** Why the bed is currently ducked (stack: preview wins over panel). */
+let panelDuck = false;
+let previewDuck = false;
+
+const volume = {
+  /** Comfortable elevator bed — present, never loud. */
+  bgm: 0.34,
+  sfx: 0.55,
+  panel: 0.12,
+  preview: 0.02,
+  target: 0.34,
+};
 const listeners = new Set<(muted: boolean) => void>();
 /** One reusable element per SFX key — avoids stacking / leaks. */
 const sfxPool = new Map<string, HTMLAudioElement>();
@@ -65,6 +81,40 @@ function clearPreviewTimer() {
     clearTimeout(previewEndTimer);
     previewEndTimer = null;
   }
+}
+
+function desiredBedLevel() {
+  if (previewDuck) return volume.preview;
+  if (panelDuck) return volume.panel;
+  return volume.bgm;
+}
+
+/**
+ * Soft volume ramp — mute, enter, duck, and restore all share this path.
+ */
+function tweenBgmVolume(to: number, duration = 0.55, ease = 'power1.inOut') {
+  const a = ensureBgm();
+  if (!a) return;
+  volTween?.kill();
+  volume.target = to;
+  if (duration <= 0 || muted) {
+    a.volume = muted ? 0 : to;
+    return;
+  }
+  const proxy = { v: a.volume };
+  volTween = gsap.to(proxy, {
+    v: to,
+    duration,
+    ease,
+    onUpdate: () => {
+      if (!muted && a) a.volume = proxy.v;
+    },
+  });
+}
+
+function applyDuckState(duration = 0.55) {
+  if (muted) return;
+  tweenBgmVolume(desiredBedLevel(), duration);
 }
 
 /** Pause when the tab hides; resume BGM when visible again if unmuted. */
@@ -124,24 +174,21 @@ export function getPreviewSrc() {
 }
 
 /**
- * balmingtiger muteBGMVolume / unmuteBGMVolume — 0.6s power1.inOut tween.
- * ducked=true → near silence; false → restore target level.
+ * balmingtiger muteBGMVolume / unmuteBGMVolume — soft power1.inOut tween.
+ * ducked=true → near silence (preview/CRT); false → restore bed/panel level.
  */
 export function setBgmDucked(ducked: boolean, duration = 0.6) {
-  const a = ensureBgm();
-  if (!a || muted) return;
-  duckTween?.kill();
-  const to = ducked ? 0.02 : volume.bgm;
-  volume.target = to;
-  const proxy = { v: a.volume };
-  duckTween = gsap.to(proxy, {
-    v: to,
-    duration,
-    ease: 'power1.inOut',
-    onUpdate: () => {
-      if (!muted && a) a.volume = proxy.v;
-    },
-  });
+  previewDuck = ducked;
+  applyDuckState(duration);
+}
+
+/**
+ * Light elevator duck while a glass section panel is open.
+ * Preview/CRT duck still wins when both are active.
+ */
+export function setPanelDuck(open: boolean, duration = 0.55) {
+  panelDuck = open;
+  applyDuckState(duration);
 }
 
 /** Stop booth preview and restore BGM level. */
@@ -205,6 +252,7 @@ export async function playPreview(src: string) {
 
 /**
  * balmingtiger enter: unmute + start BGM on the same user gesture as CLICK TO ENTER.
+ * Bed fades in under the intro tilt (not a hard cut).
  * On autoplay failure, leave the bus muted so the UI stays honest.
  */
 export async function enterWithAudio() {
@@ -213,11 +261,14 @@ export async function enterWithAudio() {
   notify();
   const a = bgm;
   if (!a) return false;
-  duckTween?.kill();
-  volume.target = volume.bgm;
-  a.volume = volume.bgm;
+  volTween?.kill();
+  panelDuck = false;
+  previewDuck = false;
+  a.volume = 0;
+  volume.target = 0;
   try {
     await a.play();
+    tweenBgmVolume(volume.bgm, 1.45, 'power2.out');
     return true;
   } catch {
     muted = true;
@@ -229,22 +280,58 @@ export async function enterWithAudio() {
 }
 
 export async function setMuted(next: boolean) {
-  muted = next;
-  notify();
   const a = ensureBgm();
-  if (!a) return;
-  duckTween?.kill();
-  if (muted) {
-    // Preview rides the same mute bus — kill it when silencing the room.
-    stopPreview();
-    a.volume = 0;
-    a.pause();
+  if (!a) {
+    muted = next;
+    notify();
     return;
   }
-  volume.target = volume.bgm;
-  a.volume = volume.bgm;
+
+  if (next) {
+    // Kill preview without restoring the bed — we're fading the whole bus out.
+    clearPreviewTimer();
+    if (preview) {
+      try {
+        preview.pause();
+        preview.currentTime = 0;
+      } catch {
+        /* ignore */
+      }
+    }
+    if (previewSrc) {
+      previewSrc = null;
+      notifyPreview();
+    }
+    previewDuck = false;
+    volTween?.kill();
+    const proxy = { v: a.volume };
+    // UI flips immediately; keep writing volume until the fade completes.
+    muted = true;
+    notify();
+    volTween = gsap.to(proxy, {
+      v: 0,
+      duration: 0.5,
+      ease: 'power1.in',
+      onUpdate: () => {
+        a.volume = proxy.v;
+      },
+      onComplete: () => {
+        a.volume = 0;
+        a.pause();
+        volume.target = 0;
+      },
+    });
+    return;
+  }
+
+  muted = false;
+  notify();
+  volTween?.kill();
+  a.volume = 0;
+  volume.target = 0;
   try {
     await a.play();
+    tweenBgmVolume(desiredBedLevel(), 0.65, 'power2.out');
   } catch {
     muted = true;
     a.volume = 0;

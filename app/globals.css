@@ -205,6 +205,7 @@ html.has-custom-cursor * {
   width: 30px;
   height: 30px;
   transition: opacity 0.3s ease, transform 0.15s ease, pointer-events 0s;
+  animation: chrome-in 0.7s 0.1s var(--motion-ease-out) both;
 }
 .mute-control.is-faded {
   opacity: 0;
@@ -222,6 +223,7 @@ html.has-custom-cursor * {
   height: 32px;
   min-height: 32px;
   padding: 0 4px;
+  animation: chrome-in 0.7s 0.16s var(--motion-ease-out) both;
 }
 .gyro-control.is-on {
   color: var(--gold);
@@ -331,6 +333,17 @@ html.has-custom-cursor * {
   z-index: 50;
   padding: 0;
   pointer-events: auto;
+  animation: chrome-in 0.78s var(--motion-ease-out) both;
+}
+@keyframes chrome-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 .top-nav-swiper {
   width: 100%;
@@ -852,6 +865,7 @@ html.has-custom-cursor * {
   left: max(20px, var(--sat-left));
   top: max(80px, calc(56px + var(--sat-top)));
   width: min(360px, max(300px, var(--singlebuttonwidth)));
+  height: min(80dvh, 800px);
   max-height: 800px;
   /* Frosted glass — milky tint + brand wash so type stays readable */
   background:
@@ -870,17 +884,62 @@ html.has-custom-cursor * {
     0 28px 64px rgba(0, 0, 0, 0.42);
   padding: 0;
   overflow: hidden;
-  pointer-events: auto;
+  pointer-events: none;
   color: #fff;
   z-index: 1;
   opacity: 0;
-  height: 0;
-  transition: height 0.4s ease-out, opacity 0.4s ease-out;
+  transform: translate3d(0, 18px, 0) scale(0.985);
+  transform-origin: top left;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-slow) var(--motion-ease-out),
+    transform var(--motion-slow) var(--motion-ease-out),
+    visibility 0s linear var(--motion-slow);
   text-shadow: none;
 }
 .panel-root.open .panel {
-  height: min(80dvh, 800px);
   opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity var(--motion-slow) var(--motion-ease-out),
+    transform var(--motion-slow) var(--motion-ease-out),
+    visibility 0s linear 0s;
+}
+.panel-root.open .panel-level-1 .panel-row {
+  animation: panel-row-in 0.48s var(--motion-ease-out) both;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(1) {
+  animation-delay: 0.04s;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(3) {
+  animation-delay: 0.16s;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(4) {
+  animation-delay: 0.22s;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(5) {
+  animation-delay: 0.28s;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(6) {
+  animation-delay: 0.34s;
+}
+.panel-root.open .panel-level-1 .panel-row:nth-child(n + 7) {
+  animation-delay: 0.4s;
+}
+@keyframes panel-row-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
 }
 .panel-back {
   position: absolute;
@@ -1604,6 +1663,15 @@ html.has-custom-cursor * {
   }
   .panel {
     transition: none;
+    transform: none;
+  }
+  .panel-root.open .panel-level-1 .panel-row {
+    animation: none;
+  }
+  .top-nav-wrap,
+  .mute-control,
+  .gyro-control {
+    animation: none;
   }
   .panel-preview-btn {
     transition: none;

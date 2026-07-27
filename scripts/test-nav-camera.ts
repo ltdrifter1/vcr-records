@@ -3,6 +3,7 @@
  * Run: npx tsx scripts/test-nav-camera.ts
  */
 import assert from 'node:assert/strict';
+import gsap from 'gsap';
 
 import {
   DESIGN_ASPECT,
@@ -299,6 +300,53 @@ const desktop = {
     'At Home shop row needs the 3-track list with durations',
   );
   console.log('✓ cash-register opens in-room shop panel');
+}
+
+// 10a) From free look, glow latches immediately and panel stages mid-lookto
+{
+  // Node has no rAF — AnimationManager needs a stub for the lookto tween.
+  const prevRaf = globalThis.requestAnimationFrame;
+  const prevCaf = globalThis.cancelAnimationFrame;
+  globalThis.requestAnimationFrame = ((cb: FrameRequestCallback) =>
+    setTimeout(() => cb(Date.now()), 0) as unknown as number) as typeof requestAnimationFrame;
+  globalThis.cancelAnimationFrame = ((id: number) =>
+    clearTimeout(id)) as typeof cancelAnimationFrame;
+
+  const controls = createControls({
+    lookTarget: { x: 0, y: 0 },
+    mfov: MFOV_EXPLORE,
+    userControl: true,
+  });
+  const navState = createNavState();
+  let active: string | null = null;
+  let focused: string | null = null;
+  const nav = createNavigationController(controls, navState, {
+    onActiveChange: (id) => {
+      active = id;
+    },
+    onFocusedChange: (id) => {
+      focused = id;
+    },
+    reduceMotion: false,
+  });
+  nav.setLookEnabled(true);
+  nav.open('listening-booth', desktop);
+  assert.equal(focused, 'listening-booth', 'glow/focus should latch immediately');
+  assert.equal(active, null, 'panel should wait for mid-lookto reveal');
+  assert.equal(navState.panelOpen, false);
+
+  // Force GSAP delayedCall (~0.72s) to fire.
+  gsap.updateRoot(2);
+  assert.equal(active, 'listening-booth', 'panel should open after reveal delay');
+  assert.equal(navState.panelOpen, true);
+  console.log('✓ panel HUD stages mid-lookto from free look');
+
+  // Tear down lookto tween before restoring Node globals.
+  nav.close({ force: true, silent: true });
+  gsap.killTweensOf(controls);
+  gsap.ticker.sleep();
+  globalThis.requestAnimationFrame = prevRaf;
+  globalThis.cancelAnimationFrame = prevCaf;
 }
 
 // 10b) Artists roster is the full label lineup
