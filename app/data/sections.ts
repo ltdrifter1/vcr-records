@@ -117,9 +117,9 @@ export const SECTIONS: Section[] = [
     kicker: 'Videos',
     intro: 'Tune the tube — channels stay in the room.',
     accent: '#7ad7ff',
-    // v9 pano: CRT on the low cabinet — u/v is the tube-glass center and
-    // w/h are tube-locked so the CrtScreen video/frame overlays sit on the
-    // painted set (set file x 138–252, tube x 162–240 / y 452–518 of 1536×1024).
+    // v9 pano: CRT on the low cabinet — u/v aims the set; w/h are the set
+    // footprint. CrtScreen insets the video to painted glass (~0.44×0.375 of
+    // w/h, XY-biased) — see SCREEN_* in CrtScreen.tsx / build-v9-pano.py.
     u: 0.8691,
     v: 0.4736,
     // Frame the set in the room — not watch-mode punch-in (was fov 22 / too close).

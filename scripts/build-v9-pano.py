@@ -47,8 +47,15 @@ PLANES = {
     "cash-register": (0.319, 0.44, 22.0, 16.0),
     "phone-booth": (0.237, 0.478, 17.0, 7.5),
 }
-# CRT hit plane (sections.ts w/h) — tube-locked for the video overlay stack.
+# CRT hit plane (sections.ts w/h) — tube-set footprint for the overlay stack.
 CRT_PLANE = (0.8691, 0.4736, 21.7, 16.5)
+# Painted glass inside that footprint — MUST mirror CrtScreen.tsx.
+CRT_SCREEN_W_FAC = 0.44
+CRT_SCREEN_H_FAC = 0.375
+CRT_SCREEN_OX = -1.27
+CRT_SCREEN_OY = 0.71
+CRT_FRAME_W_FAC = 0.88
+CRT_FRAME_H_FAC = 0.78
 
 # Ambient toy sprites — alpha-cut object billboards that wiggle on click.
 # MUST mirror the `toy` planes in app/components/AmbientHits.tsx.
@@ -268,10 +275,21 @@ def edge_mask(pano_arr: np.ndarray, sid: str) -> Image.Image:
     return Image.fromarray(out)
 
 
-def rounded_rect_alpha(tw: int, th: int, rel_w: float, rel_h: float, radius_frac: float, feather: float = 2.0) -> np.ndarray:
-    """Anti-aliased centered rounded-rect mask (1 inside, 0 outside)."""
+def rounded_rect_alpha(
+    tw: int,
+    th: int,
+    rel_w: float,
+    rel_h: float,
+    radius_frac: float,
+    feather: float = 2.0,
+    center: tuple[float, float] | None = None,
+) -> np.ndarray:
+    """Anti-aliased rounded-rect mask (1 inside, 0 outside).
+
+    `center` is (cx, cy) in texels; default is the texture midpoint.
+    """
     yy, xx = np.mgrid[0:th, 0:tw].astype(np.float32)
-    cx, cy = tw / 2, th / 2
+    cx, cy = center if center is not None else (tw / 2, th / 2)
     hw, hh = rel_w * tw / 2, rel_h * th / 2
     r = radius_frac * min(hw, hh) * 2
     dx = np.abs(xx - cx) - (hw - r)
@@ -347,23 +365,34 @@ def toy_sprite(
 def crt_overlays(pano_arr: np.ndarray) -> None:
     """Bezel frame (tube hole) + tube backings, in CrtScreen plane space."""
     u, v, w, h = CRT_PLANE
-    frame_w, frame_h = w * 0.88, h * 0.78
+    frame_w, frame_h = w * CRT_FRAME_W_FAC, h * CRT_FRAME_H_FAC
+    screen_w, screen_h = w * CRT_SCREEN_W_FAC, h * CRT_SCREEN_H_FAC
     tw = 1024
     th = max(2, round(tw * frame_h / frame_w))
 
     rgb = project_pano_to_plane(
         pano_arr, u, v, frame_w, frame_h, CRT_PLANE_RADIUS, tw, th
     )
-    # Tube glass = the 0.7w x 0.58h video plane inside the 0.88w x 0.78h frame.
-    hole = rounded_rect_alpha(tw, th, 0.7 / 0.88, 0.58 / 0.78, 0.14, feather=3.0)
+    # Glass hole is inset + XY-biased to match CrtScreen screen mesh.
+    hole_cx = (0.5 + CRT_SCREEN_OX / frame_w) * tw
+    hole_cy = (0.5 - CRT_SCREEN_OY / frame_h) * th
+    hole = rounded_rect_alpha(
+        tw,
+        th,
+        screen_w / frame_w,
+        screen_h / frame_h,
+        0.14,
+        feather=3.0,
+        center=(hole_cx, hole_cy),
+    )
     frame = np.dstack([rgb, ((1 - hole) * 255).astype(np.uint8)])
     Image.fromarray(frame).save(HOTSPOT_DIR / "crt_frame.webp", "WEBP", quality=92)
-    print(f"wrote crt_frame.webp {tw}x{th}")
+    print(f"wrote crt_frame.webp {tw}x{th} hole@({hole_cx:.0f},{hole_cy:.0f})")
 
     # Backings render on planes of screen*1.04 / screen*1.02 — draw the tube
     # rounded-rect at ~1/1.04 relative size so it matches the painted glass.
     bw = 1024
-    bh = max(2, round(bw * (h * 0.58) / (w * 0.7)))
+    bh = max(2, round(bw * screen_h / screen_w))
     for name, base, edge_gain in (
         ("crt_backing_off", (32, 36, 42), 0.55),
         ("crt_backing_playing", (5, 5, 6), 0.9),
