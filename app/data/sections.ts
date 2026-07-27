@@ -161,13 +161,14 @@ export const SECTIONS: Section[] = [
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
-    // v5 pano: curtained LISTEN booth doorway (file x 295–455 of 1536).
+    // v7 pano: LISTEN shelving tower with turntable + headphones
+    // (file x 292–465, y 285–720 of 1536×1024).
     u: 0.756,
-    v: 0.474,
+    v: 0.49,
     lookU: 0.756,
     lookV: 0.47,
-    w: 32.2,
-    h: 48.9,
+    w: 35.2,
+    h: 75,
     lookFov: 88,
     sfx: 'music',
     goldEdge: true,
@@ -184,15 +185,17 @@ export const SECTIONS: Section[] = [
     kicker: 'Videos',
     intro: '',
     accent: '#7ad7ff',
-    // v5 pano: gray CRT on the wooden cabinet (file x 112–246 of 1536).
-    u: 0.884,
-    v: 0.487,
+    // v7 pano: CRT on the low cabinet — u/v is the tube-glass center so the
+    // CrtScreen video/frame overlays sit on the painted set
+    // (set file x 115–297, tube x 152–272 / y 509–585 of 1536×1024).
+    u: 0.862,
+    v: 0.534,
     // Frame the set in the room — not watch-mode punch-in (was fov 22 / too close).
-    lookU: 0.884,
-    lookV: 0.487,
-    w: 26.7,
-    h: 19.8,
-    lookFov: 52,
+    lookU: 0.862,
+    lookV: 0.534,
+    w: 33.8,
+    h: 19.1,
+    lookFov: 62,
     sfx: 'video',
     // Coming soon: keep warm gold aura latched while focused (no watch overlay).
     glowLatches: true,
@@ -210,14 +213,14 @@ export const SECTIONS: Section[] = [
     kicker: 'Artists',
     intro: '',
     accent: '#ff7a9c',
-    // v5 pano: central record-bin island (file x 725–855 of 1536).
-    u: 0.486,
-    v: 0.564,
+    // v7 pano: central record-bin island (file x 732–858, y 490–695 of 1536×1024).
+    u: 0.482,
+    v: 0.578,
     // Zoomed out over the whole bins aisle
     lookU: 0.5,
     lookV: 0.53,
-    w: 25.9,
-    h: 23,
+    w: 25,
+    h: 30.9,
     lookFov: 105,
     sfx: 'artists',
     goldEdge: true,
@@ -243,14 +246,14 @@ export const SECTIONS: Section[] = [
     kicker: 'New Releases',
     intro: '',
     accent: '#9dff8a',
-    // v5 pano: register on the purple VCR RECORD SHOP counter (file x 958–1085).
+    // v7 pano: register on the wood VCR RECORD SHOP counter (file x 975–1090).
     // Spherical u = 1 − file_u after BackSide flip.
-    u: 0.335,
-    v: 0.503,
+    u: 0.328,
+    v: 0.488,
     lookU: 0.31,
     lookV: 0.53,
-    w: 25.3,
-    h: 15.6,
+    w: 22.8,
+    h: 14.7,
     lookFov: 70,
     sfx: 'shop',
     goldEdge: true,
@@ -286,13 +289,13 @@ export const SECTIONS: Section[] = [
     kicker: 'Contact',
     intro: '',
     accent: '#e8c07a',
-    // v5 pano: black rotary phone on the counter (file x 1108–1222 of 1536).
-    u: 0.242,
-    v: 0.524,
+    // v7 pano: black rotary phone on the counter (file x 1119–1250 of 1536).
+    u: 0.229,
+    v: 0.532,
     lookU: 0.25,
     lookV: 0.51,
-    w: 22.6,
-    h: 11.4,
+    w: 25.9,
+    h: 12.2,
     lookFov: 55,
     sfx: 'phone',
     goldEdge: true,

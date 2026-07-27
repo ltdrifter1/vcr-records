@@ -114,8 +114,12 @@ def overlay_plane(
     tint: np.ndarray,
     opacity: float,
 ) -> None:
-    """Additively composite the edge plane (billboard lookAt(origin))."""
-    z_ax = center / np.linalg.norm(center)  # plane +z faces outward
+    """Additively composite the edge plane (billboard lookAt(origin)).
+
+    three.js lookAt points the plane's +z AT the origin — textures are
+    authored in file space and read un-mirrored from the camera.
+    """
+    z_ax = -center / np.linalg.norm(center)
     up = np.array([0.0, 1.0, 0.0])
     x_ax = np.cross(up, z_ax)
     x_ax /= np.linalg.norm(x_ax)
@@ -151,7 +155,7 @@ def mask_coverage(
     tan_v = math.tan(vfov / 2)
     tan_h = tan_v * ASPECT
 
-    z_ax = center / np.linalg.norm(center)
+    z_ax = -center / np.linalg.norm(center)
     up = np.array([0.0, 1.0, 0.0])
     x_ax = np.cross(up, z_ax)
     x_ax /= np.linalg.norm(x_ax)

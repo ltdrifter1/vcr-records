@@ -10,9 +10,9 @@ import { useSceneEnv, type Controls } from './sceneContext';
 
 const origin = new THREE.Vector3(0, 0, 0);
 
-/** Ceiling fan / lamp cluster in the v5 store — toggles lights on/off. */
-export const LAMP_U = 0.494;
-export const LAMP_V = 0.115;
+/** Ceiling fan / lamp cluster in the v7 store — toggles lights on/off. */
+export const LAMP_U = 0.499;
+export const LAMP_V = 0.107;
 
 function makeLampGlow() {
   const c = document.createElement('canvas');
