@@ -10,6 +10,7 @@
  *  · CRT_CHANNELS   → rows in the Videos panel. `videoSrc` plays the file
  *      on the in-room CRT (put MP4s in /public/videos); rows with only
  *      `href` open in a new tab.
+ *  · ARTISTS        → roster rows in the Artists (record bins) panel.
  *  · SHOP_ITEMS     → rows in the Shop (New Releases) panel.
  * ─────────────────────────────────────────────────────────────────────────
  */
@@ -66,6 +67,9 @@ export const ART = {
   rack: '/panel-thumbs/rack.webp',
   vcr: '/panel-thumbs/vcr.webp',
   charlie: '/panel-thumbs/charlie.webp',
+  ltd: '/panel-thumbs/ltd.webp',
+  classic: '/panel-thumbs/classic.webp',
+  future: '/panel-thumbs/future.webp',
   ig: '/panel-thumbs/ig.webp',
   yt: '/panel-thumbs/yt.webp',
 } as const;
@@ -76,6 +80,15 @@ export const PREVIEW = {
   summer: '/audio/previews/summer.mp3',
   lions: '/audio/previews/lions-gate.mp3',
   rack: '/audio/previews/rack-em.mp3',
+} as const;
+
+/** Branded CRT loops under /public/videos (not SMPTE color bars). */
+export const VIDEO = {
+  station: '/videos/channel_b.mp4',
+  atHome: '/videos/channel_athome.mp4',
+  lions: '/videos/channel_lions.mp4',
+  classic: '/videos/channel_classic.mp4',
+  future: '/videos/channel_future.mp4',
 } as const;
 
 /** Stripe + Bandcamp buy destinations (checkout only — browse stays in-room). */
@@ -100,13 +113,14 @@ export const MUSIC_RELEASES: SectionItem[] = [
   {
     label: 'At Home',
     meta: 'Inlet Knight',
-    detail: 'Digital + cassette',
+    detail: '3 tracks · digital + cassette',
     cta: 'Play',
     thumbSrc: ART.atHome,
     previewSrc: PREVIEW.atHome,
     tracks: [
-      { title: 'Booth preview', duration: '' },
-      { title: 'Digital download + limited cassette (VCR026D8)', duration: '' },
+      { title: 'After All', duration: '2:22' },
+      { title: 'Will I See You Again?', duration: '3:58' },
+      { title: 'At Home', duration: '3:44' },
     ],
     listenOn: [
       { label: 'Bandcamp', href: BUY.inletBc },
@@ -116,13 +130,22 @@ export const MUSIC_RELEASES: SectionItem[] = [
   {
     label: 'Summer Madness',
     meta: 'LT Drifta',
-    detail: '11 tracks',
+    detail: '11 tracks · 34:57',
     cta: 'Play',
     thumbSrc: ART.summer,
     previewSrc: PREVIEW.summer,
     tracks: [
-      { title: 'Booth preview', duration: '' },
-      { title: '11 tracks · 34:57 · digital + limited cassette', duration: '' },
+      { title: 'Summer Madness', duration: '3:20' },
+      { title: 'Too Far', duration: '2:55' },
+      { title: 'Naima', duration: '7:54' },
+      { title: 'Space and Time', duration: '2:07' },
+      { title: 'Go!', duration: '3:37' },
+      { title: 'Next Up', duration: '2:52' },
+      { title: 'Colours of You', duration: '3:32' },
+      { title: 'Nu Saigon', duration: '1:04' },
+      { title: "You're My", duration: '2:51' },
+      { title: 'So What', duration: '1:43' },
+      { title: 'Mood Indigo', duration: '3:02' },
     ],
     listenOn: [
       { label: 'Bandcamp', href: BUY.ltdBc },
@@ -136,7 +159,7 @@ export const MUSIC_RELEASES: SectionItem[] = [
     cta: 'Play',
     thumbSrc: ART.lions,
     previewSrc: PREVIEW.lions,
-    tracks: [{ title: 'Booth preview', duration: '' }],
+    tracks: [{ title: "Lions' Gate", duration: '0:35' }],
     listenOn: [{ label: 'Buy Digital', href: BUY.lionsDigital }],
   },
   {
@@ -147,8 +170,12 @@ export const MUSIC_RELEASES: SectionItem[] = [
     thumbSrc: ART.rack,
     previewSrc: PREVIEW.rack,
     tracks: [
-      { title: 'Booth preview', duration: '' },
-      { title: '6 tracks · 29:29 · MP3, FLAC and more', duration: '' },
+      { title: "Rack'em", duration: '2:57' },
+      { title: 'Since I Left You', duration: '6:45' },
+      { title: 'Unlucky', duration: '3:19' },
+      { title: 'Kiss of Life (Calm Acid Mix)', duration: '9:01' },
+      { title: 'Hold On To It', duration: '3:30' },
+      { title: 'Same Time', duration: '3:57' },
     ],
     listenOn: [
       { label: 'Bandcamp', href: BUY.rackBc },
@@ -157,16 +184,48 @@ export const MUSIC_RELEASES: SectionItem[] = [
   },
 ];
 
-/* ── VIDEOS — CRT channels ─────────────────────────────────────────────── */
+/* ── VIDEOS — CRT channels (branded station + release loops) ────────────── */
 
 export const CRT_CHANNELS: SectionItem[] = [
   {
     label: 'VCR-TV',
-    meta: 'Station loop',
+    meta: 'Station ID',
     detail: 'Now playing in-store',
     cta: 'Watch',
     thumbSrc: ART.vcr,
-    videoSrc: '/videos/crt_loop.mp4',
+    videoSrc: VIDEO.station,
+  },
+  {
+    label: 'At Home',
+    meta: 'Inlet Knight',
+    detail: 'In-store loop',
+    cta: 'Watch',
+    thumbSrc: ART.atHome,
+    videoSrc: VIDEO.atHome,
+  },
+  {
+    label: "Lions' Gate",
+    meta: 'Charlie Archer',
+    detail: 'In-store loop',
+    cta: 'Watch',
+    thumbSrc: ART.lions,
+    videoSrc: VIDEO.lions,
+  },
+  {
+    label: 'Classic',
+    meta: 'VCR Recordings',
+    detail: 'Archive loop',
+    cta: 'Watch',
+    thumbSrc: ART.classic,
+    videoSrc: VIDEO.classic,
+  },
+  {
+    label: 'Future',
+    meta: 'VCR Recordings',
+    detail: 'Archive loop',
+    cta: 'Watch',
+    thumbSrc: ART.future,
+    videoSrc: VIDEO.future,
   },
   {
     label: 'Inlet Knight',
@@ -175,6 +234,38 @@ export const CRT_CHANNELS: SectionItem[] = [
     cta: 'Open',
     thumbSrc: ART.yt,
     href: 'https://www.youtube.com/watch?v=AUAqGMaGjk4',
+  },
+];
+
+/* ── ARTISTS — record-bin roster ───────────────────────────────────────── */
+
+export const ARTISTS: SectionItem[] = [
+  {
+    label: 'Inlet Knight',
+    meta: 'Cumberland, BC',
+    detail: 'Artist · Producer',
+    cta: 'Listen',
+    thumb: 'IK',
+    thumbSrc: ART.inletKnight,
+    href: BUY.inletBc,
+  },
+  {
+    label: 'Charlie Archer',
+    meta: 'Cumberland, BC',
+    detail: 'Producer',
+    cta: 'Buy',
+    thumb: 'CA',
+    thumbSrc: ART.charlie,
+    href: BUY.lionsDigital,
+  },
+  {
+    label: 'L.T. Drifta',
+    meta: 'Vancouver Island',
+    detail: 'Artist',
+    cta: 'Listen',
+    thumb: 'LT',
+    thumbSrc: ART.ltd,
+    href: BUY.ltdBc,
   },
 ];
 
@@ -222,8 +313,9 @@ export const SHOP_ITEMS: SectionItem[] = [
     href: BUY.atHomeDigital,
     previewSrc: PREVIEW.atHome,
     tracks: [
-      { title: 'Digital MP3 — $3 CAD', duration: '' },
-      { title: 'Cassette available via Stripe', duration: '' },
+      { title: 'After All', duration: '2:22' },
+      { title: 'Will I See You Again?', duration: '3:58' },
+      { title: 'At Home', duration: '3:44' },
     ],
     listenOn: [
       { label: 'Buy Digital', href: BUY.atHomeDigital },

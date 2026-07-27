@@ -6,10 +6,14 @@ import { useEffect, useRef, useState } from 'react';
  * Branded floating cursor — balmingtiger `.cursors` pattern.
  * Desktop / fine pointer only; touch + coarse pointers keep native cursors.
  * Click glyph: pointerdown, canvas `cursor-hot`, or `[data-cursor="click"]` hover.
+ *
+ * Enter contract: reveals with a short scale-in once the room is entered;
+ * presses scale down for tactile feedback.
  */
 export default function CustomCursor({ active }: { active: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const [pressing, setPressing] = useState(false);
   const [hot, setHot] = useState(false);
   const pos = useRef({ x: -100, y: -100, rot: 0, vx: 0 });
@@ -19,6 +23,7 @@ export default function CustomCursor({ active }: { active: boolean }) {
   useEffect(() => {
     if (!active) {
       setEnabled(false);
+      setRevealed(false);
       document.documentElement.classList.remove('has-custom-cursor');
       return;
     }
@@ -31,6 +36,15 @@ export default function CustomCursor({ active }: { active: boolean }) {
     document.documentElement.classList.toggle('has-custom-cursor', ok);
     return () => document.documentElement.classList.remove('has-custom-cursor');
   }, [active]);
+
+  useEffect(() => {
+    if (!enabled) {
+      setRevealed(false);
+      return;
+    }
+    const id = window.setTimeout(() => setRevealed(true), 40);
+    return () => window.clearTimeout(id);
+  }, [enabled]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -95,9 +109,17 @@ export default function CustomCursor({ active }: { active: boolean }) {
   if (!enabled) return null;
 
   const clickGlyph = pressing || hot;
+  const classes = [
+    'custom-cursors',
+    revealed ? 'is-revealed' : '',
+    pressing ? 'is-press' : '',
+    clickGlyph ? 'is-click' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div className={`custom-cursors${clickGlyph ? ' is-click' : ''}`} ref={root} aria-hidden>
+    <div className={classes} ref={root} aria-hidden>
       <img className="custom-cursor-default" src="/cursors/default.svg" alt="" draggable={false} />
       <img className="custom-cursor-click" src="/cursors/click.svg" alt="" draggable={false} />
     </div>

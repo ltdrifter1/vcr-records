@@ -1,5 +1,6 @@
 import {
   ART,
+  ARTISTS,
   CRT_CHANNELS,
   MUSIC_RELEASES,
   SHOP_ITEMS,
@@ -7,7 +8,7 @@ import {
 } from './catalog';
 
 /**
- * Content (releases, CRT channels, shop rows) lives in ./catalog.ts —
+ * Content (releases, CRT channels, artists, shop rows) lives in ./catalog.ts —
  * edit that file to add or change what the store plays and sells.
  */
 export type { ListenLink, SectionItem, TrackItem } from './catalog';
@@ -161,17 +162,8 @@ export const SECTIONS: Section[] = [
     sfx: 'artists',
     goldEdge: true,
     hideHint: true,
-    items: [
-      {
-        label: 'Inlet Knight',
-        meta: 'Cumberland, BC',
-        detail: 'Bandcamp',
-        cta: 'Listen',
-        thumb: 'IK',
-        thumbSrc: ART.inletKnight,
-        href: 'https://inletknight.bandcamp.com',
-      },
-    ],
+    // Roster — edit app/data/catalog.ts to add or change artists.
+    items: ARTISTS,
   },
   {
     id: 'cash-register',

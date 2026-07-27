@@ -99,6 +99,14 @@ const desktop = {
     crt.items.some((i) => i.videoSrc),
     'CRT needs at least one in-room channel (videoSrc)',
   );
+  assert.ok(
+    crt.items.some((i) => i.videoSrc === '/videos/channel_b.mp4'),
+    'CRT station identity should be branded channel_b (not color bars)',
+  );
+  assert.ok(
+    !crt.items.some((i) => i.videoSrc === '/videos/crt_loop.mp4' || i.videoSrc === '/videos/channel_a.mp4'),
+    'CRT catalog must not ship SMPTE color-bar loops',
+  );
   const desk = resolveLookMfov(crt, desktop);
   const mob = resolveLookMfov(crt, phone);
   assert.equal(desk, 48, `desktop CRT should stay authored 48, got ${desk}`);
@@ -113,6 +121,15 @@ const desktop = {
   assert.ok(
     musicSec.items.every((i) => i.previewSrc),
     'every Music release needs a booth preview',
+  );
+  assert.ok(
+    musicSec.items.every(
+      (i) =>
+        Array.isArray(i.tracks) &&
+        i.tracks.length >= 1 &&
+        i.tracks.every((t) => t.title && t.duration && !/booth preview/i.test(t.title)),
+    ),
+    'every Music release needs a real tracklist with durations',
   );
   assert.equal(musicSec.title.trim(), '', 'Music panel title cleared');
   assert.ok(musicSec.hideHint, 'Music glow must not show Slip on headphones text');
@@ -275,7 +292,32 @@ const desktop = {
   assert.equal(shop.items.length, 2, 'Shop lists Inlet Knight album + At Home');
   assert.match(shop.items[0].label, /Inlet Knight/i);
   assert.ok(shop.items[0].tracks && shop.items[0].tracks.length >= 16);
+  assert.ok(
+    shop.items[1].tracks &&
+      shop.items[1].tracks.length === 3 &&
+      shop.items[1].tracks.every((t) => t.duration),
+    'At Home shop row needs the 3-track list with durations',
+  );
   console.log('✓ cash-register opens in-room shop panel');
+}
+
+// 10b) Artists roster is the full label lineup
+{
+  const artists = SECTION_BY_ID['record-bins'];
+  assert.ok(artists.items.length >= 3, 'Artists panel lists the full roster');
+  assert.ok(
+    artists.items.some((i) => /Inlet Knight/i.test(i.label)),
+    'roster includes Inlet Knight',
+  );
+  assert.ok(
+    artists.items.some((i) => /Charlie Archer/i.test(i.label)),
+    'roster includes Charlie Archer',
+  );
+  assert.ok(
+    artists.items.some((i) => /Drifta/i.test(i.label)),
+    'roster includes L.T. Drifta',
+  );
+  console.log('✓ Artists roster');
 }
 
 // 11) Hash map covers every nav section; Archive/Lore gone; no glow hint text

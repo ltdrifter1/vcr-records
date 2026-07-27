@@ -12,7 +12,8 @@ import { setBgmDucked } from '@/lib/audio';
 
 const origin = new THREE.Vector3(0, 0, 0);
 const crt = SECTION_BY_ID['crt-tv'];
-export const CRT_DEFAULT_SRC = '/videos/crt_loop.mp4';
+/** Branded VCR RECORDINGS station ID — not SMPTE color bars. */
+export const CRT_DEFAULT_SRC = '/videos/channel_b.mp4';
 
 /**
  * CRT stage — balmingtiger TV stack:

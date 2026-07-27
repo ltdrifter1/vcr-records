@@ -212,9 +212,24 @@ export default function Hotspot({
     edgeMesh.current?.lookAt(origin);
     bloomMesh.current?.lookAt(origin);
 
-    const a = glow.current.a;
+    // Post-settle invitation: soft breath layered under hover/focus alpha.
+    const inviting =
+      !isFocused &&
+      !hovered &&
+      !env.reduceMotion &&
+      env.live.value &&
+      env.inviteUntil.value > 0 &&
+      performance.now() < env.inviteUntil.value;
+    let inviteA = 0;
+    if (inviting) {
+      const remain = env.inviteUntil.value - performance.now();
+      const fade = Math.min(1, remain / 900);
+      inviteA = 0.44 * fade;
+    }
+
+    const a = Math.max(glow.current.a, inviteA);
     if (!env.reduceMotion && a > 0.02) {
-      breath.current += delta * GLOW.breathSpeed;
+      breath.current += delta * (inviting ? GLOW.breathSpeed * 0.85 : GLOW.breathSpeed);
     } else {
       breath.current = 0;
     }

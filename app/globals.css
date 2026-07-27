@@ -19,6 +19,14 @@
   --paper: #fff7d6;
   --line: #14261c;
   --gap: clamp(16px, 4vw, 48px);
+
+  /* Enter → settle sensory contract */
+  --motion-fast: 120ms;
+  --motion-med: 400ms;
+  --motion-slow: 700ms;
+  --motion-enter: 550ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -119,6 +127,11 @@ html.has-custom-cursor * {
   pointer-events: none;
   transform: translate3d(-100px, -100px, 0);
   will-change: transform;
+  opacity: 0;
+  transition: opacity var(--motion-enter) var(--motion-ease-out);
+}
+.custom-cursors.is-revealed {
+  opacity: 1;
 }
 .custom-cursors img {
   position: absolute;
@@ -128,7 +141,14 @@ html.has-custom-cursor * {
   height: 48px;
   pointer-events: none;
   user-select: none;
-  transition: opacity 0.12s ease;
+  transition:
+    opacity var(--motion-fast) ease,
+    transform var(--motion-fast) var(--motion-ease);
+  transform: scale(1);
+  transform-origin: 12px 10px;
+}
+.custom-cursors.is-press img {
+  transform: scale(0.86);
 }
 .custom-cursors .custom-cursor-default {
   opacity: 1;
@@ -1482,51 +1502,68 @@ html.has-custom-cursor * {
 .drag-hint {
   position: fixed;
   left: 50%;
-  bottom: clamp(20px, 4.5vh, 44px);
-  transform: translateX(-50%);
+  bottom: clamp(28px, 5.5vh, 56px);
+  transform: translateX(-50%) translateY(8px);
   z-index: 16;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  max-width: min(92vw, 360px);
+  gap: 12px;
+  max-width: min(94vw, 420px);
   padding: 0;
   margin: 0;
   border: 0;
   background: none;
   color: #fff;
   font-family: var(--font-body), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: clamp(11px, 2.4vw, 12px);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65), 0 0 16px rgba(0, 0, 0, 0.4);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition:
+    opacity var(--motion-slow) var(--motion-ease-out),
+    transform var(--motion-slow) var(--motion-ease-out);
   user-select: none;
 }
 .drag-hint.is-on {
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 .drag-hint-glyph {
   display: grid;
   place-items: center;
-  color: rgba(255, 255, 255, 0.92);
-  opacity: 0.9;
-  animation: drag-hint-nudge 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.95);
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px rgba(0, 0, 0, 0.35));
+  animation: drag-hint-nudge 1.55s var(--motion-ease) infinite;
+}
+.drag-hint-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 0, 0, 0.45);
 }
 .drag-hint-label {
   white-space: nowrap;
+  font-weight: 800;
+  font-size: clamp(12px, 2.6vw, 14px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.drag-hint-sub {
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: clamp(10px, 2.2vw, 11px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 @keyframes drag-hint-nudge {
   0%,
   100% {
-    transform: translateX(0);
-    opacity: 0.75;
+    transform: translateX(-4px);
+    opacity: 0.7;
   }
   50% {
-    transform: translateX(3px);
+    transform: translateX(4px);
     opacity: 1;
   }
 }
@@ -1548,6 +1585,16 @@ html.has-custom-cursor * {
   .drag-hint-glyph {
     animation: none;
   }
+  .custom-cursors {
+    transition: none;
+    opacity: 1;
+  }
+  .custom-cursors img {
+    transition: none;
+  }
+  .custom-cursors.is-press img {
+    transform: none;
+  }
   .hint-pulse {
     animation: none;
   }
@@ -1562,9 +1609,6 @@ html.has-custom-cursor * {
     transition: none;
   }
   .panel-nest-sheet {
-    transition: none;
-  }
-  .custom-cursors img {
     transition: none;
   }
   .mute-control,

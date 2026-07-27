@@ -57,6 +57,8 @@ type Props = {
   liveRef: { value: boolean };
   panelOpenRef: { value: boolean };
   focusedIdRef?: { value: string | null };
+  /** Soft hotspot invite until performance.now() (0 = off). */
+  inviteUntilRef?: { value: number };
   onOpen: (id: string) => void;
   onIntroComplete?: () => void;
   debug?: boolean;
@@ -292,6 +294,7 @@ export default function Scene({
   liveRef,
   panelOpenRef,
   focusedIdRef = { value: null },
+  inviteUntilRef = { value: 0 },
   onOpen,
   onIntroComplete,
   debug = false,
@@ -379,8 +382,9 @@ export default function Scene({
       panelOpen: panelOpenRef,
       reduceMotion,
       focusedId: focusedIdRef,
+      inviteUntil: inviteUntilRef,
     }),
-    [liveRef, panelOpenRef, reduceMotion, focusedIdRef],
+    [liveRef, panelOpenRef, reduceMotion, focusedIdRef, inviteUntilRef],
   );
 
   useFrame(() => {
