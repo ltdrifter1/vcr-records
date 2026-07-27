@@ -6,9 +6,11 @@ import gsap from 'gsap';
 import { SECTION_BY_ID, type SectionItem } from '@/app/data/sections';
 import { attachScrollActiveItems } from '@/lib/scrollActiveItems';
 import {
-  onPreviewChange,
+  onPreviewProgress,
   playPreview,
+  seekPreview,
   stopPreview,
+  type PreviewProgress,
 } from '@/lib/audio';
 
 function canNest(item: SectionItem) {
@@ -21,32 +23,60 @@ function outboundLinks(item: SectionItem) {
   return (item.listenOn ?? []).filter((l) => l.href && !l.href.startsWith('#'));
 }
 
+function fmtTime(sec: number) {
+  if (!isFinite(sec) || sec < 0) return '0:00';
+  const s = Math.floor(sec);
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${r.toString().padStart(2, '0')}`;
+}
+
 const FOCUSABLE =
-  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input[type="range"]';
 
 const MOBILE_MQ = '(max-width: 570px)';
 
+/**
+ * Diegetic listening nest — CRT parity for Music/Shop.
+ * Hero cover + transport + living progress; tracklist sits under the ceremony.
+ */
 function DetailBody({
   sectionId,
   detail,
-  previewPlaying,
+  progress,
   onTogglePreview,
 }: {
   sectionId: string;
   detail: SectionItem;
-  previewPlaying: boolean;
+  progress: PreviewProgress;
   onTogglePreview: () => void;
 }) {
   const links = outboundLinks(detail);
   const linkTitle =
-    sectionId === 'cash-register'
-      ? 'BUY / LISTEN:'
-      : 'LISTEN ON:';
+    sectionId === 'cash-register' ? 'BUY / LISTEN:' : 'LISTEN ON:';
+  const hasPreview = Boolean(detail.previewSrc);
+  const playing =
+    hasPreview && progress.src === detail.previewSrc && progress.playing;
+  const loaded = hasPreview && progress.src === detail.previewSrc;
+  const duration = loaded ? progress.duration : 0;
+  const current = loaded ? progress.currentTime : 0;
+  const pct = duration > 0 ? Math.min(1, current / duration) : 0;
+
+  // Light up a track row while the booth is live — singles always; short
+  // previews highlight the lead cut as the “on the speakers” stand-in.
+  const liveTrack =
+    !playing || !detail.tracks?.length
+      ? -1
+      : detail.tracks.length === 1 || duration > 0
+        ? 0
+        : -1;
 
   return (
-    <>
-      <p className="panel-kicker">
-        {SECTION_BY_ID[sectionId]?.kicker ?? 'Detail'}
+    <div
+      className={`panel-listen-nest${playing ? ' is-live' : ''}${hasPreview ? ' has-transport' : ''}`}
+    >
+      <p className="panel-kicker panel-kicker-live">
+        {playing ? 'Now playing' : (SECTION_BY_ID[sectionId]?.kicker ?? 'Detail')}
       </p>
       <h2 className="panel-title panel-title-sm">{detail.label}</h2>
       {detail.meta && (
@@ -57,30 +87,79 @@ function DetailBody({
       )}
 
       {detail.thumbSrc && (
-        <div className="panel-detail-art" aria-hidden>
+        <div
+          className={`panel-detail-art${playing ? ' is-spinning' : ''}${loaded && !playing ? ' is-paused' : ''}`}
+          aria-hidden
+        >
+          <div className="panel-detail-art-ring" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={detail.thumbSrc} alt="" width={120} height={120} />
+          <img src={detail.thumbSrc} alt="" width={168} height={168} />
         </div>
       )}
 
       {detail.body && <p className="panel-body">{detail.body}</p>}
 
-      {detail.previewSrc && (
-        <button
-          type="button"
-          className={`panel-preview-btn${previewPlaying ? ' is-playing' : ''}`}
-          onClick={onTogglePreview}
-          data-cursor="click"
-          aria-pressed={previewPlaying}
-        >
-          {previewPlaying ? 'Stop preview' : 'Play preview'}
-        </button>
+      {hasPreview && (
+        <div className="panel-transport" role="group" aria-label="Booth preview">
+          <button
+            type="button"
+            className={`panel-transport-play${playing ? ' is-playing' : ''}`}
+            onClick={onTogglePreview}
+            data-cursor="click"
+            aria-pressed={playing}
+            aria-label={playing ? 'Pause preview' : 'Play preview'}
+          >
+            <span className="panel-transport-icon" aria-hidden>
+              {playing ? (
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                  <rect x="3" y="2" width="4" height="14" rx="1" />
+                  <rect x="11" y="2" width="4" height="14" rx="1" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                  <path d="M4.5 2.8v12.4L15 9 4.5 2.8z" />
+                </svg>
+              )}
+            </span>
+            <span className="panel-transport-label">
+              {playing ? 'Pause' : loaded ? 'Resume' : 'Play'}
+            </span>
+          </button>
+
+          <div className="panel-transport-meter">
+            <input
+              type="range"
+              className="panel-transport-range"
+              min={0}
+              max={1000}
+              step={1}
+              value={Math.round(pct * 1000)}
+              disabled={!loaded || duration <= 0}
+              aria-label="Seek preview"
+              aria-valuemin={0}
+              aria-valuemax={Math.round(duration)}
+              aria-valuenow={Math.round(current)}
+              aria-valuetext={`${fmtTime(current)} of ${fmtTime(duration)}`}
+              onChange={(e) => {
+                if (!duration) return;
+                seekPreview((Number(e.target.value) / 1000) * duration);
+              }}
+              onPointerDown={(e) => e.stopPropagation()}
+              data-cursor="click"
+              style={{ ['--seek' as string]: `${pct * 100}%` }}
+            />
+            <div className="panel-transport-times">
+              <span>{fmtTime(current)}</span>
+              <span>{duration > 0 ? fmtTime(duration) : '—:—'}</span>
+            </div>
+          </div>
+        </div>
       )}
 
       {detail.tracks && detail.tracks.length > 0 && (
         <ul className="panel-tracks">
           {detail.tracks.map((t, i) => (
-            <li key={i}>
+            <li key={i} className={liveTrack === i ? 'is-active' : undefined}>
               <span>{t.title}</span>
               {t.duration && <span className="track-dur">{t.duration}</span>}
             </li>
@@ -108,7 +187,7 @@ function DetailBody({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -134,7 +213,12 @@ export default function SectionPanel({
   const [shownId, setShownId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [detail, setDetail] = useState<SectionItem | null>(null);
-  const [playingSrc, setPlayingSrc] = useState<string | null>(null);
+  const [progress, setProgress] = useState<PreviewProgress>({
+    src: null,
+    playing: false,
+    currentTime: 0,
+    duration: 0,
+  });
   const [isMobile, setIsMobile] = useState(false);
   const level1 = useRef<HTMLDivElement>(null);
   const level2 = useRef<HTMLDivElement>(null);
@@ -143,8 +227,21 @@ export default function SectionPanel({
   const backBtn = useRef<HTMLButtonElement>(null);
   const nestBackBtn = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoPlayedFor = useRef<string | null>(null);
 
-  useEffect(() => onPreviewChange(setPlayingSrc), []);
+  useEffect(() => onPreviewProgress(setProgress), []);
+
+  // Auto-drop the needle when opening a release with a booth preview.
+  useEffect(() => {
+    const src = detail?.previewSrc;
+    if (!src) {
+      autoPlayedFor.current = null;
+      return;
+    }
+    if (autoPlayedFor.current === src) return;
+    autoPlayedFor.current = src;
+    void playPreview(src);
+  }, [detail]);
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_MQ);
@@ -333,7 +430,6 @@ export default function SectionPanel({
     void playPreview(detail.previewSrc);
   };
 
-  const previewPlaying = Boolean(detail?.previewSrc && playingSrc === detail.previewSrc);
   const desktopNest = Boolean(detail && !isMobile);
   const mobileNest = Boolean(detail && isMobile);
 
@@ -343,7 +439,7 @@ export default function SectionPanel({
       <DetailBody
         sectionId={section.id}
         detail={detail}
-        previewPlaying={previewPlaying}
+        progress={progress}
         onTogglePreview={togglePreview}
       />
     );

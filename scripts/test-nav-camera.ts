@@ -470,6 +470,10 @@ const desktop = {
   assert.ok(GLOW.idleBase < GLOW.settleBoost, 'settle boost should read louder than idle');
   assert.ok(GLOW.idlePanelMul > 0 && GLOW.idlePanelMul < 0.35, 'panel should dim — not kill — other glows');
   assert.ok(GLOW.idleBreathSpeed < GLOW.breathSpeed, 'idle breath should be calmer than hover');
+  assert.ok(
+    GLOW.listeningBreathSpeed > GLOW.breathSpeed,
+    'listening booth pulse should read faster than hover',
+  );
   console.log('✓ idle hotspot glow policy');
 }
 
