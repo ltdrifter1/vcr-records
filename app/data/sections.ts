@@ -170,14 +170,14 @@ export const SECTIONS: Section[] = [
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
-    // v8 pano: LISTEN shelving tower with turntable + headphones
-    // (file x 292–465, y 270–720 of 1536×1024).
-    u: 0.756,
-    v: 0.49,
-    lookU: 0.756,
-    lookV: 0.47,
-    w: 35.2,
-    h: 75,
+    // v9 pano: LISTEN shelving tower with turntable + headphones
+    // (file x 262–445, y 248–625 of 1536×1024).
+    u: 0.77,
+    v: 0.426,
+    lookU: 0.77,
+    lookV: 0.44,
+    w: 41,
+    h: 68,
     lookFov: 88,
     sfx: 'music',
     goldEdge: true,
@@ -194,20 +194,20 @@ export const SECTIONS: Section[] = [
     kicker: 'Videos',
     intro: '',
     accent: '#7ad7ff',
-    // v8 pano: CRT on the low cabinet — u/v is the tube-glass center and
+    // v9 pano: CRT on the low cabinet — u/v is the tube-glass center and
     // w/h are tube-locked so the CrtScreen video/frame overlays sit on the
-    // painted set (set file x 129–250, tube x 152–227 / y 527–572 of 1536×1024).
-    u: 0.8766,
-    v: 0.5366,
+    // painted set (set file x 138–252, tube x 162–240 / y 452–518 of 1536×1024).
+    u: 0.8691,
+    v: 0.4736,
     // Frame the set in the room — not watch-mode punch-in (was fov 22 / too close).
-    lookU: 0.8766,
-    lookV: 0.5366,
-    w: 20.9,
-    h: 11.3,
+    lookU: 0.8691,
+    lookV: 0.4736,
+    w: 21.7,
+    h: 16.5,
     // Glow / edge mask covers the whole painted set, not just the tube.
-    glowW: 26,
+    glowW: 24.5,
     glowH: 14,
-    lookFov: 50,
+    lookFov: 48,
     sfx: 'video',
     // Coming soon: keep warm gold aura latched while focused (no watch overlay).
     glowLatches: true,
@@ -225,14 +225,15 @@ export const SECTIONS: Section[] = [
     kicker: 'Artists',
     intro: '',
     accent: '#ff7a9c',
-    // v8 pano: central record-bin island (file x 730–862, y 500–712 of 1536×1024).
-    u: 0.482,
-    v: 0.59,
-    // Zoomed out over the whole bins aisle
+    // v9 pano: central record-bin island on the moss rug
+    // (file x 688–882, y 462–645 of 1536×1024).
+    u: 0.489,
+    v: 0.54,
+    // Zoomed out over the whole open room
     lookU: 0.5,
     lookV: 0.53,
-    w: 26.5,
-    h: 32.5,
+    w: 46,
+    h: 31,
     lookFov: 105,
     sfx: 'artists',
     goldEdge: true,
@@ -258,15 +259,15 @@ export const SECTIONS: Section[] = [
     kicker: 'New Releases',
     intro: '',
     accent: '#9dff8a',
-    // v8 pano: register + display pole + drawer on the clean wood counter
-    // (file x 975–1105, y 425–558 of 1536×1024).
+    // v9 pano: register + display pole on the clean wood counter
+    // (file x 1003–1090, y 413–490 of 1536×1024).
     // Spherical u = 1 − file_u after BackSide flip.
-    u: 0.323,
-    v: 0.48,
-    lookU: 0.31,
-    lookV: 0.53,
-    w: 26.5,
-    h: 20.5,
+    u: 0.319,
+    v: 0.44,
+    lookU: 0.3,
+    lookV: 0.49,
+    w: 22,
+    h: 16,
     lookFov: 70,
     sfx: 'shop',
     goldEdge: true,
@@ -333,13 +334,13 @@ export const SECTIONS: Section[] = [
     kicker: 'Contact',
     intro: '',
     accent: '#e8c07a',
-    // v8 pano: black rotary phone on the counter (file x 1145–1232, y 515–572).
-    u: 0.227,
-    v: 0.53,
-    lookU: 0.25,
-    lookV: 0.51,
-    w: 20,
-    h: 10.5,
+    // v9 pano: black rotary phone on the counter (file x 1130–1215, y 468–512).
+    u: 0.237,
+    v: 0.478,
+    lookU: 0.245,
+    lookV: 0.49,
+    w: 17,
+    h: 7.5,
     lookFov: 55,
     sfx: 'phone',
     goldEdge: true,

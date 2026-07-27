@@ -92,13 +92,13 @@ const desktop = {
 // 2) CRT framing: mid lookto (not watch punch-in); phone widens further
 {
   const crt = SECTION_BY_ID['crt-tv'];
-  assert.equal(crt.lookFov, 50, 'CRT lookFov should frame the set, not fov 22 punch-in');
+  assert.equal(crt.lookFov, 48, 'CRT lookFov should frame the set, not fov 22 punch-in');
   assert.ok(crt.glowLatches !== false, 'CRT glow should latch while Videos is focused');
   assert.ok(crt.hideHint, 'CRT glow should have no proximity text');
   assert.equal(crt.items.length, 0, 'CRT channels cleared (coming soon)');
   const desk = resolveLookMfov(crt, desktop);
   const mob = resolveLookMfov(crt, phone);
-  assert.equal(desk, 50, `desktop CRT should stay authored 50, got ${desk}`);
+  assert.equal(desk, 48, `desktop CRT should stay authored 48, got ${desk}`);
   assert.ok(mob > desk, `mobile CRT mfov ${mob} should be > desktop ${desk}`);
   console.log(`✓ CRT lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }

@@ -39,23 +39,23 @@ const WONDER_LINKS = [
  * a random outbound link (globe parity).
  */
 const HITS: AmbientHit[] = [
-  // Headphones on the stand in the LISTEN nook (v7)
-  { id: 'stool', u: 0.7135, v: 0.488, w: 2.4, h: 2.2, sfx: 'stool' },
-  // Left wall bin run (outside the Artists island hotspot)
-  { id: 'crate', u: 0.675, v: 0.547, w: 4.5, h: 3.2, sfx: 'crate' },
-  // Face-out record row on the left wall shelf (posters are gone in v7)
-  { id: 'poster', u: 0.6224, v: 0.366, w: 3.5, h: 3.5, sfx: 'poster' },
-  // Doormat by the entry door (door moved right of the counter in v7)
-  { id: 'cushion', u: 0.085, v: 0.693, w: 3.5, h: 2, sfx: 'cushion' },
-  // Potted plant at the bins island corner
-  { id: 'owl', u: 0.434, v: 0.478, w: 2.6, h: 2.4, sfx: 'owl' },
-  // Warm lamp pool on the floor
-  { id: 'fire', u: 0.583, v: 0.742, w: 2.8, h: 2.6, sfx: 'fire' },
+  // Headphones on the stand in the LISTEN tower (v9)
+  { id: 'stool', u: 0.7285, v: 0.415, w: 2.4, h: 2.2, sfx: 'stool' },
+  // Wall bin run between the tower and the island
+  { id: 'crate', u: 0.655, v: 0.488, w: 4.5, h: 3.2, sfx: 'crate' },
+  // Face-out record row on the wall shelf above the bins
+  { id: 'poster', u: 0.656, v: 0.317, w: 3.5, h: 3.5, sfx: 'poster' },
+  // Doormat by the entry door
+  { id: 'cushion', u: 0.0983, v: 0.656, w: 3.5, h: 2, sfx: 'cushion' },
+  // Potted plant at the island corner
+  { id: 'owl', u: 0.432, v: 0.444, w: 2.6, h: 2.4, sfx: 'owl' },
+  // Moss rug pool on the open floor
+  { id: 'fire', u: 0.609, v: 0.703, w: 2.8, h: 2.6, sfx: 'fire' },
   // Globe / wonder — the door window looking onto the street
   {
     id: 'wonder',
-    u: 0.0775,
-    v: 0.451,
+    u: 0.0885,
+    v: 0.41,
     w: 2.4,
     h: 2.4,
     sfx: 'wonder',
