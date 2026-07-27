@@ -390,21 +390,17 @@ const desktop = {
   globalThis.cancelAnimationFrame = prevCaf;
 }
 
-// 10b) Artists roster is the full label lineup
+// 10b) Artists roster — Inlet Knight only
 {
   const artists = SECTION_BY_ID['record-bins'];
-  assert.ok(artists.items.length >= 3, 'Artists panel lists the full roster');
+  assert.equal(artists.items.length, 1, 'Artists panel lists Inlet Knight only');
   assert.ok(
-    artists.items.some((i) => /Inlet Knight/i.test(i.label)),
-    'roster includes Inlet Knight',
+    /Inlet Knight/i.test(artists.items[0]?.label ?? ''),
+    'roster is Inlet Knight',
   );
   assert.ok(
-    artists.items.some((i) => /Charlie Archer/i.test(i.label)),
-    'roster includes Charlie Archer',
-  );
-  assert.ok(
-    artists.items.some((i) => /Drifta/i.test(i.label)),
-    'roster includes L.T. Drifta',
+    !artists.items.some((i) => /Charlie Archer|Drifta/i.test(i.label)),
+    'roster excludes Charlie Archer and L.T. Drifta',
   );
   console.log('✓ Artists roster');
 }
