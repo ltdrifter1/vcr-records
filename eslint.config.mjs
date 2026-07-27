@@ -8,6 +8,21 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // Node build/QA scripts (run with `node`, not the browser bundle).
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        URL: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+      },
+    },
+  },
+  {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       globals: {

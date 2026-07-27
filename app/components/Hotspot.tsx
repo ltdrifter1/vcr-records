@@ -12,13 +12,33 @@ import { useSceneEnv, type Controls } from './sceneContext';
 
 const origin = new THREE.Vector3(0, 0, 0);
 
-/** Warm gold — balmingtiger hover glow (cream → amber outer aura). */
-const GOLD_TINT = '#ffe9a8';
-const BLOOM_TINT = '#ffd27a';
-/** Outer bloom only — spreads soft aura past the silhouette edge. */
-const BLOOM_SCALE = 1.14;
-/** Morphological erode radius (px) when converting a filled map into a rim. */
-const EDGE_ERODE = 6;
+/**
+ * Glow tuning — the single place to adjust after new `*_edge.webp` maps
+ * drop into public/hotspots/. Swap the files, then tune breath/opacity here.
+ */
+export const GLOW = {
+  /** Warm gold rim — balmingtiger hover glow (cream). */
+  edgeTint: '#ffe9a8',
+  /** Amber outer aura behind the rim. */
+  bloomTint: '#ffd27a',
+  /** Bloom quad size vs the rim quad — spreads aura past the silhouette. */
+  bloomScale: 1.14,
+  /** Hover fade in/out duration (s). */
+  hoverFade: 0.4,
+  /** Breath speed (rad/s of the sine wave). */
+  breathSpeed: 1.4,
+  /** Rim opacity = edgeBase + wave * edgeAmp. */
+  edgeBase: 0.82,
+  edgeAmp: 0.32,
+  /** Bloom opacity = bloomBase + wave * bloomAmp. */
+  bloomBase: 0.28,
+  bloomAmp: 0.24,
+  /** Scale swell of rim / bloom quads at breath peak. */
+  edgeSwell: 0.025,
+  bloomSwell: 0.035,
+  /** Morphological erode radius (px) converting a filled map into a rim. */
+  erodePx: 6,
+} as const;
 
 /**
  * Prep glow/edge maps for additive rim rendering.
@@ -78,7 +98,7 @@ function prepGlowMap(map: THREE.Texture, flipX?: boolean) {
         } else {
           // Filled slab → outer rim only (mask − eroded).
           const eroded = new Float32Array(a.length);
-          const r = EDGE_ERODE;
+          const r = GLOW.erodePx;
           for (let y = 0; y < h; y++) {
             for (let x = 0; x < w; x++) {
               let m = 1;
@@ -178,7 +198,7 @@ export default function Hotspot({
     const on = isFocused || hovered;
     gsap.to(glow.current, {
       a: on ? 1 : 0,
-      duration: env.reduceMotion ? 0 : 0.4,
+      duration: env.reduceMotion ? 0 : GLOW.hoverFade,
       ease: 'power1.inOut',
       overwrite: true,
     });
@@ -194,16 +214,16 @@ export default function Hotspot({
 
     const a = glow.current.a;
     if (!env.reduceMotion && a > 0.02) {
-      breath.current += delta * 1.4;
+      breath.current += delta * GLOW.breathSpeed;
     } else {
       breath.current = 0;
     }
     const wave = env.reduceMotion ? 0 : Math.sin(breath.current) * 0.5 + 0.5;
     // Edge-only BT language: bright rim + soft outer bloom, no filled slab.
-    const edgeMul = 0.82 + wave * 0.32;
-    const bloomMul = 0.28 + wave * 0.24;
-    const scaleMul = 1 + wave * 0.025 * a;
-    const bloomScale = BLOOM_SCALE * (1 + wave * 0.035 * a);
+    const edgeMul = GLOW.edgeBase + wave * GLOW.edgeAmp;
+    const bloomMul = GLOW.bloomBase + wave * GLOW.bloomAmp;
+    const scaleMul = 1 + wave * GLOW.edgeSwell * a;
+    const bloomScale = GLOW.bloomScale * (1 + wave * GLOW.bloomSwell * a);
 
     if (edgeMesh.current) edgeMesh.current.scale.setScalar(scaleMul);
     if (bloomMesh.current) bloomMesh.current.scale.setScalar(bloomScale);
@@ -242,7 +262,7 @@ export default function Hotspot({
         <meshBasicMaterial
           ref={bloomMat}
           map={edgeMap}
-          color={BLOOM_TINT}
+          color={GLOW.bloomTint}
           transparent
           depthWrite={false}
           depthTest={false}
@@ -259,7 +279,7 @@ export default function Hotspot({
         <meshBasicMaterial
           ref={edgeMat}
           map={edgeMap}
-          color={GOLD_TINT}
+          color={GLOW.edgeTint}
           transparent
           depthWrite={false}
           depthTest={false}

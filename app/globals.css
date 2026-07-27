@@ -476,7 +476,7 @@ html.has-custom-cursor * {
   opacity: 0.9;
 }
 
-/* ---------- loading gate (PNW modern + 90s cel glow) ---------- */
+/* ---------- loading gate (bright neutral + warm cel glow, v7 store) ---------- */
 .gate {
   position: fixed;
   inset: 0;
@@ -485,10 +485,10 @@ html.has-custom-cursor * {
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(120% 80% at 50% -10%, rgba(127, 255, 179, 0.18), transparent 55%),
-    radial-gradient(90% 70% at 80% 110%, rgba(255, 229, 102, 0.12), transparent 50%),
-    linear-gradient(165deg, #0f2a20 0%, var(--pnw-deep) 42%, #081612 100%);
-  color: var(--cel-cream);
+    radial-gradient(120% 80% at 50% -10%, rgba(233, 178, 29, 0.16), transparent 55%),
+    radial-gradient(90% 70% at 80% 110%, rgba(255, 229, 102, 0.18), transparent 50%),
+    linear-gradient(165deg, #fbf6ea 0%, #f4ecda 42%, #eadfc6 100%);
+  color: #2b2317;
   overflow: hidden;
 }
 .gate-lqip {
@@ -517,8 +517,8 @@ html.has-custom-cursor * {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(8, 22, 18, 0.55) 0%, rgba(8, 22, 18, 0.28) 42%, rgba(8, 22, 18, 0.72) 100%),
-    radial-gradient(70% 55% at 50% 40%, transparent 0%, rgba(8, 22, 18, 0.45) 100%);
+    linear-gradient(180deg, rgba(250, 244, 230, 0.72) 0%, rgba(250, 244, 230, 0.4) 42%, rgba(244, 234, 212, 0.82) 100%),
+    radial-gradient(70% 55% at 50% 40%, transparent 0%, rgba(246, 238, 220, 0.55) 100%);
 }
 .gate-atmosphere {
   position: absolute;
@@ -539,14 +539,14 @@ html.has-custom-cursor * {
   height: 35vh;
   left: -8%;
   bottom: 8%;
-  background: rgba(143, 181, 168, 0.35);
+  background: rgba(216, 196, 156, 0.4);
 }
 .gate-mist-b {
   width: 48vw;
   height: 30vh;
   right: -6%;
   top: 12%;
-  background: rgba(125, 255, 179, 0.12);
+  background: rgba(233, 178, 29, 0.14);
   animation-delay: -4s;
   animation-duration: 18s;
 }
@@ -563,12 +563,12 @@ html.has-custom-cursor * {
 .gate-orb-a {
   top: 18%;
   left: 14%;
-  background: rgba(125, 255, 179, 0.28);
+  background: rgba(233, 178, 29, 0.22);
 }
 .gate-orb-b {
   right: 12%;
   bottom: 22%;
-  background: rgba(255, 229, 102, 0.2);
+  background: rgba(255, 229, 102, 0.28);
   animation-delay: -1.8s;
 }
 .gate-grain {
@@ -597,11 +597,11 @@ html.has-custom-cursor * {
 }
 .gate-mark-vcr {
   display: block;
-  color: var(--cel-cream);
+  color: #2b2317;
   text-shadow:
-    0 0 12px rgba(125, 255, 179, 0.55),
-    0 0 36px rgba(125, 255, 179, 0.35),
-    0 2px 0 rgba(20, 38, 28, 0.45);
+    0 0 12px rgba(233, 178, 29, 0.4),
+    0 0 36px rgba(233, 178, 29, 0.22),
+    0 2px 0 rgba(255, 247, 224, 0.9);
   animation: gate-glow-vcr 3.2s ease-in-out infinite;
 }
 .gate-mark-recordings {
@@ -609,13 +609,12 @@ html.has-custom-cursor * {
   margin-top: 0.06em;
   font-size: 0.72em;
   letter-spacing: 0.04em;
-  color: var(--cel-butter);
-  -webkit-text-stroke: 1px rgba(20, 38, 28, 0.35);
+  color: var(--amber);
+  -webkit-text-stroke: 1px rgba(43, 35, 23, 0.4);
   text-shadow:
     0 0 10px rgba(255, 229, 102, 0.75),
-    0 0 28px rgba(255, 229, 102, 0.45),
-    0 0 54px rgba(125, 255, 179, 0.28),
-    0 3px 0 rgba(20, 38, 28, 0.4);
+    0 0 28px rgba(233, 178, 29, 0.4),
+    0 3px 0 rgba(255, 247, 224, 0.85);
   animation: gate-glow-rec 2.8s ease-in-out infinite;
 }
 .gate-sub {
@@ -624,13 +623,13 @@ html.has-custom-cursor * {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: clamp(10px, 2.2vw, 12px);
-  color: rgba(197, 217, 208, 0.82);
+  color: rgba(74, 62, 44, 0.82);
   margin: 26px 0 34px;
 }
 .gate-bar {
   height: 3px;
   width: 100%;
-  background: rgba(197, 217, 208, 0.18);
+  background: rgba(43, 35, 23, 0.16);
   border: 0;
   border-radius: 0;
   position: relative;
@@ -641,8 +640,8 @@ html.has-custom-cursor * {
   inset: 0;
   transform-origin: left center;
   transform: scaleX(0);
-  background: linear-gradient(90deg, var(--cel-mint), var(--cel-butter));
-  box-shadow: 0 0 12px rgba(125, 255, 179, 0.55);
+  background: linear-gradient(90deg, var(--amber), var(--cel-butter));
+  box-shadow: 0 0 12px rgba(233, 178, 29, 0.55);
 }
 .gate-status {
   display: flex;
@@ -652,15 +651,15 @@ html.has-custom-cursor * {
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(197, 217, 208, 0.7);
+  color: rgba(74, 62, 44, 0.72);
   margin-top: 12px;
 }
 .gate-enter {
   margin-top: 40px;
   appearance: none;
-  border: 2px solid var(--cel-cream);
-  background: var(--cel-cream);
-  color: var(--pnw-deep);
+  border: 2px solid #2b2317;
+  background: #2b2317;
+  color: #fff7e0;
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 800;
   font-size: 13px;
@@ -672,8 +671,8 @@ html.has-custom-cursor * {
   opacity: 0;
   transform: translateY(12px);
   box-shadow:
-    0 0 0 0 rgba(125, 255, 179, 0),
-    0 8px 0 rgba(11, 31, 24, 0.35);
+    0 0 0 0 rgba(233, 178, 29, 0),
+    0 8px 0 rgba(43, 35, 23, 0.25);
   transition:
     transform 0.2s ease,
     background 0.2s ease,
@@ -682,17 +681,17 @@ html.has-custom-cursor * {
     box-shadow 0.25s ease;
 }
 .gate-enter:enabled:hover {
-  background: var(--cel-mint);
-  border-color: var(--cel-mint);
-  color: var(--pnw-deep);
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #2b2317;
   transform: translateY(2px);
   box-shadow:
-    0 0 24px rgba(125, 255, 179, 0.45),
-    0 4px 0 rgba(11, 31, 24, 0.35);
+    0 0 24px rgba(233, 178, 29, 0.5),
+    0 4px 0 rgba(43, 35, 23, 0.25);
 }
 .gate-enter:enabled:active {
   transform: translateY(6px);
-  box-shadow: 0 0 16px rgba(125, 255, 179, 0.35), 0 0 0 transparent;
+  box-shadow: 0 0 16px rgba(233, 178, 29, 0.4), 0 0 0 transparent;
 }
 .gate-enter:disabled {
   cursor: default;
@@ -709,31 +708,29 @@ html.has-custom-cursor * {
 @keyframes gate-glow-vcr {
   0%, 100% {
     text-shadow:
-      0 0 12px rgba(125, 255, 179, 0.5),
-      0 0 32px rgba(125, 255, 179, 0.28),
-      0 2px 0 rgba(20, 38, 28, 0.45);
+      0 0 12px rgba(233, 178, 29, 0.35),
+      0 0 32px rgba(233, 178, 29, 0.18),
+      0 2px 0 rgba(255, 247, 224, 0.9);
   }
   50% {
     text-shadow:
-      0 0 18px rgba(125, 255, 179, 0.85),
-      0 0 48px rgba(125, 255, 179, 0.45),
-      0 2px 0 rgba(20, 38, 28, 0.45);
+      0 0 18px rgba(233, 178, 29, 0.6),
+      0 0 48px rgba(233, 178, 29, 0.3),
+      0 2px 0 rgba(255, 247, 224, 0.9);
   }
 }
 @keyframes gate-glow-rec {
   0%, 100% {
     text-shadow:
       0 0 10px rgba(255, 229, 102, 0.7),
-      0 0 26px rgba(255, 229, 102, 0.4),
-      0 0 48px rgba(125, 255, 179, 0.22),
-      0 3px 0 rgba(20, 38, 28, 0.4);
+      0 0 26px rgba(233, 178, 29, 0.35),
+      0 3px 0 rgba(255, 247, 224, 0.85);
   }
   50% {
     text-shadow:
       0 0 16px rgba(255, 229, 102, 0.95),
-      0 0 40px rgba(255, 229, 102, 0.55),
-      0 0 64px rgba(125, 255, 179, 0.35),
-      0 3px 0 rgba(20, 38, 28, 0.4);
+      0 0 40px rgba(233, 178, 29, 0.5),
+      0 3px 0 rgba(255, 247, 224, 0.85);
   }
 }
 

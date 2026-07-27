@@ -83,10 +83,10 @@ export default function LightBeams() {
   const beam = useMemo(() => makeBeamTexture(), []);
   return (
     <group>
-      <AdditiveQuad u={0.688} v={0.4} w={5.5} h={14} tex={beam} base={0.06} flickerSpeed={0.7} flickerAmount={0.04} color="#ffc070" />
-      <AdditiveQuad u={0.574} v={0.38} w={6} h={15} tex={beam} base={0.055} flickerSpeed={0.5} flickerAmount={0.03} color="#ffb860" />
-      <AdditiveQuad u={0.395} v={0.4} w={5} h={12} tex={beam} base={0.06} flickerSpeed={0.9} flickerAmount={0.04} color="#ffcf8a" />
-      <AdditiveQuad u={0.134} v={0.45} w={5.5} h={13} tex={beam} base={0.055} flickerSpeed={0.6} flickerAmount={0.03} color="#ffc070" />
+      <AdditiveQuad u={0.7415} v={0.42} w={5.5} h={14} tex={beam} base={0.06} flickerSpeed={0.7} flickerAmount={0.04} color="#ffc070" />
+      <AdditiveQuad u={0.709} v={0.43} w={6} h={15} tex={beam} base={0.055} flickerSpeed={0.5} flickerAmount={0.03} color="#ffb860" />
+      <AdditiveQuad u={0.569} v={0.4} w={5} h={12} tex={beam} base={0.06} flickerSpeed={0.9} flickerAmount={0.04} color="#ffcf8a" />
+      <AdditiveQuad u={0.081} v={0.45} w={5.5} h={13} tex={beam} base={0.055} flickerSpeed={0.6} flickerAmount={0.03} color="#ffe0a0" />
     </group>
   );
 }
