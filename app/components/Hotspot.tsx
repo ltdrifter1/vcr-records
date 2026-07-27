@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
-import { useTexture } from '@react-three/drei';
+import { Html, useTexture } from '@react-three/drei';
 import gsap from 'gsap';
 import * as THREE from 'three';
 
@@ -315,6 +315,13 @@ export default function Hotspot({
           side={THREE.DoubleSide}
         />
       </mesh>
+
+      {/* BT-style hover label — one word, fades with the glow, never blocks */}
+      {hovered && !isFocused && (
+        <Html center zIndexRange={[30, 10]} style={{ pointerEvents: 'none' }}>
+          <span className="hotspot-pill">{section.nav}</span>
+        </Html>
+      )}
     </group>
   );
 }

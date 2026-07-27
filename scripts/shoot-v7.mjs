@@ -40,5 +40,33 @@ for (const [i, hash] of sections.entries()) {
   console.log('shot', hash);
 }
 
+// Music release nest — detail view with preview button + tracks + listen-on.
+await page.evaluate(() => {
+  window.location.hash = 'music';
+});
+await page.waitForTimeout(2200);
+await page.click('.panel-row');
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${OUT}/08-music-nest.png` });
+console.log('shot music nest');
+
+// CRT channel — play the in-room station loop.
+await page.evaluate(() => {
+  window.location.hash = 'videos';
+});
+await page.waitForTimeout(2200);
+await page.click('.panel-row');
+await page.waitForTimeout(1600);
+await page.screenshot({ path: `${OUT}/09-crt-playing.png` });
+console.log('shot crt playing');
+
+// Hover pill — close panel, hover the record island in the explore view.
+await page.keyboard.press('Escape');
+await page.waitForTimeout(900);
+await page.mouse.move(720, 520);
+await page.waitForTimeout(600);
+await page.screenshot({ path: `${OUT}/10-hover-pill.png` });
+console.log('shot hover pill');
+
 await browser.close();
 console.log('done');

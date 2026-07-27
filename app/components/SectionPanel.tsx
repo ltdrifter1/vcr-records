@@ -285,7 +285,9 @@ export default function SectionPanel({
   }, [open, shownId, detail, reduceMotion, isMobile]);
 
   const section = shownId ? SECTION_BY_ID[shownId] : null;
-  const nestable = section?.id === 'cash-register';
+  // Sections whose rows open the in-panel detail nest (previews / tracks).
+  const nestable =
+    section?.id === 'cash-register' || section?.id === 'listening-booth';
   const artistPanel = section?.id === 'record-bins';
   const heroKicker = Boolean(section?.kicker?.trim() && !section.title?.trim());
 

@@ -1,70 +1,16 @@
-export type ListenLink = {
-  label: string;
-  href: string;
-};
+import {
+  ART,
+  CRT_CHANNELS,
+  MUSIC_RELEASES,
+  SHOP_ITEMS,
+  type SectionItem,
+} from './catalog';
 
-export type TrackItem = {
-  title: string;
-  duration?: string;
-};
-
-export type SectionItem = {
-  label: string;
-  meta?: string;
-  detail?: string;
-  /** Short CTA label (e.g. PLAY, BUY, EMAIL). */
-  cta?: string;
-  /** Outbound / mailto / hash link for the CTA. */
-  href?: string;
-  /** Accent letter / glyph fallback when no thumbSrc. */
-  thumb?: string;
-  /** Real cover / flyer art under /public/panel-thumbs. */
-  thumbSrc?: string;
-  /**
-   * Local video URL played on the in-room CRT (Videos section).
-   * When set, primary row click stays in the room instead of window.open.
-   */
-  videoSrc?: string;
-  /**
-   * Short in-room audio preview (Listening Booth / Shop).
-   * Plays through the shared preview bus; ducks BGM.
-   */
-  previewSrc?: string;
-  /** Music / Shop nest — track list shown in level-2 detail. */
-  tracks?: TrackItem[];
-  /** Music / Shop nest — streaming + buy pills. */
-  listenOn?: ListenLink[];
-  /**
-   * In-panel prose for nested detail (stays in-room — no /shop eject).
-   */
-  body?: string;
-};
-
-const T = {
-  atHome: '/panel-thumbs/at-home.webp',
-  inletKnight: '/panel-thumbs/inlet-knight.webp',
-  inletKnightTall: '/panel-thumbs/inlet-knight-tall.webp',
-  summer: '/panel-thumbs/summer.webp',
-  lions: '/panel-thumbs/lions.webp',
-  rack: '/panel-thumbs/rack.webp',
-  testpress: '/panel-thumbs/testpress.webp',
-  classic: '/panel-thumbs/classic.webp',
-  poetry: '/panel-thumbs/poetry.webp',
-  future: '/panel-thumbs/future.webp',
-  ltd: '/panel-thumbs/ltd.webp',
-  vcr: '/panel-thumbs/vcr.webp',
-  logo: '/panel-thumbs/logo.webp',
-  email: '/panel-thumbs/email.webp',
-  info: '/panel-thumbs/info.webp',
-  ig: '/panel-thumbs/ig.webp',
-  charlie: '/panel-thumbs/charlie.webp',
-  yt: '/panel-thumbs/yt.webp',
-  shop: '/panel-thumbs/shop.webp',
-  about: '/panel-thumbs/about.webp',
-  bc: '/panel-thumbs/bc.webp',
-  cover1: '/panel-thumbs/cover1.webp',
-  cover2: '/panel-thumbs/cover2.webp',
-} as const;
+/**
+ * Content (releases, CRT channels, shop rows) lives in ./catalog.ts —
+ * edit that file to add or change what the store plays and sells.
+ */
+export type { ListenLink, SectionItem, TrackItem } from './catalog';
 
 export type Section = {
   /** stable id / route slug */
@@ -128,32 +74,8 @@ export type Section = {
   items: SectionItem[];
 };
 
-const BANDCAMP = 'https://vcrrecordings.bandcamp.com';
 const INSTAGRAM = 'https://www.instagram.com/vcr_recordings';
 const CONTACT_EMAIL = 'mailto:charlie@vcrrecords.com';
-/** Short booth previews under /public/audio/previews. */
-const PREVIEW = {
-  atHome: '/audio/previews/at-home.mp3',
-  summer: '/audio/previews/summer.mp3',
-  lions: '/audio/previews/lions-gate.mp3',
-  rack: '/audio/previews/rack-em.mp3',
-} as const;
-
-/** Stripe + Bandcamp buy destinations (checkout only — browse stays in-room). */
-const BUY = {
-  atHomeDigital: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
-  summerDigital: 'https://buy.stripe.com/00w14o5zxdMs2Ry73TfrW0s',
-  lionsDigital: 'https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i',
-  rackDigital: 'https://buy.stripe.com/bJe8wQd1ZbEk77O87XfrW0t',
-  tee: 'https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o',
-  hat: 'https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n',
-  bikini: 'https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m',
-  inletBc: 'https://inletknight.bandcamp.com',
-  inletKnightAlbum: 'https://inletknight.bandcamp.com/album/inlet-knight',
-  ltdBc: 'https://ltdrifta.bandcamp.com',
-  driftaBc: 'https://drifta.bandcamp.com',
-  rackBc: 'https://ltdrifta.bandcamp.com/album/rack-em',
-} as const;
 
 /**
  * Discoverable hotspots around the 360° store.
@@ -182,8 +104,8 @@ export const SECTIONS: Section[] = [
     sfx: 'music',
     goldEdge: true,
     hideHint: true,
-    // Coming soon — no release rows / no glow labels.
-    items: [],
+    // Booth releases — edit app/data/catalog.ts to add or change rows.
+    items: MUSIC_RELEASES,
   },
   {
     id: 'crt-tv',
@@ -209,12 +131,13 @@ export const SECTIONS: Section[] = [
     glowH: 14,
     lookFov: 48,
     sfx: 'video',
-    // Coming soon: keep warm gold aura latched while focused (no watch overlay).
+    // Keep warm gold aura latched while focused; watch overlay arms when
+    // a channel row plays (NavigationController checks items.length).
     glowLatches: true,
     goldEdge: true,
     hideHint: true,
-    // Channels cleared — blank tube + panel copy only.
-    items: [],
+    // CRT channels — edit app/data/catalog.ts to add or change rows.
+    items: CRT_CHANNELS,
   },
   {
     id: 'record-bins',
@@ -245,8 +168,8 @@ export const SECTIONS: Section[] = [
         detail: 'Bandcamp',
         cta: 'Listen',
         thumb: 'IK',
-        thumbSrc: T.inletKnight,
-        href: BUY.inletBc,
+        thumbSrc: ART.inletKnight,
+        href: 'https://inletknight.bandcamp.com',
       },
     ],
   },
@@ -272,58 +195,8 @@ export const SECTIONS: Section[] = [
     sfx: 'shop',
     goldEdge: true,
     hideHint: true,
-    items: [
-      {
-        label: 'Inlet Knight',
-        meta: 'Self-titled album · 16 tracks',
-        detail: '$9 CAD or more',
-        cta: 'Open',
-        thumb: 'IK',
-        thumbSrc: T.inletKnightTall,
-        href: BUY.inletKnightAlbum,
-        tracks: [
-          { title: 'Revive Him', duration: '02:27' },
-          { title: 'Whatever', duration: '03:27' },
-          { title: 'Mad About You', duration: '03:58' },
-          { title: 'All Falls Down', duration: '04:42' },
-          { title: 'Les Miserables', duration: '02:16' },
-          { title: 'Heartbreaker', duration: '03:52' },
-          { title: 'Movin\'', duration: '03:26' },
-          { title: 'Sunday Afternoon', duration: '02:55' },
-          { title: 'Hard to Ignore', duration: '04:09' },
-          { title: 'The Get Down', duration: '01:37' },
-          { title: '3AM', duration: '02:59' },
-          { title: 'Another Day', duration: '04:58' },
-          { title: 'Is It Cool?', duration: '04:02' },
-          { title: 'You Wanted Me', duration: '02:49' },
-          { title: 'Next Year', duration: '04:07' },
-          { title: 'Art of Losing', duration: '02:06' },
-        ],
-        listenOn: [
-          { label: 'Listen on Bandcamp', href: BUY.inletKnightAlbum },
-          { label: 'Buy album', href: BUY.inletKnightAlbum },
-        ],
-      },
-      {
-        label: 'Inlet Knight',
-        meta: 'At Home',
-        detail: 'From $3',
-        cta: 'Open',
-        thumb: 'IK',
-        thumbSrc: T.inletKnight,
-        href: BUY.atHomeDigital,
-        previewSrc: PREVIEW.atHome,
-        tracks: [
-          { title: 'Digital MP3 — $3 CAD', duration: '' },
-          { title: 'Cassette available via Stripe', duration: '' },
-        ],
-        listenOn: [
-          { label: 'Buy Digital', href: BUY.atHomeDigital },
-          { label: 'Bandcamp', href: BUY.inletBc },
-          { label: 'Preview', href: '#preview' },
-        ],
-      },
-    ],
+    // New Releases — edit app/data/catalog.ts to add or change rows.
+    items: SHOP_ITEMS,
   },
   {
     id: 'phone-booth',
@@ -352,7 +225,7 @@ export const SECTIONS: Section[] = [
         detail: 'Email',
         cta: 'Email',
         thumb: 'CH',
-        thumbSrc: T.charlie,
+        thumbSrc: ART.charlie,
         href: CONTACT_EMAIL,
       },
       {
@@ -361,7 +234,7 @@ export const SECTIONS: Section[] = [
         detail: 'Follow',
         cta: 'Follow',
         thumb: '@',
-        thumbSrc: T.ig,
+        thumbSrc: ART.ig,
         href: INSTAGRAM,
       },
     ],

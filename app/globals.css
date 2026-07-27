@@ -734,6 +734,46 @@ html.has-custom-cursor * {
   }
 }
 
+/* ---------- hotspot hover pill (BT floating label, VCR voice) ---------- */
+.hotspot-pill {
+  display: inline-block;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff7e0;
+  background: rgba(20, 18, 14, 0.72);
+  border: 1px solid rgba(255, 233, 168, 0.45);
+  border-radius: 999px;
+  padding: 7px 16px;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  animation: hotspot-pill-in 0.25s ease-out both;
+}
+@keyframes hotspot-pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hotspot-pill {
+    animation: none;
+  }
+}
+@media (pointer: coarse) {
+  .hotspot-pill {
+    display: none;
+  }
+}
+
 /* shutter panels (legacy) */
 .shutter {
   position: fixed;
