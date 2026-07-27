@@ -317,18 +317,21 @@ const desktop = {
   assert.ok(controls.mfov < MFOV_EXPLORE, 'shop lookto should punch in from explore FOV');
   const shop = SECTION_BY_ID['cash-register'];
   assert.equal(shop.title.trim(), '', 'Shop title cleared (no The Counter)');
-  assert.match(
-    shop.intro,
-    /counter|listen|room/i,
-    'Shop panel needs a short label-voice intro',
-  );
+  assert.equal(shop.intro.trim(), '', 'Shop intro cleared for compact New Releases');
   assert.equal(shop.kicker, 'New Releases', 'Shop panel kicker is New Releases');
   assert.equal(shop.items.length, 2, 'Shop lists Inlet Knight album + At Home');
   assert.match(shop.items[0].label, /Inlet Knight/i);
+  assert.equal(shop.items[0].meta, 'Inlet Knight');
+  assert.equal(shop.items[1].label, 'At Home');
+  assert.equal(shop.items[1].meta, 'Inlet Knight');
   assert.ok(shop.items[0].tracks && shop.items[0].tracks.length >= 16);
   assert.ok(
-    shop.items.every((i) => i.body && i.body.length > 12),
-    'Shop shelf rows need curatorial blurbs',
+    shop.items.every((i) => i.label && i.meta && i.href),
+    'Shop rows need album title, artist, and buy link',
+  );
+  assert.ok(
+    shop.items.every((i) => !i.body && !i.detail),
+    'Shop level-1 stays basic — no blurbs or detail lines',
   );
   assert.ok(
     !shop.items.some((i) => i.listenOn?.some((l) => l.href === '#preview')),

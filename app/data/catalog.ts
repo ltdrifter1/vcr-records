@@ -266,13 +266,11 @@ export const ARTISTS: SectionItem[] = [
 export const SHOP_ITEMS: SectionItem[] = [
   {
     label: 'Inlet Knight',
-    meta: 'Self-titled album',
-    detail: '16 tracks · from $9 CAD',
-    cta: 'Open',
+    meta: 'Inlet Knight',
+    cta: 'Buy Now',
     thumb: 'IK',
     thumbSrc: ART.inletKnightTall,
     href: BUY.inletKnightAlbum,
-    body: 'The full Island record — sixteen cuts for the long listen.',
     tracks: [
       { title: 'Revive Him', duration: '02:27' },
       { title: 'Whatever', duration: '03:27' },
@@ -292,28 +290,26 @@ export const SHOP_ITEMS: SectionItem[] = [
       { title: 'Art of Losing', duration: '02:06' },
     ],
     listenOn: [
-      { label: 'Listen on Bandcamp', href: BUY.inletKnightAlbum },
-      { label: 'Buy album', href: BUY.inletKnightAlbum },
+      { label: 'Listen', href: BUY.inletKnightAlbum },
+      { label: 'Buy Now', href: BUY.inletKnightAlbum },
     ],
   },
   {
     label: 'At Home',
     meta: 'Inlet Knight',
-    detail: 'From $3 · digital + cassette',
-    cta: 'Open',
+    cta: 'Buy Now',
     thumb: 'IK',
     thumbSrc: ART.inletKnight,
     href: BUY.atHomeDigital,
     previewSrc: PREVIEW.atHome,
-    body: 'Three songs you can take home — preview in the booth, buy at the counter.',
     tracks: [
       { title: 'After All', duration: '2:22' },
       { title: 'Will I See You Again?', duration: '3:58' },
       { title: 'At Home', duration: '3:44' },
     ],
     listenOn: [
-      { label: 'Buy Digital', href: BUY.atHomeDigital },
-      { label: 'Bandcamp', href: BUY.inletBc },
+      { label: 'Listen', href: BUY.inletBc },
+      { label: 'Buy Now', href: BUY.atHomeDigital },
     ],
   },
 ];
