@@ -31,10 +31,21 @@ const listeners = new Set<(muted: boolean) => void>();
 const sfxPool = new Map<string, HTMLAudioElement>();
 
 /* ---------- in-booth release previews (Listening Booth / Shop) ---------- */
+export type PreviewProgress = {
+  src: string | null;
+  /** True while the element is actively playing (not paused). */
+  playing: boolean;
+  currentTime: number;
+  duration: number;
+};
+
 let preview: HTMLAudioElement | null = null;
 let previewSrc: string | null = null;
+let previewPaused = false;
 let previewEndTimer: ReturnType<typeof setTimeout> | null = null;
+let previewRaf = 0;
 const previewListeners = new Set<(src: string | null) => void>();
+const previewProgressListeners = new Set<(p: PreviewProgress) => void>();
 
 const SFX: Record<string, string> = {
   click: '/audio/click.mp3',
@@ -74,6 +85,43 @@ function notify() {
 
 function notifyPreview() {
   for (const fn of previewListeners) fn(previewSrc);
+}
+
+function readPreviewProgress(): PreviewProgress {
+  const a = preview;
+  const dur =
+    a && isFinite(a.duration) && a.duration > 0 ? a.duration : 0;
+  return {
+    src: previewSrc,
+    playing: Boolean(previewSrc && a && !a.paused && !previewPaused),
+    currentTime: a && previewSrc ? a.currentTime : 0,
+    duration: dur,
+  };
+}
+
+function notifyPreviewProgress() {
+  const p = readPreviewProgress();
+  for (const fn of previewProgressListeners) fn(p);
+}
+
+function stopPreviewTicker() {
+  if (previewRaf) {
+    cancelAnimationFrame(previewRaf);
+    previewRaf = 0;
+  }
+}
+
+function startPreviewTicker() {
+  stopPreviewTicker();
+  const tick = () => {
+    notifyPreviewProgress();
+    if (previewSrc && preview && !preview.paused) {
+      previewRaf = requestAnimationFrame(tick);
+    } else {
+      previewRaf = 0;
+    }
+  };
+  previewRaf = requestAnimationFrame(tick);
 }
 
 function clearPreviewTimer() {
@@ -136,7 +184,13 @@ function bindAudioLifecycle() {
         /* user can retry via mute control */
       });
       if (previewSrc && preview) {
-        void preview.play().catch(() => stopPreview());
+        void preview.play()
+          .then(() => {
+            previewPaused = false;
+            startPreviewTicker();
+            notifyPreviewProgress();
+          })
+          .catch(() => stopPreview());
       }
     }
   };
@@ -160,7 +214,7 @@ export function onMuteChange(fn: (muted: boolean) => void) {
   };
 }
 
-/** Subscribe to which preview src is currently playing (null = idle). */
+/** Subscribe to which preview src is currently loaded (null = idle). */
 export function onPreviewChange(fn: (src: string | null) => void) {
   previewListeners.add(fn);
   fn(previewSrc);
@@ -169,8 +223,21 @@ export function onPreviewChange(fn: (src: string | null) => void) {
   };
 }
 
+/** Subscribe to live preview transport (time / playing). */
+export function onPreviewProgress(fn: (p: PreviewProgress) => void) {
+  previewProgressListeners.add(fn);
+  fn(readPreviewProgress());
+  return () => {
+    previewProgressListeners.delete(fn);
+  };
+}
+
 export function getPreviewSrc() {
   return previewSrc;
+}
+
+export function getPreviewProgress() {
+  return readPreviewProgress();
 }
 
 /**
@@ -194,6 +261,8 @@ export function setPanelDuck(open: boolean, duration = 0.55) {
 /** Stop booth preview and restore BGM level. */
 export function stopPreview() {
   clearPreviewTimer();
+  stopPreviewTicker();
+  previewPaused = false;
   if (preview) {
     try {
       preview.pause();
@@ -206,21 +275,63 @@ export function stopPreview() {
     previewSrc = null;
     notifyPreview();
   }
+  notifyPreviewProgress();
   setBgmDucked(false, 0.5);
+}
+
+/** Pause without clearing — transport Play resumes the same cut. */
+export function pausePreview() {
+  if (!preview || !previewSrc) return;
+  previewPaused = true;
+  try {
+    preview.pause();
+  } catch {
+    /* ignore */
+  }
+  stopPreviewTicker();
+  notifyPreviewProgress();
+  // Soft unduck toward panel level while paused in the nest.
+  setBgmDucked(false, 0.45);
+}
+
+/** Seek within the loaded booth preview (seconds). */
+export function seekPreview(time: number) {
+  if (!preview || !previewSrc) return;
+  const dur =
+    isFinite(preview.duration) && preview.duration > 0
+      ? preview.duration
+      : 40;
+  preview.currentTime = Math.max(0, Math.min(dur, time));
+  notifyPreviewProgress();
 }
 
 /**
  * Play a short release preview in the room.
  * Ducks BGM; auto-stops at natural end (clips are ~35s).
- * Same src while playing → toggle off.
+ * Same src while playing → pause; same src while paused → resume.
  */
 export async function playPreview(src: string) {
   if (typeof window === 'undefined') return false;
   if (!src) return false;
 
-  if (previewSrc === src) {
-    stopPreview();
-    return false;
+  if (previewSrc === src && preview) {
+    if (!preview.paused && !previewPaused) {
+      pausePreview();
+      return false;
+    }
+    // Resume
+    if (muted) return false;
+    previewPaused = false;
+    setBgmDucked(true, 0.35);
+    try {
+      await preview.play();
+      startPreviewTicker();
+      notifyPreviewProgress();
+      return true;
+    } catch {
+      stopPreview();
+      return false;
+    }
   }
 
   stopPreview();
@@ -230,19 +341,24 @@ export async function playPreview(src: string) {
     preview = new Audio();
     preview.preload = 'auto';
     preview.addEventListener('ended', () => stopPreview());
+    preview.addEventListener('loadedmetadata', () => notifyPreviewProgress());
   }
 
+  previewPaused = false;
   previewSrc = src;
   notifyPreview();
   preview.src = src;
   preview.volume = Math.min(0.85, volume.sfx + 0.2);
   setBgmDucked(true, 0.45);
+  notifyPreviewProgress();
 
   try {
     await preview.play();
+    startPreviewTicker();
     // Safety cap — even if a long file is wired by mistake.
     clearPreviewTimer();
     previewEndTimer = setTimeout(() => stopPreview(), 40_000);
+    notifyPreviewProgress();
     return true;
   } catch {
     stopPreview();
@@ -302,6 +418,9 @@ export async function setMuted(next: boolean) {
       previewSrc = null;
       notifyPreview();
     }
+    previewPaused = false;
+    stopPreviewTicker();
+    notifyPreviewProgress();
     previewDuck = false;
     volTween?.kill();
     const proxy = { v: a.volume };

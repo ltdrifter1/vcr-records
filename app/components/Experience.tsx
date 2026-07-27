@@ -19,7 +19,11 @@ import {
   syncViewportCssVars,
   useInteractionManager,
 } from '@/lib/navigation';
-import { enterWithAudio, playSfx } from '@/lib/audio';
+import {
+  enterWithAudio,
+  onPreviewProgress,
+  playSfx,
+} from '@/lib/audio';
 import {
   hashFromSectionId,
   readSectionHash,
@@ -43,6 +47,7 @@ export default function Experience() {
   const liveRef = useRef({ value: false });
   const panelOpenRef = useRef({ value: false });
   const inviteUntilRef = useRef({ value: 0 });
+  const listeningRef = useRef({ value: false });
   const focusedIdRef = useRef<{ value: string | null }>({ value: null });
   const gyroRef = useRef(createGyro());
   const onDragEndRef = useRef<(() => void) | null>(null);
@@ -97,6 +102,15 @@ export default function Experience() {
   useEffect(() => {
     setDebug(new URLSearchParams(window.location.search).has('debug'));
   }, []);
+
+  // Booth “now playing” — Music hotspot pulses while a preview is live.
+  useEffect(
+    () =>
+      onPreviewProgress((p) => {
+        listeningRef.current.value = Boolean(p.src && p.playing);
+      }),
+    [],
+  );
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -273,6 +287,7 @@ export default function Experience() {
               panelOpenRef={panelOpenRef.current}
               focusedIdRef={focusedIdRef.current}
               inviteUntilRef={inviteUntilRef.current}
+              listeningRef={listeningRef.current}
               onOpen={open}
               onIntroComplete={handleIntroComplete}
               debug={debug}

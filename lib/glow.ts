@@ -35,6 +35,11 @@ export const GLOW = {
   idlePanelMul: 0.16,
   /** Extra alpha during the post-settle boost window. */
   settleBoost: 0.42,
+  /** Music booth while a preview is live — faster, brighter pulse. */
+  listeningBreathSpeed: 2.2,
+  listeningEdgeAmp: 0.42,
+  listeningBloomAmp: 0.34,
+  listeningSwell: 0.045,
   /** Morphological erode radius (px) converting a filled map into a rim. */
   erodePx: 6,
 } as const;

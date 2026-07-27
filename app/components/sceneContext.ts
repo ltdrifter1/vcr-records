@@ -20,6 +20,8 @@ export type SceneEnv = {
    * continues at the quieter always-on floor.
    */
   inviteUntil: { value: number };
+  /** Booth preview is actively playing — Music hotspot pulses like the CRT. */
+  listening: { value: boolean };
 };
 
 export const SceneContext = createContext<SceneEnv | null>(null);

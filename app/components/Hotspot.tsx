@@ -194,14 +194,22 @@ export default function Hotspot({
       ? Math.min(1, (env.inviteUntil.value - now) / 900)
       : 0;
 
+    // Diegetic “record on” — Music / Shop booth pulses while preview plays.
+    const listeningHere =
+      env.listening.value &&
+      (section.id === 'listening-booth' || section.id === 'cash-register') &&
+      (isFocused || env.focusedId.value === section.id);
+
     // Always-on idle breath while the room is live — hover/focus ride above it.
-    const hot = isFocused || hovered;
+    const hot = isFocused || hovered || listeningHere;
     if (env.live.value && !env.reduceMotion) {
-      const speed = hot
-        ? GLOW.breathSpeed
-        : settleActive
-          ? GLOW.breathSpeed * 0.9
-          : GLOW.idleBreathSpeed;
+      const speed = listeningHere
+        ? GLOW.listeningBreathSpeed
+        : hot
+          ? GLOW.breathSpeed
+          : settleActive
+            ? GLOW.breathSpeed * 0.9
+            : GLOW.idleBreathSpeed;
       breath.current += delta * speed;
     } else if (!env.live.value) {
       breath.current = 0;
@@ -220,12 +228,21 @@ export default function Hotspot({
       }
     }
 
+    // Keep the focused booth fully lit + slightly above hover while listening.
+    if (listeningHere) {
+      glow.current.a = Math.max(glow.current.a, 1);
+    }
+
     const a = Math.max(glow.current.a, idleA);
     // Edge-only BT language: bright rim + soft outer bloom, no filled slab.
-    const edgeMul = GLOW.edgeBase + wave * GLOW.edgeAmp;
-    const bloomMul = GLOW.bloomBase + wave * GLOW.bloomAmp;
-    const scaleMul = 1 + wave * GLOW.edgeSwell * a;
-    const bloomScale = GLOW.bloomScale * (1 + wave * GLOW.bloomSwell * a);
+    const edgeAmp = listeningHere ? GLOW.listeningEdgeAmp : GLOW.edgeAmp;
+    const bloomAmp = listeningHere ? GLOW.listeningBloomAmp : GLOW.bloomAmp;
+    const edgeSwell = listeningHere ? GLOW.listeningSwell : GLOW.edgeSwell;
+    const bloomSwell = listeningHere ? GLOW.listeningSwell : GLOW.bloomSwell;
+    const edgeMul = GLOW.edgeBase + wave * edgeAmp;
+    const bloomMul = GLOW.bloomBase + wave * bloomAmp;
+    const scaleMul = 1 + wave * edgeSwell * a;
+    const bloomScale = GLOW.bloomScale * (1 + wave * bloomSwell * a);
 
     if (edgeMesh.current) edgeMesh.current.scale.setScalar(scaleMul);
     if (bloomMesh.current) bloomMesh.current.scale.setScalar(bloomScale);

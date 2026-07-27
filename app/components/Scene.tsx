@@ -59,6 +59,8 @@ type Props = {
   focusedIdRef?: { value: string | null };
   /** Soft hotspot invite until performance.now() (0 = off). */
   inviteUntilRef?: { value: number };
+  /** Booth preview currently playing — Music glow “now playing” pulse. */
+  listeningRef?: { value: boolean };
   onOpen: (id: string) => void;
   onIntroComplete?: () => void;
   debug?: boolean;
@@ -295,6 +297,7 @@ export default function Scene({
   panelOpenRef,
   focusedIdRef = { value: null },
   inviteUntilRef = { value: 0 },
+  listeningRef = { value: false },
   onOpen,
   onIntroComplete,
   debug = false,
@@ -383,8 +386,9 @@ export default function Scene({
       reduceMotion,
       focusedId: focusedIdRef,
       inviteUntil: inviteUntilRef,
+      listening: listeningRef,
     }),
-    [liveRef, panelOpenRef, reduceMotion, focusedIdRef, inviteUntilRef],
+    [liveRef, panelOpenRef, reduceMotion, focusedIdRef, inviteUntilRef, listeningRef],
   );
 
   useFrame(() => {
