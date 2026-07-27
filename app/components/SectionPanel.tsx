@@ -170,7 +170,7 @@ export default function SectionPanel({
     setOpen(false);
     setDetail(null);
     stopPreview();
-    closeTimer.current = setTimeout(() => setShownId(null), reduceMotion ? 0 : 420);
+    closeTimer.current = setTimeout(() => setShownId(null), reduceMotion ? 0 : 720);
   }, [activeId, reduceMotion]);
 
   useEffect(() => {

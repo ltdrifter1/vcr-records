@@ -5,7 +5,7 @@ import {
   FOLLOW_REENABLE_DELAY,
   FOLLOW_REENABLE_DUR,
 } from '@/lib/pano';
-import { playSfx, stopPreview } from '@/lib/audio';
+import { playSfx, setPanelDuck, stopPreview } from '@/lib/audio';
 import {
   animateCamera,
   interruptCameraAnimation,
@@ -31,6 +31,11 @@ export type NavigationCallbacks = {
 /** balmingtiger lookto(..., tween(easeinoutquart, 2), ...) */
 const LOOKTO_DURATION = 2;
 const REFRAME_DURATION = 0.45;
+/**
+ * Panel HUD lands mid-lookto so camera + glass feel like one gesture.
+ * Glow/focus latch is immediate; panel open is staged.
+ */
+const PANEL_REVEAL_DELAY = 0.72;
 
 /**
  * High-level navigation — open / close / resetToFront.
@@ -50,17 +55,25 @@ export function createNavigationController(
 ) {
   let openedAt = 0;
   let lookEnabled = false;
+  let panelRevealCall: gsap.core.Tween | null = null;
 
   const setLookEnabled = (v: boolean) => {
     lookEnabled = v;
   };
 
+  const cancelPanelReveal = () => {
+    panelRevealCall?.kill();
+    panelRevealCall = null;
+  };
+
   const notifyCleared = () => {
+    cancelPanelReveal();
     cbs.onActiveChange(null);
     cbs.onFocusedChange(null);
     cbs.onCrtArm?.(false);
     cbs.onCrtSrcReset?.();
     stopPreview();
+    setPanelDuck(false, 0.45);
   };
 
   /** Desktop follow-mouse lean — same timing as InteractionManager mouseup. */
@@ -142,6 +155,14 @@ export function createNavigationController(
     });
   };
 
+  const revealPanel = (id: string) => {
+    if (navState.focusedId !== id) return;
+    navState.activeId = id;
+    navState.panelOpen = true;
+    cbs.onActiveChange(id);
+    setPanelDuck(true, 0.6);
+  };
+
   const open = (id: string, viewport?: ViewportMetrics) => {
     // Gate on the shared controls flag the intro sets — avoids a stale
     // closed-over `lookEnabled` boolean after controller recreation.
@@ -150,13 +171,14 @@ export function createNavigationController(
     const section = SECTION_BY_ID[id];
     if (!section) return;
 
-    // Toggle off if same focused feature re-clicked via nav
-    if (navState.focusedId === id && navState.activeId === id) {
+    // Toggle off if same focused feature re-clicked via nav / hotspot.
+    if (navState.focusedId === id) {
       close({ force: true });
       return;
     }
 
     openedAt = Date.now();
+    cancelPanelReveal();
     cbs.onCrtArm?.(false);
     if (id !== 'crt-tv') cbs.onCrtSrcReset?.();
     // Leaving Music/Shop stops any booth preview.
@@ -164,12 +186,16 @@ export function createNavigationController(
 
     const vp = viewport ?? measureViewport();
     const target = resolveLookTarget(section, vp);
+    const fromFree = !navState.focusedId;
 
+    // Glow/focus latches immediately; HUD opens mid-lookto from free look.
+    // Section→section swaps keep the glass up (no close flicker).
     setFocused(navState, id, {
-      panel: true,
-      readyDelayMs: 0,
+      panel: false,
+      readyDelayMs:
+        fromFree && !cbs.reduceMotion ? PANEL_REVEAL_DELAY * 1000 : 0,
     });
-    cbs.onActiveChange(id);
+    navState.focusedId = id;
     cbs.onFocusedChange(id);
     playSfx(section.sfx || 'focus');
 
@@ -177,21 +203,34 @@ export function createNavigationController(
     gsap.killTweensOf(controls, 'followFactor');
     controls.followFactor = 0;
 
-    // Videos coming soon — leave the painted CRT blank (no watch overlay / video plane).
+    // Videos — arm watch overlay when lookto lands (or immediately if reduced).
     const armCrt =
       id === 'crt-tv' && (SECTION_BY_ID['crt-tv']?.items.length ?? 0) > 0;
 
     if (cbs.reduceMotion) {
       interruptCameraAnimation(controls);
       writeCamera(controls, target);
+      revealPanel(id);
       if (armCrt) cbs.onCrtArm?.(true);
       return;
+    }
+
+    if (fromFree) {
+      navState.activeId = null;
+      navState.panelOpen = false;
+      cbs.onActiveChange(null);
+      panelRevealCall = gsap.delayedCall(PANEL_REVEAL_DELAY, () => {
+        panelRevealCall = null;
+        revealPanel(id);
+      });
+    } else {
+      revealPanel(id);
     }
 
     animateCamera(controls, target, {
       duration: LOOKTO_DURATION,
       onComplete: () => {
-        if (armCrt) cbs.onCrtArm?.(true);
+        if (armCrt && navState.focusedId === id) cbs.onCrtArm?.(true);
       },
     });
   };
