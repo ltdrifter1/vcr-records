@@ -154,11 +154,7 @@ const desktop = {
   );
   assert.equal(musicSec.title.trim(), '', 'Music panel title cleared');
   assert.ok(musicSec.hideHint, 'Music glow must not show Slip on headphones text');
-  assert.match(
-    musicSec.intro,
-    /headphones|booth/i,
-    'Music panel needs a short label-voice intro',
-  );
+  assert.equal(musicSec.intro.trim(), '', 'Music panel intro cleared (no slip on headphones)');
   assert.ok(
     musicSec.items.every((i) => i.body && i.body.length > 12),
     'Music shelf rows need curatorial blurbs',

@@ -91,7 +91,7 @@ export const SECTIONS: Section[] = [
     hint: '',
     title: '',
     kicker: 'Music',
-    intro: 'Slip on the headphones. Pick a sleeve from the booth.',
+    intro: '',
     accent: '#ffb347',
     // v9 pano: LISTEN shelving tower with turntable + headphones
     // (file x 262–445, y 248–625 of 1536×1024).
