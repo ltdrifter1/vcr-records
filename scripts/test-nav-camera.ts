@@ -308,13 +308,17 @@ const desktop = {
   assert.equal(shop.kicker, 'New Releases', 'Shop panel kicker is New Releases');
   assert.equal(shop.items.length, 2, 'Shop lists Inlet Knight album + At Home');
   assert.match(shop.items[0].label, /Inlet Knight/i);
-  assert.equal(shop.items[0].meta, 'Inlet Knight');
+  assert.ok(!shop.items[0].meta, 'self-titled Inlet Knight omits duplicate artist meta');
   assert.equal(shop.items[1].label, 'At Home');
   assert.equal(shop.items[1].meta, 'Inlet Knight');
   assert.ok(shop.items[0].tracks && shop.items[0].tracks.length >= 16);
   assert.ok(
-    shop.items.every((i) => i.label && i.meta && i.href),
-    'Shop rows need album title, artist, and buy link',
+    shop.items.every((i) => i.label && i.href),
+    'Shop rows need album title and buy link',
+  );
+  assert.ok(
+    shop.items.every((i) => i.listenOn?.length === 1 && i.listenOn[0].label === 'Buy Now'),
+    'Shop nest CTAs are Buy Now only',
   );
   assert.ok(
     shop.items.every((i) => !i.body && !i.detail),

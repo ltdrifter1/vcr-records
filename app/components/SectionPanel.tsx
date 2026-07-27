@@ -57,9 +57,18 @@ function DetailBody({
   progress: PreviewProgress;
   onTogglePreview: () => void;
 }) {
-  const links = outboundLinks(detail);
-  const linkTitle =
-    sectionId === 'cash-register' ? 'BUY / LISTEN:' : 'LISTEN ON:';
+  const links = outboundLinks(detail).filter((l) => /buy/i.test(l.label));
+  const buyHref =
+    links[0]?.href ??
+    (detail.href && !detail.href.startsWith('#') ? detail.href : null);
+  const buyLinks = links.length
+    ? links
+    : buyHref
+      ? [{ label: 'Buy Now', href: buyHref }]
+      : [];
+  const selfTitled =
+    Boolean(detail.meta?.trim()) &&
+    detail.meta!.trim().toLowerCase() === detail.label.trim().toLowerCase();
   const hasPreview = Boolean(detail.previewSrc);
   const playing =
     hasPreview && progress.src === detail.previewSrc && progress.playing;
@@ -85,12 +94,14 @@ function DetailBody({
         {playing ? 'Now playing' : (SECTION_BY_ID[sectionId]?.kicker ?? 'Detail')}
       </p>
       <h2 className="panel-title panel-title-sm">{detail.label}</h2>
-      {detail.meta && (
+      {detail.meta && !selfTitled ? (
         <p className="panel-intro">
           {detail.meta}
           {detail.detail ? ` · ${detail.detail}` : ''}
         </p>
-      )}
+      ) : detail.detail && !selfTitled ? (
+        <p className="panel-intro">{detail.detail}</p>
+      ) : null}
 
       {detail.thumbSrc && (
         <div
@@ -173,11 +184,10 @@ function DetailBody({
         </ul>
       )}
 
-      {links.length > 0 && (
+      {buyLinks.length > 0 && (
         <div className="panel-listen">
-          <span className="streaming-title">{linkTitle}</span>
           <div className="panel-cta-wrap">
-            {links.map((l) => (
+            {buyLinks.map((l) => (
               <a
                 key={l.label}
                 className="panel-cta panel-cta-pill"
@@ -187,7 +197,7 @@ function DetailBody({
                 data-cursor="click"
                 onClick={(e) => e.stopPropagation()}
               >
-                {l.label}
+                Buy Now
               </a>
             ))}
           </div>
