@@ -407,10 +407,6 @@ export default function SectionPanel({
   const heroKicker = Boolean(
     section?.kicker?.trim() && !section.title?.trim() && !contactPanel,
   );
-  const liveChannel =
-    channelGuide && crtArmed && crtSrc
-      ? section?.items.find((it) => it.videoSrc && it.videoSrc === crtSrc) ?? null
-      : null;
 
   const handleBack = () => {
     if (detail) {
@@ -515,16 +511,6 @@ export default function SectionPanel({
               {section.intro ? (
                 <p className="panel-intro">{section.intro}</p>
               ) : null}
-              {liveChannel ? (
-                <p className="panel-on-air" role="status" aria-live="polite">
-                  <span className="panel-on-air-dot" aria-hidden />
-                  Now on the tube
-                  <span className="panel-on-air-sep" aria-hidden>
-                    ·
-                  </span>
-                  <span className="panel-on-air-title">{liveChannel.label}</span>
-                </p>
-              ) : null}
 
               {section.items.length === 0 ? (
                 <p className="panel-intro panel-coming-soon">Coming soon.</p>
@@ -547,7 +533,7 @@ export default function SectionPanel({
                         role="listitem"
                         tabIndex={0}
                         data-cursor="click"
-                        aria-label={`${it.label}${it.meta ? ` — ${it.meta}` : ''}${onTube ? ' — now on the tube' : ''}`}
+                        aria-label={`${it.label}${!channelGuide && it.meta ? ` — ${it.meta}` : ''}${onTube ? ' — playing' : ''}`}
                         aria-current={onTube || detail === it ? 'true' : undefined}
                         onClick={() => openItem(it)}
                         onKeyDown={(e) => onRowKey(e, it)}
@@ -578,12 +564,12 @@ export default function SectionPanel({
                         </div>
                         <div className="panel-row-body">
                           <span className="pc-label">{it.label}</span>
-                          {it.meta && (
+                          {!channelGuide && it.meta ? (
                             <span className={`pc-meta${artistPanel ? ' pc-location' : ''}`}>
                               {it.meta}
                             </span>
-                          )}
-                          {shelfLike && !shopPanel && !musicPanel && it.body ? (
+                          ) : null}
+                          {shelfLike && !shopPanel && !musicPanel && !channelGuide && it.body ? (
                             <p className="pc-blurb">{it.body}</p>
                           ) : null}
                           {artistPanel && it.href && it.detail ? (
@@ -611,11 +597,6 @@ export default function SectionPanel({
                           !musicPanel &&
                           it.detail ? (
                             <span className="pc-detail">{it.detail}</span>
-                          ) : null}
-                          {channelGuide && it.detail ? (
-                            <span className={`pc-detail${onTube ? ' is-live' : ''}`}>
-                              {onTube ? 'On the tube' : it.detail}
-                            </span>
                           ) : null}
                           {!artistPanel && !nestable && !channelGuide && it.cta ? (
                             <div className="panel-cta-wrap">
@@ -662,15 +643,6 @@ export default function SectionPanel({
                                 : it.previewSrc
                                   ? 'Step in to listen'
                                   : 'Open'}
-                            </span>
-                          )}
-                          {channelGuide && (
-                            <span className="pc-shelf-hint" aria-hidden>
-                              {onTube
-                                ? 'Playing'
-                                : it.videoSrc
-                                  ? 'Tune the tube'
-                                  : 'Open outside'}
                             </span>
                           )}
                         </div>
