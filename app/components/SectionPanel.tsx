@@ -287,7 +287,7 @@ export default function SectionPanel({
   const section = shownId ? SECTION_BY_ID[shownId] : null;
   const nestable = section?.id === 'cash-register';
   const artistPanel = section?.id === 'record-bins';
-  const heroKicker = section?.id === 'record-bins';
+  const heroKicker = Boolean(section?.kicker?.trim() && !section.title?.trim());
 
   const handleBack = () => {
     if (detail) {
