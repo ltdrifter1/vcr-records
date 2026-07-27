@@ -189,12 +189,9 @@ export const MUSIC_RELEASES: SectionItem[] = [
 export const CRT_CHANNELS: SectionItem[] = [
   {
     label: 'VCR-TV',
-    meta: 'Station ID',
-    detail: 'House loop',
     cta: 'Tune',
     thumbSrc: ART.vcr,
     videoSrc: VIDEO.station,
-    body: 'The in-store station — logo glitch on the tube.',
   },
 ];
 
