@@ -109,6 +109,23 @@ const desktop = {
     !crt.items.some((i) => i.videoSrc === '/videos/crt_loop.mp4' || i.videoSrc === '/videos/channel_a.mp4'),
     'CRT catalog must not ship SMPTE color-bar loops',
   );
+  assert.match(
+    crt.intro,
+    /tube|channel/i,
+    'Videos panel needs a short channel-guide intro',
+  );
+  assert.ok(
+    crt.items.every((i) => i.body && i.body.length > 12),
+    'Videos channel rows need guide blurbs',
+  );
+  assert.ok(
+    crt.items.every((i) => i.videoSrc || i.href),
+    'every Videos row needs an in-room tune or outbound open',
+  );
+  assert.ok(
+    crt.items.some((i) => i.videoSrc) && crt.items.some((i) => i.href && !i.videoSrc),
+    'Videos guide should mix in-room channels and at least one outbound row',
+  );
   const desk = resolveLookMfov(crt, desktop);
   const mob = resolveLookMfov(crt, phone);
   assert.equal(desk, 48, `desktop CRT should stay authored 48, got ${desk}`);
