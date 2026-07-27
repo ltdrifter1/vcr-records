@@ -23,6 +23,12 @@ function outboundLinks(item: SectionItem) {
   return (item.listenOn ?? []).filter((l) => l.href && !l.href.startsWith('#'));
 }
 
+function listenHref(item: SectionItem) {
+  const links = outboundLinks(item);
+  const listen = links.find((l) => /listen|bandcamp|spotify|apple/i.test(l.label));
+  return listen?.href ?? links.find((l) => l.href !== item.href)?.href ?? links[0]?.href;
+}
+
 function fmtTime(sec: number) {
   if (!isFinite(sec) || sec < 0) return '0:00';
   const s = Math.floor(sec);
@@ -394,7 +400,9 @@ export default function SectionPanel({
   const channelGuide = section?.id === 'crt-tv';
   const artistPanel = section?.id === 'record-bins';
   const contactPanel = section?.id === 'phone-booth';
+  const shopPanel = section?.id === 'cash-register';
   // Hero kickers for browse panels; Contact stays BT-compact (no giant title).
+  // Shop keeps a title, but uses the compact hero scale.
   const heroKicker = Boolean(
     section?.kicker?.trim() && !section.title?.trim() && !contactPanel,
   );
@@ -469,7 +477,7 @@ export default function SectionPanel({
       <div className="panel-scrim" aria-hidden />
       <aside
         ref={panelRef}
-        className={`panel${desktopNest ? ' has-detail' : ''}${mobileNest ? ' is-nesting' : ''}${contactPanel ? ' is-contact' : ''}`}
+        className={`panel${desktopNest ? ' has-detail' : ''}${mobileNest ? ' is-nesting' : ''}${contactPanel ? ' is-contact' : ''}${shopPanel ? ' is-shop' : ''}`}
         style={
           section
             ? ({ ['--panel-accent' as string]: section.accent } as React.CSSProperties)
@@ -494,7 +502,9 @@ export default function SectionPanel({
           <>
             <div className="panel-level panel-level-1" ref={level1}>
               {section.kicker ? (
-                <p className={`panel-kicker${heroKicker ? ' is-hero' : ''}`}>
+                <p
+                  className={`panel-kicker${heroKicker ? ' is-hero' : ''}${shopPanel ? ' is-compact' : ''}`}
+                >
                   {section.kicker}
                 </p>
               ) : null}
@@ -528,14 +538,15 @@ export default function SectionPanel({
                       channelGuide &&
                       Boolean(crtArmed && it.videoSrc && it.videoSrc === crtSrc);
                     const shelfLike = nestable || channelGuide;
+                    const shopListen = shopPanel ? listenHref(it) : null;
                     return (
                       <article
                         key={i}
-                        className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${channelGuide ? ' panel-row--channel' : ''}${contactPanel ? ' panel-row--contact' : ''}${onTube ? ' is-on-air' : ''}${detail === it ? ' is-selected' : ''}`}
+                        className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${shopPanel ? ' panel-row--shop' : ''}${channelGuide ? ' panel-row--channel' : ''}${contactPanel ? ' panel-row--contact' : ''}${onTube ? ' is-on-air' : ''}${detail === it ? ' is-selected' : ''}`}
                         role="listitem"
                         tabIndex={0}
                         data-cursor="click"
-                        aria-label={`${it.cta ?? 'Open'} ${it.label}${it.meta ? ` — ${it.meta}` : ''}${onTube ? ' — now on the tube' : ''}`}
+                        aria-label={`${it.label}${it.meta ? ` — ${it.meta}` : ''}${onTube ? ' — now on the tube' : ''}`}
                         aria-current={onTube || detail === it ? 'true' : undefined}
                         onClick={() => openItem(it)}
                         onKeyDown={(e) => onRowKey(e, it)}
@@ -571,7 +582,7 @@ export default function SectionPanel({
                               {it.meta}
                             </span>
                           )}
-                          {shelfLike && it.body ? (
+                          {shelfLike && !shopPanel && it.body ? (
                             <p className="pc-blurb">{it.body}</p>
                           ) : null}
                           {artistPanel && it.href && it.detail ? (
@@ -587,7 +598,7 @@ export default function SectionPanel({
                               {it.detail}
                             </a>
                           ) : null}
-                          {!artistPanel && !channelGuide && it.detail ? (
+                          {!artistPanel && !channelGuide && !shopPanel && it.detail ? (
                             <span className="pc-detail">{it.detail}</span>
                           ) : null}
                           {channelGuide && it.detail ? (
@@ -600,7 +611,40 @@ export default function SectionPanel({
                               <span className="panel-cta">{it.cta}</span>
                             </div>
                           ) : null}
-                          {nestable && (
+                          {shopPanel ? (
+                            <div className="panel-cta-wrap">
+                              {it.href ? (
+                                <a
+                                  className="panel-cta"
+                                  href={it.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  data-cursor="click"
+                                  onClick={(e) => e.stopPropagation()}
+                                  onKeyDown={(e) => e.stopPropagation()}
+                                >
+                                  Buy Now
+                                </a>
+                              ) : null}
+                              <button
+                                type="button"
+                                className="panel-cta panel-cta-secondary"
+                                data-cursor="click"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (it.previewSrc || it.tracks?.length) {
+                                    setDetail(it);
+                                    return;
+                                  }
+                                  if (shopListen) openOutbound(shopListen);
+                                }}
+                                onKeyDown={(e) => e.stopPropagation()}
+                              >
+                                Listen
+                              </button>
+                            </div>
+                          ) : null}
+                          {nestable && !shopPanel && (
                             <span className="pc-shelf-hint" aria-hidden>
                               {it.previewSrc ? 'Step in to listen' : 'Open'}
                             </span>

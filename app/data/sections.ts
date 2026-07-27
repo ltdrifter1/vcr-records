@@ -172,7 +172,7 @@ export const SECTIONS: Section[] = [
     hint: '',
     title: '',
     kicker: 'New Releases',
-    intro: 'What’s on the counter this week — stay in the room to listen.',
+    intro: '',
     accent: '#9dff8a',
     // v9 pano: register + display pole on the clean wood counter
     // (file x 1003–1090, y 413–490 of 1536×1024).
