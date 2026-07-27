@@ -84,7 +84,7 @@ export type Section = {
   accent: string;
   /**
    * Normalised hotspot position on the equirectangular store
-   * (public/textures/store_pano_v3.webp, 2048×1024).
+   * (public/textures/store_pano_v7.webp, 4096×2048).
    * u: around full 360° yaw after BackSide U-flip (1 − texture_u) · v: top→bottom
    */
   u: number;

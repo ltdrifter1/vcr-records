@@ -51,14 +51,24 @@ PLANES = {
 MASK_PLANE_RADIUS = 47.5  # SPHERE_RADIUS - 0.5 (Hotspot.tsx)
 CRT_PLANE_RADIUS = 47.2  # SPHERE_RADIUS - 0.8 (CrtScreen.tsx)
 
-# Ink-flood tuning per target: (ink luminance threshold, opening iterations)
+# Ink-flood tuning per target:
+# (ink luminance threshold, opening iterations, color-refine against bg refs)
+# Opening must exceed half the ink-line width in mask space (~30px for the
+# tight phone/CRT projections) to drop stray outline tails; color refine
+# subtracts wood/cream interiors (counter corner, cabinet top) that the
+# flood ropes in via connected ink. The register stays color-refine-free —
+# its cream body matches the cream wall.
 SEG = {
-    "listening-booth": (120, 3),
-    "crt-tv": (120, 2),
-    "record-bins": (120, 3),
-    "cash-register": (110, 2),
-    "phone-booth": (110, 2),
+    "listening-booth": (120, 3, False),
+    "crt-tv": (120, 12, True),
+    "record-bins": (120, 3, False),
+    "cash-register": (110, 2, False),
+    "phone-booth": (110, 14, True),
 }
+
+# Background color sample points (source-px of the 1536x1024 painting) used
+# by the color-refine pass: cream wall + wood counter/cabinet fills.
+BG_POINTS = ((1300, 340), (60, 340), (1270, 588), (150, 660), (890, 760))
 
 # Lamp pools for the lights-off grade (file-space u/v of the V7 source).
 LAMP_POOLS = (
@@ -177,7 +187,7 @@ def edge_mask(pano_arr: np.ndarray, sid: str) -> Image.Image:
         pano_arr, u, v, pw, ph, MASK_PLANE_RADIUS, tw, th
     ).astype(np.float32)
 
-    ink_thr, open_iters = SEG[sid]
+    ink_thr, open_iters, color_refine = SEG[sid]
     lum = crop.max(axis=2)
     ink = lum < ink_thr
     # Slight dilation seals anti-aliased line gaps before flooding.
@@ -191,6 +201,21 @@ def edge_mask(pano_arr: np.ndarray, sid: str) -> Image.Image:
     )
     bg = np.isin(labels, border_labels[border_labels != 0])
     obj = ~bg
+
+    if color_refine:
+        # Drop wall/wood interiors the flood roped in through connected ink.
+        sx = pano_arr.shape[1] / 1536.0
+        sy = pano_arr.shape[0] / 1024.0
+        dist = np.full(crop.shape[:2], 1e9, dtype=np.float32)
+        for px_, py_ in BG_POINTS:
+            cx_, cy_ = int(px_ * sx), int(py_ * sy)
+            ref = np.median(
+                pano_arr[cy_ - 6 : cy_ + 6, cx_ - 6 : cx_ + 6].reshape(-1, 3),
+                axis=0,
+            )
+            d = np.sqrt(((crop - ref[None, None, :]) ** 2).sum(axis=2))
+            dist = np.minimum(dist, d)
+        obj &= dist > 60.0
 
     obj = ndimage.binary_closing(obj, iterations=3)
     obj = ndimage.binary_fill_holes(obj)
