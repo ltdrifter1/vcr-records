@@ -109,23 +109,10 @@ const desktop = {
     !crt.items.some((i) => i.videoSrc === '/videos/crt_loop.mp4' || i.videoSrc === '/videos/channel_a.mp4'),
     'CRT catalog must not ship SMPTE color-bar loops',
   );
-  assert.match(
-    crt.intro,
-    /tube|channel/i,
-    'Videos panel needs a short channel-guide intro',
-  );
-  assert.ok(
-    crt.items.every((i) => i.body && i.body.length > 12),
-    'Videos channel rows need guide blurbs',
-  );
-  assert.ok(
-    crt.items.every((i) => i.videoSrc || i.href),
-    'every Videos row needs an in-room tune or outbound open',
-  );
-  assert.ok(
-    crt.items.some((i) => i.videoSrc) && crt.items.some((i) => i.href && !i.videoSrc),
-    'Videos guide should mix in-room channels and at least one outbound row',
-  );
+  assert.equal(crt.intro.trim(), '', 'Videos intro cleared');
+  assert.equal(crt.items.length, 1, 'Videos keeps a single station for now');
+  assert.equal(crt.items[0]?.label, 'VCR-TV');
+  assert.equal(crt.items[0]?.videoSrc, '/videos/channel_b.mp4');
   // CRT video plane must sit inside painted glass — not the old 0.7×0.58 overshoot.
   assert.ok(crt.w === 21.7 && crt.h === 16.5, 'CRT hit plane stays v9 tube-set sized');
   const desk = resolveLookMfov(crt, desktop);

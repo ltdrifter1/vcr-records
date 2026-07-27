@@ -115,7 +115,7 @@ export const SECTIONS: Section[] = [
     hint: '',
     title: '',
     kicker: 'Videos',
-    intro: 'Tune the tube — channels stay in the room.',
+    intro: '',
     accent: '#7ad7ff',
     // v9 pano: CRT on the low cabinet — u/v aims the set; w/h are the set
     // footprint. CrtScreen insets the video to painted glass (~0.44×0.375 of
