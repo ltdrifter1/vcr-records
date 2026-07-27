@@ -1078,6 +1078,95 @@ html.has-custom-cursor * {
   gap: 26px;
   padding-bottom: 16px;
 }
+
+/* Editorial shelf — Music / Shop browse in the same glass room */
+.panel-list--shelf {
+  gap: 22px;
+}
+.panel-row--shelf {
+  align-items: stretch;
+  gap: 18px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transform-origin: center center;
+}
+.panel-row--shelf:hover:not([data-scroll-active='true']) {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 12px 28px rgba(0, 0, 0, 0.22);
+}
+.panel-row--shelf[data-scroll-active='true'] {
+  --row-scale: 1.015;
+  background: color-mix(in srgb, var(--panel-accent, #7dffb3) 10%, rgba(255, 255, 255, 0.06));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--panel-accent, #7dffb3) 35%, rgba(255, 255, 255, 0.18)),
+    0 14px 32px color-mix(in srgb, var(--panel-accent, #7dffb3) 18%, rgba(0, 0, 0, 0.28));
+  filter: none;
+}
+.panel-list--shelf[data-has-scroll-active='true']
+  .panel-row--shelf:not([data-scroll-active='true']) {
+  opacity: 0.78;
+}
+.panel-thumb--shelf {
+  flex: 0 0 132px;
+  width: 132px;
+  height: 132px;
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 12px 28px rgba(0, 0, 0, 0.32);
+}
+.panel-row--shelf .panel-row-body {
+  padding: 4px 4px 2px 0;
+  gap: 5px;
+  justify-content: center;
+}
+.panel-row--shelf .pc-label {
+  font-size: clamp(24px, 3.2vw, 30px);
+  line-height: 1.02;
+}
+.panel-row--shelf .pc-meta {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.7);
+}
+.pc-blurb {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.62);
+  max-width: 28ch;
+  text-shadow: none;
+}
+.panel-row--shelf .pc-detail {
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
+}
+.pc-shelf-hint {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--panel-accent, #ffe566) 55%, #fff);
+  opacity: 0.72;
+}
+.panel-row--shelf[data-scroll-active='true'] .pc-shelf-hint,
+.panel-row--shelf:hover .pc-shelf-hint {
+  opacity: 1;
+}
+
 .panel-row {
   display: flex;
   gap: 16px;
@@ -1091,7 +1180,9 @@ html.has-custom-cursor * {
     opacity 0.25s ease,
     transform 0.25s ease,
     filter 0.25s ease,
-    outline-color 0.15s ease;
+    outline-color 0.15s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
   border-radius: 14px;
   outline: 2px solid transparent;
   outline-offset: 4px;
@@ -1612,6 +1703,39 @@ html.has-custom-cursor * {
     min-width: 140px;
     max-width: 176px;
     gap: 10px;
+  }
+  .panel-list--shelf {
+    gap: 14px;
+    padding-top: 2px;
+  }
+  .panel-row--shelf {
+    flex-direction: column;
+    min-width: 168px;
+    max-width: 188px;
+    gap: 12px;
+    padding: 10px;
+  }
+  .panel-thumb--shelf,
+  .panel-row--shelf .panel-thumb {
+    width: 100%;
+    height: 148px;
+    flex: 0 0 auto;
+    border-radius: 14px;
+  }
+  .panel-row--shelf .panel-row-body {
+    padding: 0 2px 2px;
+    gap: 4px;
+  }
+  .panel-row--shelf .pc-label {
+    font-size: clamp(20px, 5.4vw, 24px);
+  }
+  .pc-blurb {
+    max-width: none;
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .panel-list--artist {
     flex-direction: column;

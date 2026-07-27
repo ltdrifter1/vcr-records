@@ -91,7 +91,7 @@ export const SECTIONS: Section[] = [
     hint: '',
     title: '',
     kicker: 'Music',
-    intro: '',
+    intro: 'Slip on the headphones. Pick a sleeve from the booth.',
     accent: '#ffb347',
     // v9 pano: LISTEN shelving tower with turntable + headphones
     // (file x 262–445, y 248–625 of 1536×1024).
@@ -172,7 +172,7 @@ export const SECTIONS: Section[] = [
     hint: '',
     title: '',
     kicker: 'New Releases',
-    intro: '',
+    intro: 'What’s on the counter this week — stay in the room to listen.',
     accent: '#9dff8a',
     // v9 pano: register + display pole on the clean wood counter
     // (file x 1003–1090, y 413–490 of 1536×1024).

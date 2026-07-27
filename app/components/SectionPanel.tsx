@@ -492,24 +492,24 @@ export default function SectionPanel({
                 <p className="panel-intro panel-coming-soon">Coming soon.</p>
               ) : (
                 <div
-                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}`}
+                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}${nestable ? ' panel-list--shelf' : ''}`}
                   role="list"
                   data-scroll-list
                 >
                   {section.items.map((it, i) => (
                     <article
                       key={i}
-                      className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${detail === it ? ' is-selected' : ''}`}
+                      className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${nestable ? ' panel-row--shelf' : ''}${detail === it ? ' is-selected' : ''}`}
                       role="listitem"
                       tabIndex={0}
                       data-cursor="click"
-                      aria-label={`${it.cta ?? 'Open'} ${it.label}`}
+                      aria-label={`${it.cta ?? 'Open'} ${it.label}${it.meta ? ` — ${it.meta}` : ''}`}
                       aria-current={detail === it ? 'true' : undefined}
                       onClick={() => openItem(it)}
                       onKeyDown={(e) => onRowKey(e, it)}
                     >
                       <div
-                        className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}`}
+                        className={`panel-thumb${it.thumbSrc ? ' has-art' : ''}${nestable ? ' panel-thumb--shelf' : ''}`}
                         style={
                           it.thumbSrc
                             ? undefined
@@ -521,7 +521,13 @@ export default function SectionPanel({
                       >
                         {it.thumbSrc ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={it.thumbSrc} alt="" width={72} height={72} loading="lazy" />
+                          <img
+                            src={it.thumbSrc}
+                            alt=""
+                            width={nestable ? 132 : 72}
+                            height={nestable ? 132 : 72}
+                            loading="lazy"
+                          />
                         ) : (
                           <span>{it.thumb ?? String(i + 1).padStart(2, '0')}</span>
                         )}
@@ -533,6 +539,9 @@ export default function SectionPanel({
                             {it.meta}
                           </span>
                         )}
+                        {nestable && it.body ? (
+                          <p className="pc-blurb">{it.body}</p>
+                        ) : null}
                         {artistPanel && it.href && it.detail ? (
                           <a
                             className="pc-outbound"
@@ -548,25 +557,31 @@ export default function SectionPanel({
                         ) : (
                           it.detail && <span className="pc-detail">{it.detail}</span>
                         )}
-                        {!artistPanel && (
+                        {/* Shelf rows are the CTA — no pill chrome. Videos keep remote pills. */}
+                        {!artistPanel && !nestable && (
                           <div className="panel-cta-wrap">
-                            {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
+                            {(it.cta || it.videoSrc) && (
                               <span className="panel-cta">{it.cta ?? 'Open'}</span>
                             )}
-                          {it.videoSrc && it.href ? (
-                            <a
-                              className="panel-cta panel-cta-pill panel-cta-secondary"
-                              href={it.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              data-cursor="click"
-                              onClick={(e) => e.stopPropagation()}
-                              onKeyDown={(e) => e.stopPropagation()}
-                            >
-                              Open page
-                            </a>
-                          ) : null}
+                            {it.videoSrc && it.href ? (
+                              <a
+                                className="panel-cta panel-cta-pill panel-cta-secondary"
+                                href={it.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-cursor="click"
+                                onClick={(e) => e.stopPropagation()}
+                                onKeyDown={(e) => e.stopPropagation()}
+                              >
+                                Open page
+                              </a>
+                            ) : null}
                           </div>
+                        )}
+                        {nestable && (
+                          <span className="pc-shelf-hint" aria-hidden>
+                            {it.previewSrc ? 'Step in to listen' : 'Open'}
+                          </span>
                         )}
                       </div>
                     </article>
