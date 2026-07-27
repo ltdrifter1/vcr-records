@@ -265,8 +265,9 @@ const desktop = {
   assert.equal(shop.title.trim(), '', 'Shop title cleared (no The Counter)');
   assert.equal(shop.intro.trim(), '', 'Shop intro cleared');
   assert.equal(shop.kicker, 'New Releases', 'Shop panel kicker is New Releases');
-  assert.equal(shop.items.length, 1, 'Shop should only list Inlet Knight');
+  assert.equal(shop.items.length, 2, 'Shop lists Inlet Knight album + At Home');
   assert.match(shop.items[0].label, /Inlet Knight/i);
+  assert.ok(shop.items[0].tracks && shop.items[0].tracks.length >= 16);
   console.log('✓ cash-register opens in-room shop panel');
 }
 

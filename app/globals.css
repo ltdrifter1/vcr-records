@@ -865,39 +865,43 @@ html.has-custom-cursor * {
 }
 .panel-kicker {
   font-family: var(--font-body), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--panel-accent, #fff);
-  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0 0 14px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 .panel-kicker::before {
   content: '';
-  width: 16px;
-  height: 1.5px;
+  width: 18px;
+  height: 2px;
   background: var(--panel-accent, #fff);
   border: 0;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .panel-title {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: clamp(28px, 4.2vw, 38px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  margin: 0 0 14px;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(34px, 5.4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  margin: 0 0 12px;
   color: #fff;
-  text-shadow: none;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
 }
 .panel-title-sm {
-  font-size: clamp(26px, 3.8vw, 34px);
-  font-weight: 700;
-  letter-spacing: -0.028em;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(30px, 4.6vw, 42px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
   margin-bottom: 10px;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.32);
 }
 .panel-intro {
   font-size: 15px;
@@ -910,11 +914,13 @@ html.has-custom-cursor * {
 }
 .panel-coming-soon {
   margin-top: 8px;
-  font-size: 17px;
-  font-weight: 600;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(26px, 3.8vw, 34px);
+  font-weight: 400;
   letter-spacing: -0.02em;
   text-transform: none;
-  color: rgba(255, 255, 255, 0.92);
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 .panel-body {
   font-size: 14px;
@@ -1047,13 +1053,14 @@ html.has-custom-cursor * {
 }
 /* Product / row titles — App Store–style hierarchy */
 .pc-label {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: clamp(20px, 2.6vw, 24px);
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 32px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   text-transform: none;
   color: #fff;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.28);
 }
 .pc-meta {
   font-family: var(--font-body), system-ui, sans-serif;
@@ -1131,11 +1138,12 @@ html.has-custom-cursor * {
 }
 .streaming-title {
   display: block;
+  font-family: var(--font-body), system-ui, sans-serif;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.55);
   margin-bottom: 12px;
 }
 .panel-preview-btn {
@@ -1249,7 +1257,7 @@ html.has-custom-cursor * {
     border-radius: 14px;
   }
   .pc-label {
-    font-size: 18px;
+    font-size: 22px;
   }
   .pc-meta,
   .pc-detail {
