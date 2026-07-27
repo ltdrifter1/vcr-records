@@ -22,7 +22,7 @@ const siteUrl = 'https://www.vcrrecords.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'VCR Recordings — Independent Electronic Music',
+  title: 'VCR Record Shop',
   description:
     'Step inside the VCR Recordings store. A full 360° illustrated record shop. Look around, explore, and discover.',
   keywords: [
@@ -37,29 +37,29 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'VCR Recordings',
+    title: 'VCR Record Shop',
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
-    title: 'VCR Recordings',
+    title: 'VCR Record Shop',
     description: 'An interactive 360° record store. Look around, explore, discover.',
     type: 'website',
     url: siteUrl,
-    siteName: 'VCR Recordings',
+    siteName: 'VCR Record Shop',
     images: [
       {
         url: '/og.jpg',
         width: 1200,
         height: 630,
-        alt: 'VCR Recordings — illustrated record store',
+        alt: 'VCR Record Shop — illustrated record store',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VCR Recordings',
+    title: 'VCR Record Shop',
     description: 'An interactive 360° record store. Look around, explore, discover.',
     images: ['/og.jpg'],
   },
