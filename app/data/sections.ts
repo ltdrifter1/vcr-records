@@ -230,12 +230,12 @@ export const SECTIONS: Section[] = [
     items: [
       {
         label: 'Inlet Knight',
-        meta: 'At Home',
+        meta: 'Cumberland, BC',
         detail: 'Bandcamp',
         cta: 'Listen',
         thumb: 'IK',
         thumbSrc: T.inletKnight,
-        href: 'https://inletknight.bandcamp.com',
+        href: BUY.inletBc,
       },
     ],
   },

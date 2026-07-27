@@ -286,6 +286,8 @@ export default function SectionPanel({
 
   const section = shownId ? SECTION_BY_ID[shownId] : null;
   const nestable = section?.id === 'cash-register';
+  const artistPanel = section?.id === 'record-bins';
+  const heroKicker = section?.id === 'record-bins';
 
   const handleBack = () => {
     if (detail) {
@@ -379,7 +381,9 @@ export default function SectionPanel({
         {section && (
           <>
             <div className="panel-level panel-level-1" ref={level1}>
-              <p className="panel-kicker">{section.kicker}</p>
+              <p className={`panel-kicker${heroKicker ? ' is-hero' : ''}`}>
+                {section.kicker}
+              </p>
               {section.title ? (
                 <h2 className="panel-title">{section.title}</h2>
               ) : null}
@@ -390,11 +394,15 @@ export default function SectionPanel({
               {section.items.length === 0 ? (
                 <p className="panel-intro panel-coming-soon">Coming soon.</p>
               ) : (
-                <div className="panel-list" role="list" data-scroll-list>
+                <div
+                  className={`panel-list${artistPanel ? ' panel-list--artist' : ''}`}
+                  role="list"
+                  data-scroll-list
+                >
                   {section.items.map((it, i) => (
                     <article
                       key={i}
-                      className={`panel-row${detail === it ? ' is-selected' : ''}`}
+                      className={`panel-row${artistPanel ? ' panel-row--artist' : ''}${detail === it ? ' is-selected' : ''}`}
                       role="listitem"
                       tabIndex={0}
                       data-cursor="click"
@@ -423,26 +431,46 @@ export default function SectionPanel({
                       </div>
                       <div className="panel-row-body">
                         <span className="pc-label">{it.label}</span>
-                        {it.meta && <span className="pc-meta">{it.meta}</span>}
-                        {it.detail && <span className="pc-detail">{it.detail}</span>}
-                        <div className="panel-cta-wrap">
-                          {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
-                            <span className="panel-cta">{it.cta ?? 'Open'}</span>
-                          )}
-                          {it.videoSrc && it.href && !it.href.startsWith('/shop') ? (
-                            <a
-                              className="panel-cta panel-cta-pill panel-cta-secondary"
-                              href={it.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              data-cursor="click"
-                              onClick={(e) => e.stopPropagation()}
-                              onKeyDown={(e) => e.stopPropagation()}
-                            >
-                              Open page
-                            </a>
-                          ) : null}
-                        </div>
+                        {it.meta && (
+                          <span className={`pc-meta${artistPanel ? ' pc-location' : ''}`}>
+                            {it.meta}
+                          </span>
+                        )}
+                        {artistPanel && it.href && it.detail ? (
+                          <a
+                            className="pc-outbound"
+                            href={it.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-cursor="click"
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            {it.detail}
+                          </a>
+                        ) : (
+                          it.detail && <span className="pc-detail">{it.detail}</span>
+                        )}
+                        {!artistPanel && (
+                          <div className="panel-cta-wrap">
+                            {(it.cta || (nestable && canNest(it)) || it.videoSrc) && (
+                              <span className="panel-cta">{it.cta ?? 'Open'}</span>
+                            )}
+                            {it.videoSrc && it.href && !it.href.startsWith('/shop') ? (
+                              <a
+                                className="panel-cta panel-cta-pill panel-cta-secondary"
+                                href={it.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-cursor="click"
+                                onClick={(e) => e.stopPropagation()}
+                                onKeyDown={(e) => e.stopPropagation()}
+                              >
+                                Open page
+                              </a>
+                            ) : null}
+                          </div>
+                        )}
                       </div>
                     </article>
                   ))}
