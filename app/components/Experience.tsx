@@ -42,6 +42,7 @@ export default function Experience() {
   const lookEnabledRef = useRef(false);
   const liveRef = useRef({ value: false });
   const panelOpenRef = useRef({ value: false });
+  const inviteUntilRef = useRef({ value: 0 });
   const focusedIdRef = useRef<{ value: string | null }>({ value: null });
   const gyroRef = useRef(createGyro());
   const onDragEndRef = useRef<(() => void) | null>(null);
@@ -139,9 +140,11 @@ export default function Experience() {
     lookEnabledHold.current = false;
     nav.setLookEnabled(false);
     liveRef.current.value = false;
+    inviteUntilRef.current.value = 0;
     enteredRef.current.value = true;
     setEntered(true);
     setCanLook(false);
+    // BGM starts on the same gesture as Enter — under the intro tilt.
     await enterWithAudio();
   }, [nav]);
 
@@ -150,6 +153,8 @@ export default function Experience() {
     lookEnabledHold.current = true;
     nav.setLookEnabled(true);
     liveRef.current.value = true;
+    // Soft glow invitation over the settled room (~3.2s).
+    inviteUntilRef.current.value = performance.now() + 3200;
     setCanLook(true);
   }, [nav]);
 
@@ -267,6 +272,7 @@ export default function Experience() {
               liveRef={liveRef.current}
               panelOpenRef={panelOpenRef.current}
               focusedIdRef={focusedIdRef.current}
+              inviteUntilRef={inviteUntilRef.current}
               onOpen={open}
               onIntroComplete={handleIntroComplete}
               debug={debug}

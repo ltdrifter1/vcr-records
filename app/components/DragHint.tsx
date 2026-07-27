@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { Controls } from './sceneContext';
 
 const STORAGE_KEY = 'vcr-drag-hint-seen';
-const FADE_MS = 500;
-const AUTO_HIDE_MS = 3800;
+const FADE_MS = 560;
+const AUTO_HIDE_MS = 6200;
 
 type Props = {
   /** True once the intro unlocks look-around. */
@@ -15,9 +15,9 @@ type Props = {
 };
 
 /**
- * First-visit onboarding cue — small “Drag to explore” with a minimal
- * drag glyph. Never blocks the scene. Fades after a few seconds or on
- * the first real drag. Shown once per browser via localStorage.
+ * First-visit onboarding cue — “Drag to look around” with a clear
+ * left/right glyph. Never blocks the scene. Fades after a few seconds
+ * or on the first real drag. Shown once per browser via localStorage.
  */
 export default function DragHint({ active, controls, reduceMotion = false }: Props) {
   const [mounted, setMounted] = useState(false);
@@ -33,7 +33,8 @@ export default function DragHint({ active, controls, reduceMotion = false }: Pro
       /* private mode — still show once this session */
     }
     setMounted(true);
-    const id = window.setTimeout(() => setOpaque(true), reduceMotion ? 0 : 40);
+    // Beat after settle unlock so the cue lands with the invite breath.
+    const id = window.setTimeout(() => setOpaque(true), reduceMotion ? 0 : 180);
     return () => window.clearTimeout(id);
   }, [active, reduceMotion]);
 
@@ -89,31 +90,34 @@ export default function DragHint({ active, controls, reduceMotion = false }: Pro
       aria-hidden={!opaque}
     >
       <span className="drag-hint-glyph" aria-hidden>
-        <svg width="28" height="14" viewBox="0 0 28 14" fill="none">
+        <svg width="40" height="18" viewBox="0 0 40 18" fill="none">
           <path
-            d="M6.5 7H21.5"
+            d="M8 9H32"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="1.7"
             strokeLinecap="round"
           />
           <path
-            d="M9.5 4L6 7l3.5 3"
+            d="M12.5 5L8 9l4.5 4"
             stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M18.5 4L22 7l-3.5 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="1.7"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <circle cx="14" cy="7" r="1.6" fill="currentColor" />
+          <path
+            d="M27.5 5L32 9l-4.5 4"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="20" cy="9" r="2.1" fill="currentColor" />
         </svg>
       </span>
-      <span className="drag-hint-label">Drag to explore</span>
+      <span className="drag-hint-copy">
+        <span className="drag-hint-label">Drag to look around</span>
+        <span className="drag-hint-sub">Click a glow to step in</span>
+      </span>
     </div>
   );
 }

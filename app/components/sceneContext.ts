@@ -14,6 +14,11 @@ export type SceneEnv = {
   reduceMotion: boolean;
   /** Glow latch id — follow-mouse lean stays off while set. */
   focusedId: { value: string | null };
+  /**
+   * Post-settle invitation window — soft hotspot breath until this
+   * performance.now() timestamp (0 = off).
+   */
+  inviteUntil: { value: number };
 };
 
 export const SceneContext = createContext<SceneEnv | null>(null);

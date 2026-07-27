@@ -187,4 +187,4 @@ export const TEXTURE_SRC = '/textures/store_pano_v9.webp';
 /** Darkened twin of the store — balmingtiger lights_off scene. */
 export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v9.webp';
 export const LQIP_SRC = '/textures/store_pano_lqip_v9.webp';
-export const CRT_VIDEO_SRC = '/videos/crt_loop.mp4';
+export const CRT_VIDEO_SRC = '/videos/channel_b.mp4';
