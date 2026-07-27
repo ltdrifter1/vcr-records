@@ -401,6 +401,7 @@ export default function SectionPanel({
   const artistPanel = section?.id === 'record-bins';
   const contactPanel = section?.id === 'phone-booth';
   const shopPanel = section?.id === 'cash-register';
+  const musicPanel = section?.id === 'listening-booth';
   // Hero kickers for browse panels; Contact stays BT-compact (no giant title).
   // Shop keeps a title, but uses the compact hero scale.
   const heroKicker = Boolean(
@@ -582,7 +583,7 @@ export default function SectionPanel({
                               {it.meta}
                             </span>
                           )}
-                          {shelfLike && !shopPanel && it.body ? (
+                          {shelfLike && !shopPanel && !musicPanel && it.body ? (
                             <p className="pc-blurb">{it.body}</p>
                           ) : null}
                           {artistPanel && it.href && it.detail ? (
@@ -598,7 +599,17 @@ export default function SectionPanel({
                               {it.detail}
                             </a>
                           ) : null}
-                          {!artistPanel && !channelGuide && !shopPanel && it.detail ? (
+                          {musicPanel && it.tracks?.length ? (
+                            <span className="pc-detail">
+                              {it.tracks.length}{' '}
+                              {it.tracks.length === 1 ? 'track' : 'tracks'}
+                            </span>
+                          ) : null}
+                          {!artistPanel &&
+                          !channelGuide &&
+                          !shopPanel &&
+                          !musicPanel &&
+                          it.detail ? (
                             <span className="pc-detail">{it.detail}</span>
                           ) : null}
                           {channelGuide && it.detail ? (
@@ -646,7 +657,11 @@ export default function SectionPanel({
                           ) : null}
                           {nestable && !shopPanel && (
                             <span className="pc-shelf-hint" aria-hidden>
-                              {it.previewSrc ? 'Step in to listen' : 'Open'}
+                              {musicPanel
+                                ? 'Listen now'
+                                : it.previewSrc
+                                  ? 'Step in to listen'
+                                  : 'Open'}
                             </span>
                           )}
                           {channelGuide && (

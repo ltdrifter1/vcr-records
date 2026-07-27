@@ -143,8 +143,12 @@ const desktop = {
   assert.ok(musicSec.hideHint, 'Music glow must not show Slip on headphones text');
   assert.equal(musicSec.intro.trim(), '', 'Music panel intro cleared (no slip on headphones)');
   assert.ok(
-    musicSec.items.every((i) => i.body && i.body.length > 12),
-    'Music shelf rows need curatorial blurbs',
+    musicSec.items.every((i) => Array.isArray(i.tracks) && i.tracks.length >= 1),
+    'Music shelf rows expose a track count',
+  );
+  assert.ok(
+    musicSec.items.every((i) => !i.body),
+    'Music level-1 stays basic — no shelf blurbs',
   );
   const music = { w: 6, h: 9, lookFov: 95 };
   const desk = resolveLookMfov(music, desktop);

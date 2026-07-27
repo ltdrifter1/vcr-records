@@ -5,7 +5,7 @@
  *
  *  · MUSIC_RELEASES → shelf rows in the Music (listening booth) panel.
  *      Each row opens a nest with transport, track list, and LISTEN ON pills.
- *      Use `body` for the short shelf blurb. Drop preview MP3s in
+ *      Level-1 shows album, artist, and track count. Drop preview MP3s in
  *      /public/audio/previews and cover art in /public/panel-thumbs.
  *  · CRT_CHANNELS   → channel-guide rows in the Videos panel. `videoSrc`
  *      plays on the in-room CRT; use `body` for the guide blurb. Rows with
@@ -113,11 +113,10 @@ export const MUSIC_RELEASES: SectionItem[] = [
   {
     label: 'At Home',
     meta: 'Inlet Knight',
-    detail: '3 tracks · digital + cassette',
+    detail: '3 tracks',
     cta: 'Listen',
     thumbSrc: ART.atHome,
     previewSrc: PREVIEW.atHome,
-    body: 'Soft late-night songs from Cumberland — headphones first.',
     tracks: [
       { title: 'After All', duration: '2:22' },
       { title: 'Will I See You Again?', duration: '3:58' },
@@ -131,11 +130,10 @@ export const MUSIC_RELEASES: SectionItem[] = [
   {
     label: 'Summer Madness',
     meta: 'LT Drifta',
-    detail: '11 tracks · 34:57',
+    detail: '11 tracks',
     cta: 'Listen',
     thumbSrc: ART.summer,
     previewSrc: PREVIEW.summer,
-    body: 'Heat-haze edits and long fades — the booth’s deep cut.',
     tracks: [
       { title: 'Summer Madness', duration: '3:20' },
       { title: 'Too Far', duration: '2:55' },
@@ -157,22 +155,20 @@ export const MUSIC_RELEASES: SectionItem[] = [
   {
     label: "Lions' Gate",
     meta: 'Charlie Archer',
-    detail: 'Digital single',
+    detail: '1 track',
     cta: 'Listen',
     thumbSrc: ART.lions,
     previewSrc: PREVIEW.lions,
-    body: 'A short gate into the room — one take, full presence.',
     tracks: [{ title: "Lions' Gate", duration: '0:35' }],
     listenOn: [{ label: 'Buy Digital', href: BUY.lionsDigital }],
   },
   {
     label: "Rack'em",
     meta: 'LT Drifta',
-    detail: '6 tracks · 29:29',
+    detail: '6 tracks',
     cta: 'Listen',
     thumbSrc: ART.rack,
     previewSrc: PREVIEW.rack,
-    body: 'Low-end swing for the counter — keep the needle down.',
     tracks: [
       { title: "Rack'em", duration: '2:57' },
       { title: 'Since I Left You', duration: '6:45' },
