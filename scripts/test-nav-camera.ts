@@ -135,6 +135,15 @@ const desktop = {
   );
   assert.equal(musicSec.title.trim(), '', 'Music panel title cleared');
   assert.ok(musicSec.hideHint, 'Music glow must not show Slip on headphones text');
+  assert.match(
+    musicSec.intro,
+    /headphones|booth/i,
+    'Music panel needs a short label-voice intro',
+  );
+  assert.ok(
+    musicSec.items.every((i) => i.body && i.body.length > 12),
+    'Music shelf rows need curatorial blurbs',
+  );
   const music = { w: 6, h: 9, lookFov: 95 };
   const desk = resolveLookMfov(music, desktop);
   const mob = resolveLookMfov(music, phone);
@@ -289,11 +298,23 @@ const desktop = {
   assert.ok(controls.mfov < MFOV_EXPLORE, 'shop lookto should punch in from explore FOV');
   const shop = SECTION_BY_ID['cash-register'];
   assert.equal(shop.title.trim(), '', 'Shop title cleared (no The Counter)');
-  assert.equal(shop.intro.trim(), '', 'Shop intro cleared');
+  assert.match(
+    shop.intro,
+    /counter|listen|room/i,
+    'Shop panel needs a short label-voice intro',
+  );
   assert.equal(shop.kicker, 'New Releases', 'Shop panel kicker is New Releases');
   assert.equal(shop.items.length, 2, 'Shop lists Inlet Knight album + At Home');
   assert.match(shop.items[0].label, /Inlet Knight/i);
   assert.ok(shop.items[0].tracks && shop.items[0].tracks.length >= 16);
+  assert.ok(
+    shop.items.every((i) => i.body && i.body.length > 12),
+    'Shop shelf rows need curatorial blurbs',
+  );
+  assert.ok(
+    !shop.items.some((i) => i.listenOn?.some((l) => l.href === '#preview')),
+    'Shop must not ship dead #preview links',
+  );
   assert.ok(
     shop.items[1].tracks &&
       shop.items[1].tracks.length === 3 &&

@@ -3,15 +3,15 @@
  *  VCR IN-ROOM CONTENT CATALOG — edit this file to change what the store
  *  plays and sells. No other file needs touching for content updates.
  *
- *  · MUSIC_RELEASES → rows in the Music (listening booth) panel.
- *      Each row opens a detail view with a Play-preview button, track list,
- *      and LISTEN ON pills. Drop new preview MP3s in /public/audio/previews
- *      and cover art in /public/panel-thumbs.
+ *  · MUSIC_RELEASES → shelf rows in the Music (listening booth) panel.
+ *      Each row opens a nest with transport, track list, and LISTEN ON pills.
+ *      Use `body` for the short shelf blurb. Drop preview MP3s in
+ *      /public/audio/previews and cover art in /public/panel-thumbs.
  *  · CRT_CHANNELS   → rows in the Videos panel. `videoSrc` plays the file
  *      on the in-room CRT (put MP4s in /public/videos); rows with only
  *      `href` open in a new tab.
  *  · ARTISTS        → roster rows in the Artists (record bins) panel.
- *  · SHOP_ITEMS     → rows in the Shop (New Releases) panel.
+ *  · SHOP_ITEMS     → shelf rows in the Shop (New Releases) panel.
  * ─────────────────────────────────────────────────────────────────────────
  */
 
@@ -52,7 +52,7 @@ export type SectionItem = {
   /** Music / Shop nest — streaming + buy pills. */
   listenOn?: ListenLink[];
   /**
-   * In-panel prose for nested detail (stays in-room — no /shop eject).
+   * In-panel prose — shelf blurb on Music/Shop level-1, and nest copy when set.
    */
   body?: string;
 };
@@ -114,9 +114,10 @@ export const MUSIC_RELEASES: SectionItem[] = [
     label: 'At Home',
     meta: 'Inlet Knight',
     detail: '3 tracks · digital + cassette',
-    cta: 'Play',
+    cta: 'Listen',
     thumbSrc: ART.atHome,
     previewSrc: PREVIEW.atHome,
+    body: 'Soft late-night songs from Cumberland — headphones first.',
     tracks: [
       { title: 'After All', duration: '2:22' },
       { title: 'Will I See You Again?', duration: '3:58' },
@@ -131,9 +132,10 @@ export const MUSIC_RELEASES: SectionItem[] = [
     label: 'Summer Madness',
     meta: 'LT Drifta',
     detail: '11 tracks · 34:57',
-    cta: 'Play',
+    cta: 'Listen',
     thumbSrc: ART.summer,
     previewSrc: PREVIEW.summer,
+    body: 'Heat-haze edits and long fades — the booth’s deep cut.',
     tracks: [
       { title: 'Summer Madness', duration: '3:20' },
       { title: 'Too Far', duration: '2:55' },
@@ -156,9 +158,10 @@ export const MUSIC_RELEASES: SectionItem[] = [
     label: "Lions' Gate",
     meta: 'Charlie Archer',
     detail: 'Digital single',
-    cta: 'Play',
+    cta: 'Listen',
     thumbSrc: ART.lions,
     previewSrc: PREVIEW.lions,
+    body: 'A short gate into the room — one take, full presence.',
     tracks: [{ title: "Lions' Gate", duration: '0:35' }],
     listenOn: [{ label: 'Buy Digital', href: BUY.lionsDigital }],
   },
@@ -166,9 +169,10 @@ export const MUSIC_RELEASES: SectionItem[] = [
     label: "Rack'em",
     meta: 'LT Drifta',
     detail: '6 tracks · 29:29',
-    cta: 'Play',
+    cta: 'Listen',
     thumbSrc: ART.rack,
     previewSrc: PREVIEW.rack,
+    body: 'Low-end swing for the counter — keep the needle down.',
     tracks: [
       { title: "Rack'em", duration: '2:57' },
       { title: 'Since I Left You', duration: '6:45' },
@@ -274,12 +278,13 @@ export const ARTISTS: SectionItem[] = [
 export const SHOP_ITEMS: SectionItem[] = [
   {
     label: 'Inlet Knight',
-    meta: 'Self-titled album · 16 tracks',
-    detail: '$9 CAD or more',
+    meta: 'Self-titled album',
+    detail: '16 tracks · from $9 CAD',
     cta: 'Open',
     thumb: 'IK',
     thumbSrc: ART.inletKnightTall,
     href: BUY.inletKnightAlbum,
+    body: 'The full Island record — sixteen cuts for the long listen.',
     tracks: [
       { title: 'Revive Him', duration: '02:27' },
       { title: 'Whatever', duration: '03:27' },
@@ -304,14 +309,15 @@ export const SHOP_ITEMS: SectionItem[] = [
     ],
   },
   {
-    label: 'Inlet Knight',
-    meta: 'At Home',
-    detail: 'From $3',
+    label: 'At Home',
+    meta: 'Inlet Knight',
+    detail: 'From $3 · digital + cassette',
     cta: 'Open',
     thumb: 'IK',
     thumbSrc: ART.inletKnight,
     href: BUY.atHomeDigital,
     previewSrc: PREVIEW.atHome,
+    body: 'Three songs you can take home — preview in the booth, buy at the counter.',
     tracks: [
       { title: 'After All', duration: '2:22' },
       { title: 'Will I See You Again?', duration: '3:58' },
@@ -320,7 +326,6 @@ export const SHOP_ITEMS: SectionItem[] = [
     listenOn: [
       { label: 'Buy Digital', href: BUY.atHomeDigital },
       { label: 'Bandcamp', href: BUY.inletBc },
-      { label: 'Preview', href: '#preview' },
     ],
   },
 ];
