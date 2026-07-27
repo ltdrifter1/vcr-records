@@ -251,8 +251,8 @@ export default function Hotspot({
     onOpen(section.id);
   };
 
-  const gw = section.w;
-  const gh = section.h;
+  const gw = section.glowW ?? section.w;
+  const gh = section.glowH ?? section.h;
 
   return (
     <group position={[x, y, z]}>

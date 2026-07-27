@@ -181,10 +181,10 @@ export function uvToLocal(u: number, v: number): [number, number, number] {
   return uvToSpherical(u, v, SPHERE_RADIUS - 0.35);
 }
 
-/** v7 — bright-neutral redecorate: cream walls, wood shelving of records +
- * cassettes (posters gone), turntable listening nook, door clear of counter. */
-export const TEXTURE_SRC = '/textures/store_pano_v7.webp';
+/** v8 — warm earth-tone premium pass: sandy clay walls, cedar beams, oak
+ * floor, rich natural-wood fixtures, clean counter (no stickers / lettering). */
+export const TEXTURE_SRC = '/textures/store_pano_v8.webp';
 /** Darkened twin of the store — balmingtiger lights_off scene. */
-export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v7.webp';
-export const LQIP_SRC = '/textures/store_pano_lqip_v7.webp';
+export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v8.webp';
+export const LQIP_SRC = '/textures/store_pano_lqip_v8.webp';
 export const CRT_VIDEO_SRC = '/videos/crt_loop.mp4';

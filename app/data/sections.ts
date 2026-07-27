@@ -43,6 +43,7 @@ export type SectionItem = {
 const T = {
   atHome: '/panel-thumbs/at-home.webp',
   inletKnight: '/panel-thumbs/inlet-knight.webp',
+  inletKnightTall: '/panel-thumbs/inlet-knight-tall.webp',
   summer: '/panel-thumbs/summer.webp',
   lions: '/panel-thumbs/lions.webp',
   rack: '/panel-thumbs/rack.webp',
@@ -96,6 +97,13 @@ export type Section = {
   w: number;
   h: number;
   /**
+   * Optional glow/edge-mask plane size when it must differ from the hit
+   * footprint (CRT: w/h are tube-locked for the video overlay, the glow
+   * covers the whole painted set).
+   */
+  glowW?: number;
+  glowH?: number;
+  /**
    * MFOV used by lookto when focusing this feature
    * (Music ~95 room view; Videos framed mid — not watch punch-in).
    */
@@ -141,6 +149,7 @@ const BUY = {
   hat: 'https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n',
   bikini: 'https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m',
   inletBc: 'https://inletknight.bandcamp.com',
+  inletKnightAlbum: 'https://inletknight.bandcamp.com/album/inlet-knight',
   ltdBc: 'https://ltdrifta.bandcamp.com',
   driftaBc: 'https://drifta.bandcamp.com',
   rackBc: 'https://ltdrifta.bandcamp.com/album/rack-em',
@@ -161,8 +170,8 @@ export const SECTIONS: Section[] = [
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
-    // v7 pano: LISTEN shelving tower with turntable + headphones
-    // (file x 292–465, y 285–720 of 1536×1024).
+    // v8 pano: LISTEN shelving tower with turntable + headphones
+    // (file x 292–465, y 270–720 of 1536×1024).
     u: 0.756,
     v: 0.49,
     lookU: 0.756,
@@ -181,21 +190,24 @@ export const SECTIONS: Section[] = [
     object: 'CRT Television',
     nav: 'Videos',
     hint: '',
-    title: 'The CRT',
+    title: '',
     kicker: 'Videos',
     intro: '',
     accent: '#7ad7ff',
-    // v7 pano: CRT on the low cabinet — u/v is the tube-glass center so the
-    // CrtScreen video/frame overlays sit on the painted set
-    // (set file x 115–297, tube x 152–272 / y 509–585 of 1536×1024).
-    u: 0.862,
-    v: 0.534,
+    // v8 pano: CRT on the low cabinet — u/v is the tube-glass center and
+    // w/h are tube-locked so the CrtScreen video/frame overlays sit on the
+    // painted set (set file x 129–250, tube x 152–227 / y 527–572 of 1536×1024).
+    u: 0.8766,
+    v: 0.5366,
     // Frame the set in the room — not watch-mode punch-in (was fov 22 / too close).
-    lookU: 0.862,
-    lookV: 0.534,
-    w: 33.8,
-    h: 19.1,
-    lookFov: 62,
+    lookU: 0.8766,
+    lookV: 0.5366,
+    w: 20.9,
+    h: 11.3,
+    // Glow / edge mask covers the whole painted set, not just the tube.
+    glowW: 26,
+    glowH: 14,
+    lookFov: 50,
     sfx: 'video',
     // Coming soon: keep warm gold aura latched while focused (no watch overlay).
     glowLatches: true,
@@ -213,14 +225,14 @@ export const SECTIONS: Section[] = [
     kicker: 'Artists',
     intro: '',
     accent: '#ff7a9c',
-    // v7 pano: central record-bin island (file x 732–858, y 490–695 of 1536×1024).
+    // v8 pano: central record-bin island (file x 730–862, y 500–712 of 1536×1024).
     u: 0.482,
-    v: 0.578,
+    v: 0.59,
     // Zoomed out over the whole bins aisle
     lookU: 0.5,
     lookV: 0.53,
-    w: 25,
-    h: 30.9,
+    w: 26.5,
+    h: 32.5,
     lookFov: 105,
     sfx: 'artists',
     goldEdge: true,
@@ -228,12 +240,12 @@ export const SECTIONS: Section[] = [
     items: [
       {
         label: 'Inlet Knight',
-        meta: 'At Home',
+        meta: 'Cumberland, BC',
         detail: 'Bandcamp',
         cta: 'Listen',
         thumb: 'IK',
         thumbSrc: T.inletKnight,
-        href: 'https://inletknight.bandcamp.com',
+        href: BUY.inletBc,
       },
     ],
   },
@@ -246,19 +258,51 @@ export const SECTIONS: Section[] = [
     kicker: 'New Releases',
     intro: '',
     accent: '#9dff8a',
-    // v7 pano: register on the wood VCR RECORD SHOP counter (file x 975–1090).
+    // v8 pano: register + display pole + drawer on the clean wood counter
+    // (file x 975–1105, y 425–558 of 1536×1024).
     // Spherical u = 1 − file_u after BackSide flip.
-    u: 0.328,
-    v: 0.488,
+    u: 0.323,
+    v: 0.48,
     lookU: 0.31,
     lookV: 0.53,
-    w: 22.8,
-    h: 14.7,
+    w: 26.5,
+    h: 20.5,
     lookFov: 70,
     sfx: 'shop',
     goldEdge: true,
     hideHint: true,
     items: [
+      {
+        label: 'Inlet Knight',
+        meta: 'Self-titled album · 16 tracks',
+        detail: '$9 CAD or more',
+        cta: 'Open',
+        thumb: 'IK',
+        thumbSrc: T.inletKnightTall,
+        href: BUY.inletKnightAlbum,
+        tracks: [
+          { title: 'Revive Him', duration: '02:27' },
+          { title: 'Whatever', duration: '03:27' },
+          { title: 'Mad About You', duration: '03:58' },
+          { title: 'All Falls Down', duration: '04:42' },
+          { title: 'Les Miserables', duration: '02:16' },
+          { title: 'Heartbreaker', duration: '03:52' },
+          { title: 'Movin\'', duration: '03:26' },
+          { title: 'Sunday Afternoon', duration: '02:55' },
+          { title: 'Hard to Ignore', duration: '04:09' },
+          { title: 'The Get Down', duration: '01:37' },
+          { title: '3AM', duration: '02:59' },
+          { title: 'Another Day', duration: '04:58' },
+          { title: 'Is It Cool?', duration: '04:02' },
+          { title: 'You Wanted Me', duration: '02:49' },
+          { title: 'Next Year', duration: '04:07' },
+          { title: 'Art of Losing', duration: '02:06' },
+        ],
+        listenOn: [
+          { label: 'Listen on Bandcamp', href: BUY.inletKnightAlbum },
+          { label: 'Buy album', href: BUY.inletKnightAlbum },
+        ],
+      },
       {
         label: 'Inlet Knight',
         meta: 'At Home',
@@ -289,13 +333,13 @@ export const SECTIONS: Section[] = [
     kicker: 'Contact',
     intro: '',
     accent: '#e8c07a',
-    // v7 pano: black rotary phone on the counter (file x 1119–1250 of 1536).
-    u: 0.229,
-    v: 0.532,
+    // v8 pano: black rotary phone on the counter (file x 1145–1232, y 515–572).
+    u: 0.227,
+    v: 0.53,
     lookU: 0.25,
     lookV: 0.51,
-    w: 25.9,
-    h: 12.2,
+    w: 20,
+    h: 10.5,
     lookFov: 55,
     sfx: 'phone',
     goldEdge: true,

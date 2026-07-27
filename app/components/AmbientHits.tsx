@@ -46,16 +46,16 @@ const HITS: AmbientHit[] = [
   // Face-out record row on the left wall shelf (posters are gone in v7)
   { id: 'poster', u: 0.6224, v: 0.366, w: 3.5, h: 3.5, sfx: 'poster' },
   // Doormat by the entry door (door moved right of the counter in v7)
-  { id: 'cushion', u: 0.0937, v: 0.674, w: 3.5, h: 2, sfx: 'cushion' },
+  { id: 'cushion', u: 0.085, v: 0.693, w: 3.5, h: 2, sfx: 'cushion' },
   // Potted plant at the bins island corner
-  { id: 'owl', u: 0.427, v: 0.474, w: 2.6, h: 2.4, sfx: 'owl' },
+  { id: 'owl', u: 0.434, v: 0.478, w: 2.6, h: 2.4, sfx: 'owl' },
   // Warm lamp pool on the floor
   { id: 'fire', u: 0.583, v: 0.742, w: 2.8, h: 2.6, sfx: 'fire' },
   // Globe / wonder — the door window looking onto the street
   {
     id: 'wonder',
-    u: 0.0755,
-    v: 0.441,
+    u: 0.0775,
+    v: 0.451,
     w: 2.4,
     h: 2.4,
     sfx: 'wonder',
