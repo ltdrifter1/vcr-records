@@ -21,9 +21,19 @@ export const CRT_DEFAULT_SRC = '/videos/channel_b.mp4';
  * Alpha 0 until Videos is focused + armed (post-lookto).
  * Panel picks swap `src` in-place (stay in the room).
  *
- * Sizing: video fills the painted tube glass; frame sits around it.
- * (Previously screen was ~0.52× hit footprint — read as a postage stamp.)
+ * Sizing: video fills the painted tube glass; frame sits around the chassis.
+ * Hit plane `crt.w/h` is tube-set sized; glass is a smaller inset + XY bias
+ * (CRT sits off-center on the cabinet). Keep in lockstep with
+ * `crt_overlays()` in scripts/build-v9-pano.py.
  */
+/** Glass size as a fraction of sections.ts crt-tv w/h. */
+const SCREEN_W_FAC = 0.44;
+const SCREEN_H_FAC = 0.375;
+/** Local plane offset from hotspot center → painted glass center. */
+const SCREEN_OX = -1.27;
+const SCREEN_OY = 0.71;
+const FRAME_W_FAC = 0.88;
+const FRAME_H_FAC = 0.78;
 export default function CrtScreen({
   activeId,
   armed = false,
@@ -62,11 +72,10 @@ export default function CrtScreen({
     [],
   );
 
-  // Tube glass ≈ 70%×58% of the full-set hit footprint; frame hugs the chassis.
-  const screenW = crt.w * 0.7;
-  const screenH = crt.h * 0.58;
-  const frameW = crt.w * 0.88;
-  const frameH = crt.h * 0.78;
+  const screenW = crt.w * SCREEN_W_FAC;
+  const screenH = crt.h * SCREEN_H_FAC;
+  const frameW = crt.w * FRAME_W_FAC;
+  const frameH = crt.h * FRAME_H_FAC;
 
   useLayoutEffect(() => {
     backOffMap.colorSpace = THREE.SRGBColorSpace;
@@ -204,8 +213,14 @@ export default function CrtScreen({
 
   return (
     <group ref={group} position={[x, y, z]}>
-      {/* z: slightly in front of sphere wall; stack like BT zorder */}
-      <mesh ref={backOffMesh} position={[0, 0, 0.01]} renderOrder={2} raycast={() => null}>
+      {/* z: slightly in front of sphere wall; stack like BT zorder.
+          Screen stack is XY-biased onto the painted glass; frame stays on chassis. */}
+      <mesh
+        ref={backOffMesh}
+        position={[SCREEN_OX, SCREEN_OY, 0.01]}
+        renderOrder={2}
+        raycast={() => null}
+      >
         <planeGeometry args={[screenW * 1.04, screenH * 1.04]} />
         <meshBasicMaterial
           ref={backOffMat}
@@ -217,7 +232,12 @@ export default function CrtScreen({
           side={THREE.DoubleSide}
         />
       </mesh>
-      <mesh ref={backOnMesh} position={[0, 0, 0.015]} renderOrder={3} raycast={() => null}>
+      <mesh
+        ref={backOnMesh}
+        position={[SCREEN_OX, SCREEN_OY, 0.015]}
+        renderOrder={3}
+        raycast={() => null}
+      >
         <planeGeometry args={[screenW * 1.02, screenH * 1.02]} />
         <meshBasicMaterial
           ref={backOnMat}
@@ -229,7 +249,12 @@ export default function CrtScreen({
           side={THREE.DoubleSide}
         />
       </mesh>
-      <mesh ref={videoMesh} position={[0, 0, 0.03]} renderOrder={4} raycast={() => null}>
+      <mesh
+        ref={videoMesh}
+        position={[SCREEN_OX, SCREEN_OY, 0.03]}
+        renderOrder={4}
+        raycast={() => null}
+      >
         <planeGeometry args={[screenW, screenH]} />
         <meshBasicMaterial
           ref={videoMat}
