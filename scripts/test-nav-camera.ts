@@ -16,6 +16,7 @@ import {
   horizontalFovToMfov,
   resolveExploreMfov,
   resolveLookMfov,
+  resolveLookTarget,
   yawDelta,
 } from '../lib/navigation';
 import { MFOV_EXPLORE, mfovToHorizontalFov, uToYaw, uvToSpherical, vToPitch } from '../lib/pano';
@@ -162,10 +163,20 @@ const desktop = {
   const mob = resolveLookMfov(music, phone);
   assert.equal(desk, musicSec.lookFov);
   assert.ok(mob > musicSec.lookFov, `mobile music mfov ${mob} should widen past ${musicSec.lookFov}`);
-  assert.ok(musicSec.w <= 32 && musicSec.h <= 18, 'Music glow hugs headphones/turntable shelf, not whole tower');
+  assert.ok(musicSec.w <= 32 && musicSec.h <= 20, 'Music glow hugs headphones/turntable shelf, not whole tower');
+  assert.ok(
+    musicSec.u < 0.35,
+    'Music / LISTEN sits on the door-side wall (opposite CRT)',
+  );
+  assert.ok((musicSec.walkDolly ?? 0) >= 6, 'Music uses walk approach dolly');
   assert.ok(
     SECTION_BY_ID['record-bins'].w <= 42 && SECTION_BY_ID['record-bins'].h <= 29,
     'Artists glow hugs the bin wood, not the moss rug',
+  );
+  const musicTarget = resolveLookTarget(musicSec, desktop);
+  assert.ok(
+    musicTarget.eye && Math.hypot(musicTarget.eye.x, musicTarget.eye.y, musicTarget.eye.z) > 4,
+    'Music lookto moves the eye toward the tower',
   );
   console.log(`✓ music lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }

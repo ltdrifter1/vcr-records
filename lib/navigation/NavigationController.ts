@@ -8,9 +8,11 @@ import {
 import { playSfx, setPanelDuck, stopPreview } from '@/lib/audio';
 import {
   animateCamera,
+  animateCameraPath,
   interruptCameraAnimation,
 } from './AnimationManager';
 import {
+  aisleWaypoint,
   frontLookTarget,
   resolveExploreMfov,
   resolveLookTarget,
@@ -28,8 +30,10 @@ export type NavigationCallbacks = {
   reduceMotion: boolean;
 };
 
-/** balmingtiger lookto(..., tween(easeinoutquart, 2), ...) */
-const LOOKTO_DURATION = 2;
+/** balmingtiger lookto(..., tween(easeinoutquart, 2), ...) — slightly longer for walk. */
+const LOOKTO_DURATION = 2.15;
+const LOOKTO_AISLE_DURATION = 0.9;
+const LOOKTO_APPROACH_DURATION = 1.35;
 const REFRAME_DURATION = 0.45;
 /**
  * Panel HUD lands mid-lookto so camera + glass feel like one gesture.
@@ -113,6 +117,9 @@ export function createNavigationController(
     const explore = resolveExploreMfov(measureViewport());
     if (cbs.reduceMotion) {
       controls.mfov = explore;
+      controls.eye.x = 0;
+      controls.eye.y = 0;
+      controls.eye.z = 0;
       scheduleFollowRestore();
       return;
     }
@@ -122,6 +129,7 @@ export function createNavigationController(
         yaw: controls.lookTarget.x,
         pitch: controls.lookTarget.y,
         mfov: explore,
+        eye: { x: 0, y: 0, z: 0 },
       },
       { duration: 1.1, onComplete: scheduleFollowRestore },
     );
@@ -227,12 +235,33 @@ export function createNavigationController(
       revealPanel(id);
     }
 
-    animateCamera(controls, target, {
-      duration: LOOKTO_DURATION,
-      onComplete: () => {
-        if (armCrt && navState.focusedId === id) cbs.onCrtArm?.(true);
-      },
-    });
+    // Section→section: step into the aisle, turn, then approach the wall.
+    // Free look → feature: single approach (already standing in the room).
+    const eyeDist = Math.hypot(controls.eye.x, controls.eye.y, controls.eye.z);
+    const yawSpan = Math.abs(
+      ((target.yaw - controls.lookTarget.x + Math.PI) % (Math.PI * 2) + Math.PI * 2) %
+        (Math.PI * 2) -
+        Math.PI,
+    );
+    const shouldWalk =
+      (!fromFree && yawSpan > 0.55) || (fromFree && yawSpan > 1.2 && eyeDist < 0.5);
+
+    if (shouldWalk) {
+      const mid = aisleWaypoint(controls.lookTarget.x, target, vp);
+      animateCameraPath(controls, [mid, target], {
+        segmentDurations: [LOOKTO_AISLE_DURATION, LOOKTO_APPROACH_DURATION],
+        onComplete: () => {
+          if (armCrt && navState.focusedId === id) cbs.onCrtArm?.(true);
+        },
+      });
+    } else {
+      animateCamera(controls, target, {
+        duration: LOOKTO_DURATION,
+        onComplete: () => {
+          if (armCrt && navState.focusedId === id) cbs.onCrtArm?.(true);
+        },
+      });
+    }
   };
 
   /**

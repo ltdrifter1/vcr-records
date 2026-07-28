@@ -14,6 +14,8 @@
 
 export type Vec2 = { x: number; y: number };
 
+export type Vec3 = { x: number; y: number; z: number };
+
 export type CameraState = {
   /** cameraX — yaw in radians (wraps). */
   yaw: number;
@@ -42,6 +44,11 @@ export type Controls = {
    * Drag may still interrupt (intentional BT parity).
    */
   lookAnimating: boolean;
+  /**
+   * Eye position inside the sphere (walk approach).
+   * (0,0,0) = classic pivot; non-zero = standing nearer a wall.
+   */
+  eye: Vec3;
 };
 
 export type ViewportMetrics = {
@@ -66,6 +73,8 @@ export type LookTarget = {
   yaw: number;
   pitch: number;
   mfov: number;
+  /** Optional eye position; omit to leave eye unchanged, use eye: {0,0,0} to reset. */
+  eye?: Vec3;
 };
 
 export type NavFocusState = {

@@ -4,6 +4,7 @@ export type {
   LookTarget,
   NavFocusState,
   Vec2,
+  Vec3,
   ViewportMetrics,
 } from './types';
 
@@ -34,6 +35,9 @@ export {
   resolveLookTarget,
   frontLookTarget,
   resolveExploreMfov,
+  aisleWaypoint,
+  eyeTowardUv,
+  lookDirection,
 } from './CameraController';
 
 export {
@@ -41,6 +45,7 @@ export {
   easeInOutQuart,
   interruptCameraAnimation,
   animateCamera,
+  animateCameraPath,
 } from './AnimationManager';
 
 export { useInteractionManager } from './InteractionManager';

@@ -6,12 +6,14 @@ import {
   MFOV_RATIO,
   START_LOOK_U,
   START_LOOK_V,
+  WALK_DOLLY_MAX,
   uToYaw,
   vToPitch,
+  uvToSpherical,
 } from '@/lib/pano';
 import type { Section } from '@/app/data/sections';
 import { adaptMfovToViewport, measureViewport } from './ViewportManager';
-import type { Controls, LookTarget, ViewportMetrics } from './types';
+import type { Controls, LookTarget, Vec3, ViewportMetrics } from './types';
 
 export { measureViewport };
 
@@ -30,6 +32,7 @@ export function createControls(initial?: Partial<Controls>): Controls {
     followFactor: 0,
     userControl: false,
     lookAnimating: false,
+    eye: { x: 0, y: 0, z: 0 },
     ...initial,
   };
 }
@@ -53,6 +56,7 @@ export function readCamera(controls: Controls): LookTarget {
     yaw: controls.lookTarget.x,
     pitch: controls.lookTarget.y,
     mfov: controls.mfov,
+    eye: { ...controls.eye },
   };
 }
 
@@ -60,6 +64,11 @@ export function writeCamera(controls: Controls, cam: Partial<LookTarget>) {
   if (cam.yaw != null) controls.lookTarget.x = cam.yaw;
   if (cam.pitch != null) controls.lookTarget.y = cam.pitch;
   if (cam.mfov != null) controls.mfov = cam.mfov;
+  if (cam.eye) {
+    controls.eye.x = cam.eye.x;
+    controls.eye.y = cam.eye.y;
+    controls.eye.z = cam.eye.z;
+  }
 }
 
 export function snapExploreFront(controls: Controls, viewport?: ViewportMetrics) {
@@ -68,6 +77,9 @@ export function snapExploreFront(controls: Controls, viewport?: ViewportMetrics)
   controls.mfov = resolveExploreMfov(viewport);
   controls.velocity.x = 0;
   controls.velocity.y = 0;
+  controls.eye.x = 0;
+  controls.eye.y = 0;
+  controls.eye.z = 0;
 }
 
 /**
@@ -96,16 +108,40 @@ export function resolveLookMfov(
   return Math.min(MFOV_MAX, Math.max(MFOV_LOOKTO_MIN, mfov));
 }
 
-/** World aim for a section — same UV on every device. */
+/** Unit look direction matching Rig YXZ forward. */
+export function lookDirection(yaw: number, pitch: number): Vec3 {
+  const cp = Math.cos(pitch);
+  return {
+    x: -Math.sin(yaw) * cp,
+    y: Math.sin(pitch),
+    z: -Math.cos(yaw) * cp,
+  };
+}
+
+/** Eye offset toward a feature — capped so the sphere doesn’t clip. */
+export function eyeTowardUv(u: number, v: number, dolly: number): Vec3 {
+  const d = Math.max(0, Math.min(WALK_DOLLY_MAX, dolly));
+  if (d < 0.01) return { x: 0, y: 0, z: 0 };
+  const [x, y, z] = uvToSpherical(u, v, 1);
+  return { x: x * d, y: y * d, z: z * d };
+}
+
+/** World aim for a section — same UV on every device, with walk dolly. */
 export function resolveLookTarget(
-  section: Pick<Section, 'u' | 'v' | 'lookU' | 'lookV' | 'w' | 'h' | 'lookFov'>,
+  section: Pick<
+    Section,
+    'u' | 'v' | 'lookU' | 'lookV' | 'w' | 'h' | 'lookFov' | 'walkDolly'
+  >,
   viewport?: ViewportMetrics,
 ): LookTarget {
   const vp = viewport ?? measureViewport();
+  const lu = section.lookU ?? section.u;
+  const lv = section.lookV ?? section.v;
   return {
-    yaw: uToYaw(section.lookU ?? section.u),
-    pitch: vToPitch(section.lookV ?? section.v),
+    yaw: uToYaw(lu),
+    pitch: vToPitch(lv),
     mfov: resolveLookMfov(section, vp),
+    eye: eyeTowardUv(lu, lv, section.walkDolly ?? 0),
   };
 }
 
@@ -114,5 +150,28 @@ export function frontLookTarget(viewport?: ViewportMetrics): LookTarget {
     yaw: uToYaw(START_LOOK_U),
     pitch: vToPitch(START_LOOK_V),
     mfov: resolveExploreMfov(viewport),
+    eye: { x: 0, y: 0, z: 0 },
+  };
+}
+
+/**
+ * Mid-aisle waypoint between two aims — step back to center, ease the turn,
+ * then the final lookto approaches the wall. Makes section hops feel like walks.
+ */
+export function aisleWaypoint(
+  fromYaw: number,
+  to: LookTarget,
+  viewport?: ViewportMetrics,
+): LookTarget {
+  const explore = resolveExploreMfov(viewport);
+  // Shortest-path mid yaw
+  let d = to.yaw - fromYaw;
+  const TWO_PI = Math.PI * 2;
+  d = ((((d + Math.PI) % TWO_PI) + TWO_PI) % TWO_PI) - Math.PI;
+  return {
+    yaw: fromYaw + d * 0.45,
+    pitch: to.pitch * 0.35,
+    mfov: Math.min(explore, Math.max(to.mfov + 18, explore * 0.88)),
+    eye: { x: 0, y: 0, z: 0 },
   };
 }

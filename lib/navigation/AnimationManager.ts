@@ -1,4 +1,4 @@
-import type { Controls, LookTarget } from './types';
+import type { Controls, LookTarget, Vec3 } from './types';
 
 const TWO_PI = Math.PI * 2;
 
@@ -42,8 +42,16 @@ export function interruptCameraAnimation(controls: Controls) {
   return true;
 }
 
+function lerpEye(a: Vec3, b: Vec3, e: number): Vec3 {
+  return {
+    x: a.x + (b.x - a.x) * e,
+    y: a.y + (b.y - a.y) * e,
+    z: a.z + (b.z - a.z) * e,
+  };
+}
+
 /**
- * Animate cameraX / cameraY / cameraScale (yaw / pitch / mfov) on rAF.
+ * Animate yaw / pitch / mfov / eye on rAF.
  * Never uses browser scroll or anchor jumps — pure transform interpolation.
  */
 export function animateCamera(
@@ -68,6 +76,8 @@ export function animateCamera(
   const startYaw = controls.lookTarget.x;
   const startPitch = controls.lookTarget.y;
   const startMfov = controls.mfov;
+  const startEye: Vec3 = { ...controls.eye };
+  const endEye: Vec3 = to.eye ? { ...to.eye } : startEye;
   const delta = yawDelta(startYaw, to.yaw);
   const id = Date.now() + Math.random();
   const t0 = performance.now();
@@ -79,6 +89,10 @@ export function animateCamera(
     controls.lookTarget.x = startYaw + delta * e;
     controls.lookTarget.y = startPitch + (to.pitch - startPitch) * e;
     controls.mfov = startMfov + (to.mfov - startMfov) * e;
+    const eye = lerpEye(startEye, endEye, e);
+    controls.eye.x = eye.x;
+    controls.eye.y = eye.y;
+    controls.eye.z = eye.z;
     opts.onUpdate?.();
 
     if (u < 1) {
@@ -89,6 +103,9 @@ export function animateCamera(
     controls.lookTarget.x = to.yaw;
     controls.lookTarget.y = to.pitch;
     controls.mfov = to.mfov;
+    controls.eye.x = endEye.x;
+    controls.eye.y = endEye.y;
+    controls.eye.z = endEye.z;
     controls.lookAnimating = false;
     active = null;
     opts.onComplete?.();
@@ -104,5 +121,59 @@ export function animateCamera(
 
   return {
     kill: () => interruptCameraAnimation(controls),
+  };
+}
+
+/**
+ * Multi-stop walk path — e.g. aisle midpoint then wall approach.
+ * Durations are per segment; total ≈ sum(segmentDurations).
+ */
+export function animateCameraPath(
+  controls: Controls,
+  path: LookTarget[],
+  opts: {
+    segmentDurations?: number[];
+    onComplete?: () => void;
+  } = {},
+): AnimHandle {
+  if (path.length === 0) {
+    opts.onComplete?.();
+    return { kill: () => undefined };
+  }
+  if (path.length === 1) {
+    return animateCamera(controls, path[0], {
+      duration: opts.segmentDurations?.[0] ?? 1.8,
+      onComplete: opts.onComplete,
+    });
+  }
+
+  let killed = false;
+  let handle: AnimHandle | null = null;
+  let i = 0;
+
+  const runNext = () => {
+    if (killed) return;
+    if (i >= path.length) {
+      opts.onComplete?.();
+      return;
+    }
+    const dur =
+      opts.segmentDurations?.[i] ??
+      (i === 0 ? 0.85 : 1.35);
+    const idx = i;
+    i += 1;
+    handle = animateCamera(controls, path[idx], {
+      duration: dur,
+      onComplete: runNext,
+    });
+  };
+
+  runNext();
+
+  return {
+    kill: () => {
+      killed = true;
+      handle?.kill();
+    },
   };
 }
