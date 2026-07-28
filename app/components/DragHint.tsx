@@ -15,15 +15,21 @@ type Props = {
 };
 
 /**
- * First-visit onboarding cue — “Drag to look around” with a clear
- * left/right glyph. Never blocks the scene. Fades after a few seconds
- * or on the first real drag. Shown once per browser via localStorage.
+ * First-visit onboarding cue — drag / swipe to look around.
+ * Never blocks the scene. Fades after a few seconds or on first drag.
+ * Shown once per browser via localStorage. Lifted above iOS conveyor.
  */
 export default function DragHint({ active, controls, reduceMotion = false }: Props) {
   const [mounted, setMounted] = useState(false);
   const [opaque, setOpaque] = useState(false);
+  const [touchCopy, setTouchCopy] = useState(false);
   const dismissed = useRef(false);
   const fadeTimer = useRef(0);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setTouchCopy(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
 
   useEffect(() => {
     if (!active || dismissed.current) return;
@@ -115,8 +121,12 @@ export default function DragHint({ active, controls, reduceMotion = false }: Pro
         </svg>
       </span>
       <span className="drag-hint-copy">
-        <span className="drag-hint-label">Drag to look around</span>
-        <span className="drag-hint-sub">Click a glow to step in</span>
+        <span className="drag-hint-label">
+          {touchCopy ? 'Swipe to look around' : 'Drag to look around'}
+        </span>
+        <span className="drag-hint-sub">
+          {touchCopy ? 'Tap a glow to step in' : 'Click a glow to step in'}
+        </span>
       </span>
     </div>
   );
