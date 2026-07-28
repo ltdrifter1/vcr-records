@@ -115,8 +115,7 @@ export default function LoadingGate({
 
       <div className="gate-inner" ref={inner}>
         <h1 className="gate-mark">
-          <span className="gate-mark-vcr">STEREO-</span>
-          <span className="gate-mark-shop">MART</span>
+          <span className="gate-mark-vcr">STEREO-MART</span>
         </h1>
         <span className="gate-rule" aria-hidden />
         <p className="gate-sub">Best experienced with audio enabled</p>

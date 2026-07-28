@@ -21,14 +21,13 @@ const body = Outfit({
 
 const siteTitle = BRAND_NAME;
 const siteDescription =
-  'Step inside Stereo Mart. A full 360° illustrated record shop. Look around, explore, and discover.';
+  'Step inside STEREO-MART. A full 360° illustrated record shop. Look around, explore, and discover.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: siteTitle,
   description: siteDescription,
   keywords: [
-    'Stereo Mart',
     'STEREO-MART',
     'record store',
     'vinyl',

@@ -112,7 +112,7 @@ const desktop = {
   );
   assert.equal(crt.intro.trim(), '', 'Videos intro cleared');
   assert.equal(crt.items.length, 1, 'Videos keeps a single station for now');
-  assert.equal(crt.items[0]?.label, 'Stereo-TV');
+  assert.equal(crt.items[0]?.label, 'STEREO-MART-TV');
   assert.equal(crt.items[0]?.videoSrc, '/videos/channel_b.mp4');
   // CRT video plane must sit inside painted glass — not the old 0.7×0.58 overshoot.
   assert.ok(crt.w === 21.7 && crt.h === 16.5, 'CRT hit plane stays v9 tube-set sized');

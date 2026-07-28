@@ -1,4 +1,4 @@
-# Stereo Mart
+# STEREO-MART
 
 `stereo-mart.com` is the immersive **360° store** (Next.js).  
 Legacy catalog URLs under `/shop` redirect to a thin brand bridge that
@@ -17,7 +17,7 @@ Top-nav **Shop** and the cash-register hotspot open the **in-room counter panel*
 ## Content
 
 In-room releases, CRT channels, and shop rows live in **`app/data/catalog.ts`** —
-edit that file to add or change what the store plays and sells.
+edit that file to change what the store plays and sells.
 
 ## Develop
 

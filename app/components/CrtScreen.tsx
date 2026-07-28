@@ -12,7 +12,7 @@ import { setBgmDucked } from '@/lib/audio';
 
 const origin = new THREE.Vector3(0, 0, 0);
 const crt = SECTION_BY_ID['crt-tv'];
-/** Branded Stereo Mart station ID — not SMPTE color bars. */
+/** Branded STEREO-MART station ID — not SMPTE color bars. */
 export const CRT_DEFAULT_SRC = '/videos/channel_b.mp4';
 
 /**

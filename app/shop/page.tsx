@@ -25,10 +25,7 @@ export default function ShopBridgePage() {
 
       <main className="shop-bridge-inner">
         <p className="shop-bridge-kicker">{BRAND_NAME}</p>
-        <h1 className="shop-bridge-mark">
-          <span className="shop-bridge-vcr">STEREO</span>
-          <span className="shop-bridge-recordings">MART</span>
-        </h1>
+        <h1 className="shop-bridge-mark">STEREO-MART</h1>
         <p className="shop-bridge-lede">
           The catalog lives inside the store now. Step in, look around, and
           open New Releases at the counter.

@@ -1,8 +1,7 @@
-/** Sitewide Stereo Mart branding — URLs, names, and social handles. */
+/** Sitewide STEREO-MART branding — URLs, names, and social handles. */
 export const SITE_URL = 'https://www.stereo-mart.com';
 
-export const BRAND_NAME = 'Stereo Mart';
-export const BRAND_MARK = 'STEREO-MART';
+export const BRAND_NAME = 'STEREO-MART';
 
 export const CONTACT_EMAIL = 'hello@stereo-mart.com';
 export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
