@@ -1,5 +1,7 @@
 'use client';
 
+import { BRAND_NAME } from '@/lib/brand';
+
 import { useEffect, useRef, useState } from 'react';
 import { useProgress } from '@react-three/drei';
 import gsap from 'gsap';
@@ -95,7 +97,7 @@ export default function LoadingGate({
   };
 
   return (
-    <div className="gate" ref={root} role="dialog" aria-label="Enter VCR Record Shop">
+    <div className="gate" ref={root} role="dialog" aria-label={`Enter ${BRAND_NAME}`}>
       <div className={`gate-lqip${lqipOn ? ' is-on' : ''}`} aria-hidden>
         <img src={LQIP_SRC} alt="" draggable={false} />
         <span className="gate-lqip-veil" />
@@ -113,8 +115,8 @@ export default function LoadingGate({
 
       <div className="gate-inner" ref={inner}>
         <h1 className="gate-mark">
-          <span className="gate-mark-vcr">VCR</span>
-          <span className="gate-mark-shop">RECORD SHOP</span>
+          <span className="gate-mark-vcr">STEREO-</span>
+          <span className="gate-mark-shop">MART</span>
         </h1>
         <span className="gate-rule" aria-hidden />
         <p className="gate-sub">Best experienced with audio enabled</p>

@@ -1,5 +1,6 @@
 'use client';
 
+import { BANDCAMP_URL, INSTAGRAM_URL } from '@/lib/brand';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { type ThreeEvent } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
@@ -37,8 +38,8 @@ type AmbientHit = {
 
 /** Outbound “globe” destinations — Bandcamp / IG / maps rabbit holes. */
 const WONDER_LINKS = [
-  'https://vcrrecordings.bandcamp.com',
-  'https://www.instagram.com/vcr_recordings',
+  BANDCAMP_URL,
+  INSTAGRAM_URL,
   'https://ltdrifta.bandcamp.com',
   'https://inletknight.bandcamp.com',
   'https://drifta.bandcamp.com',

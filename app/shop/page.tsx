@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { BRAND_NAME, SITE_URL } from '@/lib/brand';
 
 export const metadata: Metadata = {
-  title: 'Shop — VCR Recordings',
+  title: `Shop — ${BRAND_NAME}`,
   description:
-    'Browse New Releases inside the VCR Recordings 360° store. Listen, preview, and buy without leaving the room.',
-  alternates: { canonical: 'https://www.vcrrecords.com/shop' },
+    `Browse New Releases inside the ${BRAND_NAME} 360° store. Listen, preview, and buy without leaving the room.`,
+  alternates: { canonical: `${SITE_URL}/shop` },
 };
 
 /**
@@ -23,10 +24,10 @@ export default function ShopBridgePage() {
       </div>
 
       <main className="shop-bridge-inner">
-        <p className="shop-bridge-kicker">VCR Recordings</p>
+        <p className="shop-bridge-kicker">{BRAND_NAME}</p>
         <h1 className="shop-bridge-mark">
-          <span className="shop-bridge-vcr">VCR</span>
-          <span className="shop-bridge-recordings">RECORDINGS</span>
+          <span className="shop-bridge-vcr">STEREO</span>
+          <span className="shop-bridge-recordings">MART</span>
         </h1>
         <p className="shop-bridge-lede">
           The catalog lives inside the store now. Step in, look around, and

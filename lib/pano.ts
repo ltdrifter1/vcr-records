@@ -27,7 +27,7 @@ export const SPHERE_RADIUS = 48;
 export const MFOV_RATIO = 4 / 3;
 
 /**
- * Explore MFOV — widened for VCR's denser room so architecture reads larger
+ * Explore MFOV — widened for Stereo Mart's denser room so architecture reads larger
  * and more of the ceiling / floor sightline remains visible.
  */
 export const MFOV_EXPLORE = 132;

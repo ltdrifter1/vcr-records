@@ -1,6 +1,6 @@
-# VCR Records
+# Stereo Mart
 
-`vcrrecords.com` is the immersive **360° store** (Next.js).  
+`stereo-mart.com` is the immersive **360° store** (Next.js).  
 Legacy catalog URLs under `/shop` redirect to a thin brand bridge that
 sends visitors into the room.
 
@@ -31,4 +31,4 @@ npm run dev
 
 ## Deploy
 
-Vercel project for this repo (Next.js). Domain `vcrrecords.com` should point at this deployment.
+Vercel project for this repo (Next.js). Domain `stereo-mart.com` should point at this deployment.

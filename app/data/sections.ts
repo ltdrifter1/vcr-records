@@ -6,6 +6,12 @@ import {
   SHOP_ITEMS,
   type SectionItem,
 } from './catalog';
+import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
+} from '@/lib/brand';
 
 /**
  * Content (releases, CRT channels, artists, shop rows) lives in ./catalog.ts —
@@ -79,9 +85,6 @@ export type Section = {
   /** list rendered inside the panel */
   items: SectionItem[];
 };
-
-const INSTAGRAM = 'https://www.instagram.com/vcr_recordings';
-const CONTACT_EMAIL = 'mailto:charlie@vcrrecords.com';
 
 /**
  * Discoverable hotspots around the 360° store.
@@ -224,21 +227,21 @@ export const SECTIONS: Section[] = [
     items: [
       {
         label: 'Charlie',
-        meta: 'charlie@vcrrecords.com',
+        meta: CONTACT_EMAIL,
         detail: 'Email',
         cta: 'Email',
         thumb: 'CH',
         thumbSrc: ART.charlie,
-        href: CONTACT_EMAIL,
+        href: CONTACT_MAILTO,
       },
       {
-        label: '@vcr_recordings',
+        label: INSTAGRAM_HANDLE,
         meta: 'Instagram',
         detail: 'Follow',
         cta: 'Follow',
         thumb: '@',
         thumbSrc: ART.ig,
-        href: INSTAGRAM,
+        href: INSTAGRAM_URL,
       },
     ],
   },
@@ -265,7 +268,7 @@ export const NAV_ORDER = [
 
 /**
  * URL hash slugs ↔ section ids (shareable deep links).
- * Example: https://vcrrecords.com/#shop
+ * Example: https://www.stereo-mart.com/#shop
  */
 export const HASH_BY_SECTION_ID: Record<string, string> = {
   'listening-booth': 'music',

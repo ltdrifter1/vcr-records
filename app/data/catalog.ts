@@ -1,6 +1,6 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────
- *  VCR IN-ROOM CONTENT CATALOG — edit this file to change what the store
+ *  STEREO MART IN-ROOM CONTENT CATALOG — edit this file to change what the store
  *  plays and sells. No other file needs touching for content updates.
  *
  *  · MUSIC_RELEASES → shelf rows in the Music (listening booth) panel.
@@ -166,7 +166,7 @@ export const MUSIC_RELEASES: SectionItem[] = [
 
 export const CRT_CHANNELS: SectionItem[] = [
   {
-    label: 'VCR-TV',
+    label: 'Stereo-TV',
     cta: 'Tune',
     thumbSrc: ART.vcr,
     videoSrc: VIDEO.station,
