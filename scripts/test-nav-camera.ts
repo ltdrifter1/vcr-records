@@ -150,11 +150,16 @@ const desktop = {
     musicSec.items.every((i) => !i.body),
     'Music level-1 stays basic — no shelf blurbs',
   );
-  const music = { w: 6, h: 9, lookFov: 95 };
+  const music = { w: 6, h: 9, lookFov: musicSec.lookFov };
   const desk = resolveLookMfov(music, desktop);
   const mob = resolveLookMfov(music, phone);
-  assert.equal(desk, 95);
-  assert.ok(mob > 95, `mobile music mfov ${mob} should widen past 95`);
+  assert.equal(desk, musicSec.lookFov);
+  assert.ok(mob > musicSec.lookFov, `mobile music mfov ${mob} should widen past ${musicSec.lookFov}`);
+  assert.ok(musicSec.w <= 32 && musicSec.h <= 18, 'Music glow hugs headphones/turntable shelf, not whole tower');
+  assert.ok(
+    SECTION_BY_ID['record-bins'].w <= 42 && SECTION_BY_ID['record-bins'].h <= 29,
+    'Artists glow hugs the bin wood, not the moss rug',
+  );
   console.log(`✓ music lookto desktop=${desk.toFixed(1)} mobile=${mob.toFixed(1)}`);
 }
 
