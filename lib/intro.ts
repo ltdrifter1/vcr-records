@@ -7,7 +7,11 @@ import {
   INTRO_DELAY,
   INTRO_DROP_V,
   INTRO_DUR,
+  INTRO_EXPLORE_EASE_DUR,
+  INTRO_PAN_DEG,
+  INTRO_REDUCED_DUR,
   MFOV_INTRO,
+  MFOV_INTRO_SETTLE,
   START_LOOK_U,
   START_LOOK_V,
   uToYaw,
@@ -22,22 +26,38 @@ export type IntroLookRefs = {
   fisheye: { current: number };
 };
 
+const DEG = Math.PI / 180;
+const TWO_PI = Math.PI * 2;
+
+const wrapYaw = (y: number) => {
+  let v = y % TWO_PI;
+  if (v > Math.PI) v -= TWO_PI;
+  if (v < -Math.PI) v += TWO_PI;
+  return v;
+};
+
+const smoothstep = (t: number) => {
+  const x = Math.max(0, Math.min(1, t));
+  return x * x * (3 - 2 * x);
+};
+
 /**
- * Enter choreography — balmingtiger drop pattern:
- *   1. Pre-enter pose looks almost straight down at the floor in the
- *      MIDDLE of the room (little-planet swirl under fisheye 1 / fov 160)
- *   2. One clean tilt UP to the level base view on the room's central
- *      axis while fisheye 1→0.3 and fov 160→explore — no yaw scanning
- * then unlock usercontrol at the base point.
+ * Enter choreography — balmingtiger clickIntro parity (mobile-safe zoom):
+ *   1. Pre-enter: near-ceiling little-planet (fisheye 1 / fov 160)
+ *   2. Soft yaw pan + tilt down into aisle middle while fov → MFOV_INTRO_SETTLE
+ *      (device-agnostic — not portrait-adapted explore, which kills zoom on iPhone)
+ *   3. Unlock look, then ease FOV into portrait-aware explore for free-look
  */
 export function playEnterIntro(
   controls: Controls,
   refs: IntroLookRefs,
   opts: { reduceMotion?: boolean; onComplete?: () => void } = {},
-) {
+): gsap.core.Timeline {
   const settleYaw = uToYaw(START_LOOK_U);
   const settlePitch = vToPitch(START_LOOK_V);
   const dropPitch = vToPitch(INTRO_DROP_V);
+  const startYaw = wrapYaw(settleYaw - INTRO_PAN_DEG * DEG);
+  const exploreMfov = resolveExploreMfov(measureViewport());
 
   const applyLook = (yaw: number, pitch: number, mfov: number, fisheye: number) => {
     controls.lookTarget.x = yaw;
@@ -51,55 +71,86 @@ export function playEnterIntro(
     controls.velocity.y = 0;
   };
 
-  const exploreMfov = resolveExploreMfov(measureViewport());
-
-  // Drop pose under the gate / first enter frame — floor swirl at room center
-  applyLook(settleYaw, dropPitch, MFOV_INTRO, FISHEYE_INTRO);
-  controls.userControl = false;
-  controls.followFactor = 0;
-  controls.lookAnimating = true;
-
-  if (opts.reduceMotion) {
-    applyLook(settleYaw, settlePitch, exploreMfov, FISHEYE_EXPLORE);
+  const unlockLook = () => {
     controls.lookAnimating = false;
     controls.userControl = true;
     if (typeof window !== 'undefined' && !window.matchMedia('(pointer: coarse)').matches) {
       controls.followFactor = 1;
     }
-    opts.onComplete?.();
-    return null;
-  }
+  };
+
+  // Drop pose under the gate / first enter frame — ceiling swirl at room middle
+  applyLook(startYaw, dropPitch, MFOV_INTRO, FISHEYE_INTRO);
+  controls.userControl = false;
+  controls.followFactor = 0;
+  controls.lookAnimating = true;
+
+  const tl = gsap.timeline({
+    onComplete: () => opts.onComplete?.(),
+  });
 
   const proxy = { t: 0, mfov: MFOV_INTRO, fisheye: FISHEYE_INTRO };
 
-  const tween = gsap.fromTo(
-    proxy,
-    { t: 0, mfov: MFOV_INTRO, fisheye: FISHEYE_INTRO },
-    {
+  if (opts.reduceMotion) {
+    // Short readable tilt — never an instant wide snap on iOS Reduce Motion.
+    tl.to(proxy, {
       t: 1,
-      mfov: exploreMfov,
-      fisheye: FISHEYE_EXPLORE,
-      duration: INTRO_DUR,
-      delay: INTRO_DELAY,
-      ease: 'power3.inOut',
+      duration: INTRO_REDUCED_DUR,
+      ease: 'power2.out',
       onUpdate: () => {
-        const t = proxy.t;
-        // Pure tilt-up: floor center → level base view (no yaw scanning).
-        const pitchT = t * t * (3 - 2 * t);
-        const pitch = dropPitch + (settlePitch - dropPitch) * pitchT;
-        applyLook(settleYaw, pitch, proxy.mfov, proxy.fisheye);
+        const u = smoothstep(proxy.t);
+        const yaw = startYaw + (settleYaw - startYaw) * u;
+        const pitch = dropPitch + (settlePitch - dropPitch) * u;
+        const mfov = MFOV_INTRO + (MFOV_INTRO_SETTLE - MFOV_INTRO) * u;
+        const fish = FISHEYE_INTRO + (FISHEYE_EXPLORE - FISHEYE_INTRO) * u;
+        applyLook(yaw, pitch, mfov, fish);
       },
       onComplete: () => {
-        applyLook(settleYaw, settlePitch, exploreMfov, FISHEYE_EXPLORE);
-        controls.lookAnimating = false;
-        controls.userControl = true;
-        if (typeof window !== 'undefined' && !window.matchMedia('(pointer: coarse)').matches) {
-          controls.followFactor = 1;
-        }
-        opts.onComplete?.();
+        applyLook(settleYaw, settlePitch, MFOV_INTRO_SETTLE, FISHEYE_EXPLORE);
+        unlockLook();
       },
-    },
-  );
+    });
+  } else {
+    tl.fromTo(
+      proxy,
+      { t: 0, mfov: MFOV_INTRO, fisheye: FISHEYE_INTRO },
+      {
+        t: 1,
+        mfov: MFOV_INTRO_SETTLE,
+        fisheye: FISHEYE_EXPLORE,
+        duration: INTRO_DUR,
+        delay: INTRO_DELAY,
+        ease: 'power3.inOut',
+        onUpdate: () => {
+          const u = smoothstep(proxy.t);
+          // Ceiling → aisle middle with soft yaw pan (BT clickIntro language).
+          const yaw = startYaw + (settleYaw - startYaw) * u;
+          const pitch = dropPitch + (settlePitch - dropPitch) * u;
+          applyLook(yaw, pitch, proxy.mfov, proxy.fisheye);
+        },
+        onComplete: () => {
+          applyLook(settleYaw, settlePitch, MFOV_INTRO_SETTLE, FISHEYE_EXPLORE);
+          unlockLook();
+        },
+      },
+    );
+  }
 
-  return tween;
+  // Portrait free-look widen after the cinematic zoom has already read.
+  if (Math.abs(exploreMfov - MFOV_INTRO_SETTLE) >= 0.5) {
+    const easeProxy = { mfov: MFOV_INTRO_SETTLE };
+    tl.to(easeProxy, {
+      mfov: exploreMfov,
+      duration: opts.reduceMotion ? 0.2 : INTRO_EXPLORE_EASE_DUR,
+      ease: 'power2.out',
+      onUpdate: () => {
+        controls.mfov = easeProxy.mfov;
+      },
+      onComplete: () => {
+        controls.mfov = exploreMfov;
+      },
+    });
+  }
+
+  return tl;
 }

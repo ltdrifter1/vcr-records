@@ -13,8 +13,9 @@
  *     → followrange=10, followspeed=0.05
  *
  * Enter (site_scripts.js clickIntro + little-planet-style settle):
- *   start at ceiling → soft yaw pan → land on listening booth
- *   while fisheye 1→0.3 and fov 160→explore over ~3s
+ *   start near ceiling → soft yaw pan → land aisle-center (middle)
+ *   while fisheye 1→0.3 and fov 160→intro-settle (~124) over ~3s,
+ *   then ease to portrait-aware explore for free-look.
  */
 /** Equirect source — upscaled 4K for cleaner lookto FOV~20 punch-ins. */
 export const PANO_WIDTH = 4096;
@@ -33,6 +34,12 @@ export const MFOV_RATIO = 4 / 3;
 export const MFOV_EXPLORE = 132;
 export const MFOV_INTRO = 160;
 /**
+ * Device-agnostic cinematic settle FOV for enter (not portrait-adapted).
+ * Portrait explore can land ~157° — only ~3° of zoom — so intro must
+ * settle here first, then ease into resolveExploreMfov for free-look.
+ */
+export const MFOV_INTRO_SETTLE = 124;
+/**
  * Free-look wheel clamp (krpano fovmin/fovmax).
  * lookto may punch below this (video ~20) — wheel/keys stay in this range.
  */
@@ -46,19 +53,30 @@ export const MFOV_LOOKTO_MIN = 20;
 export const FISHEYE_EXPLORE = 0.3;
 export const FISHEYE_INTRO = 1.0;
 
-/** Enter tween — floor-center drop → tilt up to the room's base view. */
-export const INTRO_DELAY = 0.35;
-export const INTRO_DUR = 3.0;
 /**
- * Pre-enter / drop pose: looking almost straight DOWN at the floor in the
- * middle of the room (krpano-style vlookat≈90 little-planet drop).
- * Kept just off the exact nadir to avoid equirect pole smearing.
+ * Enter tween — ceiling drop → soft yaw pan → aisle middle.
+ * INTRO_DELAY aligned so the FOV/planet beat starts as the gate clears (~0.4s).
  */
-export const INTRO_DROP_V = 0.96;
+export const GATE_FADE_DUR = 0.4;
+export const INTRO_DELAY = 0.45;
+export const INTRO_DUR = 3.0;
+/** Post-settle ease from cinematic FOV → portrait-aware explore. */
+export const INTRO_EXPLORE_EASE_DUR = 0.85;
+/** Short path when prefers-reduced-motion (tilt only, still readable). */
+export const INTRO_REDUCED_DUR = 0.65;
+/**
+ * Pre-enter / drop pose: looking almost straight UP at the ceiling so
+ * CLICK TO ENTER reveals a little-planet swirl, then tilts down into
+ * the middle of the aisle (BT clickIntro ceiling → settle).
+ * Kept just off the exact zenith to avoid equirect pole smearing.
+ */
+export const INTRO_DROP_V = 0.1;
+/** Soft yaw sweep (degrees) during the tilt — room reads as a place, not a still. */
+export const INTRO_PAN_DEG = 38;
 /**
  * Base view — the room's central axis (aisle vanishing point), the
- * equivalent of krpano hlookat=0 / vlookat=0. The intro tilts up to this
- * pose and every reset returns to it.
+ * equivalent of krpano hlookat=0 / vlookat=0. The intro lands here
+ * and every reset returns to it.
  */
 /** Center of the aisle after BackSide U-flip (texture u ↔ 1−u). */
 export const START_LOOK_U = 0.5;

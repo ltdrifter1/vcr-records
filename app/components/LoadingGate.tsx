@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useProgress } from '@react-three/drei';
 import gsap from 'gsap';
 
-import { LQIP_SRC } from '@/lib/pano';
+import { GATE_FADE_DUR, LQIP_SRC } from '@/lib/pano';
 
 /**
  * Entry gate — STEREO-MART v12 palette + LQIP preview of the cartoon room.
- * Fade out 0.4s then cinematic intro starts in Scene.
+ * Enter unlocks audio + drop pose, waits one paint, then fades so the
+ * little-planet frame is visible as the gate clears (iOS Safari sync).
  * Audio unlock must run in the click gesture (not deferred to GSAP alone).
  */
 export default function LoadingGate({
@@ -78,16 +79,25 @@ export default function LoadingGate({
   const enter = async () => {
     if (!ready || entering) return;
     setEntering(true);
-    // Unlock audio inside the user gesture before the fade tween.
+    // Unlock audio + flip enteredRef inside the user gesture.
     try {
       await onEntered();
     } catch {
       /* scene still enters even if audio fails */
     }
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Let Scene apply the ceiling / planet pose for at least one frame
+    // before fading — otherwise Safari can miss the intro start under the gate.
+    const waitForPose = () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      });
+    if (!reduce) await waitForPose();
     gsap.to(root.current, {
       opacity: 0,
-      duration: reduce ? 0 : 0.4,
+      duration: reduce ? 0 : GATE_FADE_DUR,
       ease: 'power1.inOut',
       onComplete: () => {
         if (root.current) root.current.style.display = 'none';
