@@ -1242,12 +1242,19 @@ html.has-custom-cursor * {
   opacity: 1;
 }
 
-/* Shop / New Releases — basic album + artist + dual CTAs */
+/* Shop / New Releases — square covers + equal dual CTAs */
 .panel.is-shop .panel-list--shelf {
   gap: 18px;
 }
 .panel-row--shop {
   padding: 10px;
+}
+.panel-row--shop .panel-thumb--shelf {
+  background: #0a0806;
+}
+.panel-row--shop .panel-thumb img {
+  object-fit: contain;
+  object-position: center;
 }
 .panel-row--shop .pc-label {
   font-size: clamp(20px, 2.8vw, 26px);
@@ -1260,18 +1267,60 @@ html.has-custom-cursor * {
   color: rgba(255, 255, 255, 0.68);
 }
 .panel-row--shop .panel-cta-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 8px;
   margin-top: 10px;
+  width: 100%;
+  max-width: 280px;
 }
 .panel-row--shop .panel-cta {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 34px;
+  padding: 0 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 11px;
-  padding: 6px 12px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 999px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    filter 0.2s ease;
 }
+/* Buy Now — solid amber purchase */
+.panel-row--shop .panel-cta:not(.panel-cta-secondary) {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #1a1610;
+  filter: saturate(1.05);
+}
+.panel-row--shop .panel-cta:not(.panel-cta-secondary):hover {
+  background: var(--cel-butter);
+  border-color: var(--cel-butter);
+  filter: brightness(1.06);
+}
+/* Listen — cool glass outline, same box */
 .panel-row--shop .panel-cta-secondary {
   cursor: pointer;
-  font: inherit;
   appearance: none;
+  background: rgba(125, 255, 179, 0.1);
+  border-color: rgba(125, 255, 179, 0.55);
+  color: #e8fff2;
+  filter: saturate(0.92);
+}
+.panel-row--shop .panel-cta-secondary:hover {
+  background: rgba(125, 255, 179, 0.2);
+  border-color: rgba(125, 255, 179, 0.85);
+  color: #fff;
+  filter: brightness(1.08) saturate(1.05);
 }
 
 /* Diegetic CRT channel guide — Videos browse stays in the room */
@@ -1532,9 +1581,11 @@ html.has-custom-cursor * {
 .panel-detail-art img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
   border-radius: 22px;
+  background: #0a0806;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.22),
     0 16px 36px rgba(0, 0, 0, 0.36);
@@ -2144,6 +2195,17 @@ html.has-custom-cursor * {
   .panel-row--shop {
     min-width: 168px;
     max-width: 188px;
+  }
+  /* Keep New Releases covers square so circular art isn’t cropped */
+  .panel-row--shop .panel-thumb--shelf,
+  .panel-row--shop .panel-thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+  }
+  .panel-row--shop .panel-cta-wrap {
+    max-width: none;
   }
   .panel-row--shop .pc-label {
     font-size: clamp(18px, 5vw, 22px);
