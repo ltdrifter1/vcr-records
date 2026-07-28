@@ -182,73 +182,129 @@ html.has-custom-cursor * {
   position: fixed;
   z-index: 32;
   border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
   display: grid;
   place-items: center;
   padding: 0;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.15s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
   font-family: var(--font-body), system-ui, sans-serif;
   font-weight: 700;
   font-size: 11px;
   letter-spacing: 0.14em;
   color: #fff;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.55);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+/* Shared frosted plate — readable over busy panorama on iOS */
+.chrome-fab {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(8, 14, 12, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 8px 22px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  color: #fff;
 }
 .mute-control {
-  right: max(20px, var(--sat-right));
+  right: max(16px, var(--sat-right));
   left: auto;
-  bottom: max(25px, calc(12px + var(--sat-bottom)));
-  width: 30px;
-  height: 30px;
-  transition: opacity 0.3s ease, transform 0.15s ease, pointer-events 0s;
+  bottom: max(20px, calc(12px + var(--sat-bottom)));
+  transition:
+    opacity 0.3s ease,
+    transform 0.15s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    pointer-events 0s;
   animation: chrome-in 0.7s 0.1s var(--motion-ease-out) both;
 }
 .mute-control.is-faded {
   opacity: 0;
   pointer-events: none;
 }
-.mute-control img {
+.mute-control.is-live {
+  color: #fff;
+}
+.mute-control-icon,
+.gyro-control-icon {
   display: block;
-  width: 28px;
-  height: 28px;
-  filter: drop-shadow(1px 1px 1px rgba(64, 64, 64, 0.75));
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.55));
 }
 .gyro-control {
+  /* Desktop / tablet fallback — still icon plate, not raw text */
   left: max(clamp(14px, 2.5vw, 28px), var(--sat-left));
+  right: auto;
   bottom: max(clamp(14px, 3vh, 28px), calc(12px + var(--sat-bottom)));
-  height: 32px;
-  min-height: 32px;
-  padding: 0 4px;
   animation: chrome-in 0.7s 0.16s var(--motion-ease-out) both;
 }
 .gyro-control.is-on {
-  color: var(--gold);
+  color: #fff;
+  border-color: color-mix(in srgb, var(--gold, #e9b21d) 55%, rgba(255, 255, 255, 0.25));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14) inset,
+    0 0 0 1px color-mix(in srgb, var(--gold, #e9b21d) 35%, transparent),
+    0 8px 22px rgba(0, 0, 0, 0.35);
+}
+.gyro-deny-tip {
+  position: fixed;
+  z-index: 33;
+  left: max(12px, var(--sat-left));
+  right: max(12px, var(--sat-right));
+  bottom: max(88px, calc(76px + var(--sat-bottom)));
+  margin: 0 auto;
+  max-width: 280px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(8, 14, 12, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  text-align: center;
+  pointer-events: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: chrome-in 0.35s var(--motion-ease-out) both;
 }
 .mute-control:hover:not(.is-faded),
 .gyro-control:hover {
   transform: translateY(-1px);
-  opacity: 0.92;
+  background: rgba(8, 14, 12, 0.68);
+}
+.mute-control:active:not(.is-faded),
+.gyro-control:active {
+  transform: translateY(0) scale(0.97);
 }
 @media (max-width: 570px) {
   .mute-control {
-    top: max(16px, calc(8px + var(--sat-top)));
+    top: max(14px, calc(8px + var(--sat-top)));
     bottom: auto;
     right: max(12px, var(--sat-right));
-    width: 44px;
-    height: 44px;
-  }
-  .mute-control img {
-    width: 22px;
-    height: 22px;
   }
   .gyro-control {
-    /* Keep clear of bottom conveyor + home indicator */
-    bottom: max(72px, calc(64px + var(--sat-bottom)));
-    min-height: 44px;
+    /* Top chrome cluster — left of mute, clear of bottom conveyor */
+    top: max(14px, calc(8px + var(--sat-top)));
+    bottom: auto;
+    left: auto;
+    right: calc(12px + 44px + 10px + var(--sat-right));
+  }
+  .gyro-deny-tip {
+    top: max(66px, calc(58px + var(--sat-top)));
+    bottom: auto;
+    right: max(12px, var(--sat-right));
+    left: auto;
+    max-width: min(220px, 70vw);
+    text-align: left;
   }
 }
 
@@ -2286,15 +2342,21 @@ html.has-custom-cursor * {
   left: 50%;
   bottom: clamp(28px, 5.5vh, 56px);
   transform: translateX(-50%) translateY(8px);
-  z-index: 16;
+  z-index: 28;
   display: inline-flex;
   align-items: center;
   gap: 12px;
   max-width: min(94vw, 420px);
-  padding: 0;
+  padding: 10px 16px;
   margin: 0;
-  border: 0;
-  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(8, 14, 12, 0.52);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 10px 28px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
   color: #fff;
   font-family: var(--font-body), system-ui, sans-serif;
   pointer-events: none;
@@ -2313,14 +2375,14 @@ html.has-custom-cursor * {
   place-items: center;
   flex-shrink: 0;
   color: rgba(255, 255, 255, 0.95);
-  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
   animation: drag-hint-nudge 1.55s var(--motion-ease) infinite;
 }
 .drag-hint-copy {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
 }
 .drag-hint-label {
   white-space: nowrap;
@@ -2336,6 +2398,18 @@ html.has-custom-cursor * {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.72);
+}
+@media (max-width: 570px) {
+  .drag-hint {
+    /* Clear bottom conveyor nav + iOS home indicator */
+    bottom: max(78px, calc(68px + var(--sat-bottom)));
+    gap: 10px;
+    padding: 10px 14px;
+    max-width: min(92vw, 360px);
+  }
+  .drag-hint-label {
+    letter-spacing: 0.1em;
+  }
 }
 
 @keyframes drag-hint-nudge {
