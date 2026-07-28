@@ -216,7 +216,7 @@ export const SHOP_ITEMS: SectionItem[] = [
     label: 'Inlet Knight',
     cta: 'Buy Now',
     thumb: 'IK',
-    thumbSrc: ART.inletKnightAlbumTall,
+    thumbSrc: ART.inletKnightAlbum,
     href: BUY.inletKnightAlbum,
     tracks: [
       { title: 'Revive Him', duration: '02:27' },
@@ -243,7 +243,7 @@ export const SHOP_ITEMS: SectionItem[] = [
     meta: 'Inlet Knight',
     cta: 'Buy Now',
     thumb: 'IK',
-    thumbSrc: ART.inletKnight,
+    thumbSrc: ART.atHome,
     href: BUY.atHomeDigital,
     previewSrc: PREVIEW.atHome,
     tracks: [
