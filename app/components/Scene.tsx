@@ -77,8 +77,8 @@ type Props = {
 
 /**
  * Camera rig — balmingtiger / krpano parity + cinematic enter:
- * - Enter: floor-center drop pose → single tilt UP to the level base view
- *   on the room's central axis while MFOV 160→132 + fisheye 1→0.3
+ * - Enter: ceiling little-planet → soft yaw pan → aisle middle
+ *   while MFOV 160→124 (device-agnostic) + fisheye 1→0.3, then ease to explore
  * - Look locked during intro; usercontrol=all on complete
  * - Click-and-drag with instant tracking + draginertia/dragfriction
  * - followmousecontrol lean on desktop (view.rx / view.ry)
@@ -108,7 +108,7 @@ function Rig({
   const followPitch = useRef(0);
   const wasEntered = useRef(false);
   const introDone = useRef(false);
-  const introTween = useRef<gsap.core.Tween | null>(null);
+  const introTween = useRef<gsap.core.Timeline | null>(null);
   const onIntroCompleteRef = useRef(onIntroComplete);
   onIntroCompleteRef.current = onIntroComplete;
 
@@ -118,8 +118,8 @@ function Rig({
     cam.far = SPHERE_RADIUS * 3;
     cam.position.set(0, 0, 0);
     cam.rotation.order = 'YXZ';
-    // Pre-enter: aimed at the floor center so CLICK TO ENTER reveals the
-    // little-planet drop in the middle of the room.
+    // Pre-enter: aimed near the ceiling so CLICK TO ENTER reveals the
+    // little-planet drop before tilting into the aisle middle.
     controls.lookTarget.x = settleYaw;
     controls.lookTarget.y = dropPitch;
     controls.velocity.x = 0;
@@ -148,7 +148,7 @@ function Rig({
     const aspect = size.width / Math.max(1, size.height);
     const dt = Math.min(0.05, delta);
 
-    // —— Intro: ceiling → pan → settle on hotspot ——
+    // —— Intro: ceiling → pan → settle aisle middle ——
     if (enteredRef.value && !wasEntered.current) {
       wasEntered.current = true;
       introTween.current?.kill();

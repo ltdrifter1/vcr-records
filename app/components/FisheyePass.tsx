@@ -8,8 +8,9 @@ import * as THREE from 'three';
 /**
  * krpano-style view.fisheye (balmingtiger explore = 0.3).
  *
- * Mild barrel only — keep expand/curve restrained so the packed store
- * doesn't feel squeezed or over-warped at explore FOV 120.
+ * Explore stays mild so the packed store doesn't feel squeezed.
+ * Intro (amount→1) ramps barrel + FOV expand for a readable little-planet
+ * swirl on iPhone, where FOV alone used to be nearly a no-op.
  */
 export default function FisheyePass({
   amountRef,
@@ -48,10 +49,12 @@ export default function FisheyePass({
             p.x *= uAspect;
 
             float k = clamp(uAmount, 0.0, 1.0);
+            // Bias warp toward intro (k→1) while keeping explore (k≈0.3) gentle.
+            float intro = smoothstep(0.28, 1.0, k);
             float r2 = dot(p, p);
-            // Gentle barrel — keeps roomy presence without warping/softening edges.
-            float radial = 1.0 + k * 0.11 * r2;
-            float fit = 1.0 / (1.0 + k * 0.11);
+            float barrel = mix(0.11, 0.34, intro);
+            float radial = 1.0 + k * barrel * r2;
+            float fit = 1.0 / (1.0 + k * barrel);
             vec2 q = p * radial * fit;
 
             q.x = clamp(q.x, -uAspect * 0.995, uAspect * 0.995);
@@ -113,8 +116,9 @@ export default function FisheyePass({
     const cam = camera as THREE.PerspectiveCamera;
     const baseFov = cam.fov;
 
-    // Explore k=0.3 → ~8% wider FOV before UV fit; lower warp = less resample blur.
-    const expand = 1 + k * 0.28;
+    // Explore k=0.3 → ~8% wider; intro k=1 → ~55% for little-planet presence.
+    const intro = Math.max(0, Math.min(1, (k - 0.28) / 0.72));
+    const expand = 1 + k * (0.28 + intro * 0.32);
 
     if (k < 0.008) {
       gl.setRenderTarget(null);
