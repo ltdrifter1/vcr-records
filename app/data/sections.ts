@@ -93,15 +93,16 @@ export const SECTIONS: Section[] = [
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
-    // v9 pano: LISTEN shelving tower with turntable + headphones
-    // (file x 262–445, y 248–625 of 1536×1024).
-    u: 0.77,
-    v: 0.426,
-    lookU: 0.77,
-    lookV: 0.44,
-    w: 41,
-    h: 68,
-    lookFov: 88,
+    // v9 pano: headphones + turntable on the mid shelf of the LISTEN tower
+    // (file ≈ x 298–445, y 408–512 of 1536×1024) — glow hugs the gear, not
+    // the whole booth. Hit/glow share this center.
+    u: 0.758,
+    v: 0.449,
+    lookU: 0.758,
+    lookV: 0.449,
+    w: 30,
+    h: 16,
+    lookFov: 70,
     sfx: 'music',
     goldEdge: true,
     hideHint: true,
@@ -150,14 +151,17 @@ export const SECTIONS: Section[] = [
     intro: '',
     accent: '#ff7a9c',
     // v9 pano: central record-bin island on the moss rug
-    // (file x 688–882, y 462–645 of 1536×1024).
+    // (file x 688–882, y 462–645 of 1536×1024). Hit hugs the wood tub;
+    // glow is a touch tighter so the rim doesn’t spill onto the moss.
     u: 0.489,
     v: 0.54,
     // Zoomed out over the whole open room
     lookU: 0.5,
     lookV: 0.53,
-    w: 46,
-    h: 31,
+    w: 40,
+    h: 28,
+    glowW: 38,
+    glowH: 26,
     lookFov: 105,
     sfx: 'artists',
     goldEdge: true,

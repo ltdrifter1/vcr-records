@@ -41,9 +41,9 @@ SEAM_BAND = 128  # px cross-faded across the wrap seam
 # Hotspot glow planes — MUST mirror app/data/sections.ts
 # (u, v, glowW ?? w, glowH ?? h). Edge masks are drawn in projected space.
 PLANES = {
-    "listening-booth": (0.77, 0.426, 41.0, 68.0),
+    "listening-booth": (0.758, 0.449, 30.0, 16.0),
     "crt-tv": (0.8691, 0.4736, 24.5, 14.0),
-    "record-bins": (0.489, 0.54, 46.0, 31.0),
+    "record-bins": (0.489, 0.54, 38.0, 26.0),
     "cash-register": (0.319, 0.44, 22.0, 16.0),
     "phone-booth": (0.237, 0.478, 17.0, 7.5),
 }
@@ -79,9 +79,9 @@ CRT_PLANE_RADIUS = 47.2  # SPHERE_RADIUS - 0.8 (CrtScreen.tsx)
 # its cream body matches the cream wall.
 # Register refine is OFF in v9: its cream body matches the cream wall again.
 SEG = {
-    "listening-booth": (120, 3, False),
+    "listening-booth": (120, 6, True),
     "crt-tv": (120, 15, True),
-    "record-bins": (120, 12, False),
+    "record-bins": (120, 8, True),
     "cash-register": (110, 20, False),
     "phone-booth": (110, 20, True),
 }
