@@ -62,6 +62,9 @@ export const ART = {
   atHome: '/panel-thumbs/at-home.webp',
   inletKnight: '/panel-thumbs/inlet-knight.webp',
   inletKnightTall: '/panel-thumbs/inlet-knight-tall.webp',
+  /** Self-titled Inlet Knight album — tugboat porthole cover. */
+  inletKnightAlbum: '/panel-thumbs/inlet-knight-album.webp',
+  inletKnightAlbumTall: '/panel-thumbs/inlet-knight-album-tall.webp',
   summer: '/panel-thumbs/summer.webp',
   lions: '/panel-thumbs/lions.webp',
   rack: '/panel-thumbs/rack.webp',
@@ -123,8 +126,7 @@ export const MUSIC_RELEASES: SectionItem[] = [
       { title: 'At Home', duration: '3:44' },
     ],
     listenOn: [
-      { label: 'Bandcamp', href: BUY.inletBc },
-      { label: 'Buy Digital', href: BUY.atHomeDigital },
+      { label: 'Buy Now', href: BUY.atHomeDigital },
     ],
   },
   {
@@ -148,8 +150,7 @@ export const MUSIC_RELEASES: SectionItem[] = [
       { title: 'Mood Indigo', duration: '3:02' },
     ],
     listenOn: [
-      { label: 'Bandcamp', href: BUY.ltdBc },
-      { label: 'Buy Digital', href: BUY.summerDigital },
+      { label: 'Buy Now', href: BUY.summerDigital },
     ],
   },
   {
@@ -160,7 +161,7 @@ export const MUSIC_RELEASES: SectionItem[] = [
     thumbSrc: ART.lions,
     previewSrc: PREVIEW.lions,
     tracks: [{ title: "Lions' Gate", duration: '0:35' }],
-    listenOn: [{ label: 'Buy Digital', href: BUY.lionsDigital }],
+    listenOn: [{ label: 'Buy Now', href: BUY.lionsDigital }],
   },
   {
     label: "Rack'em",
@@ -178,8 +179,7 @@ export const MUSIC_RELEASES: SectionItem[] = [
       { title: 'Same Time', duration: '3:57' },
     ],
     listenOn: [
-      { label: 'Bandcamp', href: BUY.rackBc },
-      { label: 'Buy Digital', href: BUY.rackDigital },
+      { label: 'Buy Now', href: BUY.rackDigital },
     ],
   },
 ];
@@ -214,10 +214,9 @@ export const ARTISTS: SectionItem[] = [
 export const SHOP_ITEMS: SectionItem[] = [
   {
     label: 'Inlet Knight',
-    meta: 'Inlet Knight',
     cta: 'Buy Now',
     thumb: 'IK',
-    thumbSrc: ART.inletKnightTall,
+    thumbSrc: ART.inletKnightAlbumTall,
     href: BUY.inletKnightAlbum,
     tracks: [
       { title: 'Revive Him', duration: '02:27' },
@@ -237,10 +236,7 @@ export const SHOP_ITEMS: SectionItem[] = [
       { title: 'Next Year', duration: '04:07' },
       { title: 'Art of Losing', duration: '02:06' },
     ],
-    listenOn: [
-      { label: 'Listen', href: BUY.inletKnightAlbum },
-      { label: 'Buy Now', href: BUY.inletKnightAlbum },
-    ],
+    listenOn: [{ label: 'Buy Now', href: BUY.inletKnightAlbum }],
   },
   {
     label: 'At Home',
@@ -255,9 +251,6 @@ export const SHOP_ITEMS: SectionItem[] = [
       { title: 'Will I See You Again?', duration: '3:58' },
       { title: 'At Home', duration: '3:44' },
     ],
-    listenOn: [
-      { label: 'Listen', href: BUY.inletBc },
-      { label: 'Buy Now', href: BUY.atHomeDigital },
-    ],
+    listenOn: [{ label: 'Buy Now', href: BUY.atHomeDigital }],
   },
 ];
