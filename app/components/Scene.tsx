@@ -268,7 +268,8 @@ function Rig({
     camera.rotation.y = env.look.x;
     camera.rotation.x = env.look.y;
     camera.rotation.z = 0;
-    camera.position.set(0, 0, 0);
+    // Walk eye offset — standing nearer a wall instead of FOV-only zoom.
+    camera.position.set(controls.eye.x, controls.eye.y, controls.eye.z);
   }, -1);
 
   return null;

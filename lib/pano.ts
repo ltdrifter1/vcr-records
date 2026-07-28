@@ -181,10 +181,12 @@ export function uvToLocal(u: number, v: number): [number, number, number] {
   return uvToSpherical(u, v, SPHERE_RADIUS - 0.35);
 }
 
-/** v9 — square-room PNW redesign: wide open oak floor + moss rug, sage
- * wainscot, cream walls, blue-grey door, charcoal fixtures, breathing room. */
-export const TEXTURE_SRC = '/textures/store_pano_v9.webp';
+/** v10 — LISTEN tower on the door/counter wall; CRT stays opposite. */
+export const TEXTURE_SRC = '/textures/store_pano_v10.webp';
 /** Darkened twin of the store — balmingtiger lights_off scene. */
-export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v9.webp';
-export const LQIP_SRC = '/textures/store_pano_lqip_v9.webp';
+export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v10.webp';
+export const LQIP_SRC = '/textures/store_pano_lqip_v10.webp';
 export const CRT_VIDEO_SRC = '/videos/channel_b.mp4';
+
+/** Max eye offset from sphere center (walk approach). */
+export const WALK_DOLLY_MAX = 12;

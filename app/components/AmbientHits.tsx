@@ -52,17 +52,17 @@ const WONDER_LINKS = [
  * a random outbound link (globe parity).
  */
 const HITS: AmbientHit[] = [
-  // Headphones on the stand in the LISTEN tower (v9) — wiggles on click
+  // Headphones on the stand in the relocated LISTEN tower (v10)
   {
     id: 'stool',
-    u: 0.7285,
-    v: 0.415,
+    u: 0.192,
+    v: 0.4,
     w: 2.4,
     h: 2.2,
     sfx: 'stool',
-    toy: { u: 0.735, v: 0.4346, w: 8, h: 10 },
+    toy: { u: 0.198, v: 0.412, w: 8, h: 10 },
   },
-  // Wall bin run between the tower and the island
+  // Wall bin run on the CRT side
   { id: 'crate', u: 0.655, v: 0.488, w: 4.5, h: 3.2, sfx: 'crate' },
   // Face-out record row on the wall shelf above the bins
   { id: 'poster', u: 0.656, v: 0.317, w: 3.5, h: 3.5, sfx: 'poster' },

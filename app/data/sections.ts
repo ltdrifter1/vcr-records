@@ -55,6 +55,11 @@ export type Section = {
    * (Music ~95 room view; Videos framed mid — not watch punch-in).
    */
   lookFov: number;
+  /**
+   * Optional walk approach — world units from sphere center toward the
+   * feature along the look ray. 0 = classic pivot-in-place. Typical 5–10.
+   */
+  walkDolly?: number;
   /** Object SFX key played on focus (see lib/audio.ts). */
   sfx: string;
   /**
@@ -93,16 +98,17 @@ export const SECTIONS: Section[] = [
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
-    // v9 pano: headphones + turntable on the mid shelf of the LISTEN tower
-    // (file ≈ x 298–445, y 408–512 of 1536×1024) — glow hugs the gear, not
-    // the whole booth. Hit/glow share this center.
-    u: 0.758,
-    v: 0.449,
-    lookU: 0.758,
-    lookV: 0.449,
-    w: 30,
-    h: 16,
-    lookFov: 70,
+    // v10 pano: LISTEN tower on the door/counter wall (opposite the CRT wall).
+    // file ≈ x 1180–1280, y 300–560 of 1536×1024 — turntable + headphones mid shelf.
+    u: 0.205,
+    v: 0.425,
+    lookU: 0.205,
+    lookV: 0.425,
+    w: 24,
+    h: 18,
+    lookFov: 68,
+    /** Approach the tower — walk feel vs FOV-only punch. */
+    walkDolly: 9,
     sfx: 'music',
     goldEdge: true,
     hideHint: true,
@@ -132,6 +138,7 @@ export const SECTIONS: Section[] = [
     glowW: 24.5,
     glowH: 14,
     lookFov: 48,
+    walkDolly: 10,
     sfx: 'video',
     // Keep warm gold aura latched while focused; watch overlay arms when
     // a channel row plays (NavigationController checks items.length).
@@ -163,6 +170,7 @@ export const SECTIONS: Section[] = [
     glowW: 38,
     glowH: 26,
     lookFov: 105,
+    walkDolly: 5,
     sfx: 'artists',
     goldEdge: true,
     hideHint: true,
@@ -188,6 +196,7 @@ export const SECTIONS: Section[] = [
     w: 22,
     h: 16,
     lookFov: 70,
+    walkDolly: 7.5,
     sfx: 'shop',
     goldEdge: true,
     hideHint: true,
@@ -204,13 +213,16 @@ export const SECTIONS: Section[] = [
     intro: '',
     accent: '#e8c07a',
     // v9 pano: black rotary phone on the counter (file x 1130–1215, y 468–512).
-    u: 0.237,
+    // Phone sits on the counter; nudged slightly toward register so it
+    // doesn’t collide with the relocated LISTEN tower hitbox.
+    u: 0.255,
     v: 0.478,
-    lookU: 0.245,
+    lookU: 0.255,
     lookV: 0.49,
-    w: 17,
+    w: 14,
     h: 7.5,
     lookFov: 55,
+    walkDolly: 8,
     sfx: 'phone',
     goldEdge: true,
     hideHint: true,
