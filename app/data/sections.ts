@@ -98,21 +98,19 @@ export const SECTIONS: Section[] = [
     kicker: 'Music',
     intro: '',
     accent: '#ffb347',
-    // v10 pano: LISTEN tower on the door/counter wall (opposite the CRT wall).
-    // file ≈ x 1180–1280, y 300–560 of 1536×1024 — turntable + headphones mid shelf.
-    u: 0.205,
-    v: 0.425,
-    lookU: 0.205,
-    lookV: 0.425,
-    w: 24,
-    h: 18,
-    lookFov: 68,
-    /** Approach the tower — walk feel vs FOV-only punch. */
-    walkDolly: 9,
+    // v11 pano: LISTEN tower on the far back wall (file ≈ x 713–823).
+    // Mid shelf = turntable + headphones; island bins stay below at higher v.
+    u: 0.5,
+    v: 0.42,
+    lookU: 0.5,
+    lookV: 0.415,
+    w: 18,
+    h: 22,
+    lookFov: 62,
+    walkDolly: 8,
     sfx: 'music',
     goldEdge: true,
     hideHint: true,
-    // Booth releases — edit app/data/catalog.ts to add or change rows.
     items: MUSIC_RELEASES,
   },
   {
@@ -160,15 +158,16 @@ export const SECTIONS: Section[] = [
     // v9 pano: central record-bin island on the moss rug
     // (file x 688–882, y 462–645 of 1536×1024). Hit hugs the wood tub;
     // glow is a touch tighter so the rim doesn’t spill onto the moss.
+    // Island on the moss rug — kept lower than the back-wall LISTEN tower.
     u: 0.489,
-    v: 0.54,
+    v: 0.555,
     // Zoomed out over the whole open room
     lookU: 0.5,
     lookV: 0.53,
-    w: 40,
-    h: 28,
-    glowW: 38,
-    glowH: 26,
+    w: 34,
+    h: 22,
+    glowW: 34,
+    glowH: 22,
     lookFov: 105,
     walkDolly: 5,
     sfx: 'artists',
@@ -186,21 +185,19 @@ export const SECTIONS: Section[] = [
     kicker: 'New Releases',
     intro: '',
     accent: '#9dff8a',
-    // v9 pano: register + display pole on the clean wood counter
-    // (file x 1003–1090, y 413–490 of 1536×1024).
-    // Spherical u = 1 − file_u after BackSide flip.
-    u: 0.319,
-    v: 0.44,
-    lookU: 0.3,
-    lookV: 0.49,
-    w: 22,
-    h: 16,
-    lookFov: 70,
-    walkDolly: 7.5,
+    // v11: cream register body ONLY (file ≈ x 1000–1060, y 420–490).
+    // Tight footprint so glow/hit do not include shelves behind the counter.
+    u: 0.329,
+    v: 0.455,
+    lookU: 0.329,
+    lookV: 0.455,
+    w: 9,
+    h: 7.5,
+    lookFov: 48,
+    walkDolly: 8,
     sfx: 'shop',
     goldEdge: true,
     hideHint: true,
-    // New Releases — edit app/data/catalog.ts to add or change rows.
     items: SHOP_ITEMS,
   },
   {
@@ -212,16 +209,14 @@ export const SECTIONS: Section[] = [
     kicker: 'Contact',
     intro: '',
     accent: '#e8c07a',
-    // v9 pano: black rotary phone on the counter (file x 1130–1215, y 468–512).
-    // Phone sits on the counter; nudged slightly toward register so it
-    // doesn’t collide with the relocated LISTEN tower hitbox.
-    u: 0.255,
-    v: 0.478,
-    lookU: 0.255,
-    lookV: 0.49,
-    w: 14,
-    h: 7.5,
-    lookFov: 55,
+    // v11: black rotary on the counter (file ≈ x 1160–1210).
+    u: 0.229,
+    v: 0.499,
+    lookU: 0.229,
+    lookV: 0.495,
+    w: 11,
+    h: 6.5,
+    lookFov: 50,
     walkDolly: 8,
     sfx: 'phone',
     goldEdge: true,

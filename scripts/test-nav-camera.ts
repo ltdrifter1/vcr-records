@@ -163,15 +163,26 @@ const desktop = {
   const mob = resolveLookMfov(music, phone);
   assert.equal(desk, musicSec.lookFov);
   assert.ok(mob > musicSec.lookFov, `mobile music mfov ${mob} should widen past ${musicSec.lookFov}`);
-  assert.ok(musicSec.w <= 32 && musicSec.h <= 20, 'Music glow hugs headphones/turntable shelf, not whole tower');
+  assert.ok(musicSec.w <= 32 && musicSec.h <= 24, 'Music glow hugs headphones/turntable shelf, not whole tower');
   assert.ok(
-    musicSec.u < 0.35,
-    'Music / LISTEN sits on the door-side wall (opposite CRT)',
+    Math.abs(musicSec.u - 0.5) < 0.05,
+    'Music / LISTEN sits on the far back wall',
   );
   assert.ok((musicSec.walkDolly ?? 0) >= 6, 'Music uses walk approach dolly');
   assert.ok(
     SECTION_BY_ID['record-bins'].w <= 42 && SECTION_BY_ID['record-bins'].h <= 29,
     'Artists glow hugs the bin wood, not the moss rug',
+  );
+  const shopSec = SECTION_BY_ID['cash-register'];
+  assert.ok(shopSec.w <= 12 && shopSec.h <= 11, 'Shop hitbox is the register body, not shelves behind');
+  assert.ok(shopSec.h <= 8, 'Shop height stays on the register, not wall shelves');
+  assert.ok(
+    Math.abs((shopSec.lookU ?? shopSec.u) - shopSec.u) < 0.01,
+    'Shop lookto aims at the register, not the shelf wall',
+  );
+  assert.ok(
+    Math.abs(shopSec.u - 0.329) < 0.02 && Math.abs(shopSec.v - 0.455) < 0.02,
+    'Shop centers on the cream cash register',
   );
   const musicTarget = resolveLookTarget(musicSec, desktop);
   assert.ok(
