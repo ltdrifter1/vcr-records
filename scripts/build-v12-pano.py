@@ -69,6 +69,10 @@ TOY_SPRITES = {
     "stool": (0.500, 0.428, 12.0, 14.0, "flood"),  # headphones on back-wall LISTEN
     "owl": (0.4271, 0.4727, 20.0, 28.5, "flood"),  # plant on its stand
     "cushion": (0.09, 0.617, 26.0, 7.6, "patch"),  # doormat
+    "crate": (0.655, 0.488, 18.0, 14.0, "flood"),  # wall bin run
+    "poster": (0.656, 0.317, 16.0, 16.0, "flood"),  # face-out shelf records
+    "fire": (0.609, 0.703, 18.0, 12.0, "patch"),  # moss rug pool
+    "wonder": (0.0885, 0.41, 14.0, 18.0, "patch"),  # door / street window
 }
 MASK_PLANE_RADIUS = 47.5  # SPHERE_RADIUS - 0.5 (Hotspot.tsx)
 CRT_PLANE_RADIUS = 47.2  # SPHERE_RADIUS - 0.8 (CrtScreen.tsx)

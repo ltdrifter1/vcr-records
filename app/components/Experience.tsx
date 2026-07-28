@@ -12,6 +12,7 @@ import MuteControl from './MuteControl';
 import GyroButton, { createGyro } from './GyroButton';
 import DragHint from './DragHint';
 import CustomCursor from './CustomCursor';
+import WonderToast from './WonderToast';
 import {
   createNavState,
   createNavigationController,
@@ -309,6 +310,7 @@ export default function Experience() {
       <GyroButton visible={canLook} gyroRef={gyroRef} />
       <TopNav visible={canLook} activeId={active} onOpen={open} />
       <DragHint active={canLook} controls={controls} reduceMotion={reduceMotion} />
+      <WonderToast active={canLook} />
 
       <SectionPanel
         activeId={active}

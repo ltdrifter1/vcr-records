@@ -1,6 +1,6 @@
 'use client';
 
-import { BANDCAMP_URL, INSTAGRAM_URL } from '@/lib/brand';
+import { BANDCAMP_URL, BRAND_NAME, INSTAGRAM_URL } from '@/lib/brand';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { type ThreeEvent } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
@@ -12,7 +12,7 @@ import { playSfx } from '@/lib/audio';
 import { useSceneEnv, type Controls } from './sceneContext';
 
 /** Visible click reaction — alpha-cut billboard of the painted object
- * (baked by scripts/build-v9-pano.py as /hotspots/toy_<id>.webp). */
+ * (baked by scripts/build-v12-pano.py as /hotspots/toy_<id>.webp). */
 type ToyPlane = {
   u: number;
   v: number;
@@ -31,29 +31,39 @@ type AmbientHit = {
   toy?: ToyPlane;
   /**
    * balmingtiger globe class — click opens a random wonder link
-   * instead of (or after) playing SFX.
+   * after a short confirm toast (not a silent eject).
    */
   wonder?: boolean;
 };
 
+type WonderLink = { href: string; label: string };
+
 /** Outbound “globe” destinations — Bandcamp / IG / maps rabbit holes. */
-const WONDER_LINKS = [
-  BANDCAMP_URL,
-  INSTAGRAM_URL,
-  'https://ltdrifta.bandcamp.com',
-  'https://inletknight.bandcamp.com',
-  'https://drifta.bandcamp.com',
-  'https://www.google.com/maps/@49.2827,-123.1207,3a,75y,90t/data=!3m1!1e3',
-  'https://www.google.com/maps/@45.5231,-122.6765,3a,75y,120t/data=!3m1!1e3',
+const WONDER_LINKS: WonderLink[] = [
+  { href: BANDCAMP_URL, label: `${BRAND_NAME} on Bandcamp` },
+  { href: INSTAGRAM_URL, label: `${BRAND_NAME} on Instagram` },
+  { href: 'https://ltdrifta.bandcamp.com', label: 'LT Drifta on Bandcamp' },
+  { href: 'https://inletknight.bandcamp.com', label: 'Inlet Knight on Bandcamp' },
+  { href: 'https://drifta.bandcamp.com', label: 'Drifta on Bandcamp' },
+  {
+    href: 'https://www.google.com/maps/@49.2827,-123.1207,3a,75y,90t/data=!3m1!1e3',
+    label: 'Street view — Vancouver',
+  },
+  {
+    href: 'https://www.google.com/maps/@45.5231,-122.6765,3a,75y,120t/data=!3m1!1e3',
+    label: 'Street view — Portland',
+  },
 ];
+
+export const WONDER_EVENT = 'stereo-mart-wonder';
 
 /**
  * Non-nav diegetic toys — balmingtiger cushion / owl / fire / globe class.
- * Invisible click meshes: unique SFX, plus one wonder object that opens
- * a random outbound link (globe parity).
+ * Invisible click meshes + visible sprite wiggles; wonder opens outbound
+ * after a confirm toast.
  */
 const HITS: AmbientHit[] = [
-  // Headphones on the back-wall LISTEN tower (v11)
+  // Headphones on the back-wall LISTEN tower
   {
     id: 'stool',
     u: 0.492,
@@ -64,9 +74,25 @@ const HITS: AmbientHit[] = [
     toy: { u: 0.5, v: 0.428, w: 12, h: 14 },
   },
   // Wall bin run on the CRT side
-  { id: 'crate', u: 0.655, v: 0.488, w: 4.5, h: 3.2, sfx: 'crate' },
+  {
+    id: 'crate',
+    u: 0.655,
+    v: 0.488,
+    w: 4.5,
+    h: 3.2,
+    sfx: 'crate',
+    toy: { u: 0.655, v: 0.488, w: 18, h: 14 },
+  },
   // Face-out record row on the CRT-side wall shelf
-  { id: 'poster', u: 0.656, v: 0.317, w: 3.5, h: 3.5, sfx: 'poster' },
+  {
+    id: 'poster',
+    u: 0.656,
+    v: 0.317,
+    w: 3.5,
+    h: 3.5,
+    sfx: 'poster',
+    toy: { u: 0.656, v: 0.317, w: 16, h: 16 },
+  },
   // Doormat by the entry door — dust-off wiggle on click
   {
     id: 'cushion',
@@ -88,7 +114,15 @@ const HITS: AmbientHit[] = [
     toy: { u: 0.4271, v: 0.4727, w: 20, h: 28.5 },
   },
   // Moss rug pool on the open floor
-  { id: 'fire', u: 0.609, v: 0.703, w: 2.8, h: 2.6, sfx: 'fire' },
+  {
+    id: 'fire',
+    u: 0.609,
+    v: 0.703,
+    w: 2.8,
+    h: 2.6,
+    sfx: 'fire',
+    toy: { u: 0.609, v: 0.703, w: 18, h: 12 },
+  },
   // Globe / wonder — the door window looking onto the street
   {
     id: 'wonder',
@@ -98,6 +132,7 @@ const HITS: AmbientHit[] = [
     h: 2.4,
     sfx: 'wonder',
     wonder: true,
+    toy: { u: 0.0885, v: 0.41, w: 14, h: 18 },
   },
 ];
 
@@ -127,7 +162,13 @@ function ToySprite({
     const m = mesh.current;
     const material = mat.current;
     if (!pulse || !m || !material) return;
-    if (env.reduceMotion) return;
+    if (env.reduceMotion) {
+      material.opacity = 0.85;
+      const id = window.setTimeout(() => {
+        material.opacity = 0;
+      }, 220);
+      return () => window.clearTimeout(id);
+    }
 
     gsap.killTweensOf([m.rotation, m.scale, material]);
     const baseZ = m.rotation.z;
@@ -195,10 +236,12 @@ function AmbientMesh({
     playSfx(hit.sfx);
     if (hit.toy) setPulse((p) => p + 1);
     if (hit.wonder) {
-      const href = WONDER_LINKS[Math.floor(Math.random() * WONDER_LINKS.length)];
-      window.setTimeout(() => {
-        window.open(href, '_blank', 'noopener,noreferrer');
-      }, 280);
+      const pick = WONDER_LINKS[Math.floor(Math.random() * WONDER_LINKS.length)];
+      window.dispatchEvent(
+        new CustomEvent(WONDER_EVENT, {
+          detail: pick,
+        }),
+      );
     }
   };
 
