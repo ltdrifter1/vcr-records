@@ -1,6 +1,6 @@
 /**
  * Section ↔ URL hash helpers for shareable deep links.
- * Example: https://vcrrecords.com/#shop
+ * Example: https://www.stereo-mart.com/#shop
  */
 import {
   HASH_BY_SECTION_ID,

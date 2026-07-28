@@ -1,6 +1,6 @@
-# VCR Records
+# STEREO-MART
 
-`vcrrecords.com` is the immersive **360° store** (Next.js).  
+`stereo-mart.com` is the immersive **360° store** (Next.js).  
 Legacy catalog URLs under `/shop` redirect to a thin brand bridge that
 sends visitors into the room.
 
@@ -17,7 +17,7 @@ Top-nav **Shop** and the cash-register hotspot open the **in-room counter panel*
 ## Content
 
 In-room releases, CRT channels, and shop rows live in **`app/data/catalog.ts`** —
-edit that file to add or change what the store plays and sells.
+edit that file to change what the store plays and sells.
 
 ## Develop
 
@@ -31,4 +31,4 @@ npm run dev
 
 ## Deploy
 
-Vercel project for this repo (Next.js). Domain `vcrrecords.com` should point at this deployment.
+Vercel project for this repo (Next.js). Domain `stereo-mart.com` should point at this deployment.

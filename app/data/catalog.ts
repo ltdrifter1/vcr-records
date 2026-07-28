@@ -1,6 +1,6 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────
- *  VCR IN-ROOM CONTENT CATALOG — edit this file to change what the store
+ *  STEREO-MART IN-ROOM CONTENT CATALOG — edit this file to change what the store
  *  plays and sells. No other file needs touching for content updates.
  *
  *  · MUSIC_RELEASES → shelf rows in the Music (listening booth) panel.
@@ -68,7 +68,7 @@ export const ART = {
   summer: '/panel-thumbs/summer.webp',
   lions: '/panel-thumbs/lions.webp',
   rack: '/panel-thumbs/rack.webp',
-  vcr: '/panel-thumbs/vcr.webp',
+  stereoMartTv: '/panel-thumbs/stereo-mart-tv.webp',
   charlie: '/panel-thumbs/charlie.webp',
   ltd: '/panel-thumbs/ltd.webp',
   classic: '/panel-thumbs/classic.webp',
@@ -166,9 +166,9 @@ export const MUSIC_RELEASES: SectionItem[] = [
 
 export const CRT_CHANNELS: SectionItem[] = [
   {
-    label: 'VCR-TV',
+    label: 'STEREO-MART-TV',
     cta: 'Tune',
-    thumbSrc: ART.vcr,
+    thumbSrc: ART.stereoMartTv,
     videoSrc: VIDEO.station,
   },
 ];

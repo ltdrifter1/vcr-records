@@ -27,7 +27,7 @@ export const SPHERE_RADIUS = 48;
 export const MFOV_RATIO = 4 / 3;
 
 /**
- * Explore MFOV — widened for VCR's denser room so architecture reads larger
+ * Explore MFOV — widened for STEREO-MART's denser room so architecture reads larger
  * and more of the ceiling / floor sightline remains visible.
  */
 export const MFOV_EXPLORE = 132;
@@ -181,7 +181,7 @@ export function uvToLocal(u: number, v: number): [number, number, number] {
   return uvToSpherical(u, v, SPHERE_RADIUS - 0.35);
 }
 
-/** v12 — STEREO MART Y2K cartoon redraw; Shop tightly on the cash register. */
+/** v12 — STEREO-MART Y2K cartoon redraw; Shop tightly on the cash register. */
 export const TEXTURE_SRC = '/textures/store_pano_v12.webp';
 /** Darkened twin of the store — balmingtiger lights_off scene. */
 export const TEXTURE_OFF_SRC = '/textures/store_pano_off_v12.webp';

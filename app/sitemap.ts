@@ -1,16 +1,17 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/brand';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
     {
-      url: 'https://www.vcrrecords.com/',
+      url: `${SITE_URL}/`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://www.vcrrecords.com/shop',
+      url: `${SITE_URL}/shop`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.6,
