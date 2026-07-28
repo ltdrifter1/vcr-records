@@ -9,8 +9,7 @@ import gsap from 'gsap';
 import { LQIP_SRC } from '@/lib/pano';
 
 /**
- * Entry gate — premium PNW dusk field + cel-glow brand mark.
- * LQIP store preview sits under the mist so load already feels like the room.
+ * Entry gate — STEREO-MART v12 palette + LQIP preview of the cartoon room.
  * Fade out 0.4s then cinematic intro starts in Scene.
  * Audio unlock must run in the click gesture (not deferred to GSAP alone).
  */

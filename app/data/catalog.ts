@@ -68,7 +68,7 @@ export const ART = {
   summer: '/panel-thumbs/summer.webp',
   lions: '/panel-thumbs/lions.webp',
   rack: '/panel-thumbs/rack.webp',
-  vcr: '/panel-thumbs/vcr.webp',
+  stereoMartTv: '/panel-thumbs/stereo-mart-tv.webp',
   charlie: '/panel-thumbs/charlie.webp',
   ltd: '/panel-thumbs/ltd.webp',
   classic: '/panel-thumbs/classic.webp',
@@ -168,7 +168,7 @@ export const CRT_CHANNELS: SectionItem[] = [
   {
     label: 'STEREO-MART-TV',
     cta: 'Tune',
-    thumbSrc: ART.vcr,
+    thumbSrc: ART.stereoMartTv,
     videoSrc: VIDEO.station,
   },
 ];

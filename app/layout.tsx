@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
     title: siteTitle,
   },
+  icons: {
+    apple: '/apple-touch-icon.png',
+  },
   formatDetection: {
     telephone: false,
   },
@@ -67,7 +70,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0b1f18',
+  themeColor: '#121816',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
