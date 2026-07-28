@@ -7,7 +7,7 @@ import gsap from 'gsap';
 import { LQIP_SRC } from '@/lib/pano';
 
 /**
- * Entry gate — PNW modern field + 90s cel glow brand mark.
+ * Entry gate — premium PNW dusk field + cel-glow brand mark.
  * LQIP store preview sits under the mist so load already feels like the room.
  * Fade out 0.4s then cinematic intro starts in Scene.
  * Audio unlock must run in the click gesture (not deferred to GSAP alone).
@@ -95,7 +95,7 @@ export default function LoadingGate({
   };
 
   return (
-    <div className="gate" ref={root} role="dialog" aria-label="Enter VCR Recordings">
+    <div className="gate" ref={root} role="dialog" aria-label="Enter VCR Record Shop">
       <div className={`gate-lqip${lqipOn ? ' is-on' : ''}`} aria-hidden>
         <img src={LQIP_SRC} alt="" draggable={false} />
         <span className="gate-lqip-veil" />
@@ -107,14 +107,17 @@ export default function LoadingGate({
         <span className="gate-orb gate-orb-a" />
         <span className="gate-orb gate-orb-b" />
         <span className="gate-grain" />
+        <span className="gate-frame gate-frame-top" />
+        <span className="gate-frame gate-frame-bottom" />
       </div>
 
       <div className="gate-inner" ref={inner}>
         <h1 className="gate-mark">
           <span className="gate-mark-vcr">VCR</span>
-          <span className="gate-mark-recordings">RECORDINGS</span>
+          <span className="gate-mark-shop">RECORD SHOP</span>
         </h1>
-        <p className="gate-sub">Best experienced with your device&apos;s audio enabled</p>
+        <span className="gate-rule" aria-hidden />
+        <p className="gate-sub">Best experienced with audio enabled</p>
 
         <div
           className="gate-bar"
@@ -127,7 +130,7 @@ export default function LoadingGate({
           <i ref={bar} />
         </div>
         <div className="gate-status">
-          <span>{ready ? 'Ready' : 'Loading'}</span>
+          <span>{ready ? 'Ready' : 'Preparing the shop'}</span>
           <span>{pct}%</span>
         </div>
 
@@ -139,7 +142,7 @@ export default function LoadingGate({
           disabled={!ready || entering}
           data-cursor="click"
         >
-          {ready ? 'CLICK TO ENTER' : 'LOADING…'}
+          {ready ? 'Enter the shop' : 'Loading…'}
         </button>
       </div>
     </div>
