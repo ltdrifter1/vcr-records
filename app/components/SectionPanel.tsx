@@ -190,7 +190,7 @@ function DetailBody({
             {buyLinks.map((l) => (
               <a
                 key={l.label}
-                className="panel-cta panel-cta-pill"
+                className="panel-cta panel-cta-buy"
                 href={l.href}
                 target={l.href.startsWith('mailto:') ? undefined : '_blank'}
                 rel={l.href.startsWith('mailto:') ? undefined : 'noreferrer'}
@@ -412,11 +412,8 @@ export default function SectionPanel({
   const contactPanel = section?.id === 'phone-booth';
   const shopPanel = section?.id === 'cash-register';
   const musicPanel = section?.id === 'listening-booth';
-  // Hero kickers for browse panels; Contact stays BT-compact (no giant title).
-  // Shop keeps a title, but uses the compact hero scale.
-  const heroKicker = Boolean(
-    section?.kicker?.trim() && !section.title?.trim() && !contactPanel,
-  );
+  // One shared section title scale for every browse panel (Music → Contact).
+  const heroKicker = Boolean(section?.kicker?.trim() && !section.title?.trim());
 
   const handleBack = () => {
     if (detail) {
@@ -510,9 +507,7 @@ export default function SectionPanel({
           <>
             <div className="panel-level panel-level-1" ref={level1}>
               {section.kicker ? (
-                <p
-                  className={`panel-kicker${heroKicker ? ' is-hero' : ''}${shopPanel ? ' is-compact' : ''}`}
-                >
+                <p className={`panel-kicker${heroKicker ? ' is-hero' : ''}`}>
                   {section.kicker}
                 </p>
               ) : null}
@@ -618,7 +613,7 @@ export default function SectionPanel({
                             <div className="panel-cta-wrap">
                               {it.href ? (
                                 <a
-                                  className="panel-cta"
+                                  className="panel-cta panel-cta-buy"
                                   href={it.href}
                                   target="_blank"
                                   rel="noopener noreferrer"
