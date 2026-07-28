@@ -258,6 +258,12 @@ export function useInteractionManager(
 
     const onWheel = (e: WheelEvent) => {
       if (!enabledRef.current || !controls.userControl) return;
+      // Panel lives inside `.stage` — don't steal wheel from glass scroll.
+      if (focusedRef?.current?.value) return;
+      const t = e.target;
+      if (t instanceof Element && t.closest('.panel, .panel-root, .panel-nest-sheet')) {
+        return;
+      }
       interruptLook();
       e.preventDefault();
       const delta =

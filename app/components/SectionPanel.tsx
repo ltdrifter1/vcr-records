@@ -494,6 +494,7 @@ export default function SectionPanel({
         aria-modal="true"
         aria-label={section?.title || section?.kicker || section?.nav}
         onPointerDown={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
       >
         <button
           ref={backBtn}
@@ -681,6 +682,7 @@ export default function SectionPanel({
           aria-modal="true"
           aria-label={detail.label}
           onPointerDown={(e) => e.stopPropagation()}
+          onWheel={(e) => e.stopPropagation()}
         >
           <button
             ref={nestBackBtn}

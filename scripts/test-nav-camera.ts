@@ -125,7 +125,14 @@ const desktop = {
 // 3) Music booth: desktop authored 95 (room view); phone adapted wider; coming soon
 {
   const musicSec = SECTION_BY_ID['listening-booth'];
-  assert.ok(musicSec.items.length >= 3, 'Music booth lists the catalog releases');
+  assert.ok(musicSec.items.length === 2, 'Music booth lists At Home + Inlet Knight');
+  assert.equal(musicSec.items[0].label, 'At Home');
+  assert.equal(musicSec.items[1].label, 'Inlet Knight');
+  assert.ok(
+    musicSec.items[1].tracks && musicSec.items[1].tracks.length === 16,
+    'Inlet Knight album has full 16-track list',
+  );
+  assert.ok(musicSec.items[1].previewSrc, 'Inlet Knight has a booth preview snip');
   assert.ok(
     musicSec.items.every((i) => i.previewSrc),
     'every Music release needs a booth preview',
