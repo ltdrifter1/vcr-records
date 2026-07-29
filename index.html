@@ -298,84 +298,50 @@
     .rel-title { font-size: 19px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
     .rel-year { font-size: 13px; color: var(--dim); margin-top: 5px; }
 
-    /* ARTISTS */
-    .artists {
-      background: var(--surface);
-      border-block: 1px solid var(--line);
-    }
-    .artist-list { display: flex; flex-direction: column; }
-    .artist-row {
-      display: grid;
-      grid-template-columns: 88px 1fr auto;
-      gap: 20px; align-items: center;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .artist-row:last-child { border-bottom: none; }
-    @media (max-width: 520px) {
-      .artist-row { grid-template-columns: 72px 1fr; }
-      .artist-meta { display: none; }
-      .artist-row img { width: 72px; height: 72px; }
-    }
-    .artist-row img {
-      width: 88px; height: 88px; border-radius: 50%;
-      object-fit: cover; background: #e8e8ed;
-    }
-    .artist-name { font-size: 24px; font-weight: 600; letter-spacing: -.025em; }
-    .artist-role { font-size: 14px; color: var(--muted); margin-top: 3px; }
-    .artist-meta { font-size: 13px; font-weight: 500; color: var(--dim); text-align: right; }
 
-    /* MERCH */
-    .merch-grid {
+
+    /* EXPLORE */
+    .explore-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
-    @media (max-width: 760px) {
-      .merch-grid { grid-template-columns: 1fr; max-width: 420px; }
-    }
-    .merch-card {
+    @media (max-width: 700px) { .explore-grid { grid-template-columns: 1fr; } }
+    .explore-card {
+      display: flex; flex-direction: column; gap: 10px;
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 28px 26px;
       box-shadow: var(--shadow);
-      display: flex; flex-direction: column; gap: 14px;
       transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+      min-height: 210px;
     }
     @media (hover:hover) {
-      .merch-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-      .merch-card:hover .merch-img img { transform: scale(1.03); }
+      .explore-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
     }
-    .merch-img {
-      aspect-ratio: 1; border-radius: 14px; overflow: hidden;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
+    .explore-kicker {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim);
     }
-    .merch-img img {
-      width: 100%; height: 100%; object-fit: contain; padding: 16px;
-      transition: transform .5s var(--ease);
+    .explore-title {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: 1.05;
     }
-    .merch-name { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
-    .merch-price { font-size: 14px; color: var(--dim); margin-top: 2px; }
-    .merch-options { display: flex; gap: 6px; flex-wrap: wrap; }
-    .merch-opt {
-      height: 30px; padding: 0 12px;
-      border-radius: var(--pill);
-      background: var(--fill-hi); color: var(--muted);
-      font-size: 12px; font-weight: 500;
-      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+    .explore-desc {
+      font-size: 15px; color: var(--muted);
+      max-width: 28em; line-height: 1.45;
+      margin-top: 2px; flex: 1;
     }
-    @media (hover:hover) { .merch-opt:hover { color: var(--text); } }
-    .merch-opt.selected { background: var(--text); color: #fff; }
-    .merch-add {
-      height: 42px; width: 100%; margin-top: auto;
-      border-radius: var(--pill);
-      background: var(--text); color: #fff;
-      font-size: 14px; font-weight: 500;
-      transition: opacity var(--dur) var(--ease), transform 180ms var(--ease);
+    .explore-cta {
+      display: inline-flex; align-items: center;
+      margin-top: 10px;
+      font-size: 14px; font-weight: 600;
+      color: var(--text);
     }
-    .merch-add:active { transform: scale(.97); }
-    @media (hover:hover) { .merch-add:hover { opacity: .86; } }
+    .explore-cta::after { content: " →"; }
 
     /* FOOTER */
     .footer {
@@ -467,8 +433,8 @@
       <a href="#featured">Featured</a>
       <a href="#releases">Releases</a>
       <a href="#listen">Listen</a>
-      <a href="#artists">Artists</a>
-      <a href="#merch">Merch</a>
+      <a href="artists.html">Artists</a>
+      <a href="merch.html">Merch</a>
     </nav>
     <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -480,8 +446,8 @@
   <a href="#featured">Featured</a>
   <a href="#releases">Releases</a>
   <a href="#listen">Listen</a>
-  <a href="#artists">Artists</a>
-  <a href="#merch">Merch</a>
+  <a href="artists.html">Artists</a>
+  <a href="merch.html">Merch</a>
 </div>
 
 <div class="page-start">
@@ -567,108 +533,30 @@
       </div>
     </section>
 
-    <section class="artists section" id="artists">
+    <section class="section" id="explore" aria-label="Explore">
       <div class="band">
         <div class="section-head rv">
-          <p class="eyebrow">Roster</p>
-          <h2>Artists</h2>
-     
+          <p class="eyebrow">Label</p>
+          <h2>Explore</h2>
         </div>
-        <div class="artist-list rv d1">
-          <div class="artist-row">
-            <img src="logo2.PNG" alt=""/>
-            <div>
-              <div class="artist-name">Inlet Knight</div>
-              <div class="artist-role">Artist · Producer</div>
-            </div>
-     
-          </div>
-          <div class="artist-row">
-            <img src="logo2.PNG" alt=""/>
-            <div>
-              <div class="artist-name">Charlie Archer</div>
-              <div class="artist-role">Producer</div>
-            </div>
-      
-          </div>
-          <div class="artist-row">
-            <img src="logo2.PNG" alt=""/>
-            <div>
-              <div class="artist-name">L.T. Drifta</div>
-              <div class="artist-role">Artist</div>
-            </div>
-      
-          </div>
+        <div class="explore-grid">
+          <a class="explore-card rv d1" href="artists.html">
+            <span class="explore-kicker">Roster</span>
+            <span class="explore-title">Artists</span>
+            <span class="explore-desc">Meet the producers and artists behind the catalog.</span>
+            <span class="explore-cta">View artists</span>
+          </a>
+          <a class="explore-card rv d2" href="merch.html">
+            <span class="explore-kicker">Shop</span>
+            <span class="explore-title">Merch</span>
+            <span class="explore-desc">Tees, hats, and seasonal pieces from the label.</span>
+            <span class="explore-cta">Shop merch</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <section class="section" id="merch">
-      <div class="band">
-        <div class="section-head rv">
-          <p class="eyebrow">Shop</p>
-          <h2>Merch</h2>
-        
-        </div>
-        <div class="merch-grid">
-          <div class="merch-card rv d1">
-            <div class="merch-img">
-              <img id="tshirt-img" src="shirt.png" alt="T-Shirt"/>
-            </div>
-            <div>
-              <div class="merch-name">T-Shirt</div>
-              <div class="merch-price">From $30.00</div>
-            </div>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
-              <button class="merch-opt" data-group="tshirt-colour" data-img="shirt2.png">White</button>
-            </div>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="tshirt-size">S</button>
-              <button class="merch-opt" data-group="tshirt-size">M</button>
-              <button class="merch-opt" data-group="tshirt-size">L</button>
-              <button class="merch-opt" data-group="tshirt-size">XL</button>
-            </div>
-            <button class="merch-add" data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">Buy</button>
-          </div>
-          <div class="merch-card rv d2">
-            <div class="merch-img">
-              <img id="hat-img" src="hat.png" alt="Hat"/>
-            </div>
-            <div>
-              <div class="merch-name">Hat</div>
-              <div class="merch-price">$25.00</div>
-            </div>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
-            </div>
-            <button class="merch-add" data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">Buy</button>
-          </div>
-          <div class="merch-card rv d3">
-            <div class="merch-img">
-              <img id="bikini-img" src="bikini.png" alt="Bikini"/>
-            </div>
-            <div>
-              <div class="merch-name">Bikini</div>
-              <div class="merch-price">From $35.00</div>
-            </div>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
-              <button class="merch-opt" data-group="bikini-colour" data-img="bikini2.png">White</button>
-            </div>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="bikini-size">XS</button>
-              <button class="merch-opt" data-group="bikini-size">S</button>
-              <button class="merch-opt" data-group="bikini-size">M</button>
-              <button class="merch-opt" data-group="bikini-size">L</button>
-            </div>
-            <button class="merch-add" data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">Buy</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
+</main>
 
   <footer class="footer">
     <div class="band">
@@ -694,7 +582,8 @@
         <p class="footer-copy">© 2025 VCR Recordings</p>
         <div class="footer-links">
           <a href="#releases">Releases</a>
-          <a href="#merch">Merch</a>
+          <a href="artists.html">Artists</a>
+          <a href="merch.html">Merch</a>
           <a href="https://vcrrecordings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
           <a href="https://www.instagram.com/vcr_recordings" target="_blank" rel="noopener">Instagram</a>
           <a href="/cdn-cgi/l/email-protection#93ffe7f7e1faf5e7f2d3f4fef2faffbdf0fcfe">Email</a>
@@ -753,41 +642,6 @@ lt.addEventListener('click', function () {
   le.appendChild(f);
 });
 
-var MERCH_IMG_MAP = {
-  'tshirt-colour': document.getElementById('tshirt-img'),
-  'bikini-colour': document.getElementById('bikini-img'),
-  'cap-colour': document.getElementById('hat-img')
-};
-document.querySelectorAll('.merch-opt').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    var group = btn.dataset.group;
-    document.querySelectorAll('.merch-opt[data-group="' + group + '"]')
-      .forEach(function (b) { b.classList.remove('selected'); });
-    btn.classList.add('selected');
-    if (btn.dataset.img && MERCH_IMG_MAP[group]) MERCH_IMG_MAP[group].src = btn.dataset.img;
-  });
-});
-document.querySelectorAll('.merch-add').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    var card = btn.closest('.merch-card');
-    var baseUrl = btn.dataset.stripe;
-    var colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
-    var sizeBtn = card.querySelector('.merch-opt.selected[data-group$="-size"]');
-    var colour = colourBtn ? colourBtn.textContent.trim() : null;
-    var size = sizeBtn ? sizeBtn.textContent.trim() : null;
-    var url = new URL(baseUrl, 'https://placeholder.com');
-    if (colour) url.searchParams.set('colour', colour);
-    if (size) url.searchParams.set('size', size);
-    var finalUrl = baseUrl.startsWith('http') ? url.toString() : baseUrl;
-    var original = btn.textContent;
-    btn.textContent = 'Redirecting…';
-    btn.disabled = true;
-    setTimeout(function () {
-      window.location.href = finalUrl;
-      setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 3000);
-    }, 300);
-  });
-});
 
 var obs = new IntersectionObserver(function (entries) {
   for (var e of entries) {
