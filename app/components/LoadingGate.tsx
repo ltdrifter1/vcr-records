@@ -1,7 +1,5 @@
 'use client';
 
-import { BRAND_NAME } from '@/lib/brand';
-
 import { useEffect, useRef, useState } from 'react';
 import { useProgress } from '@react-three/drei';
 import gsap from 'gsap';
@@ -9,7 +7,7 @@ import gsap from 'gsap';
 import { GATE_FADE_DUR, LQIP_SRC } from '@/lib/pano';
 
 /**
- * Entry gate — STEREO-MART v12 palette + LQIP preview of the cartoon room.
+ * Entry gate — Stereo-Mart Records v12 palette + LQIP preview of the cartoon room.
  * Enter unlocks audio + drop pose, waits one paint, then fades so the
  * little-planet frame is visible as the gate clears (iOS Safari sync).
  * Audio unlock must run in the click gesture (not deferred to GSAP alone).
@@ -106,7 +104,7 @@ export default function LoadingGate({
   };
 
   return (
-    <div className="gate" ref={root} role="dialog" aria-label={`Enter ${BRAND_NAME}`}>
+    <div className="gate" ref={root} role="dialog" aria-label="Enter Stereo-Mart Records">
       <div className={`gate-lqip${lqipOn ? ' is-on' : ''}`} aria-hidden>
         <img src={LQIP_SRC} alt="" draggable={false} />
         <span className="gate-lqip-veil" />
@@ -124,7 +122,8 @@ export default function LoadingGate({
 
       <div className="gate-inner" ref={inner}>
         <h1 className="gate-mark">
-          <span className="gate-mark-vcr">STEREO-MART</span>
+          <span className="gate-mark-brand">Stereo-Mart</span>
+          <span className="gate-mark-shop">Records</span>
         </h1>
         <span className="gate-rule" aria-hidden />
         <p className="gate-sub">Best experienced with audio enabled</p>
