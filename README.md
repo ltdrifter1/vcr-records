@@ -1,34 +1,17 @@
-# STEREO-MART
+# VCR Recordings (legacy site)
 
-`stereo-mart.com` is the immersive **360° store** (Next.js).  
-Legacy catalog URLs under `/shop` redirect to a thin brand bridge that
-sends visitors into the room.
+Static HTML catalog for **VCR Recordings** — independent electronic music.
 
-## Routes
-
-| Path | What |
-|---|---|
-| `/` | 360° illustrated record store (enter → look around → hotspots) |
-| `/#music` `#videos` `#artists` `#shop` `#contact` | Deep-link a section after enter |
-| `/shop` | Brand bridge → enter the store (`/#shop`). Old `/shop/*.html` URLs 301 here. |
-
-Top-nav **Shop** and the cash-register hotspot open the **in-room counter panel**. Checkout still goes to Stripe / Bandcamp in a new tab. Browser Back closes the panel / restores the prior section.
-
-## Content
-
-In-room releases, CRT channels, and shop rows live in **`app/data/catalog.ts`** —
-edit that file to change what the store plays and sells.
+This replaces the previous Stereo-Mart / Next.js 360° storefront. Pages and media live at the repo root (`index.html`, product HTML, artwork, audio).
 
 ## Develop
 
-```bash
-npm install
-npm run dev
-```
+Open `index.html` locally, or serve the folder:
 
-- 360 app: http://localhost:3000  
-- Shop bridge: http://localhost:3000/shop
+```bash
+npx serve .
+```
 
 ## Deploy
 
-Vercel project for this repo (Next.js). Domain `stereo-mart.com` should point at this deployment.
+Vercel static hosting (`vercel.json`). Root `index.html` is the homepage; `cleanUrls` maps `/about` → `about.html`, etc.

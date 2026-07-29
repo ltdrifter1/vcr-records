@@ -1,9 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
-      "source": "/textures/(.*)",
+      "source": "/(.*)\\.(avif|webp|png|jpg|jpeg|gif|mp3|mp4|svg)",
       "headers": [
         {
           "key": "Cache-Control",
