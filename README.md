@@ -1,12 +1,10 @@
-# VCR Recordings (legacy site)
+# VCR Recordings
 
-Static HTML catalog for **VCR Recordings** — independent electronic music.
+Static VCR Recordings site — the upgraded Apple Store–style catalog **as of 2026-07-21**, immediately before the 360° store became the homepage (`534884b`).
 
-This replaces the previous Stereo-Mart / Next.js 360° storefront. Pages and media live at the repo root (`index.html`, product HTML, artwork, audio).
+Restored from commit `42941a1` (parent of “Make 360 store the homepage; keep existing site at /shop”).
 
 ## Develop
-
-Open `index.html` locally, or serve the folder:
 
 ```bash
 npx serve .
@@ -14,6 +12,4 @@ npx serve .
 
 ## Deploy
 
-Vercel must treat this as a **static** site (not Next.js). `vercel.json` sets `framework: null` and `outputDirectory: "."` so HTML at the repo root is served with no serverless functions.
-
-Root `index.html` is the homepage; `cleanUrls` maps `/about` → `about.html`, etc. Cloudflare Pages also deploys from this repo.
+Vercel static hosting (`framework: null`, `outputDirectory: "."`). Root `index.html` is the homepage.
