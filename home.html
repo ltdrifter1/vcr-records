@@ -625,7 +625,7 @@
     <h2>Purchase complete</h2>
     <p>Thanks for supporting independent music. Your download is ready.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" id="dlMp3Modal" href="athome.mp3" download="Inlet Knight - At Home.mp3">Download MP3</a>
+      <a class="btn btn-fill" id="dlMp3Modal" href="https://inletknight.bandcamp.com/album/at-home" target="_blank" rel="noopener">Open Bandcamp</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -750,7 +750,7 @@
                href="https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r"
                target="_blank" rel="noopener">Buy Digital — $3</a>
             <a class="btn btn-bc"
-               href="https://inletknight.bandcamp.com"
+               href="https://inletknight.bandcamp.com/album/at-home"
                target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff;flex-shrink:0;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
               Bandcamp
@@ -768,7 +768,7 @@
           </div>
           <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
           <div class="dl-links hidden" id="redeemDownloads">
-            <a class="btn btn-fill" href="athome.mp3" download="Inlet Knight - At Home.mp3">Download MP3</a>
+            <a class="btn btn-fill" href="https://inletknight.bandcamp.com/album/at-home" target="_blank" rel="noopener">Download on Bandcamp</a>
           </div>
         </div>
 
@@ -783,7 +783,7 @@
               <div class="track-row is-active" data-index="0">
                 <span class="track-no">1</span>
                 <span class="track-title">After All</span>
-                <span class="track-dur">2:22</span>
+                <span class="track-dur">2:23</span>
                 <button class="track-play-btn" type="button" aria-label="Play Track 1">
                   <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
@@ -801,7 +801,7 @@
               <div class="track-row" data-index="2">
                 <span class="track-no">3</span>
                 <span class="track-title">At Home</span>
-                <span class="track-dur">3:44</span>
+                <span class="track-dur">3:45</span>
                 <button class="track-play-btn" type="button" aria-label="Play Track 3">
                   <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
@@ -862,22 +862,20 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
 const CONFIG = {
-  mp3:            'athome.mp3',
   stripeDigital:  'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
-  stripeCassette: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r'
+  stripeCassette: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
+  bandcamp:       'https://inletknight.bandcamp.com/album/at-home'
 };
 
 const TRACKS = [
-  { title: 'After All',                start: 0,   end: 142,      locked: false },
-  { title: 'Will I See You Again?',    start: 142, end: 380,      locked: false },
-  { title: 'At Home',                  start: 380, end: Infinity, locked: false },
+  { title: "After All", src: "at-home/01-after-all.mp3", locked: false },
+  { title: "Will I See You Again?", src: "at-home/02-will-i-see-you-again.mp3", locked: false },
+  { title: "At Home", src: "at-home/03-at-home.mp3", locked: false }
 ];
 
 const audio = new Audio();
-audio.preload = 'auto';
+audio.preload = 'metadata';
 audio.volume  = 0.8;
-audio.src     = CONFIG.mp3;
-audio.load();
 
 const fmt = s => { s = Math.max(0, Math.floor(isFinite(s) ? s : 0)); return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
 const $   = id => document.getElementById(id);
@@ -902,7 +900,7 @@ for (let i = 0; i < 44; i++) {
 }
 
 function setMsg(t, e) { pMsg.textContent = t||''; pMsg.className = 'p-msg'+(e?' err':''); }
-function getDur() { return isFinite(audio.duration) && audio.duration > 0 ? audio.duration : TRACKS[TRACKS.length-1].start + 224; }
+function getDur() { return isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0; }
 function setPlaying(on) { playBtn.classList.toggle('on', on); waveEl.classList.toggle('on', on); }
 
 function setActive(idx) {
@@ -912,40 +910,48 @@ function setActive(idx) {
   trackRows.forEach((r, i) => r.classList.toggle('is-active', i === idx));
 }
 
-function detectTrack(t) {
-  const i = TRACKS.findIndex((tr, j) => t >= tr.start && (!TRACKS[j+1] || t < TRACKS[j+1].start));
-  if (i >= 0 && i !== activeIdx) setActive(i);
+function loadTrack(idx, autoplay) {
+  if (TRACKS[idx]?.locked) return;
+  setActive(idx);
+  audio.src = TRACKS[idx].src;
+  audio.load();
+  if (autoplay) safePlay();
 }
 
 function playTrack(idx) {
-  if (TRACKS[idx]?.locked) return;
-  setActive(idx);
-  audio.currentTime = TRACKS[idx].start;
-  safePlay();
+  if (idx === activeIdx && audio.src) {
+    safePlay();
+    return;
+  }
+  loadTrack(idx, true);
 }
 
 async function safePlay() {
+  if (!audio.src) loadTrack(activeIdx, false);
   if (audio.error) {
-    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found — place athome.mp3 beside this file.'};
+    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found.'};
     setMsg(m[audio.error.code]||'Load failed.', true); return;
   }
   try { setMsg('Loading…'); await audio.play(); setMsg(''); }
   catch(e) {
     if (e.name==='NotAllowedError') setMsg('Tap again to start.', true);
-    else setMsg('Could not play — check athome.mp3 exists.', true);
+    else setMsg('Could not play this track.', true);
   }
 }
 
 audio.addEventListener('loadstart',      () => setMsg('Loading…'));
-audio.addEventListener('loadedmetadata', () => { seekEl.max = String(getDur()); setMsg(''); });
+audio.addEventListener('loadedmetadata', () => { seekEl.max = String(getDur() || 1); setMsg(''); });
 audio.addEventListener('canplay',        () => setMsg(''));
 audio.addEventListener('play',           () => { setPlaying(true); setMsg(''); });
 audio.addEventListener('pause',          () => setPlaying(false));
-audio.addEventListener('ended',          () => setPlaying(false));
+audio.addEventListener('ended',          () => {
+  setPlaying(false);
+  if (activeIdx < TRACKS.length - 1) playTrack(activeIdx + 1);
+});
 audio.addEventListener('waiting',        () => setMsg('Buffering…'));
 audio.addEventListener('error', () => {
   const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg((m[audio.error?.code]||'Load failed.')+' Check athome.mp3 exists.', true);
+  setMsg(m[audio.error?.code]||'Load failed.', true);
 });
 
 audio.addEventListener('timeupdate', () => {
@@ -953,26 +959,29 @@ audio.addEventListener('timeupdate', () => {
   if (!dragging) seekEl.value = String(audio.currentTime || 0);
   elapsedEl.textContent = fmt(audio.currentTime);
   remainEl.textContent  = '-' + fmt(d - audio.currentTime);
-  detectTrack(audio.currentTime);
 });
 
-playBtn.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
+playBtn.addEventListener('click', () => {
+  if (!audio.src) { playTrack(activeIdx); return; }
+  audio.paused ? safePlay() : audio.pause();
+});
 seekEl.addEventListener('pointerdown', () => dragging = true);
 seekEl.addEventListener('pointerup',   () => { dragging = false; });
-seekEl.addEventListener('input',  () => { elapsedEl.textContent = fmt(+seekEl.value||0); detectTrack(+seekEl.value); });
-seekEl.addEventListener('change', () => {
-  audio.currentTime = +seekEl.value || 0;
-  detectTrack(audio.currentTime);
-});
+seekEl.addEventListener('input',  () => { elapsedEl.textContent = fmt(+seekEl.value||0); });
+seekEl.addEventListener('change', () => { audio.currentTime = +seekEl.value || 0; });
 volEl.addEventListener('input', () => audio.volume = +volEl.value || 0.8);
 
 trackRows.forEach((row, idx) => {
   row.addEventListener('click', () => {
-    idx === activeIdx ? (audio.paused ? safePlay() : audio.pause()) : playTrack(idx);
+    if (idx === activeIdx && audio.src) {
+      audio.paused ? safePlay() : audio.pause();
+    } else {
+      playTrack(idx);
+    }
   });
 });
 
-setActive(0);
+loadTrack(0, false);
 
 (function() {
   const fpWrap = $('fpWrap');
@@ -1034,7 +1043,7 @@ const closeM = () => {
 $('modalClose').addEventListener('click', closeM);
 $('modalDismiss').addEventListener('click', closeM);
 modal.addEventListener('click', e => { if (e.target === modal) closeM(); });
-$('dlMp3Modal').href = CONFIG.mp3;
+$('dlMp3Modal').href = CONFIG.bandcamp;
 const sp = new URLSearchParams(location.search);
 if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 600);
 
@@ -1064,11 +1073,8 @@ async function redeem() {
   if (USED.has(code))   { rdSt.textContent = 'Code already used.'; return; }
   if (!CODES.has(code)) { rdSt.textContent = 'Invalid code.';      return; }
   USED.add(code); saveU();
-  rdSt.textContent = 'Accepted — starting download…';
-  try {
-    await forceDownload(CONFIG.mp3, "Inlet Knight - At Home.mp3");
-    rdSt.textContent = 'Download started.'; rdDL.classList.remove('hidden');
-  } catch { rdSt.textContent = 'Use the button below.'; rdDL.classList.remove('hidden'); }
+  rdSt.textContent = 'Code accepted — open Bandcamp to download At Home.';
+  rdDL.classList.remove('hidden');
 }
 $('redeemBtn').addEventListener('click', redeem);
 $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem(); });
