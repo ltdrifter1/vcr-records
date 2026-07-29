@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Bag — VCR Recordings</title>
+  <meta name="description" content="Your VCR Recordings bag. Bundle merch and check out."/>
+  <meta name="theme-color" content="#f5f5f7"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --dim: #86868b;
+      --line: rgba(0,0,0,.08);
+      --fill: rgba(0,0,0,.04);
+      --fill-hi: rgba(0,0,0,.07);
+      --shadow: 0 2px 16px rgba(0,0,0,.05);
+      --shadow-lg: 0 18px 50px rgba(0,0,0,.09);
+      --radius: 22px;
+      --pill: 980px;
+      --ease: cubic-bezier(.25,.1,.25,1);
+      --dur: 300ms;
+      --sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-t: env(safe-area-inset-top, 0px);
+      --wrap: 1080px;
+      --nav-h: 56px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -.01em;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button {
+      font-family: inherit; cursor: pointer; border: none; background: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(800px 420px at 70% -10%, rgba(255,255,255,.98), transparent 60%),
+        linear-gradient(180deg, #eceef2 0%, var(--bg) 40%);
+    }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      height: calc(var(--nav-h) + var(--safe-t));
+      padding-top: var(--safe-t);
+      background: rgba(245,245,247,.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .nav.scrolled { background: rgba(255,255,255,.9); border-bottom-color: var(--line); }
+    .nav-inner {
+      max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
+      padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .nav-logo img { height: 40px; width: auto; }
+    .nav-links { display: flex; gap: 2px; }
+    .nav-links a {
+      padding: 8px 12px; font-size: 12px; font-weight: 500; color: var(--muted);
+      border-radius: var(--pill);
+      transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    .nav-links a[aria-current="page"] { color: var(--text); background: var(--fill-hi); }
+    @media (hover:hover) { .nav-links a:hover { color: var(--text); background: var(--fill-hi); } }
+    .nav-end { display: flex; align-items: center; gap: 4px; }
+    .nav-cart {
+      position: relative; width: 42px; height: 42px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--pill); color: var(--text);
+      transition: background var(--dur) var(--ease);
+    }
+    @media (hover:hover) { .nav-cart:hover { background: var(--fill-hi); } }
+    .nav-cart svg { width: 20px; height: 20px; }
+    .nav-cart-count {
+      position: absolute; top: 4px; right: 2px;
+      min-width: 18px; height: 18px; padding: 0 5px;
+      border-radius: var(--pill); background: var(--text); color: #fff;
+      font-size: 10px; font-weight: 700; line-height: 18px; text-align: center;
+    }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 10px; }
+    .nav-ham span { display: block; width: 16px; height: 1.5px; background: var(--muted); transition: .2s ease; }
+    .nav-ham.on span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--text); }
+    .nav-ham.on span:nth-child(2) { opacity: 0; }
+    .nav-ham.on span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--text); }
+    @media (max-width: 680px) { .nav-links { display: none; } .nav-ham { display: flex; } }
+    .nav-drawer {
+      display: none; position: fixed;
+      top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
+      background: rgba(255,255,255,.96); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 22px calc(16px + var(--safe-b));
+    }
+    .nav-drawer.on { display: block; }
+    .nav-drawer a {
+      display: block; padding: 14px 0; border-bottom: 1px solid var(--line);
+      font-size: 15px; font-weight: 500; color: var(--muted);
+    }
+    .nav-drawer a:last-child { border-bottom: none; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 48px; padding: 0 22px; border-radius: var(--pill);
+      font-size: 14px; font-weight: 600; letter-spacing: -.01em;
+      transition: opacity var(--dur) var(--ease), transform 180ms var(--ease);
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-dark { background: #1d1d1f; color: #fff; width: 100%; }
+    .btn-ghost { background: var(--fill-hi); color: var(--text); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    @media (hover:hover) { .btn-dark:hover:not(:disabled) { opacity: .86; } }
+
+    .page { padding: calc(var(--nav-h) + var(--safe-t) + 48px) 0 100px; }
+    .band { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
+
+    .intro { max-width: 640px; margin-bottom: 36px; }
+    .intro-brand {
+      font-size: 12px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--dim); margin-bottom: 14px;
+    }
+    .intro h1 {
+      font-size: clamp(36px, 7vw, 56px); font-weight: 700;
+      letter-spacing: -.045em; line-height: 1.05;
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, .8fr);
+      gap: 28px; align-items: start;
+    }
+    @media (max-width: 860px) { .cart-layout { grid-template-columns: 1fr; } }
+
+    .cart-panel, .summary-panel {
+      background: var(--surface);
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .cart-lines { display: flex; flex-direction: column; }
+    .cart-line {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 18px; padding: 22px;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+    .cart-line:last-child { border-bottom: none; }
+    @media (max-width: 560px) {
+      .cart-line { grid-template-columns: 72px 1fr; gap: 14px; }
+      .cart-line-side { grid-column: 2; justify-self: start; }
+    }
+    .cart-thumb {
+      width: 96px; height: 96px; border-radius: 16px;
+      background: radial-gradient(circle at 50% 40%, #fff, #eef0f4 70%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    @media (max-width: 560px) { .cart-thumb { width: 72px; height: 72px; border-radius: 14px; } }
+    .cart-thumb img { width: 78%; height: auto; object-fit: contain; }
+    .cart-name { font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+    .cart-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .cart-price { font-size: 15px; font-weight: 600; margin-top: 10px; }
+    .qty {
+      display: inline-flex; align-items: center;
+      border: 1px solid var(--line); border-radius: var(--pill); overflow: hidden;
+      background: var(--bg);
+    }
+    .qty button {
+      width: 36px; height: 36px; font-size: 16px; color: var(--muted);
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    @media (hover:hover) { .qty button:hover { background: var(--fill-hi); color: var(--text); } }
+    .qty span {
+      min-width: 28px; text-align: center; font-size: 13px; font-weight: 600;
+    }
+    .cart-remove {
+      display: block; margin-top: 10px;
+      font-size: 12px; font-weight: 500; color: var(--dim);
+      transition: color var(--dur) var(--ease);
+    }
+    @media (hover:hover) { .cart-remove:hover { color: var(--text); } }
+    .cart-line-side { text-align: right; }
+    .cart-line-total { font-size: 16px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 12px; }
+
+    .empty {
+      padding: 56px 28px; text-align: center;
+    }
+    .empty h2 {
+      font-size: 24px; font-weight: 700; letter-spacing: -.03em; margin-bottom: 10px;
+    }
+    .empty p { color: var(--muted); margin-bottom: 22px; }
+
+    .summary-panel { padding: 28px 24px; position: sticky; top: calc(var(--nav-h) + var(--safe-t) + 18px); }
+    .summary-panel h2 {
+      font-size: 13px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--dim); margin-bottom: 18px;
+    }
+    .sum-row {
+      display: flex; justify-content: space-between; gap: 12px;
+      font-size: 15px; margin-bottom: 10px; color: var(--muted);
+    }
+    .sum-row.total {
+      margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+      color: var(--text); font-size: 18px; font-weight: 700; letter-spacing: -.02em;
+    }
+    .summary-note {
+      margin: 16px 0 20px; font-size: 13px; color: var(--dim); line-height: 1.45;
+    }
+    .checkout-queue { display: none; margin-top: 18px; }
+    .checkout-queue.on { display: block; }
+    .queue-item {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      padding: 12px 0; border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .queue-item .pay-one {
+      height: 34px; padding: 0 14px; border-radius: var(--pill);
+      background: var(--text); color: #fff; font-size: 12px; font-weight: 600;
+    }
+    .queue-item.is-paid { opacity: .45; }
+    .queue-item.is-paid .pay-one { display: none; }
+
+    .footer {
+      background: #fff; border-top: 1px solid var(--line);
+      padding: 40px 0 calc(24px + var(--safe-b));
+    }
+    .footer-bottom {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 13px; color: var(--dim); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
+    .footer-links a { font-size: 13px; font-weight: 500; color: var(--muted); }
+  </style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="VCR Records home">
+      <img src="vcr-globe.svg" alt="VCR Records" width="280" height="200"/>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="index.html#releases">Releases</a>
+      <a href="artists.html">Artists</a>
+      <a href="merch.html">Merch</a>
+    </nav>
+    <div class="nav-end">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
+          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="nav-cart-count" data-cart-count hidden>0</span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html">Home</a>
+  <a href="index.html#releases">Releases</a>
+  <a href="artists.html">Artists</a>
+  <a href="merch.html">Merch</a>
+  <a href="cart.html" aria-current="page">Bag</a>
+</div>
+
+<main class="page">
+  <div class="band">
+    <header class="intro">
+      <p class="intro-brand">VCR Recordings</p>
+      <h1>Your bag</h1>
+    </header>
+
+    <div class="cart-layout">
+      <section class="cart-panel" aria-label="Bag items">
+        <div id="cartLines" class="cart-lines"></div>
+        <div id="cartEmpty" class="empty" hidden>
+          <h2>Your bag is empty</h2>
+          <p>Bundle a tee, hat, or seasonal piece from the shop.</p>
+          <a class="btn btn-dark" href="merch.html" style="max-width:220px;margin:0 auto;">Shop merch</a>
+        </div>
+      </section>
+
+      <aside class="summary-panel" id="summaryPanel">
+        <h2>Order summary</h2>
+        <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
+        <div class="sum-row"><span>Shipping</span><span>Calculated at payment</span></div>
+        <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
+        <p class="summary-note">
+          Bundle freely here. Stripe checks out one product link at a time — we’ll walk you through each item in your bag.
+        </p>
+        <button class="btn btn-dark" id="checkoutBtn" type="button" disabled>Checkout</button>
+        <a class="btn btn-ghost" href="merch.html" style="width:100%;margin-top:10px;">Continue shopping</a>
+        <div class="checkout-queue" id="checkoutQueue" aria-live="polite"></div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="band footer-bottom">
+    <p class="footer-copy">© 2025 VCR Recordings</p>
+    <div class="footer-links">
+      <a href="merch.html">Merch</a>
+      <a href="artists.html">Artists</a>
+      <a href="index.html#releases">Releases</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/cart.js"></script>
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      nav.classList.toggle('scrolled', window.scrollY > 12);
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+var navHam = document.getElementById('navHam');
+var navDrawer = document.getElementById('navDrawer');
+navHam.addEventListener('click', function () {
+  var open = navDrawer.classList.toggle('on');
+  navHam.classList.toggle('on', open);
+  navHam.setAttribute('aria-expanded', String(open));
+  navDrawer.setAttribute('aria-hidden', String(!open));
+});
+
+function variantLabel(item) {
+  var bits = [];
+  if (item.colour) bits.push(item.colour);
+  if (item.size) bits.push('Size ' + item.size);
+  return bits.join(' · ');
+}
+
+function stripeUrl(item) {
+  var url = new URL(item.stripe, window.location.origin);
+  if (item.colour) url.searchParams.set('colour', item.colour);
+  if (item.size) url.searchParams.set('size', item.size);
+  if (item.qty > 1) url.searchParams.set('quantity', String(item.qty));
+  return url.toString();
+}
+
+function render() {
+  var items = VCRCart.load();
+  var lines = document.getElementById('cartLines');
+  var empty = document.getElementById('cartEmpty');
+  var checkoutBtn = document.getElementById('checkoutBtn');
+  var summary = document.getElementById('summaryPanel');
+  var queue = document.getElementById('checkoutQueue');
+
+  VCRCart.updateBadges();
+  document.getElementById('sumSubtotal').textContent = VCRCart.money(VCRCart.subtotal(items));
+  document.getElementById('sumTotal').textContent = VCRCart.money(VCRCart.subtotal(items));
+  checkoutBtn.disabled = items.length === 0;
+  queue.classList.remove('on');
+  queue.innerHTML = '';
+
+  if (!items.length) {
+    lines.innerHTML = '';
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+  lines.innerHTML = items.map(function (item) {
+    return (
+      '<article class="cart-line" data-id="' + item.id.replace(/"/g, '&quot;') + '">' +
+        '<div class="cart-thumb"><img src="' + item.image + '" alt=""/></div>' +
+        '<div>' +
+          '<div class="cart-name">' + item.name + '</div>' +
+          (variantLabel(item) ? '<div class="cart-meta">' + variantLabel(item) + '</div>' : '') +
+          '<div class="cart-price">' + VCRCart.money(item.price) + '</div>' +
+        '</div>' +
+        '<div class="cart-line-side">' +
+          '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
+          '<div class="qty" aria-label="Quantity">' +
+            '<button type="button" data-act="dec" aria-label="Decrease">−</button>' +
+            '<span>' + item.qty + '</span>' +
+            '<button type="button" data-act="inc" aria-label="Increase">+</button>' +
+          '</div>' +
+          '<button type="button" class="cart-remove" data-act="remove">Remove</button>' +
+        '</div>' +
+      '</article>'
+    );
+  }).join('');
+}
+
+document.getElementById('cartLines').addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-act]');
+  if (!btn) return;
+  var line = btn.closest('.cart-line');
+  var id = line.dataset.id;
+  var item = VCRCart.load().find(function (i) { return i.id === id; });
+  if (!item) return;
+  if (btn.dataset.act === 'inc') VCRCart.setQty(id, item.qty + 1);
+  if (btn.dataset.act === 'dec') VCRCart.setQty(id, item.qty - 1);
+  if (btn.dataset.act === 'remove') VCRCart.remove(id);
+  render();
+});
+
+document.getElementById('checkoutBtn').addEventListener('click', function () {
+  var items = VCRCart.load();
+  if (!items.length) return;
+
+  if (items.length === 1 && items[0].qty >= 1) {
+    window.location.href = stripeUrl(items[0]);
+    return;
+  }
+
+  var queue = document.getElementById('checkoutQueue');
+  queue.classList.add('on');
+  queue.innerHTML = '<p class="summary-note" style="margin:0 0 4px">Pay each item to complete your bundle:</p>' +
+    items.map(function (item, idx) {
+      return (
+        '<div class="queue-item" data-qid="' + item.id.replace(/"/g, '&quot;') + '">' +
+          '<div><strong>' + item.name + '</strong> × ' + item.qty +
+          '<div class="cart-meta">' + (variantLabel(item) || '') + ' · ' + VCRCart.money(item.price * item.qty) + '</div></div>' +
+          '<button type="button" class="pay-one" data-pay-idx="' + idx + '">Pay</button>' +
+        '</div>'
+      );
+    }).join('');
+});
+
+document.getElementById('checkoutQueue').addEventListener('click', function (e) {
+  var btn = e.target.closest('[data-pay-idx]');
+  if (!btn) return;
+  var items = VCRCart.load();
+  var item = items[Number(btn.dataset.payIdx)];
+  if (!item) return;
+  var row = btn.closest('.queue-item');
+  row.classList.add('is-paid');
+  VCRCart.remove(item.id);
+  window.open(stripeUrl(item), '_blank', 'noopener');
+  render();
+});
+
+window.addEventListener('vcr:cart', render);
+render();
+</script>
+</body>
+</html>

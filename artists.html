@@ -95,6 +95,22 @@
     @media (hover:hover) {
       .nav-links a:hover { color: var(--text); background: var(--fill-hi); }
     }
+
+    .nav-end { display: flex; align-items: center; gap: 4px; }
+    .nav-cart {
+      position: relative; width: 42px; height: 42px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--pill); color: var(--text);
+      transition: background var(--dur) var(--ease);
+    }
+    @media (hover:hover) { .nav-cart:hover { background: var(--fill-hi); } }
+    .nav-cart svg { width: 20px; height: 20px; }
+    .nav-cart-count {
+      position: absolute; top: 4px; right: 2px;
+      min-width: 18px; height: 18px; padding: 0 5px;
+      border-radius: var(--pill); background: var(--text); color: #fff;
+      font-size: 10px; font-weight: 700; line-height: 18px; text-align: center;
+    }
     .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 10px; }
     .nav-ham span {
       display: block; width: 16px; height: 1.5px; background: var(--muted);
@@ -299,9 +315,19 @@
       <a href="artists.html" aria-current="page">Artists</a>
       <a href="merch.html">Merch</a>
     </nav>
-    <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-end">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
+          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="nav-cart-count" data-cart-count hidden>0</span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
@@ -309,6 +335,7 @@
   <a href="index.html#releases">Releases</a>
   <a href="artists.html" aria-current="page">Artists</a>
   <a href="merch.html">Merch</a>
+  <a href="cart.html">Bag</a>
 </div>
 
 <main class="page">
@@ -446,5 +473,6 @@ var obs = new IntersectionObserver(function (entries) {
 }, { threshold: .12, rootMargin: '0px 0px -24px 0px' });
 document.querySelectorAll('.artist').forEach(function (el) { obs.observe(el); });
 </script>
+<script src="js/cart.js"></script>
 </body>
 </html>
