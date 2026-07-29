@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/player.css"/>
   <style>
     :root {
       --bg: #f5f5f7;
@@ -810,6 +811,7 @@
   </div>
 </footer>
 
+<script src="js/player.js"></script>
 <script>
 const CONFIG = {
   mp3:         'lionsgate.mp3',
@@ -817,6 +819,8 @@ const CONFIG = {
   releaseName: "Lions' Gate",
   stripeUrl:   'https://buy.stripe.com/dRm7sMaTR7o4dwc4VLfrW0d'
 };
+const RELEASE_ID = 'lions-gate';
+
 
 const audio = new Audio();
 audio.preload = 'auto';
@@ -881,12 +885,28 @@ audio.addEventListener('timeupdate', () => {
   remain.textContent  = '-'+fmt(audio.duration - audio.currentTime);
 });
 
-playBtn.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
+playBtn.addEventListener('click', () => {
+  if (window.VCRPlayer) {
+    const cur = VCRPlayer.current && VCRPlayer.current();
+    if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
+    else VCRPlayer.playRelease(RELEASE_ID, 'lg-01', { autoplay: true });
+    return;
+  }
+  audio.paused ? safePlay() : audio.pause();
+});
 seek.addEventListener('input',  () => { audio.currentTime = +seek.value||0; });
 volEl.addEventListener('input',  () => { audio.volume = +volEl.value||0.8; });
 
 document.querySelectorAll('.track-row').forEach(row => {
-  row.addEventListener('click', () => audio.paused ? safePlay() : audio.pause());
+  row.addEventListener('click', () => {
+    if (window.VCRPlayer) {
+      const cur = VCRPlayer.current && VCRPlayer.current();
+      if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
+      else VCRPlayer.playRelease(RELEASE_ID, 'lg-01', { autoplay: true });
+      return;
+    }
+    audio.paused ? safePlay() : audio.pause();
+  });
 });
 
 const modal = document.getElementById('purchaseModal');
@@ -1005,6 +1025,52 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
     });
   });
 })();
+
+/* Bridge inline player UI to shared VCRPlayer */
+(function bridgeToSharedPlayer(){
+  if (!window.VCRPlayer || typeof RELEASE_ID === 'undefined') return;
+  function startShared() {
+    VCRPlayer.playRelease(RELEASE_ID, 'lg-01', { autoplay: true });
+  }
+  if (playBtn) {
+    playBtn.addEventListener('click', function(e){
+      e.stopImmediatePropagation();
+      const cur = VCRPlayer.current && VCRPlayer.current();
+      if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
+      else startShared();
+    }, true);
+  }
+  document.querySelectorAll('.track-row').forEach(function(row){
+    row.addEventListener('click', function(e){
+      e.stopImmediatePropagation();
+      startShared();
+    }, true);
+  });
+  if (seek) {
+    seek.addEventListener('input', function(e){
+      e.stopImmediatePropagation();
+      VCRPlayer.seek(+seek.value || 0);
+    }, true);
+  }
+  window.addEventListener('vcr:player', function(ev){
+    const d = ev.detail || {};
+    const t = d.track;
+    if (!t || t.releaseId !== RELEASE_ID) {
+      setPlaying(false);
+      return;
+    }
+    setPlaying(!!d.playing);
+    if (seek && d.duration) {
+      seek.max = d.duration;
+      seek.value = d.currentTime || 0;
+    }
+    if (elapsed) elapsed.textContent = fmt(d.currentTime || 0);
+    if (remain) remain.textContent = '-' + fmt((d.duration || 0) - (d.currentTime || 0));
+    if (trackDur && d.duration) trackDur.textContent = fmt(d.duration);
+    setMsg('');
+  });
+})();
+
 </script>
 </body>
 </html>

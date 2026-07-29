@@ -1,0 +1,313 @@
+/* Shared Continuity Deck + Ambient Stage */
+:root {
+  --vcr-player-h: 78px;
+}
+
+body.has-vcr-player {
+  padding-bottom: calc(var(--vcr-player-h) + env(safe-area-inset-bottom, 0px) + 16px) !important;
+}
+
+.vcr-player {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  z-index: 500;
+  max-width: 920px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1.1fr) auto minmax(120px, 1.2fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  transform: translateY(140%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.35s ease;
+}
+
+.vcr-player.is-visible {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vcr-player__stage-hit {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  cursor: pointer;
+}
+
+.vcr-player > *:not(.vcr-player__stage-hit) {
+  position: relative;
+  z-index: 1;
+}
+
+.vcr-player__art {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #e8e8ed;
+}
+
+.vcr-player__meta {
+  min-width: 0;
+}
+
+.vcr-player__title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vcr-player__sub {
+  font-size: 12px;
+  color: #6e6e73;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vcr-player__controls {
+  display: flex;
+  gap: 2px;
+}
+
+.vcr-player__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #1d1d1f;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.vcr-player__btn--play {
+  background: #1d1d1f;
+  color: #fff;
+  font-size: 13px;
+}
+
+.vcr-player__progress-wrap {
+  min-width: 0;
+}
+
+.vcr-player__scrub,
+.vcr-stage__scrub {
+  width: 100%;
+  accent-color: #1d1d1f;
+  cursor: pointer;
+}
+
+.vcr-player__times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #86868b;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+.vcr-player__buy {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1d1d1f;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 980px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.vcr-player__close {
+  font-size: 18px;
+  color: #6e6e73;
+}
+
+@media (max-width: 760px) {
+  .vcr-player {
+    grid-template-columns: 44px minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "art meta controls close"
+      "progress progress progress progress";
+  }
+  .vcr-player__art { grid-area: art; width: 44px; height: 44px; }
+  .vcr-player__meta { grid-area: meta; }
+  .vcr-player__controls { grid-area: controls; }
+  .vcr-player__progress-wrap { grid-area: progress; }
+  .vcr-player__close { grid-area: close; }
+  .vcr-player__buy { display: none; }
+}
+
+/* Ambient Stage */
+.vcr-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #fff;
+}
+
+.vcr-stage[hidden] {
+  display: none !important;
+}
+
+.vcr-stage__bg {
+  position: absolute;
+  inset: -40px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(48px) saturate(1.15) brightness(0.45);
+  transform: scale(1.12);
+}
+
+.vcr-stage__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 10, 14, 0.35), rgba(8, 10, 14, 0.72));
+}
+
+.vcr-stage__close {
+  position: absolute;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: 18px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.vcr-stage__content {
+  position: relative;
+  z-index: 1;
+  width: min(420px, 100%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: vcrStageIn 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes vcrStageIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.vcr-stage__art {
+  width: min(280px, 68vw);
+  aspect-ratio: 1;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  margin-bottom: 8px;
+}
+
+.vcr-stage__kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.vcr-stage__title {
+  font-size: clamp(28px, 6vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.vcr-stage__artist {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.vcr-stage__controls {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0 4px;
+}
+
+.vcr-stage__btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.vcr-stage__btn--play {
+  width: 64px;
+  height: 64px;
+  background: #fff;
+  color: #111;
+  font-size: 18px;
+}
+
+.vcr-stage__scrub {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.vcr-stage__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.vcr-stage__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 980px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.vcr-stage__hint {
+  margin-top: 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+body.vcr-stage-open {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vcr-player,
+  .vcr-stage__content {
+    transition: none !important;
+    animation: none !important;
+  }
+}

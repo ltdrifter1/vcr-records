@@ -1,77 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Thanks! Your download is starting…</title>
-<link rel="stylesheet" href="static/style.css" />
-<style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-       background:#f5f1e8;color:#111;display:grid;place-items:center;min-height:100vh;padding:24px}
-  .card{background:#fff;border:1px solid #d9d2c2;border-radius:12px;max-width:560px;width:100%;padding:24px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;height:46px;border-radius:10px;
-       font-weight:800;border:1px solid #111;background:#111;color:#fff;text-decoration:none;padding:0 16px;margin-top:12px}
-  .muted{color:#555;font-size:14px;margin-top:8px}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Thank you — VCR Recordings</title>
+  <meta name="robots" content="noindex"/>
+  <meta name="theme-color" content="#f5f5f7"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f5f7; --text: #1d1d1f; --muted: #6e6e73;
+      --sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans); background: var(--bg); color: var(--text);
+      min-height: 100vh; display: grid; place-items: center; padding: 28px;
+      background-image:
+        radial-gradient(700px 380px at 80% -10%, #fff, transparent 60%),
+        linear-gradient(180deg, #eceef2, var(--bg) 45%);
+    }
+    .card {
+      width: min(520px, 100%); background: #fff; border-radius: 24px;
+      padding: 36px 28px; box-shadow: 0 18px 50px rgba(0,0,0,.08);
+      text-align: center;
+    }
+    .mark { width: 96px; margin: 0 auto 22px; }
+    h1 { font-size: 32px; letter-spacing: -.04em; margin-bottom: 10px; }
+    p { color: var(--muted); line-height: 1.5; margin-bottom: 22px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 46px; padding: 0 20px; border-radius: 980px;
+      background: #1d1d1f; color: #fff; text-decoration: none;
+      font-size: 14px; font-weight: 600;
+    }
+    .links { margin-top: 16px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .links a { color: var(--muted); font-size: 13px; font-weight: 500; text-decoration: none; }
+  </style>
 </head>
 <body>
   <main class="card">
-    <h1>Thanks for your purchase!</h1>
-    <p>Your download should start automatically. If it doesn’t, use the button below.</p>
-
-    <a id="fallback" class="btn" href="#" download>
-      Download WAV
-    </a>
-    <p class="muted">Having trouble? Try right–click → “Save link as…”</p>
+    <img class="mark" src="vcr-globe.svg" alt="VCR Recordings" width="280" height="200"/>
+    <h1>Thank you</h1>
+    <p id="msg">Your order is confirmed. A receipt is on its way from Stripe.</p>
+    <a class="btn" href="merch.html">Back to merch</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#listen">Listen</a>
+      <a href="cart.html">Bag</a>
+    </div>
   </main>
-
-<script>
-(async ()=>{
-  // --- 1) Pull from sessionStorage (primary) ---
-  let stored = null;
-  try { stored = JSON.parse(sessionStorage.getItem('afr_download') || 'null'); } catch(e){}
-
-  // --- 2) Or fall back to URL query params (?file=...&name=...) ---
-  const params = new URLSearchParams(location.search);
-  const paramFile = params.get('file');
-  const paramName = params.get('name');
-
-  // --- 3) Choose values (stored > params > default) ---
-  const WAV_URL = (stored && stored.wav) || paramFile || 'static/downloads/CBGJ0-25-00001.wav';
-  const FILE_NAME = ((stored && stored.name) || paramName || 'download') + '.wav';
-
-  // Populate the fallback button
-  const fallback = document.getElementById('fallback');
-  fallback.href = WAV_URL;
-  fallback.setAttribute('download', FILE_NAME);
-
-  // Optional: Stripe session for logs (if added as success param)
-  const sessionId = params.get('session_id');
-  if(sessionId){ console.log('Stripe session:', sessionId); }
-
-  // Try to force-download; if blocked, user still has the visible button
-  async function forceDownload(url, filename){
-    try{
-      const res = await fetch(url, { credentials: 'same-origin' });
-      if(!res.ok) throw new Error('HTTP ' + res.status);
-      const blob = await res.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename || (url.split('/').pop() || 'download.wav');
-      document.body.appendChild(a); a.click();
-      setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
-    }catch(err){
-      // If CORS or fetch is blocked, navigate directly (browser will download or play)
-      location.href = url;
+  <script src="js/cart.js"></script>
+  <script>
+    if (window.VCRCart) VCRCart.clear();
+    var sid = new URLSearchParams(location.search).get('session_id');
+    if (sid) {
+      document.getElementById('msg').textContent =
+        'Your order is confirmed. Keep an eye on your inbox for the Stripe receipt.';
     }
-  }
-
-  // Kick off the download
-  await forceDownload(WAV_URL, FILE_NAME);
-
-  // Clean up so old values don't leak into future purchases
-  sessionStorage.removeItem('afr_download');
-})();
-</script>
+  </script>
 </body>
 </html>

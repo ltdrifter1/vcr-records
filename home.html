@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/player.css"/>
   <style>
     :root {
       --bg: #f5f5f7;
@@ -918,17 +919,20 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="js/player.js"></script>
 <script>
 const CONFIG = {
   stripeDigital:  'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
   stripeCassette: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
   bandcamp:       'https://inletknight.bandcamp.com/album/at-home'
 };
+const RELEASE_ID = 'at-home';
+
 
 const TRACKS = [
-  { title: "After All", src: "at-home/01-after-all.mp3", locked: false },
-  { title: "Will I See You Again?", src: "at-home/02-will-i-see-you-again.mp3", locked: false },
-  { title: "At Home", src: "at-home/03-at-home.mp3", locked: false }
+  { id: "ah-01",  title: "After All", src: "at-home/01-after-all.mp3", locked: false },
+  { id: "ah-02",  title: "Will I See You Again?", src: "at-home/02-will-i-see-you-again.mp3", locked: false },
+  { id: "ah-03",  title: "At Home", src: "at-home/03-at-home.mp3", locked: false }
 ];
 
 const audio = new Audio();
@@ -977,8 +981,11 @@ function loadTrack(idx, autoplay) {
 }
 
 function playTrack(idx) {
-  if (idx === activeIdx && audio.src) {
-    safePlay();
+  if (TRACKS[idx]?.locked) return;
+  setActive(idx);
+  if (window.VCRPlayer) {
+    try { audio.pause(); } catch (e) {}
+    VCRPlayer.playRelease(RELEASE_ID, TRACKS[idx].id, { autoplay: true });
     return;
   }
   loadTrack(idx, true);
@@ -1020,6 +1027,12 @@ audio.addEventListener('timeupdate', () => {
 });
 
 playBtn.addEventListener('click', () => {
+  if (window.VCRPlayer) {
+    const cur = VCRPlayer.current && VCRPlayer.current();
+    if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
+    else playTrack(activeIdx);
+    return;
+  }
   if (!audio.src) { playTrack(activeIdx); return; }
   audio.paused ? safePlay() : audio.pause();
 });
@@ -1031,6 +1044,12 @@ volEl.addEventListener('input', () => audio.volume = +volEl.value || 0.8);
 
 trackRows.forEach((row, idx) => {
   row.addEventListener('click', () => {
+    if (window.VCRPlayer) {
+      const cur = VCRPlayer.current && VCRPlayer.current();
+      if (idx === activeIdx && cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
+      else playTrack(idx);
+      return;
+    }
     if (idx === activeIdx && audio.src) {
       audio.paused ? safePlay() : audio.pause();
     } else {
@@ -1196,6 +1215,50 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
     });
   });
 })();
+
+/* Bridge inline player UI to shared VCRPlayer */
+(function bridgeToSharedPlayer(){
+  if (!window.VCRPlayer || typeof RELEASE_ID === 'undefined') return;
+  const trackIdAt = (idx) => (TRACKS[idx] && (TRACKS[idx].id || null));
+  const originalPlayTrack = typeof playTrack === 'function' ? playTrack : null;
+  window.playTrack = function(idx){
+    setActive(idx);
+    VCRPlayer.playRelease(RELEASE_ID, trackIdAt(idx), { autoplay: true });
+  };
+  if (playBtn) {
+    playBtn.addEventListener('click', function(e){
+      e.stopImmediatePropagation();
+      const cur = VCRPlayer.current && VCRPlayer.current();
+      if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
+      else VCRPlayer.playRelease(RELEASE_ID, trackIdAt(activeIdx), { autoplay: true });
+    }, true);
+  }
+  if (seekEl) {
+    seekEl.addEventListener('change', function(e){
+      e.stopImmediatePropagation();
+      VCRPlayer.seek(+seekEl.value || 0);
+    }, true);
+  }
+  window.addEventListener('vcr:player', function(ev){
+    const d = ev.detail || {};
+    const t = d.track;
+    if (!t || t.releaseId !== RELEASE_ID) {
+      setPlaying(false);
+      return;
+    }
+    const idx = TRACKS.findIndex(function(tr){ return tr.id === t.id || tr.title === t.title; });
+    if (idx >= 0) setActive(idx);
+    setPlaying(!!d.playing);
+    if (seekEl && d.duration) {
+      seekEl.max = String(d.duration);
+      if (!dragging) seekEl.value = String(d.currentTime || 0);
+    }
+    if (elapsedEl) elapsedEl.textContent = fmt(d.currentTime || 0);
+    if (remainEl) remainEl.textContent = '-' + fmt((d.duration || 0) - (d.currentTime || 0));
+    setMsg('');
+  });
+})();
+
 </script>
 </body>
 </html>
