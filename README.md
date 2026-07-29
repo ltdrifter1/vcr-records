@@ -14,4 +14,6 @@ npx serve .
 
 ## Deploy
 
-Vercel static hosting (`vercel.json`). Root `index.html` is the homepage; `cleanUrls` maps `/about` → `about.html`, etc.
+Vercel must treat this as a **static** site (not Next.js). `vercel.json` sets `framework: null` and `outputDirectory: "."` so HTML at the repo root is served with no serverless functions.
+
+Root `index.html` is the homepage; `cleanUrls` maps `/about` → `about.html`, etc. Cloudflare Pages also deploys from this repo.
