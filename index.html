@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/player.css"/>
   <style>
     :root {
       --bg: #f5f5f7;
@@ -44,9 +45,8 @@
       font-size: 17px;
       line-height: 1.47;
       letter-spacing: -.01em;
-      padding-bottom: calc(var(--dock-h) + var(--safe-b));
+      padding-bottom: var(--safe-b);
     }
-    body.dock-off { padding-bottom: var(--safe-b); }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
     button {
@@ -326,70 +326,6 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* NOW PLAYING DOCK */
-    .dock {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 320;
-      padding: 0 14px calc(12px + var(--safe-b));
-      pointer-events: none;
-      transform: translateY(120%);
-      transition: transform .45s var(--ease);
-    }
-    .dock.on { transform: none; pointer-events: auto; }
-    .dock-card {
-      max-width: 820px; margin: 0 auto;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: saturate(180%) blur(18px);
-      -webkit-backdrop-filter: saturate(180%) blur(18px);
-      border: 1px solid rgba(0,0,0,.06);
-      border-radius: 22px;
-      box-shadow: 0 16px 50px rgba(0,0,0,.14);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 64px 1fr minmax(0, 1.2fr) auto;
-      gap: 14px; align-items: center;
-      padding: 12px 14px;
-    }
-    @media (max-width: 720px) {
-      .dock-card {
-        grid-template-columns: 56px 1fr auto;
-        grid-template-areas:
-          "art meta close"
-          "player player player";
-      }
-      .dock-art { grid-area: art; }
-      .dock-meta { grid-area: meta; }
-      .dock-player { grid-area: player; }
-      .dock-close { grid-area: close; }
-    }
-    .dock-art {
-      width: 64px; height: 64px; border-radius: 14px; overflow: hidden;
-      background: #e8e8ed; flex-shrink: 0;
-    }
-    @media (max-width: 720px) { .dock-art { width: 56px; height: 56px; } }
-    .dock-art img { width: 100%; height: 100%; object-fit: cover; }
-    .dock-label {
-      font-size: 10px; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--dim);
-    }
-    .dock-title {
-      font-size: 15px; font-weight: 700; letter-spacing: -.02em;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .dock-artist { font-size: 13px; color: var(--muted); }
-    .dock-player {
-      min-height: 42px; border-radius: 12px; overflow: hidden;
-      background: var(--bg);
-    }
-    .dock-player iframe {
-      width: 100%; height: 42px; border: 0; display: block;
-    }
-    .dock-close {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--fill-hi); color: var(--muted);
-      font-size: 18px; line-height: 1;
-    }
-    @media (hover:hover) { .dock-close:hover { color: var(--text); } }
-
     .footer {
       background: #fff; border-top: 1px solid var(--line);
       padding: 56px 0 calc(28px + var(--safe-b));
@@ -432,7 +368,7 @@
     }
   </style>
 </head>
-<body class="dock-off" id="top">
+<body id="top">
 
 <header class="nav" id="nav">
   <div class="nav-inner">
@@ -469,7 +405,10 @@
 
 <section class="hero" id="hero" aria-label="VCR Recordings">
   <div class="hero-media" aria-hidden="true">
-    <img src="home.png" alt="" fetchpriority="high"/>
+    <picture>
+      <source srcset="home-hero.webp" type="image/webp"/>
+      <img src="home-hero.jpg" alt="" fetchpriority="high" width="1920" height="1080"/>
+    </picture>
   </div>
   <div class="hero-inner">
     <h1>
@@ -493,7 +432,7 @@
     </header>
 
     <div class="listen-room">
-        <article class="listen-chapter rv" id="listen-0" data-album="Inlet Knight">
+        <article class="listen-chapter rv" id="listen-0" data-release="inlet-knight">
           <div class="chapter-art">
             <img src="inlet-knight-cover.jpg" alt="Inlet Knight cover" loading="eager"/>
           </div>
@@ -501,11 +440,10 @@
             <p class="chapter-artist">Inlet Knight</p>
             <h2 class="chapter-title">Inlet Knight</h2>
             <div class="chapter-actions">
-              <a class="btn btn-ghost" href="inlet-knight.html">View release</a>
-              <a class="btn btn-dark" href="https://inletknight.bandcamp.com/album/inlet-knight" target="_blank" rel="noopener">Open album</a>
+              <button type="button" class="btn btn-dark" data-play-release="inlet-knight" data-play-stage>Play album</button> <a class="btn btn-ghost" href="inlet-knight.html">View release</a> <a class="btn btn-ghost" href="https://inletknight.bandcamp.com/album/inlet-knight" target="_blank" rel="noopener">Buy</a>
             </div>
             <div class="tracklist" role="list">
-              <button type="button" class="track is-playable" data-track-id="3993660729" data-title="Revive Him" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-01">
                 <span class="track-num">1</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -514,7 +452,7 @@
                 <span class="track-title">Revive Him</span>
                 <span class="track-dur">2:28</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="2209021335" data-title="Whatever" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-02">
                 <span class="track-num">2</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -523,7 +461,7 @@
                 <span class="track-title">Whatever</span>
                 <span class="track-dur">3:28</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="2199770999" data-title="Mad About You" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-03">
                 <span class="track-num">3</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -532,7 +470,7 @@
                 <span class="track-title">Mad About You</span>
                 <span class="track-dur">3:58</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="3168446955" data-title="All Falls Down" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-04">
                 <span class="track-num">4</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -541,7 +479,7 @@
                 <span class="track-title">All Falls Down</span>
                 <span class="track-dur">4:43</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="2301514534" data-title="Les Misérables" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-05">
                 <span class="track-num">5</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -550,7 +488,7 @@
                 <span class="track-title">Les Misérables</span>
                 <span class="track-dur">2:17</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="1128736021" data-title="Heartbreaker" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-06">
                 <span class="track-num">6</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -559,7 +497,7 @@
                 <span class="track-title">Heartbreaker</span>
                 <span class="track-dur">3:53</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="760275175" data-title="Movin'" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-07">
                 <span class="track-num">7</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -568,7 +506,7 @@
                 <span class="track-title">Movin'</span>
                 <span class="track-dur">3:26</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="2699923561" data-title="Sunday Afternoon" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-08">
                 <span class="track-num">8</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -577,7 +515,7 @@
                 <span class="track-title">Sunday Afternoon</span>
                 <span class="track-dur">2:55</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="3807855193" data-title="Hard to Ignore" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-09">
                 <span class="track-num">9</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -586,7 +524,7 @@
                 <span class="track-title">Hard to Ignore</span>
                 <span class="track-dur">4:10</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="3550389386" data-title="The Get Down" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-10">
                 <span class="track-num">10</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -595,7 +533,7 @@
                 <span class="track-title">The Get Down</span>
                 <span class="track-dur">1:37</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="1580386891" data-title="3AM" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-11">
                 <span class="track-num">11</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -604,7 +542,7 @@
                 <span class="track-title">3AM</span>
                 <span class="track-dur">3:00</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="2103452275" data-title="Another Day" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-12">
                 <span class="track-num">12</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -613,7 +551,7 @@
                 <span class="track-title">Another Day</span>
                 <span class="track-dur">4:59</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="3943206510" data-title="Is It Cool?" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-13">
                 <span class="track-num">13</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -622,7 +560,7 @@
                 <span class="track-title">Is It Cool?</span>
                 <span class="track-dur">4:03</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="1885840422" data-title="You Wanted Me" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-14">
                 <span class="track-num">14</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -631,7 +569,7 @@
                 <span class="track-title">You Wanted Me</span>
                 <span class="track-dur">2:50</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="2592419815" data-title="Next Year" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-15">
                 <span class="track-num">15</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -640,7 +578,7 @@
                 <span class="track-title">Next Year</span>
                 <span class="track-dur">4:07</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="1824214613" data-title="Art of Losing" data-artist="Inlet Knight" data-cover="inlet-knight-cover.jpg" data-album-url="https://inletknight.bandcamp.com/album/inlet-knight">
+              <button type="button" class="track is-playable" data-play-release="inlet-knight" data-play-track="ik-16">
                 <span class="track-num">16</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -653,7 +591,7 @@
           </div>
         </article>
 
-        <article class="listen-chapter rv is-flip" id="listen-1" data-album="At Home">
+        <article class="listen-chapter rv is-flip" id="listen-1" data-release="at-home">
           <div class="chapter-art">
             <img src="at_home.png" alt="At Home cover" loading="lazy"/>
           </div>
@@ -661,11 +599,10 @@
             <p class="chapter-artist">Inlet Knight</p>
             <h2 class="chapter-title">At Home</h2>
             <div class="chapter-actions">
-              <a class="btn btn-ghost" href="home.html">View release</a>
-              <a class="btn btn-dark" href="https://inletknight.bandcamp.com/album/at-home" target="_blank" rel="noopener">Open album</a>
+              <button type="button" class="btn btn-dark" data-play-release="at-home" data-play-stage>Play album</button> <a class="btn btn-ghost" href="home.html">View release</a> <a class="btn btn-ghost" href="https://inletknight.bandcamp.com/album/at-home" target="_blank" rel="noopener">Buy</a>
             </div>
             <div class="tracklist" role="list">
-              <button type="button" class="track is-playable" data-track-id="2885396411" data-title="After All" data-artist="Inlet Knight" data-cover="at_home.png" data-album-url="https://inletknight.bandcamp.com/album/at-home">
+              <button type="button" class="track is-playable" data-play-release="at-home" data-play-track="ah-01">
                 <span class="track-num">1</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -674,7 +611,7 @@
                 <span class="track-title">After All</span>
                 <span class="track-dur">2:23</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="3565522789" data-title="Will I See You Again?" data-artist="Inlet Knight" data-cover="at_home.png" data-album-url="https://inletknight.bandcamp.com/album/at-home">
+              <button type="button" class="track is-playable" data-play-release="at-home" data-play-track="ah-02">
                 <span class="track-num">2</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -683,7 +620,7 @@
                 <span class="track-title">Will I See You Again?</span>
                 <span class="track-dur">3:58</span>
               </button>
-              <button type="button" class="track is-playable" data-track-id="1134746883" data-title="At Home" data-artist="Inlet Knight" data-cover="at_home.png" data-album-url="https://inletknight.bandcamp.com/album/at-home">
+              <button type="button" class="track is-playable" data-play-release="at-home" data-play-track="ah-03">
                 <span class="track-num">3</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -696,7 +633,7 @@
           </div>
         </article>
 
-        <article class="listen-chapter rv" id="listen-2" data-album="Summer Madness">
+        <article class="listen-chapter rv" id="listen-2" data-release="summer-madness">
           <div class="chapter-art">
             <img src="summer.PNG" alt="Summer Madness cover" loading="lazy"/>
           </div>
@@ -704,11 +641,10 @@
             <p class="chapter-artist">LT Drifta</p>
             <h2 class="chapter-title">Summer Madness</h2>
             <div class="chapter-actions">
-              <a class="btn btn-ghost" href="summer.html">View release</a>
-              <a class="btn btn-dark" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Listen on Bandcamp</a>
+              <a class="btn btn-ghost" href="summer.html">View release</a> <a class="btn btn-dark" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Listen on Bandcamp</a>
             </div>
             <div class="tracklist" role="list">
-              <button type="button" class="track is-external" data-track-id="" data-title="Summer Madness" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">1</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -717,7 +653,7 @@
                 <span class="track-title">Summer Madness</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Too Far" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">2</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -726,7 +662,7 @@
                 <span class="track-title">Too Far</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Naima" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">3</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -735,7 +671,7 @@
                 <span class="track-title">Naima</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Space and Time" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">4</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -744,7 +680,7 @@
                 <span class="track-title">Space and Time</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Go!" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">5</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -753,7 +689,7 @@
                 <span class="track-title">Go!</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Next Up" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">6</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -762,7 +698,7 @@
                 <span class="track-title">Next Up</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Colours of You" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">7</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -771,7 +707,7 @@
                 <span class="track-title">Colours of You</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Nu Saigon" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">8</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -780,7 +716,7 @@
                 <span class="track-title">Nu Saigon</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="You're My" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">9</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -789,7 +725,7 @@
                 <span class="track-title">You're My</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="So What" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">10</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -798,7 +734,7 @@
                 <span class="track-title">So What</span>
                 <span class="track-dur"></span>
               </button>
-              <button type="button" class="track is-external" data-track-id="" data-title="Mood Indigo" data-artist="LT Drifta" data-cover="summer.PNG" data-album-url="https://ltdrifta.bandcamp.com">
+              <button type="button" class="track is-external" data-external-url="https://ltdrifta.bandcamp.com">
                 <span class="track-num">11</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -811,7 +747,7 @@
           </div>
         </article>
 
-        <article class="listen-chapter rv is-flip" id="listen-3" data-album="Lions' Gate">
+        <article class="listen-chapter rv is-flip" id="listen-3" data-release="lions-gate">
           <div class="chapter-art">
             <img src="lions.png" alt="Lions' Gate cover" loading="lazy"/>
           </div>
@@ -819,11 +755,10 @@
             <p class="chapter-artist">Charlie Archer</p>
             <h2 class="chapter-title">Lions' Gate</h2>
             <div class="chapter-actions">
-              <a class="btn btn-ghost" href="lion.html">View release</a>
-              <a class="btn btn-dark" href="https://drifta.bandcamp.com" target="_blank" rel="noopener">Listen on Bandcamp</a>
+              <button type="button" class="btn btn-dark" data-play-release="lions-gate" data-play-stage>Play album</button> <a class="btn btn-ghost" href="lion.html">View release</a> <a class="btn btn-ghost" href="https://drifta.bandcamp.com" target="_blank" rel="noopener">Buy</a>
             </div>
             <div class="tracklist" role="list">
-              <button type="button" class="track is-external" data-track-id="" data-title="Lions' Gate" data-artist="Charlie Archer" data-cover="lions.png" data-album-url="https://drifta.bandcamp.com">
+              <button type="button" class="track is-playable" data-play-release="lions-gate" data-play-track="lg-01">
                 <span class="track-num">1</span>
                 <span class="track-play" aria-hidden="true">
                   <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -838,19 +773,6 @@
     </div>
   </div>
 </main>
-
-<div class="dock" id="dock" aria-live="polite">
-  <div class="dock-card">
-    <div class="dock-art"><img id="dockCover" src="inlet-knight-cover.jpg" alt=""/></div>
-    <div class="dock-meta">
-      <div class="dock-label">Now playing</div>
-      <div class="dock-title" id="dockTitle">—</div>
-      <div class="dock-artist" id="dockArtist">—</div>
-    </div>
-    <div class="dock-player" id="dockPlayer"></div>
-    <button type="button" class="dock-close" id="dockClose" aria-label="Close player">×</button>
-  </div>
-</div>
 
 <footer class="footer">
   <div class="band">
@@ -883,6 +805,7 @@
 </footer>
 
 <script src="js/cart.js"></script>
+<script src="js/player.js"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');
@@ -925,55 +848,27 @@ var obs = new IntersectionObserver(function (entries) {
 }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.listen-chapter').forEach(function (el) { obs.observe(el); });
 
-(function () {
-  var dock = document.getElementById('dock');
-  var dockPlayer = document.getElementById('dockPlayer');
-  var dockTitle = document.getElementById('dockTitle');
-  var dockArtist = document.getElementById('dockArtist');
-  var dockCover = document.getElementById('dockCover');
-  var activeBtn = null;
-
-  function embedUrl(trackId) {
-    return 'https://bandcamp.com/EmbeddedPlayer/track=' + trackId +
-      '/size=small/bgcol=ffffff/linkcol=1d1d1f/artwork=none/transparent=true/';
-  }
-
-  function openDock(btn) {
-    var id = btn.dataset.trackId;
-    if (!id) {
-      window.open(btn.dataset.albumUrl, '_blank', 'noopener');
-      return;
-    }
-    if (activeBtn) activeBtn.classList.remove('is-active');
-    activeBtn = btn;
-    btn.classList.add('is-active');
-    dockTitle.textContent = btn.dataset.title;
-    dockArtist.textContent = btn.dataset.artist;
-    dockCover.src = btn.dataset.cover;
-    dockPlayer.innerHTML = '';
-    var f = document.createElement('iframe');
-    f.title = 'Bandcamp player';
-    f.loading = 'eager';
-    f.allow = 'autoplay';
-    f.src = embedUrl(id);
-    dockPlayer.appendChild(f);
-    document.body.classList.remove('dock-off');
-    dock.classList.add('on');
-  }
-
-  function closeDock() {
-    dock.classList.remove('on');
-    document.body.classList.add('dock-off');
-    dockPlayer.innerHTML = '';
-    if (activeBtn) activeBtn.classList.remove('is-active');
-    activeBtn = null;
-  }
-
-  document.querySelectorAll('.track').forEach(function (btn) {
-    btn.addEventListener('click', function () { openDock(btn); });
+document.querySelectorAll('[data-external-url]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    window.open(btn.getAttribute('data-external-url'), '_blank', 'noopener');
   });
-  document.getElementById('dockClose').addEventListener('click', closeDock);
-})();
+});
+
+function syncActiveFromURL() {
+  var params = new URLSearchParams(window.location.search);
+  var track = params.get('t');
+  document.querySelectorAll('.track.is-active').forEach(function (el) { el.classList.remove('is-active'); });
+  if (!track) return;
+  var btn = document.querySelector('.track[data-play-track="' + track + '"]');
+  if (btn) btn.classList.add('is-active');
+}
+window.addEventListener('popstate', syncActiveFromURL);
+document.querySelectorAll('[data-play-release]').forEach(function (el) {
+  el.addEventListener('click', function () {
+    setTimeout(syncActiveFromURL, 50);
+  });
+});
+syncActiveFromURL();
 </script>
 </body>
 </html>

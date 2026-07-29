@@ -39,7 +39,44 @@
     .nav-links { display: flex; gap: 2px; }
     .nav-links a { padding: 7px 10px; border-radius: 4px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sub); transition: color .15s, background .15s; }
     @media (hover:hover) { .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.05); } }
-    @media (max-width: 520px) { .nav-links { display: none; } }
+    
+    .nav-end { display: flex; align-items: center; gap: 4px; }
+    .nav-cart {
+      position: relative; width: 42px; height: 42px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--pill, 980px); color: var(--text, #fff);
+    }
+    @media (hover:hover) { .nav-cart:hover { background: var(--fill-hi, rgba(0,0,0,.07)); } }
+    .nav-cart svg { width: 20px; height: 20px; }
+    .nav-cart-count {
+      position: absolute; top: 4px; right: 2px;
+      min-width: 18px; height: 18px; padding: 0 5px;
+      border-radius: 980px; background: #fff; color: #fff;
+      font-size: 10px; font-weight: 700; line-height: 18px; text-align: center;
+    }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 10px; }
+    .nav-ham span {
+      display: block; width: 16px; height: 1.5px; background: var(--muted, #999);
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .nav-ham.on span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--text, #fff); }
+    .nav-ham.on span:nth-child(2) { opacity: 0; }
+    .nav-ham.on span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--text, #fff); }
+    .nav-drawer {
+      display: none; position: fixed;
+      top: calc(var(--nav-h, 52px) + env(safe-area-inset-top, 0px)); left: 0; right: 0; z-index: 290;
+      background: rgba(10,10,10,.96); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      padding: 8px 22px calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+    .nav-drawer.on { display: block; }
+    .nav-drawer a {
+      display: block; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.1);
+      font-size: 15px; font-weight: 500; color: #999;
+    }
+    .nav-drawer a:last-child { border-bottom: none; }
+
+    @media (max-width: 680px) { .nav-links { display: none; } .nav-ham { display: flex; } }
 
     .page { max-width: 1100px; margin: 0 auto; padding: 0 20px calc(60px + var(--safe-b)); }
 
@@ -222,6 +259,7 @@
     .fade-up { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
     .fade-up.is-visible { opacity: 1; transform: none; }
   </style>
+  <link rel="stylesheet" href="css/player.css"/>
 </head>
 <body>
 
@@ -253,17 +291,38 @@
     <a href="index.html" class="nav-brand">VCR Recordings</a>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="index.html#releases">Releases</a>
+      <a href="index.html#listen">Releases</a>
       <a href="index.html#artists">Artists</a>
     </nav>
+      <div class="nav-end">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
+          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="nav-cart-count" data-cart-count hidden>0</span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html">Home</a>
+  <a href="index.html#listen">Listen</a>
+  <a href="artists.html">Artists</a>
+  <a href="merch.html">Merch</a>
+  <a href="cart.html">Bag</a>
+</div>
+
 
 <main>
   <div class="page">
     <div class="crumbs">
       <a href="index.html">Home</a><span>/</span>
-      <a href="index.html#releases">Releases</a><span>/</span>
+      <a href="index.html#listen">Releases</a><span>/</span>
       Summer Madness
     </div>
 
@@ -813,5 +872,27 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
 (function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
 </script>
+<script src="js/cart.js"></script>
+<script>
+(function(){
+  var ham = document.getElementById('navHam');
+  var drawer = document.getElementById('navDrawer');
+  if (!ham || !drawer) return;
+  ham.addEventListener('click', function () {
+    var open = drawer.classList.toggle('on');
+    ham.classList.toggle('on', open);
+    ham.setAttribute('aria-expanded', String(open));
+    drawer.setAttribute('aria-hidden', String(!open));
+  });
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      drawer.classList.remove('on'); ham.classList.remove('on');
+      ham.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+    });
+  });
+})();
+</script>
+<script src="js/player.js"></script>
 </body>
 </html>

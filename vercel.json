@@ -6,6 +6,12 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "api/create-checkout-session.js": {
+      "memory": 256,
+      "maxDuration": 10
+    }
+  },
   "headers": [
     {
       "source": "/(.*)\\.(avif|webp|png|jpg|jpeg|gif|mp3|mp4|svg)",
@@ -13,6 +19,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=3600"
         }
       ]
     }
