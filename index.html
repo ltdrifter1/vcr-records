@@ -172,6 +172,63 @@
       font-size: 17px; color: var(--muted); line-height: 1.45;
     }
 
+
+    /* BRAND OPENING */
+    .brand-open {
+      position: relative;
+      padding: 56px 0 28px;
+      overflow: hidden;
+    }
+    @media (min-width: 800px) {
+      .brand-open { padding: 72px 0 36px; }
+    }
+    .brand-open::before {
+      content: "";
+      position: absolute; inset: -20% -10% auto -10%;
+      height: 140%;
+      background:
+        radial-gradient(700px 340px at 50% 0%, rgba(255,255,255,.95), transparent 70%),
+        radial-gradient(520px 280px at 18% 40%, rgba(200,210,222,.35), transparent 65%),
+        radial-gradient(480px 260px at 82% 30%, rgba(190,200,214,.28), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .brand-open-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+    }
+    .brand-open-mark {
+      margin: 0;
+      line-height: 0;
+    }
+    .brand-open-mark img {
+      width: min(340px, 72vw);
+      height: auto;
+      margin: 0 auto;
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,.06));
+      opacity: 0;
+      transform: translateY(12px) scale(.98);
+      animation: brandIn .9s var(--ease) .05s forwards;
+    }
+    @keyframes brandIn {
+      to { opacity: 1; transform: none; }
+    }
+    .brand-open .btn {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: brandIn .8s var(--ease) .22s forwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .brand-open-mark img, .brand-open .btn {
+        opacity: 1; transform: none; animation: none;
+      }
+    }
+
     /* FEATURED — compact, not a banner */
     .featured {
       padding: 40px 0 24px;
@@ -299,50 +356,6 @@
     .rel-year { font-size: 13px; color: var(--dim); margin-top: 5px; }
 
 
-
-    /* EXPLORE */
-    .explore-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-    @media (max-width: 700px) { .explore-grid { grid-template-columns: 1fr; } }
-    .explore-card {
-      display: flex; flex-direction: column; gap: 10px;
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 28px 26px;
-      box-shadow: var(--shadow);
-      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-      min-height: 210px;
-    }
-    @media (hover:hover) {
-      .explore-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-    }
-    .explore-kicker {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--dim);
-    }
-    .explore-title {
-      font-size: clamp(28px, 4vw, 36px);
-      font-weight: 700;
-      letter-spacing: -.035em;
-      line-height: 1.05;
-    }
-    .explore-desc {
-      font-size: 15px; color: var(--muted);
-      max-width: 28em; line-height: 1.45;
-      margin-top: 2px; flex: 1;
-    }
-    .explore-cta {
-      display: inline-flex; align-items: center;
-      margin-top: 10px;
-      font-size: 14px; font-weight: 600;
-      color: var(--text);
-    }
-    .explore-cta::after { content: " →"; }
-
     /* FOOTER */
     .footer {
       background: #fff;
@@ -452,6 +465,16 @@
 
 <div class="page-start">
 
+  <!-- BRAND OPENING -->
+  <section class="brand-open" aria-label="VCR Recordings">
+    <div class="band brand-open-inner">
+      <h1 class="brand-open-mark">
+        <img src="vcr-globe.svg" alt="VCR Recordings" width="280" height="200" fetchpriority="high"/>
+      </h1>
+      <a class="btn btn-dark" href="#releases">Browse releases</a>
+    </div>
+  </section>
+
   <!-- FEATURED (compact card, not hero banner) -->
   <section class="featured" id="featured">
     <div class="band">
@@ -462,7 +485,7 @@
         <div class="featured-body">
           <div>
             <div class="featured-label">Latest release</div>
-            <h1 class="featured-title">Inlet Knight</h1>
+            <h2 class="featured-title">Inlet Knight</h2>
             <div class="featured-artist">Inlet Knight</div>
           </div>
           <p class="featured-desc">Self-titled album · 16 tracks · VCR026D10.</p>
@@ -532,30 +555,6 @@
         </div>
       </div>
     </section>
-
-    <section class="section" id="explore" aria-label="Explore">
-      <div class="band">
-        <div class="section-head rv">
-          <p class="eyebrow">Label</p>
-          <h2>Explore</h2>
-        </div>
-        <div class="explore-grid">
-          <a class="explore-card rv d1" href="artists.html">
-            <span class="explore-kicker">Roster</span>
-            <span class="explore-title">Artists</span>
-            <span class="explore-desc">Meet the producers and artists behind the catalog.</span>
-            <span class="explore-cta">View artists</span>
-          </a>
-          <a class="explore-card rv d2" href="merch.html">
-            <span class="explore-kicker">Shop</span>
-            <span class="explore-title">Merch</span>
-            <span class="explore-desc">Tees, hats, and seasonal pieces from the label.</span>
-            <span class="explore-cta">Shop merch</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
 </main>
 
   <footer class="footer">
