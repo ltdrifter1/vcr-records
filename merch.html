@@ -32,7 +32,7 @@
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
       --wrap: 1120px;
-      --nav-h: 56px;
+      --nav-h: 60px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -75,11 +75,12 @@
       max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
       padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-logo img { height: 28px; width: auto; }
+    .nav-logo img { height: 44px; width: auto; }
+    @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
     .nav-links { display: flex; gap: 2px; }
     .nav-links a {
-      padding: 8px 12px; font-size: 12px; font-weight: 500; color: var(--muted);
-      border-radius: var(--pill);
+      padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--muted);
+      letter-spacing: .06em; text-transform: uppercase; border-radius: var(--pill);
       transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
     .nav-links a[aria-current="page"] { color: var(--text); background: var(--fill-hi); }
@@ -111,7 +112,7 @@
     .nav-drawer {
       display: none; position: fixed;
       top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
-      background: rgba(255,255,255,.96);
+      background: rgba(0,0,0,.94);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--line);
       padding: 8px 22px calc(16px + var(--safe-b));
@@ -119,9 +120,11 @@
     .nav-drawer.on { display: block; }
     .nav-drawer a {
       display: block; padding: 14px 0; border-bottom: 1px solid var(--line);
-      font-size: 15px; font-weight: 500; color: var(--muted);
+      font-size: 15px; font-weight: 600; color: var(--muted);
+      letter-spacing: .04em; text-transform: uppercase;
     }
     .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a[aria-current="page"] { color: var(--text); }
 
     .page { padding-top: calc(var(--nav-h) + var(--safe-t)); min-height: 100vh; }
     .band { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
@@ -261,7 +264,7 @@
     }
 
     .footer {
-      background: #fff; border-top: 1px solid var(--line);
+      background: #000; border-top: 1px solid var(--line);
       padding: 48px 0 calc(28px + var(--safe-b));
     }
     .footer-bottom {
@@ -269,8 +272,13 @@
       justify-content: space-between; align-items: center;
     }
     .footer-copy { font-size: 13px; color: var(--dim); }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
-    .footer-links a { font-size: 13px; font-weight: 500; color: var(--muted); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .footer-links a {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 6px 10px; border-radius: var(--pill);
+    }
+    @media (hover:hover) { .footer-links a:hover { background: var(--fill-hi); color: var(--text); } }
 
     @media (prefers-reduced-motion: reduce) {
       .product { opacity: 1; transform: none; transition: none; }
@@ -302,6 +310,9 @@
     }
     .intro-bag .count { background: #fff; color: #000; }
     .toast {
+      background: #141414; color: #fff; border: 1px solid var(--line);
+    }
+    .toast a {
       background: #fff; color: #000;
     }
     .footer { border-top-color: var(--line); }
@@ -312,13 +323,13 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home">
-      <img src="club-copy-nav-light.png" alt="Club Copy" width="1000" height="148"/>
+      <img src="club-copy-header.png" alt="Club Copy" width="900" height="417"/>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="index.html#listen">Releases</a>
+      <a href="index.html#listen">Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html" aria-current="page">Merch</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
       <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
@@ -336,10 +347,10 @@
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="index.html">Home</a>
-  <a href="index.html#listen">Releases</a>
+  <a href="index.html#listen">Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html" aria-current="page">Merch</a>
+  <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
 
@@ -570,12 +581,12 @@
 
 <footer class="footer">
   <div class="band footer-bottom">
-    <p class="footer-copy">© 2026 Club Copy</p>
+    <p class="footer-copy">© 2026 Club Copy · Est. 2024</p>
     <div class="footer-links">
-      <a href="cart.html">Bag</a>
+      <a href="index.html#listen">Listen</a>
       <a href="artists.html">Artists</a>
-      <a href="https://vcrrecordings.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       <a href="contact.html">Contact</a>
+      <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
     </div>
   </div>
 </footer>
