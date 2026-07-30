@@ -156,13 +156,12 @@
     }
     .hero-media img {
       object-fit: cover;
-      object-position: center 42%;
-      filter: saturate(.9) contrast(1.04);
+      object-position: center center;
     }
     .hero-media::after {
       content: "";
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(8,10,14,.12), rgba(8,10,14,.28));
+      background: linear-gradient(180deg, rgba(8,10,14,.08), rgba(8,10,14,.2));
       pointer-events: none;
     }
 
@@ -409,8 +408,8 @@
 <section class="hero" id="hero" aria-label="VCR Recordings">
   <div class="hero-media" aria-hidden="true">
     <picture>
-      <source srcset="home-hero.webp" type="image/webp"/>
-      <img src="home-hero.jpg" alt="" fetchpriority="high" width="1920" height="1080"/>
+      <source srcset="hero-vhs.webp" type="image/webp"/>
+      <img src="hero-vhs.jpg" alt="" fetchpriority="high" width="1920" height="480"/>
     </picture>
   </div>
 </section>
