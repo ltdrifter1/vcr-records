@@ -12,7 +12,6 @@ const CATALOG = {
   "sm-hoodie": { name: "Logo Hoodie", unitAmount: 6800 },
   "sm-crewneck": { name: "Logo Crewneck", unitAmount: 5800 },
   "sm-cap": { name: "Micro Logo Cap", unitAmount: 2800 },
-  "sm-beanie": { name: "Micro Logo Beanie", unitAmount: 2600 },
   "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
   "sm-mug": { name: "Studio Mug", unitAmount: 1800 },
   "sm-stickers": { name: "Logo Sticker Pack", unitAmount: 800 },
