@@ -76,7 +76,7 @@
       max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
       padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-logo img { height: 26px; width: auto; }
+    .nav-logo img { height: 38px; width: auto; }
     @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
     .nav-links { display: flex; gap: 2px; }
     .nav-links a {
@@ -273,6 +273,12 @@
       display: inline-flex; align-items: center;
     }
 
+    .footer-brand {
+      margin-bottom: 22px;
+    }
+    .footer-brand img {
+      width: min(140px, 42vw); height: auto;
+    }
     .footer {
       background: #000; border-top: 1px solid var(--line);
       padding: 48px 0 calc(28px + var(--safe-b));
@@ -324,7 +330,7 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home">
-      <img src="club-copy-nav.webp" alt="Club Copy" width="1000" height="148"/>
+      <img src="club-copy-header.webp" alt="Club Copy" width="900" height="417"/>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
@@ -579,14 +585,21 @@
 </div>
 
 <footer class="footer">
-  <div class="band footer-bottom">
-    <p class="footer-copy">© 2026 Club Copy</p>
-    <div class="footer-links">
+  <div class="band">
+    <div class="footer-brand">
+      <a href="index.html" aria-label="Club Copy home">
+        <img src="club-copy-header.webp" alt="Club Copy" width="900" height="417" loading="lazy"/>
+      </a>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Club Copy</p>
+      <div class="footer-links">
       <a href="index.html#listen">Listen</a>
       <a href="artists.html">Artists</a>
       <a href="contact.html">Contact</a>
       <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
     </div>
+  </div>
   </div>
 </footer>
 
