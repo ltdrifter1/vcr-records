@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Merch — VCR Recordings</title>
-  <meta name="description" content="VCR Recordings merch — tees, hats, and more. Bundle items in your bag."/>
+  <title>Merch — Stereo-Mart Records</title>
+  <meta name="description" content="Stereo-Mart Records merch — indie label tees, hoodies, totes, and more."/>
   <meta name="theme-color" content="#f5f5f7"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -185,12 +185,13 @@
 
     .product-visual {
       aspect-ratio: 1;
-      background: radial-gradient(circle at 50% 42%, #fff 0%, #f0f1f4 58%, #e6e8ee 100%);
+      background:
+        radial-gradient(circle at 50% 40%, #fff 0%, #f3efe6 55%, #e7e2d6 100%);
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
     .product-visual img {
-      width: min(72%, 260px); height: auto; object-fit: contain;
+      width: min(88%, 340px); height: auto; object-fit: contain;
       filter: drop-shadow(0 14px 28px rgba(0,0,0,.12));
       transition: transform 1s var(--ease);
     }
@@ -312,9 +313,9 @@
   <div class="band">
     <header class="intro">
       <div class="intro-copy">
-        <p class="intro-brand">VCR Recordings</p>
+        <p class="intro-brand">Stereo-Mart Records</p>
         <h1>Merch</h1>
-        <p>Label essentials. Soft cotton, clean marks — add to your bag and bundle what you want.</p>
+        <p>Label staples with a soft indie tilt — simple wordmarks, globe badges, and small-run essentials.</p>
       </div>
       <a class="intro-bag" href="cart.html">
         View bag
@@ -323,97 +324,204 @@
     </header>
 
     <section class="shop" aria-label="Merch">
-      <article class="product merch-card"
-        data-sku="tshirt"
-        data-name="T-Shirt"
-        data-price="30"
-        data-stripe="https://buy.stripe.com/3cI00k6DB8s877O1JzfrW0o">
+      <article class="product merch-card" data-sku="sm-simple-tee" data-name="Simple Logo Tee" data-price="32">
         <div class="product-visual">
-          <img id="tshirt-img" src="shirt.png" alt="VCR T-Shirt"/>
+          <img id="img-simple-tee" src="merch/stereo-mart/prod-simple-tee-black.jpg" alt="Stereo-Mart simple logo tee"/>
         </div>
         <div class="product-body">
           <div>
             <p class="product-kicker">Apparel</p>
-            <h2 class="product-name">T-Shirt</h2>
-            <p class="product-price">$30.00</p>
+            <h2 class="product-name">Simple Logo Tee</h2>
+            <p class="product-price">$32.00</p>
           </div>
-          <p class="product-note">Heavyweight cotton tee with the VCR mark.</p>
+          <p class="product-note">The clean one. Slanted Stereo-Mart wordmark, nothing else.</p>
           <div class="opt-block">
             <span class="opt-label">Colour</span>
             <div class="merch-options">
-              <button class="merch-opt selected" data-group="tshirt-colour" data-img="shirt.png">Black</button>
-              <button class="merch-opt" data-group="tshirt-colour" data-img="shirt2.png">White</button>
+              <button class="merch-opt selected" data-group="simple-tee-colour" data-img="merch/stereo-mart/prod-simple-tee-black.jpg">Black</button>
+              <button class="merch-opt" data-group="simple-tee-colour" data-img="merch/stereo-mart/prod-simple-tee-cream.jpg">Cream</button>
             </div>
           </div>
           <div class="opt-block">
             <span class="opt-label">Size</span>
             <div class="merch-options">
-              <button class="merch-opt selected" data-group="tshirt-size">S</button>
-              <button class="merch-opt" data-group="tshirt-size">M</button>
-              <button class="merch-opt" data-group="tshirt-size">L</button>
-              <button class="merch-opt" data-group="tshirt-size">XL</button>
+              <button class="merch-opt selected" data-group="simple-tee-size">S</button>
+              <button class="merch-opt" data-group="simple-tee-size">M</button>
+              <button class="merch-opt" data-group="simple-tee-size">L</button>
+              <button class="merch-opt" data-group="simple-tee-size">XL</button>
             </div>
           </div>
           <button class="merch-add" type="button">Add to bag</button>
         </div>
       </article>
 
-      <article class="product merch-card"
-        data-sku="hat"
-        data-name="Hat"
-        data-price="25"
-        data-stripe="https://buy.stripe.com/6oU14o2nl23KgIoewlfrW0n">
+      <article class="product merch-card" data-sku="sm-globe-tee" data-name="Globe Badge Tee" data-price="34">
         <div class="product-visual">
-          <img id="hat-img" src="hat.png" alt="VCR Hat"/>
+          <img src="merch/stereo-mart/prod-globe-tee.jpg" alt="Stereo-Mart globe badge tee"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Apparel</p>
+            <h2 class="product-name">Globe Badge Tee</h2>
+            <p class="product-price">$34.00</p>
+          </div>
+          <p class="product-note">Wireframe globe lockup with the red Records bar. Midweight cotton.</p>
+          <div class="opt-block">
+            <span class="opt-label">Size</span>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="globe-tee-size">S</button>
+              <button class="merch-opt" data-group="globe-tee-size">M</button>
+              <button class="merch-opt" data-group="globe-tee-size">L</button>
+              <button class="merch-opt" data-group="globe-tee-size">XL</button>
+            </div>
+          </div>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-longsleeve" data-name="Wordmark Long Sleeve" data-price="42">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-longsleeve.jpg" alt="Stereo-Mart long sleeve"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Apparel</p>
+            <h2 class="product-name">Wordmark Long Sleeve</h2>
+            <p class="product-price">$42.00</p>
+          </div>
+          <p class="product-note">Cream long sleeve, simple slanted mark. Late-night drive energy.</p>
+          <div class="opt-block">
+            <span class="opt-label">Size</span>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="ls-size">S</button>
+              <button class="merch-opt" data-group="ls-size">M</button>
+              <button class="merch-opt" data-group="ls-size">L</button>
+              <button class="merch-opt" data-group="ls-size">XL</button>
+            </div>
+          </div>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-hoodie" data-name="Records Hoodie" data-price="68">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-hoodie.jpg" alt="Stereo-Mart hoodie"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Apparel</p>
+            <h2 class="product-name">Records Hoodie</h2>
+            <p class="product-price">$68.00</p>
+          </div>
+          <p class="product-note">Heavy fleece with the Stereo-Mart / Records bar lockup across the chest.</p>
+          <div class="opt-block">
+            <span class="opt-label">Size</span>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="hoodie-size">S</button>
+              <button class="merch-opt" data-group="hoodie-size">M</button>
+              <button class="merch-opt" data-group="hoodie-size">L</button>
+              <button class="merch-opt" data-group="hoodie-size">XL</button>
+            </div>
+          </div>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-crewneck" data-name="Globe Crewneck" data-price="58">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-crewneck.jpg" alt="Stereo-Mart crewneck"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Apparel</p>
+            <h2 class="product-name">Globe Crewneck</h2>
+            <p class="product-price">$58.00</p>
+          </div>
+          <p class="product-note">Soft crew with a centered globe badge. Label casual, not gym.</p>
+          <div class="opt-block">
+            <span class="opt-label">Size</span>
+            <div class="merch-options">
+              <button class="merch-opt selected" data-group="crew-size">S</button>
+              <button class="merch-opt" data-group="crew-size">M</button>
+              <button class="merch-opt" data-group="crew-size">L</button>
+              <button class="merch-opt" data-group="crew-size">XL</button>
+            </div>
+          </div>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-cap" data-name="Embroidered Cap" data-price="28">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-cap.jpg" alt="Stereo-Mart cap"/>
         </div>
         <div class="product-body">
           <div>
             <p class="product-kicker">Accessories</p>
-            <h2 class="product-name">Hat</h2>
-            <p class="product-price">$25.00</p>
+            <h2 class="product-name">Embroidered Cap</h2>
+            <p class="product-price">$28.00</p>
           </div>
-          <p class="product-note">Structured black cap with embroidered label detail. One size.</p>
-          <div class="opt-block">
-            <span class="opt-label">Colour</span>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="cap-colour" data-img="hat.png">Black</button>
-            </div>
-          </div>
+          <p class="product-note">Structured black cap with a small globe badge up front. One size.</p>
           <button class="merch-add" type="button">Add to bag</button>
         </div>
       </article>
 
-      <article class="product merch-card"
-        data-sku="bikini"
-        data-name="Bikini"
-        data-price="35"
-        data-stripe="https://buy.stripe.com/eVq7sMfa70ZG77O2NDfrW0m">
+      <article class="product merch-card" data-sku="sm-beanie" data-name="Records Beanie" data-price="26">
         <div class="product-visual">
-          <img id="bikini-img" src="bikini.png" alt="VCR Bikini"/>
+          <img src="merch/stereo-mart/prod-beanie.jpg" alt="Stereo-Mart beanie"/>
         </div>
         <div class="product-body">
           <div>
-            <p class="product-kicker">Seasonal</p>
-            <h2 class="product-name">Bikini</h2>
-            <p class="product-price">$35.00</p>
+            <p class="product-kicker">Accessories</p>
+            <h2 class="product-name">Records Beanie</h2>
+            <p class="product-price">$26.00</p>
           </div>
-          <p class="product-note">Limited seasonal set for lake days and ferry decks.</p>
-          <div class="opt-block">
-            <span class="opt-label">Colour</span>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="bikini-colour" data-img="bikini.png">Black</button>
-              <button class="merch-opt" data-group="bikini-colour" data-img="bikini2.png">White</button>
-            </div>
+          <p class="product-note">Deep red knit with the simple wordmark. Ferry-deck cold weather kit.</p>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-tote" data-name="Canvas Tote" data-price="24">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-tote.jpg" alt="Stereo-Mart tote"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Accessories</p>
+            <h2 class="product-name">Canvas Tote</h2>
+            <p class="product-price">$24.00</p>
           </div>
-          <div class="opt-block">
-            <span class="opt-label">Size</span>
-            <div class="merch-options">
-              <button class="merch-opt selected" data-group="bikini-size">XS</button>
-              <button class="merch-opt" data-group="bikini-size">S</button>
-              <button class="merch-opt" data-group="bikini-size">M</button>
-              <button class="merch-opt" data-group="bikini-size">L</button>
-            </div>
+          <p class="product-note">Natural canvas tote with the globe badge. Holds records, books, groceries.</p>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-mug" data-name="Studio Mug" data-price="18">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-mug.jpg" alt="Stereo-Mart mug"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Objects</p>
+            <h2 class="product-name">Studio Mug</h2>
+            <p class="product-price">$18.00</p>
           </div>
+          <p class="product-note">Cream ceramic with the Stereo-Mart Records bar. Morning tape deck fuel.</p>
+          <button class="merch-add" type="button">Add to bag</button>
+        </div>
+      </article>
+
+      <article class="product merch-card" data-sku="sm-stickers" data-name="Logo Sticker Pack" data-price="8">
+        <div class="product-visual">
+          <img src="merch/stereo-mart/prod-stickers.jpg" alt="Stereo-Mart sticker pack"/>
+        </div>
+        <div class="product-body">
+          <div>
+            <p class="product-kicker">Objects</p>
+            <h2 class="product-name">Logo Sticker Pack</h2>
+            <p class="product-price">$8.00</p>
+          </div>
+          <p class="product-note">Three marks: globe badge, simple wordmark, and full Records bar.</p>
           <button class="merch-add" type="button">Add to bag</button>
         </div>
       </article>
@@ -472,9 +580,7 @@ navDrawer.querySelectorAll('a').forEach(function (a) {
 });
 
 var MERCH_IMG_MAP = {
-  'tshirt-colour': document.getElementById('tshirt-img'),
-  'bikini-colour': document.getElementById('bikini-img'),
-  'cap-colour': document.getElementById('hat-img')
+  'simple-tee-colour': document.getElementById('img-simple-tee')
 };
 document.querySelectorAll('.merch-opt').forEach(function (btn) {
   btn.addEventListener('click', function () {
