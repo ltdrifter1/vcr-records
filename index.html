@@ -161,8 +161,21 @@
     .hero-media::after {
       content: "";
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(8,10,14,.08), rgba(8,10,14,.2));
+      background: linear-gradient(180deg, rgba(8,10,14,.18), rgba(8,10,14,.36));
       pointer-events: none;
+    }
+    .hero-mark {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+    .hero-mark img {
+      width: auto;
+      height: clamp(56px, 9vw, 92px);
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,.35));
     }
 
     .band { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
