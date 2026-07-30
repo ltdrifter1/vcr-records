@@ -152,9 +152,21 @@
     .artist-visual {
       min-height: 280px; background: #0c0c0c;
       border-right: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
     }
     @media (max-width: 760px) { .artist-visual { min-height: 220px; border-right: none; border-bottom: 1px solid var(--line); } }
-    .artist-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .artist-visual img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .artist-visual.is-logo {
+      background: #0c0c0c;
+    }
+    .artist-visual.is-logo img {
+      object-fit: contain;
+      padding: 18%;
+      box-sizing: border-box;
+    }
     .artist-body {
       padding: 28px; display: flex; flex-direction: column; gap: 16px;
     }
@@ -258,12 +270,12 @@
 
     <section class="roster" aria-label="Roster">
       <article class="artist">
-        <div class="artist-visual">
-          <img src="inlet-knight-cover.jpg" alt="Inlet Knight" loading="eager"/>
+        <div class="artist-visual is-logo">
+          <img src="artists/inlet-knight.jpg" alt="Inlet Knight" loading="eager"/>
         </div>
         <div class="artist-body">
           <div>
-            <p class="artist-role">Artist · Producer</p>
+            <p class="artist-role">Artist</p>
             <h2 class="artist-name">Inlet Knight</h2>
           </div>
           <p class="artist-bio">House and left-field electronics. Latest: the self-titled album.</p>
@@ -285,8 +297,8 @@
       </article>
 
       <article class="artist">
-        <div class="artist-visual">
-          <img src="blank1400.png" alt="Charlie Archer" loading="lazy"/>
+        <div class="artist-visual is-logo">
+          <img src="artists/charlie-archer.jpg" alt="Charlie Archer" loading="lazy"/>
         </div>
         <div class="artist-body">
           <div>
@@ -296,7 +308,7 @@
           <p class="artist-bio">Studio partner behind Lions’ Gate. Precision drums, warm low end, night-drive atmosphere.</p>
           <div class="artist-releases">
             <a class="chip" href="lion.html">
-              <img src="blank1400.png" alt=""/>
+              <img src="artists/placeholder-logo.jpg" alt=""/>
               <span>Lions’ Gate</span>
             </a>
           </div>
