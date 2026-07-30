@@ -73,7 +73,7 @@
       max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
       padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-logo img { height: 44px; width: auto; }
+    .nav-logo img { height: 26px; width: auto; }
     @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
     .nav-links { display: flex; gap: 2px; }
     .nav-links a {
@@ -161,7 +161,7 @@
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: calc(var(--radius) + 4px);
-      box-shadow: var(--shadow);
+      box-shadow: none;
       overflow: hidden;
     }
     .cart-lines { display: flex; flex-direction: column; }
@@ -179,13 +179,13 @@
     }
     .cart-thumb {
       width: 96px; height: 96px; border-radius: 16px;
-      background: #0c0c0c;
-      border: 1px solid var(--line);
+      background: #f2f2f4;
+      border: none;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
     @media (max-width: 560px) { .cart-thumb { width: 72px; height: 72px; border-radius: 14px; } }
-    .cart-thumb img { width: 78%; height: auto; object-fit: contain; }
+    .cart-thumb img { width: 88%; height: auto; object-fit: contain; }
     .cart-name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
     .cart-meta { font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 400; }
     .cart-price { font-size: 15px; font-weight: 400; color: var(--muted); margin-top: 10px; }
@@ -212,12 +212,26 @@
     .cart-line-total { font-size: 16px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 12px; }
 
     .empty {
-      padding: 56px 28px; text-align: center;
+      padding: 48px 28px 56px; text-align: center;
+    }
+    .empty-visual {
+      width: min(220px, 70%);
+      margin: 0 auto 22px;
+      aspect-ratio: 1;
+      border-radius: 18px;
+      background: #f2f2f4;
+      overflow: hidden;
+    }
+    .empty-visual img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      padding: 8%;
+      box-sizing: border-box;
     }
     .empty h2 {
       font-size: 24px; font-weight: 600; letter-spacing: -.022em; margin-bottom: 10px;
     }
-    .empty p { color: var(--muted); margin-bottom: 22px; }
+    .empty p { color: var(--muted); margin-bottom: 22px; max-width: 28em; margin-left: auto; margin-right: auto; }
 
     .summary-panel { padding: 28px 24px; position: sticky; top: calc(var(--nav-h) + var(--safe-t) + 18px); }
     .summary-panel h2 {
@@ -271,7 +285,7 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home">
-      <img src="club-copy-header.png" alt="Club Copy" width="900" height="417"/>
+      <img src="club-copy-nav.webp" alt="Club Copy" width="1000" height="148"/>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
@@ -313,8 +327,11 @@
       <section class="cart-panel" aria-label="Bag items">
         <div id="cartLines" class="cart-lines"></div>
         <div id="cartEmpty" class="empty" hidden>
+          <div class="empty-visual">
+            <img src="merch/club-copy/prod-simple-tee-black.jpg" alt=""/>
+          </div>
           <h2>Your bag is empty</h2>
-          <p>Bundle a tee, hat, or seasonal piece from the shop.</p>
+          <p>Start with the Micro Logo Tee — a quiet left-chest mark.</p>
           <a class="btn btn-dark" href="merch.html" style="max-width:220px;margin:0 auto;">Shop merch</a>
         </div>
       </section>
@@ -325,11 +342,11 @@
         <div class="sum-row"><span>Shipping</span><span>Calculated at payment</span></div>
         <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
         <p class="summary-note" id="checkoutNote">
-          One checkout for the whole bag. Shipping is calculated on the Stripe payment page.
+          One checkout for the whole bag. Shipping is calculated at payment.
         </p>
         <button class="btn btn-dark" id="checkoutBtn" type="button" disabled>Checkout</button>
         <a class="btn btn-ghost" href="merch.html" style="width:100%;margin-top:10px;">Continue shopping</a>
-        <p class="summary-note" id="checkoutError" hidden style="color:#b00020;margin-top:14px;"></p>
+        <p class="summary-note" id="checkoutError" hidden style="color:#ff8a80;margin-top:14px;"></p>
       </aside>
     </div>
   </div>
@@ -458,7 +475,7 @@ document.getElementById('checkoutBtn').addEventListener('click', async function 
     if (!res.ok || !data.url) {
       var msg = data.error || 'Checkout unavailable right now.';
       if (data.code === 'STRIPE_NOT_CONFIGURED') {
-        msg = 'Checkout needs STRIPE_SECRET_KEY in Vercel. Payment Links remain on each product until that is set.';
+        msg = 'Checkout is temporarily unavailable. Try again soon.';
       }
       err.textContent = msg;
       err.hidden = false;
