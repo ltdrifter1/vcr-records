@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Artists — VCR Recordings</title>
-  <meta name="description" content="The VCR Recordings roster — Inlet Knight and L.T. Drifta."/>
+  <meta name="description" content="VCR Recordings artists."/>
   <meta name="theme-color" content="#f5f5f7"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -347,53 +347,41 @@
     </header>
 
     <section class="roster" aria-label="Roster">
-      <article class="artist">
-        <div class="artist-visual">
-          <img src="inlet-knight-cover.jpg" alt="Inlet Knight" loading="eager"/>
-        </div>
+      <!--
+        Template — duplicate .artist for each artist:
+        <article class="artist">
+          <div class="artist-visual">
+            <img src="COVER.jpg" alt="NAME" loading="eager"/>
+          </div>
+          <div class="artist-body">
+            <div>
+              <p class="artist-role">ROLE</p>
+              <h2 class="artist-name">NAME</h2>
+            </div>
+            <p class="artist-bio">BIO / GENRE</p>
+            <div class="artist-releases">
+              <a class="chip" href="release.html">
+                <img src="COVER.jpg" alt=""/>
+                <span>Release</span>
+              </a>
+            </div>
+            <div class="artist-actions">
+              <a class="btn btn-dark" href="release.html">Latest release</a>
+              <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Bandcamp</a>
+            </div>
+          </div>
+        </article>
+      -->
+      <article class="artist in">
+        <div class="artist-visual" aria-hidden="true"></div>
         <div class="artist-body">
           <div>
-            <p class="artist-role">Artist · Producer</p>
-            <h2 class="artist-name">Inlet Knight</h2>
+            <p class="artist-role"></p>
+            <h2 class="artist-name"></h2>
           </div>
-          <p class="artist-bio">House</p>
-          <div class="artist-releases">
-            <a class="chip" href="inlet-knight.html">
-              <img src="inlet-knight-cover.jpg" alt=""/>
-              <span>Inlet Knight</span>
-            </a>
-            <a class="chip" href="home.html">
-              <img src="at_home.png" alt=""/>
-              <span>At Home</span>
-            </a>
-          </div>
-          <div class="artist-actions">
-            <a class="btn btn-dark" href="inlet-knight.html">Latest release</a>
-            <a class="btn btn-ghost" href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="artist">
-        <div class="artist-visual">
-          <img src="summer.PNG" alt="L.T. Drifta" loading="lazy"/>
-        </div>
-        <div class="artist-body">
-          <div>
-            <p class="artist-role">Artist</p>
-            <h2 class="artist-name">L.T. Drifta</h2>
-          </div>
-          <p class="artist-bio">DnB Jungle</p>
-          <div class="artist-releases">
-            <a class="chip" href="summer.html">
-              <img src="summer.PNG" alt=""/>
-              <span>Summer Madness</span>
-            </a>
-          </div>
-          <div class="artist-actions">
-            <a class="btn btn-dark" href="summer.html">View release</a>
-            <a class="btn btn-ghost" href="https://ltdrifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
-          </div>
+          <p class="artist-bio"></p>
+          <div class="artist-releases"></div>
+          <div class="artist-actions"></div>
         </div>
       </article>
     </section>
