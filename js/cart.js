@@ -1,4 +1,4 @@
-/* VCR Recordings — shared cart (localStorage) */
+/* Club Copy — shared cart (localStorage) */
 (function (global) {
   var CART_KEY = 'vcr_cart_v1';
 
