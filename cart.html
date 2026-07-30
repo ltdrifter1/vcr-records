@@ -13,26 +13,26 @@
   <link rel="stylesheet" href="css/player.css"/>
   <style>
     :root {
-      --bg: #f5f5f7;
-      --surface: #ffffff;
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-      --dim: #86868b;
-      --line: rgba(0,0,0,.08);
-      --fill: rgba(0,0,0,.04);
-      --fill-hi: rgba(0,0,0,.07);
-      --shadow: 0 2px 16px rgba(0,0,0,.05);
-      --shadow-lg: 0 18px 50px rgba(0,0,0,.09);
-      --radius: 22px;
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --text: #ffffff;
+      --muted: #cfcfcf;
+      --dim: #757575;
+      --line: rgba(255,255,255,.1);
+      --fill: rgba(255,255,255,.04);
+      --fill-hi: rgba(255,255,255,.08);
+      --shadow: 0 2px 16px rgba(0,0,0,.35);
+      --shadow-lg: 0 18px 50px rgba(0,0,0,.45);
+      --radius: 18px;
       --pill: 980px;
-      --ease: cubic-bezier(.25,.1,.25,1);
+      --ease: cubic-bezier(.22,1,.36,1);
       --dur: 300ms;
       --display: 'Chakra Petch', 'Syne', sans-serif;
       --sans: 'Syne', 'Chakra Petch', sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
-      --wrap: 1080px;
-      --nav-h: 56px;
+      --wrap: 1120px;
+      --nav-h: 60px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -45,6 +45,9 @@
       line-height: 1.47;
       letter-spacing: -.01em;
       min-height: 100vh;
+      background-image:
+        radial-gradient(900px 480px at 80% -10%, rgba(255,255,255,.05), transparent 55%),
+        linear-gradient(180deg, #000 0%, #0a0a0a 45%, #111 100%);
     }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
@@ -52,34 +55,29 @@
       font-family: inherit; cursor: pointer; border: none; background: none;
       -webkit-tap-highlight-color: transparent;
     }
-    body::before {
-      content: "";
-      position: fixed; inset: 0; z-index: -1; pointer-events: none;
-      background:
-        radial-gradient(800px 420px at 70% -10%, rgba(255,255,255,.98), transparent 60%),
-        linear-gradient(180deg, #eceef2 0%, var(--bg) 40%);
-    }
+    ::selection { background: rgba(255,255,255,.18); }
 
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       height: calc(var(--nav-h) + var(--safe-t));
       padding-top: var(--safe-t);
-      background: rgba(245,245,247,.82);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      background: rgba(0,0,0,.72);
+      backdrop-filter: saturate(140%) blur(18px);
+      -webkit-backdrop-filter: saturate(140%) blur(18px);
       border-bottom: 1px solid transparent;
       transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
     }
-    .nav.scrolled { background: rgba(255,255,255,.9); border-bottom-color: var(--line); }
+    .nav.scrolled { background: rgba(0,0,0,.88); border-bottom-color: var(--line); }
     .nav-inner {
       max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
       padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .nav-logo img { height: 28px; width: auto; }
+    .nav-logo img { height: 44px; width: auto; }
+    @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
     .nav-links { display: flex; gap: 2px; }
     .nav-links a {
-      padding: 8px 12px; font-size: 12px; font-weight: 500; color: var(--muted);
-      border-radius: var(--pill);
+      padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--muted);
+      letter-spacing: .06em; text-transform: uppercase; border-radius: var(--pill);
       transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
     .nav-links a[aria-current="page"] { color: var(--text); background: var(--fill-hi); }
@@ -96,11 +94,14 @@
     .nav-cart-count {
       position: absolute; top: 4px; right: 2px;
       min-width: 18px; height: 18px; padding: 0 5px;
-      border-radius: var(--pill); background: var(--text); color: #fff;
+      border-radius: var(--pill); background: #fff; color: #000;
       font-size: 10px; font-weight: 700; line-height: 18px; text-align: center;
     }
     .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 10px; }
-    .nav-ham span { display: block; width: 16px; height: 1.5px; background: var(--muted); transition: .2s ease; }
+    .nav-ham span {
+      display: block; width: 16px; height: 1.5px; background: var(--muted);
+      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    }
     .nav-ham.on span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--text); }
     .nav-ham.on span:nth-child(2) { opacity: 0; }
     .nav-ham.on span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--text); }
@@ -108,16 +109,19 @@
     .nav-drawer {
       display: none; position: fixed;
       top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
-      background: rgba(255,255,255,.96); backdrop-filter: blur(20px);
+      background: rgba(0,0,0,.94);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--line);
       padding: 8px 22px calc(16px + var(--safe-b));
     }
     .nav-drawer.on { display: block; }
     .nav-drawer a {
       display: block; padding: 14px 0; border-bottom: 1px solid var(--line);
-      font-size: 15px; font-weight: 500; color: var(--muted);
+      font-size: 15px; font-weight: 600; color: var(--muted);
+      letter-spacing: .04em; text-transform: uppercase;
     }
     .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a[aria-current="page"] { color: var(--text); }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -126,7 +130,7 @@
       transition: opacity var(--dur) var(--ease), transform 180ms var(--ease);
     }
     .btn:active { transform: scale(.97); }
-    .btn-dark { background: #1d1d1f; color: #fff; width: 100%; }
+    .btn-dark { background: #fff; color: #000; width: 100%; }
     .btn-ghost { background: var(--fill-hi); color: var(--text); }
     .btn:disabled { opacity: .5; cursor: not-allowed; }
     @media (hover:hover) { .btn-dark:hover:not(:disabled) { opacity: .86; } }
@@ -136,12 +140,14 @@
 
     .intro { max-width: 640px; margin-bottom: 36px; }
     .intro-brand {
-      font-size: 12px; font-weight: 700; letter-spacing: .14em;
+      font-family: var(--display);
+      font-size: 11px; font-weight: 600; letter-spacing: .22em;
       text-transform: uppercase; color: var(--dim); margin-bottom: 14px;
     }
     .intro h1 {
-      font-size: clamp(36px, 7vw, 56px); font-weight: 700;
-      letter-spacing: -.045em; line-height: 1.05;
+      font-family: var(--display);
+      font-size: clamp(40px, 7vw, 64px); font-weight: 700; font-style: italic;
+      letter-spacing: -.02em; line-height: 1.02;
     }
 
     .cart-layout {
@@ -153,6 +159,7 @@
 
     .cart-panel, .summary-panel {
       background: var(--surface);
+      border: 1px solid var(--line);
       border-radius: calc(var(--radius) + 4px);
       box-shadow: var(--shadow);
       overflow: hidden;
@@ -172,7 +179,8 @@
     }
     .cart-thumb {
       width: 96px; height: 96px; border-radius: 16px;
-      background: radial-gradient(circle at 50% 40%, #fff, #eef0f4 70%);
+      background: #0c0c0c;
+      border: 1px solid var(--line);
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
@@ -236,13 +244,13 @@
     }
     .queue-item .pay-one {
       height: 34px; padding: 0 14px; border-radius: var(--pill);
-      background: var(--text); color: #fff; font-size: 12px; font-weight: 600;
+      background: #fff; color: #000; font-size: 12px; font-weight: 600;
     }
     .queue-item.is-paid { opacity: .45; }
     .queue-item.is-paid .pay-one { display: none; }
 
     .footer {
-      background: #fff; border-top: 1px solid var(--line);
+      background: #000; border-top: 1px solid var(--line);
       padding: 40px 0 calc(24px + var(--safe-b));
     }
     .footer-bottom {
@@ -251,20 +259,25 @@
     }
     .footer-copy { font-size: 13px; color: var(--dim); }
     .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
-    .footer-links a { font-size: 13px; font-weight: 500; color: var(--muted); }
+    .footer-links a {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 6px 10px; border-radius: var(--pill);
+    }
+    @media (hover:hover) { .footer-links a:hover { background: var(--fill-hi); color: var(--text); } }
   </style>
 </head>
 <body>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home">
-      <img src="club-copy-nav.png" alt="Club Copy" width="1000" height="148"/>
+      <img src="club-copy-header.png" alt="Club Copy" width="900" height="417"/>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="index.html#listen">Releases</a>
+      <a href="index.html#listen">Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Merch</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
       <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag" aria-current="page">
@@ -282,17 +295,17 @@
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="index.html">Home</a>
-  <a href="index.html#listen">Releases</a>
+  <a href="index.html#listen">Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Merch</a>
+  <a href="contact.html">Contact</a>
   <a href="cart.html" aria-current="page">Bag</a>
 </div>
 
 <main class="page">
   <div class="band">
     <header class="intro">
-      <p class="intro-brand">Club Copy</p>
+      <p class="intro-brand">Club Copy · Est. 2024</p>
       <h1>Your bag</h1>
     </header>
 
@@ -324,11 +337,12 @@
 
 <footer class="footer">
   <div class="band footer-bottom">
-    <p class="footer-copy">© 2025 Club Copy</p>
+    <p class="footer-copy">© 2026 Club Copy · Est. 2024</p>
     <div class="footer-links">
+      <a href="index.html#listen">Listen</a>
       <a href="merch.html">Merch</a>
-      <a href="artists.html">Artists</a>
-      <a href="index.html#listen">Releases</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
     </div>
   </div>
 </footer>
