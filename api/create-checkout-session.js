@@ -6,6 +6,17 @@
  * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
  */
 const CATALOG = {
+  "sm-simple-tee": { name: "Simple Logo Tee", unitAmount: 3200 },
+  "sm-globe-tee": { name: "Globe Badge Tee", unitAmount: 3400 },
+  "sm-longsleeve": { name: "Wordmark Long Sleeve", unitAmount: 4200 },
+  "sm-hoodie": { name: "Records Hoodie", unitAmount: 6800 },
+  "sm-crewneck": { name: "Globe Crewneck", unitAmount: 5800 },
+  "sm-cap": { name: "Embroidered Cap", unitAmount: 2800 },
+  "sm-beanie": { name: "Records Beanie", unitAmount: 2600 },
+  "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
+  "sm-mug": { name: "Studio Mug", unitAmount: 1800 },
+  "sm-stickers": { name: "Logo Sticker Pack", unitAmount: 800 },
+  // legacy skus kept for older bags
   tshirt: { name: "T-Shirt", unitAmount: 3000 },
   hat: { name: "Hat", unitAmount: 2500 },
   bikini: { name: "Bikini", unitAmount: 3500 },
