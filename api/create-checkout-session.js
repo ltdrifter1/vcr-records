@@ -7,10 +7,10 @@
  */
 const CATALOG = {
   "sm-simple-tee": { name: "Simple Logo Tee", unitAmount: 3200 },
-  "sm-globe-tee": { name: "Globe Badge Tee", unitAmount: 3400 },
+  "sm-globe-tee": { name: "Oval Logo Tee", unitAmount: 3400 },
   "sm-longsleeve": { name: "Wordmark Long Sleeve", unitAmount: 4200 },
   "sm-hoodie": { name: "Records Hoodie", unitAmount: 6800 },
-  "sm-crewneck": { name: "Globe Crewneck", unitAmount: 5800 },
+  "sm-crewneck": { name: "Oval Crewneck", unitAmount: 5800 },
   "sm-cap": { name: "Embroidered Cap", unitAmount: 2800 },
   "sm-beanie": { name: "Records Beanie", unitAmount: 2600 },
   "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
