@@ -9,15 +9,15 @@
   <meta name="theme-color" content="#000000"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/player.css"/>
   <style>
     :root {
       --bg: #0a0a0a;
       --surface: #141414;
       --text: #ffffff;
-      --muted: #cfcfcf;
-      --dim: #757575;
+      --muted: #a1a1a6;
+      --dim: #6e6e73;
       --line: rgba(255,255,255,.1);
       --fill: rgba(255,255,255,.04);
       --fill-hi: rgba(255,255,255,.08);
@@ -27,8 +27,8 @@
       --pill: 980px;
       --ease: cubic-bezier(.22,1,.36,1);
       --dur: 300ms;
-      --display: 'Chakra Petch', 'Syne', sans-serif;
-      --sans: 'Syne', 'Chakra Petch', sans-serif;
+      --display: 'Plus Jakarta Sans', sans-serif;
+      --sans: 'Plus Jakarta Sans', sans-serif;
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
       --wrap: 1120px;
@@ -42,8 +42,9 @@
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       font-size: 17px;
-      line-height: 1.47;
-      letter-spacing: -.01em;
+      line-height: 1.47059;
+      letter-spacing: -.011em;
+      font-weight: 400;
       min-height: 100vh;
       background-image:
         radial-gradient(900px 480px at 80% -10%, rgba(255,255,255,.05), transparent 55%),
@@ -76,8 +77,9 @@
     @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
     .nav-links { display: flex; gap: 2px; }
     .nav-links a {
-      padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--muted);
-      letter-spacing: .06em; text-transform: uppercase; border-radius: var(--pill);
+      padding: 8px 12px; font-size: 13px; font-weight: 500; color: var(--muted);
+      letter-spacing: -.01em;
+      border-radius: var(--pill);
       transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
     .nav-links a[aria-current="page"] { color: var(--text); background: var(--fill-hi); }
@@ -117,8 +119,8 @@
     .nav-drawer.on { display: block; }
     .nav-drawer a {
       display: block; padding: 14px 0; border-bottom: 1px solid var(--line);
-      font-size: 15px; font-weight: 600; color: var(--muted);
-      letter-spacing: .04em; text-transform: uppercase;
+      font-size: 17px; font-weight: 500; color: var(--muted);
+      letter-spacing: -.01em;
     }
     .nav-drawer a:last-child { border-bottom: none; }
     .nav-drawer a[aria-current="page"] { color: var(--text); }
@@ -126,7 +128,7 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
       height: 48px; padding: 0 22px; border-radius: var(--pill);
-      font-size: 14px; font-weight: 600; letter-spacing: -.01em;
+      font-size: 14px; font-weight: 500; letter-spacing: -.01em;
       transition: opacity var(--dur) var(--ease), transform 180ms var(--ease);
     }
     .btn:active { transform: scale(.97); }
@@ -140,14 +142,12 @@
 
     .intro { max-width: 640px; margin-bottom: 36px; }
     .intro-brand {
-      font-family: var(--display);
-      font-size: 11px; font-weight: 600; letter-spacing: .22em;
-      text-transform: uppercase; color: var(--dim); margin-bottom: 14px;
+      font-size: 14px; font-weight: 400; letter-spacing: -.01em;
+      color: var(--muted); margin-bottom: 10px;
     }
     .intro h1 {
-      font-family: var(--display);
-      font-size: clamp(40px, 7vw, 64px); font-weight: 700; font-style: italic;
-      letter-spacing: -.02em; line-height: 1.02;
+      font-size: clamp(40px, 7vw, 56px); font-weight: 600;
+      letter-spacing: -.022em; line-height: 1.07;
     }
 
     .cart-layout {
@@ -186,9 +186,9 @@
     }
     @media (max-width: 560px) { .cart-thumb { width: 72px; height: 72px; border-radius: 14px; } }
     .cart-thumb img { width: 78%; height: auto; object-fit: contain; }
-    .cart-name { font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
-    .cart-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .cart-price { font-size: 15px; font-weight: 600; margin-top: 10px; }
+    .cart-name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
+    .cart-meta { font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 400; }
+    .cart-price { font-size: 15px; font-weight: 400; color: var(--muted); margin-top: 10px; }
     .qty {
       display: inline-flex; align-items: center;
       border: 1px solid var(--line); border-radius: var(--pill); overflow: hidden;
@@ -209,20 +209,20 @@
     }
     @media (hover:hover) { .cart-remove:hover { color: var(--text); } }
     .cart-line-side { text-align: right; }
-    .cart-line-total { font-size: 16px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 12px; }
+    .cart-line-total { font-size: 16px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 12px; }
 
     .empty {
       padding: 56px 28px; text-align: center;
     }
     .empty h2 {
-      font-size: 24px; font-weight: 700; letter-spacing: -.03em; margin-bottom: 10px;
+      font-size: 24px; font-weight: 600; letter-spacing: -.022em; margin-bottom: 10px;
     }
     .empty p { color: var(--muted); margin-bottom: 22px; }
 
     .summary-panel { padding: 28px 24px; position: sticky; top: calc(var(--nav-h) + var(--safe-t) + 18px); }
     .summary-panel h2 {
-      font-size: 13px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--dim); margin-bottom: 18px;
+      font-size: 12px; font-weight: 500; letter-spacing: -.01em;
+      color: var(--dim); margin-bottom: 18px;
     }
     .sum-row {
       display: flex; justify-content: space-between; gap: 12px;
@@ -230,7 +230,7 @@
     }
     .sum-row.total {
       margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
-      color: var(--text); font-size: 18px; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text); font-size: 18px; font-weight: 600; letter-spacing: -.02em;
     }
     .summary-note {
       margin: 16px 0 20px; font-size: 13px; color: var(--dim); line-height: 1.45;
@@ -260,8 +260,8 @@
     .footer-copy { font-size: 13px; color: var(--dim); }
     .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
     .footer-links a {
-      font-size: 12px; font-weight: 600; color: var(--muted);
-      letter-spacing: .06em; text-transform: uppercase;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+      letter-spacing: -.01em;
       padding: 6px 10px; border-radius: var(--pill);
     }
     @media (hover:hover) { .footer-links a:hover { background: var(--fill-hi); color: var(--text); } }
@@ -305,8 +305,8 @@
 <main class="page">
   <div class="band">
     <header class="intro">
-      <p class="intro-brand">Club Copy · Est. 2024</p>
-      <h1>Your bag</h1>
+      <p class="intro-brand">Club Copy</p>
+      <h1>Bag</h1>
     </header>
 
     <div class="cart-layout">
@@ -320,7 +320,7 @@
       </section>
 
       <aside class="summary-panel" id="summaryPanel">
-        <h2>Order summary</h2>
+        <h2>Summary</h2>
         <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
         <div class="sum-row"><span>Shipping</span><span>Calculated at payment</span></div>
         <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
@@ -337,7 +337,7 @@
 
 <footer class="footer">
   <div class="band footer-bottom">
-    <p class="footer-copy">© 2026 Club Copy · Est. 2024</p>
+    <p class="footer-copy">© 2026 Club Copy</p>
     <div class="footer-links">
       <a href="index.html#listen">Listen</a>
       <a href="merch.html">Merch</a>
@@ -362,7 +362,6 @@
     });
   }, { passive: true });
 })();
-
 var navHam = document.getElementById('navHam');
 var navDrawer = document.getElementById('navDrawer');
 navHam.addEventListener('click', function () {
@@ -371,14 +370,12 @@ navHam.addEventListener('click', function () {
   navHam.setAttribute('aria-expanded', String(open));
   navDrawer.setAttribute('aria-hidden', String(!open));
 });
-
 function variantLabel(item) {
   var bits = [];
   if (item.colour) bits.push(item.colour);
   if (item.size) bits.push('Size ' + item.size);
   return bits.join(' · ');
 }
-
 function render() {
   var items = VCRCart.load();
   var lines = document.getElementById('cartLines');
@@ -391,7 +388,6 @@ function render() {
   document.getElementById('sumTotal').textContent = VCRCart.money(VCRCart.subtotal(items));
   checkoutBtn.disabled = items.length === 0;
   if (err) { err.hidden = true; err.textContent = ''; }
-
   if (!items.length) {
     lines.innerHTML = '';
     empty.hidden = false;
@@ -420,7 +416,6 @@ function render() {
     );
   }).join('');
 }
-
 document.getElementById('cartLines').addEventListener('click', function (e) {
   var btn = e.target.closest('[data-act]');
   if (!btn) return;
@@ -433,7 +428,6 @@ document.getElementById('cartLines').addEventListener('click', function (e) {
   if (btn.dataset.act === 'remove') VCRCart.remove(id);
   render();
 });
-
 document.getElementById('checkoutBtn').addEventListener('click', async function () {
   var items = VCRCart.load();
   if (!items.length) return;
@@ -480,12 +474,10 @@ document.getElementById('checkoutBtn').addEventListener('click', async function 
     btn.textContent = 'Checkout';
   }
 });
-
 if (new URLSearchParams(location.search).get('canceled') === '1') {
   var note = document.getElementById('checkoutNote');
   if (note) note.textContent = 'Checkout canceled — your bag is still here.';
 }
-
 window.addEventListener('vcr:cart', render);
 render();
 </script>
