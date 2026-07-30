@@ -157,6 +157,49 @@
       background: #000;
       isolation: isolate;
     }
+    .hero-grid {
+      position: absolute;
+      inset: -15% -10% -35%;
+      z-index: 0;
+      pointer-events: none;
+      transform-origin: 50% 0%;
+      transform: perspective(720px) rotateX(58deg) translateY(-8%);
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.14) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image:
+        radial-gradient(ellipse 70% 55% at 50% 42%, #000 0%, transparent 72%),
+        linear-gradient(180deg, transparent 0%, #000 28%, #000 70%, transparent 100%);
+      -webkit-mask-image:
+        radial-gradient(ellipse 70% 55% at 50% 42%, #000 0%, transparent 72%),
+        linear-gradient(180deg, transparent 0%, #000 28%, #000 70%, transparent 100%);
+      mask-composite: intersect;
+      -webkit-mask-composite: source-in;
+      opacity: .55;
+      animation: gridDrift 28s linear infinite;
+      will-change: background-position;
+    }
+    .hero-grid::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 14px 14px;
+      opacity: .7;
+      animation: gridDriftFine 18s linear infinite reverse;
+    }
+    .hero-grid::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 42% 28% at 50% 38%, rgba(255,255,255,.12), transparent 70%),
+        linear-gradient(180deg, rgba(0,0,0,.35), transparent 40%, rgba(0,0,0,.55));
+      pointer-events: none;
+    }
     .hero::before {
       content: "";
       position: absolute;
@@ -166,7 +209,7 @@
         radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,255,255,.04), transparent 55%);
       animation: haloPulse 8s ease-in-out infinite;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
     .hero-stage {
       position: relative;
@@ -231,8 +274,17 @@
       0%, 100% { opacity: .75; }
       50% { opacity: 1; }
     }
+    @keyframes gridDrift {
+      from { background-position: 0 0; }
+      to { background-position: 0 56px; }
+    }
+    @keyframes gridDriftFine {
+      from { background-position: 0 0; }
+      to { background-position: 0 14px; }
+    }
     @media (prefers-reduced-motion: reduce) {
-      .hero::before, .hero-mark, .hero-mark img, .hero-copy, .hero-ctas { animation: none; }
+      .hero::before, .hero-grid, .hero-grid::before,
+      .hero-mark, .hero-mark img, .hero-copy, .hero-ctas { animation: none; }
     }
 
     .band { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
@@ -490,6 +542,7 @@
 </div>
 
 <section class="hero" id="hero" aria-label="Club Copy">
+  <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-stage">
     <div class="hero-mark">
       <img src="club-copy-logo-chrome.png" alt="Club Copy" width="1400" height="503"/>
