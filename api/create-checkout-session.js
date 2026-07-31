@@ -13,11 +13,12 @@ const CATALOG = {
   "sm-crewneck": { name: "Logo Crewneck", unitAmount: 5800 },
   "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
   "sm-mug": { name: "Studio Mug", unitAmount: 1800 },
-  "sm-stickers": { name: "Logo Sticker Pack", unitAmount: 800 },
+  "sm-bikini": { name: "Logo Bikini", unitAmount: 4800 },
   // legacy skus kept for older bags
   tshirt: { name: "T-Shirt", unitAmount: 3000 },
   hat: { name: "Hat", unitAmount: 2500 },
   bikini: { name: "Bikini", unitAmount: 3500 },
+  "sm-stickers": { name: "Logo Sticker Pack", unitAmount: 800 },
 };
 
 function formBody(params, prefix) {
