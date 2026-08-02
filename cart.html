@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -69,7 +69,9 @@
       font-variant-numeric: tabular-nums;
     }
     .cart-remove {
-      display: block; margin-top: 10px;
+      display: inline-flex; align-items: center;
+      min-height: 44px; padding: 0 4px;
+      margin-top: 4px;
       font-size: 12px; font-weight: 500; color: var(--dim);
       transition: color var(--dur) var(--ease);
     }
@@ -82,27 +84,15 @@
 
     .empty {
       padding: 56px 28px 64px; text-align: center;
-      background: var(--card);
+      background: transparent;
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
     }
-    .empty-visual {
-      width: min(220px, 70%);
-      margin: 0 auto 24px;
-      aspect-ratio: 1;
-      border-radius: var(--radius);
-      background: var(--soft);
-      border: 1px solid var(--line);
-      overflow: hidden;
+    .empty-visual { display: none; }
+    .empty h2 {
+      font-family: var(--display);
+      font-size: 24px; font-weight: 600; letter-spacing: -.025em; margin-bottom: 10px;
     }
-    .empty-visual img {
-      width: 100%; height: 100%;
-      object-fit: contain;
-      padding: 8%;
-      box-sizing: border-box;
-      mix-blend-mode: multiply;
-    }
-    .empty h2 { font-size: 24px; font-weight: 600; letter-spacing: -.025em; margin-bottom: 10px; }
     .empty p { color: var(--muted); margin-bottom: 24px; max-width: 28em; margin-left: auto; margin-right: auto; font-size: 15px; }
 
     .summary-panel {
@@ -129,6 +119,17 @@
     .summary-panel .btn { width: 100%; }
     .summary-panel .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
     .summary-error { color: #a33a2a !important; }
+    .undo-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 16px; margin-bottom: 12px;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--card); font-size: 13px; color: var(--muted);
+    }
+    .undo-bar button {
+      font-size: 13px; font-weight: 600; color: var(--ink);
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .ship-hint { font-size: 13px; color: var(--dim); margin-top: 6px; }
   </style>
 </head>
 <body id="top">
@@ -181,12 +182,13 @@
       <section aria-label="Bag items">
         <div id="cartLines" class="cart-lines"></div>
         <div id="cartEmpty" class="empty" hidden>
-          <div class="empty-visual">
-            <img src="merch/club-copy/prod-simple-tee-black.jpg" alt=""/>
-          </div>
           <h2>Your bag is empty</h2>
-          <p>Start with the Micro Logo Tee — a quiet left-chest mark.</p>
+          <p>Browse the shop — vinyl first, then the things that live with it.</p>
           <a class="btn btn-dark" href="merch.html" style="max-width:220px;margin:0 auto;">Shop</a>
+        </div>
+        <div id="undoBar" class="undo-bar" hidden>
+          <span id="undoMsg">Item removed</span>
+          <button type="button" id="undoBtn">Undo</button>
         </div>
       </section>
 
@@ -196,10 +198,14 @@
         <div class="sum-row"><span>Shipping</span><span>Calculated at payment</span></div>
         <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
         <p class="summary-note" id="checkoutNote">
-          One checkout for the whole bag. Shipping is calculated at payment.
+          Ships from British Columbia in 2–4 business days. Tracked. Shipping calculated at payment.
         </p>
         <button class="btn btn-dark" id="checkoutBtn" type="button" disabled>Check out</button>
         <a class="btn btn-soft" href="merch.html" style="width:100%;margin-top:10px;">Continue shopping</a>
+        <p class="trust-line">
+          <span>Secure checkout via Stripe</span>
+          <a href="shipping.html">Shipping &amp; returns</a>
+        </p>
         <p class="summary-note summary-error" id="checkoutError" hidden style="margin-top:14px;"></p>
       </aside>
     </div>
@@ -227,158 +233,193 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="index.html#listen">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
-        <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
     </div>
   </div>
 </footer>
 
+<script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');
-  var ticking = false;
-  function syncNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-    ticking = false;
+  if (nav) {
+    var ticking = false;
+    function syncNav() {
+      nav.classList.toggle('scrolled', window.scrollY > 24);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(syncNav);
+    }, { passive: true });
+    syncNav();
   }
-  window.addEventListener('scroll', function () {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(syncNav);
-  }, { passive: true });
-  syncNav();
-})();
-var navHam = document.getElementById('navHam');
-var navDrawer = document.getElementById('navDrawer');
-navHam.addEventListener('click', function () {
-  var open = navDrawer.classList.toggle('on');
-  navHam.classList.toggle('on', open);
-  navHam.setAttribute('aria-expanded', String(open));
-  navDrawer.setAttribute('aria-hidden', String(!open));
-});
-navDrawer.querySelectorAll('a').forEach(function (a) {
-  a.addEventListener('click', function () {
-    navDrawer.classList.remove('on');
-    navHam.classList.remove('on');
-    navHam.setAttribute('aria-expanded', 'false');
-    navDrawer.setAttribute('aria-hidden', 'true');
-  });
-});
-function variantLabel(item) {
-  var bits = [];
-  if (item.colour) bits.push(item.colour);
-  if (item.size) bits.push('Size ' + item.size);
-  return bits.join(' · ');
-}
-function render() {
-  var items = VCRCart.load();
-  var lines = document.getElementById('cartLines');
-  var empty = document.getElementById('cartEmpty');
-  var checkoutBtn = document.getElementById('checkoutBtn');
-  var err = document.getElementById('checkoutError');
 
-  VCRCart.updateBadges();
-  document.getElementById('sumSubtotal').textContent = VCRCart.money(VCRCart.subtotal(items));
-  document.getElementById('sumTotal').textContent = VCRCart.money(VCRCart.subtotal(items));
-  checkoutBtn.disabled = items.length === 0;
-  if (err) { err.hidden = true; err.textContent = ''; }
-  if (!items.length) {
-    lines.innerHTML = '';
-    empty.hidden = false;
-    return;
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
-  empty.hidden = true;
-  lines.innerHTML = items.map(function (item) {
-    return (
-      '<article class="cart-line" data-id="' + item.id.replace(/"/g, '&quot;') + '">' +
-        '<div class="cart-thumb"><img src="' + item.image + '" alt=""/></div>' +
-        '<div>' +
-          '<div class="cart-name">' + item.name + '</div>' +
-          (variantLabel(item) ? '<div class="cart-meta">' + variantLabel(item) + '</div>' : '') +
-          '<div class="cart-price">' + VCRCart.money(item.price) + '</div>' +
-        '</div>' +
-        '<div class="cart-line-side">' +
-          '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
-          '<div class="qty" aria-label="Quantity">' +
-            '<button type="button" data-act="dec" aria-label="Decrease">−</button>' +
-            '<span>' + item.qty + '</span>' +
-            '<button type="button" data-act="inc" aria-label="Increase">+</button>' +
-          '</div>' +
-          '<button type="button" class="cart-remove" data-act="remove">Remove</button>' +
-        '</div>' +
-      '</article>'
-    );
-  }).join('');
-}
-document.getElementById('cartLines').addEventListener('click', function (e) {
-  var btn = e.target.closest('[data-act]');
-  if (!btn) return;
-  var line = btn.closest('.cart-line');
-  var id = line.dataset.id;
-  var item = VCRCart.load().find(function (i) { return i.id === id; });
-  if (!item) return;
-  if (btn.dataset.act === 'inc') VCRCart.setQty(id, item.qty + 1);
-  if (btn.dataset.act === 'dec') VCRCart.setQty(id, item.qty - 1);
-  if (btn.dataset.act === 'remove') VCRCart.remove(id);
-  render();
-});
-document.getElementById('checkoutBtn').addEventListener('click', async function () {
-  var items = VCRCart.load();
-  if (!items.length) return;
-  var btn = document.getElementById('checkoutBtn');
-  var err = document.getElementById('checkoutError');
-  btn.disabled = true;
-  btn.textContent = 'Redirecting…';
-  err.hidden = true;
-  try {
-    var res = await fetch('/api/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        origin: window.location.origin,
-        items: items.map(function (i) {
-          return {
-            sku: i.sku,
-            name: i.name,
-            colour: i.colour,
-            size: i.size,
-            qty: i.qty,
-            image: i.image ? new URL(i.image, window.location.origin).href : null
-          };
-        })
-      })
+
+  function variantLabel(item) {
+    var bits = [];
+    if (item.colour) bits.push(item.colour);
+    if (item.size) bits.push('Size ' + item.size);
+    return bits.join(' · ');
+  }
+
+  var lastRemoved = null;
+  var undoTimer = null;
+  var undoBar = document.getElementById('undoBar');
+  var undoMsg = document.getElementById('undoMsg');
+
+  function showUndo(item) {
+    lastRemoved = item;
+    if (!undoBar) return;
+    undoMsg.textContent = item.name + ' removed';
+    undoBar.hidden = false;
+    clearTimeout(undoTimer);
+    undoTimer = setTimeout(function () {
+      undoBar.hidden = true;
+      lastRemoved = null;
+    }, 5000);
+  }
+
+  var undoBtn = document.getElementById('undoBtn');
+  if (undoBtn) {
+    undoBtn.addEventListener('click', function () {
+      if (!lastRemoved) return;
+      VCRCart.add(lastRemoved);
+      lastRemoved = null;
+      undoBar.hidden = true;
+      clearTimeout(undoTimer);
+      render();
     });
-    var data = await res.json().catch(function () { return {}; });
-    if (!res.ok || !data.url) {
-      var msg = data.error || 'Checkout unavailable right now.';
-      if (data.code === 'STRIPE_NOT_CONFIGURED') {
-        msg = 'Checkout is temporarily unavailable. Try again soon.';
+  }
+
+  function render() {
+    var items = VCRCart.load();
+    var lines = document.getElementById('cartLines');
+    var empty = document.getElementById('cartEmpty');
+    var checkoutBtn = document.getElementById('checkoutBtn');
+    var err = document.getElementById('checkoutError');
+
+    VCRCart.updateBadges();
+    document.getElementById('sumSubtotal').textContent = VCRCart.money(VCRCart.subtotal(items));
+    document.getElementById('sumTotal').textContent = VCRCart.money(VCRCart.subtotal(items));
+    checkoutBtn.disabled = items.length === 0;
+    if (err) { err.hidden = true; err.textContent = ''; }
+    if (!items.length) {
+      lines.innerHTML = '';
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+    lines.innerHTML = items.map(function (item) {
+      return (
+        '<article class="cart-line" data-id="' + esc(item.id) + '">' +
+          '<div class="cart-thumb"><img src="' + esc(item.image) + '" alt=""/></div>' +
+          '<div>' +
+            '<div class="cart-name">' + esc(item.name) + '</div>' +
+            (variantLabel(item) ? '<div class="cart-meta">' + esc(variantLabel(item)) + '</div>' : '') +
+            '<div class="cart-price">' + VCRCart.money(item.price) + ' · each</div>' +
+            '<p class="ship-hint">Ships in 2–4 business days</p>' +
+          '</div>' +
+          '<div class="cart-line-side">' +
+            '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
+            '<div class="qty" aria-label="Quantity">' +
+              '<button type="button" data-act="dec" aria-label="Decrease">−</button>' +
+              '<span aria-live="polite">' + item.qty + '</span>' +
+              '<button type="button" data-act="inc" aria-label="Increase">+</button>' +
+            '</div>' +
+            '<button type="button" class="cart-remove" data-act="remove">Remove</button>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join('');
+  }
+
+  document.getElementById('cartLines').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    var line = btn.closest('.cart-line');
+    var id = line.dataset.id;
+    var item = VCRCart.load().find(function (i) { return i.id === id; });
+    if (!item) return;
+    if (btn.dataset.act === 'inc') VCRCart.setQty(id, item.qty + 1);
+    if (btn.dataset.act === 'dec') VCRCart.setQty(id, item.qty - 1);
+    if (btn.dataset.act === 'remove') {
+      showUndo(Object.assign({}, item));
+      VCRCart.remove(id);
+    }
+    render();
+  });
+
+  document.getElementById('checkoutBtn').addEventListener('click', async function () {
+    var items = VCRCart.load();
+    if (!items.length) return;
+    var btn = document.getElementById('checkoutBtn');
+    var err = document.getElementById('checkoutError');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting…';
+    err.hidden = true;
+    try {
+      var res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origin: window.location.origin,
+          items: items.map(function (i) {
+            return {
+              sku: i.sku,
+              name: i.name,
+              colour: i.colour,
+              size: i.size,
+              qty: i.qty,
+              image: i.image ? new URL(i.image, window.location.origin).href : null
+            };
+          })
+        })
+      });
+      var data = await res.json().catch(function () { return {}; });
+      if (!res.ok || !data.url) {
+        var msg = data.error || 'Checkout unavailable right now.';
+        if (data.code === 'STRIPE_NOT_CONFIGURED') {
+          msg = 'Checkout is temporarily unavailable. Try again soon.';
+        }
+        err.textContent = msg;
+        err.hidden = false;
+        btn.disabled = false;
+        btn.textContent = 'Check out';
+        return;
       }
-      err.textContent = msg;
+      window.location.href = data.url;
+    } catch (e) {
+      err.textContent = 'Could not reach checkout. Try again in a moment.';
       err.hidden = false;
       btn.disabled = false;
       btn.textContent = 'Check out';
-      return;
     }
-    window.location.href = data.url;
-  } catch (e) {
-    err.textContent = 'Could not reach checkout. Try again in a moment.';
-    err.hidden = false;
-    btn.disabled = false;
-    btn.textContent = 'Check out';
+  });
+
+  if (new URLSearchParams(location.search).get('canceled') === '1') {
+    var note = document.getElementById('checkoutNote');
+    if (note) note.textContent = 'Checkout canceled — your bag is still here.';
   }
-});
-if (new URLSearchParams(location.search).get('canceled') === '1') {
-  var note = document.getElementById('checkoutNote');
-  if (note) note.textContent = 'Checkout canceled — your bag is still here.';
-}
-window.addEventListener('vcr:cart', render);
-render();
+  window.addEventListener('vcr:cart', render);
+  render();
+})();
 </script>
 </body>
 </html>

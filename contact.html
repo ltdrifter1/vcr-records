@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -180,15 +180,17 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="index.html#listen">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
-        <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
     </div>
   </div>
 </footer>
 
+<script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script>
 (function () {
@@ -204,30 +206,6 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
-
-  var navHam = document.getElementById('navHam');
-  var navDrawer = document.getElementById('navDrawer');
-  navHam.addEventListener('click', function () {
-    var open = navDrawer.classList.toggle('on');
-    navHam.classList.toggle('on', open);
-    navHam.setAttribute('aria-expanded', String(open));
-    navDrawer.setAttribute('aria-hidden', String(!open));
-  });
-  navDrawer.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      navDrawer.classList.remove('on');
-      navHam.classList.remove('on');
-      navHam.setAttribute('aria-expanded', 'false');
-      navDrawer.setAttribute('aria-hidden', 'true');
-    });
-  });
-
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
-    });
-  }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
 })();
 </script>
 </body>

@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -392,6 +392,42 @@
     @media (prefers-reduced-motion: reduce) {
       .fade-up { opacity: 1; transform: none; }
     }
+  
+    .r-cat { font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-top: 10px; }
+    .format-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .format-pill {
+      height: 40px; padding: 0 16px; border-radius: 980px;
+      border: 1px solid var(--line); background: transparent;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .format-pill.selected { background: var(--ink); color: #fff; border-color: var(--ink); }
+    @media (hover:hover) { .format-pill:hover { border-color: var(--ink); color: var(--ink); } }
+    .format-pill.selected:hover { color: #fff; }
+    .bc-quiet {
+      display: inline-block; margin-top: 12px;
+      font-size: 13px; font-weight: 500; color: var(--dim);
+      text-decoration: underline; text-underline-offset: 3px;
+      text-decoration-color: transparent;
+      transition: color .28s, text-decoration-color .28s;
+    }
+    @media (hover:hover) { .bc-quiet:hover { color: var(--ink); text-decoration-color: var(--ink); } }
+    .trust-line {
+      display: flex; gap: 12px; align-items: center;
+      font-size: 12px; font-weight: 500; color: var(--dim);
+      margin-top: 10px;
+    }
+    .trust-line a { color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
+    @media (hover:hover) { .trust-line a:hover { color: var(--ink); } }
+    .more-releases { padding: 40px 0 0; }
+    .more-releases-title { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; }
+    .more-releases-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+    .more-release-item { display: flex; flex-direction: column; gap: 8px; text-decoration: none; width: 100px; }
+    .more-release-item img { width: 100px; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid var(--line); }
+    .more-release-item p { font-size: 12px; font-weight: 500; color: var(--muted); line-height: 1.3; }
+    @media (hover:hover) { .more-release-item:hover p { color: var(--ink); } }
+
   </style>
 </head>
 <body>
@@ -454,7 +490,7 @@
   <div class="page">
     <div class="crumbs">
       <a href="index.html">Home</a><span>/</span>
-      <a href="index.html#listen">Releases</a><span>/</span>
+      <a href="catalogue.html">Catalogue</a><span>/</span>
       Lions' Gate
     </div>
 
@@ -463,7 +499,7 @@
       <div class="left-col fade-up">
         <div class="artwork-wrap" id="artworkWrap">
           <span class="artwork-badge">Digital</span>
-          <img id="heroImg" src="lions.png" alt="Lions' Gate artwork" itemprop="image"/>
+          <img id="heroImg" src="lions.webp" alt="Lions' Gate artwork" itemprop="image"/>
         </div>
 
         <div class="player">
@@ -499,6 +535,7 @@
         <div class="r-block">
           <div class="r-artist">Charlie Archer</div>
           <h1 class="r-title" itemprop="name">Lions' Gate</h1>
+          <p class="r-cat">CC004 · 2025</p>
           <div class="r-meta-row">
             <div>
               <div class="r-price" id="priceDisplay">
@@ -508,7 +545,7 @@
               </div>
               <div class="r-price-note">USD</div>
             </div>
-            <div class="r-stock">In stock</div>
+            <div class="r-stock">Vinyl available</div>
           </div>
           <div class="r-tags">
             <span class="tag">Digital</span>
@@ -516,19 +553,21 @@
           </div>
         </div>
 
-        <div class="r-block">
-          <div class="buy-stack">
-            <a class="btn btn-fill" id="buyBtn"
-               href="https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i"
-               target="_blank" rel="noopener">Buy Digital — $0.98</a>
-            <a class="btn btn-bc"
-               href="https://drifta.bandcamp.com"
-               target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" style="width:12px;height:12px;flex-shrink:0;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
-              Bandcamp
-            </a>
+                <div class="r-block">
+          <div class="format-label" style="margin-bottom:8px;">Format</div>
+          <div class="format-pills" role="radiogroup" aria-label="Format">
+            <button type="button" class="format-pill selected" data-format="vinyl" role="radio" aria-checked="true">Vinyl — $28</button>
+            <button type="button" class="format-pill" data-format="digital" role="radio" aria-checked="false">Digital — $0.98</button>
           </div>
-          <p class="small-note">Secure checkout via Stripe · Instant digital delivery</p>
+          <div class="buy-stack">
+            <button type="button" class="btn btn-fill" id="buyBtn">Add vinyl to bag — $28</button>
+          </div>
+          <p class="small-note" id="buyNote">12" black vinyl · Ships from British Columbia</p>
+          <a class="bc-quiet" href="https://drifta.bandcamp.com" target="_blank" rel="noopener">Also on Bandcamp ↗</a>
+          <p class="trust-line">
+            <span>Secure checkout</span>
+            <a href="shipping.html">Shipping &amp; returns</a>
+          </p>
         </div>
 
         <div class="r-block">
@@ -565,7 +604,7 @@
           </div>
 
           <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
-            <p class="details-text">Lions' Gate by Charlie Archer. Digital single on Club Copy.</p>
+            <p class="details-text">Lions' Gate by Charlie Archer. Catalogue CC004. Digital single and 12" vinyl on Club Copy.</p>
           </div>
         </div>
 
@@ -599,10 +638,11 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="index.html#listen">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
-        <a href="https://drifta.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
     </div>
   </div>
@@ -802,25 +842,64 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
 (function(){ const f=document.getElementById('signupPageField'); if(f) f.value=location.href; })();
 </script>
+<script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script>
-(function(){
-  var ham = document.getElementById('navHam');
-  var drawer = document.getElementById('navDrawer');
-  if (!ham || !drawer) return;
-  ham.addEventListener('click', function () {
-    var open = drawer.classList.toggle('on');
-    ham.classList.toggle('on', open);
-    ham.setAttribute('aria-expanded', String(open));
-    drawer.setAttribute('aria-hidden', String(!open));
-  });
-  drawer.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      drawer.classList.remove('on'); ham.classList.remove('on');
-      ham.setAttribute('aria-expanded', 'false');
-      drawer.setAttribute('aria-hidden', 'true');
+
+
+(function() {
+  var pills = document.querySelectorAll('.format-pill');
+  var buyBtn = document.getElementById('buyBtn');
+  var buyNoteEl = document.getElementById('buyNote');
+  if (!buyBtn || !pills.length) return;
+  var currentFmt = 'vinyl';
+  var $ = function(id) { return document.getElementById(id); };
+
+  function updateUI() {
+    if (currentFmt === 'vinyl') {
+      buyBtn.textContent = 'Add vinyl to bag — $28';
+      if ($('priceAmount')) $('priceAmount').textContent = '$28';
+      var meta = $('priceDisplay') && $('priceDisplay').querySelector('meta[itemprop="price"]');
+      if (meta) meta.content = '28.00';
+      if ($('priceFormat')) $('priceFormat').textContent = 'CAD';
+      buyNoteEl.textContent = '12" black vinyl · Ships from British Columbia';
+    } else if (currentFmt === 'digital') {
+      buyBtn.textContent = 'Buy digital — $0.98';
+      if ($('priceAmount')) $('priceAmount').textContent = '$0.98';
+      var meta2 = $('priceDisplay') && $('priceDisplay').querySelector('meta[itemprop="price"]');
+      if (meta2) meta2.content = '0.98';
+      if ($('priceFormat')) $('priceFormat').textContent = 'USD';
+      buyNoteEl.textContent = 'Secure checkout via Stripe · Instant digital delivery';
+
+    }
+  }
+
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      currentFmt = pill.dataset.format;
+      pills.forEach(function(p) {
+        var sel = p.dataset.format === currentFmt;
+        p.classList.toggle('selected', sel);
+        p.setAttribute('aria-checked', sel ? 'true' : 'false');
+      });
+      updateUI();
     });
   });
+
+  buyBtn.addEventListener('click', function() {
+    if (currentFmt === 'vinyl') {
+      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-lions-gate', name: "Lions' Gate — Vinyl", price: 28, image: 'lions.webp', qty: 1, id: 'sm-vinyl-lions-gate' });
+      var orig = buyBtn.textContent;
+      buyBtn.textContent = 'Added';
+      setTimeout(function() { buyBtn.textContent = orig; }, 2000);
+    } else if (currentFmt === 'cassette') {
+      window.open('https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i', '_blank', 'noopener');
+    } else {
+      window.open('https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i', '_blank', 'noopener');
+    }
+  });
+
+  updateUI();
 })();
 
 /* Bridge inline player UI to shared VCRPlayer */

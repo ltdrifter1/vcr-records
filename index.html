@@ -12,12 +12,12 @@
   <meta property="og:title" content="Club Copy"/>
   <meta property="og:description" content="Independent record label from the Pacific Northwest."/>
   <meta property="og:type" content="website"/>
-  <meta property="og:image" content="what-if-cover.webp"/>
+  <meta property="og:image" content="https://vcrrecords.com/what-if-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -471,6 +471,10 @@
     @media (min-width: 800px) { .wall .section-head { padding-top: 40px; } }
     .wall .eyebrow { color: rgba(255,255,255,.42); }
     .wall .section-head h2 { color: #fff; }
+    .wall .head-link { color: rgba(255,255,255,.55); border-bottom-color: transparent; }
+    @media (hover:hover) {
+      .wall .head-link:hover { color: #fff; border-bottom-color: rgba(255,255,255,.55); }
+    }
     .wall-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -900,7 +904,7 @@
   <div class="nav-inner">
     <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407"/></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#room" data-play-release="what-if" data-play-stage>Listen</a>
+      <a href="#listen">Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
@@ -922,7 +926,7 @@
 </header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="#room" data-play-release="what-if" data-play-stage>Listen</a>
+  <a href="#listen">Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
@@ -993,19 +997,20 @@
           <p class="eyebrow">Catalogue</p>
           <h2 id="listen-title">On the wall</h2>
         </div>
+        <a class="head-link" href="catalogue.html">Full catalogue</a>
       </header>
       <div class="wall-grid">
         <article class="wall-item rv" data-release="together">
           <div class="wall-art">
             <a href="together.html" aria-label="Together — view release">
-              <img src="together-cover.webp" alt="Together — artwork" loading="lazy" width="1200" height="1200"/>
+              <img src="together-cover-480.webp" srcset="together-cover-480.webp 480w, together-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Together — artwork" loading="lazy" width="1200" height="1200"/>
             </a>
             <button type="button" class="wall-play" data-play-release="together" data-play-stage aria-label="Play Together">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
           <div class="wall-meta">
-            <p class="wall-artist">Inlet Knight</p>
+            <p class="wall-artist">Inlet Knight · CC008</p>
             <h3 class="wall-title"><a href="together.html">Together</a></h3>
             <p class="wall-note">Album — 4 tracks</p>
           </div>
@@ -1014,14 +1019,14 @@
         <article class="wall-item rv" data-release="inlet-knight">
           <div class="wall-art">
             <a href="inlet-knight.html" aria-label="Inlet Knight — view release">
-              <img src="inlet-knight-cover.jpg" alt="Inlet Knight — artwork" loading="lazy" width="1400" height="1400"/>
+              <img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Inlet Knight — artwork" loading="lazy" width="1400" height="1400"/>
             </a>
             <button type="button" class="wall-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
           <div class="wall-meta">
-            <p class="wall-artist">Inlet Knight</p>
+            <p class="wall-artist">Inlet Knight · CC005</p>
             <h3 class="wall-title"><a href="inlet-knight.html">Inlet Knight</a></h3>
             <p class="wall-note">Album — 16 tracks</p>
           </div>
@@ -1030,14 +1035,14 @@
         <article class="wall-item rv" data-release="at-home">
           <div class="wall-art">
             <a href="home.html" aria-label="At Home — view release">
-              <img src="at_home.png" alt="At Home — artwork" loading="lazy" width="1400" height="1400"/>
+              <img src="at_home-480.webp" srcset="at_home-480.webp 480w, at_home.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="At Home — artwork" loading="lazy" width="1254" height="1254"/>
             </a>
             <button type="button" class="wall-play" data-play-release="at-home" data-play-stage aria-label="Play At Home">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
           <div class="wall-meta">
-            <p class="wall-artist">Inlet Knight</p>
+            <p class="wall-artist">Inlet Knight · CC006</p>
             <h3 class="wall-title"><a href="home.html">At Home</a></h3>
             <p class="wall-note">EP — 3 tracks</p>
           </div>
@@ -1046,11 +1051,14 @@
         <article class="wall-item rv">
           <div class="wall-art">
             <a href="lion.html" aria-label="Lions' Gate — view release">
-              <img src="lions.png" alt="Lions' Gate — artwork" loading="lazy" width="1400" height="1400"/>
+              <img src="lions-480.webp" srcset="lions-480.webp 480w, lions.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Lions' Gate — artwork" loading="lazy" width="1400" height="1400"/>
+            </a>
+            <a class="wall-play" href="lion.html" aria-label="View Lions' Gate">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
           <div class="wall-meta">
-            <p class="wall-artist">Charlie Archer</p>
+            <p class="wall-artist">Charlie Archer · CC004</p>
             <h3 class="wall-title"><a href="lion.html">Lions&rsquo; Gate</a></h3>
             <p class="wall-note">Single</p>
           </div>
@@ -1074,6 +1082,7 @@
               <a href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
             </div>
           </div>
+          <p style="margin-top:20px"><a href="about.html" style="font-size:14px;font-weight:500;color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)">About the label</a></p>
         </div>
         <div class="after-signup">
           <label for="newsletterEmail">Email updates</label>
@@ -1094,6 +1103,13 @@
   <section class="daylight" aria-label="Explore">
     <div class="band">
       <nav class="index-rows rv" aria-label="Explore Club Copy">
+        <a class="index-row" href="catalogue.html">
+          <span>
+            <span class="index-title">Catalogue</span>
+            <span class="index-note">Every release, by number.</span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
         <a class="index-row" href="artists.html">
           <span>
             <span class="index-title">Artists</span>
@@ -1123,10 +1139,11 @@
       </div>
       <div class="footer-links">
         <a href="#room">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
-        <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -1136,6 +1153,7 @@
   </div>
 </footer>
 
+<script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js"></script>
 <script>
@@ -1161,23 +1179,6 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
-
-  var navHam = document.getElementById('navHam');
-  var navDrawer = document.getElementById('navDrawer');
-  navHam.addEventListener('click', function () {
-    var open = navDrawer.classList.toggle('on');
-    navHam.classList.toggle('on', open);
-    navHam.setAttribute('aria-expanded', String(open));
-    navDrawer.setAttribute('aria-hidden', String(!open));
-  });
-  navDrawer.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      navDrawer.classList.remove('on');
-      navHam.classList.remove('on');
-      navHam.setAttribute('aria-expanded', 'false');
-      navDrawer.setAttribute('aria-hidden', 'true');
-    });
-  });
 
   var obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {

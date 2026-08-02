@@ -3,12 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>About — Club Copy</title>
-  <meta name="description" content="Club Copy is an independent record label from the Pacific Northwest. Music we want to keep."/>
+  <title>Shipping &amp; Returns — Club Copy</title>
+  <meta name="description" content="Shipping, returns, and order information for Club Copy."/>
   <meta name="theme-color" content="#FAF8F5"/>
-  <meta property="og:title" content="About — Club Copy"/>
-  <meta property="og:description" content="An independent record label from the Pacific Northwest."/>
-  <meta property="og:image" content="https://vcrrecords.com/what-if-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,55 +14,32 @@
   <link rel="stylesheet" href="css/site.css"/>
   <style>
     .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 96px; }
-    .page .section-head { padding-top: 0; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .about-hero {
-      max-width: 18em;
-      font-family: var(--display);
-      font-size: clamp(32px, 5.5vw, 56px);
-      font-weight: 600; letter-spacing: -.035em; line-height: 1.05;
-      margin: 28px 0 20px;
-    }
-    .about-lead {
-      font-size: clamp(17px, 2.2vw, 20px);
-      color: var(--muted); line-height: 1.5;
-      max-width: 28em; margin-bottom: 56px;
-    }
-    .about-grid {
+    .page .section-head { padding-top: 0; }
+    .page-lead { margin-top: 12px; font-size: 16px; color: var(--muted); max-width: 34em; }
+    .policy {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 0;
+      max-width: 720px;
       border-top: 1px solid var(--line);
-      padding-top: 48px;
     }
-    @media (min-width: 800px) {
-      .about-grid { grid-template-columns: 1.2fr 1fr; gap: 64px; }
+    .policy article {
+      padding: 36px 0;
+      border-bottom: 1px solid var(--line);
     }
-    .about-block h2 {
+    .policy h2 {
       font-family: var(--display);
       font-size: clamp(22px, 3vw, 28px);
       font-weight: 600; letter-spacing: -.025em;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-    .about-block p {
+    .policy p, .policy li {
       font-size: 15px; color: var(--muted); line-height: 1.65;
-      max-width: 36em; margin-bottom: 14px;
+      max-width: 38em;
     }
-    .about-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .facts {
-      display: flex; flex-direction: column; gap: 0;
-      border-top: 1px solid var(--line);
-    }
-    .fact {
-      display: grid; grid-template-columns: 120px 1fr;
-      gap: 16px; padding: 18px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .fact dt {
-      font-size: 12px; font-weight: 500; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--dim);
-    }
-    .fact dd { font-size: 15px; color: var(--ink); }
-    .fact a {
+    .policy ul { margin: 12px 0 0 1.1em; }
+    .policy li { margin-bottom: 6px; }
+    .policy a {
       color: var(--ink);
       text-decoration: underline; text-underline-offset: 3px;
       text-decoration-color: rgba(17,17,17,.25);
@@ -112,46 +86,45 @@
   <div class="band">
     <header class="section-head">
       <div>
-        <p class="eyebrow">About</p>
+        <p class="eyebrow">Orders</p>
+        <h1>Shipping &amp; returns</h1>
+        <p class="page-lead">Clear terms before you check out. If something is unclear, write us.</p>
       </div>
     </header>
-    <h1 class="about-hero">Music we want to keep.</h1>
-    <p class="about-lead">Club Copy is an independent record label from the Pacific Northwest. Small catalogue. Long shelf life. Made to be listened to, held, and returned to.</p>
 
-    <div class="about-grid">
-      <div class="about-block rv">
-        <h2>The label</h2>
-        <p>We release house, UK garage, and adjacent forms — records that feel finished when they leave, and still open when you play them years later.</p>
-        <p>Pressing, packaging, and merch are produced in limited batches. Catalogue numbers (CC00x) mark each release in the discography.</p>
-        <p>Founded by Charlie Archer. Published under Copy House Publishing.</p>
-        <div class="about-actions">
-          <a class="btn btn-dark" href="catalogue.html">View catalogue</a>
-          <a class="btn btn-ghost" href="merch.html">Shop</a>
-        </div>
-      </div>
+    <div class="policy">
+      <article>
+        <h2>Shipping</h2>
+        <p>Orders ship from British Columbia, Canada. Most merch and vinyl leave within 2–4 business days. You will receive tracking when the parcel is scanned.</p>
+        <ul>
+          <li>Domestic Canada: typically 3–7 business days after dispatch.</li>
+          <li>United States: typically 5–12 business days after dispatch.</li>
+          <li>International: usually 1–4 weeks, depending on customs.</li>
+        </ul>
+        <p style="margin-top:12px">Shipping is calculated at payment based on destination and weight. Digital purchases (when fulfilled via Bandcamp or Stripe) are delivered instantly — no shipping applies.</p>
+      </article>
 
-      <dl class="facts rv">
-        <div class="fact">
-          <dt>Based</dt>
-          <dd>Pacific Northwest · British Columbia</dd>
-        </div>
-        <div class="fact">
-          <dt>Roster</dt>
-          <dd><a href="artists.html">Inlet Knight, Charlie Archer, LT Drifta</a></dd>
-        </div>
-        <div class="fact">
-          <dt>Listen</dt>
-          <dd><a href="https://planetmp3.net" target="_blank" rel="noopener">Planet MP3</a></dd>
-        </div>
-        <div class="fact">
-          <dt>Contact</dt>
-          <dd><a href="mailto:charlie@vcrrecords.com">charlie@vcrrecords.com</a></dd>
-        </div>
-        <div class="fact">
-          <dt>Orders</dt>
-          <dd><a href="shipping.html">Shipping &amp; returns</a></dd>
-        </div>
-      </dl>
+      <article>
+        <h2>Packaging</h2>
+        <p>Vinyl ships in protective mailers with corner protection. Apparel is folded and bagged. We pack light and carefully — the goal is the record arriving the way it left.</p>
+      </article>
+
+      <article>
+        <h2>Returns</h2>
+        <p>Unopened merch and sealed vinyl may be returned within 14 days of delivery for a refund of the item price. Return shipping is the buyer’s responsibility unless the item arrived damaged or incorrect.</p>
+        <p style="margin-top:12px">Opened vinyl and worn apparel cannot be returned except for manufacturing defects. Digital downloads are non-refundable once delivered.</p>
+        <p style="margin-top:12px">To start a return, email <a href="mailto:charlie@vcrrecords.com">charlie@vcrrecords.com</a> with your order number and reason.</p>
+      </article>
+
+      <article>
+        <h2>Damaged or lost</h2>
+        <p>If a parcel arrives damaged, photograph the outer packaging and the item and contact us within 7 days. We will replace or refund at our discretion. Lost packages with active tracking are investigated with the carrier before a replacement is issued.</p>
+      </article>
+
+      <article>
+        <h2>Authenticity</h2>
+        <p>Everything sold in the Club Copy shop is produced or pressed for the label. Catalogue numbers (CC00x) identify each release in the catalogue.</p>
+      </article>
     </div>
   </div>
 </main>

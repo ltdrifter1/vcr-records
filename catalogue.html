@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Catalogue — Club Copy</title>
+  <meta name="description" content="The Club Copy catalogue — releases by catalogue number."/>
+  <meta name="theme-color" content="#FAF8F5"/>
+  <meta property="og:title" content="Catalogue — Club Copy"/>
+  <meta property="og:description" content="The Club Copy catalogue — releases by catalogue number."/>
+  <meta property="og:image" content="https://vcrrecords.com/what-if-cover.webp"/>
+  <link rel="icon" href="favicon.png" type="image/png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/player.css"/>
+  <style>
+    .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 96px; }
+    .page .section-head { padding-top: 0; }
+    .page-lead { margin-top: 12px; font-size: 16px; color: var(--muted); max-width: 34em; }
+
+    .cat-list { border-top: 1px solid var(--line); }
+    .cat-row {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 4px;
+      border-bottom: 1px solid var(--line);
+      transition: background var(--dur) var(--ease);
+    }
+    @media (min-width: 800px) {
+      .cat-row {
+        grid-template-columns: 88px 88px minmax(0, 1.4fr) minmax(0, 1fr) 100px 88px;
+        gap: 24px;
+        padding: 22px 8px;
+      }
+    }
+    @media (hover:hover) {
+      .cat-row:hover { background: rgba(255,255,255,.45); }
+    }
+    .cat-cover {
+      width: 72px; height: 72px;
+      background: var(--soft);
+      overflow: hidden;
+    }
+    @media (min-width: 800px) { .cat-cover { width: 88px; height: 88px; } }
+    .cat-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-no {
+      font-size: 12px; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .cat-title {
+      font-family: var(--display);
+      font-size: clamp(18px, 2.4vw, 22px);
+      font-weight: 600; letter-spacing: -.02em; line-height: 1.15;
+    }
+    .cat-artist { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
+    .cat-meta {
+      font-size: 13px; color: var(--dim);
+      display: none;
+    }
+    @media (min-width: 800px) { .cat-meta { display: block; } }
+    .cat-year {
+      font-size: 13px; color: var(--dim);
+      font-variant-numeric: tabular-nums;
+      display: none;
+    }
+    @media (min-width: 800px) { .cat-year { display: block; } }
+    .cat-avail {
+      font-size: 12px; font-weight: 500; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--muted);
+      text-align: right;
+    }
+    .cat-mobile-meta {
+      display: block; margin-top: 6px;
+      font-size: 12px; color: var(--dim);
+    }
+    @media (min-width: 800px) { .cat-mobile-meta { display: none; } }
+
+    .cat-head {
+      display: none;
+      grid-template-columns: 88px 88px minmax(0, 1.4fr) minmax(0, 1fr) 100px 88px;
+      gap: 24px;
+      padding: 0 8px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--dim);
+    }
+    @media (min-width: 800px) { .cat-head { display: grid; } }
+  </style>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407"/></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#listen">Listen</a>
+      <a href="artists.html">Artists</a>
+      <a href="merch.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-end">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
+          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="nav-cart-count" data-cart-count hidden>0</span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html#listen">Listen</a>
+  <a href="artists.html">Artists</a>
+  <a href="merch.html">Shop</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Bag</a>
+</div>
+
+<main id="main" class="page">
+  <div class="band">
+    <header class="section-head">
+      <div>
+        <p class="eyebrow">Discography</p>
+        <h1>Catalogue</h1>
+        <p class="page-lead">Every Club Copy release, by number. Small catalogue, long shelf life.</p>
+      </div>
+      <a class="head-link" href="merch.html">Shop vinyl</a>
+    </header>
+
+    <div class="cat-head" aria-hidden="true">
+      <span></span>
+      <span>No.</span>
+      <span>Release</span>
+      <span>Format</span>
+      <span>Year</span>
+      <span style="text-align:right">Status</span>
+    </div>
+
+    <div class="cat-list">
+      <a class="cat-row rv" href="together.html">
+        <div class="cat-cover"><img src="together-cover-480.webp" srcset="together-cover-480.webp 480w, together-cover.webp 1200w" sizes="88px" alt="" width="1200" height="1200" loading="lazy"/></div>
+        <span class="cat-no">CC008</span>
+        <span>
+          <span class="cat-title">Together</span>
+          <span class="cat-artist">Inlet Knight</span>
+          <span class="cat-mobile-meta">Album · 4 tracks · 2026</span>
+        </span>
+        <span class="cat-meta">Album · Vinyl &amp; digital · 4 tracks</span>
+        <span class="cat-year">2026</span>
+        <span class="cat-avail">Available</span>
+      </a>
+
+      <a class="cat-row rv" href="what-if.html">
+        <div class="cat-cover"><img src="what-if-cover-480.webp" srcset="what-if-cover-480.webp 480w, what-if-cover.webp 1200w" sizes="88px" alt="" width="1200" height="1200" loading="lazy"/></div>
+        <span class="cat-no">CC007</span>
+        <span>
+          <span class="cat-title">What If</span>
+          <span class="cat-artist">Inlet Knight</span>
+          <span class="cat-mobile-meta">Album · 2 tracks · 2026</span>
+        </span>
+        <span class="cat-meta">Album · Vinyl &amp; digital · 2 tracks</span>
+        <span class="cat-year">2026</span>
+        <span class="cat-avail">Available</span>
+      </a>
+
+      <a class="cat-row rv" href="home.html">
+        <div class="cat-cover"><img src="at_home-480.webp" srcset="at_home-480.webp 480w, at_home.webp 1200w" sizes="88px" alt="" width="1254" height="1254" loading="lazy"/></div>
+        <span class="cat-no">CC006</span>
+        <span>
+          <span class="cat-title">At Home</span>
+          <span class="cat-artist">Inlet Knight</span>
+          <span class="cat-mobile-meta">EP · 3 tracks · 2026</span>
+        </span>
+        <span class="cat-meta">EP · Vinyl &amp; digital · 3 tracks</span>
+        <span class="cat-year">2026</span>
+        <span class="cat-avail">Available</span>
+      </a>
+
+      <a class="cat-row rv" href="inlet-knight.html">
+        <div class="cat-cover"><img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="88px" alt="" width="1400" height="1400" loading="lazy"/></div>
+        <span class="cat-no">CC005</span>
+        <span>
+          <span class="cat-title">Inlet Knight</span>
+          <span class="cat-artist">Inlet Knight</span>
+          <span class="cat-mobile-meta">Album · 16 tracks · 2026</span>
+        </span>
+        <span class="cat-meta">Album · Vinyl &amp; digital · 16 tracks</span>
+        <span class="cat-year">2026</span>
+        <span class="cat-avail">Available</span>
+      </a>
+
+      <a class="cat-row rv" href="lion.html">
+        <div class="cat-cover"><img src="lions-480.webp" srcset="lions-480.webp 480w, lions.webp 1200w" sizes="88px" alt="" width="1400" height="1400" loading="lazy"/></div>
+        <span class="cat-no">CC004</span>
+        <span>
+          <span class="cat-title">Lions&rsquo; Gate</span>
+          <span class="cat-artist">Charlie Archer</span>
+          <span class="cat-mobile-meta">Single · 2025</span>
+        </span>
+        <span class="cat-meta">Single · Vinyl &amp; digital</span>
+        <span class="cat-year">2025</span>
+        <span class="cat-avail">Available</span>
+      </a>
+
+      <a class="cat-row rv" href="summer.html">
+        <div class="cat-cover"><img src="summer-480.webp" srcset="summer-480.webp 480w, summer.webp 1200w" sizes="88px" alt="" width="1400" height="1400" loading="lazy"/></div>
+        <span class="cat-no">CC003</span>
+        <span>
+          <span class="cat-title">Summer Madness</span>
+          <span class="cat-artist">LT Drifta</span>
+          <span class="cat-mobile-meta">Album · Archive · 11 tracks</span>
+        </span>
+        <span class="cat-meta">Album · Archive press · 11 tracks</span>
+        <span class="cat-year">2024</span>
+        <span class="cat-avail">Archive</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="band">
+    <div class="footer-top">
+      <div>
+        <img class="footer-logo" src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
+        <p class="footer-manifesto">An independent record label from the Pacific Northwest. © Copy House Publishing.</p>
+      </div>
+      <div>
+        <label for="footerEmail">Email updates</label>
+        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit">Join</button>
+        </form>
+        <p class="footer-note">New music and drops, occasionally.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Club Copy</p>
+      <div class="footer-links">
+        <a href="index.html#listen">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="artists.html">Artists</a>
+        <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>

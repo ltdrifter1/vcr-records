@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -60,34 +60,42 @@
     @media (max-width: 560px) { #fleece .shop { grid-template-columns: 1fr; max-width: 440px; } }
     #seasonal .shop { max-width: 380px; }
 
-    /* Product card ---------------------------------------------------------------- */
+    /* Product card — art-forward, quiet chrome ------------------------------------ */
     .product {
-      background: rgba(255,255,255,.62);
-      backdrop-filter: saturate(160%) blur(18px);
-      -webkit-backdrop-filter: saturate(160%) blur(18px);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
       display: flex; flex-direction: column;
-      box-shadow: var(--shadow), inset 0 1px 0 var(--line-hi);
+      box-shadow: none;
       opacity: 0; transform: translateY(14px);
-      transition: opacity .7s var(--ease), transform .7s var(--ease),
-                  box-shadow .4s var(--ease), border-color .4s var(--ease);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
     }
     .product.in { opacity: 1; transform: none; }
     .product:nth-child(2) { transition-delay: .05s; }
     .product:nth-child(3) { transition-delay: .1s; }
     .product:nth-child(4) { transition-delay: .15s; }
     @media (hover:hover) {
-      .product:hover { box-shadow: var(--shadow-lg); }
-      .product:hover .product-visual img { transform: scale(1.025); }
+      .product:hover .product-visual img:not(.vinyl-disc) { transform: scale(1.02); }
     }
 
     .product-visual {
+      position: relative;
       background: var(--soft);
       aspect-ratio: 1;
       overflow: hidden;
-      border-bottom: 1px solid var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .product-badges {
+      position: absolute; top: 10px; left: 10px; z-index: 3;
+      display: flex; flex-wrap: wrap; gap: 6px;
+      pointer-events: none;
+    }
+    .product-badges .badge {
+      background: rgba(250,248,245,.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .product-visual img {
       width: 100%; height: 100%;
@@ -161,13 +169,11 @@
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
       gap: 0;
       align-items: stretch;
-      background: rgba(255,255,255,.7);
-      backdrop-filter: saturate(160%) blur(20px);
-      -webkit-backdrop-filter: saturate(160%) blur(20px);
+      background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: var(--shadow-lg), inset 0 1px 0 var(--line-hi);
+      box-shadow: none;
       margin: 28px 0 40px;
     }
     @media (min-width: 900px) { .vinyl-hero { margin-top: 36px; margin-bottom: 48px; } }
@@ -186,6 +192,9 @@
       max-width: 480px;
     }
     @media (min-width: 900px) { .vinyl-hero-body { padding: 48px; } }
+    .vinyl-hero .product-body { padding: 36px 32px; }
+    @media (min-width: 900px) { .vinyl-hero .product-body { padding: 48px; } }
+
     .vinyl-hero-body .product-name {
       font-family: var(--display);
       font-size: clamp(28px, 4vw, 40px);
@@ -202,11 +211,10 @@
       z-index: 80;
       margin: 0;
       padding: 12px 0;
-      background: rgba(250,248,245,.72);
+      background: rgba(250,248,245,.92);
       backdrop-filter: saturate(180%) blur(18px);
       -webkit-backdrop-filter: saturate(180%) blur(18px);
       border-bottom: 1px solid var(--line);
-      box-shadow: inset 0 1px 0 var(--line-hi);
     }
     .shop-jump-inner {
       max-width: var(--wrap);
@@ -240,9 +248,12 @@
     }
 
     .product-body {
-      padding: 18px 18px 20px;
+      padding: 16px 2px 8px;
       display: flex; flex-direction: column; gap: 12px; flex: 1;
+      border-top: none;
     }
+    .vinyl-hero .product-body { padding: 36px 32px; }
+    @media (min-width: 900px) { .vinyl-hero .product-body { padding: 48px; } }
     .product-top {
       display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
     }
@@ -296,16 +307,27 @@
 
     /* Add to bag ----------------------------------------------------------------------- */
     .merch-add {
-      height: 46px; width: 100%; margin-top: auto;
+      height: 44px; width: 100%; margin-top: auto;
       border-radius: var(--pill);
-      background: var(--ink); color: #fff;
-      font-size: 14px; font-weight: 500; letter-spacing: -.01em;
+      background: transparent; color: var(--ink);
+      border: 1px solid rgba(17,17,17,.28);
+      font-size: 13px; font-weight: 500; letter-spacing: -.01em;
       transition: opacity var(--dur) var(--ease), transform 160ms var(--ease),
-                  background var(--dur) var(--ease);
+                  background var(--dur) var(--ease), color var(--dur) var(--ease),
+                  border-color var(--dur) var(--ease);
     }
     .merch-add:active { transform: scale(.98); }
-    .merch-add.is-added { background: #2d6a4f; color: #fff; }
-    @media (hover:hover) { .merch-add:hover { opacity: .84; } }
+    .merch-add.is-added { background: var(--ink); color: #fff; border-color: var(--ink); }
+    @media (hover:hover) {
+      .merch-add:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+    }
+    .vinyl-hero .merch-add {
+      background: var(--ink); color: #fff; border-color: var(--ink);
+      height: 46px; font-size: 14px;
+    }
+    @media (hover:hover) {
+      .vinyl-hero .merch-add:hover { opacity: .88; }
+    }
 
     /* Toast ------------------------------------------------------------------------------ */
     .toast {
@@ -404,6 +426,7 @@
 
       <article class="product merch-card vinyl-hero in" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
         <div class="product-visual vinyl-pack">
+          <div class="product-badges"><span class="badge badge-ink">CC007</span><span class="badge">Featured</span></div>
           <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true"/>
           <img class="vinyl-sleeve is-label" src="what-if-cover.webp" alt="What If vinyl sleeve"/>
         </div>
@@ -424,6 +447,7 @@
       <section class="shop" aria-label="Vinyl">
         <article class="product merch-card" data-sku="sm-vinyl-together" data-name="Together — Vinyl" data-price="32">
           <div class="product-visual vinyl-pack">
+            <div class="product-badges"><span class="badge">CC008</span></div>
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
             <img class="vinyl-sleeve is-label" src="together-cover.webp" alt="Together vinyl sleeve" loading="lazy"/>
           </div>
@@ -442,8 +466,9 @@
 
         <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
           <div class="product-visual vinyl-pack">
+            <div class="product-badges"><span class="badge">CC005</span></div>
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="inlet-knight-cover.jpg" alt="Inlet Knight vinyl sleeve" loading="lazy"/>
+            <img class="vinyl-sleeve" src="inlet-knight-cover.webp" alt="Inlet Knight vinyl sleeve" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -460,8 +485,9 @@
 
         <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
           <div class="product-visual vinyl-pack">
+            <div class="product-badges"><span class="badge">CC006</span></div>
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="at_home.png" alt="At Home vinyl sleeve" loading="lazy"/>
+            <img class="vinyl-sleeve" src="at_home.webp" alt="At Home vinyl sleeve" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -478,8 +504,9 @@
 
         <article class="product merch-card" data-sku="sm-vinyl-lions-gate" data-name="Lions' Gate — Vinyl" data-price="28">
           <div class="product-visual vinyl-pack">
+            <div class="product-badges"><span class="badge">CC004</span></div>
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="lions.png" alt="Lions' Gate vinyl sleeve" loading="lazy"/>
+            <img class="vinyl-sleeve" src="lions.webp" alt="Lions' Gate vinyl sleeve" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -496,8 +523,9 @@
 
         <article class="product merch-card" data-sku="sm-vinyl-summer" data-name="Summer Madness — Vinyl" data-price="28">
           <div class="product-visual vinyl-pack">
+            <div class="product-badges"><span class="badge">CC003</span><span class="badge">Archive</span></div>
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="summer.PNG" alt="Summer Madness vinyl sleeve" loading="lazy"/>
+            <img class="vinyl-sleeve" src="summer.webp" alt="Summer Madness vinyl sleeve" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -514,6 +542,7 @@
 
         <article class="product merch-card" data-sku="sm-bundle-what-if-tee" data-name="What If Bundle — Vinyl + Tee" data-price="54">
           <div class="product-visual">
+            <div class="product-badges"><span class="badge">Bundle</span></div>
             <img src="merch/club-copy/prod-bundle-vinyl-tee.webp" alt="What If vinyl and Micro Logo Tee bundle" loading="lazy"/>
           </div>
           <div class="product-body">
@@ -903,15 +932,17 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="index.html#listen">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
-        <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
     </div>
   </div>
 </footer>
 
+<script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js"></script>
 <script>
@@ -928,23 +959,6 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
-
-  var navHam = document.getElementById('navHam');
-  var navDrawer = document.getElementById('navDrawer');
-  navHam.addEventListener('click', function () {
-    var open = navDrawer.classList.toggle('on');
-    navHam.classList.toggle('on', open);
-    navHam.setAttribute('aria-expanded', String(open));
-    navDrawer.setAttribute('aria-hidden', String(!open));
-  });
-  navDrawer.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      navDrawer.classList.remove('on');
-      navHam.classList.remove('on');
-      navHam.setAttribute('aria-expanded', 'false');
-      navDrawer.setAttribute('aria-hidden', 'true');
-    });
-  });
 })();
 var MERCH_IMG_MAP = {
   'simple-tee-colour': document.getElementById('img-simple-tee')
