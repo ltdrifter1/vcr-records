@@ -121,10 +121,22 @@
       object-fit: cover;
       border-radius: 3px;
       box-shadow: 0 10px 28px rgba(17,17,17,.14);
-      background: #111;
+      background: #0a0a0a;
+    }
+    /* Dubplate / label covers — keep the circle small on a black sleeve */
+    .vinyl-pack .vinyl-sleeve.is-label {
+      object-fit: contain;
+      object-position: center;
+      padding: 22% !important;
+      box-sizing: border-box;
+      background: #0a0a0a;
+    }
+    .vinyl-hero .vinyl-pack .vinyl-sleeve.is-label {
+      padding: 24% !important;
     }
     @media (hover:hover) {
       .product:hover .vinyl-disc { transform: translateX(16%) rotate(14deg); }
+      .product:hover .vinyl-pack .vinyl-sleeve { transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       .vinyl-pack .vinyl-disc { transition: none; }
@@ -168,6 +180,50 @@
     .vinyl-hero-body .product-note { font-size: 15px; max-width: 30em; }
     .vinyl-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
     .vinyl-hero-actions .merch-add { width: auto; min-width: 160px; margin-top: 0; }
+
+    /* Sticky shop section nav — most useful jump on a long store ---------------- */
+    .shop-jump {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--safe-t));
+      z-index: 80;
+      margin: 0 0 8px;
+      padding: 10px 0;
+      background: rgba(250,248,245,.72);
+      backdrop-filter: saturate(180%) blur(18px);
+      -webkit-backdrop-filter: saturate(180%) blur(18px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 var(--line-hi);
+    }
+    .shop-jump-inner {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex; gap: 6px; flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (min-width: 800px) { .shop-jump-inner { padding: 0 40px; } }
+    .shop-jump-inner::-webkit-scrollbar { display: none; }
+    .shop-jump a {
+      flex: 0 0 auto;
+      height: 34px; padding: 0 14px;
+      border-radius: var(--pill);
+      font-size: 13px; font-weight: 500; letter-spacing: -.01em;
+      color: var(--muted);
+      border: 1px solid transparent;
+      display: inline-flex; align-items: center;
+      transition: color var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    @media (hover:hover) {
+      .shop-jump a:hover { color: var(--ink); background: var(--fill); }
+    }
+    .shop-jump a.is-active {
+      color: var(--ink);
+      background: rgba(255,255,255,.7);
+      border-color: var(--line);
+      box-shadow: inset 0 1px 0 var(--line-hi);
+    }
 
     .product-body {
       padding: 22px 24px 26px;
@@ -328,6 +384,16 @@
     </div>
   </section>
 
+  <nav class="shop-jump" aria-label="Shop sections">
+    <div class="shop-jump-inner">
+      <a href="#vinyl">Vinyl</a>
+      <a href="#everyday">Everyday</a>
+      <a href="#apparel">Apparel</a>
+      <a href="#records-room">Room</a>
+      <a href="#seasonal">Seasonal</a>
+    </div>
+  </nav>
+
   <div class="band">
     <div class="shop-block" id="vinyl">
       <header class="section-head">
@@ -341,7 +407,7 @@
       <article class="product merch-card vinyl-hero in" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
         <div class="product-visual vinyl-pack">
           <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true"/>
-          <img class="vinyl-sleeve" src="what-if-cover.webp" alt="What If vinyl sleeve"/>
+          <img class="vinyl-sleeve is-label" src="what-if-cover.webp" alt="What If vinyl sleeve"/>
         </div>
         <div class="vinyl-hero-body product-body">
           <p class="eyebrow">Featured press</p>
@@ -361,7 +427,7 @@
         <article class="product merch-card" data-sku="sm-vinyl-together" data-name="Together — Vinyl" data-price="32">
           <div class="product-visual vinyl-pack">
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="together-cover.webp" alt="Together vinyl sleeve" loading="lazy"/>
+            <img class="vinyl-sleeve is-label" src="together-cover.webp" alt="Together vinyl sleeve" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -913,6 +979,24 @@ var obs = new IntersectionObserver(function (entries) {
   });
 }, { threshold: .12, rootMargin: '0px 0px -24px 0px' });
 document.querySelectorAll('.product').forEach(function (el) { obs.observe(el); });
+
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.shop-jump a'));
+  if (!links.length) return;
+  var sections = links.map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  }).filter(Boolean);
+  var jumpObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var id = '#' + e.target.id;
+      links.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('href') === id);
+      });
+    });
+  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+  sections.forEach(function (s) { jumpObs.observe(s); });
+})();
 </script>
 </body>
 </html>
