@@ -18,11 +18,102 @@
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    /* Featured release ---------------------------------------------------- */
-    .featured {
-      padding: calc(var(--nav-h) + var(--safe-t) + 56px) 0 0;
+    /* Y2K hero -------------------------------------------------------------- */
+    .hero {
+      position: relative;
+      min-height: 78svh;
+      display: grid; place-items: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      isolation: isolate;
     }
-    @media (min-width: 900px) { .featured { padding-top: calc(var(--nav-h) + var(--safe-t) + 88px); } }
+    .hero-grid {
+      position: absolute;
+      inset: -15% -10% -35%;
+      z-index: 0;
+      pointer-events: none;
+      transform-origin: 50% 0%;
+      transform: perspective(720px) rotateX(58deg) translateY(-8%);
+      background-image:
+        linear-gradient(to right, rgba(17,17,17,.16) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(17,17,17,.16) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image:
+        radial-gradient(ellipse 70% 55% at 50% 42%, #000 0%, transparent 72%),
+        linear-gradient(180deg, transparent 0%, #000 28%, #000 70%, transparent 100%);
+      -webkit-mask-image:
+        radial-gradient(ellipse 70% 55% at 50% 42%, #000 0%, transparent 72%),
+        linear-gradient(180deg, transparent 0%, #000 28%, #000 70%, transparent 100%);
+      mask-composite: intersect;
+      -webkit-mask-composite: source-in;
+      opacity: .35;
+      animation: gridDrift 28s linear infinite;
+      will-change: background-position;
+    }
+    .hero-grid::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(17,17,17,.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(17,17,17,.07) 1px, transparent 1px);
+      background-size: 14px 14px;
+      opacity: .7;
+      animation: gridDriftFine 18s linear infinite reverse;
+    }
+    @keyframes gridDrift { from { background-position: 0 0; } to { background-position: 0 56px; } }
+    @keyframes gridDriftFine { from { background-position: 0 0; } to { background-position: 0 14px; } }
+    .hero-stage {
+      position: relative; z-index: 1;
+      width: min(720px, calc(100% - 48px));
+      padding: calc(var(--nav-h) + var(--safe-t) + 56px) 0 72px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 26px;
+    }
+    .hero-mark { width: min(480px, 78vw); animation: heroIn .9s var(--ease) both; }
+    .hero-mark img { width: 100%; height: auto; }
+    .hero-line {
+      font-size: clamp(18px, 2.6vw, 24px);
+      font-weight: 500; letter-spacing: -.02em; color: var(--muted);
+      animation: heroIn 1s var(--ease) .12s both;
+    }
+    .hero-ctas {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      animation: heroIn 1.05s var(--ease) .22s both;
+    }
+    @keyframes heroIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+    /* Planet MP3 ------------------------------------------------------------- */
+    .stream { padding: 72px 0 0; }
+    .stream-card {
+      background: #000; color: #fff;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+      align-items: center;
+      gap: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+    @media (max-width: 760px) { .stream-card { grid-template-columns: 1fr; gap: 0; } }
+    .stream-logo { padding: 36px 0 36px 40px; }
+    @media (max-width: 760px) { .stream-logo { padding: 36px 36px 0; } }
+    .stream-logo img {
+      width: min(220px, 56vw); height: auto; margin: 0 auto;
+      border-radius: 22%;
+    }
+    .stream-copy { padding: 40px 40px 44px; max-width: 34em; }
+    .stream-copy .eyebrow { color: rgba(255,255,255,.5); }
+    .stream-copy h2 {
+      font-size: clamp(24px, 3.4vw, 34px);
+      font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
+      margin-bottom: 10px;
+    }
+    .stream-copy p { color: rgba(255,255,255,.64); font-size: 15px; margin-bottom: 24px; }
+    .btn-light { background: #fff; color: #000; }
+    @media (hover:hover) { .btn-light:hover { opacity: .86; } }
+
+    /* Featured release ---------------------------------------------------- */
+    .featured { padding: 88px 0 0; }
     .featured-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
@@ -190,6 +281,38 @@
 
 <main id="main">
 
+  <!-- Y2K hero -->
+  <section class="hero" aria-label="Club Copy">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-stage">
+      <div class="hero-mark">
+        <img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" fetchpriority="high"/>
+      </div>
+      <p class="hero-line">Electronic music from the Pacific Northwest.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-dark" href="#listen">Listen</a>
+        <a class="btn btn-ghost" href="merch.html">Shop</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Streaming on Planet MP3 -->
+  <section class="stream" aria-labelledby="stream-title">
+    <div class="band">
+      <div class="stream-card rv">
+        <div class="stream-logo">
+          <img src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" loading="lazy"/>
+        </div>
+        <div class="stream-copy">
+          <p class="eyebrow">Streaming</p>
+          <h2 id="stream-title">In rotation on Planet MP3.</h2>
+          <p>The full Club Copy catalogue, streaming around the clock. Press play, leave it on.</p>
+          <a class="btn btn-light" href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Featured release -->
   <section class="featured" aria-label="Featured release">
     <div class="band">
@@ -240,6 +363,32 @@
         </div>
       </header>
       <div class="release-grid">
+        <article class="card release-card is-link rv">
+          <a href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener" aria-label="What If — listen on Bandcamp">
+            <div class="card-art">
+              <img src="what-if-cover.webp" alt="What If — artwork" loading="lazy" width="1200" height="1200"/>
+            </div>
+          </a>
+          <div class="release-body">
+            <p class="release-artist">Inlet Knight</p>
+            <h3 class="release-title"><a href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener">What If</a></h3>
+            <p class="release-meta">Album — 2 tracks · New</p>
+          </div>
+        </article>
+
+        <article class="card release-card is-link rv">
+          <a href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener" aria-label="Together — listen on Bandcamp">
+            <div class="card-art">
+              <img src="together-cover.webp" alt="Together — artwork" loading="lazy" width="1200" height="1200"/>
+            </div>
+          </a>
+          <div class="release-body">
+            <p class="release-artist">Inlet Knight</p>
+            <h3 class="release-title"><a href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener">Together</a></h3>
+            <p class="release-meta">Album — 4 tracks · New</p>
+          </div>
+        </article>
+
         <article class="card release-card is-link rv" data-release="another-day">
           <a href="inlet-knight.html" aria-label="Another Day — view release">
             <div class="card-art">
