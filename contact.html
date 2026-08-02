@@ -4,240 +4,75 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Contact — Club Copy</title>
-  <meta name="description" content="Contact Club Copy — electronic music from the Pacific Northwest."/>
-  <meta name="theme-color" content="#000000"/>
+  <meta name="description" content="Contact Club Copy — press, bookings, demos, and general inquiries."/>
+  <meta name="theme-color" content="#FAF8F5"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --surface: #141414;
-      --text: #ffffff;
-      --muted: #a1a1a6;
-      --dim: #6e6e73;
-      --line: rgba(255,255,255,.1);
-      --fill: rgba(255,255,255,.04);
-      --fill-hi: rgba(255,255,255,.08);
-      --shadow: 0 2px 16px rgba(0,0,0,.35);
-      --radius: 18px;
-      --pill: 980px;
-      --ease: cubic-bezier(.22,1,.36,1);
-      --dur: 300ms;
-      --display: 'Plus Jakarta Sans', sans-serif;
-      --sans: 'Plus Jakarta Sans', sans-serif;
-      --safe-b: env(safe-area-inset-bottom, 0px);
-      --safe-t: env(safe-area-inset-top, 0px);
-      --wrap: 1120px;
-      --nav-h: 60px;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      font-size: 17px;
-      line-height: 1.47059;
-      letter-spacing: -.011em;
-      font-weight: 400;
-      min-height: 100dvh;
-      background-image:
-        radial-gradient(900px 480px at 80% -10%, rgba(255,255,255,.05), transparent 55%),
-        linear-gradient(180deg, #000 0%, #0a0a0a 45%, #111 100%);
-    }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    button, input, textarea {
-      font-family: inherit; -webkit-tap-highlight-color: transparent;
-    }
-    button { cursor: pointer; border: none; background: none; }
-    ::selection { background: rgba(255,255,255,.18); }
-
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      height: calc(var(--nav-h) + var(--safe-t));
-      padding-top: var(--safe-t);
-      background: rgba(0,0,0,.72);
-      backdrop-filter: saturate(140%) blur(18px);
-      -webkit-backdrop-filter: saturate(140%) blur(18px);
-      border-bottom: 1px solid transparent;
-      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
-    }
-    .nav.scrolled { background: rgba(0,0,0,.88); border-bottom-color: var(--line); }
-    .nav-inner {
-      max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
-      padding: 0 22px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .nav-logo img { height: 38px; width: auto; }
-    @media (hover:hover) { .nav-logo:hover { opacity: .7; } }
-    .nav-links { display: flex; gap: 2px; }
-    .nav-links a {
-      padding: 8px 12px; font-size: 13px; font-weight: 500; color: var(--muted);
-      letter-spacing: -.01em;
-      border-radius: var(--pill);
-      transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
-    }
-    .nav-links a[aria-current="page"] { color: var(--text); background: var(--fill-hi); }
-    @media (hover:hover) { .nav-links a:hover { color: var(--text); background: var(--fill-hi); } }
-    .nav-end { display: flex; align-items: center; gap: 4px; }
-    .nav-cart {
-      position: relative; width: 42px; height: 42px;
-      display: inline-flex; align-items: center; justify-content: center;
-      border-radius: var(--pill); color: var(--text);
-    }
-    @media (hover:hover) { .nav-cart:hover { background: var(--fill-hi); } }
-    .nav-cart svg { width: 20px; height: 20px; }
-    .nav-cart-count {
-      position: absolute; top: 4px; right: 2px;
-      min-width: 18px; height: 18px; padding: 0 5px;
-      border-radius: var(--pill); background: #fff; color: #000;
-      font-size: 10px; font-weight: 700; line-height: 18px; text-align: center;
-    }
-    .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 10px; }
-    .nav-ham span {
-      display: block; width: 16px; height: 1.5px; background: var(--muted);
-      transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
-    }
-    .nav-ham.on span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--text); }
-    .nav-ham.on span:nth-child(2) { opacity: 0; }
-    .nav-ham.on span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--text); }
-    @media (max-width: 680px) { .nav-links { display: none; } .nav-ham { display: flex; } }
-    .nav-drawer {
-      display: none; position: fixed;
-      top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
-      background: rgba(0,0,0,.94); backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--line);
-      padding: 8px 22px calc(16px + var(--safe-b));
-    }
-    .nav-drawer.on { display: block; }
-    .nav-drawer a {
-      display: block; padding: 14px 0; border-bottom: 1px solid var(--line);
-      font-size: 17px; font-weight: 500; color: var(--muted);
-      letter-spacing: -.01em;
-    }
-    .nav-drawer a:last-child { border-bottom: none; }
-
-    .band { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
-    .page {
-      padding: calc(var(--nav-h) + var(--safe-t) + 48px) 0 calc(80px + var(--safe-b));
-    }
-
-    .intro { max-width: 560px; margin-bottom: 40px; }
-    .intro-brand {
-      font-size: 14px; font-weight: 400; letter-spacing: -.01em;
-      color: var(--muted); margin-bottom: 10px;
-    }
-    .intro h1 {
-      font-size: clamp(40px, 7vw, 56px); font-weight: 600;
-      letter-spacing: -.022em; line-height: 1.07; margin-bottom: 12px;
-    }
-    .intro p {
-      color: var(--muted); max-width: 28em;
-      font-size: 19px; line-height: 1.4211; letter-spacing: .011em;
-    }
+    .page { padding-bottom: 40px; }
+    .page .section-head { padding-top: calc(var(--nav-h) + var(--safe-t) + 56px); }
+    @media (min-width: 800px) { .page .section-head { padding-top: calc(var(--nav-h) + var(--safe-t) + 88px); } }
+    .page-lead { font-size: 16px; color: var(--muted); max-width: 32em; margin-top: 14px; }
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 28px;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+      gap: 24px;
       align-items: start;
     }
     @media (max-width: 800px) { .contact-grid { grid-template-columns: 1fr; } }
 
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: calc(var(--radius) + 4px);
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
-    .panel h2 {
-      font-size: 21px; font-weight: 600; letter-spacing: -.02em;
-      margin-bottom: 8px;
-    }
-    .panel .lead {
-      color: var(--muted); font-size: 15px; line-height: 1.47059;
-      letter-spacing: -.011em; margin-bottom: 22px;
-    }
+    .panel { padding: 32px; }
+    @media (min-width: 800px) { .panel { padding: 40px; } }
+    .panel h2 { font-size: 20px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 6px; }
+    .panel .lead { color: var(--muted); font-size: 14px; margin-bottom: 26px; }
 
-    .field { margin-bottom: 14px; }
+    .field { margin-bottom: 16px; }
     .field label {
-      display: block; font-size: 12px; font-weight: 500;
-      letter-spacing: -.01em;
+      display: block; font-size: 13px; font-weight: 500; letter-spacing: -.01em;
       color: var(--muted); margin-bottom: 8px;
     }
     .field input, .field textarea {
-      width: 100%; border-radius: 14px; border: 1px solid var(--line);
-      background: #0c0c0c; color: var(--text);
-      padding: 14px 16px; font-size: 15px; outline: none;
+      width: 100%; border-radius: var(--radius); border: 1px solid var(--line);
+      background: #FFFFFF; color: var(--ink);
+      padding: 13px 16px; font: inherit; font-size: 15px; outline: none;
       transition: border-color var(--dur) var(--ease);
     }
-    .field textarea { min-height: 140px; resize: vertical; }
-    .field input:focus, .field textarea:focus { border-color: rgba(255,255,255,.35); }
+    .field textarea { min-height: 150px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--ink); }
     .field input::placeholder, .field textarea::placeholder { color: var(--dim); }
+    .submit-row { margin-top: 24px; }
 
-    .submit {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: 46px; padding: 0 22px; border-radius: var(--pill);
-      background: #fff; color: #000;
-      font-size: 14px; font-weight: 500; letter-spacing: -.01em;
-      transition: opacity var(--dur) var(--ease);
-    }
-    @media (hover:hover) { .submit:hover { opacity: .88; } }
-
-    .side-list { list-style: none; display: grid; gap: 16px; }
-    .side-list li {
-      padding-bottom: 16px; border-bottom: 1px solid var(--line);
-    }
+    .side-list { list-style: none; display: grid; gap: 18px; }
+    .side-list li { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
     .side-list li:last-child { border-bottom: none; padding-bottom: 0; }
     .side-kicker {
-      font-size: 12px; font-weight: 500; letter-spacing: -.01em;
+      font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
       color: var(--dim); margin-bottom: 6px;
     }
-    .side-list a { color: var(--muted); font-weight: 500; }
-    @media (hover:hover) { .side-list a:hover { color: var(--text); } }
-
-    .footer-brand {
-      margin-bottom: 22px;
+    .side-list a {
+      font-size: 15px; font-weight: 500; color: var(--ink);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--dur) var(--ease);
     }
-    .footer-brand img {
-      width: min(140px, 42vw); height: auto;
-    }
-    .footer {
-      background: #000; border-top: 1px solid var(--line);
-      padding: 28px 0 calc(28px + var(--safe-b));
-    }
-    .footer-bottom {
-      display: flex; flex-wrap: wrap; gap: 16px;
-      justify-content: space-between; align-items: center;
-    }
-    .footer-copy { font-size: 12px; color: var(--dim); letter-spacing: -.01em; }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 8px; }
-    .footer-links a {
-      font-size: 12px; font-weight: 500; color: var(--muted);
-      padding: 6px 10px; border-radius: var(--pill);
-      letter-spacing: -.01em;
-    }
-    @media (hover:hover) { .footer-links a:hover { background: var(--fill-hi); color: var(--text); } }
+    @media (hover:hover) { .side-list a:hover { border-bottom-color: var(--ink); } }
   </style>
 </head>
-<body>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo" aria-label="Club Copy home">
-      <img src="club-copy-header.webp" alt="Club Copy" width="900" height="417"/>
-    </a>
+    <a href="index.html" class="nav-logo" aria-label="Club Copy home">Club&nbsp;Copy</a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
       <a href="artists.html">Artists</a>
-      <a href="merch.html">Merch</a>
+      <a href="merch.html">Shop</a>
       <a href="contact.html" aria-current="page">Contact</a>
     </nav>
     <div class="nav-end">
@@ -255,24 +90,27 @@
     </div>
   </div>
 </header>
+
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="index.html#listen">Listen</a>
   <a href="artists.html">Artists</a>
-  <a href="merch.html">Merch</a>
+  <a href="merch.html">Shop</a>
   <a href="contact.html" aria-current="page">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
 
-<main class="page">
+<main id="main" class="page">
   <div class="band">
-    <header class="intro">
-      <p class="intro-brand">Club Copy</p>
-      <h1>Contact</h1>
-      <p>Press, bookings, demos, and general inquiries.</p>
+    <header class="section-head">
+      <div>
+        <p class="eyebrow">Get in touch</p>
+        <h1>Contact</h1>
+        <p class="page-lead">Press, bookings, demos, and general inquiries.</p>
+      </div>
     </header>
 
     <div class="contact-grid">
-      <section class="panel" aria-label="Contact form">
+      <section class="card panel rv" aria-label="Contact form">
         <h2>Send a message</h2>
         <p class="lead">We’ll get back when we can.</p>
         <form action="https://formspree.io/f/xdkwjzzr" method="POST">
@@ -293,11 +131,13 @@
             <textarea id="message" name="message" required placeholder="Tell us what’s up"></textarea>
           </div>
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button class="submit" type="submit">Send</button>
+          <div class="submit-row">
+            <button class="btn btn-dark" type="submit">Send</button>
+          </div>
         </form>
       </section>
 
-      <aside class="panel" aria-label="Direct links">
+      <aside class="card panel rv" aria-label="Direct links">
         <h2>Direct</h2>
         <p class="lead">Quick links.</p>
         <ul class="side-list">
@@ -321,20 +161,31 @@
 
 <footer class="footer">
   <div class="band">
-    <div class="footer-brand">
-      <a href="index.html" aria-label="Club Copy home">
-        <img src="club-copy-header.webp" alt="Club Copy" width="900" height="417" loading="lazy"/>
-      </a>
+    <div class="footer-top">
+      <div>
+        <p class="footer-wordmark">Club&nbsp;Copy</p>
+        <p class="footer-manifesto">An independent record label from the Pacific Northwest. © Copy House Publishing.</p>
+      </div>
+      <div>
+        <label for="footerEmail">Email updates</label>
+        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit">Join</button>
+        </form>
+        <p class="footer-note">New music and drops, occasionally.</p>
+      </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
-      <a href="index.html#listen">Listen</a>
-      <a href="artists.html">Artists</a>
-      <a href="merch.html">Merch</a>
-      <a href="contact.html">Contact</a>
+        <a href="index.html#listen">Listen</a>
+        <a href="artists.html">Artists</a>
+        <a href="merch.html">Shop</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+      </div>
     </div>
-  </div>
   </div>
 </footer>
 
@@ -344,7 +195,7 @@
   var nav = document.getElementById('nav');
   var ticking = false;
   function syncNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 12);
+    nav.classList.toggle('scrolled', window.scrollY > 24);
     ticking = false;
   }
   window.addEventListener('scroll', function () {
@@ -353,6 +204,7 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
+
   var navHam = document.getElementById('navHam');
   var navDrawer = document.getElementById('navDrawer');
   navHam.addEventListener('click', function () {
@@ -369,6 +221,13 @@
       navDrawer.setAttribute('aria-hidden', 'true');
     });
   });
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
 })();
 </script>
 </body>
