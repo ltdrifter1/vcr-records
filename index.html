@@ -14,39 +14,41 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    /* Y2K hero -------------------------------------------------------------- */
+    /* Release hero — full-bleed artwork plane -------------------------------- */
     .hero {
       position: relative;
-      min-height: 78svh;
-      display: grid; place-items: center;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
       overflow: hidden;
-      border-bottom: 1px solid var(--line);
+      background: #050505;
+      color: #fff;
       isolation: isolate;
     }
     .hero-grid {
       position: absolute;
-      inset: -15% -10% -35%;
+      inset: -18% -12% -40%;
       z-index: 0;
       pointer-events: none;
       transform-origin: 50% 0%;
-      transform: perspective(720px) rotateX(58deg) translateY(-8%);
+      transform: perspective(720px) rotateX(58deg) translateY(-6%);
       background-image:
-        linear-gradient(to right, rgba(17,17,17,.16) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(17,17,17,.16) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255,255,255,.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.14) 1px, transparent 1px);
       background-size: 56px 56px;
       mask-image:
-        radial-gradient(ellipse 70% 55% at 50% 42%, #000 0%, transparent 72%),
-        linear-gradient(180deg, transparent 0%, #000 28%, #000 70%, transparent 100%);
+        radial-gradient(ellipse 72% 58% at 50% 40%, #000 0%, transparent 72%),
+        linear-gradient(180deg, transparent 0%, #000 26%, #000 72%, transparent 100%);
       -webkit-mask-image:
-        radial-gradient(ellipse 70% 55% at 50% 42%, #000 0%, transparent 72%),
-        linear-gradient(180deg, transparent 0%, #000 28%, #000 70%, transparent 100%);
+        radial-gradient(ellipse 72% 58% at 50% 40%, #000 0%, transparent 72%),
+        linear-gradient(180deg, transparent 0%, #000 26%, #000 72%, transparent 100%);
       mask-composite: intersect;
       -webkit-mask-composite: source-in;
-      opacity: .35;
+      opacity: .42;
       animation: gridDrift 28s linear infinite;
       will-change: background-position;
     }
@@ -54,36 +56,97 @@
       content: "";
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(to right, rgba(17,17,17,.07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(17,17,17,.07) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
       background-size: 14px 14px;
-      opacity: .7;
       animation: gridDriftFine 18s linear infinite reverse;
+    }
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 40% at 50% 42%, rgba(255,255,255,.07), transparent 70%),
+        linear-gradient(180deg, rgba(0,0,0,.2) 0%, transparent 28%, rgba(0,0,0,.55) 100%);
     }
     @keyframes gridDrift { from { background-position: 0 0; } to { background-position: 0 56px; } }
     @keyframes gridDriftFine { from { background-position: 0 0; } to { background-position: 0 14px; } }
     .hero-stage {
       position: relative; z-index: 1;
-      width: min(720px, calc(100% - 48px));
-      padding: calc(var(--nav-h) + var(--safe-t) + 56px) 0 72px;
+      width: min(720px, calc(100% - 40px));
+      padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 64px;
       display: flex; flex-direction: column; align-items: center;
-      text-align: center; gap: 26px;
+      text-align: center; gap: 18px;
     }
-    .hero-mark { width: min(480px, 78vw); animation: heroIn .9s var(--ease) both; }
-    .hero-mark img { width: 100%; height: auto; }
+    .hero-brand {
+      width: min(280px, 58vw);
+      animation: heroIn .85s var(--ease) both;
+    }
+    .hero-brand img { width: 100%; height: auto; }
+    .hero-art {
+      width: min(420px, 78vw);
+      aspect-ratio: 1;
+      margin: 6px 0 4px;
+      animation: heroIn .95s var(--ease) .08s both;
+      filter: drop-shadow(0 28px 60px rgba(0,0,0,.55));
+    }
+    .hero-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%;
+    }
+    .hero-stage h1 {
+      font-family: var(--display);
+      font-size: clamp(36px, 7vw, 64px);
+      font-weight: 600; letter-spacing: -.035em; line-height: 1;
+      animation: heroIn 1s var(--ease) .14s both;
+    }
     .hero-line {
-      font-size: clamp(18px, 2.6vw, 24px);
-      font-weight: 500; letter-spacing: -.02em; color: var(--muted);
-      animation: heroIn 1s var(--ease) .12s both;
+      font-size: clamp(16px, 2.2vw, 18px);
+      font-weight: 400; letter-spacing: -.01em;
+      color: rgba(255,255,255,.62);
+      animation: heroIn 1.05s var(--ease) .18s both;
     }
     .hero-ctas {
       display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-      animation: heroIn 1.05s var(--ease) .22s both;
+      margin-top: 6px;
+      animation: heroIn 1.1s var(--ease) .22s both;
     }
-    @keyframes heroIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .hero .btn-dark { background: #fff; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+    .hero .btn-ghost {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border-color: rgba(255,255,255,.35);
+    }
+    @media (hover:hover) {
+      .hero .btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
+    }
+    @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-grid, .hero-grid::before, .hero-brand, .hero-art, .hero-stage h1, .hero-line, .hero-ctas { animation: none; }
+    }
+
+    /* Dark nav over hero, frost after scroll --------------------------------- */
+    body.hero-top .nav {
+      background: transparent;
+      border-bottom-color: transparent;
+      box-shadow: none;
+    }
+    body.hero-top .nav.scrolled {
+      background: rgba(250,248,245,.72);
+      border-bottom-color: var(--line);
+      box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
+    }
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-logo img {
+      filter: invert(1);
+    }
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,.72); }
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a:hover,
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.1); }
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-cart { color: #fff; }
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-ham span { background: #fff; }
+    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-cart-count { background: #fff; color: #000; }
 
     /* Planet MP3 ------------------------------------------------------------- */
-    .stream { padding: 72px 0 0; }
+    .stream { padding: 88px 0 0; }
     .stream-card {
       background: rgba(8,8,10,.88);
       color: #fff;
@@ -108,6 +171,7 @@
     .stream-copy { padding: 40px 40px 44px; max-width: 34em; }
     .stream-copy .eyebrow { color: rgba(255,255,255,.5); }
     .stream-copy h2 {
+      font-family: var(--display);
       font-size: clamp(24px, 3.4vw, 34px);
       font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
       margin-bottom: 10px;
@@ -115,76 +179,6 @@
     .stream-copy p { color: rgba(255,255,255,.64); font-size: 15px; margin-bottom: 24px; }
     .btn-light { background: #fff; color: #000; }
     @media (hover:hover) { .btn-light:hover { opacity: .86; } }
-
-    /* Featured release ---------------------------------------------------- */
-    .featured { padding: 88px 0 0; }
-    .featured-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-      gap: 56px;
-      align-items: center;
-    }
-    @media (max-width: 899px) { .featured-grid { grid-template-columns: 1fr; gap: 32px; } }
-    .featured-art {
-      background: var(--soft);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg), inset 0 1px 0 var(--line-hi);
-    }
-    .featured-art img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
-    .featured-copy { display: flex; flex-direction: column; align-items: flex-start; }
-    .featured-copy h1 {
-      font-size: clamp(40px, 6vw, 72px);
-      font-weight: 600; letter-spacing: -.035em; line-height: 1.0;
-      margin-bottom: 10px;
-    }
-    .featured-artist { font-size: 17px; color: var(--muted); margin-bottom: 8px; }
-    .featured-desc { font-size: 16px; color: var(--muted); max-width: 26em; margin-bottom: 28px; }
-    .featured-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-    /* Featured tracklist ---------------------------------------------------- */
-    .featured-tracks {
-      margin-top: 36px; width: 100%;
-      background: rgba(255,255,255,.58);
-      backdrop-filter: saturate(160%) blur(18px);
-      -webkit-backdrop-filter: saturate(160%) blur(18px);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: inset 0 1px 0 var(--line-hi);
-      max-height: 280px; overflow-y: auto;
-      overscroll-behavior: contain;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(17,17,17,.2) transparent;
-    }
-    .track {
-      display: grid;
-      grid-template-columns: 32px 1fr auto;
-      gap: 12px; align-items: center;
-      width: 100%; text-align: left;
-      padding: 12px 18px;
-      border-bottom: 1px solid var(--line);
-      transition: background var(--dur) var(--ease);
-    }
-    .track:last-child { border-bottom: none; }
-    @media (hover:hover) { .track:hover { background: var(--fill); } }
-    .track.is-active { background: var(--fill-hi); }
-    .track-num {
-      font-size: 12px; font-weight: 500; color: var(--dim);
-      font-variant-numeric: tabular-nums;
-    }
-    @media (hover:hover) { .track:hover .track-num { visibility: hidden; } }
-    .track { position: relative; }
-    .track-glyph {
-      position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
-      width: 12px; height: 12px; display: none;
-    }
-    @media (hover:hover) { .track:hover .track-glyph { display: block; } }
-    .track-title { font-size: 14px; font-weight: 500; letter-spacing: -.01em; }
-    .track.is-active .track-title { font-weight: 600; }
-    .track-dur {
-      font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums;
-    }
 
     /* New releases grid ------------------------------------------------------ */
     .release-grid {
@@ -198,7 +192,7 @@
     .release-card .card-art { position: relative; }
     .release-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
     .release-artist { font-size: 13px; color: var(--muted); }
-    .release-title { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+    .release-title { font-family: var(--display); font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
     .release-meta { font-size: 12px; color: var(--dim); margin-top: 6px; }
     .release-play {
       position: absolute; right: 14px; bottom: 14px;
@@ -223,6 +217,7 @@
     .about { padding: 104px 0; }
     .about-inner { max-width: 780px; }
     .about-statement {
+      font-family: var(--display);
       font-size: clamp(24px, 3.6vw, 40px);
       font-weight: 500; letter-spacing: -.025em; line-height: 1.22;
     }
@@ -239,6 +234,7 @@
     @media (min-width: 800px) { .index-row { padding: 48px 8px; } }
     .index-title {
       display: block;
+      font-family: var(--display);
       font-size: clamp(28px, 4.4vw, 48px);
       font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
     }
@@ -252,14 +248,14 @@
     }
   </style>
 </head>
-<body id="top">
+<body id="top" class="hero-top">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407"/></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#listen">Listen</a>
+      <a href="what-if.html" data-play-release="what-if" data-play-stage>Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
@@ -281,7 +277,7 @@
 </header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="#listen">Listen</a>
+  <a href="what-if.html" data-play-release="what-if" data-play-stage>Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
@@ -290,60 +286,21 @@
 
 <main id="main">
 
-  <!-- Y2K hero -->
-  <section class="hero" aria-label="Club Copy">
+  <!-- Latest release as hero -->
+  <section class="hero" aria-label="What If — latest release">
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-stage">
-      <div class="hero-mark">
-        <img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" fetchpriority="high"/>
+      <div class="hero-brand">
+        <img src="club-copy-logo-light.webp" alt="Club Copy" width="1600" height="407" fetchpriority="high"/>
       </div>
-      <p class="hero-line">Electronic music from the Pacific Northwest.</p>
+      <div class="hero-art">
+        <img src="what-if-cover.webp" alt="What If — vinyl artwork" width="1200" height="1200" fetchpriority="high"/>
+      </div>
+      <h1>What If</h1>
+      <p class="hero-line">Inlet Knight — two tracks</p>
       <div class="hero-ctas">
-        <a class="btn btn-dark" href="#listen">Listen</a>
-        <a class="btn btn-ghost" href="merch.html">Shop</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Streaming on Planet MP3 -->
-  <section class="stream" aria-labelledby="stream-title">
-    <div class="band">
-      <div class="stream-card rv">
-        <div class="stream-logo">
-          <img src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" loading="lazy"/>
-        </div>
-        <div class="stream-copy">
-          <p class="eyebrow">Streaming</p>
-          <h2 id="stream-title">In rotation on Planet MP3.</h2>
-          <p>The full Club Copy catalogue, streaming around the clock. Press play, leave it on.</p>
-          <a class="btn btn-light" href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured release -->
-  <section class="featured" aria-label="Featured release">
-    <div class="band">
-      <div class="featured-grid">
-        <div class="featured-art rv in">
-          <img src="what-if-cover.webp" alt="What If — album artwork" width="1200" height="1200" fetchpriority="high"/>
-        </div>
-        <div class="featured-copy rv in">
-          <p class="eyebrow">Latest release</p>
-          <h1>What If</h1>
-          <p class="featured-artist">Inlet Knight — Album, 2 tracks</p>
-          <p class="featured-desc">Two tracks. Digital download.</p>
-          <div class="featured-actions">
-            <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play album</button>
-            <a class="btn btn-ghost" href="what-if.html">View release</a>
-            <a class="btn btn-soft" href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener">Buy — $9 CAD</a>
-          </div>
-          <div class="featured-tracks" role="list" aria-label="What If tracklist">
-            <button type="button" class="track" data-play-release="what-if" data-play-track="wi-01" role="listitem"><span class="track-num">1</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Lo-Fi Girl</span><span class="track-dur">6:20</span></button>
-            <button type="button" class="track" data-play-release="what-if" data-play-track="wi-02" role="listitem"><span class="track-num">2</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">What If</span><span class="track-dur">3:44</span></button>
-          </div>
-        </div>
+        <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play album</button>
+        <a class="btn btn-ghost" href="what-if.html">View release</a>
       </div>
     </div>
   </section>
@@ -418,6 +375,23 @@
             <p class="release-meta">Single</p>
           </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Streaming on Planet MP3 -->
+  <section class="stream" aria-labelledby="stream-title">
+    <div class="band">
+      <div class="stream-card rv">
+        <div class="stream-logo">
+          <img src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" loading="lazy"/>
+        </div>
+        <div class="stream-copy">
+          <p class="eyebrow">Streaming</p>
+          <h2 id="stream-title">In rotation on Planet MP3.</h2>
+          <p>The full Club Copy catalogue, streaming around the clock. Press play, leave it on.</p>
+          <a class="btn btn-light" href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
+        </div>
       </div>
     </div>
   </section>
@@ -510,7 +484,9 @@
   var nav = document.getElementById('nav');
   var ticking = false;
   function syncNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
+    var y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 24);
+    document.body.classList.toggle('nav-light', y > Math.max(120, (window.innerHeight * 0.72)));
     ticking = false;
   }
   window.addEventListener('scroll', function () {
