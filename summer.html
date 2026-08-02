@@ -8,6 +8,10 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <meta name="description" content="Summer Madness — an 11-track release by LT Drifta on digital and limited cassette. Stream it and buy it on Club Copy, an independent record label."/>
   <meta name="theme-color" content="#FAF8F5"/>
+  <meta property="og:title" content="Summer Madness — LT Drifta"/>
+  <meta property="og:description" content="Summer Madness — 11 tracks by LT Drifta. Catalogue CC003. Digital, cassette and vinyl on Club Copy."/>
+  <meta property="og:type" content="music.album"/>
+  <meta property="og:image" content="https://vcrrecords.com/summer.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -785,6 +789,24 @@
 
       </div>
     </div>
+
+    <section class="more-releases" aria-label="More from the catalogue">
+      <p class="more-releases-title">More from the catalogue</p>
+      <div class="more-releases-grid">
+        <a href="lion.html" class="more-release-item">
+          <img src="lions.webp" alt="Lions' Gate" loading="lazy"/>
+          <p>Charlie Archer — Lions' Gate</p>
+        </a>
+        <a href="home.html" class="more-release-item">
+          <img src="at_home.webp" alt="At Home" loading="lazy"/>
+          <p>Inlet Knight — At Home</p>
+        </a>
+        <a href="what-if.html" class="more-release-item">
+          <img src="what-if-cover.webp" alt="What If" loading="lazy"/>
+          <p>Inlet Knight — What If</p>
+        </a>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -1081,6 +1103,7 @@ $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem
   aw.addEventListener('click', () => { zi.src = src.src; zo.style.display = 'flex'; });
   zo.addEventListener('click', e => { if (e.target !== zi) zo.style.display = 'none'; });
   zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display = 'none');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') zo.style.display = 'none'; });
 })();
 
 /* ── FADE IN ─────────────────────────────────────────── */

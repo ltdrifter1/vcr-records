@@ -803,6 +803,24 @@
 
       </div>
     </div>
+
+    <section class="more-releases" aria-label="More from the catalogue">
+      <p class="more-releases-title">More from the catalogue</p>
+      <div class="more-releases-grid">
+        <a href="what-if.html" class="more-release-item">
+          <img src="what-if-cover.webp" alt="What If" loading="lazy"/>
+          <p>Inlet Knight — What If</p>
+        </a>
+        <a href="together.html" class="more-release-item">
+          <img src="together-cover.webp" alt="Together" loading="lazy"/>
+          <p>Inlet Knight — Together</p>
+        </a>
+        <a href="home.html" class="more-release-item">
+          <img src="at_home.webp" alt="At Home" loading="lazy"/>
+          <p>Inlet Knight — At Home</p>
+        </a>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -1115,6 +1133,7 @@ $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem
   aw.addEventListener('click', () => { zi.src = src.src; zo.style.display = 'flex'; });
   zo.addEventListener('click', e => { if (e.target !== zi) zo.style.display = 'none'; });
   zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display = 'none');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') zo.style.display = 'none'; });
 })();
 
 (function () {

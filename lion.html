@@ -7,6 +7,10 @@
   <link rel="icon" href="favicon.png" type="image/png"/>
   <meta name="description" content="Lions' Gate — a digital single by Charlie Archer. Stream it and buy the download on Club Copy, an independent record label."/>
   <meta name="theme-color" content="#FAF8F5"/>
+  <meta property="og:title" content="Lions' Gate — Charlie Archer"/>
+  <meta property="og:description" content="Charlie Archer. Catalogue CC004. Digital single and 12&quot; vinyl on Club Copy."/>
+  <meta property="og:type" content="music.album"/>
+  <meta property="og:image" content="https://vcrrecords.com/lions.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -535,15 +539,15 @@
         <div class="r-block">
           <div class="r-artist">Charlie Archer</div>
           <h1 class="r-title" itemprop="name">Lions' Gate</h1>
-          <p class="r-cat">CC004 · 2025</p>
+          <p class="r-cat">CC004 · 2026</p>
           <div class="r-meta-row">
             <div>
               <div class="r-price" id="priceDisplay">
                 <meta itemprop="priceCurrency" content="USD"/>
                 <meta itemprop="price" content="0.98"/>
-                $0.98
+                <span id="priceAmount">$0.98</span>
               </div>
-              <div class="r-price-note">USD</div>
+              <div class="r-price-note" id="priceFormat">USD</div>
             </div>
             <div class="r-stock">Vinyl available</div>
           </div>
@@ -610,6 +614,24 @@
 
       </div>
     </div>
+
+    <section class="more-releases" aria-label="More from the catalogue">
+      <p class="more-releases-title">More from the catalogue</p>
+      <div class="more-releases-grid">
+        <a href="summer.html" class="more-release-item">
+          <img src="summer.webp" alt="Summer Madness" loading="lazy"/>
+          <p>LT Drifta — Summer Madness</p>
+        </a>
+        <a href="home.html" class="more-release-item">
+          <img src="at_home.webp" alt="At Home" loading="lazy"/>
+          <p>Inlet Knight — At Home</p>
+        </a>
+        <a href="what-if.html" class="more-release-item">
+          <img src="what-if-cover.webp" alt="What If" loading="lazy"/>
+          <p>Inlet Knight — What If</p>
+        </a>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -820,6 +842,7 @@ document.getElementById('redeemCode').addEventListener('keydown', e => { if(e.ke
   aw.addEventListener('click', () => { zi.src=src.src; zo.style.display='flex'; });
   zo.addEventListener('click', e => { if (e.target!==zi) zo.style.display='none'; });
   zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display='none');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') zo.style.display = 'none'; });
 })();
 
 (function () {
