@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Club Copy — Independent Record Label</title>
-  <meta name="description" content="Club Copy is an independent record label from the Pacific Northwest. Records, artists, and objects worth keeping."/>
+  <title>Club Copy</title>
+  <meta name="description" content="Independent record label from the Pacific Northwest. Vinyl, digital, and merch."/>
   <meta name="theme-color" content="#050505"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -268,22 +268,19 @@
       opacity: 0;
       pointer-events: none;
     }
-    .hero-idle h1 {
-      font-family: var(--display);
-      font-size: clamp(36px, 7vw, 64px);
-      font-weight: 600; letter-spacing: -.035em; line-height: 1;
-      animation: heroIn .8s var(--ease) .42s both;
-    }
-    .hero-line {
-      font-size: clamp(16px, 2.2vw, 18px);
-      font-weight: 400; letter-spacing: -.01em;
-      color: rgba(255,255,255,.62);
-      animation: heroIn .8s var(--ease) .52s both;
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
     }
     .hero-ctas {
       display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
       margin-top: 6px;
-      animation: heroIn .8s var(--ease) .62s both;
+      animation: heroIn .8s var(--ease) .42s both;
     }
     .hero .btn-dark { background: #fff; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
     .hero .btn-ghost {
@@ -417,8 +414,9 @@
       border-bottom-color: var(--line);
       box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
     }
-    body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-logo img {
-      filter: invert(1);
+    body.hero-top .nav-logo img {
+      height: 38px;
+      width: auto;
     }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,.72); }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a:hover,
@@ -436,7 +434,6 @@
       border-bottom-color: rgba(255,255,255,.08);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 28px rgba(0,0,0,.25);
     }
-    body.hero-top:not(.nav-light) .nav.scrolled .nav-logo img { filter: invert(1); }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a { color: rgba(255,255,255,.7); }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a:hover,
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a[aria-current="page"] {
@@ -902,9 +899,9 @@
 
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407"/></a>
+    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#listen">Listen</a>
+      <a href="#listen">Releases</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
@@ -926,7 +923,7 @@
 </header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="#listen">Listen</a>
+  <a href="#listen">Releases</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
@@ -935,13 +932,13 @@
 
 <main id="main">
 
-  <!-- Listening room — Play morphs this into the live stage -->
-  <section class="hero" id="room" data-listening-room aria-label="Listening room">
+  <!-- Featured release -->
+  <section class="hero" id="room" data-listening-room aria-label="Featured release">
     <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-brand">
-        <img src="club-copy-logo-light.webp" alt="Club Copy" width="1600" height="407" fetchpriority="high"/>
+        <img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
       </div>
 
       <div class="hero-platter">
@@ -958,11 +955,10 @@
       </div>
 
       <div class="hero-idle" data-room-idle>
-        <h1>What If</h1>
-        <p class="hero-line">Inlet Knight — two tracks. Press play and stay in the room.</p>
+        <h1 class="visually-hidden">Club Copy</h1>
         <div class="hero-ctas">
-          <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play album</button>
-          <a class="btn btn-ghost" href="what-if.html">View release</a>
+          <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play</button>
+          <a class="btn btn-ghost" href="what-if.html">Release</a>
         </div>
       </div>
 
@@ -988,16 +984,16 @@
     </div>
   </section>
 
-  <!-- Listening wall — same room, catalogue as sleeves -->
+  <!-- Releases -->
   <section class="wall" aria-labelledby="listen-title">
     <div class="wall-bridge" aria-hidden="true"></div>
     <div class="band">
       <header class="section-head" id="listen">
         <div>
-          <p class="eyebrow">Catalogue</p>
-          <h2 id="listen-title">On the wall</h2>
+          <p class="eyebrow">Music</p>
+          <h2 id="listen-title">Releases</h2>
         </div>
-        <a class="head-link" href="catalogue.html">Full catalogue</a>
+        <a class="head-link" href="catalogue.html">View all</a>
       </header>
       <div class="wall-grid">
         <article class="wall-item rv" data-release="together">
@@ -1012,7 +1008,7 @@
           <div class="wall-meta">
             <p class="wall-artist">Inlet Knight · CC008</p>
             <h3 class="wall-title"><a href="together.html">Together</a></h3>
-            <p class="wall-note">Album — 4 tracks</p>
+            <p class="wall-note">4 tracks</p>
           </div>
         </article>
 
@@ -1028,7 +1024,7 @@
           <div class="wall-meta">
             <p class="wall-artist">Inlet Knight · CC005</p>
             <h3 class="wall-title"><a href="inlet-knight.html">Inlet Knight</a></h3>
-            <p class="wall-note">Album — 16 tracks</p>
+            <p class="wall-note">16 tracks</p>
           </div>
         </article>
 
@@ -1044,7 +1040,7 @@
           <div class="wall-meta">
             <p class="wall-artist">Inlet Knight · CC006</p>
             <h3 class="wall-title"><a href="home.html">At Home</a></h3>
-            <p class="wall-note">EP — 3 tracks</p>
+            <p class="wall-note">3 tracks</p>
           </div>
         </article>
 
@@ -1067,60 +1063,60 @@
     </div>
   </section>
 
-  <!-- Quiet dark strip -->
+  <!-- About + newsletter -->
   <section class="after-dark" aria-label="About and updates">
     <div class="band">
       <div class="after-dark-inner rv">
         <div>
-          <p class="eyebrow">About</p>
-          <p class="after-statement">An independent record label from the Pacific Northwest. Music we want to keep.</p>
-          <p class="after-sub">Small catalogue, long shelf life. Made to be listened to, held, and returned to.</p>
+          <p class="eyebrow">Label</p>
+          <p class="after-statement">Independent record label from the Pacific Northwest.</p>
+          <p class="after-sub">Vinyl, digital, and merch — made with care.</p>
           <div class="planet-row">
             <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
             <div>
-              <p>Full catalogue in rotation on Planet MP3.</p>
+              <p>Listen on Planet MP3.</p>
               <a href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
             </div>
           </div>
-          <p style="margin-top:20px"><a href="about.html" style="font-size:14px;font-weight:500;color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)">About the label</a></p>
+          <p style="margin-top:20px"><a href="about.html" style="font-size:14px;font-weight:500;color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)">About</a></p>
         </div>
         <div class="after-signup">
-          <label for="newsletterEmail">Email updates</label>
-          <h2 id="newsletter-title">New music, occasionally.</h2>
-          <p>Releases and drops. Nothing else.</p>
+          <label for="newsletterEmail">Newsletter</label>
+          <h2 id="newsletter-title">New releases.</h2>
+          <p>Occasional updates. Nothing else.</p>
           <form class="after-form" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-labelledby="newsletter-title">
             <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-            <button type="submit">Join</button>
+            <button type="submit">Subscribe</button>
           </form>
-          <p class="after-note">No spam. Unsubscribe anytime.</p>
+          <p class="after-note">Unsubscribe anytime.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Daylight — leave the room for Artists / Shop -->
+  <!-- Explore -->
   <section class="daylight" aria-label="Explore">
     <div class="band">
       <nav class="index-rows rv" aria-label="Explore Club Copy">
         <a class="index-row" href="catalogue.html">
           <span>
             <span class="index-title">Catalogue</span>
-            <span class="index-note">Every release, by number.</span>
+            <span class="index-note">All releases.</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="index-row" href="artists.html">
           <span>
             <span class="index-title">Artists</span>
-            <span class="index-note">The roster, in full.</span>
+            <span class="index-note">The roster.</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="index-row" href="merch.html">
           <span>
             <span class="index-title">Shop</span>
-            <span class="index-note">Objects made in limited batches.</span>
+            <span class="index-note">Vinyl and merch.</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -1134,11 +1130,11 @@
   <div class="band">
     <div class="footer-top">
       <div>
-        <img class="footer-logo" src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
-        <p class="footer-manifesto">An independent record label from the Pacific Northwest. © Copy House Publishing.</p>
+        <img class="footer-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503" loading="lazy"/>
+        <p class="footer-manifesto">Independent record label from the Pacific Northwest. © Copy House Publishing.</p>
       </div>
       <div class="footer-links">
-        <a href="#room">Listen</a>
+        <a href="#listen">Releases</a>
         <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
