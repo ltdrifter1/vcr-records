@@ -763,12 +763,17 @@
   });
   syncActiveFromURL();
 
-  // When the listening room leaves view, minimize it so the dock takes over.
+  // When the listening room leaves view after being seen, minimize so the dock takes over.
   var room = document.querySelector('[data-listening-room]');
   if (room && 'IntersectionObserver' in window) {
+    var roomSeen = false;
     var roomVis = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) return;
+        if (e.isIntersecting) {
+          roomSeen = true;
+          return;
+        }
+        if (!roomSeen) return;
         if (window.VCRPlayer && typeof VCRPlayer.closeRoom === 'function') {
           VCRPlayer.closeRoom();
         }
