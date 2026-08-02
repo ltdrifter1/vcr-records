@@ -28,7 +28,8 @@
   --pill: 980px;
   --ease: cubic-bezier(.22,1,.36,1);
   --dur: 280ms;
-  --sans: 'Inter', 'Plus Jakarta Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   --wrap: 1200px;
@@ -97,6 +98,7 @@ button {
   color: var(--dim); margin-bottom: 12px;
 }
 .section-head h1, .section-head h2 {
+  font-family: var(--display);
   font-size: clamp(32px, 5vw, 56px);
   font-weight: 600; letter-spacing: -.03em; line-height: 1.04;
 }
@@ -265,6 +267,7 @@ button {
 }
 .newsletter-inner { max-width: 560px; }
 .newsletter h2 {
+  font-family: var(--display);
   font-size: clamp(26px, 3.6vw, 36px);
   font-weight: 600; letter-spacing: -.025em; line-height: 1.1;
   margin-bottom: 10px;
