@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Shop — Club Copy</title>
-  <meta name="description" content="Club Copy shop — vinyl, clothing, and objects for the room. Made in limited batches."/>
+  <meta name="description" content="Club Copy shop — vinyl, apparel, and goods. Built in limited runs."/>
   <meta name="theme-color" content="#050505"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
@@ -28,7 +28,7 @@
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 45% 35% at 50% 35%, rgba(255,255,255,.08), transparent 70%);
+        radial-gradient(ellipse 50% 40% at 50% 38%, rgba(255,255,255,.04), transparent 70%);
     }
     .shop-hero .band { position: relative; z-index: 1; }
     .shop-hero-inner {
@@ -37,34 +37,36 @@
       padding: 28px 0 8px;
     }
     .shop-hero-logo {
-      width: min(420px, 78vw);
+      width: min(380px, 72vw);
       height: auto;
-      filter: drop-shadow(0 18px 40px rgba(0,0,0,.45));
-    }
-    .shop-hero-sub {
-      font-size: 15px; color: rgba(255,255,255,.55);
-      max-width: 26em; margin: 0;
-      letter-spacing: -.01em;
-    }
-    .shop-hero-actions {
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-      margin-top: 4px;
-    }
-    .shop-hero .btn-ghost {
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      border-color: rgba(255,255,255,.28);
+      opacity: .42;
+      filter: none;
+      mix-blend-mode: screen;
+      transition: opacity .6s var(--ease);
     }
     @media (hover:hover) {
-      .shop-hero .btn-ghost:hover { background: #fff; color: #111; border-color: #fff; }
+      .shop-hero-logo:hover { opacity: .58; }
     }
-    .shop-hero .btn-dark {
-      background: #fff; color: #111;
-      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    .shop-hero-sub {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.38);
+      margin: 0;
     }
+    .shop-hero-actions { display: none; }
     @media (min-width: 900px) {
-      .shop-hero { padding-top: calc(var(--nav-h) + var(--safe-t) + 64px); padding-bottom: 64px; }
-      .shop-hero-logo { width: min(480px, 52vw); }
+      .shop-hero { padding-top: calc(var(--nav-h) + var(--safe-t) + 72px); padding-bottom: 72px; }
+      .shop-hero-logo { width: min(440px, 42vw); }
+      .shop-hero-inner { gap: 22px; padding: 40px 0 16px; }
+    }
+    /* Default music sleeve — full-bleed photo, no padding crop */
+    #music .product-visual.is-default {
+      background: #050505;
+      border-color: rgba(17,17,17,.12);
+    }
+    #music .product-visual.is-default img {
+      object-fit: cover;
+      padding: 0;
     }
 
     /* Section anchors (clear sticky jump) -------------------------------------- */
@@ -232,6 +234,23 @@
       box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
     }
     body.shop-page main { padding-top: 0; }
+    body.shop-page .section-head h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -.028em;
+    }
+    body.shop-page .section-head {
+      align-items: end;
+    }
+    body.shop-page .section-note {
+      font-size: 14px;
+      max-width: 18em;
+      text-align: right;
+    }
+    @media (max-width: 720px) {
+      body.shop-page .section-head { align-items: start; }
+      body.shop-page .section-note { text-align: left; max-width: none; }
+    }
+
 
     /* Sticky shop section nav — most useful jump on a long store ---------------- */
     .shop-jump {
@@ -415,12 +434,8 @@
   <section class="shop-hero" aria-label="Club Copy shop">
     <div class="band">
       <div class="shop-hero-inner">
-        <img class="shop-hero-logo" src="merch/club-copy/logo-chrome.png" alt="Club Copy" width="1280" height="376" fetchpriority="high"/>
-        <p class="shop-hero-sub">Vinyl, clothing, and objects for the room. Made in limited batches.</p>
-        <div class="shop-hero-actions">
-          <a class="btn btn-dark" href="#music">Browse music</a>
-          <a class="btn btn-ghost" href="cart.html">View bag</a>
-        </div>
+        <img class="shop-hero-logo" src="merch/club-copy/logo-chrome-hero.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
+        <p class="shop-hero-sub">Shop</p>
       </div>
     </div>
   </section>
@@ -437,15 +452,15 @@
     <div class="shop-block" id="music">
       <header class="section-head">
         <div>
-          <p class="eyebrow">Music</p>
-          <h2>Pressings &amp; playback</h2>
+          <p class="eyebrow">01</p>
+          <h2>Music</h2>
         </div>
-        <p class="section-note">Vinyl first. Then what keeps it spinning.</p>
+        <p class="section-note">12&quot; vinyl and playback goods.</p>
       </header>
       <section class="shop" aria-label="Music">
         <article class="product merch-card" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
           <div class="product-visual vinyl-pack">
-            <div class="product-badges"><span class="badge badge-ink">CC007</span><span class="badge">Featured</span></div>
+            <div class="product-badges"><span class="badge badge-ink">CC007</span></div>
             <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true"/>
             <img class="vinyl-sleeve is-label" src="what-if-cover.webp" alt="What If vinyl sleeve"/>
           </div>
@@ -454,9 +469,9 @@
               <h3 class="product-name">What If</h3>
               <p class="product-price">$32</p>
             </div>
-            <p class="product-note">Inlet Knight · CC007. 12&quot; black vinyl. Two tracks.</p>
+            <p class="product-note">Inlet Knight · CC007 · 12&quot; black vinyl</p>
             <div class="product-actions">
-              <a class="product-link" href="what-if.html">View release</a>
+              <a class="product-link" href="what-if.html">Details</a>
               <button class="merch-add" type="button">Add to bag</button>
             </div>
           </div>
@@ -473,85 +488,81 @@
               <h3 class="product-name">Together</h3>
               <p class="product-price">$32</p>
             </div>
-            <p class="product-note">Inlet Knight · CC008. Four tracks.</p>
+            <p class="product-note">Inlet Knight · CC008 · Four tracks</p>
             <div class="product-actions">
-              <a class="product-link" href="together.html">View release</a>
+              <a class="product-link" href="together.html">Details</a>
               <button class="merch-add" type="button">Add to bag</button>
             </div>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
-          <div class="product-visual vinyl-pack">
+                <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
+          <div class="product-visual is-default">
             <div class="product-badges"><span class="badge">CC005</span></div>
-            <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="inlet-knight-cover.webp" alt="Inlet Knight vinyl sleeve" loading="lazy"/>
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1200" height="1200"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Inlet Knight</h3>
               <p class="product-price">$36</p>
             </div>
-            <p class="product-note">Inlet Knight · CC005. Full-length.</p>
+            <p class="product-note">Inlet Knight · CC005 · Full-length LP</p>
             <div class="product-actions">
-              <a class="product-link" href="inlet-knight.html">View release</a>
+              <a class="product-link" href="inlet-knight.html">Details</a>
               <button class="merch-add" type="button">Add to bag</button>
             </div>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
-          <div class="product-visual vinyl-pack">
+                <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
+          <div class="product-visual is-default">
             <div class="product-badges"><span class="badge">CC006</span></div>
-            <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="at_home.webp" alt="At Home vinyl sleeve" loading="lazy"/>
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1200" height="1200"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">At Home</h3>
               <p class="product-price">$28</p>
             </div>
-            <p class="product-note">Inlet Knight · CC006. Three tracks.</p>
+            <p class="product-note">Inlet Knight · CC006 · Three tracks</p>
             <div class="product-actions">
-              <a class="product-link" href="home.html">View release</a>
+              <a class="product-link" href="home.html">Details</a>
               <button class="merch-add" type="button">Add to bag</button>
             </div>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-vinyl-lions-gate" data-name="Lions' Gate — Vinyl" data-price="28">
-          <div class="product-visual vinyl-pack">
+                <article class="product merch-card" data-sku="sm-vinyl-lions-gate" data-name="Lions' Gate — Vinyl" data-price="28">
+          <div class="product-visual is-default">
             <div class="product-badges"><span class="badge">CC004</span></div>
-            <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="lions.webp" alt="Lions' Gate vinyl sleeve" loading="lazy"/>
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Lions' Gate — Club Copy vinyl" loading="lazy" width="1200" height="1200"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Lions&rsquo; Gate</h3>
               <p class="product-price">$28</p>
             </div>
-            <p class="product-note">Charlie Archer · CC004. Single.</p>
+            <p class="product-note">Charlie Archer · CC004 · Single</p>
             <div class="product-actions">
-              <a class="product-link" href="lion.html">View release</a>
+              <a class="product-link" href="lion.html">Details</a>
               <button class="merch-add" type="button">Add to bag</button>
             </div>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-vinyl-summer" data-name="Summer Madness — Vinyl" data-price="28">
-          <div class="product-visual vinyl-pack">
+                <article class="product merch-card" data-sku="sm-vinyl-summer" data-name="Summer Madness — Vinyl" data-price="28">
+          <div class="product-visual is-default">
             <div class="product-badges"><span class="badge">CC003</span><span class="badge">Archive</span></div>
-            <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve" src="summer.webp" alt="Summer Madness vinyl sleeve" loading="lazy"/>
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Summer Madness — Club Copy vinyl" loading="lazy" width="1200" height="1200"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Summer Madness</h3>
               <p class="product-price">$28</p>
             </div>
-            <p class="product-note">LT Drifta · CC003. Archive press.</p>
+            <p class="product-note">LT Drifta · CC003 · Archive press</p>
             <div class="product-actions">
-              <a class="product-link" href="summer.html">View release</a>
+              <a class="product-link" href="summer.html">Details</a>
               <button class="merch-add" type="button">Add to bag</button>
             </div>
           </div>
@@ -567,7 +578,7 @@
               <h3 class="product-name">What If Bundle</h3>
               <p class="product-price">$54</p>
             </div>
-            <p class="product-note">Vinyl + Micro Logo Tee. Save $10.</p>
+            <p class="product-note">What If vinyl + Micro Logo Tee. Save $10.</p>
             <div class="opt-block">
               <span class="opt-label">Tee size</span>
               <div class="merch-options">
@@ -590,7 +601,7 @@
               <h3 class="product-name">Slipmat Pair</h3>
               <p class="product-price">$22</p>
             </div>
-            <p class="product-note">One black, one cream. Thin dual-fabric mats made for turntables.</p>
+            <p class="product-note">Pair of thin dual-fabric mats. Black and cream.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -605,7 +616,7 @@
               <h3 class="product-name">Inner Sleeve Pack</h3>
               <p class="product-price">$12</p>
             </div>
-            <p class="product-note">Five anti-static rice-paper inners. Keep the press clean from the inside.</p>
+            <p class="product-note">Five anti-static rice-paper inners.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -619,7 +630,7 @@
               <h3 class="product-name">Poly Outer</h3>
               <p class="product-price">$5</p>
             </div>
-            <p class="product-note">Clear 12&quot; outer. Keep the press clean.</p>
+            <p class="product-note">Clear 12&quot; protective outer sleeve.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -629,10 +640,10 @@
     <div class="shop-block" id="clothing">
       <header class="section-head">
         <div>
-          <p class="eyebrow">Clothing</p>
-          <h2>Worn pieces</h2>
+          <p class="eyebrow">02</p>
+          <h2>Clothing</h2>
         </div>
-        <p class="section-note">Tees, fleece, and soft goods. Limited production.</p>
+        <p class="section-note">Heavyweight blanks. Printed in short runs.</p>
       </header>
       <section class="shop" aria-label="Clothing">
         <article class="product merch-card" data-sku="sm-simple-tee" data-name="Micro Logo Tee" data-price="32">
@@ -644,7 +655,7 @@
               <h3 class="product-name">Micro Logo Tee</h3>
               <p class="product-price">$32</p>
             </div>
-            <p class="product-note">The everyday uniform. Heavyweight cotton, relaxed fit, small mark over the heart.</p>
+            <p class="product-note">Heavyweight cotton. Relaxed fit. Micro mark at chest.</p>
             <div class="opt-block">
               <span class="opt-label">Colour</span>
               <div class="merch-options">
@@ -674,7 +685,7 @@
               <h3 class="product-name">Logo Tee</h3>
               <p class="product-price">$34</p>
             </div>
-            <p class="product-note">Heavyweight cotton, relaxed fit, soft hand feel. Screen printed in small batches.</p>
+            <p class="product-note">Heavyweight cotton. Full logo print. Small-batch.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -697,7 +708,7 @@
               <h3 class="product-name">Logo Long Sleeve</h3>
               <p class="product-price">$42</p>
             </div>
-            <p class="product-note">Extra coverage without the extra weight. Heavyweight cotton, relaxed silhouette.</p>
+            <p class="product-note">Heavyweight cotton long sleeve. Relaxed fit.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -720,7 +731,7 @@
               <h3 class="product-name">Sleeve Logo Long Sleeve</h3>
               <p class="product-price">$44</p>
             </div>
-            <p class="product-note">Heavyweight cotton. Classic oval mark down both sleeves. Chest left blank.</p>
+            <p class="product-note">Heavyweight cotton. Oval mark down both sleeves.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -743,7 +754,7 @@
               <h3 class="product-name">Logo Hoodie</h3>
               <p class="product-price">$68</p>
             </div>
-            <p class="product-note">Heavyweight fleece, relaxed fit. Medium tonal logo, center chest.</p>
+            <p class="product-note">Heavyweight fleece. Tonal center-chest logo.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -766,7 +777,7 @@
               <h3 class="product-name">Logo Crewneck</h3>
               <p class="product-price">$58</p>
             </div>
-            <p class="product-note">A year-round staple. Heavyweight fleece, relaxed fit, clean finish.</p>
+            <p class="product-note">Heavyweight fleece crew. Relaxed fit.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -789,7 +800,7 @@
               <h3 class="product-name">Dad Cap</h3>
               <p class="product-price">$36</p>
             </div>
-            <p class="product-note">Unstructured six-panel. Medium Club Copy logo, front center. Adjustable, one size.</p>
+            <p class="product-note">Unstructured six-panel. Front logo. One size.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -803,7 +814,7 @@
               <h3 class="product-name">Classic Beanie</h3>
               <p class="product-price">$30</p>
             </div>
-            <p class="product-note">Fine-gauge knit with a woven label on the cuff. Worn folded or not. One size.</p>
+            <p class="product-note">Fine-gauge knit. Woven cuff label. One size.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -818,7 +829,7 @@
               <h3 class="product-name">Logo Bikini</h3>
               <p class="product-price">$48</p>
             </div>
-            <p class="product-note">Clean lines, timeless fit, subtle branding. A short run for warm months.</p>
+            <p class="product-note">Short-run seasonal piece. Clean fit, subtle mark.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -837,10 +848,10 @@
     <div class="shop-block" id="other">
       <header class="section-head">
         <div>
-          <p class="eyebrow">Other</p>
-          <h2>For the room</h2>
+          <p class="eyebrow">03</p>
+          <h2>Other</h2>
         </div>
-        <p class="section-note">Small goods that stay on the desk and in the bag.</p>
+        <p class="section-note">Everyday goods built to last.</p>
       </header>
       <section class="shop" aria-label="Other">
         <article class="product merch-card" data-sku="sm-tote" data-name="Canvas Tote" data-price="24">
@@ -852,7 +863,7 @@
               <h3 class="product-name">Canvas Tote</h3>
               <p class="product-price">$24</p>
             </div>
-            <p class="product-note">Heavy canvas with reinforced handles. Built to carry more than records.</p>
+            <p class="product-note">Heavy canvas. Reinforced handles.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -866,7 +877,7 @@
               <h3 class="product-name">Studio Mug</h3>
               <p class="product-price">$18</p>
             </div>
-            <p class="product-note">Durable ceramic that never leaves the desk. Simple graphics, made for daily use.</p>
+            <p class="product-note">Ceramic mug. Daily use.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -881,7 +892,7 @@
               <h3 class="product-name">Woven Patch Pack</h3>
               <p class="product-price">$14</p>
             </div>
-            <p class="product-note">Three woven oval marks. Iron-on backing. For jackets, totes, and the rest.</p>
+            <p class="product-note">Three woven oval patches. Iron-on backing.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -896,7 +907,7 @@
               <h3 class="product-name">Listening Room Candle</h3>
               <p class="product-price">$28</p>
             </div>
-            <p class="product-note">Cedar, paper, and a little smoke. Pour in a matte vessel. Burns about 40 hours.</p>
+            <p class="product-note">Cedar and paper. ~40 hour burn.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
