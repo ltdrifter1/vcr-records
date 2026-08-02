@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    /* Release hero — full-bleed artwork plane -------------------------------- */
+    /* Listening room hero --------------------------------------------------- */
     .hero {
       position: relative;
       min-height: 100svh;
@@ -28,6 +28,26 @@
       background: #050505;
       color: #fff;
       isolation: isolate;
+    }
+    .hero-ambient {
+      position: absolute;
+      inset: -18%;
+      z-index: 0;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+      filter: blur(64px) saturate(1.25) brightness(.38);
+      transform: scale(1.15);
+      opacity: 0;
+      transition: opacity .7s var(--ease);
+    }
+    .hero.is-live .hero-ambient { opacity: 1; }
+    .hero-ambient::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 50% 42% at 50% 40%, rgba(255,255,255,.1), transparent 70%),
+        linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.55) 100%);
     }
     .hero-grid {
       position: absolute;
@@ -51,7 +71,9 @@
       opacity: .42;
       animation: gridDrift 28s linear infinite;
       will-change: background-position;
+      transition: opacity .6s var(--ease);
     }
+    .hero.is-live .hero-grid { opacity: .22; }
     .hero-grid::before {
       content: "";
       position: absolute; inset: 0;
@@ -67,33 +89,120 @@
       background:
         radial-gradient(ellipse 55% 40% at 50% 42%, rgba(255,255,255,.07), transparent 70%),
         linear-gradient(180deg, rgba(0,0,0,.2) 0%, transparent 28%, rgba(0,0,0,.55) 100%);
+      transition: opacity .6s var(--ease);
     }
+    .hero.is-live::after { opacity: .45; }
     @keyframes gridDrift { from { background-position: 0 0; } to { background-position: 0 56px; } }
     @keyframes gridDriftFine { from { background-position: 0 0; } to { background-position: 0 14px; } }
+
     .hero-stage {
       position: relative; z-index: 1;
       width: min(720px, calc(100% - 40px));
-      padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 64px;
+      padding: calc(var(--nav-h) + var(--safe-t) + 36px) 0 72px;
       display: flex; flex-direction: column; align-items: center;
-      text-align: center; gap: 18px;
+      text-align: center; gap: 16px;
     }
     .hero-brand {
-      width: min(280px, 58vw);
+      width: min(260px, 54vw);
       animation: heroIn .85s var(--ease) both;
+      transition: opacity .45s var(--ease), transform .45s var(--ease);
+    }
+    .hero.is-live .hero-brand {
+      opacity: .55;
+      transform: scale(.92);
     }
     .hero-brand img { width: 100%; height: auto; }
-    .hero-art {
-      width: min(420px, 78vw);
+
+    /* Platter / spinning disc ---------------------------------------------- */
+    .hero-platter {
+      position: relative;
+      width: min(400px, 76vw);
       aspect-ratio: 1;
-      margin: 6px 0 4px;
+      margin: 4px 0 2px;
       animation: heroIn .95s var(--ease) .08s both;
       filter: drop-shadow(0 28px 60px rgba(0,0,0,.55));
     }
-    .hero-art img {
+    .hero-platter::before {
+      content: "";
+      position: absolute;
+      inset: -3%;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,.35),
+        0 0 0 10px rgba(255,255,255,.03);
+      opacity: 0;
+      transition: opacity .5s var(--ease);
+      pointer-events: none;
+    }
+    .hero.is-live .hero-platter::before { opacity: 1; }
+    .hero-disc {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      background: #0a0a0a;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.08),
+        0 18px 40px rgba(0,0,0,.4);
+    }
+    .hero-disc img {
       width: 100%; height: 100%; object-fit: cover;
       border-radius: 50%;
+      display: block;
     }
-    .hero-stage h1 {
+    .hero-disc::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 7.5%; height: 7.5%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #2a2a2a, #050505 70%);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.18), inset 0 1px 2px rgba(255,255,255,.15);
+      opacity: 0;
+      transition: opacity .45s var(--ease);
+    }
+    .hero.is-live .hero-disc::after { opacity: 1; }
+    .hero-disc.is-spinning {
+      animation: discSpin 9s linear infinite;
+    }
+    @keyframes discSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hero-pulse {
+      position: absolute;
+      inset: -8%;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.16);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero.is-playing .hero-pulse {
+      animation: roomPulse 2.4s var(--ease) infinite;
+    }
+    @keyframes roomPulse {
+      0% { transform: scale(.92); opacity: .35; }
+      70% { transform: scale(1.06); opacity: 0; }
+      100% { transform: scale(1.06); opacity: 0; }
+    }
+
+    /* Idle copy ------------------------------------------------------------ */
+    .hero-idle {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      width: 100%;
+      transition: opacity .35s var(--ease), transform .35s var(--ease);
+    }
+    .hero.is-live .hero-idle {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-idle h1 {
       font-family: var(--display);
       font-size: clamp(36px, 7vw, 64px);
       font-weight: 600; letter-spacing: -.035em; line-height: 1;
@@ -119,9 +228,101 @@
     @media (hover:hover) {
       .hero .btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
     }
+
+    /* Live console --------------------------------------------------------- */
+    .hero-console {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: min(420px, 100%);
+      animation: heroIn .55s var(--ease) both;
+    }
+    .hero.is-live .hero-console { display: flex; }
+    .hero-kicker {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+    .hero-console-title {
+      font-family: var(--display);
+      font-size: clamp(28px, 5.5vw, 42px);
+      font-weight: 600; letter-spacing: -.035em; line-height: 1.05;
+    }
+    .hero-console-artist {
+      font-size: 15px;
+      color: rgba(255,255,255,.68);
+    }
+    .hero-controls {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 6px;
+    }
+    .hero-ctrl {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.14);
+      font-size: 13px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background var(--dur) var(--ease), transform 160ms var(--ease);
+    }
+    .hero-ctrl:active { transform: scale(.96); }
+    .hero-ctrl--play {
+      width: 68px; height: 68px;
+      background: #fff; color: #111;
+      border-color: #fff;
+      font-size: 17px;
+      box-shadow: 0 12px 32px rgba(0,0,0,.35);
+    }
+    @media (hover:hover) {
+      .hero-ctrl:hover { background: rgba(255,255,255,.18); }
+      .hero-ctrl--play:hover { opacity: .9; background: #fff; }
+    }
+    .hero-progress {
+      width: 100%;
+      margin-top: 4px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .hero-progress input[type="range"] {
+      width: 100%;
+      accent-color: #fff;
+      cursor: pointer;
+    }
+    .hero-times {
+      display: flex; justify-content: space-between;
+      font-size: 11px; font-variant-numeric: tabular-nums;
+      color: rgba(255,255,255,.45);
+    }
+    .hero-console-actions {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin-top: 4px;
+    }
+    .hero-console-link {
+      height: 40px; padding: 0 16px;
+      border-radius: var(--pill);
+      display: inline-flex; align-items: center;
+      font-size: 13px; font-weight: 500;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.16);
+      color: #fff;
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    @media (hover:hover) {
+      .hero-console-link:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.3); }
+    }
+    .hero-console-hint {
+      font-size: 11px;
+      color: rgba(255,255,255,.38);
+      margin-top: 2px;
+    }
+
     @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) {
-      .hero-grid, .hero-grid::before, .hero-brand, .hero-art, .hero-stage h1, .hero-line, .hero-ctas { animation: none; }
+      .hero-grid, .hero-grid::before, .hero-brand, .hero-platter, .hero-idle h1,
+      .hero-line, .hero-ctas, .hero-console, .hero-pulse, .hero-disc.is-spinning {
+        animation: none !important;
+      }
+      .hero-ambient, .hero-brand, .hero-idle { transition: none; }
     }
 
     /* Dark nav over hero, frost after scroll --------------------------------- */
@@ -255,7 +456,7 @@
   <div class="nav-inner">
     <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407"/></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="what-if.html" data-play-release="what-if" data-play-stage>Listen</a>
+      <a href="#room" data-play-release="what-if" data-play-stage>Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
       <a href="contact.html">Contact</a>
@@ -277,7 +478,7 @@
 </header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="what-if.html" data-play-release="what-if" data-play-stage>Listen</a>
+  <a href="#room" data-play-release="what-if" data-play-stage>Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
@@ -286,21 +487,49 @@
 
 <main id="main">
 
-  <!-- Latest release as hero -->
-  <section class="hero" aria-label="What If — latest release">
+  <!-- Listening room — Play morphs this into the live stage -->
+  <section class="hero" id="room" data-listening-room aria-label="Listening room">
+    <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-brand">
         <img src="club-copy-logo-light.webp" alt="Club Copy" width="1600" height="407" fetchpriority="high"/>
       </div>
-      <div class="hero-art">
-        <img src="what-if-cover.webp" alt="What If — vinyl artwork" width="1200" height="1200" fetchpriority="high"/>
+
+      <div class="hero-platter">
+        <span class="hero-pulse" aria-hidden="true"></span>
+        <div class="hero-disc" data-room-disc>
+          <img data-room-art src="what-if-cover.webp" alt="What If — vinyl artwork" width="1200" height="1200" fetchpriority="high"/>
+        </div>
       </div>
-      <h1>What If</h1>
-      <p class="hero-line">Inlet Knight — two tracks</p>
-      <div class="hero-ctas">
-        <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play album</button>
-        <a class="btn btn-ghost" href="what-if.html">View release</a>
+
+      <div class="hero-idle" data-room-idle>
+        <h1>What If</h1>
+        <p class="hero-line">Inlet Knight — two tracks. Press play and stay in the room.</p>
+        <div class="hero-ctas">
+          <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play album</button>
+          <a class="btn btn-ghost" href="what-if.html">View release</a>
+        </div>
+      </div>
+
+      <div class="hero-console" data-room-console>
+        <p class="hero-kicker">Now playing</p>
+        <h2 class="hero-console-title" data-room-title>What If</h2>
+        <p class="hero-console-artist" data-room-artist>Inlet Knight · What If</p>
+        <div class="hero-controls">
+          <button type="button" class="hero-ctrl" data-act="prev" aria-label="Previous">&#9664;&#9664;</button>
+          <button type="button" class="hero-ctrl hero-ctrl--play" data-act="toggle" aria-label="Play">&#9654;</button>
+          <button type="button" class="hero-ctrl" data-act="next" aria-label="Next">&#9654;&#9654;</button>
+        </div>
+        <div class="hero-progress">
+          <input type="range" data-room-scrub min="0" max="1000" value="0" aria-label="Seek"/>
+          <div class="hero-times"><span data-room-cur>0:00</span><span data-room-dur>0:00</span></div>
+        </div>
+        <div class="hero-console-actions">
+          <a class="hero-console-link" data-room-page href="what-if.html">Album</a>
+          <button type="button" class="hero-console-link" data-act="room-close">Minimize</button>
+        </div>
+        <p class="hero-console-hint">Space play/pause · Esc minimize</p>
       </div>
     </div>
   </section>
@@ -467,7 +696,7 @@
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
-        <a href="#listen">Listen</a>
+        <a href="#room">Listen</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
         <a href="contact.html">Contact</a>
@@ -533,6 +762,25 @@
     el.addEventListener('click', function () { setTimeout(syncActiveFromURL, 50); });
   });
   syncActiveFromURL();
+
+  // When the listening room leaves view after being seen, minimize so the dock takes over.
+  var room = document.querySelector('[data-listening-room]');
+  if (room && 'IntersectionObserver' in window) {
+    var roomSeen = false;
+    var roomVis = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          roomSeen = true;
+          return;
+        }
+        if (!roomSeen) return;
+        if (window.VCRPlayer && typeof VCRPlayer.closeRoom === 'function') {
+          VCRPlayer.closeRoom();
+        }
+      });
+    }, { threshold: 0.18 });
+    roomVis.observe(room);
+  }
 })();
 </script>
 </body>

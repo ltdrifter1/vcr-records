@@ -8,6 +8,8 @@
   var audio = null;
   var ui = null;
   var stageOpen = false;
+  var roomOpen = false;
+  var roomBound = false;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -88,7 +90,7 @@
     dock.setAttribute("role", "region");
     dock.setAttribute("aria-label", "Now playing");
     dock.innerHTML =
-      '<button type="button" class="vcr-player__stage-hit" aria-label="Open listening stage"></button>' +
+      '<button type="button" class="vcr-player__stage-hit" aria-label="Open listening room"></button>' +
       '<img class="vcr-player__art" alt="" width="48" height="48" />' +
       '<div class="vcr-player__meta">' +
       '<p class="vcr-player__title"></p>' +
@@ -155,16 +157,65 @@
     return index >= 0 ? queue[index] : null;
   }
 
+  function getRoom() {
+    return document.querySelector("[data-listening-room]");
+  }
+
+  function bindRoom(room) {
+    if (!room || roomBound) return;
+    roomBound = true;
+    room.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-act]");
+      if (!btn || !room.contains(btn)) return;
+      handleAct(btn.getAttribute("data-act"));
+    });
+    var scrub = room.querySelector("[data-room-scrub]");
+    if (scrub) scrub.addEventListener("input", onScrub);
+  }
+
+  function renderRoom(track, playing) {
+    var room = getRoom();
+    if (!room) return;
+    bindRoom(room);
+
+    var art = room.querySelector("[data-room-art]");
+    var bg = room.querySelector("[data-room-bg]");
+    var title = room.querySelector("[data-room-title]");
+    var artist = room.querySelector("[data-room-artist]");
+    var page = room.querySelector("[data-room-page]");
+    var disc = room.querySelector("[data-room-disc]");
+    var toggleBtn = room.querySelector('[data-act="toggle"]');
+
+    if (art && track) art.src = track.cover;
+    if (bg && track) bg.style.backgroundImage = 'url("' + track.cover + '")';
+    if (title && track) title.textContent = track.title;
+    if (artist && track) {
+      artist.textContent = track.artist + " · " + track.releaseTitle;
+    }
+    if (page && track) page.href = track.page || "/";
+    if (toggleBtn) {
+      toggleBtn.textContent = playing ? "❚❚" : "▶";
+      toggleBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+    }
+    if (disc) disc.classList.toggle("is-spinning", !!playing);
+    room.classList.toggle("is-playing", !!playing);
+    room.classList.toggle("is-live", roomOpen);
+    room.setAttribute("aria-live", roomOpen ? "polite" : "off");
+  }
+
   function render() {
     ensureUI();
     var track = current();
     var dock = ui.dock;
     var stage = ui.stage;
+    var playing = !!(audio && !audio.paused);
 
     if (!track) {
       dock.classList.remove("is-visible");
       document.body.classList.remove("has-vcr-player");
       closeStage();
+      closeRoom();
+      renderRoom(null, false);
       return;
     }
 
@@ -188,8 +239,6 @@
     stage.querySelector("[data-buy]").href =
       track.bandcampAlbum || track.page || "#";
 
-    var playing = audio && !audio.paused;
-    var symbol = playing ? "❚❚" : "▶";
     dock.querySelector('[data-act="toggle"]').textContent = playing ? "❚❚" : "▶";
     dock.querySelector('[data-act="toggle"]').setAttribute(
       "aria-label",
@@ -197,6 +246,7 @@
     );
     stage.querySelector('[data-act="toggle"]').textContent = playing ? "❚❚" : "▶";
 
+    renderRoom(track, playing);
     updateMediaSession(track, playing);
   }
 
@@ -209,6 +259,15 @@
     ui.stage.querySelector(".vcr-stage__scrub").value = String(ratio);
     ui.dock.querySelector("[data-cur]").textContent = fmt(cur);
     ui.dock.querySelector("[data-dur]").textContent = fmt(dur);
+    var room = getRoom();
+    if (room) {
+      var roomScrub = room.querySelector("[data-room-scrub]");
+      if (roomScrub) roomScrub.value = String(ratio);
+      var curEl = room.querySelector("[data-room-cur]");
+      var durEl = room.querySelector("[data-room-dur]");
+      if (curEl) curEl.textContent = fmt(cur);
+      if (durEl) durEl.textContent = fmt(dur);
+    }
     persist();
     emit();
   }
@@ -224,6 +283,7 @@
             currentTime: audio ? audio.currentTime : 0,
             duration: audio ? audio.duration || 0 : 0,
             stageOpen: stageOpen,
+            roomOpen: roomOpen,
           },
         })
       );
@@ -252,7 +312,8 @@
       return;
     }
     if (e.target.closest(".vcr-player__stage-hit") || e.target.closest(".vcr-player__art") || e.target.closest(".vcr-player__meta")) {
-      openStage();
+      if (getRoom()) openRoom({ scroll: true });
+      else openStage();
     }
   }
 
@@ -267,22 +328,26 @@
     else if (act === "next") next(true);
     else if (act === "close") stop(true);
     else if (act === "stage-close") closeStage();
+    else if (act === "room-close") closeRoom();
   }
 
   function onKey(e) {
     if (!current()) return;
     var tag = (e.target && e.target.tagName) || "";
     if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) return;
+    var immersive = stageOpen || roomOpen;
 
-    if (e.code === "Space" && (stageOpen || document.body.classList.contains("has-vcr-player"))) {
+    if (e.code === "Space" && (immersive || document.body.classList.contains("has-vcr-player"))) {
       e.preventDefault();
       toggle();
-    } else if (e.code === "ArrowRight" && stageOpen) {
+    } else if (e.code === "ArrowRight" && immersive) {
       e.preventDefault();
       if (audio) audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 5);
-    } else if (e.code === "ArrowLeft" && stageOpen) {
+    } else if (e.code === "ArrowLeft" && immersive) {
       e.preventDefault();
       if (audio) audio.currentTime = Math.max(0, audio.currentTime - 5);
+    } else if (e.code === "Escape" && roomOpen) {
+      closeRoom();
     } else if (e.code === "Escape" && stageOpen) {
       closeStage();
     }
@@ -319,7 +384,7 @@
       var url = new URL(window.location.href);
       url.searchParams.set("play", track.releaseId);
       url.searchParams.set("t", track.id);
-      if (stageOpen) url.searchParams.set("stage", "1");
+      if (stageOpen || roomOpen) url.searchParams.set("stage", "1");
       else url.searchParams.delete("stage");
       history[replace ? "replaceState" : "replaceState"]({}, "", url);
     } catch (e) {}
@@ -362,7 +427,10 @@
         if (found >= 0) i = found;
       }
       loadTrack(i, opts.autoplay !== false);
-      if (opts.stage) openStage();
+      if (opts.stage) {
+        if (getRoom()) openRoom({ scroll: opts.scroll !== false });
+        else openStage();
+      }
     });
   }
 
@@ -420,12 +488,18 @@
 
   function openStage() {
     if (!current()) return;
+    if (getRoom()) {
+      openRoom({ scroll: true });
+      return;
+    }
     ensureUI();
+    closeRoom();
     stageOpen = true;
     ui.stage.hidden = false;
     document.body.classList.add("vcr-stage-open");
     setDeepLink(current(), true);
     render();
+    emit();
   }
 
   function closeStage() {
@@ -433,6 +507,38 @@
     if (ui) ui.stage.hidden = true;
     document.body.classList.remove("vcr-stage-open");
     if (current()) setDeepLink(current(), true);
+    emit();
+  }
+
+  function openRoom(opts) {
+    opts = opts || {};
+    var room = getRoom();
+    if (!room || !current()) return;
+    ensureUI();
+    closeStage();
+    roomOpen = true;
+    bindRoom(room);
+    room.classList.add("is-live");
+    document.body.classList.add("listening-room-live");
+    if (opts.scroll) {
+      try {
+        room.scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (e) {
+        room.scrollIntoView(true);
+      }
+    }
+    setDeepLink(current(), true);
+    render();
+    emit();
+  }
+
+  function closeRoom() {
+    var room = getRoom();
+    roomOpen = false;
+    if (room) room.classList.remove("is-live");
+    document.body.classList.remove("listening-room-live");
+    if (current()) setDeepLink(current(), true);
+    emit();
   }
 
   function bindListenUI(root) {
@@ -475,6 +581,8 @@
     playRelease: playRelease,
     openStage: openStage,
     closeStage: closeStage,
+    openRoom: openRoom,
+    closeRoom: closeRoom,
     toggle: toggle,
     play: play,
     pause: pause,
