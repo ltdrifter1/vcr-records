@@ -11,10 +11,10 @@
   <meta property="og:title" content="Together — Inlet Knight"/>
   <meta property="og:description" content="Four tracks by Inlet Knight. Digital download on Club Copy."/>
   <meta property="og:type" content="music.album"/>
-  <meta property="og:image" content="together-cover.webp"/>
+  <meta property="og:image" content="https://vcrrecords.com/together-cover.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -449,6 +449,45 @@
     @media (prefers-reduced-motion: reduce) {
       .fade-up { opacity: 1; transform: none; }
     }
+
+    .r-cat { font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-top: 10px; }
+
+    .format-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .format-pill {
+      height: 40px; padding: 0 16px; border-radius: 980px;
+      border: 1px solid var(--line); background: transparent;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .format-pill.selected { background: var(--ink); color: #fff; border-color: var(--ink); }
+    @media (hover:hover) { .format-pill:hover { border-color: var(--ink); color: var(--ink); } }
+    .format-pill.selected:hover { color: #fff; }
+
+    .bc-quiet {
+      display: inline-block; margin-top: 12px;
+      font-size: 13px; font-weight: 500; color: var(--dim);
+      text-decoration: underline; text-underline-offset: 3px;
+      text-decoration-color: transparent;
+      transition: color .28s, text-decoration-color .28s;
+    }
+    @media (hover:hover) { .bc-quiet:hover { color: var(--ink); text-decoration-color: var(--ink); } }
+
+    .trust-line {
+      display: flex; gap: 12px; align-items: center;
+      font-size: 12px; font-weight: 500; color: var(--dim);
+      margin-top: 10px;
+    }
+    .trust-line a { color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
+    @media (hover:hover) { .trust-line a:hover { color: var(--ink); } }
+
+    .more-releases { padding: 40px 0 0; }
+    .more-releases-title { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; }
+    .more-releases-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+    .more-release-item { display: flex; flex-direction: column; gap: 8px; text-decoration: none; width: 100px; }
+    .more-release-item img { width: 100px; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid var(--line); }
+    .more-release-item p { font-size: 12px; font-weight: 500; color: var(--muted); line-height: 1.3; }
+    @media (hover:hover) { .more-release-item:hover p { color: var(--ink); } }
   </style>
 </head>
 <body>
@@ -511,7 +550,7 @@
   <div class="page">
     <div class="crumbs">
       <a href="index.html">Home</a><span>/</span>
-      <a href="index.html#listen">Releases</a><span>/</span>
+      <a href="catalogue.html">Catalogue</a><span>/</span>
       Together
     </div>
 
@@ -556,6 +595,7 @@
         <div class="r-block">
           <div class="r-artist">Inlet Knight</div>
           <h1 class="r-title" itemprop="name">Together</h1>
+          <p class="r-cat">CC008 · 2026</p>
           <div class="r-meta-row">
             <div>
               <div class="r-price" id="priceDisplay">
@@ -565,7 +605,7 @@
               </div>
               <div class="r-price-note" id="priceFormat">CAD</div>
             </div>
-            <div class="r-stock">In stock</div>
+            <div class="r-stock">Vinyl available</div>
           </div>
           <div class="r-tags">
             <span class="tag">Album</span>
@@ -575,43 +615,20 @@
         </div>
 
         <div class="r-block">
-          <div class="format-row">
-            <div>
-              <div class="format-label">Format</div>
-              <div class="format-select-wrap" id="fpWrap">
-                <button type="button" id="fpTrigger" class="format-trigger" aria-haspopup="listbox" aria-expanded="false">
-                  <span id="fpLabel">Digital MP3</span>
-                  <span class="format-chev" id="fpChev"></span>
-                </button>
-                <div id="fpMenu" class="format-menu" role="listbox" hidden>
-                  <button type="button" class="format-opt on" data-value="digital" role="option" aria-selected="true">
-                    <span>Digital MP3</span><span class="format-opt-price">$9</span>
-                  </button>
-                </div>
-                <input type="hidden" id="variantVal" value="digital"/>
-              </div>
-            </div>
-            <div>
-              <div class="format-label">Qty</div>
-              <div class="qty-wrap">
-                <button type="button" class="qty-btn" id="qtyMinus" aria-label="Decrease">−</button>
-                <input type="number" class="qty-input" id="qtyInput" min="1" value="1" inputmode="numeric" aria-label="Quantity"/>
-                <button type="button" class="qty-btn" id="qtyPlus" aria-label="Increase">+</button>
-              </div>
-            </div>
+          <div class="format-label" style="margin-bottom:8px;">Format</div>
+          <div class="format-pills" role="radiogroup" aria-label="Format">
+            <button type="button" class="format-pill selected" data-format="vinyl" role="radio" aria-checked="true">Vinyl — $32</button>
+            <button type="button" class="format-pill" data-format="digital" role="radio" aria-checked="false">Digital — $9</button>
           </div>
           <div class="buy-stack">
-            <a class="btn btn-fill" id="buyBtn"
-               href="https://inletknight.bandcamp.com/album/together"
-               target="_blank" rel="noopener">Buy — $9 CAD</a>
-            <a class="btn btn-bc"
-               href="https://inletknight.bandcamp.com/album/together"
-               target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff;flex-shrink:0;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
-              Bandcamp
-            </a>
+            <button type="button" class="btn btn-fill" id="buyBtn">Add vinyl to bag — $32</button>
           </div>
-          <p class="small-note" id="buyNote">Checkout on Bandcamp · $9 CAD</p>
+          <p class="small-note" id="buyNote">12″ black vinyl · Ships worldwide</p>
+          <a class="bc-quiet" href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener">Also on Bandcamp ↗</a>
+          <p class="trust-line">
+            <span>Secure checkout</span>
+            <a href="shipping.html">Shipping &amp; returns</a>
+          </p>
         </div>
 
         <div class="r-block">
@@ -675,12 +692,30 @@
           </div>
 
           <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
-            <p class="details-text">Four tracks. Digital download.</p>
+            <p class="details-text">Four tracks by Inlet Knight. Catalogue CC008. Written and performed by Inlet Knight. Produced for Club Copy. Available as 12″ black vinyl and digital download. Released 2026.</p>
           </div>
         </div>
 
       </div>
     </div>
+
+    <section class="more-releases" aria-label="More from the catalogue">
+      <p class="more-releases-title">More from the catalogue</p>
+      <div class="more-releases-grid">
+        <a href="what-if.html" class="more-release-item">
+          <img src="what-if-cover.webp" alt="What If" loading="lazy"/>
+          <p>Inlet Knight — What If</p>
+        </a>
+        <a href="inlet-knight.html" class="more-release-item">
+          <img src="inlet-knight-cover.webp" alt="Inlet Knight" loading="lazy"/>
+          <p>Inlet Knight — Inlet Knight</p>
+        </a>
+        <a href="home.html" class="more-release-item">
+          <img src="at_home.webp" alt="At Home" loading="lazy"/>
+          <p>Inlet Knight — At Home</p>
+        </a>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -707,10 +742,11 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="index.html#listen">Listen</a>
+        <a href="catalogue.html">Catalogue</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
+        <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
-        <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
     </div>
   </div>
@@ -860,51 +896,51 @@ trackRows.forEach((row, idx) => {
 loadTrack(0, false);
 
 (function() {
-  const fpWrap = $('fpWrap');
-  const fpTrig = $('fpTrigger');
-  const fpMenu = $('fpMenu');
-  const fpChev = $('fpChev');
-  const fpOpts = [...document.querySelectorAll('.format-opt')];
-  const varVal = $('variantVal');
+  const pills = document.querySelectorAll('.format-pill');
+  const buyBtn = $('buyBtn');
+  const buyNoteEl = $('buyNote');
+  let currentFmt = 'vinyl';
 
-  function isOpen() { return !fpMenu.hidden; }
-  function openDropdown()  { fpMenu.hidden = false; fpTrig.setAttribute('aria-expanded','true');  fpChev.style.transform = 'translateY(-35%) rotate(-135deg)'; }
-  function closeDropdown() { fpMenu.hidden = true;  fpTrig.setAttribute('aria-expanded','false'); fpChev.style.transform = 'translateY(-65%) rotate(45deg)'; }
-
-  fpTrig.addEventListener('click', () => isOpen() ? closeDropdown() : openDropdown());
-  document.addEventListener('click', e => { if (!fpWrap.contains(e.target)) closeDropdown(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdown(); });
-
-  const VARIANTS = {
-    digital:  { label: 'Digital MP3', price: '$9', priceMeta: '9.00', note: 'CAD',  btnText: 'Buy — $9 CAD',  stripeHref: CONFIG.bandcamp,  buyNote: 'Checkout on Bandcamp · $9 CAD' }
-  };
-
-  function updateVariant() {
-    const v = VARIANTS[varVal.value] || VARIANTS.digital;
-    $('priceAmount').textContent  = v.price;
-    $('priceDisplay').querySelector('meta[itemprop="price"]').content = v.priceMeta;
-    $('priceFormat').textContent  = v.note;
-    $('buyBtn').textContent = v.btnText;
-    $('buyBtn').href        = v.stripeHref;
-    $('fpLabel').textContent = v.label;
-    $('buyNote').textContent = v.buyNote;
-    fpOpts.forEach(o => {
-      const sel = o.dataset.value === varVal.value;
-      o.setAttribute('aria-selected', sel ? 'true' : 'false');
-      o.classList.toggle('on', sel);
-    });
+  function updateUI() {
+    if (currentFmt === 'vinyl') {
+      buyBtn.textContent = 'Add vinyl to bag \u2014 $32';
+      $('priceAmount').textContent = '$32';
+      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '32.00';
+      $('priceFormat').textContent = 'CAD';
+      buyNoteEl.textContent = '12\u2033 black vinyl \u00b7 Ships worldwide';
+    } else {
+      buyBtn.textContent = 'Buy digital \u2014 $9';
+      $('priceAmount').textContent = '$9';
+      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '9.00';
+      $('priceFormat').textContent = 'CAD';
+      buyNoteEl.textContent = 'Digital download via Bandcamp';
+    }
   }
 
-  fpOpts.forEach(o => o.addEventListener('click', () => {
-    varVal.value = o.dataset.value;
-    updateVariant();
-    closeDropdown();
-  }));
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      currentFmt = pill.dataset.format;
+      pills.forEach(p => {
+        const sel = p.dataset.format === currentFmt;
+        p.classList.toggle('selected', sel);
+        p.setAttribute('aria-checked', sel ? 'true' : 'false');
+      });
+      updateUI();
+    });
+  });
 
-  updateVariant();
+  buyBtn.addEventListener('click', () => {
+    if (currentFmt === 'vinyl') {
+      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-together', name: 'Together \u2014 Vinyl', price: 32, image: 'together-cover.webp', qty: 1, id: 'sm-vinyl-together' });
+      const orig = buyBtn.textContent;
+      buyBtn.textContent = 'Added \u2713';
+      setTimeout(() => { buyBtn.textContent = orig; }, 2000);
+    } else {
+      window.open(CONFIG.bandcamp, '_blank', 'noopener');
+    }
+  });
 
-  $('qtyMinus').addEventListener('click', () => $('qtyInput').value = Math.max(1, +$('qtyInput').value - 1));
-  $('qtyPlus').addEventListener('click',  () => $('qtyInput').value = Math.max(1, +$('qtyInput').value + 1));
+  updateUI();
 })();
 
 const modal = $('purchaseModal');
@@ -971,6 +1007,7 @@ $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem
   aw.addEventListener('click', () => { zi.src = src.src; zo.style.display = 'flex'; });
   zo.addEventListener('click', e => { if (e.target !== zi) zo.style.display = 'none'; });
   zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display = 'none');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') zo.style.display = 'none'; });
 })();
 
 (function () {
@@ -993,26 +1030,9 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 
 (function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
 </script>
+<script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script>
-(function(){
-  var ham = document.getElementById('navHam');
-  var drawer = document.getElementById('navDrawer');
-  if (!ham || !drawer) return;
-  ham.addEventListener('click', function () {
-    var open = drawer.classList.toggle('on');
-    ham.classList.toggle('on', open);
-    ham.setAttribute('aria-expanded', String(open));
-    drawer.setAttribute('aria-hidden', String(!open));
-  });
-  drawer.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      drawer.classList.remove('on'); ham.classList.remove('on');
-      ham.setAttribute('aria-expanded', 'false');
-      drawer.setAttribute('aria-hidden', 'true');
-    });
-  });
-})();
 
 /* Bridge inline player UI to shared VCRPlayer */
 (function bridgeToSharedPlayer(){

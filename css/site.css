@@ -6,34 +6,35 @@
 
 :root {
   --bg: #FAF8F5;
-  --card: rgba(255,255,255,.72);
+  --card: #FFFFFF;
   --card-solid: #FFFFFF;
   --soft: #F2F0EC;
   --line: rgba(229,227,223,.92);
   --line-hi: rgba(255,255,255,.65);
   --ink: #111111;
   --muted: #6B6862;
-  --dim: #8F8B84;
+  --dim: #79756E;
   --fill: rgba(17,17,17,.04);
   --fill-hi: rgba(17,17,17,.07);
   --glass: rgba(255,255,255,.55);
-  --glass-hi: rgba(255,255,255,.72);
+  --glass-hi: rgba(255,255,255,.92);
   --glass-dark: rgba(17,17,17,.72);
   --blur: 22px;
   --blur-lg: 36px;
   --shadow: 0 1px 2px rgba(17,17,17,.04), 0 10px 28px rgba(17,17,17,.06);
   --shadow-lg: 0 2px 6px rgba(17,17,17,.05), 0 28px 64px rgba(17,17,17,.12);
-  --radius: 10px;
-  --radius-lg: 18px;
+  --radius: 6px;
+  --radius-lg: 10px;
   --pill: 980px;
   --ease: cubic-bezier(.22,1,.36,1);
   --dur: 280ms;
   --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --sans: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   --wrap: 1200px;
   --nav-h: 64px;
+  --site-origin: https://vcrrecords.com;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,7 +45,6 @@ body {
     radial-gradient(900px 520px at 88% -8%, rgba(255,255,255,.9), transparent 55%),
     radial-gradient(720px 460px at 8% 12%, rgba(232,228,220,.75), transparent 50%),
     linear-gradient(180deg, #F7F4EF 0%, var(--bg) 38%, #F3F0EA 100%);
-  background-attachment: fixed;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -54,6 +54,7 @@ body {
   font-weight: 400;
   padding-bottom: var(--safe-b);
 }
+body.nav-open { overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 button {
@@ -171,15 +172,25 @@ button {
 .nav-ham.on span:nth-child(2) { opacity: 0; }
 .nav-ham.on span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 @media (max-width: 720px) { .nav-links { display: none; } .nav-ham { display: flex; } }
+.nav-scrim {
+  display: none;
+  position: fixed; inset: 0; z-index: 280;
+  background: rgba(17,17,17,.28);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.nav-scrim.on { display: block; }
 .nav-drawer {
   display: none; position: fixed;
   top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
-  background: rgba(250,248,245,.82);
+  background: rgba(250,248,245,.96);
   backdrop-filter: saturate(180%) blur(var(--blur-lg));
   -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
   border-bottom: 1px solid var(--line);
   box-shadow: inset 0 1px 0 var(--line-hi);
   padding: 8px 24px calc(20px + var(--safe-b));
+  max-height: calc(100svh - var(--nav-h) - var(--safe-t));
+  overflow-y: auto;
 }
 .nav-drawer.on { display: block; }
 .nav-drawer a {
@@ -219,22 +230,17 @@ button {
   .btn-soft:hover { border-color: var(--ink); background: rgba(255,255,255,.7); }
 }
 
-/* Cards — frosted panels ---------------------------------------------------- */
+/* Cards — quiet panels ------------------------------------------------------ */
 .card {
-  background: var(--glass-hi);
-  backdrop-filter: saturate(160%) blur(var(--blur));
-  -webkit-backdrop-filter: saturate(160%) blur(var(--blur));
+  background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow), inset 0 1px 0 var(--line-hi);
-  transition: box-shadow .4s var(--ease), transform .4s var(--ease), border-color .4s var(--ease);
+  box-shadow: none;
+  transition: border-color .4s var(--ease);
 }
 @media (hover:hover) {
-  a.card:hover, .card.is-link:hover {
-    box-shadow: var(--shadow-lg), inset 0 1px 0 var(--line-hi);
-    transform: translateY(-3px);
-  }
+  a.card:hover, .card.is-link:hover { border-color: rgba(17,17,17,.28); }
 }
 .card-art {
   background: var(--soft);
@@ -250,11 +256,43 @@ button {
   a.card:hover .card-art img, .card.is-link:hover .card-art img { transform: scale(1.025); }
 }
 
+/* Catalogue / provenance badges -------------------------------------------- */
+.badge {
+  display: inline-flex; align-items: center;
+  height: 24px; padding: 0 10px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: var(--pill);
+  background: transparent;
+  white-space: nowrap;
+}
+.badge-ink { color: var(--ink); border-color: rgba(17,17,17,.28); }
+.badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* Trust line ---------------------------------------------------------------- */
+.trust-line {
+  display: flex; flex-wrap: wrap; gap: 8px 14px;
+  align-items: center;
+  font-size: 12px; color: var(--dim); line-height: 1.4;
+  margin-top: 14px;
+}
+.trust-line a {
+  color: var(--muted);
+  text-decoration: underline; text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: color var(--dur) var(--ease), text-decoration-color var(--dur) var(--ease);
+}
+@media (hover:hover) {
+  .trust-line a:hover { color: var(--ink); text-decoration-color: var(--ink); }
+}
+
 /* Reveal on scroll ---------------------------------------------------------- */
 .rv { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .rv.in { opacity: 1; transform: none; }
 
-/* Newsletter — soft glass band ---------------------------------------------- */
+/* Newsletter — soft band ---------------------------------------------------- */
 .newsletter {
   position: relative;
   margin-top: 96px;
@@ -262,8 +300,6 @@ button {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background: rgba(242,240,236,.55);
-  backdrop-filter: saturate(140%) blur(18px);
-  -webkit-backdrop-filter: saturate(140%) blur(18px);
 }
 .newsletter-inner { max-width: 560px; }
 .newsletter h2 {
