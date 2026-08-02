@@ -14,6 +14,11 @@ const CATALOG = {
   "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
   "sm-mug": { name: "Studio Mug", unitAmount: 1800 },
   "sm-bikini": { name: "Logo Bikini", unitAmount: 4800 },
+  "sm-cap": { name: "Dad Cap", unitAmount: 3600 },
+  "sm-beanie": { name: "Classic Beanie", unitAmount: 3000 },
+  "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200 },
+  "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800 },
+  "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000 },
   // legacy skus kept for older bags
   tshirt: { name: "T-Shirt", unitAmount: 3000 },
   hat: { name: "Hat", unitAmount: 2500 },
