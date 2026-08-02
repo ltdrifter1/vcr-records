@@ -9,6 +9,7 @@ const CATALOG = {
   "sm-simple-tee": { name: "Micro Logo Tee", unitAmount: 3200 },
   "sm-globe-tee": { name: "Logo Tee", unitAmount: 3400 },
   "sm-longsleeve": { name: "Logo Long Sleeve", unitAmount: 4200 },
+  "sm-sleeve-tee": { name: "Sleeve Logo Long Sleeve", unitAmount: 4400 },
   "sm-hoodie": { name: "Logo Hoodie", unitAmount: 6800 },
   "sm-crewneck": { name: "Logo Crewneck", unitAmount: 5800 },
   "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
