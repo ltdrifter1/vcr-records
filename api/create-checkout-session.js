@@ -28,6 +28,9 @@ const CATALOG = {
   "sm-vinyl-summer": { name: "Summer Madness — Vinyl", unitAmount: 2800 },
   "sm-bundle-what-if-tee": { name: "What If Bundle — Vinyl + Tee", unitAmount: 5400 },
   "sm-poly-outer": { name: "Poly Outer", unitAmount: 500 },
+  "sm-inners": { name: "Inner Sleeve Pack", unitAmount: 1200 },
+  "sm-patches": { name: "Woven Patch Pack", unitAmount: 1400 },
+  "sm-candle": { name: "Listening Room Candle", unitAmount: 2800 },
   "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200 },
   // legacy skus kept for older bags
   tshirt: { name: "T-Shirt", unitAmount: 3000 },
