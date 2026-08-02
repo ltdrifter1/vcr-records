@@ -6,6 +6,9 @@
   <title>Club Copy — Independent Record Label</title>
   <meta name="description" content="Club Copy is an independent record label from the Pacific Northwest. Records, artists, and objects worth keeping."/>
   <meta name="theme-color" content="#050505"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="format-detection" content="telephone=no"/>
   <meta property="og:title" content="Club Copy"/>
   <meta property="og:description" content="Independent record label from the Pacific Northwest."/>
   <meta property="og:type" content="website"/>
@@ -597,6 +600,99 @@
     @media (prefers-reduced-motion: reduce) {
       .wall-art img { transition: none; }
     }
+
+    /* iOS / mobile listening room ------------------------------------------- */
+    @media (max-width: 700px) {
+      .hero {
+        min-height: 100svh;
+        min-height: 100dvh;
+      }
+      .hero-stage {
+        width: min(100% - 32px, 560px);
+        padding: calc(var(--nav-h) + var(--safe-t) + 20px) 0 calc(28px + var(--safe-b));
+        gap: 12px;
+      }
+      .hero-brand { width: min(200px, 48vw); }
+      .hero-platter { width: min(68vw, 280px); }
+      .hero-idle h1 { font-size: clamp(32px, 10vw, 44px); }
+      .hero-line { font-size: 15px; max-width: 22em; }
+      .hero-ctas { width: 100%; }
+      .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
+
+      /* Live mode must fit one phone screen — no scroll needed to reach controls */
+      .hero.is-live .hero-stage {
+        min-height: calc(100svh - 0px);
+        min-height: calc(100dvh - 0px);
+        justify-content: center;
+        padding-top: calc(var(--nav-h) + var(--safe-t) + 8px);
+        padding-bottom: calc(20px + var(--safe-b));
+        gap: 8px;
+      }
+      .hero.is-live .hero-brand { display: none; }
+      .hero.is-live .hero-platter {
+        width: min(42vw, 168px);
+        margin: 0;
+        filter: drop-shadow(0 16px 36px rgba(0,0,0,.5));
+      }
+      .hero-console { gap: 8px; width: 100%; }
+      .hero-console-title { font-size: clamp(24px, 7vw, 32px); }
+      .hero-console-artist { font-size: 14px; }
+      .hero-controls { gap: 12px; margin-top: 2px; }
+      .hero-ctrl {
+        width: 48px; height: 48px;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      .hero-ctrl--play { width: 60px; height: 60px; }
+      .hero-progress { margin-top: 2px; }
+      .hero-progress input[type="range"] {
+        height: 28px;
+        touch-action: none;
+      }
+      .hero-console-actions { margin-top: 2px; }
+      .hero-console-link {
+        height: 44px; padding: 0 16px;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      .hero-console-hint { display: none; }
+
+      .wall { padding-bottom: 64px; }
+      .wall-bridge { height: 32px; }
+      .wall .section-head { padding-top: 12px; margin-bottom: 28px; }
+      .wall-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 12px;
+        max-width: none;
+      }
+      .wall-play {
+        width: 44px; height: 44px;
+        opacity: 1; transform: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      .wall-title { font-size: 16px; }
+      .after-dark { padding: 56px 0 72px; }
+      .after-form button,
+      .after-form input[type="email"] {
+        min-height: 48px;
+        font-size: 16px; /* prevent iOS zoom on focus */
+        -webkit-tap-highlight-color: transparent;
+      }
+    }
+
+    /* While the in-page room is open, hide the floating dock on small screens
+       so controls aren't stacked on the home-indicator. */
+    @media (max-width: 760px) {
+      body.listening-room-live .vcr-player {
+        transform: translateY(140%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      body.listening-room-live.has-vcr-player {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+    }
   </style>
 </head>
 <body id="top" class="hero-top">
@@ -900,23 +996,20 @@
   });
   syncActiveFromURL();
 
-  // When the listening room leaves view after being seen, minimize so the dock takes over.
-  var room = document.querySelector('[data-listening-room]');
-  if (room && 'IntersectionObserver' in window) {
-    var roomSeen = false;
-    var roomVis = new IntersectionObserver(function (entries) {
+  // Minimize the room when the catalogue wall is intentionally in view —
+  // not when a tall live hero is merely scrolled a few pixels on mobile.
+  var wall = document.querySelector('.wall');
+  if (wall && 'IntersectionObserver' in window) {
+    var wallVis = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          roomSeen = true;
-          return;
-        }
-        if (!roomSeen) return;
+        if (!e.isIntersecting) return;
+        if (e.intersectionRatio < 0.2) return;
         if (window.VCRPlayer && typeof VCRPlayer.closeRoom === 'function') {
           VCRPlayer.closeRoom();
         }
       });
-    }, { threshold: 0.18 });
-    roomVis.observe(room);
+    }, { threshold: [0.2, 0.35] });
+    wallVis.observe(wall);
   }
 })();
 </script>
