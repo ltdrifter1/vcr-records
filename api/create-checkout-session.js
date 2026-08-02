@@ -25,6 +25,9 @@ const CATALOG = {
   "sm-vinyl-at-home": { name: "At Home — Vinyl", unitAmount: 2800 },
   "sm-vinyl-lions-gate": { name: "Lions' Gate — Vinyl", unitAmount: 2800 },
   "sm-vinyl-summer": { name: "Summer Madness — Vinyl", unitAmount: 2800 },
+  "sm-bundle-what-if-tee": { name: "What If Bundle — Vinyl + Tee", unitAmount: 5400 },
+  "sm-poly-outer": { name: "Poly Outer", unitAmount: 500 },
+  "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200 },
   // legacy skus kept for older bags
   tshirt: { name: "T-Shirt", unitAmount: 3000 },
   hat: { name: "Hat", unitAmount: 2500 },
