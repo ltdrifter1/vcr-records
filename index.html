@@ -414,9 +414,15 @@
       border-bottom-color: var(--line);
       box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
     }
-    body.hero-top .nav-logo img {
-      height: 38px;
-      width: auto;
+    body.hero-top .nav-logo {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      text-transform: none;
+    }
+    body.hero-top.nav-light .nav-logo {
+      color: var(--ink);
     }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,.72); }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a:hover,
@@ -899,7 +905,7 @@
 
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
+    <a href="#top" class="nav-logo" aria-label="Club Copy home">Club Copy</a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Releases</a>
       <a href="artists.html">Artists</a>
@@ -1031,7 +1037,7 @@
         <article class="wall-item rv" data-release="at-home">
           <div class="wall-art">
             <a href="home.html" aria-label="At Home — view release">
-              <img src="at_home-480.webp" srcset="at_home-480.webp 480w, at_home.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="At Home — artwork" loading="lazy" width="1254" height="1254"/>
+              <img src="at_home-480.webp" srcset="at_home-480.webp 480w, at_home.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="At Home — artwork" loading="lazy" width="1024" height="1024"/>
             </a>
             <button type="button" class="wall-play" data-play-release="at-home" data-play-stage aria-label="Play At Home">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -1041,22 +1047,6 @@
             <p class="wall-artist">Inlet Knight · CC006</p>
             <h3 class="wall-title"><a href="home.html">At Home</a></h3>
             <p class="wall-note">3 tracks</p>
-          </div>
-        </article>
-
-        <article class="wall-item rv">
-          <div class="wall-art">
-            <a href="lion.html" aria-label="Lions' Gate — view release">
-              <img src="lions-480.webp" srcset="lions-480.webp 480w, lions.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Lions' Gate — artwork" loading="lazy" width="1400" height="1400"/>
-            </a>
-            <a class="wall-play" href="lion.html" aria-label="View Lions' Gate">
-              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-          </div>
-          <div class="wall-meta">
-            <p class="wall-artist">Charlie Archer · CC004</p>
-            <h3 class="wall-title"><a href="lion.html">Lions&rsquo; Gate</a></h3>
-            <p class="wall-note">Single</p>
           </div>
         </article>
       </div>

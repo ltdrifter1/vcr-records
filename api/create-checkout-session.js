@@ -24,8 +24,6 @@ const CATALOG = {
   "sm-vinyl-together": { name: "Together — Vinyl", unitAmount: 3200 },
   "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600 },
   "sm-vinyl-at-home": { name: "At Home — Vinyl", unitAmount: 2800 },
-  "sm-vinyl-lions-gate": { name: "Lions' Gate — Vinyl", unitAmount: 2800 },
-  "sm-vinyl-summer": { name: "Summer Madness — Vinyl", unitAmount: 2800 },
   "sm-bundle-what-if-tee": { name: "What If Bundle — Vinyl + Tee", unitAmount: 5400 },
   "sm-poly-outer": { name: "Poly Outer", unitAmount: 500 },
   "sm-inners": { name: "Inner Sleeve Pack", unitAmount: 1200 },
