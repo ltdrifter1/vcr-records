@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Club Copy — Independent Record Label</title>
   <meta name="description" content="Club Copy is an independent record label from the Pacific Northwest. Records, artists, and objects worth keeping."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#050505"/>
   <meta property="og:title" content="Club Copy"/>
   <meta property="og:description" content="Independent record label from the Pacific Northwest."/>
   <meta property="og:type" content="website"/>
@@ -346,93 +346,220 @@
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-ham span { background: #fff; }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-cart-count { background: #fff; color: #000; }
 
-    /* Planet MP3 ------------------------------------------------------------- */
-    .stream { padding: 88px 0 0; }
-    .stream-card {
-      background: rgba(8,8,10,.88);
+    /* Dark continuum + listening wall --------------------------------------- */
+    body.hero-top {
+      background: #050505;
+    }
+    body.hero-top:not(.nav-light) .nav.scrolled {
+      background: rgba(8, 8, 10, .72);
+      border-bottom-color: rgba(255,255,255,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 28px rgba(0,0,0,.25);
+    }
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-logo img { filter: invert(1); }
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-links a { color: rgba(255,255,255,.7); }
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-links a:hover,
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-links a[aria-current="page"] {
+      color: #fff; background: rgba(255,255,255,.1);
+    }
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-cart { color: #fff; }
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-ham span { background: #fff; }
+    body.hero-top:not(.nav-light) .nav.scrolled .nav-cart-count { background: #fff; color: #000; }
+    body.hero-top:not(.nav-light) .nav-drawer {
+      background: rgba(8, 8, 10, .92);
+      border-bottom-color: rgba(255,255,255,.08);
+    }
+    body.hero-top:not(.nav-light) .nav-drawer a {
+      color: #fff; border-bottom-color: rgba(255,255,255,.08);
+    }
+
+    .wall {
+      position: relative;
+      background: #080808;
       color: #fff;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
+      padding: 0 0 88px;
+    }
+    .wall-bridge {
+      height: 56px;
+      background: linear-gradient(180deg, #050505 0%, #080808 100%);
+      pointer-events: none;
+    }
+    .wall .section-head {
+      border-bottom-color: rgba(255,255,255,.1);
+      padding-top: 28px;
+    }
+    @media (min-width: 800px) { .wall .section-head { padding-top: 40px; } }
+    .wall .eyebrow { color: rgba(255,255,255,.42); }
+    .wall .section-head h2 { color: #fff; }
+    .wall-grid {
       display: grid;
-      grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-      align-items: center;
-      gap: 24px;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.12);
-      backdrop-filter: saturate(140%) blur(24px);
-      -webkit-backdrop-filter: saturate(140%) blur(24px);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 36px 22px;
     }
-    @media (max-width: 760px) { .stream-card { grid-template-columns: 1fr; gap: 0; } }
-    .stream-logo { padding: 36px 0 36px 40px; }
-    @media (max-width: 760px) { .stream-logo { padding: 36px 36px 0; } }
-    .stream-logo img {
-      width: min(220px, 56vw); height: auto; margin: 0 auto;
-      border-radius: 22%;
+    @media (max-width: 980px) { .wall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 18px; } }
+    @media (max-width: 520px) { .wall-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+    .wall-item {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-    .stream-copy { padding: 40px 40px 44px; max-width: 34em; }
-    .stream-copy .eyebrow { color: rgba(255,255,255,.5); }
-    .stream-copy h2 {
+    .wall-item.rv:nth-child(2) { transition-delay: .05s; }
+    .wall-item.rv:nth-child(3) { transition-delay: .1s; }
+    .wall-item.rv:nth-child(4) { transition-delay: .15s; }
+
+    .wall-art {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #111;
+      box-shadow: 0 18px 48px rgba(0,0,0,.45);
+    }
+    .wall-art img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .85s var(--ease), filter .85s var(--ease);
+    }
+    @media (hover:hover) {
+      .wall-item:hover .wall-art img { transform: scale(1.03); filter: brightness(1.05); }
+    }
+    .wall-play {
+      position: absolute; right: 12px; bottom: 12px;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,.92); color: #111;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      opacity: 0; transform: translateY(6px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    .wall-play svg { width: 15px; height: 15px; fill: currentColor; margin-left: 2px; }
+    @media (hover:hover) {
+      .wall-item:hover .wall-play { opacity: 1; transform: none; }
+      .wall-play:hover { background: #fff; }
+    }
+    @media (hover:none) { .wall-play { opacity: 1; transform: none; } }
+
+    .wall-meta { padding: 0 2px; display: flex; flex-direction: column; gap: 4px; }
+    .wall-artist {
+      font-size: 12px; font-weight: 500; letter-spacing: .04em;
+      text-transform: uppercase; color: rgba(255,255,255,.48);
+    }
+    .wall-title {
       font-family: var(--display);
-      font-size: clamp(24px, 3.4vw, 34px);
-      font-weight: 600; letter-spacing: -.025em; line-height: 1.12;
+      font-size: clamp(18px, 2.2vw, 22px);
+      font-weight: 600; letter-spacing: -.025em; line-height: 1.15;
+      color: #fff;
+    }
+    .wall-title a { color: inherit; }
+    @media (hover:hover) { .wall-title a:hover { opacity: .72; } }
+    .wall-note { font-size: 13px; color: rgba(255,255,255,.42); }
+
+    /* Quiet dark strip — about + Planet + email ---------------------------- */
+    .after-dark {
+      background: #080808;
+      color: #fff;
+      padding: 72px 0 96px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .after-dark-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 48px 64px;
+      align-items: start;
+    }
+    @media (max-width: 800px) { .after-dark-inner { grid-template-columns: 1fr; gap: 40px; } }
+    .after-dark .eyebrow { color: rgba(255,255,255,.42); }
+    .after-statement {
+      font-family: var(--display);
+      font-size: clamp(22px, 3.2vw, 34px);
+      font-weight: 500; letter-spacing: -.025em; line-height: 1.22;
+      max-width: 18em;
+    }
+    .after-sub {
+      margin-top: 16px;
+      font-size: 15px;
+      color: rgba(255,255,255,.55);
+      max-width: 32em;
+    }
+    .planet-row {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .planet-row img {
+      width: 52px; height: 52px; border-radius: 18%;
+      flex-shrink: 0;
+    }
+    .planet-row p {
+      font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.4;
+    }
+    .planet-row a {
+      display: inline-block; margin-top: 4px;
+      font-size: 14px; font-weight: 500; color: #fff;
+      text-decoration: underline; text-underline-offset: 3px;
+      text-decoration-color: rgba(255,255,255,.35);
+      transition: text-decoration-color var(--dur) var(--ease);
+    }
+    @media (hover:hover) {
+      .planet-row a:hover { text-decoration-color: #fff; }
+    }
+    .after-signup label {
+      display: block;
+      font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.42); margin-bottom: 14px;
+    }
+    .after-signup h2 {
+      font-family: var(--display);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 600; letter-spacing: -.025em; line-height: 1.15;
       margin-bottom: 10px;
     }
-    .stream-copy p { color: rgba(255,255,255,.64); font-size: 15px; margin-bottom: 24px; }
-    .btn-light { background: #fff; color: #000; }
-    @media (hover:hover) { .btn-light:hover { opacity: .86; } }
+    .after-signup > p {
+      font-size: 14px; color: rgba(255,255,255,.5); margin-bottom: 20px;
+    }
+    .after-form { display: flex; gap: 10px; flex-wrap: wrap; }
+    .after-form input[type="email"] {
+      flex: 1; min-width: 200px; height: 48px;
+      border-radius: var(--pill);
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 0 18px;
+      background: rgba(255,255,255,.06);
+      color: #fff; font: inherit; font-size: 15px;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    .after-form input[type="email"]::placeholder { color: rgba(255,255,255,.35); }
+    .after-form input[type="email"]:focus {
+      outline: none; border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.1);
+    }
+    .after-form button {
+      height: 48px; padding: 0 24px; border-radius: var(--pill);
+      background: #fff; color: #111;
+      font-size: 14px; font-weight: 500; letter-spacing: -.01em;
+      transition: opacity var(--dur) var(--ease);
+    }
+    @media (hover:hover) { .after-form button:hover { opacity: .86; } }
+    .after-note { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 12px; }
 
-    /* New releases grid ------------------------------------------------------ */
-    .release-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
+    /* Daylight — explore Artists / Shop ------------------------------------ */
+    .daylight {
+      position: relative;
+      background:
+        radial-gradient(900px 520px at 88% -8%, rgba(255,255,255,.9), transparent 55%),
+        radial-gradient(720px 460px at 8% 12%, rgba(232,228,220,.75), transparent 50%),
+        linear-gradient(180deg, #F7F4EF 0%, #FAF8F5 40%, #F3F0EA 100%);
+      color: var(--ink);
+      padding: 24px 0 0;
     }
-    @media (max-width: 980px) { .release-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 560px) { .release-grid { grid-template-columns: 1fr; } }
-    .release-card { display: flex; flex-direction: column; }
-    .release-card .card-art { position: relative; }
-    .release-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
-    .release-artist { font-size: 13px; color: var(--muted); }
-    .release-title { font-family: var(--display); font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
-    .release-meta { font-size: 12px; color: var(--dim); margin-top: 6px; }
-    .release-play {
-      position: absolute; right: 14px; bottom: 14px;
-      width: 46px; height: 46px; border-radius: 50%;
-      background: rgba(255,255,255,.72); color: var(--ink);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: inline-flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow), inset 0 1px 0 var(--line-hi);
-      opacity: 0; transform: translateY(6px);
-      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+    .daylight .index-rows {
+      display: flex; flex-direction: column;
+      border-top: 1px solid var(--line);
     }
-    .release-play svg { width: 15px; height: 15px; fill: currentColor; margin-left: 2px; }
-    @media (hover:hover) {
-      .release-card:hover .release-play { opacity: 1; transform: none; }
-      .release-play:hover { background: var(--ink); color: #fff; }
-    }
-    @media (hover:none) { .release-play { opacity: 1; transform: none; } }
-
-    /* About -------------------------------------------------------------------- */
-    .about { padding: 104px 0; }
-    .about-inner { max-width: 780px; }
-    .about-statement {
-      font-family: var(--display);
-      font-size: clamp(24px, 3.6vw, 40px);
-      font-weight: 500; letter-spacing: -.025em; line-height: 1.22;
-    }
-    .about-sub { margin-top: 24px; font-size: 16px; color: var(--muted); max-width: 36em; }
-
-    /* Index rows -------------------------------------------------------------- */
-    .index-rows { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
-    .index-row {
+    .daylight .index-row {
       display: flex; align-items: center; justify-content: space-between; gap: 24px;
-      padding: 36px 4px;
+      padding: 40px 4px;
       border-bottom: 1px solid var(--line);
-      transition: padding var(--dur) var(--ease);
     }
-    @media (min-width: 800px) { .index-row { padding: 48px 8px; } }
+    @media (min-width: 800px) { .daylight .index-row { padding: 56px 8px; } }
     .index-title {
       display: block;
       font-family: var(--display);
@@ -440,12 +567,35 @@
       font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
     }
     .index-note { display: block; margin-top: 8px; font-size: 15px; color: var(--muted); }
-    .index-row svg {
+    .daylight .index-row svg {
       width: 32px; height: 32px; flex-shrink: 0; color: var(--dim);
       transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .index-row:hover svg { transform: translateX(6px); color: var(--ink); }
+      .daylight .index-row:hover svg { transform: translateX(6px); color: var(--ink); }
+    }
+
+    body.hero-top .footer {
+      background:
+        radial-gradient(900px 520px at 88% -8%, rgba(255,255,255,.5), transparent 55%),
+        #FAF8F5;
+    }
+    body.hero-top .footer-top {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+    @media (max-width: 700px) {
+      body.hero-top .footer-top { grid-template-columns: 1fr; }
+      body.hero-top .footer-top .footer-links { justify-content: flex-start; }
+    }
+    body.hero-top .footer-top .footer-links {
+      display: flex; flex-wrap: wrap; gap: 4px;
+      justify-content: flex-end;
+      padding-bottom: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wall-art img { transition: none; }
     }
   </style>
 </head>
@@ -534,110 +684,114 @@
     </div>
   </section>
 
-  <!-- New releases -->
-  <section aria-labelledby="listen-title">
+  <!-- Listening wall — same room, catalogue as sleeves -->
+  <section class="wall" aria-labelledby="listen-title">
+    <div class="wall-bridge" aria-hidden="true"></div>
     <div class="band">
       <header class="section-head" id="listen">
         <div>
           <p class="eyebrow">Catalogue</p>
-          <h2 id="listen-title">New releases</h2>
+          <h2 id="listen-title">On the wall</h2>
         </div>
       </header>
-      <div class="release-grid">
-        <article class="card release-card is-link rv" data-release="together">
-          <a href="together.html" aria-label="Together — view release">
-            <div class="card-art">
+      <div class="wall-grid">
+        <article class="wall-item rv" data-release="together">
+          <div class="wall-art">
+            <a href="together.html" aria-label="Together — view release">
               <img src="together-cover.webp" alt="Together — artwork" loading="lazy" width="1200" height="1200"/>
-            </div>
-          </a>
-          <button type="button" class="release-play" data-play-release="together" data-play-stage aria-label="Play Together">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="release-body">
-            <p class="release-artist">Inlet Knight</p>
-            <h3 class="release-title"><a href="together.html">Together</a></h3>
-            <p class="release-meta">Album — 4 tracks · New</p>
+            </a>
+            <button type="button" class="wall-play" data-play-release="together" data-play-stage aria-label="Play Together">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="wall-meta">
+            <p class="wall-artist">Inlet Knight</p>
+            <h3 class="wall-title"><a href="together.html">Together</a></h3>
+            <p class="wall-note">Album — 4 tracks</p>
           </div>
         </article>
 
-        <article class="card release-card is-link rv" data-release="inlet-knight">
-          <a href="inlet-knight.html" aria-label="Inlet Knight — view release">
-            <div class="card-art">
+        <article class="wall-item rv" data-release="inlet-knight">
+          <div class="wall-art">
+            <a href="inlet-knight.html" aria-label="Inlet Knight — view release">
               <img src="inlet-knight-cover.jpg" alt="Inlet Knight — artwork" loading="lazy" width="1400" height="1400"/>
-            </div>
-          </a>
-          <button type="button" class="release-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="release-body">
-            <p class="release-artist">Inlet Knight</p>
-            <h3 class="release-title"><a href="inlet-knight.html">Inlet Knight</a></h3>
-            <p class="release-meta">Album — 16 tracks</p>
+            </a>
+            <button type="button" class="wall-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="wall-meta">
+            <p class="wall-artist">Inlet Knight</p>
+            <h3 class="wall-title"><a href="inlet-knight.html">Inlet Knight</a></h3>
+            <p class="wall-note">Album — 16 tracks</p>
           </div>
         </article>
 
-        <article class="card release-card is-link rv" data-release="at-home">
-          <a href="home.html" aria-label="At Home — view release">
-            <div class="card-art">
+        <article class="wall-item rv" data-release="at-home">
+          <div class="wall-art">
+            <a href="home.html" aria-label="At Home — view release">
               <img src="at_home.png" alt="At Home — artwork" loading="lazy" width="1400" height="1400"/>
-            </div>
-          </a>
-          <button type="button" class="release-play" data-play-release="at-home" data-play-stage aria-label="Play At Home">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <div class="release-body">
-            <p class="release-artist">Inlet Knight</p>
-            <h3 class="release-title"><a href="home.html">At Home</a></h3>
-            <p class="release-meta">EP — 3 tracks</p>
+            </a>
+            <button type="button" class="wall-play" data-play-release="at-home" data-play-stage aria-label="Play At Home">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="wall-meta">
+            <p class="wall-artist">Inlet Knight</p>
+            <h3 class="wall-title"><a href="home.html">At Home</a></h3>
+            <p class="wall-note">EP — 3 tracks</p>
           </div>
         </article>
 
-        <article class="card release-card is-link rv">
-          <a href="lion.html" aria-label="Lions' Gate — view release">
-            <div class="card-art">
+        <article class="wall-item rv">
+          <div class="wall-art">
+            <a href="lion.html" aria-label="Lions' Gate — view release">
               <img src="lions.png" alt="Lions' Gate — artwork" loading="lazy" width="1400" height="1400"/>
-            </div>
-          </a>
-          <div class="release-body">
-            <p class="release-artist">Charlie Archer</p>
-            <h3 class="release-title"><a href="lion.html">Lions' Gate</a></h3>
-            <p class="release-meta">Single</p>
+            </a>
+          </div>
+          <div class="wall-meta">
+            <p class="wall-artist">Charlie Archer</p>
+            <h3 class="wall-title"><a href="lion.html">Lions&rsquo; Gate</a></h3>
+            <p class="wall-note">Single</p>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Streaming on Planet MP3 -->
-  <section class="stream" aria-labelledby="stream-title">
+  <!-- Quiet dark strip -->
+  <section class="after-dark" aria-label="About and updates">
     <div class="band">
-      <div class="stream-card rv">
-        <div class="stream-logo">
-          <img src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" loading="lazy"/>
+      <div class="after-dark-inner rv">
+        <div>
+          <p class="eyebrow">About</p>
+          <p class="after-statement">An independent record label from the Pacific Northwest. Music we want to keep.</p>
+          <p class="after-sub">Small catalogue, long shelf life. Made to be listened to, held, and returned to.</p>
+          <div class="planet-row">
+            <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
+            <div>
+              <p>Full catalogue in rotation on Planet MP3.</p>
+              <a href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
+            </div>
+          </div>
         </div>
-        <div class="stream-copy">
-          <p class="eyebrow">Streaming</p>
-          <h2 id="stream-title">In rotation on Planet MP3.</h2>
-          <p>The full Club Copy catalogue, streaming around the clock. Press play, leave it on.</p>
-          <a class="btn btn-light" href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
+        <div class="after-signup">
+          <label for="newsletterEmail">Email updates</label>
+          <h2 id="newsletter-title">New music, occasionally.</h2>
+          <p>Releases and drops. Nothing else.</p>
+          <form class="after-form" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-labelledby="newsletter-title">
+            <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+            <button type="submit">Join</button>
+          </form>
+          <p class="after-note">No spam. Unsubscribe anytime.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About -->
-  <section class="about" aria-labelledby="about-title">
-    <div class="band">
-      <div class="about-inner rv">
-        <p class="eyebrow" id="about-title">About</p>
-        <p class="about-statement">Club Copy is an independent record label from the Pacific Northwest. We release music we want to keep.</p>
-        <p class="about-sub">Small catalogue, long shelf life. Every release is made to be listened to, held, and returned to.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Index -->
-  <section aria-label="Explore">
+  <!-- Daylight — leave the room for Artists / Shop -->
+  <section class="daylight" aria-label="Explore">
     <div class="band">
       <nav class="index-rows rv" aria-label="Explore Club Copy">
         <a class="index-row" href="artists.html">
@@ -658,22 +812,6 @@
     </div>
   </section>
 
-  <!-- Newsletter -->
-  <section class="newsletter" aria-labelledby="newsletter-title">
-    <div class="band">
-      <div class="newsletter-inner rv">
-        <h2 id="newsletter-title">New music, occasionally.</h2>
-        <p>Releases and drops. Nothing else.</p>
-        <form class="newsletter-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <label class="skip-link" for="newsletterEmail">Email address</label>
-          <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="footer">
@@ -683,18 +821,6 @@
         <img class="footer-logo" src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
         <p class="footer-manifesto">An independent record label from the Pacific Northwest. © Copy House Publishing.</p>
       </div>
-      <div>
-        <label for="footerEmail">Email updates</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-        <p class="footer-note">New music and drops, occasionally.</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="#room">Listen</a>
         <a href="artists.html">Artists</a>
@@ -702,6 +828,10 @@
         <a href="contact.html">Contact</a>
         <a href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
       </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Club Copy</p>
+      <a href="https://planetmp3.net" target="_blank" rel="noopener" class="footer-copy">Planet MP3</a>
     </div>
   </div>
 </footer>
@@ -715,7 +845,14 @@
   function syncNav() {
     var y = window.scrollY;
     nav.classList.toggle('scrolled', y > 24);
-    document.body.classList.toggle('nav-light', y > Math.max(120, (window.innerHeight * 0.72)));
+    var daylight = document.querySelector('.daylight');
+    var light = false;
+    if (daylight) {
+      light = daylight.getBoundingClientRect().top < (nav.offsetHeight + 12);
+    } else {
+      light = y > Math.max(120, (window.innerHeight * 0.72));
+    }
+    document.body.classList.toggle('nav-light', light);
     ticking = false;
   }
   window.addEventListener('scroll', function () {
