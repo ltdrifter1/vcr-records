@@ -5,74 +5,60 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Thank You — Club Copy</title>
   <link rel="icon" href="favicon.png" type="image/png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <meta name="robots" content="noindex"/>
-  <meta name="theme-color" content="#000000"/>
+  <meta name="theme-color" content="#FAF8F5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css"/>
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --text: #ffffff;
-      --muted: #a1a1a6;
-      --dim: #6e6e73;
-      --line: rgba(255,255,255,.1);
-      --fill-hi: rgba(255,255,255,.08);
-      --sans: 'Plus Jakarta Sans', sans-serif;
-      --pill: 980px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--sans); background: var(--bg); color: var(--text);
-      min-height: 100vh; display: grid; place-items: center; padding: 28px;
-      background-image:
-        radial-gradient(900px 480px at 80% -10%, rgba(255,255,255,.05), transparent 55%),
-        linear-gradient(180deg, #000 0%, #0a0a0a 45%, #111 100%);
-      -webkit-font-smoothing: antialiased;
-      font-weight: 400; letter-spacing: -.011em;
-    }
-    a { color: inherit; text-decoration: none; }
-    .card {
-      width: min(520px, 100%);
-      background: #141414;
+    body { min-height: 100vh; display: grid; place-items: center; padding: 28px; }
+    .confirm {
+      width: min(560px, 100%);
+      background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 44px 28px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 56px 32px;
       text-align: center;
     }
-    .mark { width: min(200px, 64vw); margin: 0 auto 28px; height: auto; }
-    h1 {
-      font-size: clamp(32px, 6vw, 44px); font-weight: 600;
-      letter-spacing: -.022em; line-height: 1.07; margin-bottom: 12px;
+    @media (min-width: 600px) { .confirm { padding: 64px 48px; } }
+    .confirm .eyebrow { margin-bottom: 16px; }
+    .confirm h1 {
+      font-size: clamp(34px, 6vw, 48px); font-weight: 600;
+      letter-spacing: -.03em; line-height: 1.05; margin-bottom: 14px;
     }
-    p {
-      color: var(--muted); font-size: 17px; line-height: 1.47059;
-      margin-bottom: 28px; max-width: 28em; margin-left: auto; margin-right: auto;
+    .confirm p {
+      color: var(--muted); font-size: 16px;
+      margin: 0 auto 32px; max-width: 26em;
     }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: 46px; padding: 0 22px; border-radius: var(--pill);
-      background: #fff; color: #000; font-size: 14px; font-weight: 500;
-      letter-spacing: -.01em;
+    .confirm-actions {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
     }
-    .links { margin-top: 20px; display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
+    .links { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line);
+      display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
     .links a {
       color: var(--dim); font-size: 13px; font-weight: 500;
       letter-spacing: -.01em;
       padding: 6px 10px; border-radius: var(--pill);
+      transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
     }
-    .links a:hover { background: var(--fill-hi); color: var(--text); }
+    @media (hover:hover) { .links a:hover { background: var(--fill); color: var(--ink); } }
   </style>
 </head>
 <body>
-  <main class="card">
-    <img class="mark" src="club-copy-header.webp" alt="Club Copy" width="900" height="417"/>
+  <main class="confirm">
+    <p class="eyebrow">Club Copy</p>
     <h1>Thank you.</h1>
     <p id="msg">Your order is confirmed. A receipt is on its way from Stripe.</p>
-    <a class="btn" href="merch.html">Back to merch</a>
+    <div class="confirm-actions">
+      <a class="btn btn-dark" href="merch.html">Back to shop</a>
+      <a class="btn btn-ghost" href="index.html">Home</a>
+    </div>
     <div class="links">
-      <a href="index.html">Home</a>
       <a href="index.html#listen">Listen</a>
+      <a href="artists.html">Artists</a>
       <a href="contact.html">Contact</a>
       <a href="cart.html">Bag</a>
     </div>
