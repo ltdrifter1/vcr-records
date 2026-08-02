@@ -9,8 +9,8 @@ body.has-vcr-player {
 
 .vcr-player {
   position: fixed;
-  left: 12px;
-  right: 12px;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
   bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   z-index: 500;
   max-width: 920px;
@@ -95,6 +95,8 @@ body.has-vcr-player {
   font-size: 12px;
   cursor: pointer;
   font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .vcr-player__btn--play {
@@ -139,18 +141,57 @@ body.has-vcr-player {
 }
 
 @media (max-width: 760px) {
+  :root {
+    --vcr-player-h: 108px;
+  }
   .vcr-player {
+    left: max(10px, env(safe-area-inset-left, 0px));
+    right: max(10px, env(safe-area-inset-right, 0px));
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
     grid-template-columns: 44px minmax(0, 1fr) auto auto;
     grid-template-areas:
       "art meta controls close"
       "progress progress progress progress";
+    gap: 8px 10px;
+    padding: 10px 12px 12px;
+    border-radius: 18px;
   }
-  .vcr-player__art { grid-area: art; width: 44px; height: 44px; }
+  .vcr-player__art { grid-area: art; width: 44px; height: 44px; border-radius: 8px; }
   .vcr-player__meta { grid-area: meta; }
-  .vcr-player__controls { grid-area: controls; }
+  .vcr-player__controls { grid-area: controls; gap: 4px; }
   .vcr-player__progress-wrap { grid-area: progress; }
   .vcr-player__close { grid-area: close; }
   .vcr-player__buy { display: none; }
+  .vcr-player__btn {
+    width: 44px;
+    height: 44px;
+  }
+  .vcr-player__btn--play {
+    width: 44px;
+    height: 44px;
+  }
+  .vcr-player__scrub {
+    height: 28px;
+    touch-action: none;
+  }
+  .vcr-stage {
+    padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  }
+  .vcr-stage__hint { display: none; }
+  .vcr-stage__btn {
+    width: 48px;
+    height: 48px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .vcr-stage__btn--play {
+    width: 60px;
+    height: 60px;
+  }
+  .vcr-stage__scrub {
+    height: 28px;
+    touch-action: none;
+  }
 }
 
 /* Ambient Stage */
