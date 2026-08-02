@@ -19,6 +19,12 @@ const CATALOG = {
   "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200 },
   "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800 },
   "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000 },
+  "sm-vinyl-what-if": { name: "What If — Vinyl", unitAmount: 3200 },
+  "sm-vinyl-together": { name: "Together — Vinyl", unitAmount: 3200 },
+  "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600 },
+  "sm-vinyl-at-home": { name: "At Home — Vinyl", unitAmount: 2800 },
+  "sm-vinyl-lions-gate": { name: "Lions' Gate — Vinyl", unitAmount: 2800 },
+  "sm-vinyl-summer": { name: "Summer Madness — Vinyl", unitAmount: 2800 },
   // legacy skus kept for older bags
   tshirt: { name: "T-Shirt", unitAmount: 3000 },
   hat: { name: "Hat", unitAmount: 2500 },
