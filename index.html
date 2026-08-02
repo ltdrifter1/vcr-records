@@ -606,6 +606,7 @@
       .hero {
         min-height: 100svh;
         min-height: 100dvh;
+        min-height: -webkit-fill-available;
       }
       .hero-stage {
         width: min(100% - 32px, 560px);
@@ -692,6 +693,87 @@
       body.listening-room-live.has-vcr-player {
         padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
       }
+    }
+
+    /* Short phones (SE / zoomed) — keep idle + live on one screen ---------- */
+    @media (max-width: 700px) and (max-height: 740px) {
+      .hero-stage {
+        padding-top: calc(var(--nav-h) + var(--safe-t) + 12px);
+        padding-bottom: calc(16px + var(--safe-b));
+        gap: 10px;
+      }
+      .hero-brand { width: min(160px, 42vw); }
+      .hero-platter { width: min(48vw, 200px); }
+      .hero-idle h1 { font-size: clamp(28px, 8vw, 36px); }
+      .hero-line { font-size: 14px; margin: 0; }
+      .hero-ctas { margin-top: 0; gap: 8px; }
+      .hero-ctas .btn { height: 44px; }
+      .hero.is-live .hero-platter { width: min(30vw, 120px); }
+      .hero.is-live .hero-stage { gap: 6px; padding-top: calc(var(--nav-h) + var(--safe-t) + 4px); }
+      .hero-console-title { font-size: 22px; }
+      .hero-ctrl { width: 44px; height: 44px; }
+      .hero-ctrl--play { width: 54px; height: 54px; }
+    }
+
+    /* Landscape phone — side-by-side room so controls stay reachable -------- */
+    @media (max-height: 480px) and (orientation: landscape) {
+      .hero,
+      .hero.is-live .hero-stage {
+        min-height: 100svh;
+        min-height: 100dvh;
+      }
+      .hero-stage {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 12px 28px;
+        padding: calc(12px + var(--safe-t)) 20px calc(12px + var(--safe-b));
+        width: min(100% - 24px, 900px);
+      }
+      .hero-brand { display: none; }
+      .hero-platter,
+      .hero.is-live .hero-platter {
+        width: min(34vh, 160px);
+        margin: 0;
+      }
+      .hero-idle,
+      .hero-console {
+        flex: 1 1 220px;
+        max-width: 360px;
+        align-items: flex-start;
+        text-align: left;
+        gap: 8px;
+      }
+      .hero-ctas,
+      .hero-controls,
+      .hero-console-actions { justify-content: flex-start; }
+      .hero-idle h1 { font-size: 28px; }
+      .hero-console-hint { display: none; }
+    }
+
+    /* Dark dock over the dark homepage (before daylight) ------------------- */
+    body.hero-top:not(.nav-light) .vcr-player {
+      background: rgba(18, 18, 20, .78);
+      border-color: rgba(255,255,255,.12);
+      box-shadow: 0 2px 6px rgba(0,0,0,.2), 0 22px 48px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+      color: #fff;
+    }
+    body.hero-top:not(.nav-light) .vcr-player__title { color: #fff; }
+    body.hero-top:not(.nav-light) .vcr-player__sub,
+    body.hero-top:not(.nav-light) .vcr-player__times,
+    body.hero-top:not(.nav-light) .vcr-player__close { color: rgba(255,255,255,.5); }
+    body.hero-top:not(.nav-light) .vcr-player__btn { color: #fff; }
+    body.hero-top:not(.nav-light) .vcr-player__btn--play {
+      background: #fff; color: #111;
+    }
+    body.hero-top:not(.nav-light) .vcr-player__buy {
+      background: rgba(255,255,255,.12); color: #fff;
+    }
+    body.hero-top:not(.nav-light) .vcr-player__scrub { accent-color: #fff; }
+
+    body.hero-top {
+      overscroll-behavior-y: none;
     }
   </style>
 </head>

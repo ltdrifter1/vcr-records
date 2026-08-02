@@ -521,10 +521,17 @@
     room.classList.add("is-live");
     document.body.classList.add("listening-room-live");
     if (opts.scroll) {
-      try {
-        room.scrollIntoView({ behavior: "smooth", block: "start" });
-      } catch (e) {
-        room.scrollIntoView(true);
+      var rect = room.getBoundingClientRect();
+      var vh = window.innerHeight || 0;
+      // Only scroll when the room isn't already the main thing on screen
+      // (avoids iOS toolbar jank when Play is pressed from the hero).
+      var mostlyVisible = rect.top < vh * 0.2 && rect.bottom > vh * 0.55;
+      if (!mostlyVisible) {
+        try {
+          room.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (e) {
+          room.scrollIntoView(true);
+        }
       }
     }
     setDeepLink(current(), true);
