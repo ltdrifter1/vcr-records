@@ -9,7 +9,7 @@
   <meta property="og:title" content="Club Copy"/>
   <meta property="og:description" content="Independent record label from the Pacific Northwest."/>
   <meta property="og:type" content="website"/>
-  <meta property="og:image" content="inlet-knight-cover.jpg"/>
+  <meta property="og:image" content="what-if-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,14 +85,18 @@
     /* Planet MP3 ------------------------------------------------------------- */
     .stream { padding: 72px 0 0; }
     .stream-card {
-      background: #000; color: #fff;
+      background: rgba(8,8,10,.88);
+      color: #fff;
       border-radius: var(--radius-lg);
       overflow: hidden;
       display: grid;
       grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
       align-items: center;
       gap: 24px;
-      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter: saturate(140%) blur(24px);
+      -webkit-backdrop-filter: saturate(140%) blur(24px);
     }
     @media (max-width: 760px) { .stream-card { grid-template-columns: 1fr; gap: 0; } }
     .stream-logo { padding: 36px 0 36px 40px; }
@@ -126,7 +130,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-lg), inset 0 1px 0 var(--line-hi);
     }
     .featured-art img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
     .featured-copy { display: flex; flex-direction: column; align-items: flex-start; }
@@ -142,10 +146,13 @@
     /* Featured tracklist ---------------------------------------------------- */
     .featured-tracks {
       margin-top: 36px; width: 100%;
-      background: var(--card);
+      background: rgba(255,255,255,.58);
+      backdrop-filter: saturate(160%) blur(18px);
+      -webkit-backdrop-filter: saturate(160%) blur(18px);
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
-      max-height: 320px; overflow-y: auto;
+      box-shadow: inset 0 1px 0 var(--line-hi);
+      max-height: 280px; overflow-y: auto;
       overscroll-behavior: contain;
       scrollbar-width: thin;
       scrollbar-color: rgba(17,17,17,.2) transparent;
@@ -196,10 +203,12 @@
     .release-play {
       position: absolute; right: 14px; bottom: 14px;
       width: 46px; height: 46px; border-radius: 50%;
-      background: rgba(255,255,255,.94); color: var(--ink);
+      background: rgba(255,255,255,.72); color: var(--ink);
       border: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       display: inline-flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow), inset 0 1px 0 var(--line-hi);
       opacity: 0; transform: translateY(6px);
       transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
     }
@@ -318,35 +327,21 @@
     <div class="band">
       <div class="featured-grid">
         <div class="featured-art rv in">
-          <img src="inlet-knight-cover.jpg" alt="Inlet Knight — album artwork" width="1400" height="1400" fetchpriority="high"/>
+          <img src="what-if-cover.webp" alt="What If — album artwork" width="1200" height="1200" fetchpriority="high"/>
         </div>
         <div class="featured-copy rv in">
           <p class="eyebrow">Latest release</p>
-          <h1>Inlet Knight</h1>
-          <p class="featured-artist">Inlet Knight — Album, 16 tracks</p>
-          <p class="featured-desc">The debut full-length. Recorded at home in the Pacific Northwest.</p>
+          <h1>What If</h1>
+          <p class="featured-artist">Inlet Knight — Album, 2 tracks</p>
+          <p class="featured-desc">Two tracks. Digital download.</p>
           <div class="featured-actions">
-            <button type="button" class="btn btn-dark" data-play-release="inlet-knight" data-play-stage>Play album</button>
-            <a class="btn btn-ghost" href="inlet-knight.html">View release</a>
-            <a class="btn btn-soft" href="https://inletknight.bandcamp.com/album/inlet-knight" target="_blank" rel="noopener">Buy — $9 CAD</a>
+            <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play album</button>
+            <a class="btn btn-ghost" href="what-if.html">View release</a>
+            <a class="btn btn-soft" href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener">Buy — $9 CAD</a>
           </div>
-          <div class="featured-tracks" role="list" aria-label="Inlet Knight tracklist">
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-01" role="listitem"><span class="track-num">1</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Revive Him</span><span class="track-dur">2:28</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-02" role="listitem"><span class="track-num">2</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Whatever</span><span class="track-dur">3:28</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-03" role="listitem"><span class="track-num">3</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Mad About You</span><span class="track-dur">3:58</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-04" role="listitem"><span class="track-num">4</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">All Falls Down</span><span class="track-dur">4:43</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-05" role="listitem"><span class="track-num">5</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Les Misérables</span><span class="track-dur">2:17</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-06" role="listitem"><span class="track-num">6</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Heartbreaker</span><span class="track-dur">3:53</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-07" role="listitem"><span class="track-num">7</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Movin'</span><span class="track-dur">3:26</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-08" role="listitem"><span class="track-num">8</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Sunday Afternoon</span><span class="track-dur">2:55</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-09" role="listitem"><span class="track-num">9</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Hard to Ignore</span><span class="track-dur">4:10</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-10" role="listitem"><span class="track-num">10</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">The Get Down</span><span class="track-dur">1:37</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-11" role="listitem"><span class="track-num">11</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">3AM</span><span class="track-dur">3:00</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-12" role="listitem"><span class="track-num">12</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Another Day</span><span class="track-dur">4:59</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-13" role="listitem"><span class="track-num">13</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Is It Cool?</span><span class="track-dur">4:03</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-14" role="listitem"><span class="track-num">14</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">You Wanted Me</span><span class="track-dur">2:50</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-15" role="listitem"><span class="track-num">15</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Next Year</span><span class="track-dur">4:07</span></button>
-            <button type="button" class="track" data-play-release="inlet-knight" data-play-track="ik-16" role="listitem"><span class="track-num">16</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Art of Losing</span><span class="track-dur">2:07</span></button>
+          <div class="featured-tracks" role="list" aria-label="What If tracklist">
+            <button type="button" class="track" data-play-release="what-if" data-play-track="wi-01" role="listitem"><span class="track-num">1</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">Lo-Fi Girl</span><span class="track-dur">6:20</span></button>
+            <button type="button" class="track" data-play-release="what-if" data-play-track="wi-02" role="listitem"><span class="track-num">2</span><svg class="track-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="track-title">What If</span><span class="track-dur">3:44</span></button>
           </div>
         </div>
       </div>
@@ -363,45 +358,35 @@
         </div>
       </header>
       <div class="release-grid">
-        <article class="card release-card is-link rv">
-          <a href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener" aria-label="What If — listen on Bandcamp">
-            <div class="card-art">
-              <img src="what-if-cover.webp" alt="What If — artwork" loading="lazy" width="1200" height="1200"/>
-            </div>
-          </a>
-          <div class="release-body">
-            <p class="release-artist">Inlet Knight</p>
-            <h3 class="release-title"><a href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener">What If</a></h3>
-            <p class="release-meta">Album — 2 tracks · New</p>
-          </div>
-        </article>
-
-        <article class="card release-card is-link rv">
-          <a href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener" aria-label="Together — listen on Bandcamp">
+        <article class="card release-card is-link rv" data-release="together">
+          <a href="together.html" aria-label="Together — view release">
             <div class="card-art">
               <img src="together-cover.webp" alt="Together — artwork" loading="lazy" width="1200" height="1200"/>
             </div>
           </a>
-          <div class="release-body">
-            <p class="release-artist">Inlet Knight</p>
-            <h3 class="release-title"><a href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener">Together</a></h3>
-            <p class="release-meta">Album — 4 tracks · New</p>
-          </div>
-        </article>
-
-        <article class="card release-card is-link rv" data-release="another-day">
-          <a href="inlet-knight.html" aria-label="Another Day — view release">
-            <div class="card-art">
-              <img src="inlet-knight-cover.jpg" alt="Another Day — artwork" loading="lazy" width="1400" height="1400"/>
-            </div>
-          </a>
-          <button type="button" class="release-play" data-play-release="another-day" data-play-stage aria-label="Play Another Day">
+          <button type="button" class="release-play" data-play-release="together" data-play-stage aria-label="Play Together">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           </button>
           <div class="release-body">
             <p class="release-artist">Inlet Knight</p>
-            <h3 class="release-title"><a href="inlet-knight.html">Another Day</a></h3>
-            <p class="release-meta">Single</p>
+            <h3 class="release-title"><a href="together.html">Together</a></h3>
+            <p class="release-meta">Album — 4 tracks · New</p>
+          </div>
+        </article>
+
+        <article class="card release-card is-link rv" data-release="inlet-knight">
+          <a href="inlet-knight.html" aria-label="Inlet Knight — view release">
+            <div class="card-art">
+              <img src="inlet-knight-cover.jpg" alt="Inlet Knight — artwork" loading="lazy" width="1400" height="1400"/>
+            </div>
+          </a>
+          <button type="button" class="release-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="release-body">
+            <p class="release-artist">Inlet Knight</p>
+            <h3 class="release-title"><a href="inlet-knight.html">Inlet Knight</a></h3>
+            <p class="release-meta">Album — 16 tracks</p>
           </div>
         </article>
 

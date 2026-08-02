@@ -1,24 +1,30 @@
 /* ==========================================================================
    Club Copy — shared design system
-   Warm, editorial, precise. One stylesheet for the site chrome and the
-   recurring components: nav, drawer, buttons, cards, section heads,
-   newsletter, footer.
+   Warm editorial ground + Y2K-modern glass: frosted panels, soft blur,
+   hairline edges, precise type.
    ========================================================================== */
 
 :root {
-  --bg: #FAF8F5;          /* warm off-white interface */
-  --card: #FFFFFF;        /* white cards */
-  --soft: #F2F0EC;        /* soft neutral backgrounds */
-  --line: #E5E3DF;        /* thin borders */
-  --ink: #111111;         /* black typography */
-  --muted: #6B6862;       /* secondary text */
-  --dim: #8F8B84;         /* tertiary text */
+  --bg: #FAF8F5;
+  --card: rgba(255,255,255,.72);
+  --card-solid: #FFFFFF;
+  --soft: #F2F0EC;
+  --line: rgba(229,227,223,.92);
+  --line-hi: rgba(255,255,255,.65);
+  --ink: #111111;
+  --muted: #6B6862;
+  --dim: #8F8B84;
   --fill: rgba(17,17,17,.04);
   --fill-hi: rgba(17,17,17,.07);
-  --shadow: 0 1px 2px rgba(17,17,17,.04), 0 8px 24px rgba(17,17,17,.05);
-  --shadow-lg: 0 2px 4px rgba(17,17,17,.05), 0 24px 56px rgba(17,17,17,.10);
-  --radius: 4px;
-  --radius-lg: 6px;
+  --glass: rgba(255,255,255,.55);
+  --glass-hi: rgba(255,255,255,.72);
+  --glass-dark: rgba(17,17,17,.72);
+  --blur: 22px;
+  --blur-lg: 36px;
+  --shadow: 0 1px 2px rgba(17,17,17,.04), 0 10px 28px rgba(17,17,17,.06);
+  --shadow-lg: 0 2px 6px rgba(17,17,17,.05), 0 28px 64px rgba(17,17,17,.12);
+  --radius: 10px;
+  --radius-lg: 18px;
   --pill: 980px;
   --ease: cubic-bezier(.22,1,.36,1);
   --dur: 280ms;
@@ -33,7 +39,11 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--sans);
-  background: var(--bg);
+  background:
+    radial-gradient(900px 520px at 88% -8%, rgba(255,255,255,.9), transparent 55%),
+    radial-gradient(720px 460px at 8% 12%, rgba(232,228,220,.75), transparent 50%),
+    linear-gradient(180deg, #F7F4EF 0%, var(--bg) 38%, #F3F0EA 100%);
+  background-attachment: fixed;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -59,6 +69,15 @@ button {
   font-size: 13px; border-radius: 0 0 var(--radius) 0;
 }
 .skip-link:focus { left: 0; }
+
+/* Glass utility ------------------------------------------------------------- */
+.glass {
+  background: var(--glass);
+  backdrop-filter: saturate(160%) blur(var(--blur));
+  -webkit-backdrop-filter: saturate(160%) blur(var(--blur));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow), inset 0 1px 0 var(--line-hi);
+}
 
 /* Layout ------------------------------------------------------------------ */
 .band { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
@@ -88,18 +107,23 @@ button {
 }
 .section-head .head-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
-/* Nav ----------------------------------------------------------------------- */
+/* Nav — frosted glass ------------------------------------------------------- */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   height: calc(var(--nav-h) + var(--safe-t));
   padding-top: var(--safe-t);
-  background: rgba(250,248,245,.86);
-  backdrop-filter: saturate(160%) blur(16px);
-  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  background: rgba(250,248,245,.58);
+  backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
   border-bottom: 1px solid transparent;
-  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  box-shadow: inset 0 -1px 0 transparent;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
-.nav.scrolled { border-bottom-color: var(--line); background: rgba(250,248,245,.94); }
+.nav.scrolled {
+  background: rgba(250,248,245,.72);
+  border-bottom-color: var(--line);
+  box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
+}
 .nav-inner {
   max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
   padding: 0 24px;
@@ -148,8 +172,11 @@ button {
 .nav-drawer {
   display: none; position: fixed;
   top: calc(var(--nav-h) + var(--safe-t)); left: 0; right: 0; z-index: 290;
-  background: var(--bg);
+  background: rgba(250,248,245,.82);
+  backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
   border-bottom: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 var(--line-hi);
   padding: 8px 24px calc(20px + var(--safe-b));
 }
 .nav-drawer.on { display: block; }
@@ -166,28 +193,46 @@ button {
   font-size: 14px; font-weight: 500; letter-spacing: -.01em;
   transition: opacity var(--dur) var(--ease), transform 160ms var(--ease),
               background var(--dur) var(--ease), border-color var(--dur) var(--ease),
-              color var(--dur) var(--ease);
+              color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .btn:active { transform: scale(.98); }
-.btn-dark { background: var(--ink); color: #fff; }
-.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
-.btn-soft { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+.btn-dark { background: var(--ink); color: #fff; box-shadow: 0 8px 24px rgba(17,17,17,.18); }
+.btn-ghost {
+  background: rgba(255,255,255,.35);
+  color: var(--ink);
+  border: 1px solid rgba(17,17,17,.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.btn-soft {
+  background: rgba(255,255,255,.45);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 @media (hover:hover) {
-  .btn-dark:hover { opacity: .84; }
-  .btn-ghost:hover { background: var(--ink); color: #fff; }
-  .btn-soft:hover { border-color: var(--ink); }
+  .btn-dark:hover { opacity: .88; }
+  .btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .btn-soft:hover { border-color: var(--ink); background: rgba(255,255,255,.7); }
 }
 
-/* Cards ------------------------------------------------------------------- */
+/* Cards — frosted panels ---------------------------------------------------- */
 .card {
-  background: var(--card);
+  background: var(--glass-hi);
+  backdrop-filter: saturate(160%) blur(var(--blur));
+  -webkit-backdrop-filter: saturate(160%) blur(var(--blur));
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow), inset 0 1px 0 var(--line-hi);
   transition: box-shadow .4s var(--ease), transform .4s var(--ease), border-color .4s var(--ease);
 }
 @media (hover:hover) {
-  a.card:hover, .card.is-link:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  a.card:hover, .card.is-link:hover {
+    box-shadow: var(--shadow-lg), inset 0 1px 0 var(--line-hi);
+    transform: translateY(-3px);
+  }
 }
 .card-art {
   background: var(--soft);
@@ -207,13 +252,16 @@ button {
 .rv { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .rv.in { opacity: 1; transform: none; }
 
-/* Newsletter ----------------------------------------------------------------- */
+/* Newsletter — soft glass band ---------------------------------------------- */
 .newsletter {
-  background: var(--soft);
+  position: relative;
+  margin-top: 96px;
+  padding: 88px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  padding: 88px 0;
-  margin-top: 96px;
+  background: rgba(242,240,236,.55);
+  backdrop-filter: saturate(140%) blur(18px);
+  -webkit-backdrop-filter: saturate(140%) blur(18px);
 }
 .newsletter-inner { max-width: 560px; }
 .newsletter h2 {
@@ -226,23 +274,28 @@ button {
 .newsletter-form input[type="email"] {
   flex: 1; min-width: 220px; height: 48px;
   border-radius: var(--pill); border: 1px solid var(--line);
-  padding: 0 18px; background: var(--card); color: var(--ink); font: inherit;
-  font-size: 15px;
-  transition: border-color var(--dur) var(--ease);
+  padding: 0 18px;
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--ink); font: inherit; font-size: 15px;
+  box-shadow: inset 0 1px 0 var(--line-hi);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
 }
-.newsletter-form input[type="email"]:focus { outline: none; border-color: var(--ink); }
+.newsletter-form input[type="email"]:focus { outline: none; border-color: var(--ink); background: #fff; }
 .newsletter-form input[type="email"]::placeholder { color: var(--dim); }
 .newsletter-form button {
   height: 48px; padding: 0 26px; border-radius: var(--pill);
   background: var(--ink); color: #fff; font-size: 14px; font-weight: 500;
   letter-spacing: -.01em;
+  box-shadow: 0 8px 24px rgba(17,17,17,.16);
   transition: opacity var(--dur) var(--ease);
 }
 @media (hover:hover) { .newsletter-form button:hover { opacity: .84; } }
 
 /* Footer -------------------------------------------------------------------- */
 .footer {
-  background: var(--bg);
+  background: transparent;
   padding: 72px 0 calc(32px + var(--safe-b));
 }
 .footer-top {
@@ -267,10 +320,15 @@ button {
 .footer-form { display: flex; gap: 8px; }
 .footer-form input[type="email"] {
   flex: 1; height: 46px; border-radius: var(--pill); border: 1px solid var(--line);
-  padding: 0 16px; background: var(--card); color: var(--ink); font: inherit;
+  padding: 0 16px;
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--ink); font: inherit;
+  box-shadow: inset 0 1px 0 var(--line-hi);
   transition: border-color var(--dur) var(--ease);
 }
-.footer-form input[type="email"]:focus { outline: none; border-color: var(--ink); }
+.footer-form input[type="email"]:focus { outline: none; border-color: var(--ink); background: #fff; }
 .footer-form input[type="email"]::placeholder { color: var(--dim); }
 .footer-form button {
   height: 46px; padding: 0 20px; border-radius: var(--pill);
@@ -298,4 +356,12 @@ button {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rv { opacity: 1; transform: none; }
+}
+
+/* Soften blur on low-power / no-backdrop environments ---------------------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav, .nav-drawer, .card, .newsletter, .btn-ghost, .btn-soft,
+  .newsletter-form input[type="email"], .footer-form input[type="email"] {
+    background: rgba(255,255,255,.92);
+  }
 }
