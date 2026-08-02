@@ -119,17 +119,6 @@
     }
     @media (hover:none) { .release-play { opacity: 1; transform: none; } }
 
-    /* Artists strip ----------------------------------------------------------- */
-    .artist-grid {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;
-    }
-    @media (max-width: 720px) { .artist-grid { grid-template-columns: 1fr; } }
-    .artist-card .card-art { aspect-ratio: 4 / 5; }
-    .artist-card .card-art img { filter: saturate(.92); }
-    .artist-body { padding: 16px 20px 18px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-    .artist-name { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
-    .artist-note { font-size: 12px; color: var(--dim); white-space: nowrap; }
-
     /* About -------------------------------------------------------------------- */
     .about { padding: 104px 0; }
     .about-inner { max-width: 780px; }
@@ -139,15 +128,28 @@
     }
     .about-sub { margin-top: 24px; font-size: 16px; color: var(--muted); max-width: 36em; }
 
-    /* Shop teaser ------------------------------------------------------------- */
-    .shop-grid {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;
+    /* Index rows -------------------------------------------------------------- */
+    .index-rows { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+    .index-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      padding: 36px 4px;
+      border-bottom: 1px solid var(--line);
+      transition: padding var(--dur) var(--ease);
     }
-    @media (max-width: 720px) { .shop-grid { grid-template-columns: 1fr; } }
-    .shop-body { padding: 16px 20px 18px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-    .shop-name { font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
-    .shop-price { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .shop-cta { margin-top: 40px; }
+    @media (min-width: 800px) { .index-row { padding: 48px 8px; } }
+    .index-title {
+      display: block;
+      font-size: clamp(28px, 4.4vw, 48px);
+      font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
+    }
+    .index-note { display: block; margin-top: 8px; font-size: 15px; color: var(--muted); }
+    .index-row svg {
+      width: 32px; height: 32px; flex-shrink: 0; color: var(--dim);
+      transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+    @media (hover:hover) {
+      .index-row:hover svg { transform: translateX(6px); color: var(--ink); }
+    }
   </style>
 </head>
 <body id="top">
@@ -155,7 +157,7 @@
 
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Club Copy home">Club&nbsp;Copy</a>
+    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Listen</a>
       <a href="artists.html">Artists</a>
@@ -286,48 +288,6 @@
     </div>
   </section>
 
-  <!-- Artists -->
-  <section aria-labelledby="artists-title">
-    <div class="band">
-      <header class="section-head">
-        <div>
-          <p class="eyebrow">Roster</p>
-          <h2 id="artists-title">Artists</h2>
-        </div>
-        <a class="head-link" href="artists.html">All artists</a>
-      </header>
-      <div class="artist-grid">
-        <a class="card artist-card rv" href="artists.html#inlet-knight">
-          <div class="card-art">
-            <img src="artists/inlet-knight.webp" alt="Inlet Knight" loading="lazy"/>
-          </div>
-          <div class="artist-body">
-            <span class="artist-name">Inlet Knight</span>
-            <span class="artist-note">Two releases</span>
-          </div>
-        </a>
-        <a class="card artist-card rv" href="artists.html#charlie-archer">
-          <div class="card-art">
-            <img src="artists/charlie-archer.webp" alt="Charlie Archer" loading="lazy"/>
-          </div>
-          <div class="artist-body">
-            <span class="artist-name">Charlie Archer</span>
-            <span class="artist-note">One release</span>
-          </div>
-        </a>
-        <a class="card artist-card rv" href="artists.html#lt-drifta">
-          <div class="card-art">
-            <img src="artists/lt-drifta.webp" alt="LT Drifta" loading="lazy"/>
-          </div>
-          <div class="artist-body">
-            <span class="artist-name">LT Drifta</span>
-            <span class="artist-note">Archive</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- About -->
   <section class="about" aria-labelledby="about-title">
     <div class="band">
@@ -339,48 +299,25 @@
     </div>
   </section>
 
-  <!-- Shop -->
-  <section aria-labelledby="shop-title">
+  <!-- Index -->
+  <section aria-label="Explore">
     <div class="band">
-      <header class="section-head">
-        <div>
-          <p class="eyebrow">Objects</p>
-          <h2 id="shop-title">Shop</h2>
-        </div>
-        <a class="head-link" href="merch.html">Everything</a>
-      </header>
-      <div class="shop-grid">
-        <a class="card rv" href="merch.html">
-          <div class="card-art">
-            <img src="merch/club-copy/prod-globe-tee.webp" alt="Club Copy logo tee" loading="lazy"/>
-          </div>
-          <div class="shop-body">
-            <span class="shop-name">Logo Tee</span>
-            <span class="shop-price">$34</span>
-          </div>
+      <nav class="index-rows rv" aria-label="Explore Club Copy">
+        <a class="index-row" href="artists.html">
+          <span>
+            <span class="index-title">Artists</span>
+            <span class="index-note">The roster, in full.</span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="card rv" href="merch.html">
-          <div class="card-art">
-            <img src="merch/club-copy/prod-crewneck.webp" alt="Club Copy crewneck" loading="lazy"/>
-          </div>
-          <div class="shop-body">
-            <span class="shop-name">Logo Crewneck</span>
-            <span class="shop-price">$58</span>
-          </div>
+        <a class="index-row" href="merch.html">
+          <span>
+            <span class="index-title">Shop</span>
+            <span class="index-note">Objects made in limited batches.</span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="card rv" href="merch.html">
-          <div class="card-art">
-            <img src="merch/club-copy/prod-tote.webp" alt="Club Copy canvas tote" loading="lazy"/>
-          </div>
-          <div class="shop-body">
-            <span class="shop-name">Canvas Tote</span>
-            <span class="shop-price">$24</span>
-          </div>
-        </a>
-      </div>
-      <div class="shop-cta rv">
-        <a class="btn btn-ghost" href="merch.html">Shop all</a>
-      </div>
+      </nav>
     </div>
   </section>
 
@@ -406,7 +343,7 @@
   <div class="band">
     <div class="footer-top">
       <div>
-        <p class="footer-wordmark">Club&nbsp;Copy</p>
+        <img class="footer-logo" src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
         <p class="footer-manifesto">An independent record label from the Pacific Northwest. © Copy House Publishing.</p>
       </div>
       <div>
