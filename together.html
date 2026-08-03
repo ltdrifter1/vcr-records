@@ -471,7 +471,7 @@ loadTrack(0, false);
 
   buyBtn.addEventListener('click', () => {
     if (currentFmt === 'vinyl') {
-      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-together', name: 'Together \u2014 Vinyl', price: 32, image: 'merch/club-copy/prod-vinyl-default.webp', qty: 1, id: 'sm-vinyl-together' });
+      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-together', name: 'Together \u2014 Vinyl', price: 32, image: 'together-cover.webp', qty: 1, id: 'sm-vinyl-together' });
       const orig = buyBtn.textContent;
       buyBtn.textContent = 'Added \u2713';
       setTimeout(() => { buyBtn.textContent = orig; }, 2000);
