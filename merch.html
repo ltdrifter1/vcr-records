@@ -59,24 +59,22 @@
       .shop-hero-logo { width: min(440px, 42vw); }
       .shop-hero-inner { gap: 22px; padding: 40px 0 16px; }
     }
-    /* Music stock vinyl — full-bleed black sleeve photo */
-    #music .product-visual.is-stock {
-      background: #050505;
+    /* Music release covers — full-bleed sleeve art */
+    #music .product-visual.is-cover {
+      background: #0a0a0a;
       border-color: rgba(17,17,17,.14);
       box-shadow: 0 14px 36px rgba(17,17,17,.08);
     }
-    #music .product-visual.is-stock img {
+    #music .product-visual.is-cover img {
       object-fit: cover;
       object-position: center;
       padding: 0;
     }
-    #music .product-visual.is-stock::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+    #goods .shop {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+    @media (max-width: 980px) { #goods .shop { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { #goods .shop { grid-template-columns: 1fr; } }
 
     /* Section anchors (clear sticky jump) -------------------------------------- */
     .shop-block { scroll-margin-top: calc(var(--nav-h) + var(--safe-t) + 58px); }
@@ -152,7 +150,7 @@
       mix-blend-mode: normal;
       transition: transform .8s var(--ease);
     }
-    #music .product-visual:not(.is-stock) img {
+    #music .product-visual:not(.is-cover) img {
       padding: 4%;
       mix-blend-mode: normal;
     }
@@ -403,6 +401,7 @@
   <nav class="shop-jump" aria-label="Shop sections">
     <div class="shop-jump-inner">
       <a href="#music">Music</a>
+      <a href="#goods">Goods</a>
       <a href="#clothing">Clothing</a>
     </div>
   </nav>
@@ -414,12 +413,12 @@
           <p class="eyebrow">01</p>
           <h2>Music</h2>
         </div>
-        <p class="section-note">12″ black vinyl and the essentials around it.</p>
+        <p class="section-note">12″ black vinyl from the library.</p>
       </header>
       <section class="shop" aria-label="Music">
         <article class="product merch-card" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
-          <div class="product-visual is-stock">
-            <img src="merch/club-copy/prod-vinyl-default.webp" alt="What If — Club Copy vinyl" width="1024" height="1024"/>
+          <div class="product-visual is-cover">
+            <img src="what-if-cover.webp" alt="What If — Club Copy vinyl" width="1200" height="1200"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -435,8 +434,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-together" data-name="Together — Vinyl" data-price="32">
-          <div class="product-visual is-stock">
-            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Together — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual is-cover">
+            <img src="together-cover.webp" alt="Together — Club Copy vinyl" loading="lazy" width="1200" height="1200"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -452,8 +451,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
-          <div class="product-visual is-stock">
-            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual is-cover">
+            <img src="inlet-knight-cover.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1400" height="1400"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -469,8 +468,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
-          <div class="product-visual is-stock">
-            <img src="merch/club-copy/prod-vinyl-default.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual is-cover">
+            <img src="at_home.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -484,10 +483,21 @@
             </div>
           </div>
         </article>
+      </section>
+    </div>
 
+    <div class="shop-block" id="goods">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow">02</p>
+          <h2>Goods</h2>
+        </div>
+        <p class="section-note">Bundles and listening essentials.</p>
+      </header>
+      <section class="shop" aria-label="Goods">
         <article class="product merch-card" data-sku="sm-bundle-what-if-tee" data-name="What If Bundle — Vinyl + Tee" data-price="54">
-          <div class="product-visual is-stock">
-            <img src="merch/club-copy/prod-vinyl-default.webp" alt="What If Bundle — vinyl and tee" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual">
+            <img src="merch/club-copy/prod-bundle-vinyl-tee.webp" alt="What If vinyl and Micro Tee bundle" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -541,7 +551,7 @@
     <div class="shop-block" id="clothing">
       <header class="section-head">
         <div>
-          <p class="eyebrow">02</p>
+          <p class="eyebrow">03</p>
           <h2>Clothing</h2>
         </div>
         <p class="section-note">Apparel cut for everyday wear.</p>
@@ -607,13 +617,13 @@
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-sleeve-tee" data-name="Sleeve Long Sleeve" data-price="44">
+        <article class="product merch-card" data-sku="sm-sleeve-tee" data-name="Sleeve Tee" data-price="44">
           <div class="product-visual">
             <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Long sleeve with oval mark down one sleeve" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Sleeve Long Sleeve</h3>
+              <h3 class="product-name">Sleeve Tee</h3>
               <p class="product-price">$44</p>
             </div>
             <p class="product-note">The oval mark runs down one sleeve only. No chest print — a quieter silhouette that still reads as Club Copy.</p>
@@ -653,29 +663,6 @@
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-womens-top" data-name="Baby Tee" data-price="34">
-          <div class="product-visual">
-            <img src="merch/club-copy/prod-womens-top.jpg" alt="Baby Tee" loading="lazy"/>
-          </div>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name">Baby Tee</h3>
-              <p class="product-price">$34</p>
-            </div>
-            <p class="product-note">Cropped black tee. Small white oval. Soft cotton, close cut.</p>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="womens-top-size">XS</button>
-                <button class="merch-opt" data-group="womens-top-size">S</button>
-                <button class="merch-opt" data-group="womens-top-size">M</button>
-                <button class="merch-opt" data-group="womens-top-size">L</button>
-              </div>
-            </div>
-            <button class="merch-add" type="button">Add to bag</button>
-          </div>
-        </article>
-
         <article class="product merch-card" data-sku="sm-crewneck" data-name="Crewneck" data-price="58">
           <div class="product-visual">
             <img src="merch/club-copy/prod-crewneck.jpg" alt="Grey Crewneck" loading="lazy"/>
@@ -709,20 +696,6 @@
               <p class="product-price">$36</p>
             </div>
             <p class="product-note">An unstructured washed six-panel with a small front stitch. Soft peak, one size — easy and understated.</p>
-            <button class="merch-add" type="button">Add to bag</button>
-          </div>
-        </article>
-
-        <article class="product merch-card" data-sku="sm-beanie" data-name="Beanie" data-price="30">
-          <div class="product-visual">
-            <img src="merch/club-copy/prod-beanie.webp" alt="Fisherman beanie with Club Copy logo" loading="lazy"/>
-          </div>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name">Beanie</h3>
-              <p class="product-price">$30</p>
-            </div>
-            <p class="product-note">Short fisherman knit. White oval logo on the cuff.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
