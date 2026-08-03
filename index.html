@@ -28,9 +28,16 @@
       display: grid;
       place-items: center;
       overflow: hidden;
-      background: #050505;
+      background:
+        radial-gradient(ellipse 70% 80% at 50% 40%, #1a1a1a 0%, #0a0a0a 55%, #050505 100%);
       color: #fff;
       isolation: isolate;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 50% 40% at 50% 38%, rgba(255,255,255,.04), transparent 70%);
     }
     .hero-ambient {
       position: absolute;
@@ -101,10 +108,48 @@
     .hero-stage {
       position: relative; z-index: 1;
       width: min(720px, calc(100% - 40px));
-      padding: calc(var(--nav-h) + var(--safe-t) + 36px) 0 72px;
+      padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 72px;
       display: flex; flex-direction: column; align-items: center;
       text-align: center; gap: 16px;
     }
+    /* Shop-matched chrome banner inside listen hero -------------------------- */
+    .hero-banner {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 14px;
+      margin-bottom: 8px;
+      animation: heroIn .85s var(--ease) both;
+      transition: opacity .45s var(--ease), transform .45s var(--ease);
+    }
+    .hero.is-live .hero-banner {
+      opacity: .35;
+      transform: scale(.92);
+    }
+    @media (max-width: 700px) {
+      .hero.is-live .hero-banner { display: none; }
+    }
+    .hero-banner-logo {
+      width: min(320px, 62vw);
+      height: auto;
+      opacity: .42;
+      mix-blend-mode: screen;
+      filter: none;
+      transition: opacity .6s var(--ease);
+    }
+    @media (hover:hover) {
+      .hero-banner-logo:hover { opacity: .58; }
+    }
+    .hero-banner-sub {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.38);
+      margin: 0;
+    }
+    @media (min-width: 900px) {
+      .hero-banner { gap: 18px; margin-bottom: 12px; }
+      .hero-banner-logo { width: min(380px, 36vw); }
+    }
+
+
     /* Platter / spinning disc ---------------------------------------------- */
     .hero-platter {
       position: relative;
@@ -403,26 +448,9 @@
       border-bottom-color: var(--line);
       box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
     }
-    /* Chrome logo in header — shop-hero glow, top left over the banner */
-    body.hero-top .nav-logo img {
-      height: 28px;
-      width: auto;
-      opacity: .42;
-      mix-blend-mode: screen;
-      filter: none;
-      transition: opacity .6s var(--ease), mix-blend-mode .3s var(--ease);
-    }
-    @media (hover:hover) {
-      body.hero-top .nav-logo:hover img { opacity: .58; }
-    }
-    @media (min-width: 800px) {
-      body.hero-top .nav-logo img { height: 32px; }
-    }
-    body.hero-top.nav-light .nav-logo img {
-      opacity: .9;
-      mix-blend-mode: normal;
-      filter: invert(1) brightness(1.05);
-    }
+    /* Dark nav over listen hero — same treatment as shop ------------------- */
+    body.hero-top:not(.nav-light) .nav .nav-logo img { filter: invert(1); }
+    body.hero-top.nav-light .nav-logo img { filter: none; }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,.72); }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a:hover,
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.1); }
@@ -633,61 +661,6 @@
     @media (hover:hover) { .after-form button:hover { opacity: .86; } }
     .after-note { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 12px; }
 
-    /* Premium Planet MP3 strip — top of footer ---------------------------- */
-    .footer-planet {
-      display: flex; align-items: center; gap: 20px;
-      margin-bottom: 40px;
-      padding: 22px 24px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.1);
-      background:
-        radial-gradient(ellipse 80% 120% at 0% 50%, rgba(255,255,255,.08), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 40px rgba(0,0,0,.25);
-      text-decoration: none;
-      color: #fff;
-      transition: border-color .35s var(--ease), background .35s var(--ease), transform .35s var(--ease);
-    }
-    @media (hover:hover) {
-      .footer-planet:hover {
-        border-color: rgba(255,255,255,.22);
-        background:
-          radial-gradient(ellipse 80% 120% at 0% 50%, rgba(255,255,255,.12), transparent 55%),
-          linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
-        transform: translateY(-1px);
-      }
-    }
-    .footer-planet img {
-      width: 64px; height: 64px; border-radius: 16px;
-      flex-shrink: 0;
-      box-shadow: 0 8px 24px rgba(0,0,0,.35);
-    }
-    .footer-planet-kicker {
-      font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(255,255,255,.42); margin: 0 0 6px;
-    }
-    .footer-planet-cta {
-      font-size: 18px; font-weight: 600; letter-spacing: -.02em; margin: 0;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .footer-planet-cta span { opacity: .55; font-size: 15px; }
-    @media (min-width: 800px) {
-      .footer-planet { padding: 26px 28px; gap: 24px; margin-bottom: 48px; }
-      .footer-planet img { width: 76px; height: 76px; border-radius: 18px; }
-      .footer-planet-cta { font-size: 20px; }
-    }
-    body.hero-top .footer {
-      color: #fff;
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding-top: 56px;
-    }
-    body.hero-top .footer-manifesto { color: rgba(255,255,255,.55); }
-    body.hero-top .footer-top { border-bottom-color: rgba(255,255,255,.1); }
-    body.hero-top .footer-copy { color: rgba(255,255,255,.38); }
-    body.hero-top .footer-links a { color: rgba(255,255,255,.55); }
-    @media (hover:hover) {
-      body.hero-top .footer-links a:hover { background: rgba(255,255,255,.08); color: #fff; }
-    }
 
     /* Daylight — explore Artists / Shop ------------------------------------ */
     .daylight {
@@ -725,22 +698,9 @@
     }
 
     body.hero-top .footer {
-      background:
-        radial-gradient(900px 520px at 88% -8%, rgba(255,255,255,.5), transparent 55%),
-        #FAF8F5;
-    }
-    body.hero-top .footer-top {
-      grid-template-columns: 1fr auto;
-      align-items: end;
-    }
-    @media (max-width: 700px) {
-      body.hero-top .footer-top { grid-template-columns: 1fr; }
-      body.hero-top .footer-top .footer-links { justify-content: flex-start; }
-    }
-    body.hero-top .footer-top .footer-links {
-      display: flex; flex-wrap: wrap; gap: 4px;
-      justify-content: flex-end;
-      padding-bottom: 4px;
+      color: var(--ink);
+      background: #FAF8F5;
+      border-top: 1px solid var(--line);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -924,11 +884,12 @@
 
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
+    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-header-dark.webp" alt="Club Copy" width="900" height="417"/></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#listen">Releases</a>
+      <a href="#listen">Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
+      <a href="planet.html">Planet</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -948,9 +909,10 @@
 </header>
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="#listen">Releases</a>
+  <a href="#listen">Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
+  <a href="planet.html">Planet</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -962,6 +924,10 @@
     <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-stage">
+      <div class="hero-banner">
+        <img class="hero-banner-logo" src="merch/club-copy/logo-chrome-hero.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
+        <p class="hero-banner-sub">Listen</p>
+      </div>
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
         <div class="hero-disc" data-room-disc>
@@ -1113,6 +1079,12 @@
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
+        <a class="index-row" href="planet.html">
+          <span>
+            <span class="index-title">Planet</span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </nav>
     </div>
   </section>
@@ -1121,29 +1093,31 @@
 
 <footer class="footer">
   <div class="band">
-    <a class="footer-planet" href="https://planetmp3.net" target="_blank" rel="noopener" aria-label="Planet MP3">
-      <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
-      <div class="footer-planet-copy">
-        <p class="footer-planet-kicker">Streaming partner</p>
-        <p class="footer-planet-cta">Listen <span aria-hidden="true">↗</span></p>
-      </div>
-    </a>
     <div class="footer-top">
       <div>
-        <img class="footer-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503" loading="lazy"/>
+        <img class="footer-logo" src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
         <p class="footer-manifesto">Electronic music from the Pacific Northwest.</p>
       </div>
-      <div class="footer-links">
-        <a href="#listen">Releases</a>
-        <a href="catalogue.html">Music</a>
-        <a href="artists.html">Artists</a>
-        <a href="merch.html">Shop</a>
-        <a href="shipping.html">Shipping</a>
-        <a href="contact.html">Contact</a>
+      <div>
+        <label for="footerEmail">Email updates</label>
+        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit">Join</button>
+        </form>
+        <p class="footer-note">Subscribe for updates.</p>
       </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Club Copy</p>
+      <div class="footer-links">
+        <a href="#listen">Listen</a>
+        <a href="artists.html">Artists</a>
+        <a href="merch.html">Shop</a>
+        <a href="planet.html">Planet</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="contact.html">Contact</a>
+      </div>
     </div>
   </div>
 </footer>
