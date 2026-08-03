@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
     /* Listening room hero --------------------------------------------------- */
@@ -484,11 +485,11 @@
     }
     .wall-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 36px 22px;
     }
     @media (max-width: 980px) { .wall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 18px; } }
-    @media (max-width: 520px) { .wall-grid { grid-template-columns: 1fr; max-width: 420px; } }
+    @media (max-width: 560px) { .wall-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
 
     .wall-item {
       display: flex;
@@ -524,6 +525,9 @@
       transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease);
     }
     .wall-play svg { width: 15px; height: 15px; fill: currentColor; margin-left: 2px; }
+    .wall-play .wp-pause { display: none; margin-left: 0; }
+    .wall-item.is-now-playing.is-audible .wall-play .wp-play { display: none; }
+    .wall-item.is-now-playing.is-audible .wall-play .wp-pause { display: block; }
     @media (hover:hover) {
       .wall-item:hover .wall-play { opacity: 1; transform: none; }
       .wall-play:hover { background: #fff; }
@@ -827,9 +831,10 @@
       .wall-bridge { height: 32px; }
       .wall .section-head { padding-top: 12px; margin-bottom: 28px; }
       .wall-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 22px 12px;
-        max-width: none;
+        grid-template-columns: 1fr;
+        gap: 28px;
+        max-width: 420px;
+        margin: 0 auto;
       }
       .wall-play {
         width: 44px; height: 44px;
@@ -981,9 +986,10 @@
 <main id="main">
 
   <!-- Featured release -->
-  <section class="hero" id="room" data-listening-room aria-label="Featured release">
+  <section class="hero fx-phosphor" id="room" data-listening-room aria-label="Featured release">
     <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
+    <div class="fx-grid-horizon" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
@@ -1046,9 +1052,11 @@
             <a href="together.html" aria-label="Together — view release">
               <img src="together-cover-480.webp" srcset="together-cover-480.webp 480w, together-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Together — artwork" loading="lazy" width="1200" height="1200"/>
             </a>
-            <button type="button" class="wall-play" data-play-release="together" data-play-stage aria-label="Play Together">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        <button type="button" class="wall-play" data-play-release="together" data-play-stage aria-label="Play Together">
+              <svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
             </button>
+            <div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>
           </div>
           <div class="wall-meta">
             <p class="wall-artist">Inlet Knight · CC008</p>
@@ -1062,9 +1070,11 @@
             <a href="inlet-knight.html" aria-label="Inlet Knight — view release">
               <img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Inlet Knight — artwork" loading="lazy" width="1400" height="1400"/>
             </a>
-            <button type="button" class="wall-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        <button type="button" class="wall-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight">
+              <svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
             </button>
+            <div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>
           </div>
           <div class="wall-meta">
             <p class="wall-artist">Inlet Knight · CC005</p>
@@ -1078,9 +1088,11 @@
             <a href="home.html" aria-label="At Home — view release">
               <img src="at_home-480.webp" srcset="at_home-480.webp 480w, at_home.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="At Home — artwork" loading="lazy" width="1024" height="1024"/>
             </a>
-            <button type="button" class="wall-play" data-play-release="at-home" data-play-stage aria-label="Play At Home">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        <button type="button" class="wall-play" data-play-release="at-home" data-play-stage aria-label="Play At Home">
+              <svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
             </button>
+            <div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>
           </div>
           <div class="wall-meta">
             <p class="wall-artist">Inlet Knight · CC006</p>
@@ -1093,12 +1105,12 @@
   </section>
 
   <!-- Newsletter -->
-  <section class="after-dark" aria-label="Updates">
+  <section class="after-dark fx-phosphor" aria-label="Updates">
     <div class="band">
       <div class="after-dark-inner rv">
         <div class="after-stream">
           <p class="after-stream-kicker">Planet MP3</p>
-          <a class="after-stream-btn" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <a class="after-stream-btn fx-chromatic" href="https://planetmp3.net" target="_blank" rel="noopener">
             <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
             Streaming
             <span class="after-stream-arrow" aria-hidden="true">↗</span>
@@ -1241,21 +1253,7 @@
     });
   }
 
-  // Wall items that match the current release toggle pause instead of restarting.
-  // These listeners register before the player's own bindings, so
-  // stopImmediatePropagation() wins when we handle the tap ourselves.
-  document.querySelectorAll('.wall-play').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      var rel = btn.getAttribute('data-play-release');
-      var cur = window.VCRPlayer && VCRPlayer.current();
-      if (cur && cur.releaseId === rel) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        VCRPlayer.toggle();
-      }
-    });
-  });
-
+  // Same-release play/toggle + room reopen is handled by VCRPlayer.bindListenUI.
   // Keep the wall and disc glyphs in sync with what's actually playing.
   window.addEventListener('vcr:player', function (e) {
     var d = e.detail || {};
@@ -1266,16 +1264,11 @@
       var mine = rel && item.getAttribute('data-release') === rel;
       item.classList.toggle('is-now-playing', !!mine);
       item.classList.toggle('is-audible', !!(mine && playing));
-      var play = item.querySelector('.wp-play');
-      var pause = item.querySelector('.wp-pause');
       var btn = item.querySelector('.wall-play');
-      if (play && pause && btn) {
-        var showPause = mine && playing;
-        play.style.display = showPause ? 'none' : '';
-        pause.style.display = showPause ? 'block' : 'none';
+      if (btn) {
         var name = item.querySelector('.wall-title');
         var releaseName = name ? name.textContent.trim() : 'release';
-        btn.setAttribute('aria-label', (showPause ? 'Pause ' : 'Play ') + releaseName);
+        btn.setAttribute('aria-label', (mine && playing ? 'Pause ' : 'Play ') + releaseName);
       }
     });
 
@@ -1284,22 +1277,6 @@
       discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
     }
   });
-
-  // Minimize the room when the catalogue wall is intentionally in view —
-  // not when a tall live hero is merely scrolled a few pixels on mobile.
-  var wall = document.querySelector('.wall');
-  if (wall && 'IntersectionObserver' in window) {
-    var wallVis = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        if (e.intersectionRatio < 0.2) return;
-        if (window.VCRPlayer && typeof VCRPlayer.closeRoom === 'function') {
-          VCRPlayer.closeRoom();
-        }
-      });
-    }, { threshold: [0.2, 0.35] });
-    wallVis.observe(wall);
-  }
 })();
 </script>
 </body>

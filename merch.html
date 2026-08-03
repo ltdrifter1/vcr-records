@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
     /* Shop hero — chrome logo led ---------------------------------------------- */
@@ -309,9 +310,39 @@
       transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
     }
     @media (hover:hover) { .merch-opt:hover { color: var(--ink); border-color: var(--ink); } }
-    .merch-opt.selected {
+    .merch-opt.selected,
+    .merch-opt[aria-pressed="true"] {
       background: var(--ink); color: #fff; border-color: var(--ink);
     }
+    .opt-error { font-size: 12px; color: #b42318; margin-top: 8px; }
+    .merch-options[aria-invalid="true"] { outline: 1px solid rgba(180,35,24,.45); outline-offset: 4px; border-radius: 10px; }
+    .product-name a, .product-name button {
+      color: inherit; font: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
+    }
+    @media (hover:hover) { .product-name a:hover, .product-name button:hover { opacity: .7; } }
+    .product-details-hit { display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left; color: inherit; }
+    a.product-details-hit { text-decoration: none; }
+    .product-drawer {
+      border: 0; padding: 0; width: min(420px, 100%); max-width: 100%; height: 100%; max-height: 100dvh;
+      margin: 0 0 0 auto; background: var(--card); color: var(--ink);
+      box-shadow: 0 24px 64px rgba(17,17,17,.22);
+    }
+    .product-drawer::backdrop { background: rgba(17,17,17,.42); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .product-drawer[open] { display: flex; flex-direction: column; animation: drawerIn .35s var(--ease); }
+    @keyframes drawerIn { from { transform: translateX(12px); opacity: .6; } to { transform: none; opacity: 1; } }
+    .product-drawer__inner { padding: 28px 24px 40px; overflow: auto; position: relative; }
+    .product-drawer__close {
+      position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--soft); font-size: 22px; line-height: 1; cursor: pointer;
+    }
+    .product-drawer img { width: 100%; aspect-ratio: 1; object-fit: contain; background: var(--soft); border-radius: var(--radius-lg); margin-bottom: 20px; }
+    .product-drawer h2 { font-size: 28px; letter-spacing: -.03em; margin: 0 0 6px; }
+    .product-drawer .drawer-price { font-size: 18px; font-weight: 600; margin-bottom: 14px; }
+    .product-drawer .drawer-note { color: var(--muted); font-size: 15px; line-height: 1.5; margin-bottom: 22px; }
+    .product-drawer dl { display: grid; gap: 14px; margin: 0; }
+    .product-drawer dt { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 4px; }
+    .product-drawer dd { margin: 0; font-size: 15px; }
+
 
     /* Add to bag ----------------------------------------------------------------------- */
     .merch-add {
@@ -334,7 +365,7 @@
     .toast {
       position: fixed; left: 50%; bottom: calc(24px + var(--safe-b));
       transform: translateX(-50%) translateY(20px);
-      z-index: 400; opacity: 0; pointer-events: none;
+      z-index: 550; opacity: 0; pointer-events: none;
       display: flex; align-items: center; gap: 14px;
       background: var(--card); color: var(--ink);
       border: 1px solid var(--line);
@@ -400,7 +431,7 @@
 </div>
 
 <main id="main">
-  <section class="shop-hero" aria-label="Club Copy shop">
+  <section class="shop-hero fx-phosphor" aria-label="Club Copy shop">
     <div class="band">
       <div class="shop-hero-inner">
         <img class="shop-hero-logo" src="merch/club-copy/logo-chrome-hero.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
@@ -428,12 +459,13 @@
       </header>
       <section class="shop" aria-label="Music">
         <article class="product merch-card" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
-          <div class="product-visual is-vinyl">
+          <a class="product-visual is-vinyl product-details-hit" href="what-if.html" aria-label="View details">
             <img src="merch/club-copy/prod-vinyl-what-if.webp" alt="What If — Club Copy vinyl" width="1024" height="1024"/>
-          </div>
+          </a>
           <div class="product-body">
+
             <div class="product-top">
-              <h3 class="product-name">What If</h3>
+              <h3 class="product-name"><a href="what-if.html">What If</a></h3>
               <p class="product-price">$32</p>
             </div>
             <p class="product-note">Inlet Knight on 12&quot; black vinyl. Two tracks — quiet, considered, and built to last on the shelf.</p>
@@ -445,12 +477,13 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-together" data-name="Together — Vinyl" data-price="32">
-          <div class="product-visual is-vinyl">
+          <a class="product-visual is-vinyl product-details-hit" href="together.html" aria-label="View details">
             <img src="merch/club-copy/prod-vinyl-together.webp" alt="Together — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
-          </div>
+          </a>
           <div class="product-body">
+
             <div class="product-top">
-              <h3 class="product-name">Together</h3>
+              <h3 class="product-name"><a href="together.html">Together</a></h3>
               <p class="product-price">$32</p>
             </div>
             <p class="product-note">Four tracks from Inlet Knight. A clean 12&quot; press with the kind of detail that rewards a proper listen.</p>
@@ -462,12 +495,13 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
-          <div class="product-visual is-vinyl">
+          <a class="product-visual is-vinyl product-details-hit" href="inlet-knight.html" aria-label="View details">
             <img src="merch/club-copy/prod-vinyl-inlet-knight.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
-          </div>
+          </a>
           <div class="product-body">
+
             <div class="product-top">
-              <h3 class="product-name">Inlet Knight</h3>
+              <h3 class="product-name"><a href="inlet-knight.html">Inlet Knight</a></h3>
               <p class="product-price">$36</p>
             </div>
             <p class="product-note">The self-titled LP. Sixteen tracks across a full-length press — the centrepiece of the library.</p>
@@ -479,12 +513,13 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
-          <div class="product-visual is-cover">
+          <a class="product-visual is-cover product-details-hit" href="home.html" aria-label="View details">
             <img src="merch/club-copy/prod-at-home-cover.webp" alt="At Home — Club Copy" loading="lazy" width="1024" height="1024"/>
-          </div>
+          </a>
           <div class="product-body">
+
             <div class="product-top">
-              <h3 class="product-name">At Home</h3>
+              <h3 class="product-name"><a href="home.html">At Home</a></h3>
               <p class="product-price">$28</p>
             </div>
             <p class="product-note">One late-night house cut on 12&quot; black. Intimate, warm, and made for the small hours.</p>
@@ -506,36 +541,37 @@
         <p class="section-note">Bundles and listening essentials.</p>
       </header>
       <section class="shop" aria-label="Goods">
-        <article class="product merch-card" data-sku="sm-bundle-what-if-tee" data-name="What If Bundle — Vinyl + Tee" data-price="54">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="Regular fit tee · vinyl included" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-bundle-what-if-tee" data-name="What If Bundle — Vinyl + Tee" data-price="54">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-bundle-vinyl-tee.webp" alt="What If vinyl and Micro Tee bundle" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">What If Bundle</h3>
+              <h3 class="product-name"><button type="button" data-open-product>What If Bundle</button></h3>
               <p class="product-price">$54</p>
             </div>
             <p class="product-note">What If on vinyl with a Micro Tee. The record and the everyday shirt, together — a quiet saving built in.</p>
             <div class="opt-block">
               <span class="opt-label">Tee size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="bundle-tee-size">S</button>
-                <button class="merch-opt" data-group="bundle-tee-size">M</button>
-                <button class="merch-opt" data-group="bundle-tee-size">L</button>
-                <button class="merch-opt" data-group="bundle-tee-size">XL</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="bundle-tee-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="bundle-tee-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="bundle-tee-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="bundle-tee-size" aria-pressed="false">XL</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-slipmat" data-name="Slipmat Pair" data-price="22">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="One size" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-slipmat" data-name="Slipmat Pair" data-price="22">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-slipmat.webp" alt="Slipmat Pair" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Slipmat Pair</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Slipmat Pair</button></h3>
               <p class="product-price">$22</p>
             </div>
             <p class="product-note">A pair of slim dual-fabric slipmats in black and cream. Smooth under the needle, understated on the deck.</p>
@@ -543,13 +579,13 @@
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-poly-outer" data-name="Poly Outer" data-price="5">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="One size" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-poly-outer" data-name="Poly Outer" data-price="5">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-poly-outer.webp" alt="Poly outer sleeve" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Poly Outer</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Poly Outer</button></h3>
               <p class="product-price">$5</p>
             </div>
             <p class="product-note">A clear 12&quot; outer sleeve. Simple protection so the jacket stays as it arrived.</p>
@@ -568,135 +604,140 @@
         <p class="section-note">Apparel cut for everyday wear.</p>
       </header>
       <section class="shop" aria-label="Clothing">
-        <article class="product merch-card" data-sku="sm-simple-tee" data-name="Micro Tee" data-price="32">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="Regular fit" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-simple-tee" data-name="Micro Tee" data-price="32">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img id="img-simple-tee" src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Micro Tee</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Micro Tee</button></h3>
               <p class="product-price">$32</p>
             </div>
             <p class="product-note">Heavyweight cotton. Small chest logo. Black or white.</p>
             <div class="opt-block">
               <span class="opt-label">Colour</span>
               <div class="merch-options">
-                <button class="merch-opt selected" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg">Black</button>
-                <button class="merch-opt" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg">White</button>
+                <button type="button" class="merch-opt selected" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
+                <button type="button" class="merch-opt" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
               </div>
             </div>
             <div class="opt-block">
               <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="simple-tee-size">S</button>
-                <button class="merch-opt" data-group="simple-tee-size">M</button>
-                <button class="merch-opt" data-group="simple-tee-size">L</button>
-                <button class="merch-opt" data-group="simple-tee-size">XL</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">XL</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="42">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="Regular fit" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="42">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve — white"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Long Sleeve</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Long Sleeve</button></h3>
               <p class="product-price">$42</p>
             </div>
             <p class="product-note">Same micro chest logo, long sleeve cut. White only.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="ls-size">S</button>
-                <button class="merch-opt" data-group="ls-size">M</button>
-                <button class="merch-opt" data-group="ls-size">L</button>
-                <button class="merch-opt" data-group="ls-size">XL</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">XL</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-sleeve-tee" data-name="Sleeve Tee" data-price="44">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="Regular fit" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-sleeve-tee" data-name="Sleeve Tee" data-price="44">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Long sleeve with oval mark down one sleeve" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Sleeve Tee</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Sleeve Tee</button></h3>
               <p class="product-price">$44</p>
             </div>
             <p class="product-note">The oval mark runs down one sleeve only. No chest print — a quieter silhouette that still reads as Club Copy.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="sleeve-tee-size">S</button>
-                <button class="merch-opt" data-group="sleeve-tee-size">M</button>
-                <button class="merch-opt" data-group="sleeve-tee-size">L</button>
-                <button class="merch-opt" data-group="sleeve-tee-size">XL</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">XL</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-hoodie" data-name="Hoodie" data-price="68">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-hoodie" data-name="Hoodie" data-price="68">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie with small tonal chest logo" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Hoodie</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Hoodie</button></h3>
               <p class="product-price">$68</p>
             </div>
             <p class="product-note">Heavyweight fleece with a small tonal chest logo. Soft, substantial, and built for everyday wear.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="hoodie-size">S</button>
-                <button class="merch-opt" data-group="hoodie-size">M</button>
-                <button class="merch-opt" data-group="hoodie-size">L</button>
-                <button class="merch-opt" data-group="hoodie-size">XL</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">XL</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-crewneck" data-name="Crewneck" data-price="58">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-crewneck" data-name="Crewneck" data-price="58">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-crewneck.jpg" alt="Grey Crewneck" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Crewneck</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Crewneck</button></h3>
               <p class="product-price">$58</p>
             </div>
             <p class="product-note">Heather grey fleece. Centre logo. Soft, balanced, no fuss.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="crew-size">S</button>
-                <button class="merch-opt" data-group="crew-size">M</button>
-                <button class="merch-opt" data-group="crew-size">L</button>
-                <button class="merch-opt" data-group="crew-size">XL</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">XL</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-cap" data-name="Dad Cap" data-price="36">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="One size" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-cap" data-name="Dad Cap" data-price="36">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-cap.webp" alt="Dad Cap with small front logo" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Dad Cap</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Dad Cap</button></h3>
               <p class="product-price">$36</p>
             </div>
             <p class="product-note">An unstructured washed six-panel with a small front stitch. Soft peak, one size — easy and understated.</p>
@@ -704,24 +745,25 @@
           </div>
         </article>
 
-        <article class="product merch-card" data-sku="sm-bikini" data-name="Bikini" data-price="48">
-          <div class="product-visual">
+        <article class="product merch-card" data-fit="True to size · stretch jersey" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-bikini" data-name="Bikini" data-price="48">
+          <button type="button" class="product-visual product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini with stencil logo" loading="lazy"/>
-          </div>
+          </button>
           <div class="product-body">
             <div class="product-top">
-              <h3 class="product-name">Bikini</h3>
+              <h3 class="product-name"><button type="button" data-open-product>Bikini</button></h3>
               <p class="product-price">$48</p>
             </div>
             <p class="product-note">Matte black. Small oval mark. Warm weather kit.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="bikini-size">XS</button>
-                <button class="merch-opt" data-group="bikini-size">S</button>
-                <button class="merch-opt" data-group="bikini-size">M</button>
-                <button class="merch-opt" data-group="bikini-size">L</button>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">XS</button>
+                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">L</button>
               </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
@@ -730,6 +772,23 @@
     </div>
   </div>
 </main>
+
+
+<dialog class="product-drawer" id="productDrawer" aria-labelledby="drawerTitle">
+  <div class="product-drawer__inner">
+    <button class="product-drawer__close" type="button" aria-label="Close product details">&times;</button>
+    <img id="drawerImage" alt=""/>
+    <p class="eyebrow">Product details</p>
+    <h2 id="drawerTitle"></h2>
+    <p class="drawer-price" id="drawerPrice"></p>
+    <p class="drawer-note" id="drawerNote"></p>
+    <dl>
+      <div><dt>Fit</dt><dd id="drawerFit"></dd></div>
+      <div><dt>Ships</dt><dd id="drawerShips"></dd></div>
+      <div><dt>Stock</dt><dd id="drawerStock"></dd></div>
+    </dl>
+  </div>
+</dialog>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
   <span id="toastMsg">Added to bag</span>
@@ -792,12 +851,52 @@ var MERCH_IMG_MAP = {
 document.querySelectorAll('.merch-opt').forEach(function (btn) {
   btn.addEventListener('click', function () {
     var group = btn.dataset.group;
-    document.querySelectorAll('.merch-opt[data-group="' + group + '"]')
-      .forEach(function (b) { b.classList.remove('selected'); });
+    var card = btn.closest('.merch-card') || document;
+    card.querySelectorAll('.merch-opt[data-group="' + group + '"]').forEach(function (b) {
+      b.classList.remove('selected');
+      b.setAttribute('aria-pressed', 'false');
+    });
     btn.classList.add('selected');
+    btn.setAttribute('aria-pressed', 'true');
     if (btn.dataset.img && MERCH_IMG_MAP[group]) MERCH_IMG_MAP[group].src = btn.dataset.img;
+    var sizeGroup = btn.closest('.merch-options[data-required="size"]');
+    if (sizeGroup) {
+      sizeGroup.removeAttribute('aria-invalid');
+      var err = sizeGroup.parentElement && sizeGroup.parentElement.querySelector('.opt-error');
+      if (err) err.hidden = true;
+    }
   });
 });
+
+(function productDrawer() {
+  var drawer = document.getElementById('productDrawer');
+  if (!drawer) return;
+  var opener = null;
+  function openFrom(card, trigger) {
+    opener = trigger || null;
+    var img = card.querySelector('.product-visual img');
+    document.getElementById('drawerImage').src = img ? img.src : '';
+    document.getElementById('drawerImage').alt = card.dataset.name || '';
+    document.getElementById('drawerTitle').textContent = card.dataset.name || '';
+    document.getElementById('drawerPrice').textContent = card.dataset.price ? ('$' + card.dataset.price) : '';
+    var note = card.querySelector('.product-note');
+    document.getElementById('drawerNote').textContent = note ? note.textContent : '';
+    document.getElementById('drawerFit').textContent = card.dataset.fit || '—';
+    document.getElementById('drawerShips').textContent = card.dataset.ships || 'Leaves British Columbia in 2–4 business days';
+    document.getElementById('drawerStock').textContent = card.dataset.stock || 'In stock';
+    if (typeof drawer.showModal === 'function') drawer.showModal();
+  }
+  document.querySelectorAll('[data-open-product]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var card = el.closest('.merch-card');
+      if (card) openFrom(card, el);
+    });
+  });
+  var closeBtn = drawer.querySelector('.product-drawer__close');
+  if (closeBtn) closeBtn.addEventListener('click', function () { drawer.close(); });
+  drawer.addEventListener('click', function (e) { if (e.target === drawer) drawer.close(); });
+  drawer.addEventListener('close', function () { if (opener) try { opener.focus(); } catch (err) {} });
+})();
 var toast = document.getElementById('toast');
 var toastMsg = document.getElementById('toastMsg');
 var toastTimer;
@@ -810,8 +909,19 @@ function showToast(name) {
 document.querySelectorAll('.merch-add').forEach(function (btn) {
   btn.addEventListener('click', function () {
     var card = btn.closest('.merch-card');
-    var colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
-    var sizeBtn = card.querySelector('.merch-opt.selected[data-group$="-size"]');
+    var colourBtn = card.querySelector('.merch-opt[aria-pressed="true"][data-group$="-colour"]') ||
+      card.querySelector('.merch-opt.selected[data-group$="-colour"]');
+    var requiredSize = card.querySelector('.merch-options[data-required="size"]');
+    var sizeBtn = card.querySelector('.merch-opt[aria-pressed="true"][data-group$="-size"]') ||
+      card.querySelector('.merch-opt.selected[data-group$="-size"]');
+    if (requiredSize && !sizeBtn) {
+      requiredSize.setAttribute('aria-invalid', 'true');
+      var err = requiredSize.parentElement && requiredSize.parentElement.querySelector('.opt-error');
+      if (err) err.hidden = false;
+      var first = requiredSize.querySelector('.merch-opt');
+      if (first) first.focus();
+      return;
+    }
     var img = card.querySelector('.product-visual img');
     var item = {
       sku: card.dataset.sku,

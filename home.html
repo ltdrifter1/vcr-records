@@ -270,7 +270,9 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="js/player.js"></script>
+<script src="js/release-bind.js"></script>
 <script>
+const $ = id => document.getElementById(id);
 const CONFIG = {
   stripeDigital:  'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
   stripeCassette: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
@@ -278,142 +280,14 @@ const CONFIG = {
 };
 const RELEASE_ID = 'at-home';
 
-
-const TRACKS = [
+VCRReleaseBind({
+  releaseId: RELEASE_ID,
+  tracks: [
   { id: "ah-01",  title: "At Home", src: "at-home/03-at-home.mp3", locked: false }
-];
-
-const audio = new Audio();
-audio.preload = 'metadata';
-audio.volume  = 0.8;
-
-const fmt = s => { s = Math.max(0, Math.floor(isFinite(s) ? s : 0)); return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
-const $   = id => document.getElementById(id);
-
-let dragging  = false;
-let activeIdx = 0;
-
-const playBtn   = $('ipPlay');
-const seekEl    = $('ipSeek');
-const volEl     = $('ipVolume');
-const elapsedEl = $('ipElapsed');
-const remainEl  = $('ipRemaining');
-const trackName = $('ipTrackName');
-const pMsg      = $('pMsg');
-const trackRows = [...document.querySelectorAll('.track-row')];
-
-function setMsg(t, e) { pMsg.textContent = t||''; pMsg.className = 'p-msg'+(e?' err':''); }
-function getDur() { return isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0; }
-function setPlaying(on) {
-  playBtn.classList.toggle('on', on);
-  document.getElementById('ipPlayConsole')?.classList.toggle('on', on);
-  document.getElementById('releaseDisc')?.classList.toggle('is-spinning', on);
-  document.getElementById('artworkWrap')?.classList.toggle('is-playing', on);
-  trackRows.forEach(function (r, i) {
-    r.classList.toggle('is-playing', !!(on && i === activeIdx));
-  });
-  var kicker = document.getElementById('releaseKicker');
-  if (kicker) kicker.textContent = on ? 'Now playing' : 'Selected';
-}
-
-function setActive(idx) {
-  if (idx < 0 || idx >= TRACKS.length) return;
-  activeIdx = idx;
-  trackName.textContent = TRACKS[idx].title;
-  trackRows.forEach((r, i) => r.classList.toggle('is-active', i === idx));
-}
-
-function loadTrack(idx, autoplay) {
-  if (TRACKS[idx]?.locked) return;
-  setActive(idx);
-  audio.src = TRACKS[idx].src;
-  audio.load();
-  if (autoplay) safePlay();
-}
-
-function playTrack(idx) {
-  if (TRACKS[idx]?.locked) return;
-  setActive(idx);
-  if (window.VCRPlayer) {
-    try { audio.pause(); } catch (e) {}
-    VCRPlayer.playRelease(RELEASE_ID, TRACKS[idx].id, { autoplay: true });
-    return;
-  }
-  loadTrack(idx, true);
-}
-
-async function safePlay() {
-  if (!audio.src) loadTrack(activeIdx, false);
-  if (audio.error) {
-    const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found.'};
-    setMsg(m[audio.error.code]||'Load failed.', true); return;
-  }
-  try { setMsg('Loading…'); await audio.play(); setMsg(''); }
-  catch(e) {
-    if (e.name==='NotAllowedError') setMsg('Tap again to start.', true);
-    else setMsg('Could not play this track.', true);
-  }
-}
-
-audio.addEventListener('loadstart',      () => setMsg('Loading…'));
-audio.addEventListener('loadedmetadata', () => { seekEl.max = String(getDur() || 1); setMsg(''); });
-audio.addEventListener('canplay',        () => setMsg(''));
-audio.addEventListener('play',           () => { setPlaying(true); setMsg(''); });
-audio.addEventListener('pause',          () => setPlaying(false));
-audio.addEventListener('ended',          () => {
-  setPlaying(false);
-  if (activeIdx < TRACKS.length - 1) playTrack(activeIdx + 1);
-});
-audio.addEventListener('waiting',        () => setMsg('Buffering…'));
-audio.addEventListener('error', () => {
-  const m = {1:'Aborted.',2:'Network error.',3:'Decode error.',4:'File not found or unsupported.'};
-  setMsg(m[audio.error?.code]||'Load failed.', true);
+]
 });
 
-audio.addEventListener('timeupdate', () => {
-  const d = getDur();
-  if (!dragging) seekEl.value = String(audio.currentTime || 0);
-  elapsedEl.textContent = fmt(audio.currentTime);
-  remainEl.textContent  = '-' + fmt(d - audio.currentTime);
-});
 
-playBtn.addEventListener('click', () => {
-  if (window.VCRPlayer) {
-    const cur = VCRPlayer.current && VCRPlayer.current();
-    if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
-    else playTrack(activeIdx);
-    return;
-  }
-  if (!audio.src) { playTrack(activeIdx); return; }
-  audio.paused ? safePlay() : audio.pause();
-});
-seekEl.addEventListener('pointerdown', () => dragging = true);
-seekEl.addEventListener('pointerup',   () => { dragging = false; });
-seekEl.addEventListener('input',  () => { elapsedEl.textContent = fmt(+seekEl.value||0); });
-seekEl.addEventListener('change', () => { audio.currentTime = +seekEl.value || 0; });
-volEl.addEventListener('input', function () {
-  var v = +volEl.value || 0;
-  audio.volume = v;
-  if (window.VCRPlayer && typeof VCRPlayer.setVolume === 'function') VCRPlayer.setVolume(v);
-});
-
-trackRows.forEach((row, idx) => {
-  row.addEventListener('click', () => {
-    if (window.VCRPlayer) {
-      const cur = VCRPlayer.current && VCRPlayer.current();
-      if (idx === activeIdx && cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
-      else playTrack(idx);
-      return;
-    }
-    if (idx === activeIdx && audio.src) {
-      audio.paused ? safePlay() : audio.pause();
-    } else {
-      playTrack(idx);
-    }
-  });
-});
-
-loadTrack(0, false);
 
 
 (function() {
@@ -573,65 +447,6 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 <script>
 
 
-(function wireReleaseConsole(){
-  const prev = $('ipPrev'), next = $('ipNext'), consolePlay = $('ipPlayConsole');
-  if (prev) prev.addEventListener('click', function(){
-    if (activeIdx > 0) playTrack(activeIdx - 1);
-    else playTrack(0);
-  });
-  if (next) next.addEventListener('click', function(){
-    if (activeIdx < TRACKS.length - 1) playTrack(activeIdx + 1);
-  });
-  if (consolePlay) consolePlay.addEventListener('click', function(){
-    playBtn?.click();
-  });
-})();
-
-/* Bridge inline player UI to shared VCRPlayer */
-(function bridgeToSharedPlayer(){
-  if (!window.VCRPlayer || typeof RELEASE_ID === 'undefined') return;
-  const trackIdAt = (idx) => (TRACKS[idx] && (TRACKS[idx].id || null));
-  const originalPlayTrack = typeof playTrack === 'function' ? playTrack : null;
-  window.playTrack = function(idx){
-    setActive(idx);
-    VCRPlayer.playRelease(RELEASE_ID, trackIdAt(idx), { autoplay: true });
-  };
-  if (playBtn) {
-    playBtn.addEventListener('click', function(e){
-      e.stopImmediatePropagation();
-      const cur = VCRPlayer.current && VCRPlayer.current();
-      if (cur && cur.releaseId === RELEASE_ID) VCRPlayer.toggle();
-      else VCRPlayer.playRelease(RELEASE_ID, trackIdAt(activeIdx), { autoplay: true });
-    }, true);
-  }
-  if (seekEl) {
-    seekEl.addEventListener('change', function(e){
-      e.stopImmediatePropagation();
-      VCRPlayer.seek(+seekEl.value || 0);
-    }, true);
-  }
-  window.addEventListener('vcr:player', function(ev){
-    const d = ev.detail || {};
-    const t = d.track;
-    if (!t || t.releaseId !== RELEASE_ID) {
-      setPlaying(false);
-      return;
-    }
-    const idx = TRACKS.findIndex(function(tr){ return tr.id === t.id || tr.title === t.title; });
-    if (idx >= 0) setActive(idx);
-    setPlaying(!!d.playing);
-    if (volEl && window.VCRPlayer && typeof VCRPlayer.getVolume === 'function') {
-      try { volEl.value = String(VCRPlayer.getVolume()); } catch (e) {}
-    }
-    if (seekEl && d.duration) {
-      seekEl.max = String(d.duration);
-      if (!dragging) seekEl.value = String(d.currentTime || 0);
-    }
-    if (elapsedEl) elapsedEl.textContent = fmt(d.currentTime || 0);
-    if (remainEl) remainEl.textContent = '-' + fmt((d.duration || 0) - (d.currentTime || 0));
-    setMsg('');
-  });
-})();
 
 </script>
 </body>
