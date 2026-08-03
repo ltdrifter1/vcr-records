@@ -74,6 +74,7 @@
     if (audio) return audio;
     audio = new Audio();
     audio.preload = "metadata";
+    audio.volume = 0.8;
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnded);
     audio.addEventListener("play", onPlayState);
@@ -597,6 +598,13 @@
     prev: prev,
     seek: function (t) {
       if (audio) audio.currentTime = t;
+    },
+    setVolume: function (v) {
+      ensureAudio();
+      audio.volume = Math.max(0, Math.min(1, Number(v) || 0));
+    },
+    getVolume: function () {
+      return audio ? audio.volume : 0.8;
     },
     getAudio: function () {
       return audio;

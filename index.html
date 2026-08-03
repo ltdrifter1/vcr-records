@@ -253,7 +253,7 @@
 
     /* Idle copy ------------------------------------------------------------ */
     .hero-idle {
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
       width: 100%;
       transition: opacity .35s var(--ease), transform .35s var(--ease);
     }
@@ -264,6 +264,27 @@
       clip: rect(0,0,0,0);
       opacity: 0;
       pointer-events: none;
+    }
+    .hero-brand {
+      margin: 0;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+      animation: heroIn .8s var(--ease) .18s both;
+    }
+    .hero-idle-title {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 600; letter-spacing: -.035em; line-height: 1.02;
+      color: #fff;
+      animation: heroIn .8s var(--ease) .26s both;
+    }
+    .hero-idle-artist {
+      margin: 0 0 4px;
+      font-size: 15px;
+      color: rgba(255,255,255,.62);
+      animation: heroIn .8s var(--ease) .32s both;
     }
     .visually-hidden {
       position: absolute;
@@ -391,7 +412,7 @@
 
     @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) {
-      .hero-grid, .hero-grid::before, .hero-platter, .hero-idle h1,
+      .hero-grid, .hero-grid::before, .hero-platter, .hero-idle-title, .hero-brand, .hero-idle-artist,
       .hero-line, .hero-ctas, .hero-console, .hero-console > *, .hero-pulse,
       .hero-disc, .hero-disc.is-spinning, .wall-eq i {
         animation: none !important;
@@ -683,7 +704,7 @@
         gap: 12px;
       }
       .hero-platter { width: min(68vw, 280px); }
-      .hero-idle h1 { font-size: clamp(32px, 10vw, 44px); }
+      .hero-idle-title { font-size: clamp(32px, 10vw, 44px); }
       .hero-line { font-size: 15px; max-width: 22em; }
       .hero-ctas { width: 100%; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
@@ -770,7 +791,7 @@
         gap: 10px;
       }
       .hero-platter { width: min(48vw, 200px); }
-      .hero-idle h1 { font-size: clamp(28px, 8vw, 36px); }
+      .hero-idle-title { font-size: clamp(28px, 8vw, 36px); }
       .hero-line { font-size: 14px; margin: 0; }
       .hero-ctas { margin-top: 0; gap: 8px; }
       .hero-ctas .btn { height: 44px; }
@@ -813,7 +834,7 @@
       .hero-ctas,
       .hero-controls,
       .hero-console-actions { justify-content: flex-start; }
-      .hero-idle h1 { font-size: 28px; }
+      .hero-idle-title { font-size: 28px; }
       .hero-console-hint { display: none; }
     }
 
@@ -901,7 +922,9 @@
       </div>
 
       <div class="hero-idle" data-room-idle>
-        <h1 class="visually-hidden">Club Copy</h1>
+        <p class="hero-brand">Club Copy</p>
+        <h1 class="hero-idle-title">What If</h1>
+        <p class="hero-idle-artist">Inlet Knight</p>
         <div class="hero-ctas">
           <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play</button>
           <a class="btn btn-ghost" href="what-if.html">View</a>
