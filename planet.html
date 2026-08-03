@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Planet MP3 — Club Copy</title>
+  <meta name="description" content="Planet MP3 — your world, your music. Stream Club Copy releases on a quieter platform built for listening."/>
+  <meta name="theme-color" content="#0A0A0A"/>
+  <meta property="og:title" content="Planet MP3 — Club Copy"/>
+  <meta property="og:description" content="YOUR WORLD, YOUR MUSIC. Stream electronic music without the noise."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" href="favicon.png" type="image/png"/>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css"/>
+  <style>
+    body {
+      background: #0A0A0A;
+      color: #F4F4F2;
+    }
+    .nav {
+      background: transparent;
+      border-bottom-color: transparent;
+      box-shadow: none;
+    }
+    .nav.scrolled {
+      background: rgba(10,10,10,.82);
+      border-bottom-color: rgba(255,255,255,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 8px 28px rgba(0,0,0,.35);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+    }
+    .nav-logo img { filter: invert(1); }
+    .nav-links a { color: rgba(255,255,255,.62); }
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.08); }
+    .nav-cart { color: #fff; }
+    .nav-ham span { background: #fff; }
+    .nav-cart-count { background: #fff; color: #0A0A0A; }
+    .nav-drawer {
+      background: rgba(10,10,10,.96);
+      border-bottom-color: rgba(255,255,255,.08);
+    }
+    .nav-drawer a { color: #fff; border-bottom-color: rgba(255,255,255,.08); }
+
+    .planet-page {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+    }
+    .planet-main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: calc(var(--nav-h) + var(--safe-t) + 48px) 24px calc(64px + var(--safe-b));
+    }
+    .planet-shell {
+      width: min(720px, 100%);
+      text-align: center;
+    }
+    .planet-mark {
+      width: min(112px, 28vw);
+      height: auto;
+      border-radius: 22%;
+      margin: 0 auto 36px;
+      display: block;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    }
+    .planet-kicker {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin: 0 0 18px;
+    }
+    .planet-title {
+      font-family: var(--display);
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 600;
+      letter-spacing: -.04em;
+      line-height: .95;
+      margin: 0 0 18px;
+    }
+    .planet-lead {
+      font-size: clamp(16px, 2.2vw, 19px);
+      line-height: 1.5;
+      color: rgba(255,255,255,.58);
+      max-width: 28em;
+      margin: 0 auto 48px;
+    }
+    .planet-points {
+      list-style: none;
+      display: grid;
+      gap: 0;
+      text-align: left;
+      max-width: 420px;
+      margin: 0 auto 48px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .planet-points li {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      display: grid;
+      gap: 4px;
+    }
+    .planet-points strong {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -.015em;
+      color: #fff;
+    }
+    .planet-points span {
+      font-size: 14px;
+      color: rgba(255,255,255,.48);
+      line-height: 1.45;
+    }
+    .planet-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 52px;
+      padding: 0 28px;
+      border-radius: 999px;
+      background: #fff;
+      color: #0A0A0A;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -.015em;
+      transition: opacity .25s var(--ease), transform .25s var(--ease);
+    }
+    @media (hover:hover) {
+      .planet-cta:hover { opacity: .88; transform: translateY(-1px); }
+    }
+    .planet-cta span { opacity: .45; font-weight: 500; }
+    .planet-note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(255,255,255,.35);
+    }
+
+    .footer {
+      background: transparent;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: #fff;
+    }
+    .footer-manifesto { color: rgba(255,255,255,.5); }
+    .footer-top { border-bottom-color: rgba(255,255,255,.1); }
+    .footer label { color: rgba(255,255,255,.5); }
+    .footer-form input[type="email"] {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.14);
+      color: #fff;
+      box-shadow: none;
+    }
+    .footer-form input[type="email"]:focus {
+      border-color: rgba(255,255,255,.4);
+      background: rgba(255,255,255,.1);
+    }
+    .footer-form input[type="email"]::placeholder { color: rgba(255,255,255,.3); }
+    .footer-form button { background: #fff; color: #0A0A0A; }
+    .footer-note,
+    .footer-copy { color: rgba(255,255,255,.35); }
+    .footer-links a { color: rgba(255,255,255,.5); }
+    @media (hover:hover) {
+      .footer-links a:hover { background: rgba(255,255,255,.08); color: #fff; }
+    }
+  </style>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-header-dark.webp" alt="Club Copy" width="900" height="417"/></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#listen">Listen</a>
+      <a href="artists.html">Artists</a>
+      <a href="merch.html">Shop</a>
+      <a href="planet.html" aria-current="page">Planet</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-end">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
+          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="nav-cart-count" data-cart-count hidden>0</span>
+      </a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="index.html#listen">Listen</a>
+  <a href="artists.html">Artists</a>
+  <a href="merch.html">Shop</a>
+  <a href="planet.html" aria-current="page">Planet</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Bag</a>
+</div>
+
+<main id="main" class="planet-page">
+  <div class="planet-main">
+    <div class="planet-shell">
+      <img class="planet-mark" src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" fetchpriority="high"/>
+      <p class="planet-kicker">Streaming</p>
+      <h1 class="planet-title">Your world,<br/>your music.</h1>
+      <p class="planet-lead">Planet MP3 is where Club Copy lives online — a quieter place to hear the catalogue without feeds, playlists-for-hire, or algorithmic clutter.</p>
+      <ul class="planet-points">
+        <li>
+          <strong>Built for listening</strong>
+          <span>A focused player experience. Press play and stay with the record.</span>
+        </li>
+        <li>
+          <strong>Label-first catalogue</strong>
+          <span>Club Copy releases, kept together — not buried under millions of unrelated tracks.</span>
+        </li>
+        <li>
+          <strong>No noise tax</strong>
+          <span>No social layer, no trending charts, no endless upsell. Just the music.</span>
+        </li>
+      </ul>
+      <a class="planet-cta" href="https://planetmp3.net" target="_blank" rel="noopener">
+        Open planetmp3.net <span aria-hidden="true">↗</span>
+      </a>
+      <p class="planet-note">Independent streaming for electronic music.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="band">
+    <div class="footer-top">
+      <div>
+        <img class="footer-logo" src="club-copy-logo.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
+        <p class="footer-manifesto">Electronic music from the Pacific Northwest.</p>
+      </div>
+      <div>
+        <label for="footerEmail">Email updates</label>
+        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit">Join</button>
+        </form>
+        <p class="footer-note">Subscribe for updates.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Club Copy</p>
+      <div class="footer-links">
+        <a href="index.html#listen">Listen</a>
+        <a href="artists.html">Artists</a>
+        <a href="merch.html">Shop</a>
+        <a href="planet.html">Planet</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+<script src="js/cart.js"></script>
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  var ticking = false;
+  function syncNav() {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(syncNav);
+  }, { passive: true });
+  syncNav();
+})();
+</script>
+</body>
+</html>
