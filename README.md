@@ -21,4 +21,4 @@ npx serve .
 
 Vercel static hosting (`framework: null`, `outputDirectory: "."`). Root `index.html` is the homepage.
 Merch checkout runs through `api/create-checkout-session.js` (Stripe, requires `STRIPE_SECRET_KEY`).
-Legacy mix/archive URLs redirect to `/catalogue`.
+Legacy mix/archive URLs redirect to `/library`.
