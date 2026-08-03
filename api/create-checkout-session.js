@@ -17,6 +17,7 @@ const CATALOG = {
   "sm-bikini": { name: "Bikini", unitAmount: 4800 },
   "sm-cap": { name: "Dad Cap", unitAmount: 3600 },
   "sm-beanie": { name: "Beanie", unitAmount: 3000 },
+  "sm-womens-top": { name: "Baby Tee", unitAmount: 3400 },
   "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200 },
   "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800 },
   "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000 },
