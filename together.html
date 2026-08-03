@@ -104,7 +104,7 @@
           </div>
 
           <div class="release-console">
-            <p class="release-kicker">Now playing</p>
+            <p class="release-kicker" id="releaseKicker">Selected</p>
             <p class="release-track" id="ipTrackName">Noted</p>
             <div class="release-controls">
               <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">&#9664;&#9664;</button>
@@ -338,6 +338,11 @@ function setPlaying(on) {
   document.getElementById('ipPlayConsole')?.classList.toggle('on', on);
   document.getElementById('releaseDisc')?.classList.toggle('is-spinning', on);
   document.getElementById('artworkWrap')?.classList.toggle('is-playing', on);
+  trackRows.forEach(function (r, i) {
+    r.classList.toggle('is-playing', !!(on && i === activeIdx));
+  });
+  var kicker = document.getElementById('releaseKicker');
+  if (kicker) kicker.textContent = on ? 'Now playing' : 'Selected';
 }
 
 function setActive(idx) {
@@ -415,7 +420,11 @@ seekEl.addEventListener('pointerdown', () => dragging = true);
 seekEl.addEventListener('pointerup',   () => { dragging = false; });
 seekEl.addEventListener('input',  () => { elapsedEl.textContent = fmt(+seekEl.value||0); });
 seekEl.addEventListener('change', () => { audio.currentTime = +seekEl.value || 0; });
-volEl.addEventListener('input', () => audio.volume = +volEl.value || 0.8);
+volEl.addEventListener('input', function () {
+  var v = +volEl.value || 0;
+  audio.volume = v;
+  if (window.VCRPlayer && typeof VCRPlayer.setVolume === 'function') VCRPlayer.setVolume(v);
+});
 
 trackRows.forEach((row, idx) => {
   row.addEventListener('click', () => {
@@ -623,6 +632,9 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
     const idx = TRACKS.findIndex(function(tr){ return tr.id === t.id || tr.title === t.title; });
     if (idx >= 0) setActive(idx);
     setPlaying(!!d.playing);
+    if (volEl && window.VCRPlayer && typeof VCRPlayer.getVolume === 'function') {
+      try { volEl.value = String(VCRPlayer.getVolume()); } catch (e) {}
+    }
     if (seekEl && d.duration) {
       seekEl.max = String(d.duration);
       if (!dragging) seekEl.value = String(d.currentTime || 0);
