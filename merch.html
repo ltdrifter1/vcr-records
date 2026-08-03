@@ -235,13 +235,13 @@
     .shop-jump-inner {
       max-width: var(--wrap);
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 max(24px, env(safe-area-inset-right, 0px)) 0 max(24px, env(safe-area-inset-left, 0px));
       display: flex; gap: 6px; flex-wrap: nowrap;
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
-    @media (min-width: 800px) { .shop-jump-inner { padding: 0 40px; } }
+    @media (min-width: 800px) { .shop-jump-inner { padding: 0 max(40px, env(safe-area-inset-right, 0px)) 0 max(40px, env(safe-area-inset-left, 0px)); } }
     .shop-jump-inner::-webkit-scrollbar { display: none; }
     .shop-jump a {
       flex: 0 0 auto;
@@ -330,7 +330,10 @@
     .product-drawer::backdrop { background: rgba(17,17,17,.42); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
     .product-drawer[open] { display: flex; flex-direction: column; animation: drawerIn .35s var(--ease); }
     @keyframes drawerIn { from { transform: translateX(12px); opacity: .6; } to { transform: none; opacity: 1; } }
-    .product-drawer__inner { padding: 28px 24px 40px; overflow: auto; position: relative; }
+    .product-drawer__inner {
+      padding: max(28px, env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px)) max(40px, env(safe-area-inset-bottom, 0px)) 24px;
+      overflow: auto; position: relative;
+    }
     .product-drawer__close {
       position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 999px;
       border: 1px solid var(--line); background: var(--soft); font-size: 22px; line-height: 1; cursor: pointer;

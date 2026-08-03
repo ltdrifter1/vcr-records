@@ -349,22 +349,37 @@
       width: 52px; height: 52px; border-radius: 50%;
       background: rgba(255,255,255,.1);
       color: #fff;
-      border: 1px solid rgba(255,255,255,.14);
-      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.16);
       display: inline-flex; align-items: center; justify-content: center;
-      transition: background var(--dur) var(--ease), transform 160ms var(--ease);
+      box-shadow: 0 1px 0 rgba(255,255,255,.1) inset, 0 10px 24px rgba(0,0,0,.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background var(--dur) var(--ease), transform 160ms var(--ease), box-shadow var(--dur) var(--ease);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
+    .hero-ctrl svg {
+      width: 18px; height: 18px; fill: currentColor; display: block; pointer-events: none;
+    }
+    .hero-ctrl .vcr-ico--pause,
+    .hero-ctrl .glyph-pause { display: none; }
+    .hero-ctrl.is-playing .vcr-ico--play,
+    .hero-ctrl.on .glyph-play,
+    .hero-ctrl.is-playing .glyph-play { display: none; }
+    .hero-ctrl.is-playing .vcr-ico--pause,
+    .hero-ctrl.on .glyph-pause,
+    .hero-ctrl.is-playing .glyph-pause { display: block; }
     .hero-ctrl:active { transform: scale(.96); }
     .hero-ctrl--play {
       width: 68px; height: 68px;
       background: #fff; color: #111;
       border-color: #fff;
-      font-size: 17px;
-      box-shadow: 0 12px 32px rgba(0,0,0,.35);
+      box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 14px 36px rgba(0,0,0,.38);
     }
+    .hero-ctrl--play .vcr-ico--play { margin-left: 2px; }
     @media (hover:hover) {
-      .hero-ctrl:hover { background: rgba(255,255,255,.18); }
-      .hero-ctrl--play:hover { opacity: .9; background: #fff; }
+      .hero-ctrl:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+      .hero-ctrl--play:hover { opacity: .96; background: #fff; }
     }
     .hero-progress {
       width: 100%;
@@ -1018,9 +1033,16 @@
         <h2 class="hero-console-title" data-room-title>What If</h2>
         <p class="hero-console-artist" data-room-artist>Inlet Knight · What If</p>
         <div class="hero-controls">
-          <button type="button" class="hero-ctrl" data-act="prev" aria-label="Previous">&#9664;&#9664;</button>
-          <button type="button" class="hero-ctrl hero-ctrl--play" data-act="toggle" aria-label="Play">&#9654;</button>
-          <button type="button" class="hero-ctrl" data-act="next" aria-label="Next">&#9654;&#9654;</button>
+          <button type="button" class="hero-ctrl" data-act="prev" aria-label="Previous">
+            <svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+          </button>
+          <button type="button" class="hero-ctrl hero-ctrl--play" data-act="toggle" aria-label="Play">
+            <svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg>
+            <svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg>
+          </button>
+          <button type="button" class="hero-ctrl" data-act="next" aria-label="Next">
+            <svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+          </button>
         </div>
         <div class="hero-progress">
           <input type="range" data-room-scrub min="0" max="1000" value="0" aria-label="Seek"/>
