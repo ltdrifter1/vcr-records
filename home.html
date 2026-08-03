@@ -88,35 +88,45 @@
     <div class="product-grid" itemscope itemtype="https://schema.org/Product">
 
       <div class="left-col fade-up">
-        <div class="artwork-wrap" id="artworkWrap">
-          <span class="artwork-badge">Single</span>
-          <img id="heroImg" src="at_home.webp" alt="At Home artwork" itemprop="image" width="1024" height="1024"/>
-        </div>
-
-        <div class="player">
-          <div class="player-head">
-            <span class="player-lbl">Now playing</span>
-            <span class="player-track" id="ipTrackName">At Home</span>
-          </div>
-          <div class="player-controls">
-            <button class="play-btn" id="ipPlay" aria-label="Play / pause">
-              <svg class="i-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        <div class="release-stage">
+          <div class="release-platter" id="artworkWrap">
+            <span class="artwork-badge">Single</span>
+            <button type="button" class="release-zoom" id="releaseZoom" aria-label="Enlarge artwork">↗</button>
+            <div class="release-disc" id="releaseDisc">
+              <img id="heroImg" src="at_home.webp" alt="At Home artwork" itemprop="image" width="1024" height="1024"/>
+            </div>
+            <button type="button" class="release-disc-hit" id="ipPlay" aria-label="Play / pause">
+              <span class="disc-glyph" aria-hidden="true">
+                <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </span>
             </button>
-            <div class="seek-col">
+          </div>
+
+          <div class="release-console">
+            <p class="release-kicker">Now playing</p>
+            <p class="release-track" id="ipTrackName">At Home</p>
+            <div class="release-controls">
+              <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">&#9664;&#9664;</button>
+              <button type="button" class="release-ctrl release-ctrl--play" id="ipPlayConsole" aria-label="Play / pause">
+                <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+              <button type="button" class="release-ctrl" id="ipNext" aria-label="Next">&#9654;&#9654;</button>
+            </div>
+            <div class="release-progress">
               <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
               <div class="times">
                 <span id="ipElapsed">0:00</span>
                 <span id="ipRemaining">-0:00</span>
               </div>
             </div>
+            <div class="vol-row">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
+            </div>
+            <div class="p-msg" id="pMsg" aria-live="polite"></div>
           </div>
-          <div class="vol-row">
-            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-            <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
-          </div>
-          <div class="wave" id="wave" aria-hidden="true"></div>
-          <div class="p-msg" id="pMsg" aria-live="polite"></div>
         </div>
       </div>
 
@@ -228,7 +238,7 @@
   <div class="band">
     <div class="footer-top">
       <div>
-        <img class="footer-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="1600" height="407" loading="lazy"/>
+        <img class="footer-logo" src="club-copy-logo-bw.webp" alt="Club Copy" width="987" height="563" loading="lazy"/>
         <p class="footer-manifesto">Electronic music from the Pacific Northwest.</p>
       </div>
       <div>
@@ -289,19 +299,17 @@ const volEl     = $('ipVolume');
 const elapsedEl = $('ipElapsed');
 const remainEl  = $('ipRemaining');
 const trackName = $('ipTrackName');
-const waveEl    = $('wave');
 const pMsg      = $('pMsg');
 const trackRows = [...document.querySelectorAll('.track-row')];
 
-for (let i = 0; i < 44; i++) {
-  const b = document.createElement('span');
-  b.style.cssText = `height:${2+Math.random()*14}px;animation-delay:${(Math.random()*1.2).toFixed(2)}s;animation-duration:${(.8+Math.random()*.6).toFixed(2)}s`;
-  waveEl.appendChild(b);
-}
-
 function setMsg(t, e) { pMsg.textContent = t||''; pMsg.className = 'p-msg'+(e?' err':''); }
 function getDur() { return isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0; }
-function setPlaying(on) { playBtn.classList.toggle('on', on); waveEl.classList.toggle('on', on); }
+function setPlaying(on) {
+  playBtn.classList.toggle('on', on);
+  document.getElementById('ipPlayConsole')?.classList.toggle('on', on);
+  document.getElementById('releaseDisc')?.classList.toggle('is-spinning', on);
+  document.getElementById('artworkWrap')?.classList.toggle('is-playing', on);
+}
 
 function setActive(idx) {
   if (idx < 0 || idx >= TRACKS.length) return;
@@ -523,8 +531,9 @@ $('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem
 
 (function() {
   const zo = $('zoom'), zi = $('zoomImg');
-  const aw = $('artworkWrap'), src = $('heroImg');
-  aw.addEventListener('click', () => { zi.src = src.src; zo.style.display = 'flex'; });
+  const src = $('heroImg');
+  const zoomBtn = $('releaseZoom');
+  if (zoomBtn) zoomBtn.addEventListener('click', (e) => { e.stopPropagation(); zi.src = src.src; zo.style.display = 'flex'; });
   zo.addEventListener('click', e => { if (e.target !== zi) zo.style.display = 'none'; });
   zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display = 'none');
   document.addEventListener('keydown', e => { if (e.key === 'Escape') zo.style.display = 'none'; });
@@ -553,6 +562,21 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script>
+
+
+(function wireReleaseConsole(){
+  const prev = $('ipPrev'), next = $('ipNext'), consolePlay = $('ipPlayConsole');
+  if (prev) prev.addEventListener('click', function(){
+    if (activeIdx > 0) playTrack(activeIdx - 1);
+    else playTrack(0);
+  });
+  if (next) next.addEventListener('click', function(){
+    if (activeIdx < TRACKS.length - 1) playTrack(activeIdx + 1);
+  });
+  if (consolePlay) consolePlay.addEventListener('click', function(){
+    playBtn?.click();
+  });
+})();
 
 /* Bridge inline player UI to shared VCRPlayer */
 (function bridgeToSharedPlayer(){
