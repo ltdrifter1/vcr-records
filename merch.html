@@ -589,21 +589,14 @@
 
         <article class="product merch-card" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="42">
           <div class="product-visual">
-            <img id="img-longsleeve" src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve"/>
+            <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve — white"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Long Sleeve</h3>
               <p class="product-price">$42</p>
             </div>
-            <p class="product-note">Same micro chest logo, long sleeve cut. Black or white.</p>
-            <div class="opt-block">
-              <span class="opt-label">Colour</span>
-              <div class="merch-options">
-                <button class="merch-opt selected" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve-white.jpg">White</button>
-                <button class="merch-opt" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve.jpg">Black</button>
-              </div>
-            </div>
+            <p class="product-note">Same micro chest logo, long sleeve cut. White only.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -784,7 +777,6 @@
 })();
 var MERCH_IMG_MAP = {
   'simple-tee-colour': document.getElementById('img-simple-tee'),
-  'longsleeve-colour': document.getElementById('img-longsleeve')
 };
 document.querySelectorAll('.merch-opt').forEach(function (btn) {
   btn.addEventListener('click', function () {
