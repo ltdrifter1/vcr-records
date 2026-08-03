@@ -265,26 +265,18 @@
       opacity: 0;
       pointer-events: none;
     }
-    .hero-brand {
-      margin: 0;
-      font-size: 13px; font-weight: 500;
-      letter-spacing: .04em;
-      color: rgba(255,255,255,.62);
-      animation: heroIn .8s var(--ease) .18s both;
-    }
-    .hero-brand-track {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.5);
-    }
     .hero-idle-title {
       margin: 0;
       font-family: var(--display);
-      font-size: clamp(28px, 5vw, 40px);
+      font-size: clamp(32px, 6vw, 48px);
       font-weight: 600; letter-spacing: -.035em; line-height: 1.02;
       color: #fff;
+      animation: heroIn .8s var(--ease) .18s both;
+    }
+    .hero-idle-artist {
+      margin: 0 0 4px;
+      font-size: 15px;
+      color: rgba(255,255,255,.62);
       animation: heroIn .8s var(--ease) .26s both;
     }
     .visually-hidden {
@@ -413,7 +405,7 @@
 
     @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) {
-      .hero-grid, .hero-grid::before, .hero-platter, .hero-idle-title, .hero-brand, .hero-brand-track,
+      .hero-grid, .hero-grid::before, .hero-platter, .hero-idle-title, .hero-idle-artist,
       .hero-line, .hero-ctas, .hero-console, .hero-console > *, .hero-pulse,
       .hero-disc, .hero-disc.is-spinning, .wall-eq i {
         animation: none !important;
@@ -923,8 +915,8 @@
       </div>
 
       <div class="hero-idle" data-room-idle>
-        <p class="hero-brand"><span class="hero-brand-track">What If</span> by Inlet Knight</p>
         <h1 class="hero-idle-title">What If</h1>
+        <p class="hero-idle-artist">Inlet Knight</p>
         <div class="hero-ctas">
           <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play</button>
           <a class="btn btn-ghost" href="what-if.html">View</a>

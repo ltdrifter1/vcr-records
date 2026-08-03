@@ -23,13 +23,13 @@
 
     .artist {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 48px;
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+      gap: 40px;
       align-items: center;
       scroll-margin-top: calc(var(--nav-h) + var(--safe-t) + 24px);
     }
-    @media (min-width: 900px) { .artist { gap: 72px; } }
-    @media (max-width: 799px) { .artist { grid-template-columns: 1fr; gap: 28px; } }
+    @media (min-width: 900px) { .artist { gap: 56px; } }
+    @media (max-width: 799px) { .artist { grid-template-columns: 1fr; gap: 24px; } }
     @media (min-width: 800px) {
       .artist:nth-child(even) .artist-photo { order: 2; }
     }
@@ -39,10 +39,17 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow);
+      max-width: 320px;
+      width: 100%;
+      justify-self: start;
+    }
+    @media (max-width: 799px) {
+      .artist-photo { max-width: 220px; }
     }
     .artist-photo img {
       width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
       filter: saturate(.92);
+      display: block;
     }
     .artist-copy { display: flex; flex-direction: column; align-items: flex-start; }
     .artist-copy h2 {
@@ -127,7 +134,6 @@
           <img src="artists/inlet-knight.webp" alt="Inlet Knight" fetchpriority="high"/>
         </div>
         <div class="artist-copy">
-          <p class="eyebrow">Artist</p>
           <h2 id="inlet-knight-name">Inlet Knight</h2>
           <p class="artist-bio">House from Cumberland, British Columbia.</p>
           <div class="artist-actions">
