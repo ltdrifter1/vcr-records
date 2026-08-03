@@ -598,11 +598,95 @@
     }
     @media (max-width: 800px) { .after-dark-inner { grid-template-columns: 1fr; gap: 40px; } }
     .after-dark .eyebrow { color: rgba(255,255,255,.42); }
-    .after-statement {
+    .after-stream {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+      padding-top: 4px;
+    }
+    .after-stream-kicker {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+    .after-stream-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 56px;
+      padding: 0 30px 0 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.04) 100%),
+        #111;
+      color: #fff;
       font-family: var(--display);
-      font-size: clamp(22px, 3.2vw, 34px);
-      font-weight: 500; letter-spacing: -.025em; line-height: 1.22;
-      max-width: 18em;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      text-decoration: none;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.12) inset,
+        0 18px 40px rgba(0,0,0,.35);
+      transition:
+        transform .35s var(--ease),
+        border-color .35s var(--ease),
+        background .35s var(--ease),
+        box-shadow .35s var(--ease);
+    }
+    .after-stream-btn::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255,255,255,.28), transparent 42%, transparent 58%, rgba(255,255,255,.1));
+      opacity: .55;
+      pointer-events: none;
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      padding: 1px;
+    }
+    .after-stream-btn img {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: block;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.12);
+    }
+    .after-stream-btn .after-stream-arrow {
+      opacity: .45;
+      font-size: 15px;
+      font-weight: 500;
+      transition: transform .35s var(--ease), opacity .35s var(--ease);
+    }
+    @media (hover:hover) {
+      .after-stream-btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255,255,255,.32);
+        background:
+          linear-gradient(180deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.07) 100%),
+          #171717;
+        box-shadow:
+          0 1px 0 rgba(255,255,255,.16) inset,
+          0 22px 48px rgba(0,0,0,.42);
+      }
+      .after-stream-btn:hover .after-stream-arrow {
+        opacity: .85;
+        transform: translate(2px, -1px);
+      }
+    }
+    .after-stream-btn:focus-visible {
+      outline: 2px solid rgba(255,255,255,.65);
+      outline-offset: 3px;
     }
     .after-signup label {
       display: block;
@@ -1012,8 +1096,13 @@
   <section class="after-dark" aria-label="Updates">
     <div class="band">
       <div class="after-dark-inner rv">
-        <div>
-          <p class="after-statement">Electronic music from the Pacific Northwest.</p>
+        <div class="after-stream">
+          <p class="after-stream-kicker">Planet MP3</p>
+          <a class="after-stream-btn" href="https://planetmp3.net" target="_blank" rel="noopener">
+            <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
+            Streaming
+            <span class="after-stream-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
         <div class="after-signup">
           <label for="newsletterEmail">Newsletter</label>
