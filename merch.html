@@ -377,9 +377,12 @@
       transition: opacity .35s var(--ease), transform .35s var(--ease);
     }
     .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+    body.has-vcr-player .toast {
+      bottom: calc(var(--vcr-player-h, 112px) + 26px + var(--safe-b));
+    }
     .toast span { font-size: 13px; font-weight: 500; white-space: nowrap; }
     .toast a {
-      height: 34px; padding: 0 14px; border-radius: var(--pill);
+      min-height: 44px; height: auto; padding: 0 14px; border-radius: var(--pill);
       background: var(--ink); color: #fff;
       font-size: 12px; font-weight: 600;
       display: inline-flex; align-items: center;
