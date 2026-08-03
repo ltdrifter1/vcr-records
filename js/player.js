@@ -12,6 +12,8 @@
   var roomBound = false;
   var listenBound = false;
   var inited = false;
+  var audioUnlocked = false;
+  var playGateTimer = null;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -77,12 +79,95 @@
     audio = new Audio();
     audio.preload = "metadata";
     audio.volume = 0.8;
+    audio.playsInline = true;
+    audio.setAttribute("playsinline", "");
+    audio.setAttribute("webkit-playsinline", "");
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnded);
     audio.addEventListener("play", onPlayState);
     audio.addEventListener("pause", onPlayState);
     audio.addEventListener("loadedmetadata", onTime);
     return audio;
+  }
+
+  function unlockAudioFromGesture() {
+    ensureAudio();
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    try {
+      var silent = audio.play();
+      if (silent && typeof silent.then === "function") {
+        silent
+          .then(function () {
+            if (!queue.length) {
+              audio.pause();
+              try { audio.currentTime = 0; } catch (e) {}
+            }
+          })
+          .catch(function () {});
+      }
+    } catch (e) {}
+  }
+
+  function bindGestureUnlock() {
+    var unlock = function () {
+      unlockAudioFromGesture();
+      document.removeEventListener("pointerdown", unlock, true);
+      document.removeEventListener("touchstart", unlock, true);
+      document.removeEventListener("keydown", unlock, true);
+    };
+    document.addEventListener("pointerdown", unlock, true);
+    document.addEventListener("touchstart", unlock, { capture: true, passive: true });
+    document.addEventListener("keydown", unlock, true);
+  }
+
+  function ensurePlayGate() {
+    var el = document.getElementById("vcr-play-gate");
+    if (el) return el;
+    el = document.createElement("div");
+    el.id = "vcr-play-gate";
+    el.className = "vcr-play-gate";
+    el.setAttribute("role", "status");
+    el.innerHTML =
+      '<span>Tap to play</span>' +
+      '<button type="button" data-gate-play>Play</button>';
+    el.querySelector("[data-gate-play]").addEventListener("click", function () {
+      hidePlayGate();
+      unlockAudioFromGesture();
+      play();
+    });
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function showPlayGate() {
+    var el = ensurePlayGate();
+    el.classList.add("is-on");
+    clearTimeout(playGateTimer);
+    playGateTimer = setTimeout(hidePlayGate, 6000);
+  }
+
+  function hidePlayGate() {
+    var el = document.getElementById("vcr-play-gate");
+    if (el) el.classList.remove("is-on");
+    clearTimeout(playGateTimer);
+  }
+
+  function safePlay() {
+    ensureAudio();
+    if (!current()) return Promise.resolve();
+    return audio.play().then(function () {
+      hidePlayGate();
+    }).catch(function (err) {
+      var name = err && err.name;
+      if (name === "NotAllowedError" || name === "AbortError") showPlayGate();
+    });
+  }
+
+  function setTogglePlaying(btn, playing) {
+    if (!btn) return;
+    btn.classList.toggle("is-playing", !!playing);
+    btn.setAttribute("aria-label", playing ? "Pause" : "Play");
   }
 
   function ensureUI() {
@@ -100,9 +185,9 @@
       '<p class="vcr-player__sub"></p>' +
       "</div>" +
       '<div class="vcr-player__controls">' +
-      '<button type="button" class="vcr-player__btn" data-act="prev" aria-label="Previous">&#9664;&#9664;</button>' +
-      '<button type="button" class="vcr-player__btn vcr-player__btn--play" data-act="toggle" aria-label="Play">&#9654;</button>' +
-      '<button type="button" class="vcr-player__btn" data-act="next" aria-label="Next">&#9654;&#9654;</button>' +
+      '<button type="button" class="vcr-player__btn" data-act="prev" aria-label="Previous"><svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg></button>' +
+      '<button type="button" class="vcr-player__btn vcr-player__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
+      '<button type="button" class="vcr-player__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
       '<div class="vcr-player__progress-wrap">' +
       '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
@@ -124,9 +209,9 @@
       '<h2 class="vcr-stage__title"></h2>' +
       '<p class="vcr-stage__artist"></p>' +
       '<div class="vcr-stage__controls">' +
-      '<button type="button" class="vcr-stage__btn" data-act="prev" aria-label="Previous">&#9664;&#9664;</button>' +
-      '<button type="button" class="vcr-stage__btn vcr-stage__btn--play" data-act="toggle" aria-label="Play">&#9654;</button>' +
-      '<button type="button" class="vcr-stage__btn" data-act="next" aria-label="Next">&#9654;&#9654;</button>' +
+      '<button type="button" class="vcr-stage__btn" data-act="prev" aria-label="Previous"><svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg></button>' +
+      '<button type="button" class="vcr-stage__btn vcr-stage__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
+      '<button type="button" class="vcr-stage__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
       '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
       '<div class="vcr-stage__actions">' +
@@ -197,8 +282,13 @@
     }
     if (page && track) page.href = track.page || "/";
     if (toggleBtn) {
-      toggleBtn.textContent = playing ? "❚❚" : "▶";
-      toggleBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+      if (toggleBtn.querySelector(".vcr-ico--play") || toggleBtn.querySelector(".glyph-play")) {
+        setTogglePlaying(toggleBtn, playing);
+        toggleBtn.classList.toggle("on", !!playing);
+      } else {
+        toggleBtn.textContent = playing ? "❚❚" : "▶";
+        toggleBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+      }
     }
     if (disc) disc.classList.toggle("is-spinning", !!playing);
     room.classList.toggle("is-playing", !!playing);
@@ -242,12 +332,8 @@
     stage.querySelector("[data-buy]").href =
       track.bandcampAlbum || track.page || "#";
 
-    dock.querySelector('[data-act="toggle"]').textContent = playing ? "❚❚" : "▶";
-    dock.querySelector('[data-act="toggle"]').setAttribute(
-      "aria-label",
-      playing ? "Pause" : "Play"
-    );
-    stage.querySelector('[data-act="toggle"]').textContent = playing ? "❚❚" : "▶";
+    setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing);
+    setTogglePlaying(stage.querySelector('[data-act="toggle"]'), playing);
 
     renderRoom(track, playing);
     updateMediaSession(track, playing);
@@ -363,7 +449,7 @@
         title: track.title,
         artist: track.artist,
         album: track.releaseTitle,
-        artwork: [{ src: track.cover, sizes: "1400x1400", type: "image/png" }],
+        artwork: [{ src: track.cover, sizes: "1200x1200", type: "image/webp" }],
       });
       navigator.mediaSession.playbackState = playing ? "playing" : "paused";
       navigator.mediaSession.setActionHandler("play", function () {
@@ -405,45 +491,55 @@
     emit();
     setDeepLink(track, true);
     if (autoplay) {
-      return audio.play().catch(function () {});
+      return safePlay();
     }
     return Promise.resolve();
   }
 
+  function applyRelease(catalog, releaseId, trackId, opts) {
+    var release = (catalog.releases || []).find(function (r) {
+      return r.id === releaseId;
+    });
+    if (!release) return null;
+    var nextQueue = buildQueueFromRelease(release);
+    if (!nextQueue.length) {
+      var bc = release.bandcampAlbum || release.bandcamp;
+      if (bc) window.open(bc, "_blank", "noopener");
+      return null;
+    }
+    queue = nextQueue;
+    var i = 0;
+    if (trackId) {
+      var found = queue.findIndex(function (t) {
+        return t.id === trackId;
+      });
+      if (found >= 0) i = found;
+    }
+    loadTrack(i, opts.autoplay !== false);
+    if (opts.stage) {
+      if (getRoom()) openRoom({ scroll: opts.scroll !== false });
+      else openStage();
+    }
+    return current();
+  }
+
   function playRelease(releaseId, trackId, opts) {
     opts = opts || {};
+    // Keep the user-gesture chain intact for iOS Safari by creating Audio now
+    // and applying a cached catalog synchronously when available.
+    unlockAudioFromGesture();
+    if (catalogCache) {
+      return Promise.resolve(applyRelease(catalogCache, releaseId, trackId, opts));
+    }
     return loadCatalog().then(function (catalog) {
-      var release = (catalog.releases || []).find(function (r) {
-        return r.id === releaseId;
-      });
-      if (!release) return;
-      var nextQueue = buildQueueFromRelease(release);
-      if (!nextQueue.length) {
-        var bc = release.bandcampAlbum || release.bandcamp;
-        if (bc) window.open(bc, "_blank", "noopener");
-        return;
-      }
-      queue = nextQueue;
-      var i = 0;
-      if (trackId) {
-        var found = queue.findIndex(function (t) {
-          return t.id === trackId;
-        });
-        if (found >= 0) i = found;
-      }
-      loadTrack(i, opts.autoplay !== false);
-      if (opts.stage) {
-        if (getRoom()) openRoom({ scroll: opts.scroll !== false });
-        else openStage();
-      }
-      return current();
+      return applyRelease(catalog, releaseId, trackId, opts);
     });
   }
 
   function play() {
     ensureAudio();
     if (!current()) return;
-    audio.play().catch(function () {});
+    safePlay();
   }
 
   function pause() {
@@ -561,6 +657,7 @@
     root.querySelectorAll("[data-play-release]").forEach(function (el) {
       el.addEventListener("click", function (e) {
         e.preventDefault();
+        unlockAudioFromGesture();
         var releaseId = el.getAttribute("data-play-release");
         var trackId = el.getAttribute("data-play-track");
         var wantStage = el.hasAttribute("data-play-stage");
@@ -592,7 +689,7 @@
     var trackId = params.get("t");
     var stage = params.get("stage") === "1";
     if (playId) {
-      return playRelease(playId, trackId, { autoplay: true, stage: stage });
+      return playRelease(playId, trackId, { autoplay: true, stage: stage }); // may show Tap to play on iOS
     }
     var saved = readPersist();
     if (saved && saved.releaseId && saved.playing) {
@@ -618,7 +715,10 @@
     if (inited) return;
     inited = true;
     ensureUI();
+    bindGestureUnlock();
     bindListenUI(document);
+    // Prefetch catalog so the first tap can start playback in-gesture on iOS.
+    loadCatalog().catch(function () {});
     hydrateFromURL();
   }
 
