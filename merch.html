@@ -556,12 +556,12 @@
               <h3 class="product-name">Micro Tee</h3>
               <p class="product-price">$32</p>
             </div>
-            <p class="product-note">A heavyweight cotton blank with a small chest mark. Soft hand, clean cut — the everyday piece done properly.</p>
+            <p class="product-note">Heavyweight cotton. Small chest logo. Black or white.</p>
             <div class="opt-block">
               <span class="opt-label">Colour</span>
               <div class="merch-options">
                 <button class="merch-opt selected" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg">Black</button>
-                <button class="merch-opt" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-cream.jpg">Cream</button>
+                <button class="merch-opt" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg">White</button>
               </div>
             </div>
             <div class="opt-block">
@@ -579,14 +579,21 @@
 
         <article class="product merch-card" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="42">
           <div class="product-visual">
-            <img src="merch/club-copy/prod-longsleeve.jpg" alt="Long Sleeve" loading="lazy"/>
+            <img id="img-longsleeve" src="merch/club-copy/prod-longsleeve.jpg" alt="Long Sleeve"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Long Sleeve</h3>
               <p class="product-price">$42</p>
             </div>
-            <p class="product-note">The same micro chest logo, now on a long sleeve. Heavyweight cotton with a relaxed, considered fit.</p>
+            <p class="product-note">Same micro chest logo, long sleeve cut. Black or white.</p>
+            <div class="opt-block">
+              <span class="opt-label">Colour</span>
+              <div class="merch-options">
+                <button class="merch-opt selected" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve.jpg">Black</button>
+                <button class="merch-opt" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve-white.jpg">White</button>
+              </div>
+            </div>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -646,16 +653,39 @@
           </div>
         </article>
 
+        <article class="product merch-card" data-sku="sm-womens-top" data-name="Baby Tee" data-price="34">
+          <div class="product-visual">
+            <img src="merch/club-copy/prod-womens-top.jpg" alt="Baby Tee" loading="lazy"/>
+          </div>
+          <div class="product-body">
+            <div class="product-top">
+              <h3 class="product-name">Baby Tee</h3>
+              <p class="product-price">$34</p>
+            </div>
+            <p class="product-note">Cropped black tee. Small white oval. Soft cotton, close cut.</p>
+            <div class="opt-block">
+              <span class="opt-label">Size</span>
+              <div class="merch-options">
+                <button class="merch-opt selected" data-group="womens-top-size">XS</button>
+                <button class="merch-opt" data-group="womens-top-size">S</button>
+                <button class="merch-opt" data-group="womens-top-size">M</button>
+                <button class="merch-opt" data-group="womens-top-size">L</button>
+              </div>
+            </div>
+            <button class="merch-add" type="button">Add to bag</button>
+          </div>
+        </article>
+
         <article class="product merch-card" data-sku="sm-crewneck" data-name="Crewneck" data-price="58">
           <div class="product-visual">
-            <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
+            <img src="merch/club-copy/prod-crewneck.jpg" alt="Grey Crewneck" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Crewneck</h3>
               <p class="product-price">$58</p>
             </div>
-            <p class="product-note">A heavyweight fleece crew with the logo centred on the chest. Soft, balanced, and free of fuss.</p>
+            <p class="product-note">Heather grey fleece. Centre logo. Soft, balanced, no fuss.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -685,14 +715,14 @@
 
         <article class="product merch-card" data-sku="sm-beanie" data-name="Beanie" data-price="30">
           <div class="product-visual">
-            <img src="merch/club-copy/prod-beanie.webp" alt="Beanie" loading="lazy"/>
+            <img src="merch/club-copy/prod-beanie.webp" alt="Fisherman beanie with Club Copy logo" loading="lazy"/>
           </div>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name">Beanie</h3>
               <p class="product-price">$30</p>
             </div>
-            <p class="product-note">A fine-gauge cuffed beanie with a small black embroidered Club Copy mark. Quiet, warm, and built for the coast.</p>
+            <p class="product-note">Short fisherman knit. White oval logo on the cuff.</p>
             <button class="merch-add" type="button">Add to bag</button>
           </div>
         </article>
@@ -706,7 +736,7 @@
               <h3 class="product-name">Bikini</h3>
               <p class="product-price">$48</p>
             </div>
-            <p class="product-note">A matte black set with a stencil Club Copy mark. Clean lines, light construction — made for warm weather.</p>
+            <p class="product-note">Matte black. Small oval mark. Warm weather kit.</p>
             <div class="opt-block">
               <span class="opt-label">Size</span>
               <div class="merch-options">
@@ -780,7 +810,8 @@
   syncNav();
 })();
 var MERCH_IMG_MAP = {
-  'simple-tee-colour': document.getElementById('img-simple-tee')
+  'simple-tee-colour': document.getElementById('img-simple-tee'),
+  'longsleeve-colour': document.getElementById('img-longsleeve')
 };
 document.querySelectorAll('.merch-opt').forEach(function (btn) {
   btn.addEventListener('click', function () {
