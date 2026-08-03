@@ -448,7 +448,7 @@ loadTrack(0, false);
 
   buyBtn.addEventListener('click', function() {
     if (currentFmt === 'vinyl') {
-      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-at-home', name: 'At Home — Vinyl', price: 28, image: 'at_home.webp', qty: 1, id: 'sm-vinyl-at-home' });
+      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-at-home', name: 'At Home — Vinyl', price: 28, image: 'merch/club-copy/prod-vinyl-default.webp', qty: 1, id: 'sm-vinyl-at-home' });
       var orig = buyBtn.textContent;
       buyBtn.textContent = 'Added';
       setTimeout(function() { buyBtn.textContent = orig; }, 2000);
