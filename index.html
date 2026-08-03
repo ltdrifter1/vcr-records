@@ -4,13 +4,13 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Club Copy</title>
-  <meta name="description" content="Independent record label from the Pacific Northwest. Vinyl, digital, and merch."/>
+  <meta name="description" content="Electronic music from the Pacific Northwest."/>
   <meta name="theme-color" content="#050505"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="format-detection" content="telephone=no"/>
   <meta property="og:title" content="Club Copy"/>
-  <meta property="og:description" content="Independent record label from the Pacific Northwest."/>
+  <meta property="og:description" content="Electronic music from the Pacific Northwest."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="https://vcr-records.vercel.app/what-if-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
@@ -105,17 +105,6 @@
       display: flex; flex-direction: column; align-items: center;
       text-align: center; gap: 16px;
     }
-    .hero-brand {
-      width: min(220px, 48vw);
-      animation: heroIn .85s var(--ease) both;
-      transition: opacity .45s var(--ease), transform .45s var(--ease);
-    }
-    .hero.is-live .hero-brand {
-      opacity: .55;
-      transform: scale(.92);
-    }
-    .hero-brand img { width: 100%; height: auto; }
-
     /* Platter / spinning disc ---------------------------------------------- */
     .hero-platter {
       position: relative;
@@ -394,12 +383,12 @@
 
     @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) {
-      .hero-grid, .hero-grid::before, .hero-brand, .hero-platter, .hero-idle h1,
+      .hero-grid, .hero-grid::before, .hero-platter, .hero-idle h1,
       .hero-line, .hero-ctas, .hero-console, .hero-console > *, .hero-pulse,
       .hero-disc, .hero-disc.is-spinning, .wall-eq i {
         animation: none !important;
       }
-      .hero-ambient, .hero-brand, .hero-idle, .hero-platter { transition: none; }
+      .hero-ambient, .hero-idle, .hero-platter { transition: none; }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
     }
 
@@ -414,8 +403,25 @@
       border-bottom-color: var(--line);
       box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
     }
+    /* Chrome logo in header — shop-hero glow, top left over the banner */
+    body.hero-top .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: .42;
+      mix-blend-mode: screen;
+      filter: none;
+      transition: opacity .6s var(--ease), mix-blend-mode .3s var(--ease);
+    }
+    @media (hover:hover) {
+      body.hero-top .nav-logo:hover img { opacity: .58; }
+    }
+    @media (min-width: 800px) {
+      body.hero-top .nav-logo img { height: 32px; }
+    }
     body.hero-top.nav-light .nav-logo img {
-      filter: invert(1);
+      opacity: .9;
+      mix-blend-mode: normal;
+      filter: invert(1) brightness(1.05);
     }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,.72); }
     body.hero-top:not(.nav-light) .nav:not(.scrolled) .nav-links a:hover,
@@ -593,35 +599,6 @@
       font-weight: 500; letter-spacing: -.025em; line-height: 1.22;
       max-width: 18em;
     }
-    .after-sub {
-      margin-top: 16px;
-      font-size: 15px;
-      color: rgba(255,255,255,.55);
-      max-width: 32em;
-    }
-    .planet-row {
-      display: flex; align-items: center; gap: 16px;
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,.1);
-    }
-    .planet-row img {
-      width: 52px; height: 52px; border-radius: 18%;
-      flex-shrink: 0;
-    }
-    .planet-row p {
-      font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.4;
-    }
-    .planet-row a {
-      display: inline-block; margin-top: 4px;
-      font-size: 14px; font-weight: 500; color: #fff;
-      text-decoration: underline; text-underline-offset: 3px;
-      text-decoration-color: rgba(255,255,255,.35);
-      transition: text-decoration-color var(--dur) var(--ease);
-    }
-    @media (hover:hover) {
-      .planet-row a:hover { text-decoration-color: #fff; }
-    }
     .after-signup label {
       display: block;
       font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
@@ -631,10 +608,7 @@
       font-family: var(--display);
       font-size: clamp(22px, 3vw, 28px);
       font-weight: 600; letter-spacing: -.025em; line-height: 1.15;
-      margin-bottom: 10px;
-    }
-    .after-signup > p {
-      font-size: 14px; color: rgba(255,255,255,.5); margin-bottom: 20px;
+      margin-bottom: 20px;
     }
     .after-form { display: flex; gap: 10px; flex-wrap: wrap; }
     .after-form input[type="email"] {
@@ -658,6 +632,62 @@
     }
     @media (hover:hover) { .after-form button:hover { opacity: .86; } }
     .after-note { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 12px; }
+
+    /* Premium Planet MP3 strip — top of footer ---------------------------- */
+    .footer-planet {
+      display: flex; align-items: center; gap: 20px;
+      margin-bottom: 40px;
+      padding: 22px 24px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.1);
+      background:
+        radial-gradient(ellipse 80% 120% at 0% 50%, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 40px rgba(0,0,0,.25);
+      text-decoration: none;
+      color: #fff;
+      transition: border-color .35s var(--ease), background .35s var(--ease), transform .35s var(--ease);
+    }
+    @media (hover:hover) {
+      .footer-planet:hover {
+        border-color: rgba(255,255,255,.22);
+        background:
+          radial-gradient(ellipse 80% 120% at 0% 50%, rgba(255,255,255,.12), transparent 55%),
+          linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+        transform: translateY(-1px);
+      }
+    }
+    .footer-planet img {
+      width: 64px; height: 64px; border-radius: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .footer-planet-kicker {
+      font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.42); margin: 0 0 6px;
+    }
+    .footer-planet-cta {
+      font-size: 18px; font-weight: 600; letter-spacing: -.02em; margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-planet-cta span { opacity: .55; font-size: 15px; }
+    @media (min-width: 800px) {
+      .footer-planet { padding: 26px 28px; gap: 24px; margin-bottom: 48px; }
+      .footer-planet img { width: 76px; height: 76px; border-radius: 18px; }
+      .footer-planet-cta { font-size: 20px; }
+    }
+    body.hero-top .footer {
+      color: #fff;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 56px;
+    }
+    body.hero-top .footer-manifesto { color: rgba(255,255,255,.55); }
+    body.hero-top .footer-top { border-bottom-color: rgba(255,255,255,.1); }
+    body.hero-top .footer-copy { color: rgba(255,255,255,.38); }
+    body.hero-top .footer-links a { color: rgba(255,255,255,.55); }
+    @media (hover:hover) {
+      body.hero-top .footer-links a:hover { background: rgba(255,255,255,.08); color: #fff; }
+    }
 
     /* Daylight — explore Artists / Shop ------------------------------------ */
     .daylight {
@@ -729,7 +759,6 @@
         padding: calc(var(--nav-h) + var(--safe-t) + 20px) 0 calc(28px + var(--safe-b));
         gap: 12px;
       }
-      .hero-brand { width: min(200px, 48vw); }
       .hero-platter { width: min(68vw, 280px); }
       .hero-idle h1 { font-size: clamp(32px, 10vw, 44px); }
       .hero-line { font-size: 15px; max-width: 22em; }
@@ -745,7 +774,6 @@
         padding-bottom: calc(20px + var(--safe-b));
         gap: 8px;
       }
-      .hero.is-live .hero-brand { display: none; }
       .hero.is-live .hero-platter {
         width: min(42vw, 168px);
         margin: 0;
@@ -818,7 +846,6 @@
         padding-bottom: calc(16px + var(--safe-b));
         gap: 10px;
       }
-      .hero-brand { width: min(160px, 42vw); }
       .hero-platter { width: min(48vw, 200px); }
       .hero-idle h1 { font-size: clamp(28px, 8vw, 36px); }
       .hero-line { font-size: 14px; margin: 0; }
@@ -847,7 +874,6 @@
         padding: calc(12px + var(--safe-t)) 20px calc(12px + var(--safe-b));
         width: min(100% - 24px, 900px);
       }
-      .hero-brand { display: none; }
       .hero-platter,
       .hero.is-live .hero-platter {
         width: min(34vh, 160px);
@@ -898,7 +924,7 @@
 
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-header.webp" alt="Club Copy" width="900" height="417"/></a>
+    <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Releases</a>
       <a href="artists.html">Artists</a>
@@ -936,10 +962,6 @@
     <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-stage">
-      <div class="hero-brand">
-        <img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
-      </div>
-
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
         <div class="hero-disc" data-room-disc>
@@ -1052,21 +1074,12 @@
       <div class="after-dark-inner rv">
         <div>
           <p class="eyebrow">Label</p>
-          <p class="after-statement">Independent record label from the Pacific Northwest.</p>
-          <p class="after-sub">Vinyl, digital, and merch — made with care.</p>
-          <div class="planet-row">
-            <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
-            <div>
-              <p>Listen on Planet MP3.</p>
-              <a href="https://planetmp3.net" target="_blank" rel="noopener">Open Planet MP3</a>
-            </div>
-          </div>
+          <p class="after-statement">Electronic music from the Pacific Northwest.</p>
           <p style="margin-top:20px"><a href="about.html" style="font-size:14px;font-weight:500;color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)">About</a></p>
         </div>
         <div class="after-signup">
           <label for="newsletterEmail">Newsletter</label>
-          <h2 id="newsletter-title">New releases.</h2>
-          <p>Occasional updates. Nothing else.</p>
+          <h2 id="newsletter-title">Subscribe for updates.</h2>
           <form class="after-form" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-labelledby="newsletter-title">
             <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
@@ -1084,22 +1097,19 @@
       <nav class="index-rows rv" aria-label="Explore Club Copy">
         <a class="index-row" href="catalogue.html">
           <span>
-            <span class="index-title">Catalogue</span>
-            <span class="index-note">All releases.</span>
+            <span class="index-title">Music</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="index-row" href="artists.html">
           <span>
             <span class="index-title">Artists</span>
-            <span class="index-note">The roster.</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="index-row" href="merch.html">
           <span>
             <span class="index-title">Shop</span>
-            <span class="index-note">Vinyl and merch.</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -1111,14 +1121,21 @@
 
 <footer class="footer">
   <div class="band">
+    <a class="footer-planet" href="https://planetmp3.net" target="_blank" rel="noopener" aria-label="Planet MP3">
+      <img src="planetmp3-logo.webp" alt="" width="800" height="800" loading="lazy"/>
+      <div class="footer-planet-copy">
+        <p class="footer-planet-kicker">Streaming partner</p>
+        <p class="footer-planet-cta">Listen <span aria-hidden="true">↗</span></p>
+      </div>
+    </a>
     <div class="footer-top">
       <div>
         <img class="footer-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503" loading="lazy"/>
-        <p class="footer-manifesto">Independent record label from the Pacific Northwest. © Copy House Publishing.</p>
+        <p class="footer-manifesto">Electronic music from the Pacific Northwest.</p>
       </div>
       <div class="footer-links">
         <a href="#listen">Releases</a>
-        <a href="catalogue.html">Catalogue</a>
+        <a href="catalogue.html">Music</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
         <a href="shipping.html">Shipping</a>
@@ -1127,7 +1144,6 @@
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Club Copy</p>
-      <a href="https://planetmp3.net" target="_blank" rel="noopener" class="footer-copy">Planet MP3</a>
     </div>
   </div>
 </footer>
