@@ -112,43 +112,6 @@
       display: flex; flex-direction: column; align-items: center;
       text-align: center; gap: 16px;
     }
-    /* Shop-matched chrome banner inside listen hero -------------------------- */
-    .hero-banner {
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center; gap: 14px;
-      margin-bottom: 8px;
-      animation: heroIn .85s var(--ease) both;
-      transition: opacity .45s var(--ease), transform .45s var(--ease);
-    }
-    .hero.is-live .hero-banner {
-      opacity: .35;
-      transform: scale(.92);
-    }
-    @media (max-width: 700px) {
-      .hero.is-live .hero-banner { display: none; }
-    }
-    .hero-banner-logo {
-      width: min(320px, 62vw);
-      height: auto;
-      opacity: .42;
-      mix-blend-mode: screen;
-      filter: none;
-      transition: opacity .6s var(--ease);
-    }
-    @media (hover:hover) {
-      .hero-banner-logo:hover { opacity: .58; }
-    }
-    .hero-banner-sub {
-      font-size: 13px; font-weight: 500;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(255,255,255,.38);
-      margin: 0;
-    }
-    @media (min-width: 900px) {
-      .hero-banner { gap: 18px; margin-bottom: 12px; }
-      .hero-banner-logo { width: min(380px, 36vw); }
-    }
-
 
     /* Platter / spinning disc ---------------------------------------------- */
     .hero-platter {
@@ -889,7 +852,7 @@
       <a href="#listen">Listen</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
-      <a href="planet.html">Planet</a>
+      <a href="planet.html">Stream</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -912,7 +875,7 @@
   <a href="#listen">Listen</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
-  <a href="planet.html">Planet</a>
+  <a href="planet.html">Stream</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -924,10 +887,6 @@
     <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-stage">
-      <div class="hero-banner">
-        <img class="hero-banner-logo" src="merch/club-copy/logo-chrome-hero.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
-        <p class="hero-banner-sub">Listen</p>
-      </div>
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
         <div class="hero-disc" data-room-disc>
@@ -1081,7 +1040,7 @@
         </a>
         <a class="index-row" href="planet.html">
           <span>
-            <span class="index-title">Planet</span>
+            <span class="index-title">Stream</span>
           </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -1114,7 +1073,7 @@
         <a href="#listen">Listen</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
-        <a href="planet.html">Planet</a>
+        <a href="planet.html">Stream</a>
         <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
       </div>
