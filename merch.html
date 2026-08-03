@@ -59,14 +59,23 @@
       .shop-hero-logo { width: min(440px, 42vw); }
       .shop-hero-inner { gap: 22px; padding: 40px 0 16px; }
     }
-    /* Default music sleeve — full-bleed photo, no padding crop */
-    #music .product-visual.is-default {
+    /* Music stock vinyl — full-bleed black sleeve photo */
+    #music .product-visual.is-stock {
       background: #050505;
-      border-color: rgba(17,17,17,.12);
+      border-color: rgba(17,17,17,.14);
+      box-shadow: 0 14px 36px rgba(17,17,17,.08);
     }
-    #music .product-visual.is-default img {
+    #music .product-visual.is-stock img {
       object-fit: cover;
+      object-position: center;
       padding: 0;
+    }
+    #music .product-visual.is-stock::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
     }
 
     /* Section anchors (clear sticky jump) -------------------------------------- */
@@ -114,7 +123,7 @@
     .product:nth-child(3) { transition-delay: .1s; }
     .product:nth-child(4) { transition-delay: .15s; }
     @media (hover:hover) {
-      .product:hover .product-visual img:not(.vinyl-disc) { transform: scale(1.02); }
+      .product:hover .product-visual img { transform: scale(1.02); }
     }
 
     .product-visual {
@@ -143,61 +152,10 @@
       mix-blend-mode: normal;
       transition: transform .8s var(--ease);
     }
-    #music .product-visual img {
+    #music .product-visual:not(.is-stock) img {
       padding: 4%;
       mix-blend-mode: normal;
     }
-
-    /* Layered vinyl — sleeve + sliding disc ---------------------------------- */
-    .vinyl-pack {
-      position: relative;
-      background: #F2F0EC;
-      overflow: hidden;
-    }
-    .vinyl-pack .vinyl-disc {
-      position: absolute;
-      width: 72%;
-      aspect-ratio: 1;
-      top: 14%;
-      left: 30%;
-      border-radius: 50%;
-      object-fit: cover;
-      padding: 0 !important;
-      mix-blend-mode: normal !important;
-      z-index: 1;
-      transition: transform .55s cubic-bezier(.22,1,.36,1);
-      filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
-    }
-    .vinyl-pack .vinyl-sleeve {
-      position: relative;
-      z-index: 2;
-      width: 72% !important;
-      height: auto !important;
-      aspect-ratio: 1;
-      margin: 14% auto;
-      padding: 0 !important;
-      mix-blend-mode: normal !important;
-      object-fit: cover;
-      border-radius: 3px;
-      box-shadow: 0 10px 28px rgba(17,17,17,.14);
-      background: #0a0a0a;
-    }
-    /* Dubplate / label covers — keep the circle small on a black sleeve */
-    .vinyl-pack .vinyl-sleeve.is-label {
-      object-fit: contain;
-      object-position: center;
-      padding: 22% !important;
-      box-sizing: border-box;
-      background: #0a0a0a;
-    }
-    @media (hover:hover) {
-      .product:hover .vinyl-disc { transform: translateX(16%) rotate(14deg); }
-      .product:hover .vinyl-pack .vinyl-sleeve { transform: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .vinyl-pack .vinyl-disc { transition: none; }
-    }
-
 
     /* Dark nav over chrome shop hero ----------------------------------------- */
     body.shop-page .nav {
@@ -456,13 +414,12 @@
           <p class="eyebrow">01</p>
           <h2>Music</h2>
         </div>
-        <p class="section-note">Vinyl and the essentials around it.</p>
+        <p class="section-note">12″ black vinyl and the essentials around it.</p>
       </header>
       <section class="shop" aria-label="Music">
         <article class="product merch-card" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
-          <div class="product-visual vinyl-pack">
-            <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true"/>
-            <img class="vinyl-sleeve is-label" src="what-if-cover.webp" alt="What If vinyl sleeve"/>
+          <div class="product-visual is-stock">
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="What If — Club Copy vinyl" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -478,9 +435,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-together" data-name="Together — Vinyl" data-price="32">
-          <div class="product-visual vinyl-pack">
-            <img class="vinyl-disc" src="merch/club-copy/prod-vinyl-disc.webp" alt="" aria-hidden="true" loading="lazy"/>
-            <img class="vinyl-sleeve is-label" src="together-cover.webp" alt="Together vinyl sleeve" loading="lazy"/>
+          <div class="product-visual is-stock">
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Together — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -496,8 +452,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
-          <div class="product-visual is-default">
-            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Inlet Knight vinyl" loading="lazy" width="1200" height="1200"/>
+          <div class="product-visual is-stock">
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -513,8 +469,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
-          <div class="product-visual is-default">
-            <img src="at_home.webp" alt="At Home vinyl" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual is-stock">
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -530,8 +486,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-bundle-what-if-tee" data-name="What If Bundle — Vinyl + Tee" data-price="54">
-          <div class="product-visual">
-            <img src="merch/club-copy/prod-bundle-vinyl-tee.webp" alt="What If vinyl and Micro Tee bundle" loading="lazy"/>
+          <div class="product-visual is-stock">
+            <img src="merch/club-copy/prod-vinyl-default.webp" alt="What If Bundle — vinyl and tee" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -849,7 +805,7 @@ document.querySelectorAll('.merch-add').forEach(function (btn) {
     var card = btn.closest('.merch-card');
     var colourBtn = card.querySelector('.merch-opt.selected[data-group$="-colour"]');
     var sizeBtn = card.querySelector('.merch-opt.selected[data-group$="-size"]');
-    var img = card.querySelector('.vinyl-sleeve') || card.querySelector('.product-visual img:not(.vinyl-disc)');
+    var img = card.querySelector('.product-visual img');
     var item = {
       sku: card.dataset.sku,
       name: card.dataset.name,
