@@ -70,6 +70,17 @@
       object-position: center;
       padding: 6%;
     }
+    /* Label / sleeve art covers */
+    #music .product-visual.is-cover {
+      background: #0a0a0a;
+      border-color: rgba(17,17,17,.14);
+      box-shadow: 0 14px 36px rgba(17,17,17,.08);
+    }
+    #music .product-visual.is-cover img {
+      object-fit: cover;
+      object-position: center;
+      padding: 0;
+    }
     #goods .shop {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -150,7 +161,7 @@
       mix-blend-mode: normal;
       transition: transform .8s var(--ease);
     }
-    #music .product-visual:not(.is-vinyl) img {
+    #music .product-visual:not(.is-vinyl):not(.is-cover) img {
       padding: 4%;
       mix-blend-mode: normal;
     }
@@ -468,8 +479,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
-          <div class="product-visual is-vinyl">
-            <img src="merch/club-copy/prod-vinyl-at-home.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual is-cover">
+            <img src="merch/club-copy/prod-at-home-cover.webp" alt="At Home — Club Copy" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
