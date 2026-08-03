@@ -59,16 +59,16 @@
       .shop-hero-logo { width: min(440px, 42vw); }
       .shop-hero-inner { gap: 22px; padding: 40px 0 16px; }
     }
-    /* Music release covers — full-bleed sleeve art */
-    #music .product-visual.is-cover {
-      background: #0a0a0a;
-      border-color: rgba(17,17,17,.14);
-      box-shadow: 0 14px 36px rgba(17,17,17,.08);
+    /* Music vinyl product shots — physical sleeve + disc */
+    #music .product-visual.is-vinyl {
+      background: #F4F4F2;
+      border-color: rgba(17,17,17,.1);
+      box-shadow: 0 14px 36px rgba(17,17,17,.06);
     }
-    #music .product-visual.is-cover img {
-      object-fit: cover;
+    #music .product-visual.is-vinyl img {
+      object-fit: contain;
       object-position: center;
-      padding: 0;
+      padding: 6%;
     }
     #goods .shop {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -150,7 +150,7 @@
       mix-blend-mode: normal;
       transition: transform .8s var(--ease);
     }
-    #music .product-visual:not(.is-cover) img {
+    #music .product-visual:not(.is-vinyl) img {
       padding: 4%;
       mix-blend-mode: normal;
     }
@@ -417,8 +417,8 @@
       </header>
       <section class="shop" aria-label="Music">
         <article class="product merch-card" data-sku="sm-vinyl-what-if" data-name="What If — Vinyl" data-price="32">
-          <div class="product-visual is-cover">
-            <img src="what-if-cover.webp" alt="What If — Club Copy vinyl" width="1200" height="1200"/>
+          <div class="product-visual is-vinyl">
+            <img src="merch/club-copy/prod-vinyl-what-if.webp" alt="What If — Club Copy vinyl" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -434,8 +434,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-together" data-name="Together — Vinyl" data-price="32">
-          <div class="product-visual is-cover">
-            <img src="together-cover.webp" alt="Together — Club Copy vinyl" loading="lazy" width="1200" height="1200"/>
+          <div class="product-visual is-vinyl">
+            <img src="merch/club-copy/prod-vinyl-together.webp" alt="Together — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -451,8 +451,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-inlet-knight" data-name="Inlet Knight — Vinyl" data-price="36">
-          <div class="product-visual is-cover">
-            <img src="inlet-knight-cover.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1400" height="1400"/>
+          <div class="product-visual is-vinyl">
+            <img src="merch/club-copy/prod-vinyl-inlet-knight.webp" alt="Inlet Knight — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -468,8 +468,8 @@
         </article>
 
         <article class="product merch-card" data-sku="sm-vinyl-at-home" data-name="At Home — Vinyl" data-price="28">
-          <div class="product-visual is-cover">
-            <img src="at_home.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
+          <div class="product-visual is-vinyl">
+            <img src="merch/club-copy/prod-vinyl-at-home.webp" alt="At Home — Club Copy vinyl" loading="lazy" width="1024" height="1024"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -589,7 +589,7 @@
 
         <article class="product merch-card" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="42">
           <div class="product-visual">
-            <img id="img-longsleeve" src="merch/club-copy/prod-longsleeve.jpg" alt="Long Sleeve"/>
+            <img id="img-longsleeve" src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve"/>
           </div>
           <div class="product-body">
             <div class="product-top">
@@ -600,8 +600,8 @@
             <div class="opt-block">
               <span class="opt-label">Colour</span>
               <div class="merch-options">
-                <button class="merch-opt selected" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve.jpg">Black</button>
-                <button class="merch-opt" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve-white.jpg">White</button>
+                <button class="merch-opt selected" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve-white.jpg">White</button>
+                <button class="merch-opt" data-group="longsleeve-colour" data-img="merch/club-copy/prod-longsleeve.jpg">Black</button>
               </div>
             </div>
             <div class="opt-block">
