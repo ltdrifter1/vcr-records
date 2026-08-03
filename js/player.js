@@ -10,6 +10,8 @@
   var stageOpen = false;
   var roomOpen = false;
   var roomBound = false;
+  var listenBound = false;
+  var inited = false;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -400,10 +402,12 @@
       audio.src = track.src;
     }
     render();
+    emit();
     setDeepLink(track, true);
     if (autoplay) {
-      audio.play().catch(function () {});
+      return audio.play().catch(function () {});
     }
+    return Promise.resolve();
   }
 
   function playRelease(releaseId, trackId, opts) {
@@ -432,6 +436,7 @@
         if (getRoom()) openRoom({ scroll: opts.scroll !== false });
         else openStage();
       }
+      return current();
     });
   }
 
@@ -551,12 +556,31 @@
 
   function bindListenUI(root) {
     root = root || document;
+    if (listenBound && root === document) return;
+    if (root === document) listenBound = true;
     root.querySelectorAll("[data-play-release]").forEach(function (el) {
       el.addEventListener("click", function (e) {
         e.preventDefault();
-        playRelease(el.getAttribute("data-play-release"), el.getAttribute("data-play-track"), {
+        var releaseId = el.getAttribute("data-play-release");
+        var trackId = el.getAttribute("data-play-track");
+        var wantStage = el.hasAttribute("data-play-stage");
+        var cur = current();
+        // Same release: toggle; reopen immersive UI when requested and minimized.
+        if (cur && cur.releaseId === releaseId && !trackId) {
+          if (wantStage) {
+            if (getRoom()) {
+              if (!roomOpen) openRoom({ scroll: true });
+              else toggle();
+            } else if (!stageOpen) openStage();
+            else toggle();
+          } else {
+            toggle();
+          }
+          return;
+        }
+        playRelease(releaseId, trackId, {
           autoplay: true,
-          stage: el.hasAttribute("data-play-stage"),
+          stage: wantStage,
         });
       });
     });
@@ -579,7 +603,20 @@
     return Promise.resolve();
   }
 
+  function getState() {
+    return {
+      track: current(),
+      playing: !!(audio && !audio.paused),
+      currentTime: audio ? audio.currentTime : 0,
+      duration: audio ? audio.duration || 0 : 0,
+      stageOpen: stageOpen,
+      roomOpen: roomOpen,
+    };
+  }
+
   function init() {
+    if (inited) return;
+    inited = true;
     ensureUI();
     bindListenUI(document);
     hydrateFromURL();
@@ -610,6 +647,7 @@
       return audio;
     },
     current: current,
+    getState: getState,
     init: init,
   };
 
