@@ -269,21 +269,27 @@
     .hero-idle-title {
       margin: 0 0 4px;
       font-family: var(--display);
-      font-size: clamp(22px, 3.6vw, 30px);
+      font-size: clamp(15px, 2.2vw, 18px);
       font-weight: 500;
-      letter-spacing: -.02em;
-      line-height: 1.2;
-      color: rgba(255,255,255,.78);
+      letter-spacing: -.01em;
+      line-height: 1.25;
+      color: rgba(255,255,255,.48);
       text-align: center;
       white-space: nowrap;
       animation: heroIn .8s var(--ease) .18s both;
     }
     .hero-idle-track {
-      font-size: .72em;
-      font-weight: 600;
-      letter-spacing: .12em;
+      font-size: 1.35em;
+      font-weight: 700;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.5);
+      color: rgba(255,255,255,.92);
+    }
+    .hero-idle-by {
+      font-size: 1em;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      color: rgba(255,255,255,.48);
     }
     .visually-hidden {
       position: absolute;
@@ -860,7 +866,7 @@
         gap: 12px;
       }
       .hero-platter { width: min(68vw, 280px); }
-      .hero-idle-title { font-size: clamp(32px, 10vw, 44px); }
+      .hero-idle-title { font-size: clamp(16px, 4.2vw, 20px); }
       .hero-line { font-size: 15px; max-width: 22em; }
       .hero-ctas { width: 100%; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
@@ -960,7 +966,7 @@
         gap: 10px;
       }
       .hero-platter { width: min(48vw, 200px); }
-      .hero-idle-title { font-size: clamp(28px, 8vw, 36px); }
+      .hero-idle-title { font-size: clamp(15px, 3.8vw, 18px); }
       .hero-line { font-size: 14px; margin: 0; }
       .hero-ctas { margin-top: 0; gap: 8px; }
       .hero-ctas .btn { height: 44px; }
@@ -1003,7 +1009,7 @@
       .hero-ctas,
       .hero-controls,
       .hero-console-actions { justify-content: flex-start; }
-      .hero-idle-title { font-size: 28px; }
+      .hero-idle-title { font-size: 16px; }
       .hero-console-hint { display: none; }
     }
 
@@ -1092,7 +1098,7 @@
       </div>
 
       <div class="hero-idle" data-room-idle>
-        <h1 class="hero-idle-title"><span class="hero-idle-track">What If</span> by Inlet Knight</h1>
+        <h1 class="hero-idle-title"><span class="hero-idle-track">What If</span> <span class="hero-idle-by">by Inlet Knight</span></h1>
         <div class="hero-ctas">
           <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play</button>
           <a class="btn btn-ghost" href="what-if.html">View</a>
