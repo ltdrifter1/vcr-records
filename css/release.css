@@ -107,6 +107,21 @@ body {
 .release-disc.is-spinning {
   animation: releaseDiscSpin 9s linear infinite;
 }
+
+/* Exact square cover (e.g. At Home label art) — no circular crop / spindle overlay */
+.release-platter.is-exact::before { display: none; }
+.release-platter.is-exact .release-disc {
+  border-radius: 0;
+  animation: none;
+  box-shadow: 0 18px 40px rgba(17,17,17,.18);
+}
+.release-platter.is-exact .release-disc img {
+  border-radius: 0;
+  object-fit: contain;
+}
+.release-platter.is-exact .release-disc::after { display: none; }
+.release-platter.is-exact .release-disc.is-spinning { animation: none; }
+.release-platter.is-exact .release-disc-hit { border-radius: 0; }
 @keyframes releaseDiscSpin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
