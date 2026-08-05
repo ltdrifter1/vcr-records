@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
@@ -41,13 +41,60 @@
     @media (hover:hover) {
       .cat-row:hover { background: rgba(255,255,255,.45); }
     }
+    .cat-row.is-now-playing {
+      background: rgba(17,17,17,.04);
+      box-shadow: inset 3px 0 0 #111;
+    }
+    .cat-row.is-up-next {
+      box-shadow: inset 3px 0 0 rgba(17,17,17,.22);
+    }
     .cat-cover {
+      position: relative;
       width: 72px; height: 72px;
       background: var(--soft);
       overflow: hidden;
     }
     @media (min-width: 800px) { .cat-cover { width: 88px; height: 88px; } }
-    .cat-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cat-play {
+      position: absolute; right: 6px; bottom: 6px;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,.94); color: #111;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,.22);
+      opacity: 0; transform: translateY(4px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease);
+      z-index: 2;
+    }
+    .cat-play svg { width: 12px; height: 12px; fill: currentColor; margin-left: 1px; display: block; }
+    .cat-play .cp-pause { display: none; margin-left: 0; }
+    .cat-row.is-now-playing.is-audible .cat-play .cp-play { display: none; }
+    .cat-row.is-now-playing.is-audible .cat-play .cp-pause { display: block; }
+    .cat-row.is-now-playing .cat-play,
+    .cat-row.is-up-next .cat-play { opacity: 1; transform: none; }
+    @media (hover:hover) {
+      .cat-row:hover .cat-play { opacity: 1; transform: none; }
+      .cat-play:hover { background: #fff; }
+    }
+    @media (hover:none) { .cat-play { opacity: 1; transform: none; } }
+    .cat-air {
+      position: absolute; left: 6px; top: 6px;
+      z-index: 2;
+      display: none;
+      padding: 3px 7px;
+      font-family: var(--callsign);
+      font-size: 9px; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: #fff;
+      background: rgba(8,8,10,.78);
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .cat-row.is-now-playing .cat-air,
+    .cat-row.is-up-next .cat-air { display: inline-block; }
+    .cat-row.is-up-next:not(.is-now-playing) .cat-air {
+      color: rgba(255,255,255,.72);
+      background: rgba(8,8,10,.55);
+    }
     .cat-no {
       font-size: 12px; font-weight: 500; letter-spacing: .12em;
       text-transform: uppercase; color: var(--dim);
@@ -57,7 +104,9 @@
       font-family: var(--display);
       font-size: clamp(18px, 2.4vw, 22px);
       font-weight: 600; letter-spacing: -.02em; line-height: 1.15;
+      color: inherit; text-decoration: none;
     }
+    @media (hover:hover) { .cat-title:hover { opacity: .72; } }
     .cat-artist { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
     .cat-meta {
       font-size: 13px; color: var(--dim);
@@ -135,9 +184,9 @@
   <div class="band">
     <header class="section-head">
       <div>
-        <p class="eyebrow">Discography</p>
+        <p class="eyebrow">Catalogue</p>
         <h1>Library</h1>
-        <p class="page-lead">Every Club Copy release, by number. Small library, long shelf life.</p>
+        <p class="page-lead">Every Club Copy release, by number. Play a preview or open the page.</p>
       </div>
       <a class="head-link" href="merch.html">Shop vinyl</a>
     </header>

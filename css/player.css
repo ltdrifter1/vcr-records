@@ -1,4 +1,6 @@
 /* Shared Continuity Deck + Ambient Stage */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap");
+
 :root {
   --vcr-player-h: 84px;
 }
@@ -20,15 +22,16 @@ body.has-vcr-player {
   gap: 10px;
   align-items: center;
   padding: 10px 12px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.58));
-  border: 1px solid rgba(229, 227, 223, 0.95);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(18,18,20,.92), rgba(10,10,12,.88));
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.85) inset,
-    0 2px 6px rgba(17, 17, 17, 0.05),
-    0 22px 48px rgba(17, 17, 17, 0.14);
-  backdrop-filter: saturate(180%) blur(28px);
-  -webkit-backdrop-filter: saturate(180%) blur(28px);
+    0 1px 0 rgba(255,255,255,.08) inset,
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 22px 48px rgba(0, 0, 0, 0.35);
+  backdrop-filter: saturate(140%) blur(22px);
+  -webkit-backdrop-filter: saturate(140%) blur(22px);
+  color: #fff;
   transform: translateY(140%);
   opacity: 0;
   pointer-events: none;
@@ -40,6 +43,48 @@ body.has-vcr-player {
   opacity: 1;
   pointer-events: auto;
 }
+
+.vcr-player__bug {
+  margin: 0 0 2px;
+  font-family: var(--callsign, 'Oswald', 'Space Grotesk', sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.42);
+}
+
+.vcr-player__title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+
+.vcr-player__sub {
+  font-size: 12px;
+  color: rgba(255,255,255,.48);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vcr-player__upnext {
+  margin: 2px 0 0;
+  font-family: var(--callsign, 'Oswald', 'Space Grotesk', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.32);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vcr-player__upnext[hidden] { display: none !important; }
 
 .vcr-player__stage-hit {
   position: absolute;
@@ -172,18 +217,136 @@ body.has-vcr-player {
   min-height: 36px;
   padding: 8px 14px;
   border-radius: 980px;
-  background: rgba(0, 0, 0, 0.06);
+  background: #fff;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
 }
 
+.vcr-player__btn {
+  color: #fff;
+}
+
+.vcr-player__times {
+  color: rgba(255,255,255,.45);
+}
+
 .vcr-player__close {
   font-size: 18px;
-  color: #6e6e73;
+  color: rgba(255,255,255,.5);
   border-color: transparent;
   background: transparent;
   box-shadow: none;
+}
+
+.vcr-player__scrub {
+  accent-color: #fff;
+}
+
+/* Preview bumper interstitial */
+.vcr-bumper {
+  position: fixed;
+  inset: 0;
+  z-index: 560;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.vcr-bumper.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.vcr-bumper__card {
+  width: min(420px, 100%);
+  padding: 28px 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(22,22,24,.96), rgba(8,8,10,.94));
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+  animation: fxBumperIn .35s cubic-bezier(.22,1,.36,1) both;
+}
+.vcr-bumper__callsign {
+  margin: 0 0 12px;
+  font-family: var(--callsign, 'Oswald', 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+}
+.vcr-bumper__title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+.vcr-bumper__sub {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+}
+.vcr-bumper__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.vcr-bumper__btn {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 980px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: #fff;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.vcr-bumper__btn--ghost {
+  background: transparent;
+  color: #fff;
+}
+body.vcr-bumper-open { overflow: hidden; }
+
+.vcr-stage__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.35);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
+.vcr-stage__bug { color: #fff; letter-spacing: .06em; }
+.vcr-stage__upnext {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+}
+.vcr-stage__upnext[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vcr-bumper__card { animation: none !important; }
 }
 
 /* Play-gate toast (Safari blocked autoplay) */

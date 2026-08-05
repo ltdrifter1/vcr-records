@@ -17,7 +17,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
@@ -59,6 +59,15 @@
       background:
         radial-gradient(ellipse 50% 42% at 50% 40%, rgba(255,255,255,.1), transparent 70%),
         linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.55) 100%);
+    }
+    .hero-vhs {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: url('hero-vhs.webp') center / cover no-repeat;
+      opacity: .055;
+      mix-blend-mode: soft-light;
     }
     .hero-grid {
       position: absolute;
@@ -252,9 +261,9 @@
       100% { transform: scale(1.06); opacity: 0; }
     }
 
-    /* Idle copy ------------------------------------------------------------ */
+    /* Idle — station lockup (Club Copy owns the viewport) ------------------- */
     .hero-idle {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
       width: 100%;
       transition: opacity .35s var(--ease), transform .35s var(--ease);
     }
@@ -266,31 +275,37 @@
       opacity: 0;
       pointer-events: none;
     }
-    .hero-idle-title {
-      margin: 0 0 4px;
-      font-family: var(--display);
-      font-size: clamp(15px, 2.2vw, 18px);
-      font-weight: 500;
-      letter-spacing: -.01em;
-      line-height: 1.25;
-      color: rgba(255,255,255,.48);
-      text-align: center;
-      white-space: nowrap;
-      animation: heroIn .8s var(--ease) .18s both;
+    .hero-station-mark {
+      width: min(280px, 58vw);
+      height: auto;
+      opacity: .92;
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,.35));
+      animation: heroIn .9s var(--ease) .08s both;
     }
-    .hero-idle-track {
-      font-size: 1.35em;
-      font-weight: 700;
-      letter-spacing: .1em;
+    .hero-callsign {
+      margin: 0;
+      font-family: var(--callsign);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .28em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.92);
+      color: rgba(255,255,255,.5);
+      animation: fxIdentIn .9s var(--ease) .16s both;
     }
-    .hero-idle-by {
-      font-size: 1em;
+    .hero-idle-title {
+      margin: 0 0 2px;
+      max-width: 22em;
+      font-family: var(--display);
+      font-size: clamp(15px, 2.1vw, 17px);
       font-weight: 500;
       letter-spacing: -.01em;
-      color: rgba(255,255,255,.48);
+      line-height: 1.4;
+      color: rgba(255,255,255,.52);
+      text-align: center;
+      animation: heroIn .8s var(--ease) .22s both;
     }
+    .hero-idle-track,
+    .hero-idle-by { display: none; }
     .visually-hidden {
       position: absolute;
       width: 1px; height: 1px;
@@ -339,19 +354,43 @@
       to { opacity: 1; transform: none; }
     }
     .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.38);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-family: var(--callsign);
       font-size: 11px; font-weight: 600;
-      letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(255,255,255,.55);
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+    }
+    .hero-kicker__bug {
+      letter-spacing: .06em;
+      color: #fff;
     }
     .hero-console-title {
       font-family: var(--display);
-      font-size: clamp(28px, 5.5vw, 42px);
-      font-weight: 600; letter-spacing: -.035em; line-height: 1.05;
+      font-size: clamp(24px, 4.5vw, 34px);
+      font-weight: 600; letter-spacing: -.03em; line-height: 1.08;
     }
     .hero-console-artist {
-      font-size: 15px;
-      color: rgba(255,255,255,.68);
+      font-size: 14px;
+      color: rgba(255,255,255,.55);
     }
+    .hero-upnext {
+      margin: 2px 0 0;
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.38);
+      min-height: 1.2em;
+    }
+    .hero-upnext[hidden] { display: none !important; }
     .hero-controls {
       display: flex; align-items: center; gap: 10px;
       margin-top: 6px;
@@ -599,6 +638,32 @@
     }
     .wall-item.is-now-playing .wall-art img { filter: brightness(1.06); }
     .wall-item.is-now-playing .wall-play { opacity: 1; transform: none; }
+    .wall-item.is-up-next .wall-art {
+      box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 18px 48px rgba(0,0,0,.45);
+    }
+    .wall-item.is-up-next .wall-play { opacity: 1; transform: none; }
+    .wall-air {
+      position: absolute;
+      left: 12px; top: 12px;
+      z-index: 2;
+      display: none;
+      padding: 4px 8px;
+      font-family: var(--callsign);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: #fff;
+      background: rgba(8,8,10,.72);
+      border: 1px solid rgba(255,255,255,.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .wall-item.is-now-playing .wall-air,
+    .wall-item.is-up-next .wall-air { display: inline-block; }
+    .wall-item.is-up-next:not(.is-now-playing) .wall-air {
+      color: rgba(255,255,255,.7);
+      background: rgba(8,8,10,.5);
+      border-color: rgba(255,255,255,.14);
+    }
 
     .wall-meta { padding: 0 2px; display: flex; flex-direction: column; gap: 4px; }
     .wall-artist {
@@ -1085,6 +1150,7 @@
   <!-- Featured release -->
   <section class="hero fx-phosphor" id="room" data-listening-room aria-label="Featured release">
     <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
+    <div class="hero-vhs" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="fx-grid-horizon" aria-hidden="true"></div>
     <div class="hero-stage">
@@ -1102,17 +1168,20 @@
       </div>
 
       <div class="hero-idle" data-room-idle>
-        <h1 class="hero-idle-title"><span class="hero-idle-track">What If</span> <span class="hero-idle-by">by Inlet Knight</span></h1>
+        <img class="hero-station-mark" src="hero-club-copy.webp" alt="Club Copy" width="1200" height="480" fetchpriority="high"/>
+        <p class="hero-callsign">On air</p>
+        <h1 class="hero-idle-title">Electronic music from the Pacific Northwest.</h1>
         <div class="hero-ctas">
           <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play</button>
-          <a class="btn btn-ghost" href="what-if.html">View</a>
+          <a class="btn btn-ghost" href="library.html">Catalogue</a>
         </div>
       </div>
 
       <div class="hero-console" data-room-console>
-        <p class="hero-kicker">Now playing</p>
+        <p class="hero-kicker"><span class="hero-kicker__bug">CC</span> Now</p>
         <h2 class="hero-console-title" data-room-title>What If</h2>
         <p class="hero-console-artist" data-room-artist>Inlet Knight · What If</p>
+        <p class="hero-upnext" data-room-upnext hidden></p>
         <div class="hero-controls">
           <button type="button" class="hero-ctrl" data-act="prev" aria-label="Previous">
             <svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
@@ -1135,7 +1204,7 @@
           <a class="hero-console-link" href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener" data-room-bandcamp>Digital on Bandcamp</a>
           <button type="button" class="hero-console-link" data-act="room-close">Minimize</button>
         </div>
-        <p class="hero-console-hint">90s preview · Space play/pause · Esc minimize</p>
+        <p class="hero-console-hint">90s preview · bumper at end · Esc minimize</p>
       </div>
     </div>
   </section>
@@ -1146,8 +1215,8 @@
     <div class="band">
       <header class="section-head" id="listen">
         <div>
-          <p class="eyebrow">Music</p>
-          <h2 id="listen-title">Releases</h2>
+          <p class="eyebrow">On air</p>
+          <h2 id="listen-title">Catalogue</h2>
         </div>
         <a class="head-link" href="library.html">View all</a>
       </header>
@@ -1317,25 +1386,11 @@
     });
   }
 
-  // Same-release play/toggle + room reopen is handled by VCRPlayer.bindListenUI.
-  // Keep the wall and disc glyphs in sync with what's actually playing.
+  // Wall NOW / UP NEXT sync lives in js/home-wall.js.
+  // Keep the disc glyph label in sync with what's actually playing.
   window.addEventListener('vcr:player', function (e) {
     var d = e.detail || {};
-    var rel = d.track ? d.track.releaseId : null;
     var playing = !!d.playing;
-
-    document.querySelectorAll('.wall-item').forEach(function (item) {
-      var mine = rel && item.getAttribute('data-release') === rel;
-      item.classList.toggle('is-now-playing', !!mine);
-      item.classList.toggle('is-audible', !!(mine && playing));
-      var btn = item.querySelector('.wall-play');
-      if (btn) {
-        var name = item.querySelector('.wall-title');
-        var releaseName = name ? name.textContent.trim() : 'release';
-        btn.setAttribute('aria-label', (mine && playing ? 'Pause ' : 'Play ') + releaseName);
-      }
-    });
-
     if (discHit) {
       var title = d.track ? d.track.releaseTitle : 'What If';
       discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);

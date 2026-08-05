@@ -168,7 +168,7 @@
           <div class="buy-stack">
             <button type="button" class="btn btn-fill" id="buyBtn">Add vinyl to bag — $36</button>
           </div>
-          <p class="small-note" id="buyNote">12" black vinyl · Ships from British Columbia</p>
+          <p class="small-note" id="buyNote">12" black vinyl · Ships from British Columbia · CA &amp; US</p>
           <a class="bc-quiet" href="https://inletknight.bandcamp.com/album/inlet-knight" target="_blank" rel="noopener">Also on Bandcamp ↗</a>
           <p class="trust-line">
             <span>Secure checkout</span>
@@ -451,7 +451,7 @@ VCRReleaseBind({
       var meta = $('priceDisplay') && $('priceDisplay').querySelector('meta[itemprop="price"]');
       if (meta) meta.content = '36.00';
       if ($('priceFormat')) $('priceFormat').textContent = 'CAD';
-      buyNoteEl.textContent = '12" black vinyl · Ships from British Columbia';
+      buyNoteEl.textContent = '12" black vinyl · Ships from British Columbia · CA & US';
     } else if (currentFmt === 'digital') {
       buyBtn.textContent = 'Buy digital on Bandcamp — $9';
       if ($('priceAmount')) $('priceAmount').textContent = '$9';

@@ -1,46 +1,21 @@
-/* Club Copy — Y2K / future surface kit
-   Use sparingly on immersive surfaces: hero, after-dark, shop hero, planet. */
+/* Club Copy — broadcast / phosphor surface kit
+   Use sparingly on immersive surfaces: hero, after-dark, shop hero, planet.
+   Cool white scan + soft VHS edge — not cyan/magenta costume. */
 
 :root {
-  --fx-iridescent: linear-gradient(
-    120deg,
-    rgba(120, 220, 255, .55),
-    rgba(255, 120, 220, .45),
-    rgba(255, 230, 120, .4),
-    rgba(120, 255, 200, .45),
-    rgba(120, 220, 255, .55)
-  );
   --fx-glass: rgba(255, 255, 255, .08);
-  --fx-glass-border: rgba(255, 255, 255, .18);
-}
-
-.fx-chromatic {
-  position: relative;
-}
-.fx-chromatic::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: var(--fx-iridescent);
-  background-size: 220% 220%;
-  opacity: .55;
-  pointer-events: none;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: fxShift 10s ease-in-out infinite;
+  --fx-glass-border: rgba(255, 255, 255, .16);
+  --fx-scan: rgba(255, 255, 255, .028);
+  --fx-phosphor: rgba(220, 235, 255, .1);
 }
 
 .fx-glass {
   background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04));
   border: 1px solid var(--fx-glass-border);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.12) inset,
+    0 1px 0 rgba(255,255,255,.1) inset,
     0 18px 48px rgba(0,0,0,.28);
 }
 
@@ -54,19 +29,27 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .35;
+  opacity: .42;
   background:
-    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(80, 200, 255, .18), transparent 55%),
-    radial-gradient(ellipse 70% 45% at 90% 20%, rgba(255, 90, 180, .12), transparent 50%),
+    radial-gradient(ellipse 70% 45% at 50% 0%, var(--fx-phosphor), transparent 58%),
     repeating-linear-gradient(
       0deg,
       transparent,
       transparent 2px,
-      rgba(255,255,255,.015) 2px,
-      rgba(255,255,255,.015) 3px
+      var(--fx-scan) 2px,
+      var(--fx-scan) 3px
     );
   mix-blend-mode: screen;
-  animation: fxDrift 28s linear infinite;
+  animation: fxDrift 32s linear infinite;
+}
+.fx-phosphor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, .35);
+  opacity: .55;
 }
 
 .fx-grid-horizon {
@@ -74,43 +57,78 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: .4;
+  opacity: .32;
   background:
-    linear-gradient(180deg, transparent 0%, rgba(8,8,12,.2) 40%, rgba(8,8,12,.85) 100%),
+    linear-gradient(180deg, transparent 0%, rgba(8,8,12,.25) 42%, rgba(8,8,12,.88) 100%),
     repeating-linear-gradient(
       90deg,
       transparent 0,
       transparent 47px,
-      rgba(140, 220, 255, .07) 47px,
-      rgba(140, 220, 255, .07) 48px
+      rgba(255, 255, 255, .06) 47px,
+      rgba(255, 255, 255, .06) 48px
     ),
     repeating-linear-gradient(
       0deg,
       transparent 0,
       transparent 47px,
-      rgba(255, 140, 220, .05) 47px,
-      rgba(255, 140, 220, .05) 48px
+      rgba(255, 255, 255, .04) 47px,
+      rgba(255, 255, 255, .04) 48px
     );
   transform: perspective(600px) rotateX(58deg) translateY(-12%) scale(1.35);
   transform-origin: center top;
-  animation: fxGridPulse 18s ease-in-out infinite;
+  animation: fxGridPulse 20s ease-in-out infinite;
 }
 
-@keyframes fxShift {
-  0%, 100% { background-position: 0% 50%; opacity: .45; }
-  50% { background-position: 100% 50%; opacity: .7; }
+/* Station callsign / lower-third primitives */
+.fx-callsign {
+  font-family: var(--callsign, var(--display));
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: rgba(255, 255, 255, .55);
 }
+
+.fx-lower-third {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(0, 0, 0, .35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .72);
+}
+
+.fx-lower-third__bug {
+  letter-spacing: .08em;
+  color: #fff;
+  opacity: .9;
+}
+
 @keyframes fxDrift {
   0% { transform: translateY(0); }
-  100% { transform: translateY(24px); }
+  100% { transform: translateY(18px); }
 }
 @keyframes fxGridPulse {
-  0%, 100% { opacity: .28; }
-  50% { opacity: .48; }
+  0%, 100% { opacity: .22; }
+  50% { opacity: .38; }
+}
+@keyframes fxIdentIn {
+  from { opacity: 0; transform: translateY(8px); letter-spacing: .32em; }
+  to { opacity: 1; transform: none; letter-spacing: .22em; }
+}
+@keyframes fxBumperIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fx-chromatic::after,
   .fx-phosphor::before,
   .fx-grid-horizon {
     animation: none !important;
