@@ -37,18 +37,20 @@
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 52% 48% at 50% 42%, rgba(232,224,208,.07), transparent 68%);
+        radial-gradient(ellipse 72% 58% at 50% 48%, rgba(232,224,208,.16), transparent 68%),
+        radial-gradient(ellipse 40% 32% at 50% 46%, rgba(255,255,255,.05), transparent 70%);
     }
-    /* Dominant edge-to-edge cover — real visual plane, not a floating card */
+    /* Dominant edge-to-edge cover — atmosphere centered on the brand */
     .hero-ambient {
       position: absolute;
-      inset: 0;
+      inset: -12%;
       z-index: 0;
       pointer-events: none;
       background-size: cover;
-      background-position: center;
-      filter: saturate(1.2) brightness(.58) contrast(1.08);
-      transform: scale(1.1);
+      /* Bias cream label orb onto the lockup, not above it */
+      background-position: center 58%;
+      filter: blur(42px) saturate(1.4) brightness(1.02) contrast(1.06);
+      transform: scale(1.45);
       opacity: 1;
       animation: ambientBreath 26s ease-in-out infinite alternate;
       transition: filter .7s var(--ease), opacity .7s var(--ease), transform .7s var(--ease);
@@ -56,19 +58,20 @@
     }
     .hero.is-live .hero-ambient {
       animation: none;
-      filter: blur(40px) saturate(1.15) brightness(.42) contrast(1.04);
-      transform: scale(1.14);
+      filter: blur(52px) saturate(1.2) brightness(.55) contrast(1.04);
+      transform: scale(1.4);
+      background-position: center center;
     }
     .hero-ambient::after {
       content: "";
       position: absolute; inset: 0;
       background:
-        radial-gradient(circle at 50% 44%, transparent 0%, transparent 18%, rgba(0,0,0,.42) 58%, rgba(0,0,0,.72) 100%),
-        linear-gradient(180deg, rgba(0,0,0,.42) 0%, transparent 34%, rgba(0,0,0,.62) 100%);
+        radial-gradient(ellipse 62% 52% at 50% 48%, rgba(0,0,0,.18) 0%, rgba(0,0,0,.4) 48%, rgba(0,0,0,.82) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.5) 0%, transparent 40%, rgba(0,0,0,.78) 100%);
     }
     @keyframes ambientBreath {
-      from { transform: scale(1.08) translate(0, 0); }
-      to   { transform: scale(1.16) translate(-1.4%, 1.1%); }
+      from { transform: scale(1.38) translate(0, 0); }
+      to   { transform: scale(1.52) translate(-1%, .8%); }
     }
     .hero.fx-phosphor::before { opacity: .18; }
     .hero.fx-phosphor::after { opacity: .22; }
@@ -565,8 +568,8 @@
         animation: none !important;
       }
       .hero-ambient {
-        transform: scale(1.1);
-        filter: saturate(1.15) brightness(.55) contrast(1.08);
+        transform: scale(1.45);
+        filter: blur(42px) saturate(1.35) brightness(1) contrast(1.06);
       }
       .hero-ambient, .hero-idle, .hero-platter, .hero-brand { transition: none; }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
@@ -885,11 +888,16 @@
       }
       .hero-stage {
         width: min(100% - 28px, 560px);
-        padding: calc(var(--nav-h) + var(--safe-t) + 24px) 0 calc(36px + var(--safe-b));
+        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(28px + var(--safe-b));
         gap: 0;
       }
-      .hero-brand { width: min(92vw, 420px); }
-      .hero-idle { gap: 16px; }
+      .hero-ambient {
+        transform: scale(1.5);
+        filter: blur(40px) saturate(1.35) brightness(1.02) contrast(1.06);
+        background-position: center 56%;
+      }
+      .hero-brand { width: min(90vw, 380px); }
+      .hero-idle { gap: 14px; }
       .hero-idle-title { font-size: clamp(15px, 3.8vw, 17px); }
       .hero-ctas { width: 100%; margin-top: 4px; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
