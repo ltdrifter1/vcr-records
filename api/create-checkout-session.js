@@ -8,47 +8,37 @@
  * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
  */
 const CATALOG = {
-  "sm-simple-tee": { name: "Micro Tee", unitAmount: 3200 },
-  "sm-globe-tee": { name: "Logo Tee", unitAmount: 3400 },
-  "sm-longsleeve": { name: "Long Sleeve", unitAmount: 4200 },
-  "sm-sleeve-tee": { name: "Sleeve Tee", unitAmount: 4400 },
-  "sm-hoodie": { name: "Hoodie", unitAmount: 6800 },
-  "sm-crewneck": { name: "Crewneck", unitAmount: 5800 },
-  "sm-tote": { name: "Canvas Tote", unitAmount: 2400 },
-  "sm-mug": { name: "Mug", unitAmount: 1800 },
-  "sm-bikini": { name: "Bikini", unitAmount: 4800 },
-  "sm-cap": { name: "Dad Cap", unitAmount: 3600 },
-  "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200 },
-  "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800 },
-  "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000 },
-  "sm-vinyl-what-if": { name: "What If — Vinyl", unitAmount: 3200 },
-  "sm-vinyl-together": { name: "Together — Vinyl", unitAmount: 3200 },
-  "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600 },
-  "sm-vinyl-at-home": { name: "At Home — Vinyl", unitAmount: 2800 },
-  "sm-vinyl-summer": { name: "Summer Madness — Vinyl", unitAmount: 2800 },
-  "sm-vinyl-lions-gate": { name: "Lions' Gate — Vinyl", unitAmount: 2800 },
-  "sm-cassette-at-home": { name: "At Home — Cassette", unitAmount: 998 },
-  "sm-cassette-summer": { name: "Summer Madness — Cassette", unitAmount: 998 },
-  "sm-bundle-what-if-tee": { name: "What If Bundle — Vinyl + Tee", unitAmount: 5400 },
-  "sm-poly-outer": { name: "Poly Outer", unitAmount: 500 },
-  "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200 },
-  // legacy skus kept for older bags
-  "sm-beanie": { name: "Beanie", unitAmount: 3000 },
-  "sm-womens-top": { name: "Baby Tee", unitAmount: 3400 },
-  "sm-inners": { name: "Inner Sleeve Pack", unitAmount: 1200 },
-  "sm-patches": { name: "Woven Patch Pack", unitAmount: 1400 },
-  "sm-candle": { name: "Listening Room Candle", unitAmount: 2800 },
-  tshirt: { name: "T-Shirt", unitAmount: 3000 },
-  hat: { name: "Hat", unitAmount: 2500 },
-  bikini: { name: "Bikini", unitAmount: 3500 },
-  "sm-stickers": { name: "Logo Sticker Pack", unitAmount: 800 },
+  "sm-simple-tee": { name: "Micro Tee", unitAmount: 3200, stock: 80 },
+  "sm-globe-tee": { name: "Logo Tee", unitAmount: 3400, stock: 40 },
+  "sm-longsleeve": { name: "Long Sleeve", unitAmount: 4200, stock: 40 },
+  "sm-sleeve-tee": { name: "Sleeve Tee", unitAmount: 4400, stock: 36 },
+  "sm-hoodie": { name: "Hoodie", unitAmount: 6800, stock: 30 },
+  "sm-crewneck": { name: "Crewneck", unitAmount: 5800, stock: 30 },
+  "sm-tote": { name: "Canvas Tote", unitAmount: 2400, stock: 50 },
+  "sm-mug": { name: "Mug", unitAmount: 1800, stock: 40 },
+  "sm-bikini": { name: "Bikini", unitAmount: 4800, stock: 20 },
+  "sm-cap": { name: "Dad Cap", unitAmount: 3600, stock: 50 },
+  "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200, stock: 60 },
+  "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800, stock: 100 },
+  "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000, stock: 40 },
+  "sm-vinyl-what-if": { name: "What If — Vinyl", unitAmount: 3200, stock: 48 },
+  "sm-vinyl-together": { name: "Together — Vinyl", unitAmount: 3200, stock: 48 },
+  "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600, stock: 36 },
+  "sm-vinyl-at-home": { name: "At Home — Vinyl", unitAmount: 2800, stock: 40 },
+  "sm-cassette-at-home": { name: "At Home — Cassette", unitAmount: 998, stock: 28 },
+  "sm-bundle-what-if-tee": {
+    name: "What If Bundle — Vinyl + Tee",
+    unitAmount: 5400,
+    stock: 24,
+  },
+  "sm-poly-outer": { name: "Poly Outer", unitAmount: 500, stock: 100 },
+  "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200, stock: 80 },
 };
 
-/** Flat shipping rates (CAD cents) shown as Stripe shipping_options. */
+/** Flat shipping rates (CAD cents). Ships CA + US only. */
 const SHIPPING = {
-  ca: { id: "ship-ca", label: "Canada — tracked", amount: 800 },
-  us: { id: "ship-us", label: "United States — tracked", amount: 1400 },
-  intl: { id: "ship-intl", label: "International — tracked", amount: 2800 },
+  ca: { label: "Canada — tracked", amount: 800 },
+  us: { label: "United States — tracked", amount: 1400 },
 };
 
 module.exports = async function handler(req, res) {
@@ -101,7 +91,7 @@ module.exports = async function handler(req, res) {
     body.origin ||
     (req.headers.origin
       ? req.headers.origin
-      : `https://${req.headers.host || "vcrrecords.com"}`);
+      : `https://${req.headers.host || "vcr-records.vercel.app"}`);
 
   const lineParams = {};
   let lineIndex = 0;
@@ -114,6 +104,19 @@ module.exports = async function handler(req, res) {
       return res.end(JSON.stringify({ error: `Unknown product: ${sku}` }));
     }
     const qty = Math.min(20, Math.max(1, parseInt(raw.qty, 10) || 1));
+    if (product.stock != null && qty > product.stock) {
+      res.statusCode = 409;
+      res.setHeader("Content-Type", "application/json");
+      return res.end(
+        JSON.stringify({
+          error:
+            product.stock < 1
+              ? `${product.name} is sold out.`
+              : `Only ${product.stock} left of ${product.name}.`,
+          code: "OUT_OF_STOCK",
+        })
+      );
+    }
     const bits = [];
     if (raw.colour) bits.push(String(raw.colour));
     if (raw.size) bits.push(`Size ${raw.size}`);
@@ -131,8 +134,9 @@ module.exports = async function handler(req, res) {
         `line_items[${lineIndex}][price_data][product_data][images][0]`
       ] = String(raw.image);
     }
-    lineParams[`line_items[${lineIndex}][price_data][product_data][metadata][sku]`] =
-      sku;
+    lineParams[
+      `line_items[${lineIndex}][price_data][product_data][metadata][sku]`
+    ] = sku;
     if (raw.colour) {
       lineParams[
         `line_items[${lineIndex}][price_data][product_data][metadata][colour]`
@@ -146,14 +150,12 @@ module.exports = async function handler(req, res) {
     lineIndex += 1;
   }
 
-  // Flatten for Stripe urlencoded API
   const flat = {
     mode: "payment",
     success_url: `${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/cart.html?canceled=1`,
     "shipping_address_collection[allowed_countries][0]": "CA",
     "shipping_address_collection[allowed_countries][1]": "US",
-    // Canada
     "shipping_options[0][shipping_rate_data][type]": "fixed_amount",
     "shipping_options[0][shipping_rate_data][fixed_amount][amount]":
       SHIPPING.ca.amount,
@@ -167,7 +169,6 @@ module.exports = async function handler(req, res) {
       "business_day",
     "shipping_options[0][shipping_rate_data][delivery_estimate][maximum][value]":
       "7",
-    // United States
     "shipping_options[1][shipping_rate_data][type]": "fixed_amount",
     "shipping_options[1][shipping_rate_data][fixed_amount][amount]":
       SHIPPING.us.amount,
@@ -181,44 +182,36 @@ module.exports = async function handler(req, res) {
       "business_day",
     "shipping_options[1][shipping_rate_data][delivery_estimate][maximum][value]":
       "12",
-    // International (buyer can still pick if shipping to CA/US only — kept for clarity if countries expand)
-    "shipping_options[2][shipping_rate_data][type]": "fixed_amount",
-    "shipping_options[2][shipping_rate_data][fixed_amount][amount]":
-      SHIPPING.intl.amount,
-    "shipping_options[2][shipping_rate_data][fixed_amount][currency]": currency,
-    "shipping_options[2][shipping_rate_data][display_name]": SHIPPING.intl.label,
-    "shipping_options[2][shipping_rate_data][delivery_estimate][minimum][unit]":
-      "business_day",
-    "shipping_options[2][shipping_rate_data][delivery_estimate][minimum][value]":
-      "7",
-    "shipping_options[2][shipping_rate_data][delivery_estimate][maximum][unit]":
-      "business_day",
-    "shipping_options[2][shipping_rate_data][delivery_estimate][maximum][value]":
-      "28",
     ...lineParams,
   };
 
   try {
-    const stripeRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${secret}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: Object.entries(flat)
-        .map(
-          ([k, v]) =>
-            `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
-        )
-        .join("&"),
-    });
+    const stripeRes = await fetch(
+      "https://api.stripe.com/v1/checkout/sessions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${secret}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: Object.entries(flat)
+          .map(
+            ([k, v]) =>
+              `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
+          )
+          .join("&"),
+      }
+    );
     const data = await stripeRes.json();
     if (!stripeRes.ok) {
       res.statusCode = 502;
       res.setHeader("Content-Type", "application/json");
       return res.end(
         JSON.stringify({
-          error: data.error && data.error.message ? data.error.message : "Stripe error",
+          error:
+            data.error && data.error.message
+              ? data.error.message
+              : "Stripe error",
         })
       );
     }
@@ -228,6 +221,8 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     res.statusCode = 500;
     res.setHeader("Content-Type", "application/json");
-    return res.end(JSON.stringify({ error: "Failed to create checkout session" }));
+    return res.end(
+      JSON.stringify({ error: "Failed to create checkout session" })
+    );
   }
 };

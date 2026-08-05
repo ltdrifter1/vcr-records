@@ -24,14 +24,17 @@
       text-align: center;
     }
     @media (min-width: 600px) { .confirm { padding: 64px 48px; } }
-    .confirm .eyebrow { margin-bottom: 16px; }
     .confirm h1 {
       font-size: clamp(34px, 6vw, 48px); font-weight: 600;
       letter-spacing: -.03em; line-height: 1.05; margin-bottom: 14px;
     }
     .confirm p {
       color: var(--muted); font-size: 16px;
-      margin: 0 auto 32px; max-width: 26em;
+      margin: 0 auto 16px; max-width: 32em; line-height: 1.55;
+    }
+    .confirm-note {
+      font-size: 14px; color: var(--dim);
+      margin: 0 auto 28px; max-width: 34em; line-height: 1.55;
     }
     .confirm-actions {
       display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
@@ -52,19 +55,22 @@
     <a href="about.html"><img src="copy-house-publishing-logo.webp" alt="Copy House Publishing" width="1200" height="341" style="width:min(220px,70vw);height:auto;margin:0 auto 20px;display:block"/></a>
     <h1>Thank you.</h1>
     <p id="msg">Your order is confirmed. A receipt is on its way from Stripe.</p>
+    <p class="confirm-note" id="fulfillNote">
+      Physical orders leave British Columbia in 2–4 business days with tracking.
+      Vinyl and cassette include a Bandcamp download code in the parcel — redeem it on Bandcamp.
+    </p>
     <div class="confirm-actions">
-      <a class="btn btn-dark" href="merch.html">Back to shop</a>
-      <a class="btn btn-ghost" href="index.html">Home</a>
+      <a class="btn btn-dark" href="library.html">Back to Library</a>
+      <a class="btn btn-ghost" href="shipping.html">Shipping &amp; returns</a>
     </div>
     <div class="links">
       <a href="index.html#listen">Listen</a>
+      <a href="merch.html">Shop</a>
       <a href="artists.html">Artists</a>
       <a href="contact.html">Contact</a>
-      <a href="cart.html">Bag</a>
     </div>
   </main>
-  <script src="js/site.js"></script>
-<script src="js/cart.js"></script>
+  <script src="js/cart.js"></script>
   <script>
     if (window.VCRCart) VCRCart.clear();
     var sid = new URLSearchParams(location.search).get('session_id');

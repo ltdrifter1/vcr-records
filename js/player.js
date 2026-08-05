@@ -58,18 +58,15 @@
     var vinyl = (release.formats && release.formats.vinyl) || null;
     return (release.tracks || [])
       .filter(function (t) {
-        return t.src || t.preview;
+        return t.preview;
       })
       .map(function (t) {
-        var previewSrc = t.preview || null;
         return {
           id: t.id,
           title: t.title,
-          // Stream 90s previews on-site; full masters stay offline / Bandcamp.
-          src: previewSrc || t.src,
-          fullSrc: t.src || null,
-          isPreview: !!previewSrc,
-          previewDuration: t.previewDuration || (previewSrc ? 90 : null),
+          src: t.preview,
+          isPreview: true,
+          previewDuration: t.previewDuration || 90,
           releaseId: release.id,
           releaseTitle: release.title,
           artist: release.artist,
@@ -80,12 +77,14 @@
           vinylPrice: vinyl && vinyl.price != null ? Number(vinyl.price) : null,
           vinylNote: vinyl && vinyl.note ? vinyl.note : null,
           vinylImage: (vinyl && vinyl.image) || release.cover,
+          vinylStock: vinyl && vinyl.stock != null ? Number(vinyl.stock) : null,
         };
       });
   }
 
   function addVinylToBag(track) {
     if (!track || !track.vinylSku || !window.VCRCart) return false;
+    if (track.vinylStock != null && track.vinylStock <= 0) return false;
     window.VCRCart.add({
       sku: track.vinylSku,
       name: track.releaseTitle + " — Vinyl",
@@ -531,6 +530,12 @@
     else if (act === "room-close") closeRoom();
     else if (act === "buy-vinyl") {
       var track = current();
+      if (track && track.vinylStock != null && track.vinylStock <= 0) {
+        if (el) {
+          el.textContent = "Sold out";
+        }
+        return;
+      }
       if (addVinylToBag(track)) flashBuyLabel(el, true);
       else if (track && track.page) window.location.href = track.page;
     } else if (act === "buy-page") {

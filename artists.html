@@ -86,11 +86,11 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
-    <nav class="nav-links" aria-label="Primary">
+        <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
+      <a href="library.html">Library</a>
       <a href="artists.html" aria-current="page">Artists</a>
       <a href="merch.html">Shop</a>
-      <a href="planet.html">Planet MP3</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -111,9 +111,9 @@
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="index.html#listen">Listen</a>
-  <a href="artists.html" aria-current="page">Artists</a>
+  <a href="library.html">Library</a>
+  <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
-  <a href="planet.html">Planet MP3</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -135,9 +135,12 @@
         </div>
         <div class="artist-copy">
           <h2 id="inlet-knight-name">Inlet Knight</h2>
-          <p class="artist-bio">House from Cumberland, British Columbia.</p>
+          <p class="artist-bio">House from Cumberland, British Columbia. Vinyl and digital on Club Copy.</p>
+          <div class="artist-releases" id="artistReleases" aria-label="Discography">
+            <p style="font-size:13px;color:var(--dim)">Loading releases…</p>
+          </div>
           <div class="artist-actions">
-            <a class="btn btn-dark" href="what-if.html">Latest release</a>
+            <a class="btn btn-dark" href="artists/inlet-knight.html">Artist page</a>
             <a class="btn btn-ghost" href="https://inletknight.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
           </div>
         </div>
@@ -196,6 +199,36 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
+})();
+
+(function () {
+  var box = document.getElementById('artistReleases');
+  if (!box) return;
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  fetch('/data/catalog.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var list = (data.releases || []).filter(function (r) {
+        return r.artistId === 'inlet-knight' || r.artist === 'Inlet Knight';
+      }).sort(function (a, b) {
+        return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
+      });
+      box.innerHTML = list.map(function (r) {
+        return (
+          '<a class="release-row" href="' + esc(r.page) + '">' +
+            '<img src="' + esc(r.coverThumb || r.cover) + '" alt="" width="88" height="88" loading="lazy"/>' +
+            '<span class="rr-title">' + esc(r.title) + '</span>' +
+            '<span class="rr-kind">' + esc(r.catalogue || r.kind || '') + '</span>' +
+          '</a>'
+        );
+      }).join('');
+    })
+    .catch(function () {
+      box.innerHTML = '<p class="archive-note"><a href="library.html">View library</a></p>';
+    });
 })();
 </script>
 </body>
