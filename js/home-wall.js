@@ -27,6 +27,7 @@
             '<svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           '</button>' +
           '<div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>' +
+          '<span class="wall-air" aria-hidden="true">Now</span>' +
         '</div>' +
         '<div class="wall-meta">' +
           '<p class="wall-artist">' + esc(rel.artist) + (rel.catalogue ? ' · ' + esc(rel.catalogue) : '') + '</p>' +
@@ -36,6 +37,37 @@
       '</article>'
     );
   }
+
+  function syncAir(detail) {
+    var d = detail || {};
+    var nowId = d.track ? d.track.releaseId : null;
+    var nextId = d.nextTrack ? d.nextTrack.releaseId : null;
+    var playing = !!d.playing;
+
+    grid.querySelectorAll('.wall-item').forEach(function (item) {
+      var id = item.getAttribute('data-release');
+      var mine = nowId && id === nowId;
+      var up = nextId && id === nextId && !mine;
+      item.classList.toggle('is-now-playing', !!mine);
+      item.classList.toggle('is-audible', !!(mine && playing));
+      item.classList.toggle('is-up-next', !!up);
+      var air = item.querySelector('.wall-air');
+      if (air) {
+        air.textContent = mine ? 'Now' : 'Up next';
+        air.hidden = !(mine || up);
+      }
+      var btn = item.querySelector('.wall-play');
+      if (btn) {
+        var name = item.querySelector('.wall-title');
+        var releaseName = name ? name.textContent.trim() : 'release';
+        btn.setAttribute('aria-label', (mine && playing ? 'Pause ' : 'Play ') + releaseName);
+      }
+    });
+  }
+
+  window.addEventListener('vcr:player', function (e) {
+    syncAir(e.detail);
+  });
 
   fetch('/data/catalog.json')
     .then(function (r) {
@@ -79,6 +111,10 @@
         grid.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
       } else {
         grid.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+      }
+
+      if (window.VCRPlayer && typeof VCRPlayer.getState === 'function') {
+        syncAir(VCRPlayer.getState());
       }
     })
     .catch(function () {

@@ -14,6 +14,9 @@
   var inited = false;
   var audioUnlocked = false;
   var playGateTimer = null;
+  var bumperTimer = null;
+  var bumperOpen = false;
+  var BUMPER_MS = 1200;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -214,8 +217,10 @@
       '<button type="button" class="vcr-player__stage-hit" aria-label="Open listening room"></button>' +
       '<img class="vcr-player__art" alt="" width="48" height="48" />' +
       '<div class="vcr-player__meta">' +
+      '<p class="vcr-player__bug">CC · Now</p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
+      '<p class="vcr-player__upnext" data-upnext hidden></p>' +
       "</div>" +
       '<div class="vcr-player__controls">' +
       '<button type="button" class="vcr-player__btn" data-act="prev" aria-label="Previous"><svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg></button>' +
@@ -229,6 +234,24 @@
       '<button type="button" class="vcr-player__buy" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
       '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player">&times;</button>';
 
+    var bumper = document.createElement("div");
+    bumper.className = "vcr-bumper";
+    bumper.id = "vcr-bumper";
+    bumper.hidden = true;
+    bumper.setAttribute("role", "dialog");
+    bumper.setAttribute("aria-label", "Preview bumper");
+    bumper.innerHTML =
+      '<div class="vcr-bumper__card">' +
+      '<p class="vcr-bumper__callsign">Club Copy</p>' +
+      '<p class="vcr-bumper__title" data-bumper-title></p>' +
+      '<p class="vcr-bumper__sub" data-bumper-sub></p>' +
+      '<div class="vcr-bumper__actions">' +
+      '<button type="button" class="vcr-bumper__btn" data-act="buy-vinyl">Add vinyl</button>' +
+      '<a class="vcr-bumper__btn" data-bumper-bc href="#" target="_blank" rel="noopener">Bandcamp</a>' +
+      '<button type="button" class="vcr-bumper__btn vcr-bumper__btn--ghost" data-act="bumper-skip">Skip</button>' +
+      "</div>" +
+      "</div>";
+
     var stage = document.createElement("div");
     stage.className = "vcr-stage";
     stage.id = "vcr-stage";
@@ -238,9 +261,10 @@
       '<button type="button" class="vcr-stage__close" data-act="stage-close" aria-label="Close stage">&times;</button>' +
       '<div class="vcr-stage__content">' +
       '<img class="vcr-stage__art" alt="" />' +
-      '<p class="vcr-stage__kicker">Now playing</p>' +
+      '<p class="vcr-stage__kicker"><span class="vcr-stage__bug">CC</span> Now</p>' +
       '<h2 class="vcr-stage__title"></h2>' +
       '<p class="vcr-stage__artist"></p>' +
+      '<p class="vcr-stage__upnext" data-stage-upnext hidden></p>' +
       '<div class="vcr-stage__controls">' +
       '<button type="button" class="vcr-stage__btn" data-act="prev" aria-label="Previous"><svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg></button>' +
       '<button type="button" class="vcr-stage__btn vcr-stage__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
@@ -252,19 +276,24 @@
       '<button type="button" class="vcr-stage__link" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
       '<a class="vcr-stage__link" data-buy href="#" target="_blank" rel="noopener">Digital on Bandcamp</a>' +
       "</div>" +
-      '<p class="vcr-stage__hint">Preview · Space play/pause · ← → seek · Esc close</p>' +
+      '<p class="vcr-stage__hint">90s preview · bumper at end · Esc close</p>' +
       "</div>";
 
     document.body.appendChild(dock);
     document.body.appendChild(stage);
+    document.body.appendChild(bumper);
 
     dock.addEventListener("click", onDockClick);
     stage.addEventListener("click", onStageClick);
+    bumper.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-act]");
+      if (btn) handleAct(btn.getAttribute("data-act"), btn);
+    });
     dock.querySelector(".vcr-player__scrub").addEventListener("input", onScrub);
     stage.querySelector(".vcr-stage__scrub").addEventListener("input", onScrub);
     document.addEventListener("keydown", onKey);
 
-    ui = { dock: dock, stage: stage };
+    ui = { dock: dock, stage: stage, bumper: bumper };
     return ui;
   }
 
@@ -277,6 +306,68 @@
 
   function current() {
     return index >= 0 ? queue[index] : null;
+  }
+
+  function peekNext() {
+    if (index < 0 || index >= queue.length - 1) return null;
+    return queue[index + 1];
+  }
+
+  function upNextLabel(track) {
+    if (!track) return "";
+    return "Up next · " + track.title;
+  }
+
+  function clearBumper() {
+    bumperOpen = false;
+    if (bumperTimer) {
+      clearTimeout(bumperTimer);
+      bumperTimer = null;
+    }
+    if (ui && ui.bumper) {
+      ui.bumper.hidden = true;
+      ui.bumper.classList.remove("is-on");
+    }
+    document.body.classList.remove("vcr-bumper-open");
+  }
+
+  function showBumperThenNext() {
+    ensureUI();
+    var track = current();
+    var nextTrack = peekNext();
+    bumperOpen = true;
+    document.body.classList.add("vcr-bumper-open");
+    if (ui.bumper) {
+      ui.bumper.hidden = false;
+      ui.bumper.classList.add("is-on");
+      var title = ui.bumper.querySelector("[data-bumper-title]");
+      var sub = ui.bumper.querySelector("[data-bumper-sub]");
+      if (title) title.textContent = track ? track.releaseTitle : "Club Copy";
+      if (sub) {
+        sub.textContent = nextTrack
+          ? upNextLabel(nextTrack)
+          : "End of preview · Add vinyl or Bandcamp";
+      }
+      var buy = ui.bumper.querySelector('[data-act="buy-vinyl"]');
+      if (buy) {
+        buy.hidden = !(track && track.vinylSku);
+      }
+      var bc = ui.bumper.querySelector("[data-bumper-bc]");
+      if (bc) {
+        if (track && track.bandcampAlbum) {
+          bc.href = track.bandcampAlbum;
+          bc.hidden = false;
+        } else {
+          bc.hidden = true;
+        }
+      }
+    }
+    emit();
+    bumperTimer = setTimeout(function () {
+      clearBumper();
+      if (nextTrack) next(true);
+      else pause();
+    }, BUMPER_MS);
   }
 
   function getRoom() {
@@ -337,8 +428,19 @@
     var roomHint = room.querySelector(".hero-console-hint");
     if (roomHint && track) {
       roomHint.textContent = track.isPreview
-        ? "90s preview · Space play/pause · Esc minimize"
+        ? "90s preview · bumper at end · Esc minimize"
         : "Space play/pause · Esc minimize";
+    }
+    var up = room.querySelector("[data-room-upnext]");
+    if (up) {
+      var nxt = peekNext();
+      if (nxt) {
+        up.hidden = false;
+        up.textContent = upNextLabel(nxt);
+      } else {
+        up.hidden = true;
+        up.textContent = "";
+      }
     }
     if (toggleBtn) {
       if (toggleBtn.querySelector(".vcr-ico--play") || toggleBtn.querySelector(".glyph-play")) {
@@ -381,6 +483,17 @@
       track.artist +
       " — " +
       track.releaseTitle;
+    var dockUp = dock.querySelector("[data-upnext]");
+    if (dockUp) {
+      var n1 = peekNext();
+      if (n1) {
+        dockUp.hidden = false;
+        dockUp.textContent = upNextLabel(n1);
+      } else {
+        dockUp.hidden = true;
+        dockUp.textContent = "";
+      }
+    }
     var buy = dock.querySelector(".vcr-player__buy");
     if (buy) {
       buy.hidden = !(track.vinylSku || track.page);
@@ -432,8 +545,19 @@
     var hint = stage.querySelector(".vcr-stage__hint");
     if (hint) {
       hint.textContent = track.isPreview
-        ? "90s preview · Space play/pause · ← → seek · Esc close"
+        ? "90s preview · bumper at end · Esc close"
         : "Space play/pause · ← → seek · Esc close";
+    }
+    var stageUp = stage.querySelector("[data-stage-upnext]");
+    if (stageUp) {
+      var n2 = peekNext();
+      if (n2) {
+        stageUp.hidden = false;
+        stageUp.textContent = upNextLabel(n2);
+      } else {
+        stageUp.hidden = true;
+        stageUp.textContent = "";
+      }
     }
 
     setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing);
@@ -472,11 +596,13 @@
         new CustomEvent("vcr:player", {
           detail: {
             track: track,
+            nextTrack: peekNext(),
             playing: !!(audio && !audio.paused),
             currentTime: audio ? audio.currentTime : 0,
             duration: audio ? audio.duration || 0 : 0,
             stageOpen: stageOpen,
             roomOpen: roomOpen,
+            bumperOpen: bumperOpen,
           },
         })
       );
@@ -490,6 +616,11 @@
   }
 
   function onEnded() {
+    var track = current();
+    if (track && track.isPreview) {
+      showBumperThenNext();
+      return;
+    }
     next(true);
   }
 
@@ -522,11 +653,28 @@
   }
 
   function handleAct(act, el) {
-    if (act === "toggle") toggle();
-    else if (act === "prev") prev();
-    else if (act === "next") next(true);
-    else if (act === "close") stop(true);
-    else if (act === "stage-close") closeStage();
+    if (act === "bumper-skip") {
+      clearBumper();
+      next(true);
+      return;
+    }
+    if (act === "toggle") {
+      if (bumperOpen) {
+        clearBumper();
+        next(true);
+        return;
+      }
+      toggle();
+    } else if (act === "prev") {
+      clearBumper();
+      prev();
+    } else if (act === "next") {
+      clearBumper();
+      next(true);
+    } else if (act === "close") {
+      clearBumper();
+      stop(true);
+    } else if (act === "stage-close") closeStage();
     else if (act === "room-close") closeRoom();
     else if (act === "buy-vinyl") {
       var track = current();
@@ -552,13 +700,21 @@
 
     if (e.code === "Space" && (immersive || document.body.classList.contains("has-vcr-player"))) {
       e.preventDefault();
-      toggle();
+      if (bumperOpen) {
+        clearBumper();
+        next(true);
+      } else {
+        toggle();
+      }
     } else if (e.code === "ArrowRight" && immersive) {
       e.preventDefault();
       if (audio) audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 5);
     } else if (e.code === "ArrowLeft" && immersive) {
       e.preventDefault();
       if (audio) audio.currentTime = Math.max(0, audio.currentTime - 5);
+    } else if (e.code === "Escape" && bumperOpen) {
+      clearBumper();
+      next(true);
     } else if (e.code === "Escape" && roomOpen) {
       closeRoom();
     } else if (e.code === "Escape" && stageOpen) {
@@ -605,6 +761,7 @@
 
   function loadTrack(i, autoplay) {
     if (i < 0 || i >= queue.length) return;
+    clearBumper();
     index = i;
     var track = queue[index];
     ensureAudio();
@@ -828,11 +985,13 @@
   function getState() {
     return {
       track: current(),
+      nextTrack: peekNext(),
       playing: !!(audio && !audio.paused),
       currentTime: audio ? audio.currentTime : 0,
       duration: audio ? audio.duration || 0 : 0,
       stageOpen: stageOpen,
       roomOpen: roomOpen,
+      bumperOpen: bumperOpen,
     };
   }
 
