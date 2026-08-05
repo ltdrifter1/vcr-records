@@ -45,7 +45,7 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
-    <nav class="nav-links" aria-label="Primary">
+        <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
       <a href="library.html">Library</a>
       <a href="artists.html">Artists</a>
@@ -150,7 +150,7 @@
               </div>
               <div class="r-price-note" id="priceFormat">CAD</div>
             </div>
-            <div class="r-stock">Vinyl available</div>
+            <div class="r-stock" id="rStock">40 vinyl left</div>
           </div>
           <div class="r-tags">
             <span class="tag">Single</span>
@@ -278,7 +278,7 @@ const RELEASE_ID = 'at-home';
 VCRReleaseBind({
   releaseId: RELEASE_ID,
   tracks: [
-  { id: "ah-01",  title: "At Home", src: "at-home/03-at-home.mp3", locked: false }
+  { id: "ah-01",  title: "At Home" }
 ]
 });
 

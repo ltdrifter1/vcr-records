@@ -13,9 +13,9 @@ Pages keep only page-specific rules inline.
 
 ## Commerce
 
-- **Physical** (vinyl, cassette, merch): bag → Stripe Checkout with shipping rates (CA / US / intl).
-- **Digital**: Bandcamp only (honest labels; no fake on-site delivery).
-- On-site listening uses **90s preview** clips in `previews/`; full masters are not streamed.
+- **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
+- **Digital**: Bandcamp only.
+- On-site listening uses **90s preview** clips in `previews/` only — full masters are not in the deploy.
 
 ## Develop
 
@@ -27,4 +27,4 @@ npx serve .
 
 Vercel static hosting (`framework: null`, `outputDirectory: "."`). Root `index.html` is the homepage.
 Merch checkout runs through `api/create-checkout-session.js` (Stripe, requires `STRIPE_SECRET_KEY`).
-Legacy mix/archive URLs redirect to `/library`.
+Legacy / redirected URLs land on `/library` or `/merch`.
