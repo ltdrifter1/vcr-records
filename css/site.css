@@ -149,11 +149,17 @@ button {
   font-size: 15px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink); white-space: nowrap;
   display: inline-flex; align-items: center;
+  flex-shrink: 0;
   transition: opacity var(--dur) var(--ease);
 }
-/* Plain wordmark in the header — chrome stays on hero lockups only */
+/* Stacked oval lockup — transparent PNG/WebP; chrome stays on hero only */
 .nav-logo img {
-  height: 26px; width: auto;
+  height: 38px;
+  width: auto;
+  max-width: min(168px, 42vw);
+}
+@media (min-width: 800px) {
+  .nav-logo img { height: 42px; max-width: 190px; }
 }
 .nav-logo-ink { display: block; }   /* black — light surfaces */
 .nav-logo-snow { display: none; }   /* white — dark surfaces */
@@ -163,7 +169,7 @@ body.nav-on-dark:not(.nav-light) .nav-logo-ink { display: none; }
 body.hero-top:not(.nav-light) .nav-logo-snow,
 body.shop-page:not(.nav-light) .nav-logo-snow,
 body.nav-on-dark:not(.nav-light) .nav-logo-snow { display: block; }
-@media (hover:hover) { .nav-logo:hover { opacity: .6; } }
+@media (hover:hover) { .nav-logo:hover { opacity: .72; } }
 .nav-links { display: flex; gap: 4px; }
 .nav-links a {
   padding: 8px 14px; font-size: 14px; font-weight: 500; color: var(--muted);
