@@ -47,9 +47,9 @@
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
+      <a href="library.html">Library</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
-      <a href="planet.html">Stream</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -69,9 +69,9 @@
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="index.html#listen">Listen</a>
+  <a href="library.html">Library</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
-  <a href="planet.html">Stream</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -179,15 +179,8 @@
 
         <div class="r-block">
           <div class="redeem-head">Download code</div>
-          <div class="redeem-row">
-            <input class="redeem-input" id="redeemCode" type="text"
-                   inputmode="text" autocomplete="one-time-code" placeholder="Enter code"/>
-            <button class="redeem-btn" id="redeemBtn" type="button">Redeem</button>
-          </div>
-          <div class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></div>
-          <div class="dl-links hidden" id="redeemDownloads">
-            <a class="btn btn-fill" href="https://inletknight.bandcamp.com/album/at-home" target="_blank" rel="noopener">Download on Bandcamp</a>
-          </div>
+          <p class="small-note" style="margin:0 0 12px">Vinyl and cassette include a Bandcamp download code. Redeem it on Bandcamp — not here.</p>
+          <a class="btn btn-soft" href="https://inletknight.bandcamp.com/album/at-home" target="_blank" rel="noopener" style="width:100%">Redeem on Bandcamp ↗</a>
         </div>
 
         <div class="r-block">
@@ -265,7 +258,7 @@
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
         <a href="shipping.html">Shipping</a>
-        <a href="planet.html">Stream</a>
+        <a href="planet.html">Planet MP3</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
@@ -278,8 +271,6 @@
 <script>
 const $ = id => document.getElementById(id);
 const CONFIG = {
-  stripeDigital:  'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
-  stripeCassette: 'https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r',
   bandcamp:       'https://inletknight.bandcamp.com/album/at-home'
 };
 const RELEASE_ID = 'at-home';
@@ -311,20 +302,20 @@ VCRReleaseBind({
       if ($('priceFormat')) $('priceFormat').textContent = 'CAD';
       buyNoteEl.textContent = '12" black vinyl · Ships from British Columbia';
     } else if (currentFmt === 'digital') {
-      buyBtn.textContent = 'Buy digital — $3';
+      buyBtn.textContent = 'Buy digital on Bandcamp — $3';
       if ($('priceAmount')) $('priceAmount').textContent = '$3';
       var meta2 = $('priceDisplay') && $('priceDisplay').querySelector('meta[itemprop="price"]');
       if (meta2) meta2.content = '3.00';
       if ($('priceFormat')) $('priceFormat').textContent = 'CAD';
-      buyNoteEl.textContent = 'Secure checkout via Stripe · Instant digital delivery';
+      buyNoteEl.textContent = 'Digital download via Bandcamp · Instant delivery';
 
     } else if (currentFmt === 'cassette') {
-      buyBtn.textContent = 'Buy cassette — $9.98';
+      buyBtn.textContent = 'Add cassette to bag — $9.98';
       if ($('priceAmount')) $('priceAmount').textContent = '$9.98';
       var metaC = $('priceDisplay') && $('priceDisplay').querySelector('meta[itemprop="price"]');
       if (metaC) metaC.content = '9.98';
       if ($('priceFormat')) $('priceFormat').textContent = 'CAD';
-      buyNoteEl.textContent = 'Limited cassette · Secure checkout via Stripe';
+      buyNoteEl.textContent = 'Limited cassette · Ships from British Columbia';
 
     }
   }
@@ -348,9 +339,12 @@ VCRReleaseBind({
       buyBtn.textContent = 'Added';
       setTimeout(function() { buyBtn.textContent = orig; }, 2000);
     } else if (currentFmt === 'cassette') {
-      window.open('https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r', '_blank', 'noopener');
+      if (window.VCRCart) VCRCart.add({ sku: 'sm-cassette-at-home', name: 'At Home — Cassette', price: 9.98, image: 'at_home.webp', qty: 1, id: 'sm-cassette-at-home' });
+      var origC = buyBtn.textContent;
+      buyBtn.textContent = 'Added';
+      setTimeout(function() { buyBtn.textContent = origC; }, 2000);
     } else {
-      window.open('https://buy.stripe.com/cNidRa6DB7o463KdshfrW0r', '_blank', 'noopener');
+      window.open(CONFIG.bandcamp, '_blank', 'noopener');
     }
   });
 
@@ -373,37 +367,6 @@ $('dlMp3Modal').href = CONFIG.bandcamp;
 const sp = new URLSearchParams(location.search);
 if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 600);
 
-const CODES = new Set([
-  'RKU9Z7M','RKU2K4Y','RKU8Q5C','RKU6E2B','RKU3A7D',
-  'RKU2N8H','RKU7U2L','RKU6D4R','RKU3Y9X','RKU5F1V'
-].map(c => c.toUpperCase()));
-
-const USED  = new Set(JSON.parse(localStorage.getItem('vcr_athome_used_v1')||'[]'));
-const saveU = () => localStorage.setItem('vcr_athome_used_v1', JSON.stringify([...USED]));
-const rdSt  = $('redeemStatus'), rdDL = $('redeemDownloads');
-
-async function forceDownload(url, name) {
-  try {
-    const r = await fetch(url); if (!r.ok) throw 0;
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(await r.blob()); a.download = name;
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
-  } catch { window.location.href = url; }
-}
-
-async function redeem() {
-  const code = ($('redeemCode').value||'').trim().toUpperCase();
-  rdDL.classList.add('hidden'); rdSt.textContent = '';
-  if (!code)            { rdSt.textContent = 'Enter your code.';   return; }
-  if (USED.has(code))   { rdSt.textContent = 'Code already used.'; return; }
-  if (!CODES.has(code)) { rdSt.textContent = 'Invalid code.';      return; }
-  USED.add(code); saveU();
-  rdSt.textContent = 'Code accepted — open Bandcamp to download At Home.';
-  rdDL.classList.remove('hidden');
-}
-$('redeemBtn').addEventListener('click', redeem);
-$('redeemCode').addEventListener('keydown', e => { if (e.key === 'Enter') redeem(); });
 
 (function() {
   const btns = document.querySelectorAll('[role="tab"]');

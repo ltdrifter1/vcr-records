@@ -161,6 +161,10 @@ body.has-vcr-player {
 }
 
 .vcr-player__buy {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
   font-size: 12px;
   font-weight: 700;
   color: #111111;
@@ -171,6 +175,7 @@ body.has-vcr-player {
   background: rgba(0, 0, 0, 0.06);
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .vcr-player__close {
@@ -232,7 +237,7 @@ body.has-vcr-player {
     grid-template-columns: 44px minmax(0, 1fr) auto auto;
     grid-template-areas:
       "art meta controls close"
-      "progress progress progress progress";
+      "buy buy progress progress";
     gap: 8px 10px;
     padding: 10px 12px 12px;
     border-radius: 20px;
@@ -242,7 +247,13 @@ body.has-vcr-player {
   .vcr-player__controls { grid-area: controls; gap: 6px; }
   .vcr-player__progress-wrap { grid-area: progress; }
   .vcr-player__close { grid-area: close; }
-  .vcr-player__buy { display: none; }
+  .vcr-player__buy {
+    grid-area: buy;
+    justify-self: start;
+    font-size: 11px;
+    padding: 6px 10px;
+    min-height: 32px;
+  }
   .vcr-player__btn {
     width: 44px;
     height: 44px;
@@ -430,6 +441,9 @@ body.has-vcr-player {
 }
 
 .vcr-stage__link {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
   color: #fff;
   text-decoration: none;
   font-size: 13px;

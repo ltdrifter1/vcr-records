@@ -412,6 +412,9 @@
       margin-top: 4px;
     }
     .hero-console-link {
+      appearance: none;
+      cursor: pointer;
+      font: inherit;
       height: 40px; padding: 0 16px;
       border-radius: var(--pill);
       display: inline-flex; align-items: center;
@@ -419,6 +422,7 @@
       background: rgba(255,255,255,.1);
       border: 1px solid rgba(255,255,255,.16);
       color: #fff;
+      text-decoration: none;
       transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
     }
     @media (hover:hover) {
@@ -1046,9 +1050,9 @@
     <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Listen</a>
+      <a href="library.html">Library</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
-      <a href="planet.html">Stream</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -1069,9 +1073,9 @@
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="#listen">Listen</a>
+  <a href="library.html">Library</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
-  <a href="planet.html">Stream</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -1127,9 +1131,11 @@
         </div>
         <div class="hero-console-actions">
           <a class="hero-console-link" data-room-page href="what-if.html">Album</a>
+          <button type="button" class="hero-console-link" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>
+          <a class="hero-console-link" href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener" data-room-bandcamp>Digital on Bandcamp</a>
           <button type="button" class="hero-console-link" data-act="room-close">Minimize</button>
         </div>
-        <p class="hero-console-hint">Space play/pause · Esc minimize</p>
+        <p class="hero-console-hint">90s preview · Space play/pause · Esc minimize</p>
       </div>
     </div>
   </section>
@@ -1296,7 +1302,7 @@
         <a href="#listen">Listen</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
-        <a href="planet.html">Stream</a>
+        <a href="planet.html">Planet MP3</a>
         <a href="shipping.html">Shipping</a>
         <a href="contact.html">Contact</a>
       </div>

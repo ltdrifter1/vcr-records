@@ -462,9 +462,9 @@
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
+      <a href="library.html">Library</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
-      <a href="planet.html">Stream</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -485,9 +485,9 @@
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="index.html#listen">Listen</a>
+  <a href="library.html">Library</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
-  <a href="planet.html">Stream</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -666,7 +666,7 @@
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
         <a href="shipping.html">Shipping</a>
-        <a href="planet.html">Stream</a>
+        <a href="planet.html">Planet MP3</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
@@ -890,12 +890,12 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
       if ($('priceFormat')) $('priceFormat').textContent = 'CAD';
       buyNoteEl.textContent = '12" black vinyl · Ships from British Columbia';
     } else if (currentFmt === 'digital') {
-      buyBtn.textContent = 'Buy digital — $0.98';
+      buyBtn.textContent = 'Buy digital on Bandcamp — $0.98';
       if ($('priceAmount')) $('priceAmount').textContent = '$0.98';
       var meta2 = $('priceDisplay') && $('priceDisplay').querySelector('meta[itemprop="price"]');
       if (meta2) meta2.content = '0.98';
       if ($('priceFormat')) $('priceFormat').textContent = 'USD';
-      buyNoteEl.textContent = 'Secure checkout via Stripe · Instant digital delivery';
+      buyNoteEl.textContent = 'Digital download via Bandcamp · Instant delivery';
 
     }
   }
@@ -918,10 +918,8 @@ document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
       var orig = buyBtn.textContent;
       buyBtn.textContent = 'Added';
       setTimeout(function() { buyBtn.textContent = orig; }, 2000);
-    } else if (currentFmt === 'cassette') {
-      window.open('https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i', '_blank', 'noopener');
     } else {
-      window.open('https://buy.stripe.com/bJe7sM4vt9wc63K9c1frW0i', '_blank', 'noopener');
+      window.open('https://drifta.bandcamp.com', '_blank', 'noopener');
     }
   });
 

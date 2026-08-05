@@ -11,6 +11,12 @@ Pages keep only page-specific rules inline.
 - Background `#FAF8F5` · Ink `#111111` · Cards `#FFFFFF` · Soft ground `#F2F0EC` · Borders `#E5E3DF`
 - Type: Space Grotesk
 
+## Commerce
+
+- **Physical** (vinyl, cassette, merch): bag → Stripe Checkout with shipping rates (CA / US / intl).
+- **Digital**: Bandcamp only (honest labels; no fake on-site delivery).
+- On-site listening uses **90s preview** clips in `previews/`; full masters are not streamed.
+
 ## Develop
 
 ```bash
