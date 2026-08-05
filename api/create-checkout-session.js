@@ -2,6 +2,8 @@
  * Vercel serverless: create a Stripe Checkout Session for the full bag.
  * Requires env STRIPE_SECRET_KEY. Optional STRIPE_CURRENCY (default cad).
  *
+ * Physical goods only — digital downloads are sold on Bandcamp.
+ *
  * POST /api/create-checkout-session
  * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
  */
@@ -23,6 +25,10 @@ const CATALOG = {
   "sm-vinyl-together": { name: "Together — Vinyl", unitAmount: 3200 },
   "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600 },
   "sm-vinyl-at-home": { name: "At Home — Vinyl", unitAmount: 2800 },
+  "sm-vinyl-summer": { name: "Summer Madness — Vinyl", unitAmount: 2800 },
+  "sm-vinyl-lions-gate": { name: "Lions' Gate — Vinyl", unitAmount: 2800 },
+  "sm-cassette-at-home": { name: "At Home — Cassette", unitAmount: 998 },
+  "sm-cassette-summer": { name: "Summer Madness — Cassette", unitAmount: 998 },
   "sm-bundle-what-if-tee": { name: "What If Bundle — Vinyl + Tee", unitAmount: 5400 },
   "sm-poly-outer": { name: "Poly Outer", unitAmount: 500 },
   "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200 },
@@ -38,30 +44,18 @@ const CATALOG = {
   "sm-stickers": { name: "Logo Sticker Pack", unitAmount: 800 },
 };
 
-function formBody(params, prefix) {
-  const parts = [];
-  for (const [key, value] of Object.entries(params)) {
-    const fullKey = prefix ? `${prefix}[${key}]` : key;
-    if (value === undefined || value === null) continue;
-    if (typeof value === "object" && !Array.isArray(value)) {
-      parts.push(formBody(value, fullKey));
-    } else {
-      parts.push(
-        `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`
-      );
-    }
-  }
-  return parts.filter(Boolean).join("&");
-}
+/** Flat shipping rates (CAD cents) shown as Stripe shipping_options. */
+const SHIPPING = {
+  ca: { id: "ship-ca", label: "Canada — tracked", amount: 800 },
+  us: { id: "ship-us", label: "United States — tracked", amount: 1400 },
+  intl: { id: "ship-intl", label: "International — tracked", amount: 2800 },
+};
 
-function cors(res) {
+module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
 
-module.exports = async function handler(req, res) {
-  cors(res);
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
     return res.end();
@@ -152,23 +146,55 @@ module.exports = async function handler(req, res) {
     lineIndex += 1;
   }
 
-  const params = {
+  // Flatten for Stripe urlencoded API
+  const flat = {
     mode: "payment",
     success_url: `${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/cart.html?canceled=1`,
-    shipping_address_collection: {
-      allowed_countries: ["CA", "US"],
-    },
-    ...lineParams,
-  };
-
-  // Flatten nested shipping_address_collection for urlencoded
-  const flat = {
-    mode: "payment",
-    success_url: params.success_url,
-    cancel_url: params.cancel_url,
     "shipping_address_collection[allowed_countries][0]": "CA",
     "shipping_address_collection[allowed_countries][1]": "US",
+    // Canada
+    "shipping_options[0][shipping_rate_data][type]": "fixed_amount",
+    "shipping_options[0][shipping_rate_data][fixed_amount][amount]":
+      SHIPPING.ca.amount,
+    "shipping_options[0][shipping_rate_data][fixed_amount][currency]": currency,
+    "shipping_options[0][shipping_rate_data][display_name]": SHIPPING.ca.label,
+    "shipping_options[0][shipping_rate_data][delivery_estimate][minimum][unit]":
+      "business_day",
+    "shipping_options[0][shipping_rate_data][delivery_estimate][minimum][value]":
+      "3",
+    "shipping_options[0][shipping_rate_data][delivery_estimate][maximum][unit]":
+      "business_day",
+    "shipping_options[0][shipping_rate_data][delivery_estimate][maximum][value]":
+      "7",
+    // United States
+    "shipping_options[1][shipping_rate_data][type]": "fixed_amount",
+    "shipping_options[1][shipping_rate_data][fixed_amount][amount]":
+      SHIPPING.us.amount,
+    "shipping_options[1][shipping_rate_data][fixed_amount][currency]": currency,
+    "shipping_options[1][shipping_rate_data][display_name]": SHIPPING.us.label,
+    "shipping_options[1][shipping_rate_data][delivery_estimate][minimum][unit]":
+      "business_day",
+    "shipping_options[1][shipping_rate_data][delivery_estimate][minimum][value]":
+      "5",
+    "shipping_options[1][shipping_rate_data][delivery_estimate][maximum][unit]":
+      "business_day",
+    "shipping_options[1][shipping_rate_data][delivery_estimate][maximum][value]":
+      "12",
+    // International (buyer can still pick if shipping to CA/US only — kept for clarity if countries expand)
+    "shipping_options[2][shipping_rate_data][type]": "fixed_amount",
+    "shipping_options[2][shipping_rate_data][fixed_amount][amount]":
+      SHIPPING.intl.amount,
+    "shipping_options[2][shipping_rate_data][fixed_amount][currency]": currency,
+    "shipping_options[2][shipping_rate_data][display_name]": SHIPPING.intl.label,
+    "shipping_options[2][shipping_rate_data][delivery_estimate][minimum][unit]":
+      "business_day",
+    "shipping_options[2][shipping_rate_data][delivery_estimate][minimum][value]":
+      "7",
+    "shipping_options[2][shipping_rate_data][delivery_estimate][maximum][unit]":
+      "business_day",
+    "shipping_options[2][shipping_rate_data][delivery_estimate][maximum][value]":
+      "28",
     ...lineParams,
   };
 

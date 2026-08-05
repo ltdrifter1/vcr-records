@@ -55,23 +55,57 @@
   }
 
   function buildQueueFromRelease(release) {
+    var vinyl = (release.formats && release.formats.vinyl) || null;
     return (release.tracks || [])
       .filter(function (t) {
-        return t.src;
+        return t.src || t.preview;
       })
       .map(function (t) {
+        var previewSrc = t.preview || null;
         return {
           id: t.id,
           title: t.title,
-          src: t.src,
+          // Stream 90s previews on-site; full masters stay offline / Bandcamp.
+          src: previewSrc || t.src,
+          fullSrc: t.src || null,
+          isPreview: !!previewSrc,
+          previewDuration: t.previewDuration || (previewSrc ? 90 : null),
           releaseId: release.id,
           releaseTitle: release.title,
           artist: release.artist,
           cover: release.cover,
           page: release.page,
           bandcampAlbum: release.bandcampAlbum || release.bandcamp,
+          vinylSku: vinyl && vinyl.sku ? vinyl.sku : null,
+          vinylPrice: vinyl && vinyl.price != null ? Number(vinyl.price) : null,
+          vinylNote: vinyl && vinyl.note ? vinyl.note : null,
+          vinylImage: (vinyl && vinyl.image) || release.cover,
         };
       });
+  }
+
+  function addVinylToBag(track) {
+    if (!track || !track.vinylSku || !window.VCRCart) return false;
+    window.VCRCart.add({
+      sku: track.vinylSku,
+      name: track.releaseTitle + " — Vinyl",
+      price: track.vinylPrice,
+      image: track.vinylImage || track.cover,
+      qty: 1,
+      id: track.vinylSku,
+    });
+    return true;
+  }
+
+  function flashBuyLabel(el, ok) {
+    if (!el) return;
+    var orig = el.getAttribute("data-label") || el.textContent;
+    el.setAttribute("data-label", orig);
+    el.textContent = ok ? "Added ✓" : "Shop release";
+    clearTimeout(el._buyFlash);
+    el._buyFlash = setTimeout(function () {
+      el.textContent = orig;
+    }, 1800);
   }
 
   function ensureAudio() {
@@ -193,7 +227,7 @@
       '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
       '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
       "</div>" +
-      '<a class="vcr-player__buy" href="#" target="_blank" rel="noopener">Buy</a>' +
+      '<button type="button" class="vcr-player__buy" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
       '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player">&times;</button>';
 
     var stage = document.createElement("div");
@@ -216,9 +250,10 @@
       '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
       '<div class="vcr-stage__actions">' +
       '<a class="vcr-stage__link" data-page href="#">Album</a>' +
-      '<a class="vcr-stage__link" data-buy href="#" target="_blank" rel="noopener">Buy on Bandcamp</a>' +
+      '<button type="button" class="vcr-stage__link" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
+      '<a class="vcr-stage__link" data-buy href="#" target="_blank" rel="noopener">Digital on Bandcamp</a>' +
       "</div>" +
-      '<p class="vcr-stage__hint">Space play/pause · ← → seek · Esc close</p>' +
+      '<p class="vcr-stage__hint">Preview · Space play/pause · ← → seek · Esc close</p>' +
       "</div>";
 
     document.body.appendChild(dock);
@@ -255,7 +290,7 @@
     room.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-act]");
       if (!btn || !room.contains(btn)) return;
-      handleAct(btn.getAttribute("data-act"));
+      handleAct(btn.getAttribute("data-act"), btn);
     });
     var scrub = room.querySelector("[data-room-scrub]");
     if (scrub) scrub.addEventListener("input", onScrub);
@@ -281,6 +316,31 @@
       artist.textContent = track.artist + " · " + track.releaseTitle;
     }
     if (page && track) page.href = track.page || "/";
+    var bc = room.querySelector("[data-room-bandcamp]");
+    if (bc) {
+      if (track && track.bandcampAlbum) {
+        bc.href = track.bandcampAlbum;
+        bc.hidden = false;
+      } else {
+        bc.hidden = true;
+      }
+    }
+    var roomVinyl = room.querySelector('[data-act="buy-vinyl"]');
+    if (roomVinyl) {
+      roomVinyl.hidden = !(track && track.vinylSku);
+      if (track && track.vinylSku && roomVinyl.textContent.indexOf("Added") < 0) {
+        roomVinyl.textContent = track.vinylPrice
+          ? "Add vinyl · $" + track.vinylPrice
+          : "Add vinyl";
+        roomVinyl.setAttribute("data-label", roomVinyl.textContent);
+      }
+    }
+    var roomHint = room.querySelector(".hero-console-hint");
+    if (roomHint && track) {
+      roomHint.textContent = track.isPreview
+        ? "90s preview · Space play/pause · Esc minimize"
+        : "Space play/pause · Esc minimize";
+    }
     if (toggleBtn) {
       if (toggleBtn.querySelector(".vcr-ico--play") || toggleBtn.querySelector(".glyph-play")) {
         setTogglePlaying(toggleBtn, playing);
@@ -318,19 +378,64 @@
     dock.querySelector(".vcr-player__art").src = track.cover;
     dock.querySelector(".vcr-player__title").textContent = track.title;
     dock.querySelector(".vcr-player__sub").textContent =
-      track.artist + " — " + track.releaseTitle;
+      (track.isPreview ? "Preview · " : "") +
+      track.artist +
+      " — " +
+      track.releaseTitle;
     var buy = dock.querySelector(".vcr-player__buy");
-    buy.href = track.bandcampAlbum || track.page || "#";
+    if (buy) {
+      buy.hidden = !(track.vinylSku || track.page);
+      if (track.vinylSku) {
+        buy.setAttribute("data-act", "buy-vinyl");
+        if (!buy.getAttribute("data-label") || buy.textContent.indexOf("Added") < 0) {
+          buy.textContent = track.vinylPrice
+            ? "Add vinyl · $" + track.vinylPrice
+            : "Add vinyl";
+          buy.setAttribute("data-label", buy.textContent);
+        }
+      } else {
+        buy.removeAttribute("data-act");
+        buy.textContent = "Shop";
+        buy.setAttribute("data-label", "Shop");
+      }
+    }
 
     stage.querySelector(".vcr-stage__art").src = track.cover;
     stage.querySelector(".vcr-stage__bg").style.backgroundImage =
       'url("' + track.cover + '")';
     stage.querySelector(".vcr-stage__title").textContent = track.title;
     stage.querySelector(".vcr-stage__artist").textContent =
-      track.artist + " · " + track.releaseTitle;
+      (track.isPreview ? "Preview · " : "") +
+      track.artist +
+      " · " +
+      track.releaseTitle;
     stage.querySelector("[data-page]").href = track.page || "/";
-    stage.querySelector("[data-buy]").href =
-      track.bandcampAlbum || track.page || "#";
+    var stageBuy = stage.querySelector("[data-buy]");
+    if (stageBuy) {
+      if (track.bandcampAlbum) {
+        stageBuy.href = track.bandcampAlbum;
+        stageBuy.hidden = false;
+        stageBuy.textContent = "Digital on Bandcamp";
+      } else {
+        stageBuy.hidden = true;
+      }
+    }
+    var stageVinyl = stage.querySelector('[data-act="buy-vinyl"]');
+    if (stageVinyl) {
+      stageVinyl.hidden = !track.vinylSku;
+      if (track.vinylSku && stageVinyl.textContent.indexOf("Added") < 0) {
+        stageVinyl.textContent = track.vinylPrice
+          ? "Add vinyl · $" + track.vinylPrice
+          : "Add vinyl";
+        stageVinyl.setAttribute("data-label", stageVinyl.textContent);
+      }
+    }
+    var hint = stage.querySelector(".vcr-stage__hint");
+    if (hint) {
+      hint.textContent = track.isPreview
+        ? "90s preview · Space play/pause · ← → seek · Esc close"
+        : "Space play/pause · ← → seek · Esc close";
+    }
 
     setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing);
     setTogglePlaying(stage.querySelector('[data-act="toggle"]'), playing);
@@ -395,9 +500,15 @@
   }
 
   function onDockClick(e) {
+    var buyBtn = e.target.closest(".vcr-player__buy");
+    if (buyBtn) {
+      e.preventDefault();
+      handleAct(buyBtn.getAttribute("data-act") || "buy-page", buyBtn);
+      return;
+    }
     var btn = e.target.closest("[data-act]");
     if (btn) {
-      handleAct(btn.getAttribute("data-act"));
+      handleAct(btn.getAttribute("data-act"), btn);
       return;
     }
     if (e.target.closest(".vcr-player__stage-hit") || e.target.closest(".vcr-player__art") || e.target.closest(".vcr-player__meta")) {
@@ -408,16 +519,24 @@
 
   function onStageClick(e) {
     var btn = e.target.closest("[data-act]");
-    if (btn) handleAct(btn.getAttribute("data-act"));
+    if (btn) handleAct(btn.getAttribute("data-act"), btn);
   }
 
-  function handleAct(act) {
+  function handleAct(act, el) {
     if (act === "toggle") toggle();
     else if (act === "prev") prev();
     else if (act === "next") next(true);
     else if (act === "close") stop(true);
     else if (act === "stage-close") closeStage();
     else if (act === "room-close") closeRoom();
+    else if (act === "buy-vinyl") {
+      var track = current();
+      if (addVinylToBag(track)) flashBuyLabel(el, true);
+      else if (track && track.page) window.location.href = track.page;
+    } else if (act === "buy-page") {
+      var t = current();
+      if (t && t.page) window.location.href = t.page;
+    }
   }
 
   function onKey(e) {
@@ -484,8 +603,9 @@
     index = i;
     var track = queue[index];
     ensureAudio();
-    if (audio.src !== new URL(track.src, window.location.origin).href) {
-      audio.src = track.src;
+    var playSrc = track.src;
+    if (audio.src !== new URL(playSrc, window.location.origin).href) {
+      audio.src = playSrc;
     }
     render();
     emit();

@@ -101,9 +101,9 @@
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-logo-chrome.webp" alt="Club Copy" width="1400" height="503"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
+      <a href="library.html" aria-current="page">Library</a>
       <a href="artists.html">Artists</a>
       <a href="merch.html">Shop</a>
-      <a href="planet.html">Stream</a>
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
@@ -124,9 +124,9 @@
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="index.html#listen">Listen</a>
+  <a href="library.html">Library</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
-  <a href="planet.html">Stream</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Bag</a>
 </div>
@@ -151,58 +151,8 @@
       <span style="text-align:right">Status</span>
     </div>
 
-    <div class="cat-list">
-      <a class="cat-row rv" href="together.html">
-        <div class="cat-cover"><img src="together-cover-480.webp" srcset="together-cover-480.webp 480w, together-cover.webp 1200w" sizes="88px" alt="" width="1200" height="1200" loading="lazy"/></div>
-        <span class="cat-no">CC008</span>
-        <span>
-          <span class="cat-title">Together</span>
-          <span class="cat-artist">Inlet Knight</span>
-          <span class="cat-mobile-meta">Album · 4 tracks · 2026</span>
-        </span>
-        <span class="cat-meta">Album · Vinyl &amp; digital · 4 tracks</span>
-        <span class="cat-year">2026</span>
-        <span class="cat-avail">Available</span>
-      </a>
-
-      <a class="cat-row rv" href="what-if.html">
-        <div class="cat-cover"><img src="what-if-cover-480.webp" srcset="what-if-cover-480.webp 480w, what-if-cover.webp 1200w" sizes="88px" alt="" width="1200" height="1200" loading="lazy"/></div>
-        <span class="cat-no">CC007</span>
-        <span>
-          <span class="cat-title">What If</span>
-          <span class="cat-artist">Inlet Knight</span>
-          <span class="cat-mobile-meta">Album · 2 tracks · 2026</span>
-        </span>
-        <span class="cat-meta">Album · Vinyl &amp; digital · 2 tracks</span>
-        <span class="cat-year">2026</span>
-        <span class="cat-avail">Available</span>
-      </a>
-
-      <a class="cat-row rv" href="home.html">
-        <div class="cat-cover"><img src="at_home-480.webp" srcset="at_home-480.webp 480w, at_home.webp 1200w" sizes="88px" alt="" width="1024" height="1024" loading="lazy"/></div>
-        <span class="cat-no">CC006</span>
-        <span>
-          <span class="cat-title">At Home</span>
-          <span class="cat-artist">Inlet Knight</span>
-          <span class="cat-mobile-meta">Single · 1 track · 2026</span>
-        </span>
-        <span class="cat-meta">Single · Vinyl &amp; digital · 1 track</span>
-        <span class="cat-year">2026</span>
-        <span class="cat-avail">Available</span>
-      </a>
-
-      <a class="cat-row rv" href="inlet-knight.html">
-        <div class="cat-cover"><img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="88px" alt="" width="1400" height="1400" loading="lazy"/></div>
-        <span class="cat-no">CC005</span>
-        <span>
-          <span class="cat-title">Inlet Knight</span>
-          <span class="cat-artist">Inlet Knight</span>
-          <span class="cat-mobile-meta">Album · 16 tracks · 2026</span>
-        </span>
-        <span class="cat-meta">Album · Vinyl &amp; digital · 16 tracks</span>
-        <span class="cat-year">2026</span>
-        <span class="cat-avail">Available</span>
-      </a>
+    <div class="cat-list" id="catList" aria-live="polite">
+      <p class="page-lead" style="padding:28px 0;color:var(--dim)">Loading catalogue…</p>
     </div>
   </div>
 </main>
@@ -232,7 +182,7 @@
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
         <a href="shipping.html">Shipping</a>
-        <a href="planet.html">Stream</a>
+        <a href="planet.html">Planet MP3</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
@@ -242,5 +192,6 @@
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js"></script>
+<script src="js/library.js"></script>
 </body>
 </html>
