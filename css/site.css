@@ -152,23 +152,22 @@ button {
   flex-shrink: 0;
   transition: opacity var(--dur) var(--ease);
 }
-/* Stacked oval lockup — transparent PNG/WebP; chrome stays on hero only */
+/* One stacked oval mark — invert to white on dark headers (never dual images) */
 .nav-logo img {
+  display: block;
   height: 38px;
   width: auto;
   max-width: min(168px, 42vw);
+  transition: filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 @media (min-width: 800px) {
   .nav-logo img { height: 42px; max-width: 190px; }
 }
-.nav-logo-ink { display: block; }   /* black — light surfaces */
-.nav-logo-snow { display: none; }   /* white — dark surfaces */
-body.hero-top:not(.nav-light) .nav-logo-ink,
-body.shop-page:not(.nav-light) .nav-logo-ink,
-body.nav-on-dark:not(.nav-light) .nav-logo-ink { display: none; }
-body.hero-top:not(.nav-light) .nav-logo-snow,
-body.shop-page:not(.nav-light) .nav-logo-snow,
-body.nav-on-dark:not(.nav-light) .nav-logo-snow { display: block; }
+body.hero-top:not(.nav-light) .nav-logo img,
+body.shop-page:not(.nav-light) .nav-logo img,
+body.nav-on-dark:not(.nav-light) .nav-logo img {
+  filter: invert(1);
+}
 @media (hover:hover) { .nav-logo:hover { opacity: .72; } }
 .nav-links { display: flex; gap: 4px; }
 .nav-links a {
