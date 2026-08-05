@@ -29,7 +29,8 @@
       display: grid;
       place-items: center;
       overflow: hidden;
-      background: #050505;
+      background:
+        radial-gradient(ellipse 58% 52% at 50% 40%, #2c2822 0%, #0a0908 55%, #050505 100%);
       color: #fff;
       isolation: isolate;
     }
@@ -37,37 +38,40 @@
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 50% 40% at 50% 38%, rgba(255,255,255,.03), transparent 70%);
+        radial-gradient(ellipse 48% 42% at 50% 38%, rgba(232,224,208,.08), transparent 70%);
     }
     .hero-ambient {
       position: absolute;
-      inset: -8%;
+      inset: -6%;
       z-index: 0;
       pointer-events: none;
       background-size: cover;
       background-position: center;
-      filter: blur(36px) saturate(1.55) brightness(.62);
-      transform: scale(1.08);
+      /* Cover is mostly black + cream label — keep blur light so the label blooms */
+      filter: blur(22px) saturate(1.15) brightness(1.15) contrast(1.05);
+      transform: scale(1.06);
       opacity: 1;
       transition: filter .7s var(--ease), opacity .7s var(--ease);
     }
     .hero.is-live .hero-ambient {
-      filter: blur(44px) saturate(1.5) brightness(.58);
+      filter: blur(28px) saturate(1.2) brightness(1.05) contrast(1.02);
     }
     .hero-ambient::after {
       content: "";
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 58% 50% at 50% 36%, rgba(255,255,255,.06), transparent 70%),
-        linear-gradient(180deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.36) 42%, rgba(0,0,0,.68) 100%);
+        radial-gradient(circle at 50% 40%, transparent 0%, transparent 22%, rgba(0,0,0,.35) 62%, rgba(0,0,0,.55) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.18) 0%, transparent 36%, rgba(0,0,0,.55) 100%);
     }
+    .hero.fx-phosphor::before { opacity: .22; }
+    .hero.fx-phosphor::after { opacity: .28; }
     .hero-vhs {
       position: absolute;
       inset: 0;
       z-index: 1;
       pointer-events: none;
       background: url('hero-vhs.webp') center / cover no-repeat;
-      opacity: .055;
+      opacity: .04;
       mix-blend-mode: soft-light;
     }
     .hero-grid {
@@ -89,12 +93,12 @@
         linear-gradient(180deg, transparent 0%, #000 26%, #000 72%, transparent 100%);
       mask-composite: intersect;
       -webkit-mask-composite: source-in;
-      opacity: .16;
+      opacity: .1;
       animation: gridDrift 28s linear infinite;
       will-change: background-position;
       transition: opacity .6s var(--ease);
     }
-    .hero.is-live .hero-grid { opacity: .1; }
+    .hero.is-live .hero-grid { opacity: .06; }
     .hero-grid::before {
       content: "";
       position: absolute; inset: 0;
@@ -117,10 +121,10 @@
     @keyframes gridDriftFine { from { background-position: 0 0; } to { background-position: 0 14px; } }
 
     .hero .fx-grid-horizon {
-      opacity: .14;
+      opacity: .08;
       transition: opacity .6s var(--ease);
     }
-    .hero.is-live .fx-grid-horizon { opacity: .08; }
+    .hero.is-live .fx-grid-horizon { opacity: .05; }
 
     .hero-stage {
       position: relative; z-index: 1;
