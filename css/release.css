@@ -610,6 +610,23 @@ body {
   font-size: 12px; font-weight: 500; color: var(--muted);
   min-height: 14px; margin-top: 10px; line-height: 1.5;
 }
+.redeem-status.err { color: var(--red); }
+.redeem-status.ok { color: var(--green); }
+.redeem-email { margin-top: 8px; }
+.redeem-email .redeem-input {
+  width: 100%; text-transform: none; letter-spacing: 0;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.view-bag-link {
+  display: none; margin-top: 12px;
+  font-size: 13px; font-weight: 500; color: var(--ink);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.view-bag-link.show { display: inline-block; }
 .dl-links { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
 .hidden { display: none !important; }
 

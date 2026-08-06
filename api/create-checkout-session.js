@@ -2,7 +2,8 @@
  * Vercel serverless: create a Stripe Checkout Session for the full bag.
  * Requires env STRIPE_SECRET_KEY. Optional STRIPE_CURRENCY (default cad).
  *
- * Physical goods only — digital downloads are sold on Bandcamp.
+ * Physical goods and digital downloads (dg-* SKUs, fulfilled by email —
+ * shipping is only collected when the bag contains a physical item).
  *
  * POST /api/create-checkout-session
  * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
@@ -25,6 +26,8 @@ const CATALOG = {
   "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600, stock: 36 },
   "sm-poly-outer": { name: "Poly Outer", unitAmount: 500, stock: 100 },
   "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200, stock: 80 },
+  "dg-together": { name: "Together — Digital (EP)", unitAmount: 2000, digital: true },
+  "dg-inlet-knight": { name: "Inlet Knight — Digital (Album)", unitAmount: 900, digital: true },
 };
 
 /** Flat shipping rates (CAD cents). Ships CA + US only. */
@@ -87,6 +90,7 @@ module.exports = async function handler(req, res) {
 
   const lineParams = {};
   let lineIndex = 0;
+  let hasPhysical = false;
   for (const raw of items) {
     const sku = String(raw.sku || "").toLowerCase();
     const product = CATALOG[sku];
@@ -95,6 +99,7 @@ module.exports = async function handler(req, res) {
       res.setHeader("Content-Type", "application/json");
       return res.end(JSON.stringify({ error: `Unknown product: ${sku}` }));
     }
+    if (!product.digital) hasPhysical = true;
     const qty = Math.min(20, Math.max(1, parseInt(raw.qty, 10) || 1));
     if (product.stock != null && qty > product.stock) {
       res.statusCode = 409;
@@ -142,10 +147,7 @@ module.exports = async function handler(req, res) {
     lineIndex += 1;
   }
 
-  const flat = {
-    mode: "payment",
-    success_url: `${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/cart.html?canceled=1`,
+  const shippingParams = {
     "shipping_address_collection[allowed_countries][0]": "CA",
     "shipping_address_collection[allowed_countries][1]": "US",
     "shipping_options[0][shipping_rate_data][type]": "fixed_amount",
@@ -174,6 +176,13 @@ module.exports = async function handler(req, res) {
       "business_day",
     "shipping_options[1][shipping_rate_data][delivery_estimate][maximum][value]":
       "12",
+  };
+
+  const flat = {
+    mode: "payment",
+    success_url: `${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}/cart.html?canceled=1`,
+    ...(hasPhysical ? shippingParams : {}),
     ...lineParams,
   };
 

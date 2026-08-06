@@ -29,9 +29,9 @@
       <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
     </div>
     <h2>Purchase complete</h2>
-    <p>Thanks for supporting independent music. Your download is ready.</p>
+    <p>Thanks for supporting independent music. Your receipt and download details are on their way by email.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" id="dlMp3Modal" href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener">Open Bandcamp</a>
+      <a class="btn btn-fill" href="library.html">Keep browsing</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -173,26 +173,37 @@
             <button type="button" class="btn btn-fill" id="buyBtn">Add cassette to bag — $20</button>
           </div>
           <p class="small-note" id="buyNote">Cassette · Ships from British Columbia · CA &amp; US</p>
-          <a class="bc-quiet" href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener">Also on Bandcamp ↗</a>
+          <a class="view-bag-link" id="viewBagLink" href="cart.html">View bag →</a>
           <p class="trust-line">
             <span>Secure checkout</span>
             <a href="shipping.html">Shipping &amp; returns</a>
           </p>
         </div>
 
-                <div class="r-block">
-          <div class="redeem-head">Download code</div>
-          <p class="small-note" style="margin:0 0 12px">Cassette includes a digital download code.</p>
-  
+        <div class="r-block">
+          <div class="redeem-head" id="redeemHead">Download code</div>
+          <p class="small-note" style="margin:0 0 12px">Cassette includes a digital download code. Enter it below to get your files.</p>
+          <form id="redeemForm" novalidate aria-labelledby="redeemHead">
+            <div class="redeem-row">
+              <label class="sr-only" for="redeemCode">Download code</label>
+              <input class="redeem-input" id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
+              <button class="redeem-btn" type="submit" id="redeemBtn">Redeem</button>
+            </div>
+            <div class="redeem-email hidden" id="redeemEmailWrap">
+              <label class="sr-only" for="redeemEmail">Email for your download link</label>
+              <input class="redeem-input" id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
+            </div>
+            <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
+          </form>
         </div>
 
         <div class="r-block">
-          <div class="tab-bar" role="tablist">
-            <button class="tab-btn" role="tab" aria-selected="true"  aria-controls="tab-track">Tracklist</button>
-            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-details">Details</button>
+          <div class="tab-bar" role="tablist" aria-label="Release information">
+            <button type="button" class="tab-btn" id="tabBtnTrack" role="tab" aria-selected="true"  aria-controls="tab-track">Tracklist</button>
+            <button type="button" class="tab-btn" id="tabBtnDetails" role="tab" aria-selected="false" aria-controls="tab-details">Details</button>
           </div>
 
-          <div class="tab-panel on" id="tab-track" role="tabpanel" style="padding-top:14px;">
+          <div class="tab-panel on" id="tab-track" role="tabpanel" aria-labelledby="tabBtnTrack" style="padding-top:14px;">
             <div class="tracklist">
               <div class="track-row is-active" data-index="0">
                 <span class="track-no">1</span>
@@ -233,7 +244,7 @@
             </div>
           </div>
 
-          <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
+          <div class="tab-panel" id="tab-details" role="tabpanel" aria-labelledby="tabBtnDetails" style="padding-top:14px;">
             <p class="details-text">Four tracks by Inlet Knight. CC008. Written and performed by Inlet Knight. Produced for Club Copy. Available as cassette and digital download. Released 2026.</p>
           </div>
         </div>
@@ -292,11 +303,6 @@
 <script src="js/release-bind.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const CONFIG = {
-  stripeDigital:  '',
-  stripeCassette: '',
-  bandcamp:       'https://inletknight.bandcamp.com/album/together'
-};
 const RELEASE_ID = 'together';
 
 VCRReleaseBind({
@@ -312,26 +318,38 @@ VCRReleaseBind({
 
 
 (function() {
+  const FORMATS = {
+    cassette: {
+      sku: 'sm-cassette-together', name: 'Together \u2014 Cassette', price: 20,
+      buyLabel: 'Add cassette to bag \u2014 $20',
+      note: 'Cassette \u00b7 Ships from British Columbia \u00b7 CA & US',
+      stock: '48 cassettes left'
+    },
+    digital: {
+      sku: 'dg-together', name: 'Together \u2014 Digital (EP)', price: 20,
+      buyLabel: 'Add digital to bag \u2014 $20',
+      note: 'Digital download \u00b7 Link emailed after checkout',
+      stock: null
+    }
+  };
   const pills = document.querySelectorAll('.format-pill');
   const buyBtn = $('buyBtn');
   const buyNoteEl = $('buyNote');
   let currentFmt = 'cassette';
+  let resetTimer = null;
 
   function updateUI() {
-    if (currentFmt === 'cassette') {
-      buyBtn.textContent = 'Add cassette to bag \u2014 $20';
-      $('priceAmount').textContent = '$20';
-      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '20.00';
-      $('priceFormat').textContent = 'CAD';
-      buyNoteEl.textContent = 'Cassette \u00b7 Ships from British Columbia \u00b7 CA & US';
-      $('rStock').textContent = '48 cassettes left';
+    const f = FORMATS[currentFmt];
+    clearTimeout(resetTimer);
+    buyBtn.textContent = f.buyLabel;
+    $('priceAmount').textContent = '$' + f.price;
+    $('priceDisplay').querySelector('meta[itemprop="price"]').content = f.price.toFixed(2);
+    $('priceFormat').textContent = 'CAD';
+    buyNoteEl.textContent = f.note;
+    if (f.stock) {
+      $('rStock').textContent = f.stock;
       $('rStock').style.display = '';
     } else {
-      buyBtn.textContent = 'Buy digital on Bandcamp \u2014 $20';
-      $('priceAmount').textContent = '$20';
-      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '20.00';
-      $('priceFormat').textContent = 'CAD';
-      buyNoteEl.textContent = 'Digital download via Bandcamp';
       $('rStock').style.display = 'none';
     }
   }
@@ -349,17 +367,78 @@ VCRReleaseBind({
   });
 
   buyBtn.addEventListener('click', () => {
-    if (currentFmt === 'cassette') {
-      if (window.VCRCart) VCRCart.add({ sku: 'sm-cassette-together', name: 'Together \u2014 Cassette', price: 20, image: 'together-cover.webp', qty: 1, id: 'sm-cassette-together' });
-      const orig = buyBtn.textContent;
-      buyBtn.textContent = 'Added \u2713';
-      setTimeout(() => { buyBtn.textContent = orig; }, 2000);
-    } else {
-      window.open(CONFIG.bandcamp, '_blank', 'noopener');
-    }
+    const f = FORMATS[currentFmt];
+    if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'together-cover.webp', qty: 1, id: f.sku });
+    buyBtn.textContent = 'Added to bag \u2713';
+    $('viewBagLink').classList.add('show');
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { buyBtn.textContent = f.buyLabel; }, 2200);
   });
 
   updateUI();
+})();
+
+(function() {
+  const form = $('redeemForm');
+  if (!form) return;
+  const code = $('redeemCode'), email = $('redeemEmail'),
+        emailWrap = $('redeemEmailWrap'), status = $('redeemStatus'), btn = $('redeemBtn');
+
+  function setStatus(msg, cls) {
+    status.textContent = msg;
+    status.classList.remove('err', 'ok');
+    if (cls) status.classList.add(cls);
+  }
+
+  code.addEventListener('input', () => { code.value = code.value.toUpperCase(); });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const c = code.value.trim().toUpperCase();
+    if (c.length < 6) {
+      setStatus('That code looks too short \u2014 check the insert with your cassette and try again.', 'err');
+      code.focus();
+      return;
+    }
+    if (emailWrap.classList.contains('hidden')) {
+      emailWrap.classList.remove('hidden');
+      email.required = true;
+      btn.textContent = 'Send link';
+      setStatus('Where should we send your download link?');
+      email.focus();
+      return;
+    }
+    if (!email.value.trim() || !email.checkValidity()) {
+      setStatus('Enter a valid email so we can send your files.', 'err');
+      email.focus();
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Sending\u2026';
+    try {
+      const res = await fetch('https://formspree.io/f/xdkwjzzr', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'download-code-redemption',
+          release: 'Together \u2014 Inlet Knight (CC008)',
+          code: c,
+          email: email.value.trim(),
+          page: location.href
+        })
+      });
+      if (!res.ok) throw new Error('send failed');
+      form.reset();
+      emailWrap.classList.add('hidden');
+      email.required = false;
+      btn.textContent = 'Redeem';
+      setStatus('Code received \u2014 your download link will arrive by email shortly.', 'ok');
+    } catch (err) {
+      btn.textContent = 'Send link';
+      setStatus('Something went wrong sending your code. Try again in a moment.', 'err');
+    }
+    btn.disabled = false;
+  });
 })();
 
 const modal = $('purchaseModal');
@@ -373,7 +452,7 @@ const closeM = () => {
 $('modalClose').addEventListener('click', closeM);
 $('modalDismiss').addEventListener('click', closeM);
 modal.addEventListener('click', e => { if (e.target === modal) closeM(); });
-$('dlMp3Modal').href = CONFIG.bandcamp;
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeM(); });
 const sp = new URLSearchParams(location.search);
 if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 600);
 
