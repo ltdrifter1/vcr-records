@@ -172,8 +172,6 @@
           <div class="buy-stack">
             <button type="button" class="btn btn-fill" id="buyBtn">Add cassette to bag — $20</button>
           </div>
-          <p class="small-note" id="buyNote">Cassette · Ships from British Columbia · CA &amp; US</p>
-          <a class="view-bag-link" id="viewBagLink" href="cart.html">View bag →</a>
           <p class="trust-line">
             <span>Secure checkout</span>
             <a href="shipping.html">Shipping &amp; returns</a>
@@ -183,16 +181,14 @@
         <div class="r-block">
           <div class="redeem-head" id="redeemHead">Download code</div>
           <p class="small-note" style="margin:0 0 12px">Cassette includes a digital download code. Enter it below to get your files.</p>
-          <form id="redeemForm" novalidate aria-labelledby="redeemHead">
-            <div class="redeem-row">
-              <label class="sr-only" for="redeemCode">Download code</label>
-              <input class="redeem-input" id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
-              <button class="redeem-btn" type="submit" id="redeemBtn">Redeem</button>
-            </div>
+          <form id="redeemForm" class="redeem-form" novalidate aria-labelledby="redeemHead">
+            <label class="sr-only" for="redeemCode">Download code</label>
+            <input class="redeem-input" id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
             <div class="redeem-email hidden" id="redeemEmailWrap">
               <label class="sr-only" for="redeemEmail">Email for your download link</label>
               <input class="redeem-input" id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
             </div>
+            <button class="btn btn-fill" type="submit" id="redeemBtn">Redeem</button>
             <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -322,19 +318,16 @@ VCRReleaseBind({
     cassette: {
       sku: 'sm-cassette-together', name: 'Together \u2014 Cassette', price: 20,
       buyLabel: 'Add cassette to bag \u2014 $20',
-      note: 'Cassette \u00b7 Ships from British Columbia \u00b7 CA & US',
       stock: '48 cassettes left'
     },
     digital: {
       sku: 'dg-together', name: 'Together \u2014 Digital (EP)', price: 20,
       buyLabel: 'Add digital to bag \u2014 $20',
-      note: 'Digital download \u00b7 Link emailed after checkout',
       stock: null
     }
   };
   const pills = document.querySelectorAll('.format-pill');
   const buyBtn = $('buyBtn');
-  const buyNoteEl = $('buyNote');
   let currentFmt = 'cassette';
   let resetTimer = null;
 
@@ -345,7 +338,6 @@ VCRReleaseBind({
     $('priceAmount').textContent = '$' + f.price;
     $('priceDisplay').querySelector('meta[itemprop="price"]').content = f.price.toFixed(2);
     $('priceFormat').textContent = 'CAD';
-    buyNoteEl.textContent = f.note;
     if (f.stock) {
       $('rStock').textContent = f.stock;
       $('rStock').style.display = '';
@@ -370,7 +362,6 @@ VCRReleaseBind({
     const f = FORMATS[currentFmt];
     if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'together-cover.webp', qty: 1, id: f.sku });
     buyBtn.textContent = 'Added to bag \u2713';
-    $('viewBagLink').classList.add('show');
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => { buyBtn.textContent = f.buyLabel; }, 2200);
   });
