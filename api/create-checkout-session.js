@@ -21,7 +21,7 @@ const CATALOG = {
   "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200, stock: 60 },
   "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800, stock: 100 },
   "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000, stock: 40 },
-  "sm-vinyl-together": { name: "Together — Vinyl", unitAmount: 3200, stock: 48 },
+  "sm-cassette-together": { name: "Together — Cassette", unitAmount: 2000, stock: 48 },
   "sm-vinyl-inlet-knight": { name: "Inlet Knight — Vinyl", unitAmount: 3600, stock: 36 },
   "sm-poly-outer": { name: "Poly Outer", unitAmount: 500, stock: 100 },
   "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200, stock: 80 },

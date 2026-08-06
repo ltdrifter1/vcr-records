@@ -15,6 +15,7 @@
     var bits = [];
     if (rel.kind) bits.push(rel.kind);
     var formats = [];
+    if (rel.formats && rel.formats.cassette) formats.push('Cassette');
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
     if (formats.length) bits.push(formats.join(' · '));
