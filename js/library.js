@@ -12,11 +12,12 @@
   }
 
   function formatMeta(rel) {
-    var bits = [rel.kind || 'Release'];
+    var bits = [];
+    if (rel.kind) bits.push(rel.kind);
     var formats = [];
-    if (rel.formats && rel.formats.vinyl) formats.push('Vinyl');
-    if (rel.formats && rel.formats.digital) formats.push('digital');
-    if (formats.length) bits.push(formats.join(' &amp; '));
+    if (rel.formats && rel.formats.vinyl) formats.push('12″');
+    if (rel.formats && rel.formats.digital) formats.push('Digital');
+    if (formats.length) bits.push(formats.join(' · '));
     if (rel.tracksCount) bits.push(rel.tracksCount + (rel.tracksCount === 1 ? ' track' : ' tracks'));
     return bits.join(' · ');
   }
@@ -38,7 +39,7 @@
     var alt = esc(rel.title + ' — ' + rel.artist);
     return (
       '<div class="cat-row rv" data-release="' + esc(rel.id) + '">' +
-        '<div class="cat-cover">' +
+        '<div class="cat-cover media-bezel fx-spec">' +
           '<a href="' + esc(href) + '" tabindex="-1" aria-hidden="true">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="88px" alt="' + alt + '" width="1200" height="1200" loading="lazy"/>' +
           '</a>' +
@@ -46,16 +47,16 @@
             '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           '</button>' +
-          '<span class="cat-air" aria-hidden="true">Now</span>' +
+          '<span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span>' +
         '</div>' +
-        '<span class="cat-no">' + esc(rel.catalogue || '') + '</span>' +
+        '<span class="cat-no cat-display cat-display--md">' + esc(rel.catalogue || '') + '</span>' +
         '<span>' +
           '<a class="cat-title" href="' + esc(href) + '">' + esc(rel.title) + '</a>' +
           '<span class="cat-artist">' + esc(rel.artist) + '</span>' +
-          '<span class="cat-mobile-meta">' + esc(mobileMeta(rel)) + '</span>' +
+          '<span class="cat-mobile-meta broadcast-meta">' + esc(mobileMeta(rel)) + '</span>' +
         '</span>' +
-        '<span class="cat-meta">' + formatMeta(rel) + '</span>' +
-        '<span class="cat-year">' + esc(rel.year || '') + '</span>' +
+        '<span class="cat-meta broadcast-meta">' + formatMeta(rel) + '</span>' +
+        '<span class="cat-year broadcast-meta">' + esc(rel.year || '') + '</span>' +
         '<span class="cat-avail">' + esc(rel.status || 'Available') + '</span>' +
       '</div>'
     );
@@ -74,7 +75,11 @@
       rowEl.classList.toggle('is-audible', !!(mine && playing));
       rowEl.classList.toggle('is-up-next', !!up);
       var air = rowEl.querySelector('.cat-air');
-      if (air) air.textContent = mine ? 'Now' : (up ? 'Up next' : 'Now');
+      if (air) {
+        air.textContent = mine ? 'On air' : 'Standby';
+        air.classList.toggle('status-chip--air', !!mine);
+        air.classList.toggle('status-chip--standby', !!up && !mine);
+      }
       var btn = rowEl.querySelector('.cat-play');
       if (btn) {
         var titleEl = rowEl.querySelector('.cat-title');

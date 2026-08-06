@@ -15,10 +15,13 @@
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var note = rel.tracksCount === 1 ? 'Single' : (rel.tracksCount || 0) + ' tracks';
+    var noteBits = [];
+    if (rel.kind) noteBits.push(rel.kind);
+    if (rel.formats && rel.formats.vinyl) noteBits.push('12″');
+    noteBits.push(rel.tracksCount === 1 ? '1 track' : (rel.tracksCount || 0) + ' tracks');
     return (
       '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
-        '<div class="wall-art">' +
+        '<div class="wall-art media-bezel fx-spec">' +
           '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
           '</a>' +
@@ -27,12 +30,13 @@
             '<svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           '</button>' +
           '<div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>' +
-          '<span class="wall-air" aria-hidden="true">Now</span>' +
+          '<span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span>' +
         '</div>' +
         '<div class="wall-meta">' +
-          '<p class="wall-artist">' + esc(rel.artist) + (rel.catalogue ? ' · ' + esc(rel.catalogue) : '') + '</p>' +
+          (rel.catalogue ? '<p class="wall-cat cat-display cat-display--sm">' + esc(rel.catalogue) + '</p>' : '') +
+          '<p class="wall-artist">' + esc(rel.artist) + '</p>' +
           '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
-          '<p class="wall-note">' + esc(note) + '</p>' +
+          '<p class="wall-note broadcast-meta">' + esc(noteBits.join(' · ')) + '</p>' +
         '</div>' +
       '</article>'
     );
@@ -53,7 +57,9 @@
       item.classList.toggle('is-up-next', !!up);
       var air = item.querySelector('.wall-air');
       if (air) {
-        air.textContent = mine ? 'Now' : 'Up next';
+        air.textContent = mine ? 'On air' : 'Standby';
+        air.classList.toggle('status-chip--air', !!mine);
+        air.classList.toggle('status-chip--standby', !!up && !mine);
         air.hidden = !(mine || up);
       }
       var btn = item.querySelector('.wall-play');
