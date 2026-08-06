@@ -37,11 +37,6 @@
   </div>
 </div>
 
-<div class="zoom" id="zoom">
-  <button class="zoom-close">×</button>
-  <img id="zoomImg" alt=""/>
-</div>
-
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
@@ -91,7 +86,6 @@
         <div class="release-stage">
           <div class="release-platter" id="artworkWrap">
             <span class="artwork-badge">Album</span>
-            <button type="button" class="release-zoom" id="releaseZoom" aria-label="Enlarge artwork">↗</button>
             <div class="release-disc" id="releaseDisc">
               <img id="heroImg" src="together-cover.webp" alt="Together artwork" itemprop="image"/>
             </div>
@@ -104,7 +98,6 @@
           </div>
 
           <div class="release-console">
-            <p class="release-kicker" id="releaseKicker">Selected</p>
             <p class="release-track" id="ipTrackName">Noted</p>
             <div class="release-controls">
               <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">
@@ -380,16 +373,6 @@ if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 
     btn.setAttribute('aria-selected','true');
     document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('on');
   }));
-})();
-
-(function() {
-  const zo = $('zoom'), zi = $('zoomImg');
-  const src = $('heroImg');
-  const zoomBtn = $('releaseZoom');
-  if (zoomBtn) zoomBtn.addEventListener('click', (e) => { e.stopPropagation(); zi.src = src.src; zo.style.display = 'flex'; });
-  zo.addEventListener('click', e => { if (e.target !== zi) zo.style.display = 'none'; });
-  zo.querySelector('.zoom-close').addEventListener('click', () => zo.style.display = 'none');
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') zo.style.display = 'none'; });
 })();
 
 (function () {
