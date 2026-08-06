@@ -348,17 +348,9 @@
     <section class="more-releases" aria-label="More from the library">
       <p class="more-releases-title">More from the library</p>
       <div class="more-releases-grid">
-        <a href="what-if.html" class="more-release-item">
-          <img src="what-if-cover.webp" alt="What If" loading="lazy"/>
-          <p>Inlet Knight — What If</p>
-        </a>
         <a href="together.html" class="more-release-item">
           <img src="together-cover.webp" alt="Together" loading="lazy"/>
           <p>Inlet Knight — Together</p>
-        </a>
-        <a href="home.html" class="more-release-item">
-          <img src="at_home.webp" alt="At Home" loading="lazy"/>
-          <p>Inlet Knight — At Home</p>
         </a>
       </div>
     </section>
@@ -481,8 +473,6 @@ VCRReleaseBind({
       var orig = buyBtn.textContent;
       buyBtn.textContent = 'Added';
       setTimeout(function() { buyBtn.textContent = orig; }, 2000);
-    } else if (currentFmt === 'cassette') {
-      window.open('', '_blank', 'noopener');
     } else {
       window.open('https://inletknight.bandcamp.com/album/inlet-knight', '_blank', 'noopener');
     }

@@ -12,7 +12,7 @@
   <meta property="og:title" content="Club Copy"/>
   <meta property="og:description" content="Electronic music from the Pacific Northwest."/>
   <meta property="og:type" content="website"/>
-  <meta property="og:image" content="https://vcr-records.vercel.app/what-if-cover.webp"/>
+  <meta property="og:image" content="https://vcr-records.vercel.app/together-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1117,7 +1117,7 @@
 
   <!-- Featured release -->
   <section class="hero fx-phosphor" id="room" data-listening-room aria-label="Featured release">
-    <div class="hero-ambient" data-room-bg style="background-image:url('what-if-cover.webp')" aria-hidden="true"></div>
+    <div class="hero-ambient" data-room-bg style="background-image:url('together-cover.webp')" aria-hidden="true"></div>
     <div class="hero-vhs" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="fx-grid-horizon" aria-hidden="true"></div>
@@ -1125,9 +1125,9 @@
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
         <div class="hero-disc" data-room-disc>
-          <img data-room-art src="what-if-cover.webp" alt="What If — vinyl artwork" width="1200" height="1200"/>
+          <img data-room-art src="together-cover.webp" alt="Together — vinyl artwork" width="1200" height="1200"/>
         </div>
-        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Play What If">
+        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Play Together">
           <span class="disc-glyph" aria-hidden="true">
             <svg class="glyph-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <svg class="glyph-pause" viewBox="0 0 24 24"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
@@ -1140,7 +1140,7 @@
         <p class="hero-callsign">On air</p>
         <h1 class="hero-idle-title">Electronic music from the Pacific Northwest.</h1>
         <div class="hero-ctas">
-          <button type="button" class="btn btn-dark" data-play-release="what-if" data-play-stage>Play</button>
+          <button type="button" class="btn btn-dark" data-play-release="together" data-play-stage>Play</button>
           <a class="btn btn-ghost" href="#listen">Releases</a>
         </div>
       </div>
@@ -1149,9 +1149,9 @@
         <button type="button" class="hero-console-close" data-act="room-close" aria-label="Minimize listening room">&times;</button>
         <p class="hero-kicker"><span class="hero-kicker__bug">CC</span> Now</p>
         <h2 class="hero-console-title">
-          <a href="what-if.html" data-room-page data-room-title>What If</a>
+          <a href="together.html" data-room-page data-room-title>Together</a>
         </h2>
-        <p class="hero-console-artist" data-room-artist>Inlet Knight · What If</p>
+        <p class="hero-console-artist" data-room-artist>Inlet Knight · Together</p>
         <p class="hero-upnext" data-room-upnext hidden></p>
         <div class="hero-controls">
           <button type="button" class="hero-ctrl" data-act="prev" aria-label="Previous">
@@ -1171,7 +1171,7 @@
         </div>
         <div class="hero-console-actions">
           <button type="button" class="hero-console-link hero-console-link--primary" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>
-          <a class="hero-console-link" href="https://inletknight.bandcamp.com/album/what-if" target="_blank" rel="noopener" data-room-bandcamp>Digital</a>
+          <a class="hero-console-link" href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener" data-room-bandcamp>Digital</a>
         </div>
       </div>
     </div>
@@ -1291,7 +1291,7 @@
     discHit.addEventListener('click', function () {
       if (!window.VCRPlayer) return;
       if (VCRPlayer.current()) VCRPlayer.toggle();
-      else VCRPlayer.playRelease('what-if', null, { autoplay: true, stage: true });
+      else VCRPlayer.playRelease('together', null, { autoplay: true, stage: true });
     });
   }
 
@@ -1301,7 +1301,7 @@
     var d = e.detail || {};
     var playing = !!d.playing;
     if (discHit) {
-      var title = d.track ? d.track.releaseTitle : 'What If';
+      var title = d.track ? d.track.releaseTitle : 'Together';
       discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
     }
   });

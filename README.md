@@ -13,7 +13,7 @@ Pages keep only page-specific rules inline.
 
 ## Commerce
 
-- **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
+- **Physical** (vinyl, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
 - **Digital**: Bandcamp only.
 - On-site listening uses **90s preview** clips in `previews/` only — full masters are not in the deploy.
 
