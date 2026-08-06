@@ -251,7 +251,7 @@
       '<button type="button" class="vcr-player__stage-hit" aria-label="Open listening room"></button>' +
       '<img class="vcr-player__art" alt="" width="48" height="48" />' +
       '<div class="vcr-player__meta">' +
-      '<p class="vcr-player__bug">CC · Now</p>' +
+      '<p class="vcr-player__bug">CC · Standby</p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
@@ -512,6 +512,10 @@
 
     dock.classList.add("is-visible");
     document.body.classList.add("has-vcr-player");
+    dock.classList.toggle("is-playing", !!playing);
+
+    var bug = dock.querySelector(".vcr-player__bug");
+    if (bug) bug.textContent = playing ? "CC · On air" : "CC · Standby";
 
     dock.querySelector(".vcr-player__art").src = track.cover;
     dock.querySelector(".vcr-player__title").textContent = track.title;
