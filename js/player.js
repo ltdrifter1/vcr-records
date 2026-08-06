@@ -59,6 +59,8 @@
 
   function buildQueueFromRelease(release) {
     var vinyl = (release.formats && release.formats.vinyl) || null;
+    var cassette = (release.formats && release.formats.cassette) || null;
+    var digital = (release.formats && release.formats.digital) || null;
     return (release.tracks || [])
       .filter(function (t) {
         return t.preview;
@@ -81,22 +83,54 @@
           vinylNote: vinyl && vinyl.note ? vinyl.note : null,
           vinylImage: (vinyl && vinyl.image) || release.cover,
           vinylStock: vinyl && vinyl.stock != null ? Number(vinyl.stock) : null,
+          cassetteSku: cassette && cassette.sku ? cassette.sku : null,
+          cassettePrice: cassette && cassette.price != null ? Number(cassette.price) : null,
+          cassetteImage: (cassette && cassette.image) || release.cover,
+          cassetteStock: cassette && cassette.stock != null ? Number(cassette.stock) : null,
+          digitalPrice: digital && digital.price != null ? Number(digital.price) : null,
         };
       });
   }
 
+  function addFormatToBag(track, format) {
+    if (!track || !window.VCRCart) return false;
+    if (format === "vinyl") {
+      if (!track.vinylSku) return false;
+      if (track.vinylStock != null && track.vinylStock <= 0) return false;
+      window.VCRCart.add({
+        sku: track.vinylSku,
+        name: track.releaseTitle + " — Vinyl",
+        price: track.vinylPrice,
+        image: track.vinylImage || track.cover,
+        qty: 1,
+        id: track.vinylSku,
+      });
+      return true;
+    }
+    if (format === "cassette") {
+      if (!track.cassetteSku) return false;
+      if (track.cassetteStock != null && track.cassetteStock <= 0) return false;
+      window.VCRCart.add({
+        sku: track.cassetteSku,
+        name: track.releaseTitle + " — Cassette",
+        price: track.cassettePrice,
+        image: track.cassetteImage || track.cover,
+        qty: 1,
+        id: track.cassetteSku,
+      });
+      return true;
+    }
+    return false;
+  }
+
   function addVinylToBag(track) {
-    if (!track || !track.vinylSku || !window.VCRCart) return false;
-    if (track.vinylStock != null && track.vinylStock <= 0) return false;
-    window.VCRCart.add({
-      sku: track.vinylSku,
-      name: track.releaseTitle + " — Vinyl",
-      price: track.vinylPrice,
-      image: track.vinylImage || track.cover,
-      qty: 1,
-      id: track.vinylSku,
-    });
-    return true;
+    return addFormatToBag(track, "vinyl");
+  }
+
+  function setRoomFormatsOpen(open) {
+    var room = getRoom();
+    var consoleEl = room && room.querySelector("[data-room-console]");
+    if (consoleEl) consoleEl.classList.toggle("is-formats", !!open);
   }
 
   function flashBuyLabel(el, ok) {
@@ -395,6 +429,7 @@
     var bg = room.querySelector("[data-room-bg]");
     var title = room.querySelector("[data-room-title]");
     var artist = room.querySelector("[data-room-artist]");
+    var album = room.querySelector("[data-room-album]");
     var page = room.querySelector("[data-room-page]");
     var disc = room.querySelector("[data-room-disc]");
     var toggleBtn = room.querySelector('[data-act="toggle"]');
@@ -402,29 +437,31 @@
     if (art && track) art.src = track.cover;
     if (bg && track) bg.style.backgroundImage = 'url("' + track.cover + '")';
     if (title && track) title.textContent = track.title;
-    if (artist && track) {
-      artist.textContent = track.artist + " · " + track.releaseTitle;
-    }
+    if (artist && track) artist.textContent = track.artist;
+    if (album && track) album.textContent = track.releaseTitle;
     if (page && track) page.href = track.page || "/";
-    var bc = room.querySelector("[data-room-bandcamp]");
-    if (bc) {
-      if (track && track.bandcampAlbum) {
-        bc.href = track.bandcampAlbum;
-        bc.hidden = false;
-      } else {
-        bc.hidden = true;
-      }
+
+    var cartBtn = room.querySelector('[data-act="open-formats"]');
+    if (cartBtn && cartBtn.textContent.indexOf("Added") < 0) {
+      cartBtn.textContent = "Add to cart";
+      cartBtn.setAttribute("data-label", "Add to cart");
     }
-    var roomVinyl = room.querySelector('[data-act="buy-vinyl"]');
-    if (roomVinyl) {
-      roomVinyl.hidden = !(track && track.vinylSku);
-      if (track && track.vinylSku && roomVinyl.textContent.indexOf("Added") < 0) {
-        roomVinyl.textContent = track.vinylPrice
-          ? "Add vinyl · $" + track.vinylPrice
-          : "Add vinyl";
-        roomVinyl.setAttribute("data-label", roomVinyl.textContent);
+
+    var formatBtns = room.querySelectorAll('[data-act="buy-format"]');
+    formatBtns.forEach(function (btn) {
+      var format = btn.getAttribute("data-format");
+      if (format === "vinyl") {
+        btn.textContent = track && track.vinylPrice != null ? "Vinyl · $" + track.vinylPrice : "Vinyl";
+        btn.disabled = !!(track && track.vinylStock != null && track.vinylStock <= 0);
+      } else if (format === "cassette") {
+        btn.textContent = track && track.cassettePrice != null ? "Cassette · $" + track.cassettePrice : "Cassette";
+        btn.disabled = !!(track && track.cassetteSku && track.cassetteStock != null && track.cassetteStock <= 0);
+      } else if (format === "digital") {
+        btn.textContent = track && track.digitalPrice != null ? "Digital · $" + track.digitalPrice : "Digital";
+        btn.disabled = false;
       }
-    }
+    });
+
     var roomHint = room.querySelector(".hero-console-hint");
     if (roomHint && track) {
       roomHint.textContent = track.isPreview
@@ -676,7 +713,48 @@
       stop(true);
     } else if (act === "stage-close") closeStage();
     else if (act === "room-close") closeRoom();
-    else if (act === "buy-vinyl") {
+    else if (act === "open-formats") {
+      setRoomFormatsOpen(true);
+    } else if (act === "close-formats") {
+      setRoomFormatsOpen(false);
+    } else if (act === "buy-format") {
+      var fmtTrack = current();
+      var format = el ? el.getAttribute("data-format") : null;
+      if (!fmtTrack || !format) return;
+      if (format === "digital") {
+        if (fmtTrack.bandcampAlbum) {
+          window.open(fmtTrack.bandcampAlbum, "_blank", "noopener");
+        } else if (fmtTrack.page) {
+          window.location.href = fmtTrack.page;
+        }
+        setRoomFormatsOpen(false);
+        return;
+      }
+      if (format === "cassette" && !fmtTrack.cassetteSku) {
+        if (fmtTrack.bandcampAlbum) {
+          window.open(fmtTrack.bandcampAlbum, "_blank", "noopener");
+        } else if (fmtTrack.page) {
+          window.location.href = fmtTrack.page;
+        }
+        setRoomFormatsOpen(false);
+        return;
+      }
+      if (format === "vinyl" && fmtTrack.vinylStock != null && fmtTrack.vinylStock <= 0) {
+        if (el) el.textContent = "Sold out";
+        return;
+      }
+      if (format === "cassette" && fmtTrack.cassetteStock != null && fmtTrack.cassetteStock <= 0) {
+        if (el) el.textContent = "Sold out";
+        return;
+      }
+      if (addFormatToBag(fmtTrack, format)) {
+        setRoomFormatsOpen(false);
+        var cartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"]');
+        flashBuyLabel(cartBtn, true);
+      } else if (fmtTrack.page) {
+        window.location.href = fmtTrack.page;
+      }
+    } else if (act === "buy-vinyl") {
       var track = current();
       if (track && track.vinylStock != null && track.vinylStock <= 0) {
         if (el) {
@@ -716,7 +794,12 @@
       clearBumper();
       next(true);
     } else if (e.code === "Escape" && roomOpen) {
-      closeRoom();
+      var consoleEl = getRoom() && getRoom().querySelector("[data-room-console]");
+      if (consoleEl && consoleEl.classList.contains("is-formats")) {
+        setRoomFormatsOpen(false);
+      } else {
+        closeRoom();
+      }
     } else if (e.code === "Escape" && stageOpen) {
       closeStage();
     }
@@ -927,6 +1010,7 @@
     var room = getRoom();
     roomOpen = false;
     if (room) room.classList.remove("is-live");
+    setRoomFormatsOpen(false);
     document.body.classList.remove("listening-room-live");
     if (current()) setDeepLink(current(), true);
     emit();

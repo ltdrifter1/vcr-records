@@ -428,41 +428,46 @@
     @media (hover:hover) {
       .hero-console-close:hover { color: #fff; background: rgba(0,0,0,.45); }
     }
-    .hero-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 12px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.38);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+    .hero-meta {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+    .hero-meta-row {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 12px;
+      align-items: baseline;
+    }
+    .hero-meta-label {
       font-family: var(--callsign);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(255,255,255,.7);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.38);
     }
-    .hero-kicker__bug {
-      letter-spacing: .06em;
-      color: #fff;
-    }
-    .hero-console-title {
-      font-family: var(--display);
-      font-size: clamp(24px, 4.5vw, 34px);
-      font-weight: 600; letter-spacing: -.03em; line-height: 1.08;
+    .hero-meta-value {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      line-height: 1.25;
+      color: rgba(255,255,255,.92);
       margin: 0;
-    }
-    .hero-console-title a {
-      color: inherit;
       text-decoration: none;
+    }
+    .hero-meta-value[data-room-title] {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+    a.hero-meta-value {
       transition: opacity var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .hero-console-title a:hover { opacity: .78; }
-    }
-    .hero-console-artist {
-      font-size: 14px;
-      color: rgba(255,255,255,.55);
+      a.hero-meta-value:hover { opacity: .78; }
     }
     .hero-upnext {
       margin: 2px 0 0;
@@ -473,6 +478,8 @@
       text-transform: uppercase;
       color: rgba(255,255,255,.38);
       min-height: 1.2em;
+      width: 100%;
+      text-align: left;
     }
     .hero-upnext[hidden] { display: none !important; }
     .hero-controls {
@@ -533,6 +540,50 @@
     .hero-console-actions {
       display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
       margin-top: 8px;
+      width: 100%;
+    }
+    .hero-console.is-formats .hero-console-actions { display: none; }
+    .hero-format-panel {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      margin-top: 8px;
+      text-align: left;
+    }
+    .hero-console.is-formats .hero-format-panel { display: flex; }
+    .hero-format-label {
+      margin: 0;
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    .hero-format-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .hero-format-back {
+      appearance: none;
+      cursor: pointer;
+      font: inherit;
+      align-self: flex-start;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: rgba(255,255,255,.5);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color var(--dur) var(--ease);
+    }
+    @media (hover:hover) {
+      .hero-format-back:hover { color: #fff; }
     }
     .hero-console-link {
       appearance: none;
@@ -540,13 +591,15 @@
       font: inherit;
       height: 44px; padding: 0 18px;
       border-radius: var(--pill);
-      display: inline-flex; align-items: center;
+      display: inline-flex; align-items: center; justify-content: center;
       font-size: 13px; font-weight: 500;
       background: rgba(255,255,255,.1);
       border: 1px solid rgba(255,255,255,.16);
       color: #fff;
       text-decoration: none;
       transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform 160ms var(--ease);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .hero-console-link--primary {
       background: #fff;
@@ -554,6 +607,11 @@
       border-color: #fff;
       font-weight: 600;
       box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 12px 28px rgba(0,0,0,.32);
+      width: 100%;
+    }
+    .hero-format-options .hero-console-link {
+      flex: 1 1 auto;
+      min-width: 88px;
     }
     @media (hover:hover) {
       .hero-console-link:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.3); }
@@ -922,8 +980,8 @@
         filter: drop-shadow(0 16px 36px rgba(0,0,0,.5));
       }
       .hero-console { gap: 8px; width: 100%; }
-      .hero-console-title { font-size: clamp(24px, 7vw, 32px); }
-      .hero-console-artist { font-size: 14px; }
+      .hero-meta-value { font-size: 14px; }
+      .hero-meta-value[data-room-title] { font-size: 16px; }
       .hero-controls { gap: 12px; margin-top: 2px; }
       .hero-ctrl {
         width: 48px; height: 48px;
@@ -1000,7 +1058,7 @@
       .hero-ctas .btn { height: 44px; }
       .hero.is-live .hero-platter { width: min(30vw, 120px); }
       .hero.is-live .hero-stage { gap: 6px; padding-top: calc(var(--nav-h) + var(--safe-t) + 4px); }
-      .hero-console-title { font-size: 22px; }
+      .hero-meta-value[data-room-title] { font-size: 15px; }
       .hero-ctrl { width: 44px; height: 44px; }
       .hero-ctrl--play { width: 54px; height: 54px; }
     }
@@ -1044,7 +1102,8 @@
       }
       .hero-ctas,
       .hero-controls,
-      .hero-console-actions { justify-content: flex-start; }
+      .hero-console-actions,
+      .hero-format-options { justify-content: flex-start; }
       .hero.is-live .hero-controls,
       .hero.is-live .hero-console-actions { justify-content: flex-start; }
       .hero-idle-title { font-size: 15px; }
@@ -1147,11 +1206,20 @@
 
       <div class="hero-console" data-room-console>
         <button type="button" class="hero-console-close" data-act="room-close" aria-label="Minimize listening room">&times;</button>
-        <p class="hero-kicker"><span class="hero-kicker__bug">CC</span> Now</p>
-        <h2 class="hero-console-title">
-          <a href="together.html" data-room-page data-room-title>Together</a>
-        </h2>
-        <p class="hero-console-artist" data-room-artist>Inlet Knight · Together</p>
+        <div class="hero-meta">
+          <div class="hero-meta-row">
+            <span class="hero-meta-label">Track</span>
+            <p class="hero-meta-value" data-room-title>Noted</p>
+          </div>
+          <div class="hero-meta-row">
+            <span class="hero-meta-label">Artist</span>
+            <p class="hero-meta-value" data-room-artist>Inlet Knight</p>
+          </div>
+          <div class="hero-meta-row">
+            <span class="hero-meta-label">Album</span>
+            <a class="hero-meta-value" href="together.html" data-room-page data-room-album>Together</a>
+          </div>
+        </div>
         <p class="hero-upnext" data-room-upnext hidden></p>
         <div class="hero-controls">
           <button type="button" class="hero-ctrl" data-act="prev" aria-label="Previous">
@@ -1170,8 +1238,16 @@
           <div class="hero-times"><span data-room-cur>0:00</span><span data-room-dur>0:00</span></div>
         </div>
         <div class="hero-console-actions">
-          <button type="button" class="hero-console-link hero-console-link--primary" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>
-          <a class="hero-console-link" href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener" data-room-bandcamp>Digital</a>
+          <button type="button" class="hero-console-link hero-console-link--primary" data-act="open-formats" data-label="Add to cart">Add to cart</button>
+        </div>
+        <div class="hero-format-panel" data-room-formats aria-label="Choose format">
+          <p class="hero-format-label">Choose format</p>
+          <div class="hero-format-options">
+            <button type="button" class="hero-console-link" data-act="buy-format" data-format="cassette">Cassette</button>
+            <button type="button" class="hero-console-link" data-act="buy-format" data-format="vinyl">Vinyl</button>
+            <button type="button" class="hero-console-link" data-act="buy-format" data-format="digital">Digital</button>
+          </div>
+          <button type="button" class="hero-format-back" data-act="close-formats">Back</button>
         </div>
       </div>
     </div>
