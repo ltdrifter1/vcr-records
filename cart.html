@@ -197,7 +197,7 @@
       <aside class="summary-panel" id="summaryPanel">
         <h2>Summary</h2>
         <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
-        <div class="sum-row"><span>Shipping</span><span>CA $8 / US $14</span></div>
+        <div class="sum-row"><span>Shipping</span><span id="sumShipping">CA $8 / US $14</span></div>
         <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
         <p class="summary-note" id="checkoutNote">
           Ships from British Columbia in 2–4 business days. Tracked. Canada $8 CAD · United States $14 CAD — choose at payment. We ship to CA & US.
@@ -275,6 +275,10 @@
       .replace(/'/g, '&#39;');
   }
 
+  function isDigital(item) {
+    return String(item.sku || '').indexOf('dg-') === 0;
+  }
+
   function variantLabel(item) {
     var bits = [];
     if (item.colour) bits.push(item.colour);
@@ -321,6 +325,15 @@
     VCRCart.updateBadges();
     document.getElementById('sumSubtotal').textContent = VCRCart.money(VCRCart.subtotal(items));
     document.getElementById('sumTotal').textContent = VCRCart.money(VCRCart.subtotal(items));
+    var allDigital = items.length > 0 && items.every(function (i) { return isDigital(i); });
+    var shipEl = document.getElementById('sumShipping');
+    var noteEl = document.getElementById('checkoutNote');
+    if (shipEl) shipEl.textContent = allDigital ? 'Free — digital order' : 'CA $8 / US $14';
+    if (noteEl && !wasCanceled) {
+      noteEl.textContent = allDigital
+        ? 'Digital order — download links are emailed after checkout. No shipping required.'
+        : 'Ships from British Columbia in 2–4 business days. Tracked. Canada $8 CAD · United States $14 CAD — choose at payment. We ship to CA & US.';
+    }
     checkoutBtn.disabled = items.length === 0;
     if (err) { err.hidden = true; err.textContent = ''; }
     if (!items.length) {
@@ -337,7 +350,7 @@
             '<div class="cart-name">' + esc(item.name) + '</div>' +
             (variantLabel(item) ? '<div class="cart-meta">' + esc(variantLabel(item)) + '</div>' : '') +
             '<div class="cart-price">' + VCRCart.money(item.price) + ' · each</div>' +
-            '<p class="ship-hint">Ships in 2–4 business days</p>' +
+            '<p class="ship-hint">' + (isDigital(item) ? 'Digital — link emailed after checkout' : 'Ships in 2–4 business days') + '</p>' +
           '</div>' +
           '<div class="cart-line-side">' +
             '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
@@ -419,7 +432,8 @@
     }
   });
 
-  if (new URLSearchParams(location.search).get('canceled') === '1') {
+  var wasCanceled = new URLSearchParams(location.search).get('canceled') === '1';
+  if (wasCanceled) {
     var note = document.getElementById('checkoutNote');
     if (note) note.textContent = 'Checkout canceled — your bag is still here.';
   }
