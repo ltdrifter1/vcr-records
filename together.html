@@ -97,32 +97,43 @@
             </button>
           </div>
 
-          <div class="release-console">
-            <p class="release-track" id="ipTrackName">Noted</p>
-            <div class="release-controls">
-              <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
-              </button>
-              <button type="button" class="release-ctrl release-ctrl--play" id="ipPlayConsole" aria-label="Play / pause">
-                <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-              </button>
-              <button type="button" class="release-ctrl" id="ipNext" aria-label="Next">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
-              </button>
-            </div>
-            <div class="release-progress">
-              <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
-              <div class="times">
-                <span id="ipElapsed">0:00</span>
-                <span id="ipRemaining">-0:00</span>
+          <div class="release-console" role="region" aria-label="Preview player">
+            <div class="rc-deck">
+              <div class="rc-top">
+                <span class="rc-bug">Preview · 90s</span>
+                <span class="rc-index" id="ipTrackIndex">01 / 04</span>
+              </div>
+              <div class="rc-meta">
+                <p class="release-track" id="ipTrackName">Noted</p>
+                <p class="rc-sub"><span id="ipArtist">Inlet Knight</span> · <span id="ipRelease">Together</span></p>
+              </div>
+              <div class="release-controls">
+                <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+                </button>
+                <button type="button" class="release-ctrl release-ctrl--play" id="ipPlayConsole" aria-label="Play / pause">
+                  <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+                <button type="button" class="release-ctrl" id="ipNext" aria-label="Next">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+                </button>
+              </div>
+              <div class="release-progress">
+                <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
+                <div class="times">
+                  <span id="ipElapsed">0:00</span>
+                  <span id="ipRemaining">-0:00</span>
+                </div>
+              </div>
+              <div class="rc-footer">
+                <div class="vol-row">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                  <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
+                </div>
+                <div class="p-msg" id="pMsg" aria-live="polite"></div>
               </div>
             </div>
-            <div class="vol-row">
-              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
-            </div>
-            <div class="p-msg" id="pMsg" aria-live="polite"></div>
           </div>
         </div>
       </div>
