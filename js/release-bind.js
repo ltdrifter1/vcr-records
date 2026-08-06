@@ -50,8 +50,6 @@
       trackRows.forEach(function (r, i) {
         r.classList.toggle("is-playing", !!(on && i === activeIdx));
       });
-      var kicker = $("releaseKicker");
-      if (kicker) kicker.textContent = on ? "Now playing" : "Selected";
     }
 
     function setActive(idx) {
