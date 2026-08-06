@@ -17,6 +17,7 @@
     var href = rel.page || '#';
     var noteBits = [];
     if (rel.kind) noteBits.push(rel.kind);
+    if (rel.formats && rel.formats.cassette) noteBits.push('Cassette');
     if (rel.formats && rel.formats.vinyl) noteBits.push('12″');
     noteBits.push(rel.tracksCount === 1 ? '1 track' : (rel.tracksCount || 0) + ' tracks');
     return (

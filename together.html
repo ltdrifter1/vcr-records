@@ -6,11 +6,11 @@
   <title>Together — Inlet Knight — Club Copy</title>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="Together — an album by Inlet Knight. Four tracks. $9 CAD on Club Copy."/>
+  <meta name="description" content="Together — an EP by Inlet Knight. Four tracks. Cassette and digital, $20 CAD on Club Copy."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <meta property="og:title" content="Together — Inlet Knight"/>
-  <meta property="og:description" content="Four tracks by Inlet Knight. Digital download on Club Copy."/>
-  <meta property="og:type" content="music.album"/>
+  <meta property="og:description" content="Four tracks by Inlet Knight. Cassette and digital, $20 CAD."/>
+  <meta property="og:type" content="music.playlist"/>
   <meta property="og:image" content="https://vcr-records.vercel.app/together-cover.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,7 +85,7 @@
       <div class="left-col fade-up">
         <div class="release-stage">
           <div class="release-platter" id="artworkWrap">
-            <span class="artwork-badge">Album</span>
+            <span class="artwork-badge">EP</span>
             <div class="release-disc" id="releaseDisc">
               <img id="heroImg" src="together-cover.webp" alt="Together artwork" itemprop="image"/>
             </div>
@@ -138,15 +138,15 @@
             <div>
               <div class="r-price" id="priceDisplay">
                 <meta itemprop="priceCurrency" content="CAD"/>
-                <meta itemprop="price" content="9.00"/>
-                <span id="priceAmount">$9</span>
+                <meta itemprop="price" content="20.00"/>
+                <span id="priceAmount">$20</span>
               </div>
               <div class="r-price-note" id="priceFormat">CAD</div>
             </div>
-            <div class="r-stock" id="rStock">48 vinyl left</div>
+            <div class="r-stock" id="rStock">48 cassettes left</div>
           </div>
           <div class="r-tags">
-            <span class="tag">Album</span>
+            <span class="tag">EP</span>
             <span class="tag">4 tracks</span>
             <span class="tag">2026</span>
           </div>
@@ -155,13 +155,13 @@
         <div class="r-block">
           <div class="format-label" style="margin-bottom:8px;">Format</div>
           <div class="format-pills" role="radiogroup" aria-label="Format">
-            <button type="button" class="format-pill selected" data-format="vinyl" role="radio" aria-checked="true">Vinyl — $32</button>
-            <button type="button" class="format-pill" data-format="digital" role="radio" aria-checked="false">Digital — $9</button>
+            <button type="button" class="format-pill selected" data-format="cassette" role="radio" aria-checked="true">Cassette — $20</button>
+            <button type="button" class="format-pill" data-format="digital" role="radio" aria-checked="false">Digital — $20</button>
           </div>
           <div class="buy-stack">
-            <button type="button" class="btn btn-fill" id="buyBtn">Add vinyl to bag — $32</button>
+            <button type="button" class="btn btn-fill" id="buyBtn">Add cassette to bag — $20</button>
           </div>
-          <p class="small-note" id="buyNote">12″ black vinyl · Ships from British Columbia · CA &amp; US</p>
+          <p class="small-note" id="buyNote">Cassette · Ships from British Columbia · CA &amp; US</p>
           <a class="bc-quiet" href="https://inletknight.bandcamp.com/album/together" target="_blank" rel="noopener">Also on Bandcamp ↗</a>
           <p class="trust-line">
             <span>Secure checkout</span>
@@ -171,7 +171,7 @@
 
                 <div class="r-block">
           <div class="redeem-head">Download code</div>
-          <p class="small-note" style="margin:0 0 12px">Vinyl includes a digital download code.</p>
+          <p class="small-note" style="margin:0 0 12px">Cassette includes a digital download code.</p>
   
         </div>
 
@@ -223,7 +223,7 @@
           </div>
 
           <div class="tab-panel" id="tab-details" role="tabpanel" style="padding-top:14px;">
-            <p class="details-text">Four tracks by Inlet Knight. CC008. Written and performed by Inlet Knight. Produced for Club Copy. Available as 12″ black vinyl and digital download. Released 2026.</p>
+            <p class="details-text">Four tracks by Inlet Knight. CC008. Written and performed by Inlet Knight. Produced for Club Copy. Available as cassette and digital download. Released 2026.</p>
           </div>
         </div>
 
@@ -304,21 +304,24 @@ VCRReleaseBind({
   const pills = document.querySelectorAll('.format-pill');
   const buyBtn = $('buyBtn');
   const buyNoteEl = $('buyNote');
-  let currentFmt = 'vinyl';
+  let currentFmt = 'cassette';
 
   function updateUI() {
-    if (currentFmt === 'vinyl') {
-      buyBtn.textContent = 'Add vinyl to bag \u2014 $32';
-      $('priceAmount').textContent = '$32';
-      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '32.00';
+    if (currentFmt === 'cassette') {
+      buyBtn.textContent = 'Add cassette to bag \u2014 $20';
+      $('priceAmount').textContent = '$20';
+      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '20.00';
       $('priceFormat').textContent = 'CAD';
-      buyNoteEl.textContent = '12\u2033 black vinyl \u00b7 Ships from British Columbia \u00b7 CA & US';
+      buyNoteEl.textContent = 'Cassette \u00b7 Ships from British Columbia \u00b7 CA & US';
+      $('rStock').textContent = '48 cassettes left';
+      $('rStock').style.display = '';
     } else {
-      buyBtn.textContent = 'Buy digital on Bandcamp \u2014 $9';
-      $('priceAmount').textContent = '$9';
-      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '9.00';
+      buyBtn.textContent = 'Buy digital on Bandcamp \u2014 $20';
+      $('priceAmount').textContent = '$20';
+      $('priceDisplay').querySelector('meta[itemprop="price"]').content = '20.00';
       $('priceFormat').textContent = 'CAD';
       buyNoteEl.textContent = 'Digital download via Bandcamp';
+      $('rStock').style.display = 'none';
     }
   }
 
@@ -335,8 +338,8 @@ VCRReleaseBind({
   });
 
   buyBtn.addEventListener('click', () => {
-    if (currentFmt === 'vinyl') {
-      if (window.VCRCart) VCRCart.add({ sku: 'sm-vinyl-together', name: 'Together \u2014 Vinyl', price: 32, image: 'together-cover.webp', qty: 1, id: 'sm-vinyl-together' });
+    if (currentFmt === 'cassette') {
+      if (window.VCRCart) VCRCart.add({ sku: 'sm-cassette-together', name: 'Together \u2014 Cassette', price: 20, image: 'together-cover.webp', qty: 1, id: 'sm-cassette-together' });
       const orig = buyBtn.textContent;
       buyBtn.textContent = 'Added \u2713';
       setTimeout(() => { buyBtn.textContent = orig; }, 2000);
