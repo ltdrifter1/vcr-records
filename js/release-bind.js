@@ -30,8 +30,15 @@
     var elapsedEl = $("ipElapsed");
     var remainEl = $("ipRemaining");
     var trackName = $("ipTrackName");
+    var trackIndex = $("ipTrackIndex");
+    var artistEl = $("ipArtist");
+    var releaseEl = $("ipRelease");
     var pMsg = $("pMsg");
     var trackRows = Array.prototype.slice.call(document.querySelectorAll(".track-row"));
+
+    function pad2(n) {
+      return String(n).padStart(2, "0");
+    }
 
     function setMsg(t, err) {
       if (!pMsg) return;
@@ -47,6 +54,8 @@
       if (disc) disc.classList.toggle("is-spinning", on);
       var art = $("artworkWrap");
       if (art) art.classList.toggle("is-playing", on);
+      var consoleEl = document.querySelector(".release-console");
+      if (consoleEl) consoleEl.classList.toggle("is-live", on);
       trackRows.forEach(function (r, i) {
         r.classList.toggle("is-playing", !!(on && i === activeIdx));
       });
@@ -56,6 +65,9 @@
       if (idx < 0 || idx >= TRACKS.length) return;
       activeIdx = idx;
       if (trackName) trackName.textContent = TRACKS[idx].title;
+      if (trackIndex) {
+        trackIndex.textContent = pad2(idx + 1) + " / " + pad2(TRACKS.length);
+      }
       trackRows.forEach(function (r, i) {
         r.classList.toggle("is-active", i === idx);
       });
@@ -159,6 +171,8 @@
       });
       if (idx >= 0) setActive(idx);
       setPlaying(!!d.playing);
+      if (artistEl && t.artist) artistEl.textContent = t.artist;
+      if (releaseEl && t.releaseTitle) releaseEl.textContent = t.releaseTitle;
       if (volEl) {
         try {
           volEl.value = String(VCRPlayer.getVolume());
