@@ -567,7 +567,7 @@ body {
 }
 
 .buy-stack { display: flex; flex-direction: column; gap: 10px; }
-.buy-stack .btn, .modal-btns .btn, .dl-links .btn { width: 100%; gap: 8px; white-space: nowrap; }
+.buy-stack .btn, .modal-btns .btn, .dl-links .btn, .redeem-form .btn { width: 100%; gap: 8px; white-space: nowrap; }
 .btn-fill { background: var(--ink); color: #fff; }
 .btn-bc { background: var(--bc); color: #fff; }
 @media (hover:hover) {
@@ -584,49 +584,38 @@ body {
   letter-spacing: .12em; text-transform: uppercase;
   color: var(--dim); margin-bottom: 10px;
 }
-.redeem-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.redeem-form {
+  display: flex; flex-direction: column; gap: 10px;
+}
 .redeem-input {
-  height: 46px; border-radius: var(--radius);
+  width: 100%; height: 46px; border-radius: var(--pill);
   border: 1px solid var(--line); background: var(--card);
-  color: var(--ink); padding: 0 14px;
-  font-size: 16px; font-weight: 500; font-family: inherit;
+  color: var(--ink); padding: 0 18px;
+  font-size: 15px; font-weight: 500; font-family: inherit;
   letter-spacing: .06em; text-transform: uppercase;
   outline: none; -webkit-appearance: none;
   transition: border-color var(--dur) var(--ease);
+  box-sizing: border-box;
 }
 .redeem-input::placeholder {
   color: var(--dim); text-transform: none; letter-spacing: 0; font-weight: 400;
 }
 .redeem-input:focus { border-color: var(--ink); }
-.redeem-btn {
-  height: 46px; padding: 0 18px; border-radius: var(--pill);
-  border: 1px solid var(--line); background: var(--soft); color: var(--ink);
-  font-size: 13px; font-weight: 500; white-space: nowrap;
-  transition: border-color var(--dur) var(--ease);
+.redeem-input[type="email"] {
+  text-transform: none; letter-spacing: 0;
 }
-.redeem-btn:active { transform: scale(0.97); }
-@media (hover:hover) { .redeem-btn:hover { border-color: var(--ink); } }
 .redeem-status {
   font-size: 12px; font-weight: 500; color: var(--muted);
-  min-height: 14px; margin-top: 10px; line-height: 1.5;
+  min-height: 0; margin: 0; line-height: 1.5;
 }
+.redeem-status:empty { display: none; }
 .redeem-status.err { color: var(--red); }
 .redeem-status.ok { color: var(--green); }
-.redeem-email { margin-top: 8px; }
-.redeem-email .redeem-input {
-  width: 100%; text-transform: none; letter-spacing: 0;
-}
 .sr-only {
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-.view-bag-link {
-  display: none; margin-top: 12px;
-  font-size: 13px; font-weight: 500; color: var(--ink);
-  text-decoration: underline; text-underline-offset: 3px;
-}
-.view-bag-link.show { display: inline-block; }
 .dl-links { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
 .hidden { display: none !important; }
 
@@ -758,11 +747,11 @@ body {
   line-height: 1.1;
 }
 
-.format-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.format-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .format-pill {
-  height: 40px; padding: 0 16px; border-radius: 980px;
+  height: 46px; padding: 0 16px; border-radius: var(--pill);
   border: 1px solid var(--line); background: transparent;
-  font-size: 13px; font-weight: 500; color: var(--muted);
+  font-size: 14px; font-weight: 500; color: var(--muted);
   cursor: pointer;
   transition: background .2s, color .2s, border-color .2s, transform .2s;
 }
@@ -770,19 +759,10 @@ body {
 @media (hover:hover) { .format-pill:hover { border-color: var(--ink); color: var(--ink); } }
 .format-pill.selected:hover { color: #fff; }
 
-.bc-quiet {
-  display: inline-block; margin-top: 12px;
-  font-size: 13px; font-weight: 500; color: var(--dim);
-  text-decoration: underline; text-underline-offset: 3px;
-  text-decoration-color: transparent;
-  transition: color .28s, text-decoration-color .28s;
-}
-@media (hover:hover) { .bc-quiet:hover { color: var(--ink); text-decoration-color: var(--ink); } }
-
 .trust-line {
   display: flex; gap: 12px; align-items: center;
   font-size: 12px; font-weight: 500; color: var(--dim);
-  margin-top: 10px;
+  margin-top: 14px;
 }
 .trust-line a { color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
 @media (hover:hover) { .trust-line a:hover { color: var(--ink); } }
