@@ -596,50 +596,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 }
 
 /* ==========================================================================
-   3. PhysicalGallery — two objects, plinth grid
-   ========================================================================== */
-.ra-gallery-grid {
-  display: grid;
-  gap: 32px;
-}
-@media (min-width: 760px) {
-  .ra-gallery-grid { grid-template-columns: 7fr 5fr; align-items: start; }
-  .ra-gallery-item:nth-child(2) { margin-top: 72px; }
-}
-.ra-gallery-item figure { margin: 0; }
-.ra-gallery-frame {
-  background: var(--ra-surface);
-  border: 1px solid var(--ra-line-soft);
-  border-radius: var(--radius-lg, 10px);
-  padding: clamp(24px, 5vw, 64px);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-.ra-gallery-frame > * { transition: transform 1.1s var(--ra-ease); }
-.ra-gallery-item:hover .ra-gallery-frame > * { transform: scale(1.02); }
-.ra-gallery-frame img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  box-shadow: 0 26px 50px -18px rgba(0, 0, 0, .85);
-}
-.ra-gallery-item figcaption {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--ra-mono);
-  font-size: 10px;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--ra-dim);
-  padding-top: 14px;
-}
-.ra-shell-mini { width: 100%; max-width: 460px; }
-.ra-shell-mini .ra-cassette { width: 100%; transform: none; }
-.ra-gallery-item:hover .ra-shell-mini .ra-cassette { transform: rotate(-1.2deg); }
-
-/* ==========================================================================
-   4. About — editorial notes + spec sheet in one spread
+   3. About — editorial notes + spec sheet in one spread
    ========================================================================== */
 .ra-about-grid {
   display: grid;
@@ -694,8 +651,9 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 }
 
 /* ==========================================================================
-   5. PurchaseModule — single acquisition point
+   4. PurchaseModule — flows directly under the Listen section
    ========================================================================== */
+.ra-acquire-flow { padding-top: 56px; }
 .ra-purchase-grid {
   display: grid;
   gap: 44px;
@@ -926,5 +884,4 @@ body.archive-release .footer-form button {
   .ra-hero-ctas .btn { flex: 1 1 100%; }
   .ra-deck { padding: 22px 18px 20px; }
   .ra-head { padding-top: 56px; margin-bottom: 32px; }
-  .ra-gallery-item:nth-child(2) { margin-top: 0; }
 }
