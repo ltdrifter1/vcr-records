@@ -341,6 +341,82 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 .ra-stage-hit.on .i-play { display: none; }
 .ra-stage-hit.on .glyph { opacity: 1; transform: scale(1); }
 
+/* Vinyl object (album releases) --------------------------------------------- */
+.ra-vinyl {
+  position: relative;
+  container-type: inline-size;
+  width: min(460px, 80vw);
+  aspect-ratio: 1;
+  transition: transform .8s var(--ra-ease);
+  will-change: transform;
+}
+.ra-vinyl-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, .09), transparent 42%),
+    repeating-radial-gradient(circle at 50% 50%, #0B0B0B 0 1.6px, #141414 1.6px 3.4px),
+    #0B0B0B;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, .08) inset,
+    0 34px 70px -18px rgba(0, 0, 0, .85),
+    0 8px 18px rgba(0, 0, 0, .4);
+  animation: ra-vinyl-spin 3.6s linear infinite;
+  animation-play-state: paused;
+}
+@keyframes ra-vinyl-spin { to { transform: rotate(360deg); } }
+.ra-vinyl.is-spinning .ra-vinyl-disc { animation-play-state: running; }
+/* run-in / run-out rings */
+.ra-vinyl-disc::before {
+  content: "";
+  position: absolute;
+  inset: 2.5%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .05);
+  box-shadow: 0 0 0 14px rgba(255, 255, 255, .015) inset;
+}
+.ra-vinyl-label {
+  position: absolute;
+  inset: 31%;
+  border-radius: 50%;
+  background:
+    linear-gradient(160deg, rgba(22, 21, 15, .06), transparent 50%),
+    #F1EDE1;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .55);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-family: var(--ra-mono);
+  color: #16150F;
+  padding: 9%;
+}
+.ra-vinyl-label .l1 {
+  font-size: clamp(10px, 3.4cqw, 16px);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.ra-vinyl-label .l2 {
+  font-size: clamp(6px, 1.8cqw, 9px);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(22, 21, 15, .55);
+  margin-top: 8px;
+  line-height: 1.9;
+}
+/* spindle hole */
+.ra-vinyl-label::after {
+  content: "";
+  position: absolute;
+  width: 8%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #0B0B0B;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .3), 0 1px 1px rgba(255, 255, 255, .35) inset;
+}
+.ra-stage:hover .ra-vinyl { transform: rotateX(4deg) rotateY(-5deg) translateY(-6px); }
+
 /* Hero — right column ------------------------------------------------------ */
 .ra-hero-info { max-width: 560px; }
 .ra-hero-meta {

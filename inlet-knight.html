@@ -6,32 +6,29 @@
   <title>Inlet Knight — Inlet Knight — Club Copy</title>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="Inlet Knight — the self-titled debut album by Inlet Knight. Eleven tracks. Vinyl and digital on Club Copy (VCR026D10)."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="description" content="Inlet Knight — the self-titled debut album by Inlet Knight. Eleven tracks. Vinyl and digital on Club Copy (CC005)."/>
+  <meta name="theme-color" content="#050505"/>
   <meta property="og:title" content="Inlet Knight — Inlet Knight"/>
   <meta property="og:description" content="The self-titled debut album by Inlet Knight. Eleven tracks on Club Copy."/>
   <meta property="og:type" content="music.album"/>
   <meta property="og:image" content="https://vcr-records.vercel.app/inlet-knight-cover.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
-  <link rel="stylesheet" href="css/release.css"/>
+  <link rel="stylesheet" href="css/release-archive.css"/>
 </head>
-<body>
+<body class="archive-release hero-top">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="modal-overlay" id="purchaseModal">
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="Close">×</button>
-    <div class="modal-check">
-      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-    </div>
-    <h2>Purchase complete</h2>
+    <h2>Acquisition confirmed</h2>
     <p>Thanks for supporting independent music. Your receipt and download details are on their way by email.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" href="library.html">Keep browsing</a>
+      <a class="btn btn-fill" href="library.html">Back to the library</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -48,7 +45,7 @@
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
-      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Collection">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
           <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
@@ -68,259 +65,265 @@
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
-  <a href="cart.html">Bag</a>
+  <a href="cart.html">Collection</a>
 </div>
 
+<main id="main" itemscope itemtype="https://schema.org/Product">
+  <meta itemprop="name" content="Inlet Knight — Inlet Knight"/>
+  <meta itemprop="image" content="inlet-knight-cover.webp"/>
 
-<main id="main">
-  <div class="page">
-    <div class="crumbs">
-      <a href="index.html">Home</a><span>/</span>
-      <a href="library.html">Library</a><span>/</span>
-      Inlet Knight
-    </div>
+  <!-- ================================================================
+       1 · ReleaseHero — cinematic, ambient artwork glow
+       ================================================================ -->
+  <section class="ra-hero" aria-label="Inlet Knight — release">
+    <div class="ra-hero-ambient" style="background-image:url('inlet-knight-cover.webp')" aria-hidden="true"></div>
+    <div class="ra-hero-vhs" aria-hidden="true"></div>
+    <div class="ra-wrap ra-hero-grid">
 
-    <div class="product-grid" itemscope itemtype="https://schema.org/Product">
-
-      <div class="left-col fade-up">
-        <div class="release-stage">
-          <div class="release-platter" id="artworkWrap">
-            <span class="artwork-badge">Digital Album</span>
-            <div class="release-disc" id="releaseDisc">
-              <img id="heroImg" src="inlet-knight-cover.webp" alt="Inlet Knight artwork" itemprop="image"/>
-            </div>
-            <button type="button" class="release-disc-hit" id="ipPlay" aria-label="Play / pause">
-              <span class="disc-glyph" aria-hidden="true">
-                <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-              </span>
-            </button>
-          </div>
-
-          <div class="release-console" role="region" aria-label="Preview player">
-            <div class="rc-deck">
-              <div class="rc-top">
-                <span class="rc-bug">Preview · 90s</span>
-                <span class="rc-index" id="ipTrackIndex">01 / 11</span>
-              </div>
-              <div class="rc-meta">
-                <p class="release-track" id="ipTrackName">Revive Him</p>
-                <p class="rc-sub"><span id="ipArtist">Inlet Knight</span> · <span id="ipRelease">Inlet Knight</span></p>
-              </div>
-              <div class="release-controls">
-                <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
-                </button>
-                <button type="button" class="release-ctrl release-ctrl--play" id="ipPlayConsole" aria-label="Play / pause">
-                  <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-                <button type="button" class="release-ctrl" id="ipNext" aria-label="Next">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
-                </button>
-              </div>
-              <div class="release-progress">
-                <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
-                <div class="times">
-                  <span id="ipElapsed">0:00</span>
-                  <span id="ipRemaining">-0:00</span>
-                </div>
-              </div>
-              <div class="rc-footer">
-                <div class="vol-row">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                  <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
-                </div>
-                <div class="p-msg" id="pMsg" aria-live="polite"></div>
+      <div class="ra-stage" id="artworkWrap" data-tilt-stage>
+        <div class="ra-stage-shadow" aria-hidden="true"></div>
+        <div class="ra-vinyl" id="releaseDisc" aria-hidden="true">
+          <div class="ra-vinyl-disc">
+            <div class="ra-vinyl-label">
+              <div>
+                <div class="l1">Inlet Knight</div>
+                <div class="l2">CC005 · 33&#8531; RPM · Stereo<br/>Club Copy Records</div>
               </div>
             </div>
           </div>
         </div>
+        <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
+          <span class="glyph" aria-hidden="true">
+            <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </span>
+        </button>
       </div>
 
-      <div class="right-col fade-up" style="transition-delay:.06s"
-           itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+      <div class="ra-hero-info">
+        <div class="ra-hero-meta">
+          <span class="artist">Inlet Knight</span>
+          <span>CC005</span>
+          <span>2026</span>
+        </div>
+        <h1 class="ra-hero-title">Inlet Knight</h1>
+        <div class="ra-hero-facts">
+          11 Track Album<br/>
+          12&Prime; Black Vinyl Edition<br/>
+          <span class="scarce">In Stock</span>
+        </div>
+        <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <meta itemprop="priceCurrency" content="CAD"/>
+          <meta itemprop="price" content="36.00"/>
+          <link itemprop="availability" href="https://schema.org/InStock"/>
+          <a class="btn btn-light" href="#acquire">Buy Vinyl — $36 CAD</a>
+          <button type="button" class="btn btn-outline" id="heroListen">Listen</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="r-block">
-          <div class="r-artist">Inlet Knight</div>
-          <h1 class="r-title" itemprop="name">Inlet Knight</h1>
-          <p class="r-cat">CC005 · 2026</p>
-          <div class="r-meta-row">
-            <div>
-              <div class="r-price" id="priceDisplay">
-                <meta itemprop="priceCurrency" content="CAD"/>
-                <meta itemprop="price" content="36.00"/>
-                <span id="priceAmount">$36</span>
-              </div>
-              <div class="r-price-note" id="priceFormat">CAD</div>
-            </div>
-            <div class="r-stock" id="rStock">36 vinyl left</div>
+  <!-- ================================================================
+       2 · TapePlayer + TrackList
+       ================================================================ -->
+  <section class="ra-section" id="listen" aria-label="Listen">
+    <div class="ra-wrap">
+      <header class="ra-head ra-reveal">
+        <div>
+          <p class="eyebrow">On air</p>
+          <h2>Listen</h2>
+        </div>
+        <span class="head-note">90 second previews</span>
+      </header>
+      <div class="ra-player-grid">
+
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Preview player">
+          <div class="ra-deck-head">
+            <span>CC Turntable</span>
+            <span class="live" id="ipTrackIndex">01 / 11</span>
           </div>
-          <div class="r-tags">
-            <span class="tag">Album</span>
-            <span class="tag">11 tracks</span>
-            <span class="tag">2026</span>
+          <div class="ra-deck-window" aria-hidden="true">
+            <div class="ra-reel"></div>
+            <div class="ra-deck-tape"></div>
+            <div class="ra-reel ra-reel--b"></div>
           </div>
+          <div class="ra-deck-now">
+            <div class="idx">Now Cueing</div>
+            <p class="name" id="ipTrackName">Revive Him</p>
+            <p class="sub"><span id="ipArtist">Inlet Knight</span> — <span id="ipRelease">Inlet Knight</span></p>
+          </div>
+          <canvas class="ra-wave" id="raWave" data-release="inlet-knight" aria-label="Seek within track" role="slider"></canvas>
+          <div class="ra-deck-times">
+            <span id="ipElapsed">0:00</span>
+            <span id="ipRemaining">-0:00</span>
+          </div>
+          <div class="ra-transport">
+            <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+            </button>
+            <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play / pause">
+              <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+            </button>
+          </div>
+          <div class="p-msg" id="pMsg" aria-live="polite"></div>
         </div>
 
-                <div class="r-block">
-          <div class="format-label" style="margin-bottom:8px;">Format</div>
-          <div class="format-pills" role="radiogroup" aria-label="Format">
-            <button type="button" class="format-pill selected" data-format="vinyl" role="radio" aria-checked="true">Vinyl — $36</button>
-            <button type="button" class="format-pill" data-format="digital" role="radio" aria-checked="false">Digital — $9</button>
+        <div class="ra-tracks ra-reveal">
+          <div class="ra-side-label">Side A</div>
+          <div class="track-row is-active" data-index="0">
+            <span class="track-no">A1</span>
+            <span class="track-title">Revive Him</span>
+            <span class="track-dur">2:27</span>
+            <button class="track-play-btn" type="button" aria-label="Play Revive Him" tabindex="-1"></button>
           </div>
-          <div class="buy-stack">
-            <button type="button" class="btn btn-fill" id="buyBtn">Add vinyl to bag — $36</button>
+          <div class="track-row" data-index="1">
+            <span class="track-no">A2</span>
+            <span class="track-title">Mad About You</span>
+            <span class="track-dur">3:58</span>
+            <button class="track-play-btn" type="button" aria-label="Play Mad About You" tabindex="-1"></button>
           </div>
-          <p class="trust-line">
+          <div class="track-row" data-index="2">
+            <span class="track-no">A3</span>
+            <span class="track-title">All Falls Down</span>
+            <span class="track-dur">4:42</span>
+            <button class="track-play-btn" type="button" aria-label="Play All Falls Down" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="3">
+            <span class="track-no">A4</span>
+            <span class="track-title">Heartbreaker</span>
+            <span class="track-dur">3:52</span>
+            <button class="track-play-btn" type="button" aria-label="Play Heartbreaker" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="4">
+            <span class="track-no">A5</span>
+            <span class="track-title">Movin'</span>
+            <span class="track-dur">3:26</span>
+            <button class="track-play-btn" type="button" aria-label="Play Movin'" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="5">
+            <span class="track-no">A6</span>
+            <span class="track-title">Sunday Afternoon</span>
+            <span class="track-dur">2:55</span>
+            <button class="track-play-btn" type="button" aria-label="Play Sunday Afternoon" tabindex="-1"></button>
+          </div>
+          <div class="ra-side-label">Side B</div>
+          <div class="track-row" data-index="6">
+            <span class="track-no">B1</span>
+            <span class="track-title">Hard to Ignore</span>
+            <span class="track-dur">4:09</span>
+            <button class="track-play-btn" type="button" aria-label="Play Hard to Ignore" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="7">
+            <span class="track-no">B2</span>
+            <span class="track-title">The Get Down</span>
+            <span class="track-dur">1:37</span>
+            <button class="track-play-btn" type="button" aria-label="Play The Get Down" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="8">
+            <span class="track-no">B3</span>
+            <span class="track-title">3AM</span>
+            <span class="track-dur">2:59</span>
+            <button class="track-play-btn" type="button" aria-label="Play 3AM" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="9">
+            <span class="track-no">B4</span>
+            <span class="track-title">Another Day</span>
+            <span class="track-dur">4:58</span>
+            <button class="track-play-btn" type="button" aria-label="Play Another Day" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="10">
+            <span class="track-no">B5</span>
+            <span class="track-title">Is It Cool?</span>
+            <span class="track-dur">4:02</span>
+            <button class="track-play-btn" type="button" aria-label="Play Is It Cool?" tabindex="-1"></button>
+          </div>
+          <p class="ra-tracks-note">Total running time 39:05</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       3 · PurchaseModule — flows directly under Listen
+       ================================================================ -->
+  <section class="ra-section ra-acquire-flow" id="acquire" aria-label="Acquire this release">
+    <div class="ra-wrap">
+      <div class="ra-purchase-grid">
+
+        <div class="ra-format ra-reveal">
+          <div role="radiogroup" aria-label="Format">
+            <button type="button" class="ra-format-opt" data-format="vinyl" role="radio" aria-checked="true">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="fmt">Vinyl<small>12&Prime; black vinyl · includes download code</small></span>
+              <span class="price">$36 CAD</span>
+            </button>
+            <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="false">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="fmt">Digital<small>320kbps MP3 + lossless</small></span>
+              <span class="price">$9 CAD</span>
+            </button>
+          </div>
+          <button type="button" class="btn btn-fill ra-collect-btn" id="buyBtn">Add to Collection</button>
+          <p class="ra-purchase-fine">
             <span>Secure checkout</span>
             <a href="shipping.html">Shipping &amp; returns</a>
           </p>
         </div>
 
-        <div class="r-block">
-          <div class="redeem-head" id="redeemHead">Download code</div>
-          <p class="small-note" style="margin:0 0 12px">Vinyl includes a digital download code. Enter it below to get your files.</p>
-          <form id="redeemForm" class="redeem-form" novalidate aria-labelledby="redeemHead">
+        <div class="ra-redeem ra-reveal">
+          <h3 id="redeemHead">Own the record? — Download code</h3>
+          <p class="hint">Every vinyl ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
+          <form id="redeemForm" novalidate aria-labelledby="redeemHead">
             <label class="sr-only" for="redeemCode">Download code</label>
-            <input class="redeem-input" id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
-            <div class="redeem-email hidden" id="redeemEmailWrap">
+            <input id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
+            <div class="hidden" id="redeemEmailWrap">
               <label class="sr-only" for="redeemEmail">Email for your download link</label>
-              <input class="redeem-input" id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
+              <input id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
             </div>
-            <button class="btn btn-fill" type="submit" id="redeemBtn">Redeem</button>
+            <button class="btn btn-ghost" type="submit" id="redeemBtn">Redeem</button>
             <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
 
-        <div class="r-block">
-          <div class="tab-bar" role="tablist" aria-label="Release information">
-            <button type="button" class="tab-btn" id="tabBtnTrack" role="tab" aria-selected="true"  aria-controls="tab-track">Tracklist</button>
-            <button type="button" class="tab-btn" id="tabBtnDetails" role="tab" aria-selected="false" aria-controls="tab-details">Details</button>
-          </div>
-
-          <div class="tab-panel on" id="tab-track" role="tabpanel" aria-labelledby="tabBtnTrack" style="padding-top:14px;">
-            <div class="tracklist">
-              <div class="track-row is-active" data-index="0">
-                <span class="track-no">1</span>
-                <span class="track-title">Revive Him</span>
-                <span class="track-dur">2:27</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 1">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="1">
-                <span class="track-no">2</span>
-                <span class="track-title">Mad About You</span>
-                <span class="track-dur">3:58</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 2">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="2">
-                <span class="track-no">3</span>
-                <span class="track-title">All Falls Down</span>
-                <span class="track-dur">4:42</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 3">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="3">
-                <span class="track-no">4</span>
-                <span class="track-title">Heartbreaker</span>
-                <span class="track-dur">3:52</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 4">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="4">
-                <span class="track-no">5</span>
-                <span class="track-title">Movin'</span>
-                <span class="track-dur">3:26</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 5">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="5">
-                <span class="track-no">6</span>
-                <span class="track-title">Sunday Afternoon</span>
-                <span class="track-dur">2:55</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 6">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="6">
-                <span class="track-no">7</span>
-                <span class="track-title">Hard to Ignore</span>
-                <span class="track-dur">4:09</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 7">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="7">
-                <span class="track-no">8</span>
-                <span class="track-title">The Get Down</span>
-                <span class="track-dur">1:37</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 8">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="8">
-                <span class="track-no">9</span>
-                <span class="track-title">3AM</span>
-                <span class="track-dur">2:59</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 9">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="9">
-                <span class="track-no">10</span>
-                <span class="track-title">Another Day</span>
-                <span class="track-dur">4:58</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 10">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="10">
-                <span class="track-no">11</span>
-                <span class="track-title">Is It Cool?</span>
-                <span class="track-dur">4:02</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 11">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-panel" id="tab-details" role="tabpanel" aria-labelledby="tabBtnDetails" style="padding-top:14px;">
-            <p class="details-text">Self-titled album by Inlet Knight. Eleven tracks. CC005 (VCR026D10). Released July 27, 2026 on Club Copy. Produced by CJ Archer for Club Copy Records. Available as 12" black vinyl and digital download.</p>
-          </div>
-        </div>
-
       </div>
     </div>
+  </section>
 
-    <section class="more-releases" aria-label="More from the library">
-      <p class="more-releases-title">More from the library</p>
-      <div class="more-releases-grid">
-        <a href="together.html" class="more-release-item">
-          <img src="together-cover.webp" alt="Together" loading="lazy"/>
-          <p>Inlet Knight — Together (EP)</p>
-        </a>
+  <!-- ================================================================
+       4 · About — release notes + spec sheet
+       ================================================================ -->
+  <section class="ra-section" aria-label="About the release">
+    <div class="ra-wrap">
+      <header class="ra-head ra-reveal">
+        <div>
+          <p class="eyebrow">Liner notes</p>
+          <h2>About the Release</h2>
+        </div>
+      </header>
+      <div class="ra-about-grid">
+        <div class="ra-notes ra-reveal">
+          <p>Inlet Knight is the self-titled debut — eleven tracks cut for late nights and long drives.</p>
+          <p class="credo">
+            Written and performed by Inlet Knight.<br/>
+            Produced by CJ Archer for Club Copy Records.<br/>
+            Pressed on 12&Prime; black vinyl.
+          </p>
+        </div>
+        <dl class="ra-specs ra-reveal">
+          <div><dt>Catalogue</dt><dd>CC005</dd></div>
+          <div><dt>Artist</dt><dd>Inlet Knight</dd></div>
+          <div><dt>Format</dt><dd>12&Prime; Album · 11 tracks</dd></div>
+          <div><dt>Year</dt><dd>2026</dd></div>
+          <div><dt>Edition</dt><dd>12&Prime; black vinyl</dd></div>
+          <div><dt>Produced by</dt><dd>CJ Archer · Club Copy</dd></div>
+        </dl>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </main>
 
 <footer class="footer">
@@ -360,6 +363,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="js/player.js"></script>
 <script src="js/release-bind.js"></script>
+<script src="js/tape-player.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const RELEASE_ID = 'inlet-knight';
@@ -381,66 +385,44 @@ VCRReleaseBind({
 ]
 });
 
-
-
-
+/* Purchase module — the single acquisition point (same SKUs and cart flow) */
 (function() {
   const FORMATS = {
-    vinyl: {
-      sku: 'sm-vinyl-inlet-knight', name: 'Inlet Knight \u2014 Vinyl', price: 36,
-      buyLabel: 'Add vinyl to bag \u2014 $36',
-      stock: '36 vinyl left'
-    },
-    digital: {
-      sku: 'dg-inlet-knight', name: 'Inlet Knight \u2014 Digital (Album)', price: 9,
-      buyLabel: 'Add digital to bag \u2014 $9',
-      stock: null
-    }
+    vinyl:   { sku: 'sm-vinyl-inlet-knight', name: 'Inlet Knight \u2014 Vinyl', price: 36 },
+    digital: { sku: 'dg-inlet-knight', name: 'Inlet Knight \u2014 Digital (Album)', price: 9 }
   };
-  const pills = document.querySelectorAll('.format-pill');
+  const opts = document.querySelectorAll('.ra-format-opt');
   const buyBtn = $('buyBtn');
-  if (!buyBtn || !pills.length) return;
   let currentFmt = 'vinyl';
   let resetTimer = null;
 
-  function updateUI() {
-    const f = FORMATS[currentFmt];
-    clearTimeout(resetTimer);
-    buyBtn.textContent = f.buyLabel;
-    $('priceAmount').textContent = '$' + f.price;
-    $('priceDisplay').querySelector('meta[itemprop="price"]').content = f.price.toFixed(2);
-    $('priceFormat').textContent = 'CAD';
-    if (f.stock) {
-      $('rStock').textContent = f.stock;
-      $('rStock').style.display = '';
-    } else {
-      $('rStock').style.display = 'none';
-    }
-  }
-
-  pills.forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      currentFmt = pill.dataset.format;
-      pills.forEach(function(p) {
-        var sel = p.dataset.format === currentFmt;
-        p.classList.toggle('selected', sel);
-        p.setAttribute('aria-checked', sel ? 'true' : 'false');
-      });
-      updateUI();
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      currentFmt = opt.dataset.format;
+      opts.forEach(o => o.setAttribute('aria-checked', o.dataset.format === currentFmt ? 'true' : 'false'));
     });
   });
 
-  buyBtn.addEventListener('click', function() {
+  buyBtn.addEventListener('click', () => {
     const f = FORMATS[currentFmt];
     if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'inlet-knight-cover.webp', qty: 1, id: f.sku });
-    buyBtn.textContent = 'Added to bag \u2713';
+    buyBtn.textContent = 'Added to Collection \u2713';
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(function() { buyBtn.textContent = f.buyLabel; }, 2200);
+    resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
   });
-
-  updateUI();
 })();
 
+/* Hero — Listen: scroll to the deck and start playback */
+(function() {
+  const listen = $('heroListen');
+  if (!listen) return;
+  listen.addEventListener('click', () => {
+    document.getElementById('listen')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('ipPlayConsole')?.click();
+  });
+})();
+
+/* Download code redemption (unchanged flow) */
 (function() {
   const form = $('redeemForm');
   if (!form) return;
@@ -504,7 +486,7 @@ VCRReleaseBind({
   });
 })();
 
-
+/* Purchase-complete modal (unchanged flow) */
 const modal = $('purchaseModal');
 const openM  = () => { modal.classList.add('show'); document.body.style.overflow = 'hidden'; };
 const closeM = () => {
@@ -520,18 +502,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.clas
 const sp = new URLSearchParams(location.search);
 if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 600);
 
-
-(function() {
-  const btns = document.querySelectorAll('[role="tab"]');
-  const panels = document.querySelectorAll('.tab-panel');
-  btns.forEach(btn => btn.addEventListener('click', () => {
-    btns.forEach(b => b.setAttribute('aria-selected','false'));
-    panels.forEach(p => p.classList.remove('on'));
-    btn.setAttribute('aria-selected','true');
-    document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('on');
-  }));
-})();
-
+/* Nav scroll state */
 (function () {
   const nav = document.getElementById('nav');
   let ticking = false;
@@ -545,19 +516,9 @@ if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 
   }, { passive: true });
 })();
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.08 });
-document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
 (function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
 </script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
-<script>
-
-
-
-</script>
 </body>
 </html>
