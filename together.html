@@ -7,20 +7,21 @@
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <meta name="description" content="Together — an EP by Inlet Knight. Four tracks. Cassette and digital, $20 CAD on Club Copy."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#F3F0E8"/>
   <meta property="og:title" content="Together — Inlet Knight"/>
   <meta property="og:description" content="Four tracks by Inlet Knight. Cassette and digital, $20 CAD."/>
   <meta property="og:type" content="music.playlist"/>
   <meta property="og:image" content="https://vcr-records.vercel.app/together-cover.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;800&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
-  <link rel="stylesheet" href="css/release.css"/>
+  <link rel="stylesheet" href="css/release-archive.css"/>
 </head>
-<body>
+<body class="archive-release">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="ra-grain" aria-hidden="true"></div>
 
 <div class="modal-overlay" id="purchaseModal">
   <div class="modal">
@@ -28,10 +29,10 @@
     <div class="modal-check">
       <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
     </div>
-    <h2>Purchase complete</h2>
+    <h2>Acquisition confirmed</h2>
     <p>Thanks for supporting independent music. Your receipt and download details are on their way by email.</p>
     <div class="modal-btns">
-      <a class="btn btn-fill" href="library.html">Keep browsing</a>
+      <a class="btn btn-fill" href="library.html">Back to the archive</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
     </div>
   </div>
@@ -48,7 +49,7 @@
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
-      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Collection">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
           <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
@@ -68,196 +69,327 @@
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
-  <a href="cart.html">Bag</a>
+  <a href="cart.html">Collection</a>
 </div>
 
+<main id="main" itemscope itemtype="https://schema.org/Product">
+  <meta itemprop="name" content="Together — Inlet Knight"/>
+  <meta itemprop="image" content="together-cover.webp"/>
 
-<main id="main">
-  <div class="page">
-    <div class="crumbs">
-      <a href="index.html">Home</a><span>/</span>
-      <a href="library.html">Library</a><span>/</span>
-      Together
-    </div>
+  <!-- ================================================================
+       1 · ReleaseHero
+       ================================================================ -->
+  <section class="ra-hero" aria-label="Together — release">
+    <div class="ra-wrap ra-hero-grid">
 
-    <div class="product-grid" itemscope itemtype="https://schema.org/Product">
-
-      <div class="left-col fade-up">
-        <div class="release-stage">
-          <div class="release-platter" id="artworkWrap">
-            <span class="artwork-badge">EP</span>
-            <div class="release-disc" id="releaseDisc">
-              <img id="heroImg" src="together-cover.webp" alt="Together artwork" itemprop="image"/>
-            </div>
-            <button type="button" class="release-disc-hit" id="ipPlay" aria-label="Play / pause">
-              <span class="disc-glyph" aria-hidden="true">
-                <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-              </span>
-            </button>
-          </div>
-
-          <div class="release-console" role="region" aria-label="Preview player">
-            <div class="rc-deck">
-              <div class="rc-top">
-                <span class="rc-bug">Preview · 90s</span>
-                <span class="rc-index" id="ipTrackIndex">01 / 04</span>
+      <div class="ra-stage" id="artworkWrap" data-tilt-stage>
+        <div class="ra-stage-shadow" aria-hidden="true"></div>
+        <div class="ra-cassette" id="releaseDisc" aria-hidden="true">
+          <div class="ra-cassette-label">
+            <img src="together-cover.webp" alt="" width="1200" height="1200"/>
+            <div class="ra-cassette-label-text">
+              <div>
+                <div class="t1">TOGETHER</div>
+                <div class="t2">INLET KNIGHT<br/>CC008 · STEREO · 2026</div>
               </div>
-              <div class="rc-meta">
-                <p class="release-track" id="ipTrackName">Noted</p>
-                <p class="rc-sub"><span id="ipArtist">Inlet Knight</span> · <span id="ipRelease">Together</span></p>
-              </div>
-              <div class="release-controls">
-                <button type="button" class="release-ctrl" id="ipPrev" aria-label="Previous">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
-                </button>
-                <button type="button" class="release-ctrl release-ctrl--play" id="ipPlayConsole" aria-label="Play / pause">
-                  <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-                <button type="button" class="release-ctrl" id="ipNext" aria-label="Next">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
-                </button>
-              </div>
-              <div class="release-progress">
-                <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
-                <div class="times">
-                  <span id="ipElapsed">0:00</span>
-                  <span id="ipRemaining">-0:00</span>
-                </div>
-              </div>
-              <div class="rc-footer">
-                <div class="vol-row">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                  <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
-                </div>
-                <div class="p-msg" id="pMsg" aria-live="polite"></div>
-              </div>
+              <div class="side">A</div>
             </div>
           </div>
+          <div class="ra-cassette-window">
+            <div class="ra-reel"></div>
+            <div class="ra-reel ra-reel--b"></div>
+          </div>
+          <div class="ra-cassette-foot"></div>
         </div>
+        <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
+          <span class="glyph" aria-hidden="true">
+            <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </span>
+        </button>
       </div>
 
-      <div class="right-col fade-up" style="transition-delay:.06s"
-           itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+      <div class="ra-hero-info">
+        <div class="ra-hero-meta">
+          <span class="artist">Inlet Knight</span>
+          <span>CC008</span>
+          <span>2026</span>
+        </div>
+        <h1 class="ra-hero-title">Together</h1>
+        <div class="ra-hero-facts">
+          4 Track EP<br/>
+          Limited Cassette Edition<br/>
+          <span class="scarce" id="rStock">48 Copies Remaining</span>
+        </div>
+        <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <meta itemprop="priceCurrency" content="CAD"/>
+          <meta itemprop="price" content="20.00"/>
+          <link itemprop="availability" href="https://schema.org/InStock"/>
+          <button type="button" class="ra-btn ra-btn--fill" id="heroBuy">Buy Cassette — $20 CAD</button>
+          <button type="button" class="ra-btn ra-btn--ghost" id="heroListen">Listen Digital</button>
+        </div>
+      </div>
+    </div>
+    <div class="ra-hero-scroll" aria-hidden="true">Scroll</div>
+  </section>
 
-        <div class="r-block">
-          <div class="r-artist">Inlet Knight</div>
-          <h1 class="r-title" itemprop="name">Together</h1>
-          <p class="r-cat">CC008 · 2026</p>
-          <div class="r-meta-row">
-            <div>
-              <div class="r-price" id="priceDisplay">
-                <meta itemprop="priceCurrency" content="CAD"/>
-                <meta itemprop="price" content="20.00"/>
-                <span id="priceAmount">$20</span>
-              </div>
-              <div class="r-price-note" id="priceFormat">CAD</div>
-            </div>
-            <div class="r-stock" id="rStock">48 cassettes left</div>
+  <!-- ================================================================
+       2 · ReleaseMetadata — liner notes
+       ================================================================ -->
+  <section class="ra-sheet" aria-label="Release information">
+    <div class="ra-wrap">
+      <div class="ra-section-tag ra-reveal"><span class="num">01</span> Release Sheet</div>
+      <dl class="ra-sheet-grid ra-reveal">
+        <div class="ra-sheet-cell"><dt>Catalogue</dt><dd>CC008</dd></div>
+        <div class="ra-sheet-cell"><dt>Artist</dt><dd>Inlet Knight</dd></div>
+        <div class="ra-sheet-cell"><dt>Format</dt><dd>Cassette EP</dd></div>
+        <div class="ra-sheet-cell"><dt>Year</dt><dd>2026</dd></div>
+        <div class="ra-sheet-cell"><dt>Edition</dt><dd>Limited run of 50</dd></div>
+        <div class="ra-sheet-cell"><dt>Mastered for tape</dt><dd>Club Copy Records</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       3 · TapePlayer + TrackList
+       ================================================================ -->
+  <section class="ra-player-section" id="listen" aria-label="Tape player">
+    <div class="ra-wrap">
+      <div class="ra-section-tag ra-reveal"><span class="num">02</span> Playback — 90 second previews</div>
+      <div class="ra-player-grid">
+
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Preview player">
+          <div class="ra-deck-head">
+            <span>CC Tape Deck</span>
+            <span class="live" id="ipTrackIndex">01 / 04</span>
           </div>
-          <div class="r-tags">
-            <span class="tag">EP</span>
-            <span class="tag">4 tracks</span>
-            <span class="tag">2026</span>
+          <div class="ra-deck-window" aria-hidden="true">
+            <div class="ra-reel"></div>
+            <div class="ra-deck-tape"></div>
+            <div class="ra-reel ra-reel--b"></div>
+          </div>
+          <div class="ra-deck-now">
+            <div class="idx">Now Cueing</div>
+            <p class="name" id="ipTrackName">Noted</p>
+            <p class="sub"><span id="ipArtist">Inlet Knight</span> — <span id="ipRelease">Together</span></p>
+          </div>
+          <canvas class="ra-wave" id="raWave" data-release="together" aria-hidden="true"></canvas>
+          <input type="range" min="0" value="0" step="0.01" id="ipSeek" aria-label="Seek"/>
+          <div class="ra-deck-times">
+            <span id="ipElapsed">0:00</span>
+            <span id="ipRemaining">-0:00</span>
+          </div>
+          <div class="ra-transport">
+            <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+            </button>
+            <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play / pause">
+              <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+            </button>
+          </div>
+          <div class="ra-deck-foot">
+            <div class="ra-vol">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input type="range" min="0" max="1" step="0.01" value="0.8" id="ipVolume" aria-label="Volume"/>
+            </div>
+            <div class="p-msg" id="pMsg" aria-live="polite"></div>
           </div>
         </div>
 
-        <div class="r-block">
-          <div class="format-label" style="margin-bottom:8px;">Format</div>
-          <div class="format-pills" role="radiogroup" aria-label="Format">
-            <button type="button" class="format-pill selected" data-format="cassette" role="radio" aria-checked="true">Cassette — $20</button>
-            <button type="button" class="format-pill" data-format="digital" role="radio" aria-checked="false">Digital — $20</button>
+        <div class="ra-tracks ra-reveal">
+          <div class="ra-side-label">Side A</div>
+          <div class="track-row is-active" data-index="0">
+            <span class="track-no">A1</span>
+            <span class="track-title">Noted</span>
+            <span class="track-dur">5:20</span>
+            <button class="track-play-btn" type="button" aria-label="Play Noted" tabindex="-1"></button>
           </div>
-          <div class="buy-stack">
-            <button type="button" class="btn btn-fill" id="buyBtn">Add cassette to bag — $20</button>
+          <div class="track-row" data-index="1">
+            <span class="track-no">A2</span>
+            <span class="track-title">Together</span>
+            <span class="track-dur">4:09</span>
+            <button class="track-play-btn" type="button" aria-label="Play Together" tabindex="-1"></button>
           </div>
-          <p class="trust-line">
+          <div class="ra-side-label">Side B</div>
+          <div class="track-row" data-index="2">
+            <span class="track-no">B1</span>
+            <span class="track-title">On My Mind</span>
+            <span class="track-dur">5:12</span>
+            <button class="track-play-btn" type="button" aria-label="Play On My Mind" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="3">
+            <span class="track-no">B2</span>
+            <span class="track-title">Choose One</span>
+            <span class="track-dur">3:22</span>
+            <button class="track-play-btn" type="button" aria-label="Play Choose One" tabindex="-1"></button>
+          </div>
+          <p class="ra-tracks-note">Total running time 18:03 · Dolby off · Type I ferric</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       4 · PhysicalGallery
+       ================================================================ -->
+  <section class="ra-gallery" aria-label="The physical object">
+    <div class="ra-wrap">
+      <div class="ra-section-tag ra-reveal"><span class="num">03</span> The Object</div>
+      <div class="ra-gallery-grid">
+
+        <div class="ra-gallery-item ra-reveal">
+          <figure>
+            <div class="ra-gallery-frame">
+              <img src="together-cover.webp" alt="Together — J-card front artwork" loading="lazy" width="1200" height="1200"/>
+            </div>
+            <figcaption><span>J-Card — Front</span><span>Fig. 01</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="ra-gallery-item ra-reveal">
+          <figure>
+            <div class="ra-gallery-frame">
+              <div class="ra-jcard-back" role="img" aria-label="Together — J-card back with track listing">
+                <div class="jb-head">Together — Inlet Knight</div>
+                <ol>
+                  <li><span>A1</span>Noted</li>
+                  <li><span>A2</span>Together</li>
+                  <li><span>B1</span>On My Mind</li>
+                  <li><span>B2</span>Choose One</li>
+                </ol>
+                <div class="jb-foot">
+                  CC008 · Club Copy Records<br/>
+                  Written &amp; performed by Inlet Knight<br/>
+                  Mastered for tape · Made in Canada<br/>
+                  ℗ © 2026 Copy House Publishing
+                </div>
+              </div>
+            </div>
+            <figcaption><span>J-Card — Back</span><span>Fig. 02</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="ra-gallery-item ra-reveal">
+          <figure>
+            <div class="ra-gallery-frame">
+              <div class="ra-shell-mini" aria-label="Cassette shell" role="img">
+                <div class="ra-cassette">
+                  <div class="ra-cassette-label">
+                    <img src="together-cover-480.webp" alt="" loading="lazy" width="480" height="480"/>
+                    <div class="ra-cassette-label-text">
+                      <div>
+                        <div class="t1">TOGETHER</div>
+                        <div class="t2">INLET KNIGHT<br/>CC008 · STEREO · 2026</div>
+                      </div>
+                      <div class="side">B</div>
+                    </div>
+                  </div>
+                  <div class="ra-cassette-window">
+                    <div class="ra-reel"></div>
+                    <div class="ra-reel ra-reel--b"></div>
+                  </div>
+                  <div class="ra-cassette-foot"></div>
+                </div>
+              </div>
+            </div>
+            <figcaption><span>Cassette Shell — Side B</span><span>Fig. 03</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="ra-gallery-item ra-reveal">
+          <figure>
+            <div class="ra-gallery-frame">
+              <div class="ra-crop">
+                <img src="together-cover.webp" alt="Together — label artwork detail" loading="lazy" width="1200" height="1200"/>
+              </div>
+            </div>
+            <figcaption><span>Label — Detail</span><span>Fig. 04</span></figcaption>
+          </figure>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       5 · ReleaseNotes
+       ================================================================ -->
+  <section class="ra-notes" aria-label="About the release">
+    <div class="ra-wrap">
+      <div class="ra-section-tag ra-reveal"><span class="num">04</span> About the Release</div>
+      <div class="ra-notes-inner ra-reveal">
+        <p>Together is a four track exploration of memory, distance, and connection.</p>
+        <p class="credo">
+          Recorded in isolation.<br/>
+          Pressed in limited quantities.<br/>
+          Designed to exist outside the algorithm.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       6 · PurchaseModule
+       ================================================================ -->
+  <section class="ra-purchase" id="acquire" aria-label="Acquire this release">
+    <div class="ra-wrap">
+      <div class="ra-section-tag ra-reveal"><span class="num">05</span> Acquire</div>
+      <div class="ra-purchase-grid">
+
+        <div class="ra-format ra-reveal">
+          <div class="ra-format-head">Format</div>
+          <div role="radiogroup" aria-label="Format">
+            <button type="button" class="ra-format-opt" data-format="cassette" role="radio" aria-checked="true">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="fmt">Cassette<small>Includes digital download code</small></span>
+              <span class="price">$20 CAD</span>
+            </button>
+            <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="false">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="fmt">Digital<small>320kbps MP3 + lossless</small></span>
+              <span class="price">$20 CAD</span>
+            </button>
+          </div>
+          <button type="button" class="ra-btn ra-btn--fill ra-collect-btn" id="buyBtn">[ Add to Collection ]</button>
+          <p class="ra-purchase-fine">
             <span>Secure checkout</span>
             <a href="shipping.html">Shipping &amp; returns</a>
           </p>
         </div>
 
-        <div class="r-block">
-          <div class="redeem-head" id="redeemHead">Download code</div>
-          <p class="small-note" style="margin:0 0 12px">Cassette includes a digital download code. Enter it below to get your files.</p>
-          <form id="redeemForm" class="redeem-form" novalidate aria-labelledby="redeemHead">
+        <div class="ra-redeem ra-reveal">
+          <h3 id="redeemHead">Own the tape? — Download code</h3>
+          <p class="hint">Every cassette ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
+          <form id="redeemForm" novalidate aria-labelledby="redeemHead">
             <label class="sr-only" for="redeemCode">Download code</label>
-            <input class="redeem-input" id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
-            <div class="redeem-email hidden" id="redeemEmailWrap">
+            <input id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
+            <div class="hidden" id="redeemEmailWrap">
               <label class="sr-only" for="redeemEmail">Email for your download link</label>
-              <input class="redeem-input" id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
+              <input id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
             </div>
-            <button class="btn btn-fill" type="submit" id="redeemBtn">Redeem</button>
+            <button class="ra-btn ra-btn--ghost" type="submit" id="redeemBtn">Redeem</button>
             <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
 
-        <div class="r-block">
-          <div class="tab-bar" role="tablist" aria-label="Release information">
-            <button type="button" class="tab-btn" id="tabBtnTrack" role="tab" aria-selected="true"  aria-controls="tab-track">Tracklist</button>
-            <button type="button" class="tab-btn" id="tabBtnDetails" role="tab" aria-selected="false" aria-controls="tab-details">Details</button>
-          </div>
-
-          <div class="tab-panel on" id="tab-track" role="tabpanel" aria-labelledby="tabBtnTrack" style="padding-top:14px;">
-            <div class="tracklist">
-              <div class="track-row is-active" data-index="0">
-                <span class="track-no">1</span>
-                <span class="track-title">Noted</span>
-                <span class="track-dur">5:20</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 1">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="1">
-                <span class="track-no">2</span>
-                <span class="track-title">Together</span>
-                <span class="track-dur">4:09</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 2">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="2">
-                <span class="track-no">3</span>
-                <span class="track-title">On My Mind</span>
-                <span class="track-dur">5:12</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 3">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-              <div class="track-row" data-index="3">
-                <span class="track-no">4</span>
-                <span class="track-title">Choose One</span>
-                <span class="track-dur">3:22</span>
-                <button class="track-play-btn" type="button" aria-label="Play Track 4">
-                  <svg class="icon-play"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                  <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-panel" id="tab-details" role="tabpanel" aria-labelledby="tabBtnDetails" style="padding-top:14px;">
-            <p class="details-text">Four tracks by Inlet Knight. CC008. Written and performed by Inlet Knight. Produced for Club Copy. Available as cassette and digital download. Released 2026.</p>
-          </div>
-        </div>
-
       </div>
     </div>
+  </section>
 
-    <section class="more-releases" aria-label="More from the library">
-      <p class="more-releases-title">More from the library</p>
-      <div class="more-releases-grid">
-        <a href="inlet-knight.html" class="more-release-item">
-          <img src="inlet-knight-cover.webp" alt="Inlet Knight" loading="lazy"/>
-          <p>Inlet Knight — Inlet Knight</p>
-        </a>
-      </div>
-    </section>
-  </div>
+  <!-- Archive index -->
+  <section class="ra-index" aria-label="More from the archive">
+    <div class="ra-wrap">
+      <div class="ra-section-tag ra-reveal"><span class="num">06</span> From the Archive</div>
+      <a href="inlet-knight.html" class="ra-reveal">
+        <span>Inlet Knight — Inlet Knight</span>
+        <span class="cat">CC007 →</span>
+      </a>
+    </div>
+  </section>
 </main>
 
 <footer class="footer">
@@ -297,6 +429,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="js/player.js"></script>
 <script src="js/release-bind.js"></script>
+<script src="js/tape-player.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const RELEASE_ID = 'together';
@@ -311,64 +444,61 @@ VCRReleaseBind({
 ]
 });
 
-
-
+/* Purchase module — same SKUs, variants and cart flow as before */
 (function() {
   const FORMATS = {
     cassette: {
       sku: 'sm-cassette-together', name: 'Together \u2014 Cassette', price: 20,
-      buyLabel: 'Add cassette to bag \u2014 $20',
-      stock: '48 cassettes left'
+      stock: '48 Copies Remaining'
     },
     digital: {
       sku: 'dg-together', name: 'Together \u2014 Digital (EP)', price: 20,
-      buyLabel: 'Add digital to bag \u2014 $20',
       stock: null
     }
   };
-  const pills = document.querySelectorAll('.format-pill');
+  const opts = document.querySelectorAll('.ra-format-opt');
   const buyBtn = $('buyBtn');
+  const heroBuy = $('heroBuy');
   let currentFmt = 'cassette';
   let resetTimer = null;
+  let heroTimer = null;
 
-  function updateUI() {
-    const f = FORMATS[currentFmt];
-    clearTimeout(resetTimer);
-    buyBtn.textContent = f.buyLabel;
-    $('priceAmount').textContent = '$' + f.price;
-    $('priceDisplay').querySelector('meta[itemprop="price"]').content = f.price.toFixed(2);
-    $('priceFormat').textContent = 'CAD';
-    if (f.stock) {
-      $('rStock').textContent = f.stock;
-      $('rStock').style.display = '';
-    } else {
-      $('rStock').style.display = 'none';
-    }
+  function addToCollection(fmtKey, btn, timerSetter, label) {
+    const f = FORMATS[fmtKey];
+    if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'together-cover.webp', qty: 1, id: f.sku });
+    btn.textContent = 'Added to Collection \u2713';
+    timerSetter(setTimeout(() => { btn.textContent = label; }, 2200));
   }
 
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      currentFmt = pill.dataset.format;
-      pills.forEach(p => {
-        const sel = p.dataset.format === currentFmt;
-        p.classList.toggle('selected', sel);
-        p.setAttribute('aria-checked', sel ? 'true' : 'false');
-      });
-      updateUI();
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      currentFmt = opt.dataset.format;
+      opts.forEach(o => o.setAttribute('aria-checked', o.dataset.format === currentFmt ? 'true' : 'false'));
     });
   });
 
   buyBtn.addEventListener('click', () => {
-    const f = FORMATS[currentFmt];
-    if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'together-cover.webp', qty: 1, id: f.sku });
-    buyBtn.textContent = 'Added to bag \u2713';
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => { buyBtn.textContent = f.buyLabel; }, 2200);
+    addToCollection(currentFmt, buyBtn, t => { resetTimer = t; }, '[ Add to Collection ]');
   });
 
-  updateUI();
+  heroBuy.addEventListener('click', () => {
+    clearTimeout(heroTimer);
+    addToCollection('cassette', heroBuy, t => { heroTimer = t; }, 'Buy Cassette \u2014 $20 CAD');
+  });
 })();
 
+/* Hero — Listen Digital: scroll to the deck and start playback */
+(function() {
+  const listen = $('heroListen');
+  if (!listen) return;
+  listen.addEventListener('click', () => {
+    document.getElementById('listen')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('ipPlayConsole')?.click();
+  });
+})();
+
+/* Download code redemption (unchanged flow) */
 (function() {
   const form = $('redeemForm');
   if (!form) return;
@@ -432,6 +562,7 @@ VCRReleaseBind({
   });
 })();
 
+/* Purchase-complete modal (unchanged flow) */
 const modal = $('purchaseModal');
 const openM  = () => { modal.classList.add('show'); document.body.style.overflow = 'hidden'; };
 const closeM = () => {
@@ -447,18 +578,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.clas
 const sp = new URLSearchParams(location.search);
 if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 600);
 
-
-(function() {
-  const btns = document.querySelectorAll('[role="tab"]');
-  const panels = document.querySelectorAll('.tab-panel');
-  btns.forEach(btn => btn.addEventListener('click', () => {
-    btns.forEach(b => b.setAttribute('aria-selected','false'));
-    panels.forEach(p => p.classList.remove('on'));
-    btn.setAttribute('aria-selected','true');
-    document.getElementById(btn.getAttribute('aria-controls'))?.classList.add('on');
-  }));
-})();
-
+/* Nav scroll state */
 (function () {
   const nav = document.getElementById('nav');
   let ticking = false;
@@ -472,19 +592,9 @@ if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 
   }, { passive: true });
 })();
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.08 });
-document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
 (function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
 </script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
-<script>
-
-
-
-</script>
 </body>
 </html>
