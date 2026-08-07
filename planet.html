@@ -13,19 +13,44 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/fx.css"/>
   <style>
+    /* ============================================================
+       PLANET MP3 — HOME DESIGN SYSTEM
+       Palette: black / charcoal / off-white / purple / neon lime
+       Type: Oswald (condensed uppercase headers), Space Grotesk (body)
+       ============================================================ */
+    :root {
+      --pm-bg: #0A0A0A;
+      --pm-surface: #141216;
+      --pm-surface-2: #1B1820;
+      --pm-ink: #F4F4F2;
+      --pm-muted: rgba(244,244,242,.56);
+      --pm-dim: rgba(244,244,242,.36);
+      --pm-line: rgba(255,255,255,.09);
+      --pm-purple: #8B5CF6;
+      --pm-purple-soft: #A78BFA;
+      --pm-neon: #D4F934;
+      --pm-radius: 18px;
+      --pm-radius-lg: 24px;
+      --pm-gap: 20px;
+      --pm-shadow: 0 18px 44px rgba(0,0,0,.5);
+      --pm-shadow-soft: 0 10px 26px rgba(0,0,0,.35);
+      --pm-glow: 0 0 22px rgba(139,92,246,.45);
+    }
+
     body {
-      background: #0A0A0A;
-      color: #F4F4F2;
+      background:
+        radial-gradient(1100px 520px at 50% -180px, rgba(139,92,246,.16), transparent 66%),
+        radial-gradient(800px 420px at 100% 24%, rgba(212,249,52,.045), transparent 62%),
+        var(--pm-bg);
+      color: var(--pm-ink);
     }
-    .nav {
-      background: transparent;
-      border-bottom-color: transparent;
-      box-shadow: none;
-    }
+
+    /* Shared site nav on dark */
+    .nav { background: transparent; border-bottom-color: transparent; box-shadow: none; }
     .nav.scrolled {
       background: rgba(10,10,10,.82);
       border-bottom-color: rgba(255,255,255,.08);
@@ -39,109 +64,543 @@
     .nav-cart { color: #fff; }
     .nav-ham span { background: #fff; }
     .nav-cart-count { background: #fff; color: #0A0A0A; }
-    .nav-drawer {
-      background: rgba(10,10,10,.96);
-      border-bottom-color: rgba(255,255,255,.08);
-    }
+    .nav-drawer { background: rgba(10,10,10,.96); border-bottom-color: rgba(255,255,255,.08); }
     .nav-drawer a { color: #fff; border-bottom-color: rgba(255,255,255,.08); }
 
-    .planet-page {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-    }
-    .planet-main {
-      flex: 1;
+    /* ---------- Page shell ---------- */
+    .pm-app {
+      width: min(520px, 100%);
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + var(--safe-t) + 20px) 20px calc(128px + var(--safe-b));
       display: grid;
-      place-items: center;
-      padding: calc(var(--nav-h) + var(--safe-t) + 56px) 24px calc(72px + var(--safe-b));
+      gap: 36px;
     }
-    .planet-shell {
-      width: min(760px, 100%);
+    @media (min-width: 900px) {
+      .pm-app { width: min(560px, 100%); }
+    }
+
+    /* ---------- Typography system ---------- */
+    .pm-eyebrow {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--pm-purple-soft);
+      margin: 0;
+    }
+    .pm-h2 {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--pm-ink);
+      margin: 0;
+      line-height: 1;
+    }
+    .pm-meta {
+      font-size: 12.5px;
+      color: var(--pm-dim);
+      letter-spacing: .02em;
+    }
+
+    /* ---------- Header ---------- */
+    .pm-header {
+      display: grid;
+      grid-template-columns: 44px 1fr 44px;
+      align-items: center;
+      gap: 12px;
+      padding-top: 8px;
+    }
+    .pm-header-logo {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
       text-align: center;
     }
-    .planet-mark {
-      width: min(104px, 26vw);
-      height: auto;
-      border-radius: 22%;
-      margin: 0 auto 32px;
-      display: block;
-      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    .pm-header-logo img {
+      width: 52px;
+      height: 52px;
+      border-radius: 26%;
+      box-shadow: 0 12px 30px rgba(0,0,0,.5), 0 0 0 1px var(--pm-line);
     }
-    .planet-kicker {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: .2em;
+    .pm-wordmark {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: .3em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.4);
-      margin: 0 0 16px;
+      margin-right: -.3em; /* optical centering of tracked text */
     }
-    .planet-title {
-      font-family: var(--display);
-      font-size: clamp(36px, 7vw, 64px);
+    .pm-wordmark em { font-style: normal; color: var(--pm-purple-soft); }
+    .pm-header-tag {
+      font-size: 11.5px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--pm-dim);
+    }
+    .pm-icon-btn {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--pm-line);
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+    }
+    .pm-icon-btn svg { width: 20px; height: 20px; }
+    @media (hover:hover) {
+      .pm-icon-btn:hover { background: rgba(139,92,246,.18); color: #fff; transform: translateY(-1px); }
+    }
+
+    /* ---------- Card container primitive ---------- */
+    .pm-card {
+      background: linear-gradient(160deg, var(--pm-surface-2), var(--pm-surface));
+      border: 1px solid var(--pm-line);
+      border-radius: var(--pm-radius);
+      box-shadow: var(--pm-shadow-soft);
+    }
+
+    /* ---------- Section ---------- */
+    .pm-section { display: grid; gap: 16px; }
+    .pm-section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .pm-view-all {
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: -.04em;
-      line-height: .98;
-      margin: 0 0 20px;
-    }
-    .planet-lead {
-      font-size: clamp(16px, 2.1vw, 19px);
-      line-height: 1.55;
-      color: rgba(255,255,255,.58);
-      max-width: 30em;
-      margin: 0 auto 28px;
-    }
-    .planet-points {
-      list-style: none;
-      display: grid;
-      gap: 0;
-      text-align: left;
-      max-width: 480px;
-      margin: 40px auto 40px;
-      border-top: 1px solid rgba(255,255,255,.1);
-    }
-    .planet-points li {
-      padding: 22px 0;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      display: grid;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--pm-purple-soft);
+      display: inline-flex;
+      align-items: center;
       gap: 6px;
+      transition: color .25s var(--ease);
+      white-space: nowrap;
     }
-    .planet-points strong {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -.02em;
+    @media (hover:hover) { .pm-view-all:hover { color: var(--pm-neon); } }
+
+    /* ---------- Hero: Now Playing ---------- */
+    .pm-hero {
+      position: relative;
+      border-radius: var(--pm-radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--pm-shadow), inset 0 1px 0 rgba(255,255,255,.08);
+      isolation: isolate;
+      display: block;
+      color: var(--pm-ink);
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+    }
+    @media (hover:hover) {
+      .pm-hero:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 26px 60px rgba(0,0,0,.6), var(--pm-glow), inset 0 1px 0 rgba(255,255,255,.1);
+      }
+      .pm-hero:hover .pm-hero-art { transform: scale(1.035); }
+    }
+    .pm-hero-media { aspect-ratio: 4 / 4.4; position: relative; }
+    @media (min-width: 480px) { .pm-hero-media { aspect-ratio: 4 / 4.1; } }
+    .pm-hero-art {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .8s var(--ease);
+    }
+    .pm-hero-scrim {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(to top, rgba(6,4,10,.92) 0%, rgba(6,4,10,.44) 38%, rgba(6,4,10,.06) 64%, rgba(6,4,10,.28) 100%),
+        linear-gradient(215deg, rgba(139,92,246,.28), transparent 46%);
+    }
+    .pm-hero-top {
+      position: absolute; top: 16px; left: 16px; right: 16px; z-index: 2;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .pm-live {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 30px; padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(6,4,10,.55);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .22em; text-transform: uppercase;
       color: #fff;
     }
-    .planet-points span {
-      font-size: 15px;
-      color: rgba(255,255,255,.5);
-      line-height: 1.5;
+    .pm-live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--pm-neon);
+      box-shadow: 0 0 10px var(--pm-neon);
+      animation: pm-pulse 1.8s ease-in-out infinite;
     }
-    .planet-cta {
-      display: inline-flex;
+    @keyframes pm-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .45; transform: scale(.78); }
+    }
+    .pm-bolt {
+      width: 34px; height: 34px;
+      display: grid; place-items: center;
+      border-radius: 12px;
+      background: rgba(6,4,10,.55);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--pm-neon);
+    }
+    .pm-bolt svg { width: 16px; height: 16px; }
+    .pm-hero-info {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+      padding: 22px 20px 20px;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+    }
+    .pm-hero-text { display: grid; gap: 5px; min-width: 0; }
+    .pm-hero-kicker {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(255,255,255,.62);
+    }
+    .pm-hero-title {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: clamp(26px, 7vw, 34px);
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      line-height: 1.02;
+      margin: 0;
+      text-shadow: 0 3px 22px rgba(0,0,0,.55);
+    }
+    .pm-hero-artist { font-size: 14.5px; font-weight: 500; color: rgba(255,255,255,.72); }
+    .pm-fave {
+      flex: none;
+      width: 46px; height: 46px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: rgba(139,92,246,.28);
+      border: 1px solid rgba(167,139,250,.5);
+      color: #fff;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: background .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .pm-fave svg { width: 21px; height: 21px; transition: transform .3s var(--ease); }
+    .pm-fave[aria-pressed="true"] { background: var(--pm-purple); box-shadow: var(--pm-glow); }
+    .pm-fave[aria-pressed="true"] svg { fill: #fff; transform: scale(1.12); }
+    @media (hover:hover) { .pm-fave:hover { transform: scale(1.06); } }
+
+    /* ---------- Featured channels rail ---------- */
+    .pm-rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 132px;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 20px 12px;
+      margin: -4px -20px -8px;
+      scrollbar-width: none;
+    }
+    .pm-rail::-webkit-scrollbar { display: none; }
+    .pm-channel {
+      scroll-snap-align: start;
+      display: grid;
+      gap: 0;
+      border-radius: var(--pm-radius);
+      overflow: hidden;
+      background: linear-gradient(170deg, var(--pm-surface-2), #0F0D12);
+      border: 1px solid var(--pm-line);
+      box-shadow: var(--pm-shadow-soft);
+      color: var(--pm-ink);
+      transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    @media (hover:hover) {
+      .pm-channel:hover {
+        transform: translateY(-4px);
+        border-color: rgba(167,139,250,.55);
+        box-shadow: var(--pm-shadow-soft), var(--pm-glow);
+      }
+    }
+    .pm-channel-icon {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .pm-channel-icon::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(6,4,10,.4), transparent 55%);
+    }
+    .pm-channel-icon svg { width: 44px; height: 44px; position: relative; z-index: 1; }
+    .pm-channel-icon img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .pm-ch-globe  { background: radial-gradient(120% 120% at 30% 20%, #3B2A63, #17121F); color: var(--pm-purple-soft); }
+    .pm-ch-chill  { background: radial-gradient(120% 120% at 70% 20%, #23301A, #121710); color: var(--pm-neon); }
+    .pm-ch-under  { background: radial-gradient(120% 120% at 30% 80%, #2A1F3D, #0F0C14); color: #fff; }
+    .pm-ch-bolt   { background: radial-gradient(120% 120% at 60% 30%, #34313A, #121115); color: var(--pm-neon); }
+    .pm-channel-body { padding: 12px 13px 14px; display: grid; gap: 3px; }
+    .pm-channel-title {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 13.5px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .pm-channel-sub { font-size: 12px; color: var(--pm-muted); line-height: 1.3; }
+
+    /* ---------- Track / discovery cards ---------- */
+    .pm-track-list { display: grid; gap: 10px; }
+    .pm-track {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid transparent;
+      color: var(--pm-ink);
+      transition: background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+    }
+    @media (hover:hover) {
+      .pm-track:hover {
+        background: rgba(139,92,246,.12);
+        border-color: rgba(167,139,250,.32);
+        transform: translateX(3px);
+      }
+      .pm-track:hover .pm-track-play { opacity: 1; }
+    }
+    .pm-track-art {
+      width: 56px; height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--pm-surface-2);
+      box-shadow: 0 6px 16px rgba(0,0,0,.4);
+    }
+    .pm-track-info { display: grid; gap: 2px; min-width: 0; }
+    .pm-track-title {
+      font-size: 15px; font-weight: 600; letter-spacing: -.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .pm-track-sub {
+      font-size: 12.5px; color: var(--pm-muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .pm-track-play {
+      width: 38px; height: 38px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--pm-line);
+      color: var(--pm-ink);
+      opacity: .65;
+      transition: opacity .25s var(--ease), background .25s var(--ease);
+    }
+    .pm-track-play svg { width: 14px; height: 14px; margin-left: 2px; }
+
+    /* ---------- Playlist cards ---------- */
+    .pm-playlists {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .pm-playlist {
+      display: grid;
+      gap: 0;
+      border-radius: var(--pm-radius);
+      overflow: hidden;
+      background: linear-gradient(170deg, var(--pm-surface-2), #0F0D12);
+      border: 1px solid var(--pm-line);
+      box-shadow: var(--pm-shadow-soft);
+      color: var(--pm-ink);
+      transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    @media (hover:hover) {
+      .pm-playlist:hover {
+        transform: translateY(-4px);
+        border-color: rgba(167,139,250,.55);
+        box-shadow: var(--pm-shadow-soft), var(--pm-glow);
+      }
+      .pm-playlist:hover .pm-playlist-art img { transform: scale(1.05); }
+    }
+    .pm-playlist-art { aspect-ratio: 4 / 3; overflow: hidden; position: relative; }
+    .pm-playlist-art img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .7s var(--ease);
+    }
+    .pm-playlist-art::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(6,4,10,.5), transparent 50%);
+    }
+    .pm-playlist-badge {
+      position: absolute; top: 10px; left: 10px; z-index: 1;
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: #0A0A0A;
+      background: var(--pm-neon);
+      border-radius: 999px;
+      padding: 4px 9px;
+    }
+    .pm-playlist-body { padding: 12px 14px 14px; display: grid; gap: 3px; }
+    .pm-playlist-title {
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 14px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    .pm-playlist-sub { font-size: 12px; color: var(--pm-muted); }
+
+    /* ---------- Request a song ---------- */
+    .pm-request {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pm-request::before {
+      content: "";
+      position: absolute; inset: -40% -20% auto auto;
+      width: 240px; height: 240px;
+      background: radial-gradient(closest-side, rgba(139,92,246,.28), transparent);
+      pointer-events: none;
+    }
+    .pm-request-sub { font-size: 13.5px; color: var(--pm-muted); margin: -6px 0 0; }
+    .pm-request-row { display: flex; gap: 10px; }
+    .pm-request input {
+      flex: 1;
+      min-width: 0;
+      height: 50px;
+      border-radius: 14px;
+      border: 1px solid var(--pm-line);
+      background: rgba(255,255,255,.05);
+      color: var(--pm-ink);
+      padding: 0 16px;
+      font: 500 14.5px/1 var(--sans, 'Space Grotesk', sans-serif);
+      transition: border-color .25s var(--ease), background .25s var(--ease);
+    }
+    .pm-request input::placeholder { color: var(--pm-dim); }
+    .pm-request input:focus {
+      outline: none;
+      border-color: rgba(167,139,250,.6);
+      background: rgba(139,92,246,.1);
+    }
+    .pm-request button {
+      flex: none;
+      width: 50px; height: 50px;
+      display: grid; place-items: center;
+      border-radius: 14px;
+      border: 0;
+      background: var(--pm-purple);
+      color: #fff;
+      cursor: pointer;
+      transition: background .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease);
+    }
+    .pm-request button svg { width: 18px; height: 18px; margin-left: 2px; }
+    @media (hover:hover) {
+      .pm-request button:hover { background: var(--pm-purple-soft); box-shadow: var(--pm-glow); transform: translateY(-1px); }
+    }
+
+    /* ---------- Stream CTA ---------- */
+    .pm-stream-cta {
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      height: 52px;
-      padding: 0 28px;
+      height: 54px;
       border-radius: 999px;
-      background: #fff;
-      color: #0A0A0A;
-      font-size: 15px;
+      background: linear-gradient(120deg, var(--pm-purple), #6D3FE0);
+      color: #fff;
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: -.015em;
-      transition: opacity .25s var(--ease), transform .25s var(--ease);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      box-shadow: var(--pm-shadow-soft), 0 0 30px rgba(139,92,246,.3);
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
     }
     @media (hover:hover) {
-      .planet-cta:hover { opacity: .88; transform: translateY(-1px); }
+      .pm-stream-cta:hover { transform: translateY(-2px); box-shadow: var(--pm-shadow-soft), var(--pm-glow); }
     }
-    .planet-cta span { opacity: .45; font-weight: 500; }
+    .pm-stream-cta span { opacity: .6; }
 
-    .footer {
-      background: transparent;
-      border-top: 1px solid rgba(255,255,255,.08);
-      color: #fff;
+    /* ---------- Floating bottom navigation ---------- */
+    .pm-dock {
+      position: fixed;
+      left: 50%;
+      bottom: calc(14px + var(--safe-b));
+      transform: translateX(-50%);
+      z-index: 60;
+      display: flex;
+      gap: 2px;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(14,12,18,.78);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 44px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.07);
+      backdrop-filter: saturate(160%) blur(20px);
+      -webkit-backdrop-filter: saturate(160%) blur(20px);
     }
+    .pm-dock a {
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+      width: 62px;
+      padding: 8px 0 7px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.5);
+      font-family: var(--callsign, 'Oswald', sans-serif);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      transition: color .25s var(--ease), background .25s var(--ease);
+    }
+    .pm-dock a svg { width: 20px; height: 20px; }
+    .pm-dock a.is-active {
+      color: #fff;
+      background: rgba(139,92,246,.3);
+      box-shadow: 0 0 18px rgba(139,92,246,.45), inset 0 0 0 1px rgba(167,139,250,.45);
+    }
+    @media (hover:hover) {
+      .pm-dock a:not(.is-active):hover { color: #fff; background: rgba(255,255,255,.07); }
+    }
+    @media (max-width: 380px) {
+      .pm-dock a { width: 56px; }
+    }
+
+    /* ---------- Loading skeleton shimmer ---------- */
+    .pm-skeleton {
+      background: linear-gradient(100deg, rgba(255,255,255,.05) 40%, rgba(255,255,255,.12) 50%, rgba(255,255,255,.05) 60%);
+      background-size: 200% 100%;
+      animation: pm-shimmer 1.6s linear infinite;
+    }
+    @keyframes pm-shimmer {
+      to { background-position: -200% 0; }
+    }
+    img.pm-lazy { opacity: 0; transition: opacity .5s var(--ease); }
+    img.pm-lazy.is-loaded { opacity: 1; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pm-live-dot, .pm-skeleton { animation: none; }
+      .pm-hero, .pm-channel, .pm-playlist, .pm-track,
+      .pm-hero-art, .pm-playlist-art img { transition: none; }
+    }
+
+    /* ---------- Footer on dark ---------- */
+    .footer { background: transparent; border-top: 1px solid rgba(255,255,255,.08); color: #fff; }
     .footer-manifesto { color: rgba(255,255,255,.5); }
     .footer-top { border-bottom-color: rgba(255,255,255,.1); }
     .footer label { color: rgba(255,255,255,.5); }
@@ -163,6 +622,7 @@
     @media (hover:hover) {
       .footer-links a:hover { background: rgba(255,255,255,.08); color: #fff; }
     }
+    .footer { padding-bottom: calc(90px + var(--safe-b)); }
   </style>
 </head>
 <body id="top" class="nav-on-dark">
@@ -203,36 +663,255 @@
   <a href="cart.html">Bag</a>
 </div>
 
-<main id="main" class="planet-page fx-phosphor">
-  <div class="planet-main">
-    <div class="planet-shell">
-      <img class="planet-mark" src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" fetchpriority="high"/>
-      <p class="planet-kicker">Planet MP3</p>
-      <h1 class="planet-title">Music that follows<br/>the day.</h1>
-      <p class="planet-lead">Planet MP3 shapes what you hear around the time of day — then lets you take the wheel. Speed it up, slow it down, or build a custom mix for any length of time.</p>
-      <a class="planet-cta fx-chromatic" href="https://planetmp3.net" target="_blank" rel="noopener">
-        Stream Now <span aria-hidden="true">↗</span>
+<main id="main" class="fx-phosphor">
+  <div class="pm-app">
+
+    <!-- App header -->
+    <header class="pm-header">
+      <a class="pm-icon-btn" href="index.html" aria-label="Back to Club Copy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
       </a>
-      <ul class="planet-points">
-        <li>
-          <strong>Changes with the time of day</strong>
-          <span>Morning clarity, afternoon drive, late-night depth — the music shifts as the hours do, so the room always feels right.</span>
-        </li>
-        <li>
-          <strong>Speed it up or slow it down</strong>
-          <span>You’re in control of the pace. Push the energy forward or pull it back without leaving the session.</span>
-        </li>
-        <li>
-          <strong>Custom mixes, any length</strong>
-          <span>Set a duration — twenty minutes, an hour, an evening — and get a mix shaped to fit. No endless scroll. Just time, well spent.</span>
-        </li>
-      </ul>
-      <a class="planet-cta fx-chromatic" href="https://planetmp3.net" target="_blank" rel="noopener">
-        Stream Now <span aria-hidden="true">↗</span>
+      <div class="pm-header-logo">
+        <img src="planetmp3-logo.webp" alt="" width="800" height="800" fetchpriority="high"/>
+        <span class="pm-wordmark">Planet<em>MP3</em></span>
+        <span class="pm-header-tag">Underground Radio · 24/7</span>
+      </div>
+      <a class="pm-icon-btn" href="contact.html" aria-label="Profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
       </a>
-    </div>
+    </header>
+
+    <!-- HeroPlayerCard -->
+    <section class="pm-section" aria-labelledby="pm-nowplaying">
+      <div class="pm-section-head">
+        <h2 class="pm-h2" id="pm-nowplaying">Now Playing</h2>
+        <a class="pm-view-all" href="https://planetmp3.net" target="_blank" rel="noopener">Open Player →</a>
+      </div>
+      <a class="pm-hero" href="https://planetmp3.net" target="_blank" rel="noopener">
+        <div class="pm-hero-media pm-skeleton">
+          <img class="pm-hero-art pm-lazy" src="inlet-knight-cover.webp" alt="Inlet Knight album artwork" width="800" height="800" fetchpriority="high"/>
+          <div class="pm-hero-scrim" aria-hidden="true"></div>
+          <div class="pm-hero-top">
+            <span class="pm-live"><span class="pm-live-dot" aria-hidden="true"></span>Live</span>
+            <span class="pm-bolt" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8L21 9h-7l-1-7z"/></svg>
+            </span>
+          </div>
+          <div class="pm-hero-info">
+            <div class="pm-hero-text">
+              <span class="pm-hero-kicker">On Air Now</span>
+              <h3 class="pm-hero-title">3AM</h3>
+              <span class="pm-hero-artist">Inlet Knight — Late Night Depth</span>
+            </div>
+            <button class="pm-fave" type="button" data-fave aria-pressed="false" aria-label="Add to favorites">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.7-9.2C.8 8.6 2.6 5 6.2 5c2.2 0 3.6 1.2 5.8 3.6C14.2 6.2 15.6 5 17.8 5c3.6 0 5.4 3.6 3.9 6.8C19.5 16.3 12 21 12 21z"/></svg>
+            </button>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- Featured channels -->
+    <section class="pm-section" id="channels" aria-labelledby="pm-channels">
+      <div class="pm-section-head">
+        <h2 class="pm-h2" id="pm-channels">Featured Channels</h2>
+        <a class="pm-view-all" href="https://planetmp3.net" target="_blank" rel="noopener">View All →</a>
+      </div>
+      <div class="pm-rail">
+        <a class="pm-channel" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <span class="pm-channel-icon pm-ch-globe" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.6 4 5.7 4 9s-1.2 6.4-4 9c-2.8-2.6-4-5.7-4-9s1.2-6.4 4-9z"/></svg>
+          </span>
+          <span class="pm-channel-body">
+            <span class="pm-channel-title">Top 100</span>
+            <span class="pm-channel-sub">Today's Hits</span>
+          </span>
+        </a>
+        <a class="pm-channel" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <span class="pm-channel-icon pm-ch-chill" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r=".8" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r=".8" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8"/></svg>
+          </span>
+          <span class="pm-channel-body">
+            <span class="pm-channel-title">Chill Zone</span>
+            <span class="pm-channel-sub">Late Night Vibes</span>
+          </span>
+        </a>
+        <a class="pm-channel" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <span class="pm-channel-icon pm-ch-under" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 12h2l2-6 3 12 3-9 2 5 2-2h4"/></svg>
+          </span>
+          <span class="pm-channel-body">
+            <span class="pm-channel-title">Underground</span>
+            <span class="pm-channel-sub">Bass Culture</span>
+          </span>
+        </a>
+        <a class="pm-channel" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <span class="pm-channel-icon pm-ch-bolt" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8L21 9h-7l-1-7z"/></svg>
+          </span>
+          <span class="pm-channel-body">
+            <span class="pm-channel-title">90s Vibes</span>
+            <span class="pm-channel-sub">Throwback Energy</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Discover new music -->
+    <section class="pm-section" aria-labelledby="pm-discover">
+      <div class="pm-section-head">
+        <h2 class="pm-h2" id="pm-discover">Discover New Music</h2>
+        <a class="pm-view-all" href="library.html">View All →</a>
+      </div>
+      <div class="pm-track-list">
+        <a class="pm-track" href="together.html">
+          <img class="pm-track-art pm-lazy" src="together-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          <span class="pm-track-info">
+            <span class="pm-track-title">Together — EP</span>
+            <span class="pm-track-sub">Inlet Knight · CC008 · 4 tracks</span>
+          </span>
+          <span class="pm-track-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>
+          </span>
+        </a>
+        <a class="pm-track" href="inlet-knight.html">
+          <img class="pm-track-art pm-lazy" src="inlet-knight-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          <span class="pm-track-info">
+            <span class="pm-track-title">Inlet Knight — Album</span>
+            <span class="pm-track-sub">Inlet Knight · CC005 · 11 tracks</span>
+          </span>
+          <span class="pm-track-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>
+          </span>
+        </a>
+        <a class="pm-track" href="artists/inlet-knight.html">
+          <img class="pm-track-art pm-lazy" src="artists/inlet-knight.webp" alt="" width="480" height="480" loading="lazy"/>
+          <span class="pm-track-info">
+            <span class="pm-track-title">Inlet Knight</span>
+            <span class="pm-track-sub">Artist · House from Cumberland, BC</span>
+          </span>
+          <span class="pm-track-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Recently played -->
+    <section class="pm-section" aria-labelledby="pm-recent">
+      <div class="pm-section-head">
+        <h2 class="pm-h2" id="pm-recent">Recently Played</h2>
+        <a class="pm-view-all" href="library.html">View All →</a>
+      </div>
+      <div class="pm-track-list">
+        <a class="pm-track" href="inlet-knight.html">
+          <img class="pm-track-art pm-lazy" src="inlet-knight-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          <span class="pm-track-info">
+            <span class="pm-track-title">3AM</span>
+            <span class="pm-track-sub">Inlet Knight · 2:59</span>
+          </span>
+          <span class="pm-track-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>
+          </span>
+        </a>
+        <a class="pm-track" href="together.html">
+          <img class="pm-track-art pm-lazy" src="together-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          <span class="pm-track-info">
+            <span class="pm-track-title">On My Mind</span>
+            <span class="pm-track-sub">Inlet Knight · 5:12</span>
+          </span>
+          <span class="pm-track-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>
+          </span>
+        </a>
+        <a class="pm-track" href="inlet-knight.html">
+          <img class="pm-track-art pm-lazy" src="inlet-knight-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          <span class="pm-track-info">
+            <span class="pm-track-title">The Get Down</span>
+            <span class="pm-track-sub">Inlet Knight · 1:37</span>
+          </span>
+          <span class="pm-track-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5-13-7.5z"/></svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Your playlists -->
+    <section class="pm-section" aria-labelledby="pm-playlists">
+      <div class="pm-section-head">
+        <h2 class="pm-h2" id="pm-playlists">Your Playlists</h2>
+        <a class="pm-view-all" href="https://planetmp3.net" target="_blank" rel="noopener">View All →</a>
+      </div>
+      <div class="pm-playlists">
+        <a class="pm-playlist" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <span class="pm-playlist-art">
+            <span class="pm-playlist-badge">Auto Mix</span>
+            <img class="pm-lazy" src="inlet-knight-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          </span>
+          <span class="pm-playlist-body">
+            <span class="pm-playlist-title">Late Night Drive</span>
+            <span class="pm-playlist-sub">Shaped for right now</span>
+          </span>
+        </a>
+        <a class="pm-playlist" href="https://planetmp3.net" target="_blank" rel="noopener">
+          <span class="pm-playlist-art">
+            <span class="pm-playlist-badge">60 Min</span>
+            <img class="pm-lazy" src="together-cover-480.webp" alt="" width="480" height="480" loading="lazy"/>
+          </span>
+          <span class="pm-playlist-body">
+            <span class="pm-playlist-title">Morning Clarity</span>
+            <span class="pm-playlist-sub">Custom-length mix</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Request a song -->
+    <section class="pm-section" aria-labelledby="pm-request">
+      <form class="pm-card pm-request" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <h2 class="pm-h2" id="pm-request">Request a Song</h2>
+        <p class="pm-request-sub">What do you wanna hear? Drop it below and we'll spin it.</p>
+        <div class="pm-request-row">
+          <input type="text" name="song-request" placeholder="Artist — track title" required autocomplete="off" aria-label="Song request"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit" aria-label="Send request">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17l17-8.5-17-8.5z"/></svg>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <a class="pm-stream-cta fx-chromatic" href="https://planetmp3.net" target="_blank" rel="noopener">
+      Stream Now <span aria-hidden="true">↗</span>
+    </a>
+
   </div>
 </main>
+
+<!-- BottomNavigation -->
+<nav class="pm-dock" aria-label="Planet MP3">
+  <a href="planet.html" class="is-active" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+    Home
+  </a>
+  <a href="library.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    Search
+  </a>
+  <a href="#channels">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg>
+    Channels
+  </a>
+  <a href="library.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+    Library
+  </a>
+  <a href="contact.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    Profile
+  </a>
+</nav>
 
 <footer class="footer">
   <div class="band">
@@ -281,6 +960,38 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
+
+  // Artwork fade-in + remove skeleton shimmer once loaded
+  document.querySelectorAll('img.pm-lazy').forEach(function (img) {
+    function done() {
+      img.classList.add('is-loaded');
+      var wrap = img.closest('.pm-skeleton');
+      if (wrap) wrap.classList.remove('pm-skeleton');
+    }
+    if (img.complete && img.naturalWidth) done();
+    else {
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    }
+  });
+
+  // Favorite toggle micro-interaction (persisted locally)
+  var fave = document.querySelector('[data-fave]');
+  if (fave) {
+    var KEY = 'pm3:fave:now-playing';
+    function paint(on) {
+      fave.setAttribute('aria-pressed', on ? 'true' : 'false');
+      fave.querySelector('svg').setAttribute('fill', on ? 'currentColor' : 'none');
+    }
+    try { paint(localStorage.getItem(KEY) === '1'); } catch (e) {}
+    fave.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var on = fave.getAttribute('aria-pressed') !== 'true';
+      paint(on);
+      try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e2) {}
+    });
+  }
 })();
 </script>
 </body>
