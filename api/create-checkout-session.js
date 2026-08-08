@@ -1,6 +1,7 @@
 /**
  * Vercel serverless: create a Stripe Checkout Session for the full bag.
- * Requires env STRIPE_SECRET_KEY. Optional STRIPE_CURRENCY (default cad).
+ * Requires env STRIPE_SECRET_KEY (prefer a restricted key rk_…).
+ * Optional STRIPE_CURRENCY (default cad).
  *
  * Physical goods and digital downloads (dg-* SKUs, fulfilled by email —
  * shipping is only collected when the bag contains a physical item).
@@ -8,33 +9,16 @@
  * POST /api/create-checkout-session
  * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
  */
-const CATALOG = {
-  "sm-simple-tee": { name: "Micro Tee", unitAmount: 3200, stock: 80 },
-  "sm-globe-tee": { name: "Logo Tee", unitAmount: 3400, stock: 40 },
-  "sm-longsleeve": { name: "Long Sleeve", unitAmount: 4200, stock: 40 },
-  "sm-sleeve-tee": { name: "Sleeve Tee", unitAmount: 4400, stock: 36 },
-  "sm-hoodie": { name: "Hoodie", unitAmount: 6800, stock: 30 },
-  "sm-crewneck": { name: "Crewneck", unitAmount: 5800, stock: 30 },
-  "sm-tote": { name: "Canvas Tote", unitAmount: 2400, stock: 50 },
-  "sm-mug": { name: "Mug", unitAmount: 1800, stock: 40 },
-  "sm-bikini": { name: "Bikini", unitAmount: 4800, stock: 20 },
-  "sm-cap": { name: "Dad Cap", unitAmount: 3600, stock: 50 },
-  "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200, stock: 60 },
-  "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800, stock: 100 },
-  "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000, stock: 40 },
-  "sm-cassette-inlet-knight": { name: "Inlet Knight — Cassette", unitAmount: 2000, stock: 36 },
-  "sm-poly-outer": { name: "Poly Outer", unitAmount: 500, stock: 100 },
-  "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200, stock: 80 },
-  "dg-together": { name: "Together — Digital (EP)", unitAmount: 2000, digital: true },
-  "dg-inlet-knight": { name: "Inlet Knight — Digital (Album)", unitAmount: 900, digital: true },
-  "dg-enter": { name: "Enter, Double-Edge — Digital (EP)", unitAmount: 900, digital: true },
-};
+const { PRODUCTS, SHIPPING, priceIdFromEnv } = require("./catalog");
 
-/** Flat shipping rates (CAD cents). Ships CA + US only. */
-const SHIPPING = {
-  ca: { label: "Canada — tracked", amount: 800 },
-  us: { label: "United States — tracked", amount: 1400 },
-};
+function formBody(params) {
+  return Object.entries(params)
+    .map(
+      ([k, v]) =>
+        `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
+    )
+    .join("&");
+}
 
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -86,14 +70,16 @@ module.exports = async function handler(req, res) {
     body.origin ||
     (req.headers.origin
       ? req.headers.origin
-      : `https://${req.headers.host || "vcr-records.vercel.app"}`);
+      : `https://${req.headers.host || "clubcopy.ca"}`);
 
   const lineParams = {};
   let lineIndex = 0;
   let hasPhysical = false;
+  const skusOrdered = [];
+
   for (const raw of items) {
     const sku = String(raw.sku || "").toLowerCase();
-    const product = CATALOG[sku];
+    const product = PRODUCTS[sku];
     if (!product) {
       res.statusCode = 400;
       res.setHeader("Content-Type", "application/json");
@@ -114,36 +100,51 @@ module.exports = async function handler(req, res) {
         })
       );
     }
+
     const bits = [];
     if (raw.colour) bits.push(String(raw.colour));
     if (raw.size) bits.push(`Size ${raw.size}`);
     const description = bits.join(" · ") || undefined;
     const name = `${product.name}${description ? ` — ${description}` : ""}`;
+    const stripePrice = priceIdFromEnv(sku);
 
     lineParams[`line_items[${lineIndex}][quantity]`] = qty;
-    lineParams[`line_items[${lineIndex}][price_data][currency]`] = currency;
-    lineParams[`line_items[${lineIndex}][price_data][unit_amount]`] =
-      product.unitAmount;
-    lineParams[`line_items[${lineIndex}][price_data][product_data][name]`] =
-      name;
-    if (raw.image && String(raw.image).startsWith("http")) {
+
+    if (stripePrice) {
+      // Prefer Dashboard Price IDs once synced (scripts/sync-stripe-catalog.js)
+      lineParams[`line_items[${lineIndex}][price]`] = stripePrice;
+    } else {
+      lineParams[`line_items[${lineIndex}][price_data][currency]`] = currency;
+      lineParams[`line_items[${lineIndex}][price_data][unit_amount]`] =
+        product.unitAmount;
+      lineParams[`line_items[${lineIndex}][price_data][product_data][name]`] =
+        name;
+      if (raw.image && String(raw.image).startsWith("http")) {
+        lineParams[
+          `line_items[${lineIndex}][price_data][product_data][images][0]`
+        ] = String(raw.image);
+      }
       lineParams[
-        `line_items[${lineIndex}][price_data][product_data][images][0]`
-      ] = String(raw.image);
+        `line_items[${lineIndex}][price_data][product_data][metadata][sku]`
+      ] = sku;
+      if (product.format) {
+        lineParams[
+          `line_items[${lineIndex}][price_data][product_data][metadata][format]`
+        ] = product.format;
+      }
+      if (raw.colour) {
+        lineParams[
+          `line_items[${lineIndex}][price_data][product_data][metadata][colour]`
+        ] = String(raw.colour);
+      }
+      if (raw.size) {
+        lineParams[
+          `line_items[${lineIndex}][price_data][product_data][metadata][size]`
+        ] = String(raw.size);
+      }
     }
-    lineParams[
-      `line_items[${lineIndex}][price_data][product_data][metadata][sku]`
-    ] = sku;
-    if (raw.colour) {
-      lineParams[
-        `line_items[${lineIndex}][price_data][product_data][metadata][colour]`
-      ] = String(raw.colour);
-    }
-    if (raw.size) {
-      lineParams[
-        `line_items[${lineIndex}][price_data][product_data][metadata][size]`
-      ] = String(raw.size);
-    }
+
+    skusOrdered.push(sku);
     lineIndex += 1;
   }
 
@@ -182,6 +183,9 @@ module.exports = async function handler(req, res) {
     mode: "payment",
     success_url: `${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/cart.html?canceled=1`,
+    "metadata[skus]": skusOrdered.join(","),
+    "metadata[has_physical]": hasPhysical ? "1" : "0",
+    "metadata[source]": "clubcopy-cart",
     ...(hasPhysical ? shippingParams : {}),
     ...lineParams,
   };
@@ -195,12 +199,7 @@ module.exports = async function handler(req, res) {
           Authorization: `Bearer ${secret}`,
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: Object.entries(flat)
-          .map(
-            ([k, v]) =>
-              `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
-          )
-          .join("&"),
+        body: formBody(flat),
       }
     );
     const data = await stripeRes.json();
