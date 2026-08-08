@@ -378,7 +378,7 @@
       if (sub) {
         sub.textContent = nextTrack
           ? upNextLabel(nextTrack)
-          : "End of preview · Add to bag";
+          : "End of preview · Add to cart";
       }
       var buy = ui.bumper.querySelector('[data-act="buy-vinyl"]');
       if (buy) {

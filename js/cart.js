@@ -82,7 +82,7 @@
     document.querySelectorAll('[data-cart-count]').forEach(function (el) {
       el.textContent = String(n);
       el.hidden = n < 1;
-      el.setAttribute('aria-label', n + ' item' + (n === 1 ? '' : 's') + ' in bag');
+      el.setAttribute('aria-label', n + ' item' + (n === 1 ? '' : 's') + ' in cart');
     });
     document.querySelectorAll('[data-cart-link]').forEach(function (el) {
       el.classList.toggle('has-items', n > 0);
