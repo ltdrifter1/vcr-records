@@ -181,46 +181,92 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   container-type: inline-size;
   width: min(500px, 86vw);
   aspect-ratio: 100 / 63;
-  background: linear-gradient(172deg, #232323 0%, #131313 55%, #1B1B1B 100%);
-  border-radius: 8px;
+  background:
+    radial-gradient(120% 80% at 18% 12%, rgba(255, 255, 255, .07), transparent 42%),
+    radial-gradient(90% 70% at 82% 88%, rgba(0, 0, 0, .35), transparent 50%),
+    repeating-linear-gradient(
+      118deg,
+      rgba(255, 255, 255, .015) 0 1px,
+      transparent 1px 3px
+    ),
+    linear-gradient(172deg, #2a2a28 0%, #171715 42%, #0f0f0d 72%, #1a1a18 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, .55);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .14) inset,
-    0 -1px 0 rgba(0, 0, 0, .6) inset,
-    0 34px 70px -18px rgba(0, 0, 0, .8),
-    0 8px 18px rgba(0, 0, 0, .4);
+    0 1px 0 rgba(255, 255, 255, .16) inset,
+    0 -2px 0 rgba(0, 0, 0, .55) inset,
+    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    0 34px 70px -18px rgba(0, 0, 0, .82),
+    0 8px 18px rgba(0, 0, 0, .45);
   transform-style: preserve-3d;
   transition: transform .8s var(--ra-ease), box-shadow .8s var(--ra-ease);
   will-change: transform;
 }
 .ra-stage:hover .ra-cassette {
   transform: rotateX(4deg) rotateY(-5deg) translateY(-6px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, .18) inset,
+    0 -2px 0 rgba(0, 0, 0, .55) inset,
+    0 42px 80px -16px rgba(0, 0, 0, .88),
+    0 12px 24px rgba(0, 0, 0, .5);
 }
-/* screws */
+/* plastic scuffs + edge bevel */
 .ra-cassette::before,
 .ra-cassette::after {
   content: "";
   position: absolute;
-  width: 7px; height: 7px;
+  width: 8px; height: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #52524c, #0a0a08 70%);
-  top: 8px;
+  background:
+    radial-gradient(circle at 35% 28%, #6a6a62, #2c2c28 42%, #080807 72%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .65),
+    0 1px 0 rgba(255, 255, 255, .18) inset;
+  top: 9px;
+  z-index: 2;
 }
-.ra-cassette::before { left: 10px; box-shadow: 0 calc(100% + 380%) 0 0 #0d0d0a; }
-.ra-cassette::after  { right: 10px; }
+.ra-cassette::before {
+  left: 11px;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .65),
+    0 1px 0 rgba(255, 255, 255, .18) inset,
+    0 calc(100% + 380%) 0 0 #121210,
+    0 calc(100% + 380%) 0 1px rgba(0, 0, 0, .6);
+}
+.ra-cassette::after { right: 11px; }
 
 .ra-cassette-label {
   position: absolute;
   inset: 7% 6% 34% 6%;
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .4) inset;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .55),
+    0 1px 2px rgba(0, 0, 0, .35) inset,
+    0 2px 6px rgba(0, 0, 0, .25);
 }
 /* Blank generic label: aged paper, ruled lines, dymo strip */
 .ra-cassette-label--blank {
   background:
-    linear-gradient(160deg, rgba(22, 21, 15, .045), transparent 45%),
-    #F1EDE1;
+    radial-gradient(ellipse at 20% 15%, rgba(255, 248, 220, .55), transparent 45%),
+    radial-gradient(ellipse at 85% 70%, rgba(140, 110, 60, .12), transparent 40%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(80, 60, 30, .03) 0 1px,
+      transparent 1px 2px
+    ),
+    linear-gradient(160deg, #F4EED8 0%, #E8DFC4 48%, #D9CEB0 100%);
   display: block;
+}
+.ra-cassette-label--blank::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, .18) 48%, transparent 56%),
+    radial-gradient(circle at 70% 30%, rgba(0, 0, 0, .04), transparent 30%);
+  pointer-events: none;
+  mix-blend-mode: soft-light;
 }
 .ra-cassette-label--blank .side {
   position: absolute;
@@ -228,10 +274,12 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   bottom: 12%;
   font-family: var(--ra-mono);
   font-size: clamp(8px, 2.4cqw, 13px);
-  border: 1px solid #16150F;
-  color: #16150F;
+  border: 1px solid rgba(40, 34, 22, .85);
+  color: #2a2418;
+  background: rgba(255, 250, 235, .35);
   padding: 1px 7px;
   line-height: 1.5;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .35) inset;
 }
 .ra-label-lines {
   position: absolute;
@@ -243,32 +291,38 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 .ra-label-lines span {
   display: block;
   height: 1px;
-  background: rgba(22, 21, 15, .28);
+  background: linear-gradient(90deg, rgba(60, 48, 28, .38), rgba(60, 48, 28, .18));
 }
-/* Label-maker (embossed tape) strip */
+/* Label-maker (embossed tape) strip — 90s Dymo feel */
 .ra-dymo {
   position: absolute;
-  left: 6%;
-  top: 16%;
-  max-width: 88%;
-  transform: rotate(-1.1deg);
-  background: linear-gradient(180deg, #23231E 0%, #101009 48%, #1C1C16 100%);
-  color: #F5F2E8;
+  left: 7%;
+  top: 18%;
+  max-width: 78%;
+  transform: rotate(-0.8deg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .08), transparent 35%),
+    linear-gradient(180deg, #2a2a24 0%, #0c0c09 46%, #1a1a14 100%);
+  color: #EDE8D8;
   font-family: var(--ra-mono);
   font-weight: 500;
-  font-size: clamp(10px, 3.2cqw, 19px);
-  letter-spacing: .2em;
+  font-size: clamp(11px, 3.4cqw, 18px);
+  letter-spacing: .18em;
   text-transform: uppercase;
   white-space: nowrap;
-  padding: .45em .9em .4em;
-  border-radius: 2px;
+  padding: .5em .95em .42em;
+  border-radius: 1px;
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, .28),
-    0 -1px 1px rgba(0, 0, 0, .9);
+    0 1px 0 rgba(255, 255, 255, .35),
+    0 -1px 1px rgba(0, 0, 0, .95),
+    1px 0 0 rgba(0, 0, 0, .35);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .14) inset,
-    0 -1px 0 rgba(0, 0, 0, .6) inset,
-    0 2px 5px rgba(0, 0, 0, .45);
+    0 1px 0 rgba(255, 255, 255, .2) inset,
+    0 -1px 0 rgba(0, 0, 0, .7) inset,
+    0 0 0 1px rgba(0, 0, 0, .55),
+    0 2px 4px rgba(0, 0, 0, .4),
+    1px 2px 0 rgba(0, 0, 0, .12);
+  filter: contrast(1.05);
 }
 
 /* tape window + reels */
@@ -276,22 +330,49 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   position: absolute;
   left: 22%; right: 22%;
   top: 42%; height: 26%;
-  background: linear-gradient(180deg, #050505, #101010);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .06), transparent 28%),
+    linear-gradient(180deg, #080808, #141412 55%, #0a0a09);
   border-radius: 999px;
-  box-shadow: 0 0 0 3px #2c2c2c, 0 2px 6px rgba(0, 0, 0, .8) inset;
+  box-shadow:
+    0 0 0 2px #3a3a36,
+    0 0 0 4px #1c1c1a,
+    0 3px 8px rgba(0, 0, 0, .85) inset,
+    0 1px 0 rgba(255, 255, 255, .08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 7%;
+  overflow: hidden;
+}
+.ra-cassette-window::before {
+  content: "";
+  position: absolute;
+  left: 28%;
+  right: 28%;
+  top: 42%;
+  height: 28%;
+  background:
+    linear-gradient(180deg, #6b4a28, #3d2a16 55%, #2a1c0e);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .5) inset;
+  opacity: .9;
+  z-index: 0;
 }
 .ra-reel {
+  position: relative;
+  z-index: 1;
   width: 30%;
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle, #0a0a0a 0 30%, transparent 31%),
-    repeating-conic-gradient(#EDE9DD 0 14deg, #131313 14deg 60deg);
-  box-shadow: 0 0 0 2px #EDE9DD, 0 0 0 6px #232323;
+    radial-gradient(circle, #0a0a0a 0 28%, transparent 29%),
+    radial-gradient(circle at 40% 35%, rgba(255, 255, 255, .12), transparent 45%),
+    repeating-conic-gradient(#E8E2D0 0 12deg, #1a1a18 12deg 55deg);
+  box-shadow:
+    0 0 0 2px #E8E2D0,
+    0 0 0 5px #2a2a26,
+    0 2px 4px rgba(0, 0, 0, .55) inset;
   animation: ra-reel-spin 3.2s linear infinite;
   animation-play-state: paused;
 }
@@ -303,9 +384,13 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   position: absolute;
   left: 26%; right: 26%; bottom: 5%;
   height: 15%;
-  background: linear-gradient(180deg, #101010, #060606);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .05), transparent 30%),
+    linear-gradient(180deg, #181816, #070706);
   clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, .07) inset,
+    0 -1px 0 rgba(0, 0, 0, .5) inset;
 }
 
 .ra-stage-shadow {
