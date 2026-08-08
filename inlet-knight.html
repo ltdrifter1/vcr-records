@@ -6,7 +6,7 @@
   <title>Inlet Knight — Inlet Knight — Club Copy</title>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="Inlet Knight — the self-titled debut album by Inlet Knight. Eleven tracks. Vinyl and digital on Club Copy (CC005)."/>
+  <meta name="description" content="Inlet Knight — the self-titled debut album by Inlet Knight. Eleven tracks. Cassette and digital on Club Copy (CC005)."/>
   <meta name="theme-color" content="#050505"/>
   <meta property="og:title" content="Inlet Knight — Inlet Knight"/>
   <meta property="og:description" content="The self-titled debut album by Inlet Knight. Eleven tracks on Club Copy."/>
@@ -82,15 +82,19 @@
 
       <div class="ra-stage" id="artworkWrap" data-tilt-stage>
         <div class="ra-stage-shadow" aria-hidden="true"></div>
-        <div class="ra-vinyl" id="releaseDisc" aria-hidden="true">
-          <div class="ra-vinyl-disc">
-            <div class="ra-vinyl-label">
-              <div>
-                <div class="l1">Inlet Knight</div>
-                <div class="l2">CC005 · 33&#8531; RPM · Stereo<br/>Club Copy Records</div>
-              </div>
+        <div class="ra-cassette" id="releaseDisc" aria-hidden="true">
+          <div class="ra-cassette-label ra-cassette-label--blank">
+            <div class="ra-dymo">INLET&nbsp;KNIGHT&nbsp;-&nbsp;INLET&nbsp;KNIGHT</div>
+            <div class="ra-label-lines">
+              <span></span><span></span>
             </div>
+            <div class="side">A</div>
           </div>
+          <div class="ra-cassette-window">
+            <div class="ra-reel"></div>
+            <div class="ra-reel ra-reel--b"></div>
+          </div>
+          <div class="ra-cassette-foot"></div>
         </div>
         <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
           <span class="glyph" aria-hidden="true">
@@ -109,14 +113,14 @@
         <h1 class="ra-hero-title">Inlet Knight</h1>
         <div class="ra-hero-facts">
           11 Track Album<br/>
-          12&Prime; Black Vinyl Edition<br/>
+          Limited Cassette Edition<br/>
           <span class="scarce">In Stock</span>
         </div>
         <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <meta itemprop="priceCurrency" content="CAD"/>
-          <meta itemprop="price" content="36.00"/>
+          <meta itemprop="price" content="20.00"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
-          <a class="btn btn-light" href="#acquire">Buy Vinyl — $36 CAD</a>
+          <a class="btn btn-light" href="#acquire">Buy Cassette — $20 CAD</a>
           <button type="button" class="btn btn-outline" id="heroListen">Listen</button>
         </div>
       </div>
@@ -139,7 +143,7 @@
 
         <div class="ra-deck release-console ra-reveal" role="region" aria-label="Preview player">
           <div class="ra-deck-head">
-            <span>CC Turntable</span>
+            <span>CC Tape Deck</span>
             <span class="live" id="ipTrackIndex">01 / 11</span>
           </div>
           <div class="ra-deck-window" aria-hidden="true">
@@ -256,10 +260,10 @@
 
         <div class="ra-format ra-reveal">
           <div role="radiogroup" aria-label="Format">
-            <button type="button" class="ra-format-opt" data-format="vinyl" role="radio" aria-checked="true">
+            <button type="button" class="ra-format-opt" data-format="cassette" role="radio" aria-checked="true">
               <span class="dot" aria-hidden="true"></span>
-              <span class="fmt">Vinyl<small>12&Prime; black vinyl · includes download code</small></span>
-              <span class="price">$36 CAD</span>
+              <span class="fmt">Cassette<small>Includes digital download code</small></span>
+              <span class="price">$20 CAD</span>
             </button>
             <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="false">
               <span class="dot" aria-hidden="true"></span>
@@ -275,8 +279,8 @@
         </div>
 
         <div class="ra-redeem ra-reveal">
-          <h3 id="redeemHead">Own the record? — Download code</h3>
-          <p class="hint">Every vinyl ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
+          <h3 id="redeemHead">Own the tape? — Download code</h3>
+          <p class="hint">Every cassette ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
           <form id="redeemForm" novalidate aria-labelledby="redeemHead">
             <label class="sr-only" for="redeemCode">Download code</label>
             <input id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
@@ -310,15 +314,15 @@
           <p class="credo">
             Written and performed by Inlet Knight.<br/>
             Produced by CJ Archer for Club Copy Records.<br/>
-            Pressed on 12&Prime; black vinyl.
+            Dubbed to limited cassette.
           </p>
         </div>
         <dl class="ra-specs ra-reveal">
           <div><dt>Catalogue</dt><dd>CC005</dd></div>
           <div><dt>Artist</dt><dd>Inlet Knight</dd></div>
-          <div><dt>Format</dt><dd>12&Prime; Album · 11 tracks</dd></div>
+          <div><dt>Format</dt><dd>Cassette Album · 11 tracks</dd></div>
           <div><dt>Year</dt><dd>2026</dd></div>
-          <div><dt>Edition</dt><dd>12&Prime; black vinyl</dd></div>
+          <div><dt>Edition</dt><dd>Limited cassette</dd></div>
           <div><dt>Produced by</dt><dd>CJ Archer · Club Copy</dd></div>
         </dl>
       </div>
@@ -388,12 +392,12 @@ VCRReleaseBind({
 /* Purchase module — the single acquisition point (same SKUs and cart flow) */
 (function() {
   const FORMATS = {
-    vinyl:   { sku: 'sm-vinyl-inlet-knight', name: 'Inlet Knight \u2014 Vinyl', price: 36 },
-    digital: { sku: 'dg-inlet-knight', name: 'Inlet Knight \u2014 Digital (Album)', price: 9 }
+    cassette: { sku: 'sm-cassette-inlet-knight', name: 'Inlet Knight \u2014 Cassette', price: 20 },
+    digital:  { sku: 'dg-inlet-knight', name: 'Inlet Knight \u2014 Digital (Album)', price: 9 }
   };
   const opts = document.querySelectorAll('.ra-format-opt');
   const buyBtn = $('buyBtn');
-  let currentFmt = 'vinyl';
+  let currentFmt = 'cassette';
   let resetTimer = null;
 
   opts.forEach(opt => {
@@ -441,7 +445,7 @@ VCRReleaseBind({
     e.preventDefault();
     const c = code.value.trim().toUpperCase();
     if (c.length < 6) {
-      setStatus('That code looks too short \u2014 check the insert with your vinyl and try again.', 'err');
+      setStatus('That code looks too short \u2014 check the insert with your cassette and try again.', 'err');
       code.focus();
       return;
     }

@@ -6,10 +6,10 @@
   <title>Together — Inlet Knight — Club Copy</title>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="Together — an EP by Inlet Knight. Four tracks. Cassette and digital, $20 CAD on Club Copy."/>
+  <meta name="description" content="Together — an EP by Inlet Knight. Four tracks. Digital only, $20 CAD on Club Copy."/>
   <meta name="theme-color" content="#050505"/>
   <meta property="og:title" content="Together — Inlet Knight"/>
-  <meta property="og:description" content="Four tracks by Inlet Knight. Cassette and digital, $20 CAD."/>
+  <meta property="og:description" content="Four tracks by Inlet Knight. Digital only, $20 CAD."/>
   <meta property="og:type" content="music.playlist"/>
   <meta property="og:image" content="https://vcr-records.vercel.app/together-cover.webp"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,14 +113,14 @@
         <h1 class="ra-hero-title">Together</h1>
         <div class="ra-hero-facts">
           4 Track EP<br/>
-          Limited Cassette Edition<br/>
-          <span class="scarce">In Stock</span>
+          Digital Edition<br/>
+          <span class="scarce">Available Now</span>
         </div>
         <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <meta itemprop="priceCurrency" content="CAD"/>
           <meta itemprop="price" content="20.00"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
-          <a class="btn btn-light" href="#acquire">Buy Cassette — $20 CAD</a>
+          <a class="btn btn-light" href="#acquire">Buy Digital — $20 CAD</a>
           <button type="button" class="btn btn-outline" id="heroListen">Listen</button>
         </div>
       </div>
@@ -218,37 +218,22 @@
 
         <div class="ra-format ra-reveal">
           <div role="radiogroup" aria-label="Format">
-            <button type="button" class="ra-format-opt" data-format="cassette" role="radio" aria-checked="true">
+            <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="true">
               <span class="dot" aria-hidden="true"></span>
-              <span class="fmt">Cassette<small>Includes digital download code</small></span>
-              <span class="price">$20 CAD</span>
-            </button>
-            <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="false">
-              <span class="dot" aria-hidden="true"></span>
-              <span class="fmt">Digital<small>320kbps MP3 + lossless</small></span>
+              <span class="fmt">Digital<small>320kbps MP3 + lossless · delivered by email</small></span>
               <span class="price">$20 CAD</span>
             </button>
           </div>
           <button type="button" class="btn btn-fill ra-collect-btn" id="buyBtn">Add to Collection</button>
           <p class="ra-purchase-fine">
             <span>Secure checkout</span>
-            <a href="shipping.html">Shipping &amp; returns</a>
+            <span>Delivered by email</span>
           </p>
         </div>
 
         <div class="ra-redeem ra-reveal">
-          <h3 id="redeemHead">Own the tape? — Download code</h3>
-          <p class="hint">Every cassette ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
-          <form id="redeemForm" novalidate aria-labelledby="redeemHead">
-            <label class="sr-only" for="redeemCode">Download code</label>
-            <input id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
-            <div class="hidden" id="redeemEmailWrap">
-              <label class="sr-only" for="redeemEmail">Email for your download link</label>
-              <input id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
-            </div>
-            <button class="btn btn-ghost" type="submit" id="redeemBtn">Redeem</button>
-            <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
-          </form>
+          <h3 id="redeemHead">Digital only</h3>
+          <p class="hint">Together is a digital-only release. Your download link — 320kbps MP3 plus lossless files — arrives by email right after checkout.</p>
         </div>
 
       </div>
@@ -273,10 +258,10 @@
         <dl class="ra-specs ra-reveal">
           <div><dt>Catalogue</dt><dd>CC008</dd></div>
           <div><dt>Artist</dt><dd>Inlet Knight</dd></div>
-          <div><dt>Format</dt><dd>Cassette EP · 4 tracks</dd></div>
+          <div><dt>Format</dt><dd>Digital EP · 4 tracks</dd></div>
           <div><dt>Year</dt><dd>2026</dd></div>
-          <div><dt>Edition</dt><dd>Limited run of 50</dd></div>
-          <div><dt>Mastered for tape</dt><dd>Club Copy Records</dd></div>
+          <div><dt>Edition</dt><dd>Digital only</dd></div>
+          <div><dt>Mastered by</dt><dd>Club Copy Records</dd></div>
         </dl>
       </div>
     </div>
@@ -339,12 +324,11 @@ VCRReleaseBind({
 /* Purchase module — the single acquisition point (same SKUs and cart flow) */
 (function() {
   const FORMATS = {
-    cassette: { sku: 'sm-cassette-together', name: 'Together \u2014 Cassette', price: 20 },
-    digital:  { sku: 'dg-together', name: 'Together \u2014 Digital (EP)', price: 20 }
+    digital: { sku: 'dg-together', name: 'Together \u2014 Digital (EP)', price: 20 }
   };
   const opts = document.querySelectorAll('.ra-format-opt');
   const buyBtn = $('buyBtn');
-  let currentFmt = 'cassette';
+  let currentFmt = 'digital';
   let resetTimer = null;
 
   opts.forEach(opt => {
@@ -370,70 +354,6 @@ VCRReleaseBind({
   listen.addEventListener('click', () => {
     document.getElementById('listen')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     document.getElementById('ipPlayConsole')?.click();
-  });
-})();
-
-/* Download code redemption (unchanged flow) */
-(function() {
-  const form = $('redeemForm');
-  if (!form) return;
-  const code = $('redeemCode'), email = $('redeemEmail'),
-        emailWrap = $('redeemEmailWrap'), status = $('redeemStatus'), btn = $('redeemBtn');
-
-  function setStatus(msg, cls) {
-    status.textContent = msg;
-    status.classList.remove('err', 'ok');
-    if (cls) status.classList.add(cls);
-  }
-
-  code.addEventListener('input', () => { code.value = code.value.toUpperCase(); });
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const c = code.value.trim().toUpperCase();
-    if (c.length < 6) {
-      setStatus('That code looks too short \u2014 check the insert with your cassette and try again.', 'err');
-      code.focus();
-      return;
-    }
-    if (emailWrap.classList.contains('hidden')) {
-      emailWrap.classList.remove('hidden');
-      email.required = true;
-      btn.textContent = 'Send link';
-      setStatus('Where should we send your download link?');
-      email.focus();
-      return;
-    }
-    if (!email.value.trim() || !email.checkValidity()) {
-      setStatus('Enter a valid email so we can send your files.', 'err');
-      email.focus();
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = 'Sending\u2026';
-    try {
-      const res = await fetch('https://formspree.io/f/xdkwjzzr', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'download-code-redemption',
-          release: 'Together \u2014 Inlet Knight (CC008)',
-          code: c,
-          email: email.value.trim(),
-          page: location.href
-        })
-      });
-      if (!res.ok) throw new Error('send failed');
-      form.reset();
-      emailWrap.classList.add('hidden');
-      email.required = false;
-      btn.textContent = 'Redeem';
-      setStatus('Code received \u2014 your download link will arrive by email shortly.', 'ok');
-    } catch (err) {
-      btn.textContent = 'Send link';
-      setStatus('Something went wrong sending your code. Try again in a moment.', 'err');
-    }
-    btn.disabled = false;
   });
 })();
 
