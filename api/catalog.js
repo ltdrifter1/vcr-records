@@ -41,7 +41,7 @@ const PRODUCTS = {
   "sm-tote": { name: "Canvas Tote", unitAmount: 2400, stock: 50 },
   "sm-mug": { name: "Mug", unitAmount: 1800, stock: 40 },
   "sm-bikini": { name: "Bikini", unitAmount: 6000, stock: 20 },
-  "sm-cap": { name: "Dad Cap", unitAmount: 4500, stock: 50 },
+  "sm-cap": { name: "Cap", unitAmount: 4500, stock: 50 },
   "sm-slipmat": { name: "Slipmat Pair", unitAmount: 2200, stock: 60 },
   "sm-sticker-pack": { name: "Logo Sticker Pack", unitAmount: 800, stock: 100 },
   "sm-poster": { name: "Chrome Logo Poster", unitAmount: 2000, stock: 40 },
@@ -76,21 +76,21 @@ const PRODUCTS = {
 
   // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
   "bn-tee-enter": {
-    name: "Bundle — Micro Tee + Enter Digital",
+    name: "Micro Tee + Enter Digital",
     unitAmount: 4800,
     stock: 80,
     bundle: true,
     format: "bundle",
   },
   "bn-tee-together": {
-    name: "Bundle — Micro Tee + Together Digital",
+    name: "Micro Tee + Together Digital",
     unitAmount: 4800,
     stock: 80,
     bundle: true,
     format: "bundle",
   },
   "bn-tee-inlet-cass": {
-    name: "Bundle — Micro Tee + Inlet Knight Cassette",
+    name: "Micro Tee + Inlet Knight Cassette",
     unitAmount: 6000,
     stock: 36,
     bundle: true,
