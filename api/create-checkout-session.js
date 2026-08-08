@@ -28,6 +28,7 @@ const CATALOG = {
   "sm-pin": { name: "Logo Enamel Pin", unitAmount: 1200, stock: 80 },
   "dg-together": { name: "Together — Digital (EP)", unitAmount: 2000, digital: true },
   "dg-inlet-knight": { name: "Inlet Knight — Digital (Album)", unitAmount: 900, digital: true },
+  "dg-enter": { name: "Enter — Digital (EP)", unitAmount: 900, digital: true },
 };
 
 /** Flat shipping rates (CAD cents). Ships CA + US only. */
