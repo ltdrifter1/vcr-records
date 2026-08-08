@@ -68,14 +68,30 @@ async function findPriceByLookupKey(lookupKey) {
 }
 
 async function findProductByMetadataSku(sku) {
-  try {
-    const list = await stripe(
-      `/products/search?query=${encodeURIComponent(`metadata['sku']:'${sku}'`)}&limit=1`,
-      "GET"
-    );
-    if (list && list.data && list.data[0]) return list.data[0];
-  } catch (_) {
-    /* search may be unavailable */
+  const queries = [
+    `metadata['sku']:'${sku}' AND metadata['label']:'club-copy'`,
+    `metadata['sku']:'${sku}'`,
+  ];
+  for (const query of queries) {
+    try {
+      const list = await stripe(
+        `/products/search?query=${encodeURIComponent(query)}&limit=5`,
+        "GET"
+      );
+      const preferred = (list.data || []).find(
+        (p) => p.metadata && p.metadata.label === "club-copy"
+      );
+      if (preferred) return preferred;
+      // Skip Stripe auto-products (from Checkout price_data) — create our own.
+      const manual = (list.data || []).find(
+        (p) => !(p.metadata && p.metadata._stripe_product_source)
+      );
+      // Auto products often have no label; detect via update failure later.
+      if (query.includes("club-copy") && preferred) return preferred;
+      if (query.includes("club-copy")) continue;
+    } catch (_) {
+      /* search may be unavailable */
+    }
   }
   let startingAfter = null;
   for (let page = 0; page < 10; page += 1) {
@@ -83,10 +99,13 @@ async function findProductByMetadataSku(sku) {
       ? `/products?limit=100&active=true&starting_after=${startingAfter}`
       : "/products?limit=100&active=true";
     const all = await stripe(q, "GET");
-    const hit = (all.data || []).find(
-      (p) => p.metadata && p.metadata.sku === sku
+    const labeled = (all.data || []).find(
+      (p) =>
+        p.metadata &&
+        p.metadata.sku === sku &&
+        p.metadata.label === "club-copy"
     );
-    if (hit) return hit;
+    if (labeled) return labeled;
     if (!all.has_more || !(all.data && all.data.length)) break;
     startingAfter = all.data[all.data.length - 1].id;
   }
@@ -96,14 +115,23 @@ async function findProductByMetadataSku(sku) {
 async function ensureProduct({ name, sku, format, description }) {
   let product = await findProductByMetadataSku(sku);
   if (product) {
-    product = await stripe(`/products/${product.id}`, "POST", {
-      name,
-      description: description || undefined,
-      "metadata[sku]": sku,
-      "metadata[format]": format || "",
-      "metadata[label]": "club-copy",
-    });
-    return product;
+    try {
+      product = await stripe(`/products/${product.id}`, "POST", {
+        name,
+        description: description || undefined,
+        "metadata[sku]": sku,
+        "metadata[format]": format || "",
+        "metadata[label]": "club-copy",
+      });
+      return product;
+    } catch (err) {
+      const msg = String((err && err.message) || "");
+      if (!/cannot be updated/i.test(msg)) throw err;
+      console.log(
+        `  · auto product ${product.id} for ${sku} — creating club-copy product`
+      );
+      // Fall through and create a managed product.
+    }
   }
   return stripe("/products", "POST", {
     name,
