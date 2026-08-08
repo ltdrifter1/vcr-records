@@ -145,6 +145,6 @@
       }
     })
     .catch(function () {
-      list.innerHTML = '<p class="page-lead">Could not load the library. <a href="merch.html">Shop vinyl</a></p>';
+      list.innerHTML = '<p class="page-lead">Could not load the library. <a href="merch.html">Shop</a></p>';
     });
 })();
