@@ -13,9 +13,19 @@ Pages keep only page-specific rules inline.
 
 ## Commerce
 
-- **Physical** (vinyl, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
-- **Digital**: sold on-site (email delivery).
+- **Format prices (CAD):** Digital **$8** · Cassette **$20** · Vinyl **$45**
+- **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
+- **Digital**: sold on-site (email delivery after Checkout).
 - On-site listening uses **90s preview** clips in `previews/` only — full masters are not in the deploy.
+
+### Stripe setup
+
+1. Set `STRIPE_SECRET_KEY` on Vercel (prefer a restricted key `rk_…`).
+2. Sync Products/Prices: `STRIPE_SECRET_KEY=… node scripts/sync-stripe-catalog.js --music-only`
+3. Paste printed `STRIPE_PRICE_*` env vars into Vercel (optional; Checkout works with `price_data` until set).
+4. Add webhook endpoint `/api/stripe-webhook` for `checkout.session.completed` and set `STRIPE_WEBHOOK_SECRET`.
+
+See `docs/stripe-integration-plan.md` for the full plan.
 
 ## Develop
 

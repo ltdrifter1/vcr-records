@@ -87,6 +87,7 @@
           cassetteImage: (cassette && cassette.image) || release.cover,
           cassetteStock: cassette && cassette.stock != null ? Number(cassette.stock) : null,
           digitalPrice: digital && digital.price != null ? Number(digital.price) : null,
+          digitalSku: digital && digital.sku ? digital.sku : null,
         };
       });
   }
