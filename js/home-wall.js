@@ -15,11 +15,7 @@
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var noteBits = [];
-    if (rel.kind) noteBits.push(rel.kind);
-    if (rel.formats && rel.formats.cassette) noteBits.push('Cassette');
-    if (rel.formats && rel.formats.vinyl) noteBits.push('12″');
-    noteBits.push(rel.tracksCount === 1 ? '1 track' : (rel.tracksCount || 0) + ' tracks');
+    var note = rel.genre || '';
     return (
       '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
         '<div class="wall-art media-bezel fx-spec">' +
@@ -37,7 +33,7 @@
           (rel.catalogue ? '<p class="wall-cat cat-display cat-display--sm">' + esc(rel.catalogue) + '</p>' : '') +
           '<p class="wall-artist">' + esc(rel.artist) + '</p>' +
           '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
-          '<p class="wall-note broadcast-meta">' + esc(noteBits.join(' · ')) + '</p>' +
+          (note ? '<p class="wall-note broadcast-meta">' + esc(note) + '</p>' : '') +
         '</div>' +
       '</article>'
     );
