@@ -1,5 +1,5 @@
 /**
- * Vercel serverless: create a Stripe Checkout Session for the full bag.
+ * Vercel serverless: create a Stripe Checkout Session for the full cart.
  * Requires env STRIPE_SECRET_KEY (prefer a restricted key rk_…).
  * Optional STRIPE_CURRENCY (default cad).
  *
@@ -101,7 +101,7 @@ module.exports = async function handler(req, res) {
   if (!items.length) {
     res.statusCode = 400;
     res.setHeader("Content-Type", "application/json");
-    return res.end(JSON.stringify({ error: "Bag is empty" }));
+    return res.end(JSON.stringify({ error: "Cart is empty" }));
   }
 
   const currency = (process.env.STRIPE_CURRENCY || "cad").toLowerCase();

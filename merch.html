@@ -363,7 +363,7 @@
     .product-drawer dd { margin: 0; font-size: 15px; }
 
 
-    /* Add to bag ----------------------------------------------------------------------- */
+    /* Add to cart ----------------------------------------------------------------------- */
     .merch-add {
       height: 44px; width: 100%; margin-top: auto;
       border-radius: var(--pill);
@@ -428,7 +428,7 @@
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
-      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
           <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
@@ -449,7 +449,7 @@
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
-  <a href="cart.html">Bag</a>
+  <a href="cart.html">Cart</a>
 </div>
 
 <main id="main">
@@ -457,7 +457,7 @@
     <div class="band">
       <div class="shop-hero-inner">
         <img class="shop-hero-logo" src="merch/club-copy/logo-chrome-hero.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
-        <p class="shop-hero-sub">Cassettes · Apparel · Essentials</p>
+        <p class="shop-hero-sub">Bundles · Cassettes · Apparel</p>
       </div>
     </div>
   </section>
@@ -465,6 +465,7 @@
   <nav class="shop-jump" aria-label="Shop sections">
     <div class="shop-jump-inner">
       <a href="#music">Music</a>
+      <a href="#bundles">Bundles</a>
       <a href="#goods">Goods</a>
       <a href="#clothing">Clothing</a>
     </div>
@@ -493,7 +494,7 @@
             <p class="product-note">EP · Digital only · Double-Edge</p>
             <div class="product-actions">
               <a class="product-link" href="enter.html">Details</a>
-              <button class="merch-add" type="button">Add to bag</button>
+              <button class="merch-add" type="button">Add to cart</button>
             </div>
           </div>
         </article>
@@ -511,7 +512,7 @@
             <p class="product-note">EP · Digital only</p>
             <div class="product-actions">
               <a class="product-link" href="together.html">Details</a>
-              <button class="merch-add" type="button">Add to bag</button>
+              <button class="merch-add" type="button">Add to cart</button>
             </div>
           </div>
         </article>
@@ -529,8 +530,112 @@
             <p class="product-note">Album · Cassette · Digital</p>
             <div class="product-actions">
               <a class="product-link" href="inlet-knight.html">Details</a>
-              <button class="merch-add" type="button">Add to bag</button>
+              <button class="merch-add" type="button">Add to cart</button>
             </div>
+          </div>
+        </article>
+      </section>
+    </div>
+
+    <div class="shop-block" id="bundles">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow">02</p>
+          <h2>Bundles</h2>
+        </div>
+        <p class="section-note">Tee + album. One add, ships together.</p>
+      </header>
+      <section class="shop" aria-label="Bundles">
+        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Tee ships from BC · digital emailed after checkout" data-stock="In stock" data-stock-qty="80" data-sku="bn-tee-enter" data-name="Bundle — Micro Tee + Enter Digital" data-price="48">
+          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
+            <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee + Enter bundle"/>
+          </button>
+          <div class="product-body">
+            <div class="product-top">
+              <h3 class="product-name"><button type="button" data-open-product>Tee + Enter</button></h3>
+              <p class="product-price">$48 CAD</p>
+            </div>
+            <p class="product-note">Micro Tee + Enter, Double-Edge digital EP.</p>
+            <div class="opt-block">
+              <span class="opt-label">Tee colour</span>
+              <div class="merch-options">
+                <button type="button" class="merch-opt selected" data-group="bn-enter-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
+                <button type="button" class="merch-opt" data-group="bn-enter-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
+              </div>
+            </div>
+            <div class="opt-block">
+              <span class="opt-label">Tee size</span>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">XL</button>
+              </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
+            </div>
+            <button class="merch-add" type="button">Add to cart</button>
+          </div>
+        </article>
+
+        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Tee ships from BC · digital emailed after checkout" data-stock="In stock" data-stock-qty="80" data-sku="bn-tee-together" data-name="Bundle — Micro Tee + Together Digital" data-price="48">
+          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
+            <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee + Together bundle"/>
+          </button>
+          <div class="product-body">
+            <div class="product-top">
+              <h3 class="product-name"><button type="button" data-open-product>Tee + Together</button></h3>
+              <p class="product-price">$48 CAD</p>
+            </div>
+            <p class="product-note">Micro Tee + Together digital EP.</p>
+            <div class="opt-block">
+              <span class="opt-label">Tee colour</span>
+              <div class="merch-options">
+                <button type="button" class="merch-opt selected" data-group="bn-together-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
+                <button type="button" class="merch-opt" data-group="bn-together-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
+              </div>
+            </div>
+            <div class="opt-block">
+              <span class="opt-label">Tee size</span>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">XL</button>
+              </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
+            </div>
+            <button class="merch-add" type="button">Add to cart</button>
+          </div>
+        </article>
+
+        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-stock-qty="36" data-sku="bn-tee-inlet-cass" data-name="Bundle — Micro Tee + Inlet Knight Cassette" data-price="60">
+          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
+            <img src="inlet-knight-cover.webp" alt="Micro Tee + Inlet Knight cassette bundle"/>
+          </button>
+          <div class="product-body">
+            <div class="product-top">
+              <h3 class="product-name"><button type="button" data-open-product>Tee + Cassette</button></h3>
+              <p class="product-price">$60 CAD</p>
+            </div>
+            <p class="product-note">Micro Tee + Inlet Knight cassette (includes download).</p>
+            <div class="opt-block">
+              <span class="opt-label">Tee colour</span>
+              <div class="merch-options">
+                <button type="button" class="merch-opt selected" data-group="bn-cass-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
+                <button type="button" class="merch-opt" data-group="bn-cass-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
+              </div>
+            </div>
+            <div class="opt-block">
+              <span class="opt-label">Tee size</span>
+              <div class="merch-options" role="group" data-required="size">
+                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">S</button>
+                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">M</button>
+                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">L</button>
+                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">XL</button>
+              </div>
+            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
+            </div>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
       </section>
@@ -539,7 +644,7 @@
     <div class="shop-block" id="goods">
       <header class="section-head">
         <div>
-          <p class="eyebrow">02</p>
+          <p class="eyebrow">03</p>
           <h2>Goods</h2>
         </div>
         <p class="section-note">Record care and listening essentials.</p>
@@ -555,7 +660,7 @@
               <p class="product-price">$22 CAD</p>
             </div>
             <p class="product-note">Heavyweight felt slipmats. Sold as a pair.</p>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
@@ -569,7 +674,7 @@
               <p class="product-price">$5 CAD</p>
             </div>
             <p class="product-note">Crystal-clear 12″ record outer sleeve.</p>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
       </section>
@@ -578,20 +683,20 @@
     <div class="shop-block" id="clothing">
       <header class="section-head">
         <div>
-          <p class="eyebrow">03</p>
+          <p class="eyebrow">04</p>
           <h2>Clothing</h2>
         </div>
         <p class="section-note">Apparel and accessories.</p>
       </header>
       <section class="shop" aria-label="Clothing">
-        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-simple-tee" data-stock-qty="80" data-name="Micro Tee" data-price="32">
+        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-simple-tee" data-stock-qty="80" data-name="Micro Tee" data-price="40">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img id="img-simple-tee" src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Micro Tee</button></h3>
-              <p class="product-price">$32 CAD</p>
+              <p class="product-price">$40 CAD</p>
             </div>
             <p class="product-note">Heavyweight cotton tee with embroidered chest logo. Black or white.</p>
             <div class="opt-block">
@@ -611,18 +716,18 @@
               </div>
             <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-fit="Regular fit · long sleeve" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-longsleeve" data-stock-qty="40" data-name="Long Sleeve" data-price="42">
+        <article class="product merch-card" data-fit="Regular fit · long sleeve" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-longsleeve" data-stock-qty="40" data-name="Long Sleeve" data-price="53">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Long Sleeve</button></h3>
-              <p class="product-price">$42 CAD</p>
+              <p class="product-price">$53 CAD</p>
             </div>
             <p class="product-note">Heavyweight cotton long sleeve with chest logo.</p>
             <div class="opt-block">
@@ -635,18 +740,18 @@
               </div>
             <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-fit="Regular fit · sleeve print only" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-sleeve-tee" data-stock-qty="36" data-name="Sleeve Tee" data-price="44">
+        <article class="product merch-card" data-fit="Regular fit · sleeve print only" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-sleeve-tee" data-stock-qty="36" data-name="Sleeve Tee" data-price="55">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Long sleeve with oval mark down one sleeve" loading="lazy"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Sleeve Tee</button></h3>
-              <p class="product-price">$44 CAD</p>
+              <p class="product-price">$55 CAD</p>
             </div>
             <p class="product-note">Long sleeve tee with logo printed down one arm.</p>
             <div class="opt-block">
@@ -659,18 +764,18 @@
               </div>
             <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-hoodie" data-stock-qty="30" data-name="Hoodie" data-price="68">
+        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-hoodie" data-stock-qty="30" data-name="Hoodie" data-price="85">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie with small tonal chest logo" loading="lazy"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Hoodie</button></h3>
-              <p class="product-price">$68 CAD</p>
+              <p class="product-price">$85 CAD</p>
             </div>
             <p class="product-note">Midweight fleece hoodie with tonal chest logo.</p>
             <div class="opt-block">
@@ -683,18 +788,18 @@
               </div>
             <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-crewneck" data-stock-qty="30" data-name="Crewneck" data-price="58">
+        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-crewneck" data-stock-qty="30" data-name="Crewneck" data-price="73">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Crewneck</button></h3>
-              <p class="product-price">$58 CAD</p>
+              <p class="product-price">$73 CAD</p>
             </div>
             <p class="product-note">Midweight fleece crewneck with centred chest logo.</p>
             <div class="opt-block">
@@ -707,32 +812,32 @@
               </div>
             <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-fit="One size · washed six-panel" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-cap" data-stock-qty="50" data-name="Dad Cap" data-price="36">
+        <article class="product merch-card" data-fit="One size · washed six-panel" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-cap" data-stock-qty="50" data-name="Dad Cap" data-price="45">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-cap.webp" alt="Dad Cap with small front logo" loading="lazy"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Dad Cap</button></h3>
-              <p class="product-price">$36 CAD</p>
+              <p class="product-price">$45 CAD</p>
             </div>
             <p class="product-note">Washed six-panel cap with embroidered logo.</p>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
 
-        <article class="product merch-card" data-fit="True to size · stretch jersey" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-bikini" data-stock-qty="20" data-name="Bikini" data-price="48">
+        <article class="product merch-card" data-fit="True to size · stretch jersey" data-ships="Leaves British Columbia in 2–4 business days" data-stock="In stock" data-sku="sm-bikini" data-stock-qty="20" data-name="Bikini" data-price="60">
           <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
             <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini with stencil logo" loading="lazy"/>
           </button>
           <div class="product-body">
             <div class="product-top">
               <h3 class="product-name"><button type="button" data-open-product>Bikini</button></h3>
-              <p class="product-price">$48 CAD</p>
+              <p class="product-price">$60 CAD</p>
             </div>
             <p class="product-note">Two-piece stretch jersey bikini with logo detail.</p>
             <div class="opt-block">
@@ -745,7 +850,7 @@
               </div>
             <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
             </div>
-            <button class="merch-add" type="button">Add to bag</button>
+            <button class="merch-add" type="button">Add to cart</button>
           </div>
         </article>
       </section>
@@ -771,8 +876,8 @@
 </dialog>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
-  <span id="toastMsg">Added to bag</span>
-  <a href="cart.html">View bag</a>
+  <span id="toastMsg">Added to cart</span>
+  <a href="cart.html">View cart</a>
 </div>
 
 <footer class="footer">
@@ -881,7 +986,7 @@ var toast = document.getElementById('toast');
 var toastMsg = document.getElementById('toastMsg');
 var toastTimer;
 function showToast(name) {
-  toastMsg.textContent = name + ' added to bag';
+  toastMsg.textContent = name + ' added to cart';
   toast.classList.add('on');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function () { toast.classList.remove('on'); }, 3200);
@@ -926,7 +1031,7 @@ document.querySelectorAll('.merch-add').forEach(function (btn) {
     showToast(item.name);
     setTimeout(function () {
       btn.classList.remove('is-added');
-      btn.textContent = 'Add to bag';
+      btn.textContent = 'Add to cart';
     }, 1400);
   });
 });

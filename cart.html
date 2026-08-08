@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Bag — Club Copy</title>
+  <title>Cart — Club Copy</title>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="Your Club Copy bag. Review your items and check out."/>
+  <meta name="description" content="Your Club Copy cart. Review your items and check out."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -146,7 +146,7 @@
       <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-end">
-      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Bag">
+      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
           <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
@@ -167,7 +167,7 @@
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
   <a href="contact.html">Contact</a>
-  <a href="cart.html">Bag</a>
+  <a href="cart.html">Cart</a>
 </div>
 
 <main class="page" id="main">
@@ -175,16 +175,16 @@
     <header class="section-head">
       <div>
         <p class="eyebrow">Club Copy</p>
-        <h1>Bag</h1>
+        <h1>Cart</h1>
       </div>
       <a class="head-link" href="merch.html">Continue shopping</a>
     </header>
 
     <div class="cart-layout">
-      <section aria-label="Bag items">
+      <section aria-label="Cart items">
         <div id="cartLines" class="cart-lines"></div>
         <div id="cartEmpty" class="empty" hidden>
-          <h2>Your bag is empty</h2>
+          <h2>Your cart is empty</h2>
           <p>Browse the shop.</p>
           <a class="btn btn-dark" href="merch.html" style="max-width:220px;margin:0 auto;">Shop</a>
         </div>
@@ -415,7 +415,7 @@
           msg = 'Checkout is temporarily unavailable. Try again soon.';
         }
         if (data.code === 'OUT_OF_STOCK') {
-          msg = data.error || 'An item in your bag is sold out.';
+          msg = data.error || 'An item in your cart is sold out.';
         }
         err.textContent = msg;
         err.hidden = false;
@@ -435,7 +435,7 @@
   var wasCanceled = new URLSearchParams(location.search).get('canceled') === '1';
   if (wasCanceled) {
     var note = document.getElementById('checkoutNote');
-    if (note) note.textContent = 'Checkout canceled — your bag is still here.';
+    if (note) note.textContent = 'Checkout canceled — your cart is still here.';
   }
   window.addEventListener('vcr:cart', render);
   render();

@@ -172,18 +172,31 @@ async function ensurePrice({ productId, unitAmount, lookupKey }) {
 }
 
 async function ensurePaymentLink({ priceId, productId, sku, digital }) {
-  // Prefer link id stored on the Product metadata (fast path).
   const product = await stripe(`/products/${productId}`, "GET");
   const existingId = product.metadata && product.metadata.payment_link_id;
   if (existingId) {
     try {
-      const existing = await stripe(`/payment_links/${existingId}`, "GET");
-      if (existing && existing.active !== false) {
+      const existing = await stripe(
+        `/payment_links/${existingId}?expand[]=line_items`,
+        "GET"
+      );
+      const items = (existing.line_items && existing.line_items.data) || [];
+      const samePrice = items.some(
+        (li) => li.price && li.price.id === priceId
+      );
+      if (existing.active !== false && samePrice) {
         await stripe(`/payment_links/${existing.id}`, "POST", {
           "metadata[sku]": sku,
           "metadata[label]": "club-copy",
         });
         return existing;
+      }
+      // Price changed — deactivate old link and create a fresh one.
+      if (existing.active !== false) {
+        await stripe(`/payment_links/${existing.id}`, "POST", {
+          active: "false",
+        });
+        console.log(`  · archived stale payment link for ${sku}`);
       }
     } catch (_) {
       /* recreate below */
@@ -208,6 +221,9 @@ async function ensurePaymentLink({ priceId, productId, sku, digital }) {
     "metadata[payment_link_id]": link.id,
     "metadata[sku]": sku,
     "metadata[label]": "club-copy",
+    "metadata[format]": product.metadata && product.metadata.format
+      ? product.metadata.format
+      : "",
   });
   return link;
 }
