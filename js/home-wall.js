@@ -86,6 +86,7 @@
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
       grid.innerHTML = releases.map(card).join('');
+      grid.removeAttribute('aria-busy');
 
       grid.querySelectorAll('[data-play-release]').forEach(function (el) {
         el.addEventListener('click', function (e) {
@@ -125,6 +126,7 @@
       }
     })
     .catch(function () {
+      grid.removeAttribute('aria-busy');
       grid.innerHTML = '<p style="color:var(--muted)">Could not load releases. <a href="library.html">Open Library</a></p>';
     });
 })();

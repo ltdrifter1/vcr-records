@@ -383,6 +383,52 @@
       .hero .btn-ghost:hover { background: #fff; color: #000; border-color: #fff; }
     }
 
+    /* Scroll cue — the hero fills the viewport; hint at the wall below ------ */
+    .hero-scroll {
+      position: absolute;
+      left: 50%;
+      bottom: calc(18px + var(--safe-b));
+      transform: translateX(-50%);
+      z-index: 2;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      color: rgba(255,255,255,.55);
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: color var(--dur) var(--ease), opacity .45s var(--ease), transform .45s var(--ease);
+      animation: heroIn .85s var(--ease) .6s both;
+    }
+    .hero-scroll svg {
+      width: 14px; height: 14px;
+      fill: none; stroke: currentColor; stroke-width: 2;
+      animation: scrollNudge 2.2s ease-in-out 1.6s infinite;
+    }
+    @media (hover:hover) {
+      .hero-scroll:hover { color: #fff; }
+    }
+    .hero-scroll:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 4px; }
+    .hero.is-live .hero-scroll,
+    body.scrolled-past-hero .hero-scroll {
+      opacity: 0;
+      transform: translateX(-50%) translateY(8px);
+      pointer-events: none;
+    }
+    @keyframes scrollNudge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-scroll, .hero-scroll svg { animation: none !important; }
+    }
+
     /* Live console --------------------------------------------------------- */
     .hero-console {
       display: none;
@@ -846,6 +892,33 @@
       letter-spacing: .12em !important;
     }
 
+    /* Skeleton cards while catalog.json loads — no flash, no layout jump ---- */
+    .wall-skel { display: flex; flex-direction: column; gap: 14px; }
+    .wall-skel-art {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: linear-gradient(100deg, #101010 40%, #1c1c1c 50%, #101010 60%);
+      background-size: 200% 100%;
+      animation: skelShimmer 1.6s linear infinite;
+    }
+    .wall-skel-line {
+      height: 12px;
+      border-radius: 3px;
+      background: linear-gradient(100deg, #101010 40%, #1a1a1a 50%, #101010 60%);
+      background-size: 200% 100%;
+      animation: skelShimmer 1.6s linear infinite;
+    }
+    .wall-skel-line--wide { width: 62%; height: 18px; }
+    .wall-skel-line--mid { width: 40%; }
+    .wall-skel-line--thin { width: 30%; height: 10px; }
+    @keyframes skelShimmer {
+      from { background-position: 120% 0; }
+      to { background-position: -80% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wall-skel-art, .wall-skel-line { animation: none; }
+    }
+
     /* Signup — one post-listen job, bridges dark wall → light footer -------- */
     .signup {
       position: relative;
@@ -938,6 +1011,17 @@
       font-size: 12px;
       color: rgba(255,255,255,.38);
     }
+    .signup-form button[disabled] { opacity: .6; cursor: wait; }
+    .signup-status {
+      margin: 14px 0 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: rgba(255,255,255,.85);
+    }
+    .signup-status[hidden] { display: none; }
+    .signup-status.is-error { color: #f2b8b5; }
+    .signup.is-done .signup-form,
+    .signup.is-done .signup-note { display: none; }
 
     body.hero-top .footer {
       color: var(--ink);
@@ -1266,6 +1350,10 @@
         </div>
       </div>
     </div>
+    <a class="hero-scroll" href="#listen">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
   </section>
 
   <!-- Releases -->
@@ -1279,8 +1367,20 @@
         </div>
         <a class="head-link" href="library.html">View all</a>
       </header>
-      <div class="wall-grid" id="wallGrid" aria-live="polite">
-        <p style="color:var(--dim)">Loading releases…</p>
+      <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="true">
+        <div class="wall-skel" aria-hidden="true">
+          <div class="wall-skel-art"></div>
+          <div class="wall-skel-line wall-skel-line--thin"></div>
+          <div class="wall-skel-line wall-skel-line--wide"></div>
+          <div class="wall-skel-line wall-skel-line--mid"></div>
+        </div>
+        <div class="wall-skel" aria-hidden="true">
+          <div class="wall-skel-art"></div>
+          <div class="wall-skel-line wall-skel-line--thin"></div>
+          <div class="wall-skel-line wall-skel-line--wide"></div>
+          <div class="wall-skel-line wall-skel-line--mid"></div>
+        </div>
+        <p class="visually-hidden">Loading…</p>
       </div>
     </div>
   </section>
@@ -1290,8 +1390,8 @@
     <div class="band">
       <div class="signup-inner rv">
         <p class="eyebrow">Newsletter</p>
-        <h2 class="signup-title" id="newsletter-title">Stay close to the releases.</h2>
-        <p class="signup-copy"></p>
+        <h2 class="signup-title" id="newsletter-title">Don't be a stranger.</h2>
+        <p class="signup-copy">One email when something new lands. That's it — no chatter, no clutter.</p>
         <form class="signup-form" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-labelledby="newsletter-title">
           <label class="visually-hidden" for="newsletterEmail">Email</label>
           <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
@@ -1299,6 +1399,7 @@
           <button type="submit">Subscribe</button>
         </form>
         <p class="signup-note">Unsubscribe anytime.</p>
+        <p class="signup-status" role="status" aria-live="polite" hidden></p>
       </div>
     </div>
   </section>
@@ -1338,6 +1439,7 @@
   function syncNav() {
     var y = window.scrollY;
     nav.classList.toggle('scrolled', y > 24);
+    document.body.classList.toggle('scrolled-past-hero', y > window.innerHeight * 0.25);
     var footer = document.querySelector('.footer');
     var light = false;
     if (footer) {
@@ -1396,6 +1498,40 @@
       discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
     }
   });
+
+  // Newsletter — submit in place; falls back to a normal POST if fetch fails.
+  var signupForm = document.querySelector('.signup-form');
+  var signupStatus = document.querySelector('.signup-status');
+  if (signupForm && signupStatus && window.fetch) {
+    signupForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var btn = signupForm.querySelector('button[type="submit"]');
+      var restore = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      signupStatus.hidden = true;
+      signupStatus.classList.remove('is-error');
+      fetch(signupForm.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(signupForm)
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('signup');
+          var section = signupForm.closest('.signup');
+          if (section) section.classList.add('is-done');
+          signupStatus.textContent = "You're in. See you at the next one.";
+          signupStatus.hidden = false;
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = restore;
+          signupStatus.classList.add('is-error');
+          signupStatus.textContent = "That didn't go through — give it another try.";
+          signupStatus.hidden = false;
+        });
+    });
+  }
 })();
 </script>
 </body>
