@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Artists — Club Copy</title>
-  <meta name="description" content="The Club Copy roster — Inlet Knight."/>
+  <meta name="description" content="The Club Copy roster — Double Edge, Inlet Knight."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
@@ -152,14 +152,31 @@
 
     <div class="roster">
 
+      <article class="artist rv" id="double-edge" aria-labelledby="double-edge-name">
+        <div class="artist-photo">
+          <img src="artists/double-edge.webp" alt="Double Edge" fetchpriority="high"/>
+        </div>
+        <div class="artist-copy">
+          <h2 id="double-edge-name">Double Edge</h2>
+          <p class="artist-bio">Jungle in the Pacific Northwest.</p>
+          <div class="artist-releases" data-artist-id="double-edge" data-artist-name="Double Edge" aria-label="Discography">
+            <p style="font-size:13px;color:var(--dim)">Loading releases…</p>
+          </div>
+          <div class="artist-actions">
+            <a class="btn btn-dark" href="artists/double-edge.html">Artist page</a>
+            <a class="btn btn-ghost" href="https://doubleedge.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a>
+          </div>
+        </div>
+      </article>
+
       <article class="artist rv" id="inlet-knight" aria-labelledby="inlet-knight-name">
         <div class="artist-photo">
-          <img src="artists/inlet-knight.webp" alt="Inlet Knight" fetchpriority="high"/>
+          <img src="artists/inlet-knight.webp" alt="Inlet Knight"/>
         </div>
         <div class="artist-copy">
           <h2 id="inlet-knight-name">Inlet Knight</h2>
           <p class="artist-bio">House music from Cumberland, British Columbia.</p>
-          <div class="artist-releases" id="artistReleases" aria-label="Discography">
+          <div class="artist-releases" data-artist-id="inlet-knight" data-artist-name="Inlet Knight" aria-label="Discography">
             <p style="font-size:13px;color:var(--dim)">Loading releases…</p>
           </div>
           <div class="artist-actions">
@@ -225,8 +242,8 @@
 })();
 
 (function () {
-  var box = document.getElementById('artistReleases');
-  if (!box) return;
+  var boxes = document.querySelectorAll('.artist-releases[data-artist-id]');
+  if (!boxes.length) return;
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -234,23 +251,29 @@
   fetch('/data/catalog.json')
     .then(function (r) { return r.json(); })
     .then(function (data) {
-      var list = (data.releases || []).filter(function (r) {
-        return r.artistId === 'inlet-knight' || r.artist === 'Inlet Knight';
-      }).sort(function (a, b) {
-        return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
+      boxes.forEach(function (box) {
+        var artistId = box.getAttribute('data-artist-id');
+        var artistName = box.getAttribute('data-artist-name') || '';
+        var list = (data.releases || []).filter(function (r) {
+          return r.artistId === artistId || r.artist === artistName;
+        }).sort(function (a, b) {
+          return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
+        });
+        box.innerHTML = list.map(function (r) {
+          return (
+            '<a class="release-row" href="' + esc(r.page) + '">' +
+              '<img src="' + esc(r.coverThumb || r.cover) + '" alt="" width="88" height="88" loading="lazy"/>' +
+              '<span class="rr-title">' + esc(r.title) + '</span>' +
+              '<span class="rr-kind">' + esc(r.catalogue || r.kind || '') + '</span>' +
+            '</a>'
+          );
+        }).join('') || '<p class="archive-note"><a href="library.html">View library</a></p>';
       });
-      box.innerHTML = list.map(function (r) {
-        return (
-          '<a class="release-row" href="' + esc(r.page) + '">' +
-            '<img src="' + esc(r.coverThumb || r.cover) + '" alt="" width="88" height="88" loading="lazy"/>' +
-            '<span class="rr-title">' + esc(r.title) + '</span>' +
-            '<span class="rr-kind">' + esc(r.catalogue || r.kind || '') + '</span>' +
-          '</a>'
-        );
-      }).join('');
     })
     .catch(function () {
-      box.innerHTML = '<p class="archive-note"><a href="library.html">View library</a></p>';
+      boxes.forEach(function (box) {
+        box.innerHTML = '<p class="archive-note"><a href="library.html">View library</a></p>';
+      });
     });
 })();
 </script>

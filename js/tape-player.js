@@ -23,7 +23,7 @@
 
   /* ---- Cassette parallax tilt --------------------------------------------- */
   var stage = document.querySelector("[data-tilt-stage]");
-  var cassette = stage && stage.querySelector(".ra-cassette, .ra-vinyl");
+  var cassette = stage && stage.querySelector(".ra-cassette, .ra-vinyl, .ra-cover");
   if (stage && cassette && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
     var raf = null;
     stage.addEventListener("pointermove", function (e) {
