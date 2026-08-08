@@ -1,18 +1,24 @@
 #!/usr/bin/env node
 /**
- * Sync Club Copy format tiers + catalog SKUs to Stripe Products/Prices.
+ * Sync Club Copy catalog → Stripe Products, Prices, and Payment Links.
  *
  * Usage:
- *   STRIPE_SECRET_KEY=rk_test_… node scripts/sync-stripe-catalog.js
- *   STRIPE_SECRET_KEY=rk_test_… node scripts/sync-stripe-catalog.js --music-only
+ *   STRIPE_SECRET_KEY=sk_live_… node scripts/sync-stripe-catalog.js
+ *   STRIPE_SECRET_KEY=sk_live_… node scripts/sync-stripe-catalog.js --merch-page
+ *   STRIPE_SECRET_KEY=sk_live_… node scripts/sync-stripe-catalog.js --music-only
+ *   STRIPE_SECRET_KEY=sk_live_… node scripts/sync-stripe-catalog.js --verify
  *
  * Creates/updates:
  *   - Format products: fmt-digital ($8), fmt-cassette ($20), fmt-vinyl ($45) CAD
- *   - Per-SKU products for music (and merch unless --music-only)
+ *   - Per-SKU Products + Prices (lookup_key = sku)
+ *   - Payment Links for each shop SKU (buy-now URLs in Dashboard)
  *
- * Prints env var suggestions (STRIPE_PRICE_…) to paste into Vercel.
+ * Checkout on clubcopy.ca resolves Prices by lookup_key automatically —
+ * no need to paste STRIPE_PRICE_* into Vercel (optional override only).
  */
-const { FORMAT, PRODUCTS } = require("../api/catalog");
+const fs = require("fs");
+const path = require("path");
+const { FORMAT, PRODUCTS, MERCH_PAGE_SKUS } = require("../api/catalog");
 
 const secret = process.env.STRIPE_SECRET_KEY;
 if (!secret) {
@@ -22,18 +28,21 @@ if (!secret) {
 
 const currency = (process.env.STRIPE_CURRENCY || "cad").toLowerCase();
 const musicOnly = process.argv.includes("--music-only");
+const merchPageOnly = process.argv.includes("--merch-page");
+const verifyOnly = process.argv.includes("--verify");
+const skipLinks = process.argv.includes("--no-links");
 
-async function stripe(path, method, params) {
+async function stripe(pathName, method, params) {
   const body =
     params &&
     Object.entries(params)
-      .filter(([, v]) => v !== undefined && v !== null)
+      .filter(([, v]) => v !== undefined && v !== null && v !== "")
       .map(
         ([k, v]) =>
           `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
       )
       .join("&");
-  const res = await fetch(`https://api.stripe.com/v1${path}`, {
+  const res = await fetch(`https://api.stripe.com/v1${pathName}`, {
     method,
     headers: {
       Authorization: `Bearer ${secret}`,
@@ -44,7 +53,7 @@ async function stripe(path, method, params) {
   const data = await res.json();
   if (!res.ok) {
     const msg = (data.error && data.error.message) || res.statusText;
-    throw new Error(`${method} ${path}: ${msg}`);
+    throw new Error(`${method} ${pathName}: ${msg}`);
   }
   return data;
 }
@@ -59,14 +68,29 @@ async function findPriceByLookupKey(lookupKey) {
 }
 
 async function findProductByMetadataSku(sku) {
-  const list = await stripe(
-    `/products/search?query=${encodeURIComponent(`metadata['sku']:'${sku}'`)}&limit=1`,
-    "GET"
-  ).catch(() => null);
-  if (list && list.data && list.data[0]) return list.data[0];
-  // Fallback: list + filter (search may need Products search enabled)
-  const all = await stripe("/products?limit=100&active=true", "GET");
-  return (all.data || []).find((p) => p.metadata && p.metadata.sku === sku) || null;
+  try {
+    const list = await stripe(
+      `/products/search?query=${encodeURIComponent(`metadata['sku']:'${sku}'`)}&limit=1`,
+      "GET"
+    );
+    if (list && list.data && list.data[0]) return list.data[0];
+  } catch (_) {
+    /* search may be unavailable */
+  }
+  let startingAfter = null;
+  for (let page = 0; page < 10; page += 1) {
+    const q = startingAfter
+      ? `/products?limit=100&active=true&starting_after=${startingAfter}`
+      : "/products?limit=100&active=true";
+    const all = await stripe(q, "GET");
+    const hit = (all.data || []).find(
+      (p) => p.metadata && p.metadata.sku === sku
+    );
+    if (hit) return hit;
+    if (!all.has_more || !(all.data && all.data.length)) break;
+    startingAfter = all.data[all.data.length - 1].id;
+  }
+  return null;
 }
 
 async function ensureProduct({ name, sku, format, description }) {
@@ -92,19 +116,22 @@ async function ensureProduct({ name, sku, format, description }) {
 
 async function ensurePrice({ productId, unitAmount, lookupKey }) {
   const existing = await findPriceByLookupKey(lookupKey);
+  const productMatch =
+    existing &&
+    (existing.product === productId ||
+      (existing.product && existing.product.id === productId));
   if (existing) {
     if (
       existing.unit_amount === unitAmount &&
       existing.currency === currency &&
-      existing.product === productId
+      productMatch
     ) {
       return existing;
     }
-    // Prices are immutable for amount — archive old, create new with same lookup_key
     await stripe(`/prices/${existing.id}`, "POST", { active: "false" });
-    // Clear lookup_key on archived price so we can reuse it
     await stripe(`/prices/${existing.id}`, "POST", {
       lookup_key: "",
+      transfer_lookup_key: "true",
     }).catch(() => {});
   }
   return stripe("/prices", "POST", {
@@ -112,8 +139,49 @@ async function ensurePrice({ productId, unitAmount, lookupKey }) {
     currency,
     unit_amount: String(unitAmount),
     lookup_key: lookupKey,
-    "transfer_lookup_key": "true",
+    transfer_lookup_key: "true",
   });
+}
+
+async function ensurePaymentLink({ priceId, productId, sku, digital }) {
+  // Prefer link id stored on the Product metadata (fast path).
+  const product = await stripe(`/products/${productId}`, "GET");
+  const existingId = product.metadata && product.metadata.payment_link_id;
+  if (existingId) {
+    try {
+      const existing = await stripe(`/payment_links/${existingId}`, "GET");
+      if (existing && existing.active !== false) {
+        await stripe(`/payment_links/${existing.id}`, "POST", {
+          "metadata[sku]": sku,
+          "metadata[label]": "club-copy",
+        });
+        return existing;
+      }
+    } catch (_) {
+      /* recreate below */
+    }
+  }
+
+  const params = {
+    "line_items[0][price]": priceId,
+    "line_items[0][quantity]": "1",
+    "metadata[sku]": sku,
+    "metadata[label]": "club-copy",
+    "after_completion[type]": "redirect",
+    "after_completion[redirect][url]":
+      "https://www.clubcopy.ca/thank-you.html?session_id={CHECKOUT_SESSION_ID}",
+  };
+  if (!digital) {
+    params["shipping_address_collection[allowed_countries][0]"] = "CA";
+    params["shipping_address_collection[allowed_countries][1]"] = "US";
+  }
+  const link = await stripe("/payment_links", "POST", params);
+  await stripe(`/products/${productId}`, "POST", {
+    "metadata[payment_link_id]": link.id,
+    "metadata[sku]": sku,
+    "metadata[label]": "club-copy",
+  });
+  return link;
 }
 
 function isMusicSku(sku, product) {
@@ -127,13 +195,67 @@ function isMusicSku(sku, product) {
   );
 }
 
+function skusToSync() {
+  const entries = Object.entries(PRODUCTS);
+  if (merchPageOnly) {
+    return entries.filter(([sku]) => MERCH_PAGE_SKUS.includes(sku));
+  }
+  if (musicOnly) {
+    return entries.filter(([sku, p]) => isMusicSku(sku, p));
+  }
+  return entries;
+}
+
+async function verify() {
+  console.log("Verifying Stripe Prices for merch page SKUs\n");
+  let ok = 0;
+  let bad = 0;
+  for (const sku of MERCH_PAGE_SKUS) {
+    const expected = PRODUCTS[sku];
+    if (!expected) {
+      console.log(`✗ ${sku} missing from catalog`);
+      bad += 1;
+      continue;
+    }
+    const price = await findPriceByLookupKey(sku);
+    if (!price) {
+      console.log(`✗ ${sku}  no Stripe Price with lookup_key`);
+      bad += 1;
+      continue;
+    }
+    const amountOk = price.unit_amount === expected.unitAmount;
+    const curOk = price.currency === currency;
+    if (amountOk && curOk) {
+      console.log(
+        `✓ ${sku.padEnd(28)} $${(expected.unitAmount / 100).toFixed(2)} CAD  ${price.id}`
+      );
+      ok += 1;
+    } else {
+      console.log(
+        `✗ ${sku} amount/currency mismatch stripe=${price.unit_amount}${price.currency} expected=${expected.unitAmount}${currency}`
+      );
+      bad += 1;
+    }
+  }
+  console.log(`\n${ok} ok · ${bad} bad`);
+  if (bad) process.exit(1);
+}
+
 async function main() {
-  console.log("Syncing Club Copy → Stripe Products/Prices\n");
+  if (verifyOnly) {
+    await verify();
+    return;
+  }
+
+  const live = String(secret).includes("_live_");
+  console.log(
+    `Syncing Club Copy → Stripe (${live ? "LIVE" : "TEST"}) Products/Prices/Links\n`
+  );
 
   const envLines = [];
   const summary = [];
+  const linkLines = [];
 
-  // 1) Format tier products (the three codes)
   for (const [format, meta] of Object.entries(FORMAT)) {
     const product = await ensureProduct({
       name: `Club Copy — ${meta.label}`,
@@ -153,8 +275,9 @@ async function main() {
       product: product.id,
       price: price.id,
     });
-    const envKey = `STRIPE_PRICE_${meta.key.toUpperCase().replace(/-/g, "_")}`;
-    envLines.push(`${envKey}=${price.id}`);
+    envLines.push(
+      `STRIPE_PRICE_${meta.key.toUpperCase().replace(/-/g, "_")}=${price.id}`
+    );
     console.log(
       `✓ format ${meta.key}  $${(meta.unitAmount / 100).toFixed(2)}  ${price.id}`
     );
@@ -162,9 +285,7 @@ async function main() {
 
   console.log("");
 
-  // 2) Per-SKU products
-  for (const [sku, product] of Object.entries(PRODUCTS)) {
-    if (musicOnly && !isMusicSku(sku, product)) continue;
+  for (const [sku, product] of skusToSync()) {
     const p = await ensureProduct({
       name: product.name,
       sku,
@@ -175,23 +296,57 @@ async function main() {
       unitAmount: product.unitAmount,
       lookupKey: sku,
     });
+    let link = null;
+    if (!skipLinks && MERCH_PAGE_SKUS.includes(sku)) {
+      link = await ensurePaymentLink({
+        priceId: price.id,
+        productId: p.id,
+        sku,
+        digital: !!product.digital,
+      });
+      linkLines.push(`${sku}\t$${(product.unitAmount / 100).toFixed(2)}\t${link.url}`);
+      console.log(
+        `✓ ${sku.padEnd(28)} $${(product.unitAmount / 100).toFixed(2)}  ${price.id}  link=${link.url}`
+      );
+    } else {
+      console.log(
+        `✓ ${sku.padEnd(28)} $${(product.unitAmount / 100).toFixed(2)}  ${price.id}`
+      );
+    }
     summary.push({
       kind: "sku",
       sku,
       amount: product.unitAmount,
       product: p.id,
       price: price.id,
+      paymentLink: link ? link.url : null,
     });
-    const envKey = `STRIPE_PRICE_${sku.toUpperCase().replace(/-/g, "_")}`;
-    envLines.push(`${envKey}=${price.id}`);
-    console.log(
-      `✓ ${sku.padEnd(28)} $${(product.unitAmount / 100).toFixed(2)}  ${price.id}`
+    envLines.push(
+      `STRIPE_PRICE_${sku.toUpperCase().replace(/-/g, "_")}=${price.id}`
     );
   }
 
-  console.log("\n--- Vercel env (paste) ---\n");
+  const outPath = path.join(__dirname, "..", "data", "stripe-sync.json");
+  fs.writeFileSync(
+    outPath,
+    JSON.stringify(
+      {
+        syncedAt: new Date().toISOString(),
+        live,
+        currency,
+        items: summary,
+      },
+      null,
+      2
+    )
+  );
+
+  console.log("\n--- Payment links (merch page) ---\n");
+  console.log(linkLines.join("\n") || "(none — use --merch-page without --no-links)");
+  console.log("\n--- Optional Vercel env ---\n");
   console.log(envLines.join("\n"));
-  console.log("\nDone.", summary.length, "prices ready.");
+  console.log(`\nWrote ${outPath}`);
+  console.log("Done.", summary.length, "prices ready.");
 }
 
 main().catch((err) => {

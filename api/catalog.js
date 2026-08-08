@@ -10,9 +10,25 @@ const FORMAT = {
   vinyl: { key: "fmt-vinyl", label: "Vinyl", unitAmount: 4500 },
 };
 
+/** SKUs sold on merch.html (must stay in sync with the shop page). */
+const MERCH_PAGE_SKUS = [
+  "dg-enter",
+  "dg-together",
+  "sm-cassette-inlet-knight",
+  "sm-slipmat",
+  "sm-poly-outer",
+  "sm-simple-tee",
+  "sm-longsleeve",
+  "sm-sleeve-tee",
+  "sm-hoodie",
+  "sm-crewneck",
+  "sm-cap",
+  "sm-bikini",
+];
+
 /** @type {Record<string, { name: string, unitAmount: number, stock?: number, digital?: boolean, format?: string }>} */
 const PRODUCTS = {
-  // Apparel / essentials (phase 2 Stripe Product sync)
+  // Apparel / essentials
   "sm-simple-tee": { name: "Micro Tee", unitAmount: 3200, stock: 80 },
   "sm-globe-tee": { name: "Logo Tee", unitAmount: 3400, stock: 40 },
   "sm-longsleeve": { name: "Long Sleeve", unitAmount: 4200, stock: 40 },
@@ -74,6 +90,7 @@ function priceIdFromEnv(sku) {
 module.exports = {
   FORMAT,
   PRODUCTS,
+  MERCH_PAGE_SKUS,
   SHIPPING,
   priceIdFromEnv,
 };

@@ -3,8 +3,9 @@
  * Requires env STRIPE_SECRET_KEY (prefer a restricted key rk_…).
  * Optional STRIPE_CURRENCY (default cad).
  *
- * Physical goods and digital downloads (dg-* SKUs, fulfilled by email —
- * shipping is only collected when the bag contains a physical item).
+ * Amounts always come from the server catalog (never the client).
+ * When a Stripe Price exists with lookup_key = SKU (and matching amount),
+ * Checkout uses that Price / Product so Dashboard Products stay in sync.
  *
  * POST /api/create-checkout-session
  * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
@@ -18,6 +19,44 @@ function formBody(params) {
         `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
     )
     .join("&");
+}
+
+async function stripeGet(secret, path) {
+  const res = await fetch(`https://api.stripe.com/v1${path}`, {
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  const data = await res.json();
+  if (!res.ok) return null;
+  return data;
+}
+
+/** Resolve Dashboard Price by lookup_key (= sku). Verify amount matches catalog. */
+async function resolveStripePrice(secret, sku, expectedCents, currency) {
+  const fromEnv = priceIdFromEnv(sku);
+  if (fromEnv) {
+    const price = await stripeGet(secret, `/prices/${fromEnv}`);
+    if (
+      price &&
+      price.active !== false &&
+      price.unit_amount === expectedCents &&
+      String(price.currency).toLowerCase() === currency
+    ) {
+      return price;
+    }
+  }
+  const list = await stripeGet(
+    secret,
+    `/prices?lookup_keys[]=${encodeURIComponent(sku)}&active=true&limit=1`
+  );
+  const price = list && list.data && list.data[0];
+  if (
+    price &&
+    price.unit_amount === expectedCents &&
+    String(price.currency).toLowerCase() === currency
+  ) {
+    return price;
+  }
+  return null;
 }
 
 module.exports = async function handler(req, res) {
@@ -106,14 +145,31 @@ module.exports = async function handler(req, res) {
     if (raw.size) bits.push(`Size ${raw.size}`);
     const description = bits.join(" · ") || undefined;
     const name = `${product.name}${description ? ` — ${description}` : ""}`;
-    const stripePrice = priceIdFromEnv(sku);
+    const hasVariant = !!(raw.colour || raw.size);
 
     lineParams[`line_items[${lineIndex}][quantity]`] = qty;
 
-    if (stripePrice) {
-      // Prefer Dashboard Price IDs once synced (scripts/sync-stripe-catalog.js)
-      lineParams[`line_items[${lineIndex}][price]`] = stripePrice;
+    const stripePrice = await resolveStripePrice(
+      secret,
+      sku,
+      product.unitAmount,
+      currency
+    );
+
+    if (stripePrice && !hasVariant) {
+      // Plain SKU → use live Dashboard Price (amount locked in Stripe)
+      lineParams[`line_items[${lineIndex}][price]`] = stripePrice.id;
+    } else if (stripePrice && hasVariant) {
+      // Sized/coloured line → reuse Product, lock amount from catalog
+      lineParams[`line_items[${lineIndex}][price_data][currency]`] = currency;
+      lineParams[`line_items[${lineIndex}][price_data][unit_amount]`] =
+        product.unitAmount;
+      lineParams[`line_items[${lineIndex}][price_data][product]`] =
+        typeof stripePrice.product === "string"
+          ? stripePrice.product
+          : stripePrice.product.id;
     } else {
+      // Fallback: ad-hoc product_data (still catalog amount)
       lineParams[`line_items[${lineIndex}][price_data][currency]`] = currency;
       lineParams[`line_items[${lineIndex}][price_data][unit_amount]`] =
         product.unitAmount;
@@ -131,16 +187,6 @@ module.exports = async function handler(req, res) {
         lineParams[
           `line_items[${lineIndex}][price_data][product_data][metadata][format]`
         ] = product.format;
-      }
-      if (raw.colour) {
-        lineParams[
-          `line_items[${lineIndex}][price_data][product_data][metadata][colour]`
-        ] = String(raw.colour);
-      }
-      if (raw.size) {
-        lineParams[
-          `line_items[${lineIndex}][price_data][product_data][metadata][size]`
-        ] = String(raw.size);
       }
     }
 
