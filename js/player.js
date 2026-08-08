@@ -77,7 +77,6 @@
           artist: release.artist,
           cover: release.cover,
           page: release.page,
-          bandcampAlbum: release.bandcampAlbum || release.bandcamp,
           vinylSku: vinyl && vinyl.sku ? vinyl.sku : null,
           vinylPrice: vinyl && vinyl.price != null ? Number(vinyl.price) : null,
           vinylNote: vinyl && vinyl.note ? vinyl.note : null,
@@ -281,7 +280,6 @@
       '<p class="vcr-bumper__sub" data-bumper-sub></p>' +
       '<div class="vcr-bumper__actions">' +
       '<button type="button" class="vcr-bumper__btn" data-act="buy-vinyl">Add vinyl</button>' +
-      '<a class="vcr-bumper__btn" data-bumper-bc href="#" target="_blank" rel="noopener">Bandcamp</a>' +
       '<button type="button" class="vcr-bumper__btn vcr-bumper__btn--ghost" data-act="bumper-skip">Skip</button>' +
       "</div>" +
       "</div>";
@@ -308,7 +306,6 @@
       '<div class="vcr-stage__actions">' +
       '<a class="vcr-stage__link" data-page href="#">Album</a>' +
       '<button type="button" class="vcr-stage__link" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
-      '<a class="vcr-stage__link" data-buy href="#" target="_blank" rel="noopener">Digital on Bandcamp</a>' +
       "</div>" +
       '<p class="vcr-stage__hint">90s preview · bumper at end · Esc close</p>' +
       "</div>";
@@ -380,7 +377,7 @@
       if (sub) {
         sub.textContent = nextTrack
           ? upNextLabel(nextTrack)
-          : "End of preview · Add to bag or Bandcamp";
+          : "End of preview · Add to bag";
       }
       var buy = ui.bumper.querySelector('[data-act="buy-vinyl"]');
       if (buy) {
@@ -398,15 +395,6 @@
           buy.hidden = false;
         } else {
           buy.hidden = true;
-        }
-      }
-      var bc = ui.bumper.querySelector("[data-bumper-bc]");
-      if (bc) {
-        if (track && track.bandcampAlbum) {
-          bc.href = track.bandcampAlbum;
-          bc.hidden = false;
-        } else {
-          bc.hidden = true;
         }
       }
     }
@@ -470,7 +458,7 @@
         btn.textContent = track && track.vinylPrice != null ? "Vinyl · $" + track.vinylPrice : "Vinyl";
         btn.disabled = !!(track && track.vinylStock != null && track.vinylStock <= 0);
       } else if (format === "cassette") {
-        var hasCassette = !!(track && (track.cassetteSku || track.bandcampAlbum));
+        var hasCassette = !!(track && track.cassetteSku);
         btn.hidden = !hasCassette;
         btn.textContent = track && track.cassettePrice != null ? "Cassette · $" + track.cassettePrice : "Cassette";
         btn.disabled = !!(track && track.cassetteSku && track.cassetteStock != null && track.cassetteStock <= 0);
@@ -587,16 +575,6 @@
       " · " +
       track.releaseTitle;
     stage.querySelector("[data-page]").href = track.page || "/";
-    var stageBuy = stage.querySelector("[data-buy]");
-    if (stageBuy) {
-      if (track.bandcampAlbum) {
-        stageBuy.href = track.bandcampAlbum;
-        stageBuy.hidden = false;
-        stageBuy.textContent = "Digital on Bandcamp";
-      } else {
-        stageBuy.hidden = true;
-      }
-    }
     var stageVinyl = stage.querySelector('[data-act="buy-vinyl"]');
     if (stageVinyl) {
       if (track.cassetteSku) {
@@ -764,18 +742,14 @@
       var format = el ? el.getAttribute("data-format") : null;
       if (!fmtTrack || !format) return;
       if (format === "digital") {
-        if (fmtTrack.bandcampAlbum) {
-          window.open(fmtTrack.bandcampAlbum, "_blank", "noopener");
-        } else if (fmtTrack.page) {
+        if (fmtTrack.page) {
           window.location.href = fmtTrack.page;
         }
         setRoomFormatsOpen(false);
         return;
       }
       if (format === "cassette" && !fmtTrack.cassetteSku) {
-        if (fmtTrack.bandcampAlbum) {
-          window.open(fmtTrack.bandcampAlbum, "_blank", "noopener");
-        } else if (fmtTrack.page) {
+        if (fmtTrack.page) {
           window.location.href = fmtTrack.page;
         }
         setRoomFormatsOpen(false);
@@ -918,8 +892,6 @@
     if (!release) return null;
     var nextQueue = buildQueueFromRelease(release);
     if (!nextQueue.length) {
-      var bc = release.bandcampAlbum || release.bandcamp;
-      if (bc) window.open(bc, "_blank", "noopener");
       return null;
     }
     queue = nextQueue;
