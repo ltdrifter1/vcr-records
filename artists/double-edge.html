@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Double Edge — Club Copy</title>
-  <meta name="description" content="Double Edge — jungle in the Pacific Northwest. Discography on Club Copy."/>
+  <title>Double-Edge — Club Copy</title>
+  <meta name="description" content="Double-Edge — jungle in the Pacific Northwest. Discography on Club Copy."/>
   <meta name="theme-color" content="#FAF8F5"/>
-  <meta property="og:title" content="Double Edge — Club Copy"/>
+  <meta property="og:title" content="Double-Edge — Club Copy"/>
   <meta property="og:description" content="Jungle in the Pacific Northwest."/>
   <meta property="og:image" content="https://vcr-records.vercel.app/artists/double-edge.webp"/>
   <link rel="icon" href="../favicon.png" type="image/png"/>
@@ -95,11 +95,11 @@
   <div class="band">
     <header class="artist-hero">
       <div class="artist-photo">
-        <img src="double-edge.webp" alt="Double Edge" width="800" height="1000" fetchpriority="high"/>
+        <img src="double-edge.webp" alt="Double-Edge" width="800" height="1000" fetchpriority="high"/>
       </div>
       <div>
         <p class="eyebrow">Artist</p>
-        <h1>Double Edge</h1>
+        <h1>Double-Edge</h1>
         <p class="artist-bio">Jungle in the Pacific Northwest. Releases on Club Copy.</p>
         <div class="artist-actions">
           <a class="btn btn-dark" href="../library.html">Library</a>
@@ -145,7 +145,7 @@
     .then(function (r) { return r.json(); })
     .then(function (data) {
       var list = (data.releases || []).filter(function (r) {
-        return r.artistId === 'double-edge' || r.artist === 'Double Edge';
+        return r.artistId === 'double-edge' || r.artist === 'Double-Edge';
       }).sort(function (a, b) {
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
