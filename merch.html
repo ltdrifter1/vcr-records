@@ -4,8 +4,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Shop — Club Copy</title>
-  <meta name="description" content="Club Copy shop — releases, listening goods, and merch with opinions. Packed in BC."/>
-  <meta name="theme-color" content="#050505"/>
+  <meta name="description" content="Club Copy shop — music, bundles, goods, and clothing."/>
+  <meta name="theme-color" content="#FAF8F5"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,329 +15,147 @@
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    /* Shop hero — chrome logo led ---------------------------------------------- */
-    .shop-hero {
-      position: relative;
-      padding: calc(var(--nav-h) + var(--safe-t) + 48px) 0 48px;
-      background:
-        radial-gradient(ellipse 50% 40% at 50% 38%, rgba(200,214,230,.08), transparent 70%),
-        radial-gradient(ellipse 70% 80% at 50% 40%, #1a1a1a 0%, #0a0a0a 55%, #050505 100%);
-      color: #fff;
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .shop-hero::before {
-      content: "";
-      position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 50% 40% at 50% 38%, rgba(255,255,255,.04), transparent 70%);
-    }
-    .shop-hero .band { position: relative; z-index: 1; }
-    .shop-hero-inner {
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center; gap: 18px;
-      padding: 28px 0 8px;
-    }
-    .shop-hero-logo {
-      width: min(380px, 72vw);
-      height: auto;
-      opacity: .42;
-      filter: none;
-      mix-blend-mode: screen;
-      transition: opacity .6s var(--ease);
-    }
-    @media (hover:hover) {
-      .shop-hero-logo:hover { opacity: .58; }
-    }
-    .shop-hero-sub {
-      font-size: 13px; font-weight: 500;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: rgba(255,255,255,.38);
-      margin: 0;
-    }
-    .shop-hero-actions { display: none; }
-    @media (min-width: 900px) {
-      .shop-hero { padding-top: calc(var(--nav-h) + var(--safe-t) + 72px); padding-bottom: 72px; }
-      .shop-hero-logo { width: min(440px, 42vw); }
-      .shop-hero-inner { gap: 22px; padding: 40px 0 16px; }
-    }
-    /* Music vinyl product shots — physical sleeve + disc */
-    #music .product-visual.is-vinyl {
-      background: #F4F4F2;
-      border-color: rgba(17,17,17,.1);
-      box-shadow: 0 14px 36px rgba(17,17,17,.06);
-    }
-    #music .product-visual.is-vinyl img {
-      object-fit: contain;
-      object-position: center;
-      padding: 6%;
-    }
-    /* Label / sleeve art covers */
-    #music .product-visual.is-cover {
-      background: #0a0a0a;
-      border-color: rgba(17,17,17,.14);
-      box-shadow: 0 14px 36px rgba(17,17,17,.08);
-    }
-    #music .product-visual.is-cover img {
-      object-fit: cover;
-      object-position: center;
-      padding: 0;
-    }
-    #goods .shop {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    @media (max-width: 980px) { #goods .shop { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 560px) { #goods .shop { grid-template-columns: 1fr; } }
+    body.shop-page main { padding-top: calc(var(--nav-h) + var(--safe-t)); }
 
-    /* Section anchors (clear sticky jump) -------------------------------------- */
-    .shop-block { scroll-margin-top: calc(var(--nav-h) + var(--safe-t) + 58px); }
-    .shop-block .section-head {
-      padding: 64px 0 24px; margin-bottom: 28px;
-    }
-    @media (min-width: 800px) {
-      .shop-block .section-head { padding: 80px 0 28px; margin-bottom: 36px; }
-    }
-    .section-note { font-size: 14px; color: var(--dim); }
-    .visually-hidden {
-      position: absolute; width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-    }
-
-    /* Product grid --------------------------------------------------------------- */
-    .shop {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px 20px;
-    }
-    @media (max-width: 980px) { .shop { grid-template-columns: 1fr 1fr; gap: 24px 16px; } }
-    @media (max-width: 560px) { .shop { grid-template-columns: 1fr; max-width: 440px; } }
-    #clothing .shop {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    @media (max-width: 980px) { #clothing .shop { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 560px) { #clothing .shop { grid-template-columns: 1fr; } }
-
-    /* Product card — art-forward, quiet chrome ------------------------------------ */
-    .product {
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      overflow: visible;
-      display: flex; flex-direction: column;
-      box-shadow: none;
-      opacity: 0; transform: translateY(14px);
-      transition: opacity .7s var(--ease), transform .7s var(--ease);
-    }
-    .product.in { opacity: 1; transform: none; }
-    .product:nth-child(2) { transition-delay: .05s; }
-    .product:nth-child(3) { transition-delay: .1s; }
-    .product:nth-child(4) { transition-delay: .15s; }
-    @media (hover:hover) {
-      .product:hover .product-visual img { transform: scale(1.02); }
-    }
-
-    .product-visual {
-      position: relative;
-      background:
-        linear-gradient(165deg, rgba(255,255,255,.5), transparent 40%),
-        var(--soft);
-      aspect-ratio: 1;
-      overflow: hidden;
-      border: 1px solid rgba(150,162,180,.4);
-      border-radius: var(--radius);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.55),
-        0 10px 28px rgba(26,30,38,.06);
-      transition: border-color .45s var(--ease), box-shadow .45s var(--ease);
-    }
-    .product-visual.media-bezel { /* inherits chrome bezel */ }
-    @media (hover:hover) {
-      .product:hover .product-visual {
-        border-color: rgba(120,136,158,.55);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.7),
-          0 16px 36px rgba(26,30,38,.1);
-      }
-    }
-    .product-badges {
-      position: absolute; top: 10px; left: 10px; z-index: 3;
-      display: flex; flex-wrap: wrap; gap: 6px;
-      pointer-events: none;
-    }
-    .product-badges .badge {
-      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(236,240,246,.82));
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-color: rgba(170,182,200,.45);
-    }
-    .product-visual img {
-      width: 100%; height: 100%;
-      object-fit: contain; object-position: center;
-      padding: 8%;
-      box-sizing: border-box;
-      mix-blend-mode: normal;
-      transition: transform .8s var(--ease);
-    }
-    #music .product-visual:not(.is-vinyl):not(.is-cover) img {
-      padding: 4%;
-      mix-blend-mode: normal;
-    }
-
-    /* Dark nav over chrome shop hero ----------------------------------------- */
-    body.shop-page .nav {
-      background: transparent;
-      border-bottom-color: transparent;
-      box-shadow: none;
-    }
-    body.shop-page:not(.nav-light) .nav .nav-links a { color: rgba(255,255,255,.72); }
-    body.shop-page:not(.nav-light) .nav .nav-links a:hover,
-    body.shop-page:not(.nav-light) .nav .nav-links a[aria-current="page"] {
-      color: #fff; background: rgba(255,255,255,.1);
-    }
-    body.shop-page:not(.nav-light) .nav .nav-cart { color: #fff; }
-    body.shop-page:not(.nav-light) .nav .nav-ham span { background: #fff; }
-    body.shop-page:not(.nav-light) .nav .nav-cart-count { background: #fff; color: #000; }
-    body.shop-page:not(.nav-light) .nav.scrolled {
-      background: rgba(8, 8, 10, .78);
-      border-bottom-color: rgba(255,255,255,.08);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 28px rgba(0,0,0,.25);
-      backdrop-filter: saturate(180%) blur(16px);
-      -webkit-backdrop-filter: saturate(180%) blur(16px);
-    }
-    body.shop-page:not(.nav-light) .nav-drawer {
-      background: rgba(8, 8, 10, .94);
-      border-bottom-color: rgba(255,255,255,.08);
-    }
-    body.shop-page:not(.nav-light) .nav-drawer a {
-      color: #fff; border-bottom-color: rgba(255,255,255,.08);
-    }
-    body.shop-page.nav-light .nav.scrolled {
-      background: rgba(250,248,245,.72);
-      border-bottom-color: var(--line);
-      box-shadow: inset 0 1px 0 var(--line-hi), 0 8px 28px rgba(17,17,17,.04);
-    }
-    body.shop-page main { padding-top: 0; }
-    body.shop-page .section-head h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      letter-spacing: -.028em;
-    }
-    body.shop-page .section-head {
-      align-items: end;
-    }
-    body.shop-page .section-note {
-      font-size: 14px;
-      max-width: 18em;
-      text-align: right;
-    }
-    @media (max-width: 720px) {
-      body.shop-page .section-head { align-items: start; }
-      body.shop-page .section-note { text-align: left; max-width: none; }
-    }
-
-
-    /* Sticky shop section nav — most useful jump on a long store ---------------- */
-    .shop-jump {
+    /* Filter / sort bar — Stones Throw flow ------------------------------------ */
+    .store-bar {
       position: sticky;
       top: calc(var(--nav-h) + var(--safe-t));
       z-index: 80;
-      margin: 0;
-      padding: 12px 0;
-      background: rgba(250,248,245,.92);
-      backdrop-filter: saturate(180%) blur(18px);
-      -webkit-backdrop-filter: saturate(180%) blur(18px);
+      background: rgba(250,248,245,.94);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
       border-bottom: 1px solid var(--line);
     }
-    .shop-jump-inner {
+    .store-bar-inner {
       max-width: var(--wrap);
       margin: 0 auto;
-      padding: 0 max(24px, env(safe-area-inset-right, 0px)) 0 max(24px, env(safe-area-inset-left, 0px));
-      display: flex; gap: 6px; flex-wrap: nowrap;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
+      padding: 14px max(24px, env(safe-area-inset-right, 0px)) 14px max(24px, env(safe-area-inset-left, 0px));
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      flex-wrap: wrap;
     }
-    @media (min-width: 800px) { .shop-jump-inner { padding: 0 max(40px, env(safe-area-inset-right, 0px)) 0 max(40px, env(safe-area-inset-left, 0px)); } }
-    .shop-jump-inner::-webkit-scrollbar { display: none; }
-    .shop-jump a {
-      flex: 0 0 auto;
-      height: 34px; padding: 0 14px;
-      border-radius: var(--pill);
-      font-size: 13px; font-weight: 500; letter-spacing: -.01em;
-      color: var(--muted);
+    @media (min-width: 800px) {
+      .store-bar-inner { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
+    }
+    .store-filters, .store-sort {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .store-label {
+      font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--dim);
+    }
+    .store-chip {
+      height: 34px; padding: 0 14px; border-radius: var(--pill);
       border: 1px solid transparent;
-      display: inline-flex; align-items: center;
+      background: transparent; color: var(--muted);
+      font-size: 13px; font-weight: 500; letter-spacing: -.01em;
+      cursor: pointer;
       transition: color var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
     }
     @media (hover:hover) {
-      .shop-jump a:hover { color: var(--ink); background: var(--fill); }
+      .store-chip:hover { color: var(--ink); background: var(--fill); }
     }
-    .shop-jump a.is-active {
+    .store-chip.is-active {
       color: var(--ink);
       background: rgba(255,255,255,.7);
       border-color: var(--line);
       box-shadow: inset 0 1px 0 var(--line-hi);
     }
+    .store-sort select {
+      height: 34px; padding: 0 28px 0 12px;
+      border: 1px solid var(--line); border-radius: var(--pill);
+      background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 10px center;
+      color: var(--ink); font: inherit; font-size: 13px; font-weight: 500;
+      appearance: none; -webkit-appearance: none; cursor: pointer;
+    }
 
-    .product-body {
-      padding: 16px 2px 8px;
-      display: flex; flex-direction: column; gap: 12px; flex: 1;
-      border-top: none;
+    /* Product grid ------------------------------------------------------------- */
+    .store-grid-wrap {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 36px max(24px, env(safe-area-inset-right, 0px)) 80px max(24px, env(safe-area-inset-left, 0px));
     }
-    .product-top {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+    @media (min-width: 800px) {
+      .store-grid-wrap { padding: 48px max(40px, env(safe-area-inset-right, 0px)) 96px max(40px, env(safe-area-inset-left, 0px)); }
     }
-    .product-name {
-      font-family: var(--display);
-      font-size: 17px; font-weight: 600; letter-spacing: -.02em; line-height: 1.2;
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 40px 28px;
+      list-style: none; margin: 0; padding: 0;
     }
-    .product-price {
-      font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums;
-      white-space: nowrap; flex-shrink: 0;
+    @media (max-width: 980px) { .store-grid { grid-template-columns: 1fr 1fr; gap: 32px 18px; } }
+    @media (max-width: 560px) { .store-grid { grid-template-columns: 1fr; max-width: 420px; gap: 28px; } }
+
+    .product {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .55s var(--ease), transform .55s var(--ease);
     }
-    .product-note { font-size: 13.5px; color: var(--muted); line-height: 1.55; max-width: 34em; }
-    .product-link {
-      font-size: 13px; font-weight: 500; color: var(--dim);
-      text-decoration: underline; text-underline-offset: 3px;
-      text-decoration-color: transparent;
-      transition: color var(--dur) var(--ease), text-decoration-color var(--dur) var(--ease);
-      align-self: flex-start;
+    .product.is-shown { display: flex; }
+    .product.in { opacity: 1; transform: none; }
+    .product.is-shown:nth-child(3n+2) { transition-delay: .04s; }
+    .product.is-shown:nth-child(3n+3) { transition-delay: .08s; }
+
+    .product-visual {
+      position: relative;
+      display: block; width: 100%; padding: 0; border: 0;
+      background: #f0eeea;
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left; color: inherit;
+    }
+    .product-visual img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform .7s var(--ease);
+    }
+    .product[data-type="music"] .product-visual img,
+    .product[data-type="bundles"] .product-visual img {
+      object-fit: cover;
+    }
+    .product[data-type="clothing"] .product-visual img,
+    .product[data-type="goods"] .product-visual img {
+      object-fit: contain;
+      padding: 8%;
+      box-sizing: border-box;
     }
     @media (hover:hover) {
-      .product-link:hover { color: var(--ink); text-decoration-color: var(--ink); }
+      .product:hover .product-visual img { transform: scale(1.03); }
     }
-    .product-actions {
-      display: flex; flex-direction: column; gap: 10px;
-      margin-top: auto;
+
+    .product-title {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 16px; font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
     }
-    .product-actions .merch-add { margin-top: 0; }
-    /* Options ------------------------------------------------------------------------ */
-    .opt-block { display: flex; flex-direction: column; gap: 8px; }
-    .opt-label {
-      font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--dim);
+    .product-title a,
+    .product-title button {
+      color: inherit; font: inherit; background: none; border: 0; padding: 0;
+      cursor: pointer; text-align: left;
     }
-    .merch-options { display: flex; gap: 8px; flex-wrap: wrap; }
-    .merch-opt {
-      min-width: 40px; height: 34px; padding: 0 12px; border-radius: var(--pill);
-      background: var(--soft); color: var(--muted);
-      border: 1px solid var(--line);
-      font-size: 13px; font-weight: 500;
-      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    @media (hover:hover) {
+      .product-title a:hover,
+      .product-title button:hover { opacity: .65; }
     }
-    @media (hover:hover) { .merch-opt:hover { color: var(--ink); border-color: var(--ink); } }
-    .merch-opt.selected,
-    .merch-opt[aria-pressed="true"] {
-      background: var(--ink); color: #fff; border-color: var(--ink);
+    .product-sub {
+      margin: 4px 0 0;
+      font-size: 13px; color: var(--muted); line-height: 1.35;
     }
-    .opt-error { font-size: 12px; color: #b42318; margin-top: 8px; }
-    .merch-options[aria-invalid="true"] { outline: 1px solid rgba(180,35,24,.45); outline-offset: 4px; border-radius: 10px; }
-    .product-name a, .product-name button {
-      color: inherit; font: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
+
+    .store-empty {
+      display: none;
+      padding: 64px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
     }
-    @media (hover:hover) { .product-name a:hover, .product-name button:hover { opacity: .7; } }
-    .product-details-hit { display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left; color: inherit; }
-    a.product-details-hit { text-decoration: none; }
+    .store-empty.is-visible { display: block; }
+
+    /* Product drawer (buy surface) -------------------------------------------- */
     .product-drawer {
       border: 0; padding: 0; width: min(420px, 100%); max-width: 100%; height: 100%; max-height: 100dvh;
       margin: 0 0 0 auto; background: var(--card); color: var(--ink);
@@ -349,38 +167,54 @@
     .product-drawer__inner {
       padding: max(28px, env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px)) max(40px, env(safe-area-inset-bottom, 0px)) 24px;
       overflow: auto; position: relative;
+      display: flex; flex-direction: column; gap: 16px;
     }
     .product-drawer__close {
       position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 999px;
       border: 1px solid var(--line); background: var(--soft); font-size: 22px; line-height: 1; cursor: pointer;
     }
-    .product-drawer img { width: 100%; aspect-ratio: 1; object-fit: contain; background: var(--soft); border-radius: var(--radius-lg); margin-bottom: 20px; }
-    .product-drawer h2 { font-size: 28px; letter-spacing: -.03em; margin: 0 0 6px; }
-    .product-drawer .drawer-price { font-size: 18px; font-weight: 600; margin-bottom: 14px; }
-    .product-drawer .drawer-note { color: var(--muted); font-size: 15px; line-height: 1.5; margin-bottom: 22px; }
-    .product-drawer dl { display: grid; gap: 14px; margin: 0; }
-    .product-drawer dt { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 4px; }
-    .product-drawer dd { margin: 0; font-size: 15px; }
-
-
-    /* Add to cart ----------------------------------------------------------------------- */
+    .product-drawer img {
+      width: 100%; aspect-ratio: 1; object-fit: contain; background: var(--soft);
+      border-radius: var(--radius-lg); margin: 0;
+    }
+    .product-drawer h2 { font-size: 28px; letter-spacing: -.03em; margin: 0; }
+    .drawer-price { font-size: 18px; font-weight: 600; margin: 0; }
+    .opt-block { display: flex; flex-direction: column; gap: 8px; }
+    .opt-label {
+      font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim);
+    }
+    .merch-options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .merch-opt {
+      min-width: 40px; height: 34px; padding: 0 12px; border-radius: var(--pill);
+      background: var(--soft); color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    @media (hover:hover) { .merch-opt:hover { color: var(--ink); border-color: var(--ink); } }
+    .merch-opt.selected,
+    .merch-opt[aria-pressed="true"] {
+      background: var(--ink); color: #fff; border-color: var(--ink);
+    }
+    .opt-error { font-size: 12px; color: #b42318; margin: 0; }
+    .merch-options[aria-invalid="true"] { outline: 1px solid rgba(180,35,24,.45); outline-offset: 4px; border-radius: 10px; }
     .merch-add {
-      height: 44px; width: 100%; margin-top: auto;
+      height: 48px; width: 100%;
       border-radius: var(--pill);
-      background: transparent; color: var(--ink);
-      border: 1px solid rgba(17,17,17,.28);
-      font-size: 13px; font-weight: 500; letter-spacing: -.01em;
-      transition: opacity var(--dur) var(--ease), transform 160ms var(--ease),
-                  background var(--dur) var(--ease), color var(--dur) var(--ease),
-                  border-color var(--dur) var(--ease);
+      background: var(--ink); color: #fff;
+      border: 1px solid var(--ink);
+      font-size: 14px; font-weight: 600; letter-spacing: -.01em;
+      cursor: pointer;
+      transition: opacity var(--dur) var(--ease), transform 160ms var(--ease);
     }
     .merch-add:active { transform: scale(.98); }
-    .merch-add.is-added { background: var(--ink); color: #fff; border-color: var(--ink); }
-    @media (hover:hover) {
-      .merch-add:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
-    }
+    .merch-add.is-added { opacity: .7; }
+    .merch-add:disabled { opacity: .45; cursor: not-allowed; }
+    .drawer-opts { display: flex; flex-direction: column; gap: 14px; }
+    .drawer-opts[hidden] { display: none !important; }
 
-    /* Toast ------------------------------------------------------------------------------ */
+    /* Toast -------------------------------------------------------------------- */
     .toast {
       position: fixed; left: 50%; bottom: calc(24px + var(--safe-b));
       transform: translateX(-50%) translateY(20px);
@@ -402,11 +236,7 @@
       background: var(--ink); color: #fff;
       font-size: 12px; font-weight: 600;
       display: inline-flex; align-items: center;
-      transition: opacity var(--dur) var(--ease);
     }
-    @media (hover:hover) { .toast a:hover { opacity: .84; } }
-
-    main { padding-bottom: 24px; }
 
     @media (prefers-reduced-motion: reduce) {
       .product { opacity: 1; transform: none; transition: none; }
@@ -420,7 +250,7 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-        <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" aria-label="Primary">
       <a href="index.html#listen">Listen</a>
       <a href="library.html">Library</a>
       <a href="artists.html">Artists</a>
@@ -453,425 +283,188 @@
 </div>
 
 <main id="main">
-  <section class="shop-hero fx-phosphor" aria-label="Club Copy shop">
-    <div class="band">
-      <div class="shop-hero-inner">
-        <img class="shop-hero-logo" src="merch/club-copy/logo-chrome-hero.webp" alt="Club Copy" width="1400" height="503" fetchpriority="high"/>
-        <p class="shop-hero-sub">Music first. Merch with opinions.</p>
+  <div class="store-bar" aria-label="Shop filters">
+    <div class="store-bar-inner">
+      <div class="store-filters">
+        <span class="store-label">Filters</span>
+        <button type="button" class="store-chip is-active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="store-chip" data-filter="music" aria-pressed="false">Music</button>
+        <button type="button" class="store-chip" data-filter="bundles" aria-pressed="false">Bundles</button>
+        <button type="button" class="store-chip" data-filter="clothing" aria-pressed="false">Clothing</button>
+        <button type="button" class="store-chip" data-filter="goods" aria-pressed="false">Goods</button>
+      </div>
+      <div class="store-sort">
+        <label class="store-label" for="storeSort">Sort</label>
+        <select id="storeSort">
+          <option value="newest">Newest to Oldest</option>
+          <option value="oldest">Oldest to Newest</option>
+          <option value="az">Alphabetically, A–Z</option>
+          <option value="za">Alphabetically, Z–A</option>
+        </select>
       </div>
     </div>
-  </section>
+  </div>
 
-  <nav class="shop-jump" aria-label="Shop sections">
-    <div class="shop-jump-inner">
-      <a href="#music">Music</a>
-      <a href="#bundles">Bundles</a>
-      <a href="#goods">Goods</a>
-      <a href="#clothing">Clothing</a>
-    </div>
-  </nav>
+  <div class="store-grid-wrap">
+    <ul class="store-grid" id="storeGrid" aria-label="Products">
 
-  <div class="band">
-    <div class="shop-block" id="music">
-      <header class="section-head">
+      <li class="product merch-card is-shown" data-type="music" data-sku="dg-enter" data-name="Enter, Double-Edge" data-price="8" data-sort="3" data-stock="Digital — emailed after checkout">
+        <a class="product-visual" href="enter.html" aria-label="Enter, Double-Edge">
+          <img src="enter-cover.webp" alt="Enter, Double-Edge" width="1200" height="1200"/>
+        </a>
         <div>
-          <p class="eyebrow">01</p>
-          <h2>Music</h2>
+          <h3 class="product-title"><a href="enter.html">Enter, Double-Edge</a></h3>
         </div>
-        <p class="section-note">Format and genre. That’s the whole pitch.</p>
-      </header>
-      <section class="shop" aria-label="Music">
-        <article class="product merch-card" data-sku="dg-enter" data-stock="Digital — emailed after checkout" data-name="Enter, Double-Edge — Digital (EP)" data-price="8">
-          <a class="product-visual is-cover media-bezel fx-spec product-details-hit" href="enter.html" aria-label="View details">
-            <img src="enter-cover.webp" alt="Enter, Double-Edge — digital EP" width="1200" height="1200"/>
-          </a>
-          <div class="product-body">
+      </li>
 
-            <div class="product-top">
-              <h3 class="product-name"><a href="enter.html">Enter, Double-Edge</a></h3>
-              <p class="product-price">$8 CAD</p>
-            </div>
-            <p class="product-note">Digital EP · Jungle</p>
-            <div class="product-actions">
-              <a class="product-link" href="enter.html">Details</a>
-              <button class="merch-add" type="button">Add to cart</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="product merch-card" data-sku="dg-together" data-stock="Digital — emailed after checkout" data-name="Together — Digital (EP)" data-price="8">
-          <a class="product-visual is-cover media-bezel fx-spec product-details-hit" href="together.html" aria-label="View details">
-            <img src="together-cover.webp" alt="Together — Club Copy EP" width="1200" height="1200" loading="lazy"/>
-          </a>
-          <div class="product-body">
-
-            <div class="product-top">
-              <h3 class="product-name"><a href="together.html">Together</a></h3>
-              <p class="product-price">$8 CAD</p>
-            </div>
-            <p class="product-note">Digital EP · House</p>
-            <div class="product-actions">
-              <a class="product-link" href="together.html">Details</a>
-              <button class="merch-add" type="button">Add to cart</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="product merch-card" data-sku="sm-cassette-inlet-knight" data-stock="In stock" data-stock-qty="36" data-name="Inlet Knight — Cassette" data-price="20">
-          <a class="product-visual is-cover media-bezel fx-spec product-details-hit" href="inlet-knight.html" aria-label="View details">
-            <img src="inlet-knight-cover.webp" alt="Inlet Knight — Club Copy album" loading="lazy" width="1200" height="1200"/>
-          </a>
-          <div class="product-body">
-
-            <div class="product-top">
-              <h3 class="product-name"><a href="inlet-knight.html">Inlet Knight</a></h3>
-              <p class="product-price">$20 CAD</p>
-            </div>
-            <p class="product-note">Cassette album · House</p>
-            <div class="product-actions">
-              <a class="product-link" href="inlet-knight.html">Details</a>
-              <button class="merch-add" type="button">Add to cart</button>
-            </div>
-          </div>
-        </article>
-      </section>
-    </div>
-
-    <div class="shop-block" id="bundles">
-      <header class="section-head">
+      <li class="product merch-card is-shown" data-type="music" data-sku="dg-together" data-name="Together" data-price="8" data-sort="2" data-stock="Digital — emailed after checkout">
+        <a class="product-visual" href="together.html" aria-label="Together">
+          <img src="together-cover.webp" alt="Together" width="1200" height="1200" loading="lazy"/>
+        </a>
         <div>
-          <p class="eyebrow">02</p>
-          <h2>Bundles</h2>
+          <h3 class="product-title"><a href="together.html">Together</a></h3>
         </div>
-        <p class="section-note">One tee. One release. One checkout.</p>
-      </header>
-      <section class="shop" aria-label="Bundles">
-        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Tee packed in BC · files hit your inbox after checkout" data-stock="In stock" data-stock-qty="80" data-sku="bn-tee-enter" data-name="Micro Tee + Enter Digital" data-price="48">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee + Enter bundle"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Tee + Enter</button></h3>
-              <p class="product-price">$48 CAD</p>
-            </div>
-            <p class="product-note">Micro Tee + Enter digital EP · Jungle</p>
-            <div class="opt-block">
-              <span class="opt-label">Tee colour</span>
-              <div class="merch-options">
-                <button type="button" class="merch-opt selected" data-group="bn-enter-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
-                <button type="button" class="merch-opt" data-group="bn-enter-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
-              </div>
-            </div>
-            <div class="opt-block">
-              <span class="opt-label">Tee size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="bn-enter-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      </li>
 
-        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Tee packed in BC · files hit your inbox after checkout" data-stock="In stock" data-stock-qty="80" data-sku="bn-tee-together" data-name="Micro Tee + Together Digital" data-price="48">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee + Together bundle"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Tee + Together</button></h3>
-              <p class="product-price">$48 CAD</p>
-            </div>
-            <p class="product-note">Micro Tee + Together digital EP · House</p>
-            <div class="opt-block">
-              <span class="opt-label">Tee colour</span>
-              <div class="merch-options">
-                <button type="button" class="merch-opt selected" data-group="bn-together-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
-                <button type="button" class="merch-opt" data-group="bn-together-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
-              </div>
-            </div>
-            <div class="opt-block">
-              <span class="opt-label">Tee size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="bn-together-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
-
-        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-sku="bn-tee-inlet-cass" data-name="Micro Tee + Inlet Knight Cassette" data-price="60">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="inlet-knight-cover.webp" alt="Micro Tee + Inlet Knight cassette bundle"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Tee + Cassette</button></h3>
-              <p class="product-price">$60 CAD</p>
-            </div>
-            <p class="product-note">Micro Tee + Inlet Knight cassette · House</p>
-            <div class="opt-block">
-              <span class="opt-label">Tee colour</span>
-              <div class="merch-options">
-                <button type="button" class="merch-opt selected" data-group="bn-cass-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
-                <button type="button" class="merch-opt" data-group="bn-cass-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
-              </div>
-            </div>
-            <div class="opt-block">
-              <span class="opt-label">Tee size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="bn-cass-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
-      </section>
-    </div>
-
-    <div class="shop-block" id="goods">
-      <header class="section-head">
+      <li class="product merch-card is-shown" data-type="music" data-sku="sm-cassette-inlet-knight" data-name="Inlet Knight" data-price="20" data-sort="1" data-stock="In stock" data-stock-qty="36">
+        <a class="product-visual" href="inlet-knight.html" aria-label="Inlet Knight">
+          <img src="inlet-knight-cover.webp" alt="Inlet Knight" width="1200" height="1200" loading="lazy"/>
+        </a>
         <div>
-          <p class="eyebrow">03</p>
-          <h2>Goods</h2>
+          <h3 class="product-title"><a href="inlet-knight.html">Inlet Knight</a></h3>
         </div>
-        <p class="section-note">Unsexy tools for records that deserve better.</p>
-      </header>
-      <section class="shop" aria-label="Goods">
-        <article class="product merch-card" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-slipmat" data-stock-qty="60" data-name="Slipmat Pair" data-price="22">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-slipmat.webp" alt="Slipmat Pair" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Slipmat Pair</button></h3>
-              <p class="product-price">$22 CAD</p>
-            </div>
-            <p class="product-note">Thick felt with one job: stop vinyl from freelancing off the platter. Sold as a pair — mono is a lifestyle, not a shopping choice.</p>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      </li>
 
-        <article class="product merch-card" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-poly-outer" data-stock-qty="100" data-name="Poly Outer" data-price="5">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-poly-outer.webp" alt="Poly outer sleeve" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Poly Outer</button></h3>
-              <p class="product-price">$5 CAD</p>
-            </div>
-            <p class="product-note">A see-through bodyguard for your 12″ sleeve. Dust can apply elsewhere.</p>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
-      </section>
-    </div>
-
-    <div class="shop-block" id="clothing">
-      <header class="section-head">
+      <li class="product merch-card is-shown" data-type="bundles" data-sku="bn-tee-enter" data-name="Micro Tee + Enter Digital" data-price="48" data-sort="6" data-fit="Regular fit · heavyweight cotton" data-ships="Tee packed in BC · files hit your inbox after checkout" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
+        <button type="button" class="product-visual" data-open-product aria-label="Micro Tee + Enter">
+          <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee + Enter" loading="lazy"/>
+        </button>
         <div>
-          <p class="eyebrow">04</p>
-          <h2>Clothing</h2>
+          <h3 class="product-title"><button type="button" data-open-product>Tee + Enter</button></h3>
         </div>
-        <p class="section-note">Quiet branding for people with loud taste.</p>
-      </header>
-      <section class="shop" aria-label="Clothing">
-        <article class="product merch-card" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-simple-tee" data-stock-qty="80" data-name="Micro Tee" data-price="40">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img id="img-simple-tee" src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Micro Tee</button></h3>
-              <p class="product-price">$40 CAD</p>
-            </div>
-            <p class="product-note">Heavy cotton carrying a logo so discreet it needs an introduction. Black or white.</p>
-            <div class="opt-block">
-              <span class="opt-label">Colour</span>
-              <div class="merch-options">
-                <button type="button" class="merch-opt selected" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-black.jpg" aria-pressed="true">Black</button>
-                <button type="button" class="merch-opt" data-group="simple-tee-colour" data-img="merch/club-copy/prod-simple-tee-white.jpg" aria-pressed="false">White</button>
-              </div>
-            </div>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="simple-tee-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      </li>
 
-        <article class="product merch-card" data-fit="Regular fit · long sleeve" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-longsleeve" data-stock-qty="40" data-name="Long Sleeve" data-price="53">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Long Sleeve</button></h3>
-              <p class="product-price">$53 CAD</p>
-            </div>
-            <p class="product-note">Same hush of a chest mark, plus sleeves for BC’s indefinite autumn.</p>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="ls-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      <li class="product merch-card is-shown" data-type="bundles" data-sku="bn-tee-together" data-name="Micro Tee + Together Digital" data-price="48" data-sort="5" data-fit="Regular fit · heavyweight cotton" data-ships="Tee packed in BC · files hit your inbox after checkout" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
+        <button type="button" class="product-visual" data-open-product aria-label="Micro Tee + Together">
+          <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee + Together" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Tee + Together</button></h3>
+        </div>
+      </li>
 
-        <article class="product merch-card" data-fit="Regular fit · sleeve print only" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-sleeve-tee" data-stock-qty="36" data-name="Sleeve Tee" data-price="55">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Long sleeve with oval mark down one sleeve" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Sleeve Tee</button></h3>
-              <p class="product-price">$55 CAD</p>
-            </div>
-            <p class="product-note">We parked the logo on the sleeve so your chest could keep its secrets.</p>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="sleeve-tee-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      <li class="product merch-card is-shown" data-type="bundles" data-sku="bn-tee-inlet-cass" data-name="Micro Tee + Inlet Knight Cassette" data-price="60" data-sort="4" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
+        <button type="button" class="product-visual" data-open-product aria-label="Micro Tee + Inlet Knight Cassette">
+          <img src="inlet-knight-cover.webp" alt="Micro Tee + Inlet Knight Cassette" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Tee + Cassette</button></h3>
+        </div>
+      </li>
 
-        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-hoodie" data-stock-qty="30" data-name="Hoodie" data-price="85">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie with small tonal chest logo" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Hoodie</button></h3>
-              <p class="product-price">$85 CAD</p>
-            </div>
-            <p class="product-note">Midweight fleece with a tonal mark that only confesses mid-hug. Awkward for everyone involved.</p>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="hoodie-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      <li class="product merch-card is-shown" data-type="goods" data-sku="sm-slipmat" data-name="Slipmat Pair" data-price="22" data-sort="8" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="60">
+        <button type="button" class="product-visual" data-open-product aria-label="Slipmat Pair">
+          <img src="merch/club-copy/prod-slipmat.webp" alt="Slipmat Pair" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Slipmat Pair</button></h3>
+        </div>
+      </li>
 
-        <article class="product merch-card" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-crewneck" data-stock-qty="30" data-name="Crewneck" data-price="73">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Crewneck</button></h3>
-              <p class="product-price">$73 CAD</p>
-            </div>
-            <p class="product-note">All the fleece, none of the hood negotiations.</p>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">L</button>
-                <button type="button" class="merch-opt" data-group="crew-size" aria-pressed="false">XL</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      <li class="product merch-card is-shown" data-type="goods" data-sku="sm-poly-outer" data-name="Poly Outer" data-price="5" data-sort="7" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="100">
+        <button type="button" class="product-visual" data-open-product aria-label="Poly Outer">
+          <img src="merch/club-copy/prod-poly-outer.webp" alt="Poly Outer" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Poly Outer</button></h3>
+        </div>
+      </li>
 
-        <article class="product merch-card" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-cap" data-stock-qty="50" data-name="Cap" data-price="45">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-cap.webp" alt="Washed Cap with small front logo" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Cap</button></h3>
-              <p class="product-price">$45 CAD</p>
-            </div>
-            <p class="product-note">Washed six-panel. Front stitch smaller than your excuses — covers most of them anyway.</p>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-simple-tee" data-name="Micro Tee" data-price="40" data-sort="15" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
+        <button type="button" class="product-visual" data-open-product aria-label="Micro Tee">
+          <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Micro Tee</button></h3>
+        </div>
+      </li>
 
-        <article class="product merch-card" data-fit="True to size · stretch jersey" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-sku="sm-bikini" data-stock-qty="20" data-name="Bikini" data-price="60">
-          <button type="button" class="product-visual media-bezel fx-spec product-details-hit" data-open-product aria-label="View product details">
-            <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini with stencil logo" loading="lazy"/>
-          </button>
-          <div class="product-body">
-            <div class="product-top">
-              <h3 class="product-name"><button type="button" data-open-product>Bikini</button></h3>
-              <p class="product-price">$60 CAD</p>
-            </div>
-            <p class="product-note">Two pieces of stretch jersey and a logo that somehow still whispers. Pack sunscreen, not explanations.</p>
-            <div class="opt-block">
-              <span class="opt-label">Size</span>
-              <div class="merch-options" role="group" data-required="size">
-                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">XS</button>
-                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">S</button>
-                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">M</button>
-                <button type="button" class="merch-opt" data-group="bikini-size" aria-pressed="false">L</button>
-              </div>
-            <p class="opt-error" role="alert" hidden>Select a size to continue.</p>
-            </div>
-            <button class="merch-add" type="button">Add to cart</button>
-          </div>
-        </article>
-      </section>
-    </div>
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="53" data-sort="14" data-fit="Regular fit · long sleeve" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="40" data-sizes="S,M,L,XL">
+        <button type="button" class="product-visual" data-open-product aria-label="Long Sleeve">
+          <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Long Sleeve</button></h3>
+        </div>
+      </li>
+
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-sleeve-tee" data-name="Sleeve Tee" data-price="55" data-sort="13" data-fit="Regular fit · sleeve print only" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-sizes="S,M,L,XL">
+        <button type="button" class="product-visual" data-open-product aria-label="Sleeve Tee">
+          <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Sleeve Tee" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Sleeve Tee</button></h3>
+        </div>
+      </li>
+
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-hoodie" data-name="Hoodie" data-price="85" data-sort="12" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL">
+        <button type="button" class="product-visual" data-open-product aria-label="Hoodie">
+          <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Hoodie</button></h3>
+        </div>
+      </li>
+
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-crewneck" data-name="Crewneck" data-price="73" data-sort="11" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL">
+        <button type="button" class="product-visual" data-open-product aria-label="Crewneck">
+          <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Crewneck</button></h3>
+        </div>
+      </li>
+
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-cap" data-name="Cap" data-price="45" data-sort="10" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="50">
+        <button type="button" class="product-visual" data-open-product aria-label="Cap">
+          <img src="merch/club-copy/prod-cap.webp" alt="Cap" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Cap</button></h3>
+        </div>
+      </li>
+
+      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-bikini" data-name="Bikini" data-price="60" data-sort="9" data-fit="True to size · stretch jersey" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="20" data-sizes="XS,S,M,L">
+        <button type="button" class="product-visual" data-open-product aria-label="Bikini">
+          <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini" loading="lazy"/>
+        </button>
+        <div>
+          <h3 class="product-title"><button type="button" data-open-product>Bikini</button></h3>
+        </div>
+      </li>
+
+    </ul>
+    <p class="store-empty" id="storeEmpty" hidden>No products in this filter.</p>
   </div>
 </main>
 
-
 <dialog class="product-drawer" id="productDrawer" aria-labelledby="drawerTitle">
   <div class="product-drawer__inner">
-    <button class="product-drawer__close" type="button" aria-label="Close product details">&times;</button>
+    <button class="product-drawer__close" type="button" aria-label="Close">&times;</button>
     <img id="drawerImage" alt=""/>
-    <p class="eyebrow">Product details</p>
     <h2 id="drawerTitle"></h2>
-    <p class="drawer-price" id="drawerPrice"></p>
-    <p class="drawer-note" id="drawerNote"></p>
-    <dl>
-      <div><dt>Fit</dt><dd id="drawerFit"></dd></div>
-      <div><dt>Ships</dt><dd id="drawerShips"></dd></div>
-      <div><dt>Stock</dt><dd id="drawerStock"></dd></div>
-    </dl>
+    <div class="drawer-opts" id="drawerOpts">
+      <div class="opt-block" id="drawerColourBlock" hidden>
+        <span class="opt-label">Colour</span>
+        <div class="merch-options" id="drawerColours" role="group"></div>
+      </div>
+      <div class="opt-block" id="drawerSizeBlock" hidden>
+        <span class="opt-label">Size</span>
+        <div class="merch-options" id="drawerSizes" role="group" data-required="size"></div>
+        <p class="opt-error" id="drawerSizeError" role="alert" hidden>Select a size to continue.</p>
+      </div>
+      <button class="merch-add" id="drawerAdd" type="button">Add to cart</button>
+    </div>
   </div>
 </dialog>
 
@@ -917,108 +510,195 @@
 <script src="js/player.js"></script>
 <script>
 (function () {
-  var nav = document.getElementById('nav');
-  var ticking = false;
-  function syncNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-    ticking = false;
+  var grid = document.getElementById('storeGrid');
+  var empty = document.getElementById('storeEmpty');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.store-chip[data-filter]'));
+  var sortSelect = document.getElementById('storeSort');
+  var activeFilter = 'all';
+
+  function products() {
+    return Array.prototype.slice.call(grid.querySelectorAll('.product'));
   }
-  window.addEventListener('scroll', function () {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(syncNav);
-  }, { passive: true });
-  syncNav();
-})();
-var MERCH_IMG_MAP = {
-  'simple-tee-colour': document.getElementById('img-simple-tee'),
-};
-document.querySelectorAll('.merch-opt').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    var group = btn.dataset.group;
-    var card = btn.closest('.merch-card') || document;
-    card.querySelectorAll('.merch-opt[data-group="' + group + '"]').forEach(function (b) {
-      b.classList.remove('selected');
-      b.setAttribute('aria-pressed', 'false');
+
+  function applyFilterSort() {
+    var items = products();
+    var sort = sortSelect.value;
+    items.sort(function (a, b) {
+      var an = (a.dataset.name || '').toLowerCase();
+      var bn = (b.dataset.name || '').toLowerCase();
+      var as = Number(a.dataset.sort || 0);
+      var bs = Number(b.dataset.sort || 0);
+      if (sort === 'az') return an.localeCompare(bn);
+      if (sort === 'za') return bn.localeCompare(an);
+      if (sort === 'oldest') return as - bs;
+      return bs - as;
     });
-    btn.classList.add('selected');
-    btn.setAttribute('aria-pressed', 'true');
-    if (btn.dataset.img && MERCH_IMG_MAP[group]) MERCH_IMG_MAP[group].src = btn.dataset.img;
-    var sizeGroup = btn.closest('.merch-options[data-required="size"]');
-    if (sizeGroup) {
-      sizeGroup.removeAttribute('aria-invalid');
-      var err = sizeGroup.parentElement && sizeGroup.parentElement.querySelector('.opt-error');
-      if (err) err.hidden = true;
-    }
+    items.forEach(function (el) { grid.appendChild(el); });
+
+    var shown = 0;
+    items.forEach(function (el) {
+      var match = activeFilter === 'all' || el.dataset.type === activeFilter;
+      el.classList.toggle('is-shown', match);
+      if (match) {
+        shown += 1;
+        el.classList.remove('in');
+        requestAnimationFrame(function () { el.classList.add('in'); });
+      }
+    });
+    empty.hidden = shown > 0;
+    empty.classList.toggle('is-visible', shown === 0);
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      activeFilter = chip.dataset.filter;
+      chips.forEach(function (c) {
+        var on = c === chip;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      applyFilterSort();
+    });
   });
-});
+  sortSelect.addEventListener('change', applyFilterSort);
+  applyFilterSort();
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: .08, rootMargin: '0px 0px -20px 0px' });
+  products().forEach(function (el) { obs.observe(el); });
+})();
 
 (function productDrawer() {
   var drawer = document.getElementById('productDrawer');
   if (!drawer) return;
   var opener = null;
+  var activeCard = null;
+  var colourBlock = document.getElementById('drawerColourBlock');
+  var sizeBlock = document.getElementById('drawerSizeBlock');
+  var colourHost = document.getElementById('drawerColours');
+  var sizeHost = document.getElementById('drawerSizes');
+  var sizeError = document.getElementById('drawerSizeError');
+  var addBtn = document.getElementById('drawerAdd');
+  var opts = document.getElementById('drawerOpts');
+
+  function makeOpt(label, selected) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'merch-opt' + (selected ? ' selected' : '');
+    btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    btn.textContent = label;
+    return btn;
+  }
+
+  function wireGroup(host, onPick) {
+    host.querySelectorAll('.merch-opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        host.querySelectorAll('.merch-opt').forEach(function (b) {
+          b.classList.remove('selected');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('selected');
+        btn.setAttribute('aria-pressed', 'true');
+        if (onPick) onPick(btn);
+        if (host === sizeHost) {
+          sizeHost.removeAttribute('aria-invalid');
+          sizeError.hidden = true;
+        }
+      });
+    });
+  }
+
   function openFrom(card, trigger) {
     opener = trigger || null;
+    activeCard = card;
     var img = card.querySelector('.product-visual img');
     document.getElementById('drawerImage').src = img ? img.src : '';
     document.getElementById('drawerImage').alt = card.dataset.name || '';
     document.getElementById('drawerTitle').textContent = card.dataset.name || '';
-    document.getElementById('drawerPrice').textContent = card.dataset.price ? ('$' + card.dataset.price + ' CAD') : '';
-    var note = card.querySelector('.product-note');
-    document.getElementById('drawerNote').textContent = note ? note.textContent : '';
-    document.getElementById('drawerFit').textContent = card.dataset.fit || '—';
-    document.getElementById('drawerShips').textContent = card.dataset.ships || 'Packed in BC · 2–4 business days';
-    document.getElementById('drawerStock').textContent = card.dataset.stock || 'In stock';
+
+    var colours = (card.dataset.colours || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    var sizes = (card.dataset.sizes || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+
+    colourHost.innerHTML = '';
+    sizeHost.innerHTML = '';
+    sizeError.hidden = true;
+    sizeHost.removeAttribute('aria-invalid');
+
+    if (colours.length) {
+      colourBlock.hidden = false;
+      colours.forEach(function (c, i) { colourHost.appendChild(makeOpt(c, i === 0)); });
+      wireGroup(colourHost, function (btn) {
+        var map = {
+          Black: card.dataset.imgBlack,
+          White: card.dataset.imgWhite
+        };
+        var next = map[btn.textContent.trim()];
+        if (next) {
+          document.getElementById('drawerImage').src = next;
+          if (img) img.src = next;
+        }
+      });
+    } else {
+      colourBlock.hidden = true;
+    }
+
+    if (sizes.length) {
+      sizeBlock.hidden = false;
+      sizes.forEach(function (s) { sizeHost.appendChild(makeOpt(s, false)); });
+      wireGroup(sizeHost);
+    } else {
+      sizeBlock.hidden = true;
+    }
+
+    var sold = card.dataset.stockQty != null && Number(card.dataset.stockQty) <= 0;
+    addBtn.disabled = sold;
+    addBtn.textContent = sold ? 'Sold out' : 'Add to cart';
+    opts.hidden = false;
+
     if (typeof drawer.showModal === 'function') drawer.showModal();
   }
+
   document.querySelectorAll('[data-open-product]').forEach(function (el) {
     el.addEventListener('click', function () {
       var card = el.closest('.merch-card');
       if (card) openFrom(card, el);
     });
   });
+
   var closeBtn = drawer.querySelector('.product-drawer__close');
   if (closeBtn) closeBtn.addEventListener('click', function () { drawer.close(); });
   drawer.addEventListener('click', function (e) { if (e.target === drawer) drawer.close(); });
   drawer.addEventListener('close', function () { if (opener) try { opener.focus(); } catch (err) {} });
-})();
-var toast = document.getElementById('toast');
-var toastMsg = document.getElementById('toastMsg');
-var toastTimer;
-function showToast(name) {
-  toastMsg.textContent = name + ' added to cart';
-  toast.classList.add('on');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function () { toast.classList.remove('on'); }, 3200);
-}
-document.querySelectorAll('.merch-add').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    var card = btn.closest('.merch-card');
-    var stockQty = card.dataset.stockQty != null ? Number(card.dataset.stockQty) : null;
-    if (stockQty != null && stockQty <= 0) {
-      btn.disabled = true;
-      btn.textContent = 'Sold out';
-      return;
-    }
-    var colourBtn = card.querySelector('.merch-opt[aria-pressed="true"][data-group$="-colour"]') ||
-      card.querySelector('.merch-opt.selected[data-group$="-colour"]');
-    var requiredSize = card.querySelector('.merch-options[data-required="size"]');
-    var sizeBtn = card.querySelector('.merch-opt[aria-pressed="true"][data-group$="-size"]') ||
-      card.querySelector('.merch-opt.selected[data-group$="-size"]');
-    if (requiredSize && !sizeBtn) {
-      requiredSize.setAttribute('aria-invalid', 'true');
-      var err = requiredSize.parentElement && requiredSize.parentElement.querySelector('.opt-error');
-      if (err) err.hidden = false;
-      var first = requiredSize.querySelector('.merch-opt');
+
+  var toast = document.getElementById('toast');
+  var toastMsg = document.getElementById('toastMsg');
+  var toastTimer;
+  function showToast(name) {
+    toastMsg.textContent = name + ' added to cart';
+    toast.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('on'); }, 3200);
+  }
+
+  addBtn.addEventListener('click', function () {
+    if (!activeCard || addBtn.disabled) return;
+    var colourBtn = colourHost.querySelector('.merch-opt[aria-pressed="true"]');
+    var sizeBtn = sizeHost.querySelector('.merch-opt[aria-pressed="true"]');
+    if (!sizeBlock.hidden && !sizeBtn) {
+      sizeHost.setAttribute('aria-invalid', 'true');
+      sizeError.hidden = false;
+      var first = sizeHost.querySelector('.merch-opt');
       if (first) first.focus();
       return;
     }
-    var img = card.querySelector('.product-visual img');
+    var img = document.getElementById('drawerImage');
     var item = {
-      sku: card.dataset.sku,
-      name: card.dataset.name,
-      price: Number(card.dataset.price),
-      stripe: card.dataset.stripe,
+      sku: activeCard.dataset.sku,
+      name: activeCard.dataset.name,
+      price: Number(activeCard.dataset.price),
       colour: colourBtn ? colourBtn.textContent.trim() : null,
       size: sizeBtn ? sizeBtn.textContent.trim() : null,
       image: img ? img.getAttribute('src') : '',
@@ -1026,74 +706,15 @@ document.querySelectorAll('.merch-add').forEach(function (btn) {
     };
     item.id = VCRCart.lineId(item);
     VCRCart.add(item);
-    btn.classList.add('is-added');
-    btn.textContent = 'Added';
+    addBtn.classList.add('is-added');
+    addBtn.textContent = 'Added';
     showToast(item.name);
     setTimeout(function () {
-      btn.classList.remove('is-added');
-      btn.textContent = 'Add to cart';
+      addBtn.classList.remove('is-added');
+      addBtn.textContent = 'Add to cart';
     }, 1400);
   });
-});
-var obs = new IntersectionObserver(function (entries) {
-  entries.forEach(function (e) {
-    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
-  });
-}, { threshold: .12, rootMargin: '0px 0px -24px 0px' });
-document.querySelectorAll('.product').forEach(function (el) { obs.observe(el); });
-
-(function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll('.shop-jump a'));
-  if (!links.length) return;
-  var sections = links.map(function (a) {
-    return document.querySelector(a.getAttribute('href'));
-  }).filter(Boolean);
-  var jumpObs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      var id = '#' + e.target.id;
-      links.forEach(function (a) {
-        a.classList.toggle('is-active', a.getAttribute('href') === id);
-      });
-    });
-  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
-  sections.forEach(function (s) { jumpObs.observe(s); });
 })();
-
-(function () {
-  var hero = document.querySelector('.shop-hero');
-  var jump = document.querySelector('.shop-jump');
-  if (!hero) return;
-  var ticking = false;
-  function syncNav() {
-    var edge = jump || hero;
-    var light = edge.getBoundingClientRect().top <= (document.getElementById('nav').offsetHeight + 4);
-    document.body.classList.toggle('nav-light', light);
-    ticking = false;
-  }
-  window.addEventListener('scroll', function () {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(syncNav);
-  }, { passive: true });
-  syncNav();
-})();
-
-(function () {
-  document.querySelectorAll('.merch-card').forEach(function (card) {
-    var q = card.dataset.stockQty != null ? Number(card.dataset.stockQty) : null;
-    if (q != null && q <= 0) {
-      card.classList.add('is-sold-out');
-      card.querySelectorAll('.merch-add').forEach(function (b) {
-        b.disabled = true; b.textContent = 'Sold out';
-      });
-    } else if (q != null && q <= 12) {
-      var meta = card.querySelector('.product-meta') || card.querySelector('.product-info');
-      // stock already in data-stock for drawer
-    }
-  });
-})();
-
 </script>
 </body>
 </html>
