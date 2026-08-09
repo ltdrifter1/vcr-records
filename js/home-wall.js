@@ -91,6 +91,9 @@
     })
     .then(function (data) {
       var releases = (data.releases || []).slice().sort(function (a, b) {
+        var aPre = String(a.status || '').toLowerCase() === 'pre-order' ? 0 : 1;
+        var bPre = String(b.status || '').toLowerCase() === 'pre-order' ? 0 : 1;
+        if (aPre !== bPre) return aPre - bPre;
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
       grid.innerHTML = releases.map(card).join('');

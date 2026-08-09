@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
+  <link rel="stylesheet" href="css/news.css"/>
   <style>
     /* Listening room hero — full-bleed art + brand lockup ------------------- */
     .hero {
@@ -979,19 +980,18 @@
       .wall-card { transition: none; }
     }
 
-    /* Signup — one post-listen job, bridges dark wall → light footer -------- */
+    /* Signup — after news paper ground, soft ink on cream -------------------- */
     .signup {
       position: relative;
       isolation: isolate;
       background:
         linear-gradient(180deg,
-          #080808 0%,
-          #0c0b0a 36%,
-          #2a2722 62%,
-          #E8E4DC 86%,
+          #F7F5F1 0%,
+          #EFECE6 42%,
+          #E8E4DC 72%,
           #FAF8F5 100%);
-      color: #fff;
-      padding: 88px 0 128px;
+      color: var(--ink);
+      padding: 72px 0 128px;
       overflow: hidden;
     }
     .signup-inner {
@@ -1002,7 +1002,7 @@
       text-align: center;
     }
     .signup .eyebrow {
-      color: rgba(255,255,255,.48);
+      color: var(--dim);
       margin-bottom: 14px;
     }
     .signup-title {
@@ -1012,15 +1012,15 @@
       font-weight: 600;
       letter-spacing: -.035em;
       line-height: 1.08;
-      color: #fff;
-      text-shadow: 0 1px 24px rgba(0,0,0,.35);
+      color: var(--ink);
+      text-shadow: none;
     }
     .signup-copy {
       margin: 0 auto 28px;
       max-width: 24em;
       font-size: 15px;
       line-height: 1.5;
-      color: rgba(255,255,255,.62);
+      color: var(--muted);
     }
     .signup-form {
       display: grid;
@@ -1036,27 +1036,28 @@
       min-width: 0;
       height: 48px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
+      border: 1px solid rgba(170,182,200,.45);
       padding: 0 18px;
-      background: rgba(0,0,0,.32);
-      color: #fff;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
       font: inherit;
       font-size: 16px;
-      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
-    .signup-form input[type="email"]::placeholder { color: rgba(255,255,255,.38); }
+    .signup-form input[type="email"]::placeholder { color: var(--dim); }
     .signup-form input[type="email"]:focus {
       outline: none;
-      border-color: rgba(255,255,255,.5);
-      background: rgba(0,0,0,.42);
+      border-color: rgba(88,98,116,.45);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(168,180,196,.22);
     }
     .signup-form button {
       height: 48px;
       padding: 0 22px;
       border-radius: 999px;
       border: 0;
-      background: #fff;
-      color: #0a0a0a;
+      background: var(--ink);
+      color: #fff;
       font-size: 14px;
       font-weight: 650;
       letter-spacing: -.015em;
@@ -1069,17 +1070,17 @@
     .signup-note {
       margin: 14px 0 0;
       font-size: 12px;
-      color: rgba(255,255,255,.38);
+      color: var(--dim);
     }
     .signup-form button[disabled] { opacity: .6; cursor: wait; }
     .signup-status {
       margin: 14px 0 0;
       font-size: 14px;
       line-height: 1.5;
-      color: rgba(255,255,255,.85);
+      color: var(--ink);
     }
     .signup-status[hidden] { display: none; }
-    .signup-status.is-error { color: #f2b8b5; }
+    .signup-status.is-error { color: #9b3b36; }
     .signup.is-done .signup-form,
     .signup.is-done .signup-note { display: none; }
 
@@ -1327,6 +1328,7 @@
   <a href="library.html">Library</a>
   <a href="artists.html">Artists</a>
   <a href="merch.html">Shop</a>
+  <a href="news.html">News</a>
   <a href="contact.html">Contact</a>
   <a href="cart.html">Cart</a>
 </div>
@@ -1449,6 +1451,54 @@
     </div>
   </section>
 
+  <!-- Recent News -->
+  <section class="news" aria-labelledby="news-title">
+    <div class="band">
+      <header class="section-head" id="news">
+        <div>
+          <p class="eyebrow">Press</p>
+          <h2 id="news-title">Recent News</h2>
+        </div>
+        <a class="head-link" href="news.html">View all</a>
+      </header>
+      <div class="news-grid">
+        <article class="news-card rv">
+          <a class="news-card-art" href="news/double-edge-returns.html" aria-label="Double-Edge – Double-Edge Returns">
+            <img src="double-edge-returns-cover.webp" alt="Double-Edge Returns — placeholder artwork" width="1200" height="1200" loading="lazy"/>
+          </a>
+          <div class="news-card-body">
+            <p class="news-card-date">July 22, 2026</p>
+            <h3 class="news-card-title"><a href="news/double-edge-returns.html">Double-Edge – Double-Edge Returns</a></h3>
+            <p class="news-card-dek">Jungle is back on the menu. Pre-order Double-Edge Returns today.</p>
+            <a class="news-card-more" href="news/double-edge-returns.html">Read More</a>
+          </div>
+        </article>
+        <article class="news-card rv">
+          <a class="news-card-art" href="news/lo-fi-girl.html" aria-label="Inlet Knight – Lo-Fi Girl">
+            <img src="lo-fi-girl-cover.webp" alt="Lo-Fi Girl — placeholder artwork" width="1200" height="1200" loading="lazy"/>
+          </a>
+          <div class="news-card-body">
+            <p class="news-card-date">May 6, 2026</p>
+            <h3 class="news-card-title"><a href="news/lo-fi-girl.html">Inlet Knight – Lo-Fi Girl</a></h3>
+            <p class="news-card-dek">The new album from Inlet Knight, out soon on Club Copy. Pre-order digital today.</p>
+            <a class="news-card-more" href="news/lo-fi-girl.html">Read More</a>
+          </div>
+        </article>
+        <article class="news-card rv">
+          <a class="news-card-art" href="news/inlet-knight-on-club-copy.html" aria-label="Inlet Knight on Club Copy">
+            <img src="inlet-knight-cover.webp" alt="Inlet Knight — placeholder artwork" width="1200" height="1200" loading="lazy"/>
+          </a>
+          <div class="news-card-body">
+            <p class="news-card-date">February 27, 2026</p>
+            <h3 class="news-card-title"><a href="news/inlet-knight-on-club-copy.html">Inlet Knight on Club Copy</a></h3>
+            <p class="news-card-dek">A first look at what’s next — Lo-Fi Girl, arriving later this year.</p>
+            <a class="news-card-more" href="news/inlet-knight-on-club-copy.html">Read More</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- Stay close -->
   <section class="signup" aria-labelledby="newsletter-title">
     <div class="band">
@@ -1482,6 +1532,7 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="#listen">Listen</a>
+        <a href="news.html">News</a>
         <a href="artists.html">Artists</a>
         <a href="merch.html">Shop</a>
         <a href="planet.html">Planet MP3</a>
@@ -1505,11 +1556,16 @@
     nav.classList.toggle('scrolled', y > 24);
     document.body.classList.toggle('scrolled-past-hero', y > window.innerHeight * 0.25);
     var footer = document.querySelector('.footer');
+    var news = document.querySelector('.news');
+    var signup = document.querySelector('.signup');
     var light = false;
-    if (footer) {
-      light = footer.getBoundingClientRect().top < (nav.offsetHeight + 48);
-    } else {
-      light = y > Math.max(120, (window.innerHeight * 0.72));
+    var navBottom = nav.offsetHeight + 24;
+    if (footer && footer.getBoundingClientRect().top < navBottom + 24) {
+      light = true;
+    } else if (signup && signup.getBoundingClientRect().top < navBottom) {
+      light = true;
+    } else if (news && news.getBoundingClientRect().top < navBottom) {
+      light = true;
     }
     document.body.classList.toggle('nav-light', light);
     ticking = false;
