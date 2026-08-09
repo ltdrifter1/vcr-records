@@ -16,18 +16,29 @@
     var full = rel.cover || thumb;
     var href = rel.page || '#';
     var note = rel.genre || '';
+    var isPreorder = String(rel.status || '').toLowerCase() === 'pre-order';
+    var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
+    var playBtn = hasTracks
+      ? (
+          '<button type="button" class="wall-play" data-play-release="' + esc(rel.id) + '" data-play-stage aria-label="Play ' + esc(rel.title) + '">' +
+            '<svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
+            '<svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+          '</button>' +
+          '<div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>' +
+          '<span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span>'
+        )
+      : '';
+    var badge = isPreorder
+      ? '<span class="wall-badge">Pre-Order</span>'
+      : '';
     return (
       '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
         '<div class="wall-art media-bezel fx-spec">' +
           '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
           '</a>' +
-          '<button type="button" class="wall-play" data-play-release="' + esc(rel.id) + '" data-play-stage aria-label="Play ' + esc(rel.title) + '">' +
-            '<svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
-            '<svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
-          '</button>' +
-          '<div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div>' +
-          '<span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span>' +
+          badge +
+          playBtn +
         '</div>' +
         '<div class="wall-meta">' +
           (rel.catalogue ? '<p class="wall-cat cat-display cat-display--sm">' + esc(rel.catalogue) + '</p>' : '') +

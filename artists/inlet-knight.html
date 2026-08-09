@@ -152,7 +152,7 @@
       root.innerHTML = list.map(function (r) {
         var href = '../' + (r.page || 'library.html');
         var img = '../' + (r.coverThumb || r.cover);
-        var meta = [r.catalogue, r.kind, r.tracksCount ? (r.tracksCount + (r.tracksCount === 1 ? ' track' : ' tracks')) : '']
+        var meta = [r.catalogue, r.status === 'Pre-Order' ? 'Pre-Order' : r.kind, r.tracksCount ? (r.tracksCount + (r.tracksCount === 1 ? ' track' : ' tracks')) : '']
           .filter(Boolean).join(' · ');
         return (
           '<a href="' + esc(href) + '">' +

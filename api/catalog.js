@@ -14,6 +14,8 @@ const FORMAT = {
 const MERCH_PAGE_SKUS = [
   "dg-enter",
   "dg-together",
+  "dg-lo-fi-girl",
+  "dg-double-edge-returns",
   "sm-cassette-inlet-knight",
   "bn-tee-enter",
   "bn-tee-together",
@@ -69,6 +71,18 @@ const PRODUCTS = {
   },
   "dg-enter": {
     name: "Enter, Double-Edge — Digital (EP)",
+    unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-lo-fi-girl": {
+    name: "Lo-Fi Girl — Digital (Album) Pre-Order",
+    unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-double-edge-returns": {
+    name: "Double-Edge Returns — Digital (Album) Pre-Order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
