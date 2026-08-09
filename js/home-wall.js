@@ -15,7 +15,7 @@
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var note = rel.genre || '';
+    var genre = rel.genre || '';
     var isPreorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
     var playBtn = hasTracks
@@ -33,18 +33,19 @@
       : '';
     return (
       '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
-        '<div class="wall-art media-bezel fx-spec">' +
-          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
-            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
-          '</a>' +
-          badge +
-          playBtn +
-        '</div>' +
-        '<div class="wall-meta">' +
-          (rel.catalogue ? '<p class="wall-cat cat-display cat-display--sm">' + esc(rel.catalogue) + '</p>' : '') +
-          '<p class="wall-artist">' + esc(rel.artist) + '</p>' +
-          '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
-          (note ? '<p class="wall-note broadcast-meta">' + esc(note) + '</p>' : '') +
+        '<div class="wall-card">' +
+          '<div class="wall-art media-bezel fx-spec">' +
+            '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
+              '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
+            '</a>' +
+            badge +
+            playBtn +
+          '</div>' +
+          '<div class="wall-meta">' +
+            '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
+            '<p class="wall-artist">' + esc(rel.artist) + '</p>' +
+            (genre ? '<span class="wall-genre">' + esc(genre) + '</span>' : '') +
+          '</div>' +
         '</div>' +
       '</article>'
     );
