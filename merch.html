@@ -108,6 +108,13 @@
       cursor: pointer;
       text-align: left; color: inherit;
     }
+    .product-badge {
+      position: absolute; top: 10px; left: 10px; z-index: 3;
+      background: #111; color: #fff;
+      font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      padding: 7px 9px;
+      pointer-events: none;
+    }
     .product-visual img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: center;
@@ -308,9 +315,29 @@
   <div class="store-grid-wrap">
     <ul class="store-grid" id="storeGrid" aria-label="Products">
 
+      <li class="product merch-card is-shown" data-type="music" data-sku="dg-double-edge-returns" data-name="Double-Edge Returns" data-price="8" data-sort="5" data-stock="Pre-Order">
+        <a class="product-visual" href="double-edge-returns.html" aria-label="Double-Edge Returns">
+          <span class="product-badge">Pre-Order</span>
+          <img src="double-edge-returns-cover.webp" alt="Double-Edge Returns" width="1200" height="1200"/>
+        </a>
+        <div>
+          <h3 class="product-title"><a href="double-edge-returns.html">Double-Edge Returns</a></h3>
+        </div>
+      </li>
+
+      <li class="product merch-card is-shown" data-type="music" data-sku="dg-lo-fi-girl" data-name="Lo-Fi Girl" data-price="8" data-sort="4" data-stock="Pre-Order">
+        <a class="product-visual" href="lo-fi-girl.html" aria-label="Lo-Fi Girl">
+          <span class="product-badge">Pre-Order</span>
+          <img src="lo-fi-girl-cover.webp" alt="Lo-Fi Girl" width="1200" height="1200" loading="lazy"/>
+        </a>
+        <div>
+          <h3 class="product-title"><a href="lo-fi-girl.html">Lo-Fi Girl</a></h3>
+        </div>
+      </li>
+
       <li class="product merch-card is-shown" data-type="music" data-sku="dg-enter" data-name="Enter, Double-Edge" data-price="8" data-sort="3" data-stock="Digital — emailed after checkout">
         <a class="product-visual" href="enter.html" aria-label="Enter, Double-Edge">
-          <img src="enter-cover.webp" alt="Enter, Double-Edge" width="1200" height="1200"/>
+          <img src="enter-cover.webp" alt="Enter, Double-Edge" width="1200" height="1200" loading="lazy"/>
         </a>
         <div>
           <h3 class="product-title"><a href="enter.html">Enter, Double-Edge</a></h3>

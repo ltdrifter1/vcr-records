@@ -38,17 +38,23 @@
     var full = rel.cover || thumb;
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
+    var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
+    var playBtn = hasTracks
+      ? (
+          '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '">' +
+            '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
+            '<svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+          '</button>' +
+          '<span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span>'
+        )
+      : '';
     return (
       '<div class="cat-row rv" data-release="' + esc(rel.id) + '">' +
         '<div class="cat-cover media-bezel fx-spec">' +
           '<a href="' + esc(href) + '" tabindex="-1" aria-hidden="true">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="88px" alt="' + alt + '" width="1200" height="1200" loading="lazy"/>' +
           '</a>' +
-          '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '">' +
-            '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
-            '<svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
-          '</button>' +
-          '<span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span>' +
+          playBtn +
         '</div>' +
         '<span class="cat-no cat-display cat-display--md">' + esc(rel.catalogue || '') + '</span>' +
         '<span>' +
