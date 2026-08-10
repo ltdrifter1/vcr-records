@@ -12,19 +12,31 @@
   "url": "https://www.clubcopy.ca/artists",
   "mainEntity": {
     "@type": "ItemList",
-    "numberOfItems": 2,
+    "numberOfItems": 4,
     "itemListElement": [
       {
         "@type": "ListItem",
         "position": 1,
+        "name": "Double-Edge",
+        "url": "https://www.clubcopy.ca/artists/double-edge"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
         "name": "Inlet Knight",
         "url": "https://www.clubcopy.ca/artists/inlet-knight"
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Double-Edge",
-        "url": "https://www.clubcopy.ca/artists/double-edge"
+        "position": 3,
+        "name": "CJ Archer",
+        "url": "https://www.clubcopy.ca/artists/cj-archer"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "L.T. Drifta",
+        "url": "https://www.clubcopy.ca/artists/lt-drifta"
       }
     ]
   }
@@ -50,13 +62,13 @@
   ]
 }
   </script>
-  <meta name="description" content="The Club Copy roster — Inlet Knight (house, Cumberland BC) and Double-Edge (Pacific Northwest jungle)."/>
+  <meta name="description" content="Club Copy artists and producers — Double-Edge, Inlet Knight, CJ Archer, L.T. Drifta."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="canonical" href="https://www.clubcopy.ca/artists"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Artists — Club Copy"/>
-  <meta property="og:description" content="Inlet Knight and Double-Edge on Club Copy."/>
+  <meta property="og:description" content="Artists and producers on Club Copy."/>
   <meta property="og:url" content="https://www.clubcopy.ca/artists"/>
   <meta property="og:image" content="https://www.clubcopy.ca/artists/inlet-knight.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
@@ -106,13 +118,34 @@
     .artist-copy h2 {
       font-size: clamp(30px, 4.4vw, 48px);
       font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
+    }
+    .artist-role {
+      font-family: var(--callsign);
+      font-size: 11px; font-weight: 600; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--dim);
+      margin: 0 0 14px;
     }
     .artist-bio {
       font-size: 16px; color: var(--muted); max-width: 32em;
       line-height: 1.55; margin-bottom: 28px;
     }
     .artist-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .artist-photo--mark {
+      display: grid; place-items: center;
+      aspect-ratio: 4 / 5;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,.55), transparent 42%),
+        radial-gradient(120% 90% at 12% 8%, rgba(26,30,38,.06), transparent 55%),
+        var(--soft);
+      border: 1px solid rgba(150,162,180,.28);
+    }
+    .artist-photo--mark span {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600; letter-spacing: -.04em;
+      color: var(--ink); opacity: .78;
+    }
   </style>
 </head>
 <body id="top">
@@ -159,7 +192,7 @@
   <div class="band">
     <header class="section-head">
       <div>
-        <p class="eyebrow">Roster · Live</p>
+        <p class="eyebrow">Club Copy</p>
         <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Artists</nav>
         <h1>Artists</h1>
       </div>
@@ -173,9 +206,10 @@
         </div>
         <div class="artist-copy">
           <h2 id="double-edge-name">Double-Edge</h2>
-          <p class="artist-bio">Pacific Northwest jungle — sharp breaks, heavy low end, music built for pressure.</p>
+          <p class="artist-role">Artist</p>
+          <p class="artist-bio">Jungle out the Pacific Northwest. Cut breaks, weight underneath — records for the floor.</p>
           <div class="artist-actions">
-            <a class="btn btn-dark" href="/artists/double-edge">Artist page</a>
+            <a class="btn btn-dark" href="/artists/double-edge">More</a>
             <a class="btn btn-ghost" href="/library?artist=double-edge">Library</a>
           </div>
         </div>
@@ -187,10 +221,41 @@
         </div>
         <div class="artist-copy">
           <h2 id="inlet-knight-name">Inlet Knight</h2>
-          <p class="artist-bio">House from Cumberland, British Columbia — patient drums, soft loops, music that holds up past a single play.</p>
+          <p class="artist-role">Artist</p>
+          <p class="artist-bio">House from Cumberland, BC. Soft loops, patient drums — late-night records that stay in rotation.</p>
           <div class="artist-actions">
-            <a class="btn btn-dark" href="/artists/inlet-knight">Artist page</a>
+            <a class="btn btn-dark" href="/artists/inlet-knight">More</a>
             <a class="btn btn-ghost" href="/library?artist=inlet-knight">Library</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist rv" id="cj-archer" aria-labelledby="cj-archer-name">
+        <div class="artist-photo media-bezel fx-spec artist-photo--mark" aria-hidden="true">
+          <span>CJ</span>
+        </div>
+        <div class="artist-copy">
+          <h2 id="cj-archer-name">CJ Archer</h2>
+          <p class="artist-role">Producer</p>
+          <p class="artist-bio">In-house producer. Boards and sequencing across the Club Copy sides.</p>
+          <div class="artist-actions">
+            <a class="btn btn-dark" href="/artists/cj-archer">More</a>
+            <a class="btn btn-ghost" href="/library">Library</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="artist rv" id="lt-drifta" aria-labelledby="lt-drifta-name">
+        <div class="artist-photo media-bezel fx-spec artist-photo--mark" aria-hidden="true">
+          <span>LT</span>
+        </div>
+        <div class="artist-copy">
+          <h2 id="lt-drifta-name">L.T. Drifta</h2>
+          <p class="artist-role">Producer</p>
+          <p class="artist-bio">Producer. UK-wired, leftfield. Beats in the cut.</p>
+          <div class="artist-actions">
+            <a class="btn btn-dark" href="/artists/lt-drifta">More</a>
+            <a class="btn btn-ghost" href="/library">Library</a>
           </div>
         </div>
       </article>
