@@ -971,7 +971,7 @@ function patchIndex() {
   // Fix empty news alts + place image
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-keep.webp', 'Record shop bins and shelves — Any Jungle'],
+    ['news-any-jungle.webp', 'Cassette rack with priced tapes — Any Jungle'],
     ['news-double.webp', 'Motion-blur silhouette at sunset — Double-Edge on Club Copy'],
     ['news-night.webp', 'Halftone face in negative — Welcome, Inlet Knight'],
   ];
@@ -1007,7 +1007,7 @@ function patchNewsIndex() {
   let html = fs.readFileSync(file, 'utf8');
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-keep.webp', 'Record shop bins and shelves — Any Jungle'],
+    ['news-any-jungle.webp', 'Cassette rack with priced tapes — Any Jungle'],
     ['news-double.webp', 'Motion-blur silhouette at sunset — Double-Edge on Club Copy'],
     ['news-night.webp', 'Halftone face in negative — Welcome, Inlet Knight'],
   ];
