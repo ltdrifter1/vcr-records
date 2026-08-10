@@ -15,7 +15,6 @@
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var genre = rel.genre || '';
     var isPreorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
     var playBtn = hasTracks
@@ -43,8 +42,7 @@
           '</div>' +
           '<div class="wall-meta">' +
             '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
-            '<p class="wall-artist">' + esc(rel.artist) + '</p>' +
-            (genre ? '<span class="wall-genre">' + esc(genre) + '</span>' : '') +
+            (rel.year ? '<p class="wall-date">' + esc(rel.year) + '</p>' : '') +
           '</div>' +
         '</div>' +
       '</article>'
