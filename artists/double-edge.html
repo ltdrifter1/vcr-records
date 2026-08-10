@@ -4,11 +4,41 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Double-Edge — Club Copy</title>
-  <meta name="description" content="Double-Edge — Pacific Northwest jungle. Sharp breaks, heavy air, and pressure cut for the floor."/>
+  <meta name="description" content="Double-Edge makes jungle in the Pacific Northwest. On Club Copy: Enter, Double-Edge — with Any Jungle on the way."/>
   <meta name="theme-color" content="#FAF8F5"/>
+  <link rel="canonical" href="https://www.clubcopy.ca/artists/double-edge"/>
+  <meta property="og:site_name" content="Club Copy"/>
+  <meta property="og:type" content="profile"/>
   <meta property="og:title" content="Double-Edge — Club Copy"/>
-  <meta property="og:description" content="Pacific Northwest jungle — sharp breaks, heavy air, and pressure cut for the floor."/>
-  <meta property="og:image" content="https://vcr-records.vercel.app/artists/double-edge.webp"/>
+  <meta property="og:description" content="Pacific Northwest jungle — Enter, Double-Edge on Club Copy."/>
+  <meta property="og:url" content="https://www.clubcopy.ca/artists/double-edge"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/artists/double-edge.webp"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "@id": "https://www.clubcopy.ca/artists/double-edge#artist",
+    "name": "Double-Edge",
+    "url": "https://www.clubcopy.ca/artists/double-edge",
+    "image": "https://www.clubcopy.ca/artists/double-edge.webp",
+    "genre": "Jungle",
+    "description": "Double-Edge makes Pacific Northwest jungle — sharp breaks, heavy low end, music built for pressure.",
+    "memberOf": {
+      "@type": "RecordLabel",
+      "name": "Club Copy",
+      "url": "https://www.clubcopy.ca/"
+    },
+    "album": [
+      {
+        "@type": "MusicAlbum",
+        "name": "Enter, Double-Edge",
+        "url": "https://www.clubcopy.ca/enter",
+        "datePublished": "2026",
+        "albumReleaseType": "https://schema.org/EPRelease"
+      }
+    ]
+  }
+  </script>
   <link rel="icon" href="../favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="../apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,10 +77,83 @@
     }
     .artist-bio {
       font-size: clamp(16px, 2vw, 18px);
-      color: var(--muted); max-width: 30em;
-      margin-bottom: 28px; line-height: 1.6;
+      color: var(--muted); max-width: 32em;
+      margin-bottom: 16px; line-height: 1.6;
     }
+    .artist-bio + .artist-bio { margin-bottom: 28px; }
     .artist-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .artist-releases {
+      margin-top: 72px;
+      max-width: 720px;
+    }
+    .artist-releases .section-head {
+      padding-top: 0;
+      margin-bottom: 8px;
+      border-bottom: none;
+    }
+    .artist-releases-lead {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 20px;
+      max-width: 34em;
+    }
+    .artist-release-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid rgba(170,182,200,.35);
+    }
+    .artist-release-list a {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 16px 20px;
+      align-items: center;
+      padding: 18px 4px;
+      border-bottom: 1px solid rgba(170,182,200,.28);
+      color: inherit;
+    }
+    @media (max-width: 560px) {
+      .artist-release-list a {
+        grid-template-columns: 56px minmax(0, 1fr);
+      }
+      .artist-release-list .ar-meta { grid-column: 2; }
+    }
+    .artist-release-list .ar-art {
+      width: 72px; height: 72px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--soft);
+      box-shadow: inset 0 0 0 1px rgba(150,162,180,.35);
+    }
+    @media (max-width: 560px) {
+      .artist-release-list .ar-art { width: 56px; height: 56px; }
+    }
+    .artist-release-list .ar-art img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .artist-release-list .ar-title {
+      font-weight: 600;
+      letter-spacing: -.02em;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+    .artist-release-list .ar-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+      letter-spacing: .01em;
+    }
+    .artist-release-list .ar-meta {
+      color: var(--dim);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+    @media (hover:hover) {
+      .artist-release-list a:hover .ar-title { opacity: .72; }
+    }
   </style>
 </head>
 <body id="top">
@@ -100,13 +203,36 @@
       <div>
         <p class="eyebrow">Artist · Club Copy</p>
         <h1>Double-Edge</h1>
-        <p class="artist-bio">Pacific Northwest jungle — sharp breaks, heavy air, and pressure cut for the floor.</p>
+        <p class="artist-bio">Pacific Northwest jungle — sharp breaks, heavy low end, music built for pressure.</p>
+        <p class="artist-bio">First release on Club Copy: <em>Enter, Double-Edge</em>. Next up: <em>Any Jungle</em>.</p>
         <div class="artist-actions">
-          <a class="btn btn-dark" href="../library.html?artist=double-edge">Library</a>
-          <a class="btn btn-ghost" href="../artists.html">All artists</a>
+          <a class="btn btn-dark" href="../enter.html">Listen to Enter</a>
+          <a class="btn btn-ghost" href="../news/any-jungle.html">Read: Any Jungle</a>
         </div>
       </div>
     </header>
+
+    <section class="artist-releases" aria-labelledby="releases-title">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow">Discography</p>
+          <h2 id="releases-title">Releases</h2>
+        </div>
+      </header>
+      <p class="artist-releases-lead">Out now on Club Copy.</p>
+      <ul class="artist-release-list">
+        <li>
+          <a href="../enter.html">
+            <div class="ar-art"><img src="../enter-cover.webp" alt="" width="144" height="144" loading="lazy"/></div>
+            <div>
+              <p class="ar-title">Enter, Double-Edge</p>
+              <p class="ar-sub">EP · 3 tracks · Digital</p>
+            </div>
+            <span class="ar-meta">CC006 · 2026</span>
+          </a>
+        </li>
+      </ul>
+    </section>
   </div>
 </main>
 
