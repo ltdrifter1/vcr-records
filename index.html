@@ -192,17 +192,18 @@
     }
     .hero.is-live .hero-stage { gap: 16px; }
 
-    /* Platter — chrome jewel in idle, full console disc when live ---------- */
+    /* Platter — live console only; hidden at idle start ------------------- */
     .hero-platter {
       position: relative;
+      display: none;
       width: min(168px, 38vw);
       aspect-ratio: 1;
       margin: 18px 0 6px;
       filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
       transition: width .5s var(--ease), filter .5s var(--ease), margin .5s var(--ease);
-      animation: platterIn .9s var(--ease) .12s both;
     }
     .hero.is-live .hero-platter {
+      display: block;
       width: min(280px, 52vw);
       margin: 0 0 4px;
       filter: drop-shadow(0 28px 60px rgba(0,0,0,.55));
@@ -1341,7 +1342,7 @@
       .hero.is-live .hero-station { margin-bottom: 2px; }
       .hero-idle { gap: 12px; margin-top: 12px; }
       .hero-idle-title { font-size: clamp(15px, 3.8vw, 17px); }
-      .hero:not(.is-live) .hero-platter { width: min(132px, 34vw); margin: 12px 0 4px; }
+      .hero:not(.is-live) .hero-platter { display: none; }
       .hero-ctas { width: 100%; margin-top: 4px; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
 
@@ -1704,8 +1705,8 @@
     </div>
     <div class="place-copy rv">
       <p class="eyebrow">Pacific Northwest</p>
-      <h2 class="place-title" id="place-title">Made here. Kept close.</h2>
-      <p class="place-dek">House and jungle from the coast — small library, long shelf life.</p>
+      <h2 class="place-title" id="place-title">Made here.</h2>
+      <p class="place-dek">House and jungle from the coast.</p>
       <a class="place-link" href="/artists">Meet the artists</a>
     </div>
   </section>
@@ -1757,11 +1758,11 @@
         </a>
         <a class="news-card rv" href="/news/inlet-knight-on-club-copy">
           <div class="news-card-art media-bezel fx-spec">
-            <img src="news-night.webp" alt="Halftone face in negative — Welcome, Inlet Knight" width="1200" height="1200" loading="lazy"/>
+            <img src="artists/inlet-knight.webp" alt="Inlet Knight" width="800" height="1000" loading="lazy"/>
           </div>
           <div class="news-card-body">
             <p class="news-card-date">Feb 27, 2026</p>
-            <h3 class="news-card-title">Welcome, Inlet Knight</h3>
+            <h3 class="news-card-title">Inlet Knight joins Club Copy</h3>
             <p class="news-card-dek">House from Cumberland — cassette and digital on Club Copy.</p>
           </div>
         </a>
