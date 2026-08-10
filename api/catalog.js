@@ -12,6 +12,7 @@ const FORMAT = {
 
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
+  "dg-j-adore",
   "dg-enter",
   "dg-together",
   "dg-letters-from-another-era",
@@ -76,6 +77,12 @@ const PRODUCTS = {
   },
   "dg-letters-from-another-era": {
     name: "Letters From Another Era — Digital (EP)",
+    unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-j-adore": {
+    name: "j'adore — Digital (Single)",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
