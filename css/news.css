@@ -66,12 +66,13 @@
   display: flex;
   gap: 18px;
   width: max-content;
-  padding: 0 max(24px, var(--safe-l)) 4px max(24px, var(--safe-r));
+  /* Match .band content inset so the first card lines up with the section head */
+  padding: 0 max(24px, var(--safe-r)) 4px max(24px, var(--safe-l), calc((100% - var(--wrap)) / 2 + 24px));
 }
 @media (min-width: 800px) {
   .news-rail-track {
     gap: 22px;
-    padding: 0 max(40px, var(--safe-l)) 4px max(40px, var(--safe-r));
+    padding: 0 max(40px, var(--safe-r)) 4px max(40px, var(--safe-l), calc((100% - var(--wrap)) / 2 + 40px));
   }
 }
 
