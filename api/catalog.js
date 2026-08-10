@@ -83,21 +83,21 @@ const PRODUCTS = {
 
   // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
   "bn-tee-enter": {
-    name: "Micro Tee + Enter Digital",
+    name: "Bundle: Micro Tee + Enter Digital",
     unitAmount: 4800,
     stock: 80,
     bundle: true,
     format: "bundle",
   },
   "bn-tee-together": {
-    name: "Micro Tee + Together Digital",
+    name: "Bundle: Micro Tee + Together Digital",
     unitAmount: 4800,
     stock: 80,
     bundle: true,
     format: "bundle",
   },
   "bn-tee-inlet-cass": {
-    name: "Micro Tee + Inlet Knight Cassette",
+    name: "Bundle: Micro Tee + Inlet Knight Cassette",
     unitAmount: 6000,
     stock: 36,
     bundle: true,
