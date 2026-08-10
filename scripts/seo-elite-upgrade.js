@@ -46,17 +46,24 @@ const MERCH_PRODUCTS = [
     name: 'Micro Tee',
     price: 40,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-simple-tee-black.jpg',
     images: {
       Black: '/merch/club-copy/prod-simple-tee-black.jpg',
       White: '/merch/club-copy/prod-simple-tee-white.jpg',
     },
+    gallery: [
+      { src: '/merch/club-copy/prod-simple-tee-black.jpg', alt: 'Micro Tee in black', colour: 'Black' },
+      { src: '/merch/club-copy/prod-simple-tee-white.jpg', alt: 'Micro Tee in white', colour: 'White' },
+      { src: '/merch/club-copy/prod-simple-tee-cream.jpg', alt: 'Micro Tee mark detail on cream', colour: null },
+    ],
     colours: ['Black', 'White'],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Regular fit · heavyweight cotton',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Micro Tee — heavyweight cotton, regular fit. Label merch from the Pacific Northwest.',
+    description:
+      'Small chest mark on heavyweight cotton. The everyday Club Copy tee — cut clean, packed in BC.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'long-sleeve',
@@ -64,13 +71,19 @@ const MERCH_PRODUCTS = [
     name: 'Long Sleeve',
     price: 53,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-longsleeve-white.jpg',
+    gallery: [
+      { src: '/merch/club-copy/prod-longsleeve-white.jpg', alt: 'Long Sleeve in white' },
+      { src: '/merch/club-copy/prod-longsleeve.jpg', alt: 'Long Sleeve alternate view' },
+    ],
     colours: [],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Regular fit · long sleeve',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Long Sleeve — regular fit long sleeve tee from the label shop.',
+    description:
+      'Long sleeve cut with the label mark. Built for cooler nights and the walk home after the set.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'sleeve-tee',
@@ -78,13 +91,16 @@ const MERCH_PRODUCTS = [
     name: 'Sleeve Tee',
     price: 55,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-sleeve-tee.webp',
+    gallery: [{ src: '/merch/club-copy/prod-sleeve-tee.webp', alt: 'Sleeve Tee' }],
     colours: [],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Regular fit · sleeve print only',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Sleeve Tee — sleeve print design, regular fit.',
+    description:
+      'Print lives on the sleeve only — quiet from the front, clear when you move.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'hoodie',
@@ -92,13 +108,19 @@ const MERCH_PRODUCTS = [
     name: 'Hoodie',
     price: 85,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-hoodie.webp',
+    gallery: [
+      { src: '/merch/club-copy/prod-hoodie.webp', alt: 'Hoodie front' },
+      { src: '/merch/club-copy/prod-hoodie.jpg', alt: 'Hoodie alternate view' },
+    ],
     colours: [],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Relaxed fit · midweight fleece',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Hoodie — relaxed midweight fleece from the label shop.',
+    description:
+      'Relaxed midweight fleece with a tonal Club Copy mark. Clean hood, no drawstrings — soft structure for late rooms.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'crewneck',
@@ -106,13 +128,19 @@ const MERCH_PRODUCTS = [
     name: 'Crewneck',
     price: 73,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-crewneck.jpg',
+    gallery: [
+      { src: '/merch/club-copy/prod-crewneck.jpg', alt: 'Crewneck' },
+      { src: '/merch/club-copy/prod-crewneck.webp', alt: 'Crewneck alternate view' },
+    ],
     colours: [],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Relaxed fit · midweight fleece',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Crewneck — relaxed midweight fleece sweatshirt.',
+    description:
+      'Midweight fleece crew. Soft hand, quiet mark — a year-round label staple.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'cap',
@@ -120,13 +148,18 @@ const MERCH_PRODUCTS = [
     name: 'Cap',
     price: 45,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-cap.webp',
+    gallery: [
+      { src: '/merch/club-copy/prod-cap.webp', alt: 'Cap' },
+      { src: '/merch/club-copy/prod-cap.jpg', alt: 'Cap alternate view' },
+    ],
     colours: [],
     sizes: [],
     fit: 'One size · washed six-panel',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Cap — washed six-panel, one size.',
+    description: 'Washed six-panel. One size. The mark sits low and close.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'bikini',
@@ -134,13 +167,19 @@ const MERCH_PRODUCTS = [
     name: 'Bikini',
     price: 60,
     type: 'clothing',
-    category: 'Apparel',
+    category: 'Limited Collection',
     image: '/merch/club-copy/prod-bikini.jpg',
+    gallery: [
+      { src: '/merch/club-copy/prod-bikini.jpg', alt: 'Bikini' },
+      { src: '/merch/club-copy/prod-bikini.webp', alt: 'Bikini alternate view' },
+    ],
     colours: [],
     sizes: ['XS', 'S', 'M', 'L'],
     fit: 'True to size · stretch jersey',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Bikini — stretch jersey, true to size.',
+    description:
+      'Stretch jersey two-piece with Club Copy detailing. True to size — made for heat, water, and weekend light.',
+    related: { label: 'More from the collection', href: '/merch', text: 'Back to shop' },
   },
   {
     slug: 'slipmat',
@@ -148,13 +187,19 @@ const MERCH_PRODUCTS = [
     name: 'Slipmat Pair',
     price: 22,
     type: 'goods',
-    category: 'DJ Accessories',
+    category: 'Goods',
     image: '/merch/club-copy/prod-slipmat.webp',
+    gallery: [
+      { src: '/merch/club-copy/prod-slipmat.webp', alt: 'Slipmat Pair' },
+      { src: '/merch/club-copy/prod-slipmat.png', alt: 'Slipmat Pair detail' },
+    ],
     colours: [],
     sizes: [],
-    fit: 'One size',
+    fit: 'One size · pair',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Slipmat Pair — for turntables. Label goods from BC.',
+    description:
+      'A pair for the decks. Label goods for the room that plays the records.',
+    related: { label: 'Keep listening', href: '/library', text: 'Browse the library' },
   },
   {
     slug: 'poly-outer',
@@ -162,13 +207,19 @@ const MERCH_PRODUCTS = [
     name: 'Poly Outer',
     price: 5,
     type: 'goods',
-    category: 'Record Care',
+    category: 'Goods',
     image: '/merch/club-copy/prod-poly-outer.webp',
+    gallery: [
+      { src: '/merch/club-copy/prod-poly-outer.webp', alt: 'Poly Outer' },
+      { src: '/merch/club-copy/prod-poly-outer.png', alt: 'Poly Outer detail' },
+    ],
     colours: [],
     sizes: [],
     fit: 'One size',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Club Copy Poly Outer — protective outer sleeve for records.',
+    description:
+      'Clear protective outer for records and sleeves. Keep the archive clean.',
+    related: { label: 'Keep listening', href: '/library', text: 'Browse the library' },
   },
   {
     slug: 'bundle-tee-enter',
@@ -182,12 +233,19 @@ const MERCH_PRODUCTS = [
       Black: '/merch/club-copy/bundle-tee-enter-black.webp',
       White: '/merch/club-copy/bundle-tee-enter-white.webp',
     },
+    gallery: [
+      { src: '/merch/club-copy/bundle-tee-enter-black.webp', alt: 'Bundle tee black with Enter', colour: 'Black' },
+      { src: '/merch/club-copy/bundle-tee-enter-white.webp', alt: 'Bundle tee white with Enter', colour: 'White' },
+      { src: '/enter-cover.webp', alt: 'Enter, Double-Edge cover', cover: true },
+    ],
     colours: ['Black', 'White'],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Regular fit · heavyweight cotton',
     ships: 'Tee packed in BC · digital files emailed after checkout',
-    description: 'Bundle: Club Copy Micro Tee plus Enter, Double-Edge digital download.',
+    description:
+      'Micro Tee plus Enter by Double-Edge as digital files. Wear the label, keep the release.',
     includes: ['Micro Tee', 'Enter, Double-Edge (digital)'],
+    related: { label: 'Hear the release', href: '/enter', text: 'Enter, Double-Edge' },
   },
   {
     slug: 'bundle-tee-together',
@@ -201,12 +259,19 @@ const MERCH_PRODUCTS = [
       Black: '/merch/club-copy/bundle-tee-together-black.webp',
       White: '/merch/club-copy/bundle-tee-together-white.webp',
     },
+    gallery: [
+      { src: '/merch/club-copy/bundle-tee-together-black.webp', alt: 'Bundle tee black with Together', colour: 'Black' },
+      { src: '/merch/club-copy/bundle-tee-together-white.webp', alt: 'Bundle tee white with Together', colour: 'White' },
+      { src: '/together-cover.webp', alt: 'Together cover', cover: true },
+    ],
     colours: ['Black', 'White'],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Regular fit · heavyweight cotton',
     ships: 'Tee packed in BC · digital files emailed after checkout',
-    description: 'Bundle: Club Copy Micro Tee plus Together digital download by Inlet Knight.',
+    description:
+      'Micro Tee plus Together by Inlet Knight as digital files. Soft mark, long listen.',
     includes: ['Micro Tee', 'Together (digital)'],
+    related: { label: 'Hear the release', href: '/together', text: 'Together' },
   },
   {
     slug: 'bundle-tee-inlet-cassette',
@@ -220,12 +285,19 @@ const MERCH_PRODUCTS = [
       Black: '/merch/club-copy/bundle-tee-inlet-cass-black.webp',
       White: '/merch/club-copy/bundle-tee-inlet-cass-white.webp',
     },
+    gallery: [
+      { src: '/merch/club-copy/bundle-tee-inlet-cass-black.webp', alt: 'Bundle tee black with cassette', colour: 'Black' },
+      { src: '/merch/club-copy/bundle-tee-inlet-cass-white.webp', alt: 'Bundle tee white with cassette', colour: 'White' },
+      { src: '/inlet-knight-cover.webp', alt: 'Inlet Knight cassette cover', cover: true },
+    ],
     colours: ['Black', 'White'],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Regular fit · heavyweight cotton',
     ships: 'Packed in BC · 2–4 business days',
-    description: 'Bundle: Club Copy Micro Tee plus Inlet Knight cassette.',
+    description:
+      'Micro Tee plus the Inlet Knight cassette. Physical tape, label cotton — packed together in BC.',
     includes: ['Micro Tee', 'Inlet Knight (cassette)'],
+    related: { label: 'Hear the release', href: '/inlet-knight', text: 'Inlet Knight' },
   },
 ];
 
@@ -428,6 +500,30 @@ function productPageHtml(p) {
   const imgMap = p.images
     ? `data-img-map='${JSON.stringify(p.images).replace(/'/g, '&#39;')}'`
     : '';
+  const gallery = Array.isArray(p.gallery) && p.gallery.length ? p.gallery : [{ src: p.image, alt: p.name }];
+  const first = gallery[0];
+  const artClass = first.cover ? 'pdp-art pdp-art--cover media-bezel fx-spec' : 'pdp-art media-bezel fx-spec';
+  const thumbs =
+    gallery.length > 1
+      ? `<div class="pdp-thumbs" id="pdpThumbs" role="group" aria-label="Product images">
+        ${gallery
+          .map(
+            (g, i) =>
+              `<button type="button" class="pdp-thumb${i === 0 ? ' is-active' : ''}" aria-pressed="${i === 0 ? 'true' : 'false'}" data-src="${esc(g.src)}" data-alt="${esc(g.alt || p.name)}"${g.colour ? ` data-colour="${esc(g.colour)}"` : ''}${g.cover ? ' data-cover="1"' : ''}><img src="${esc(g.src)}" alt="" loading="lazy"/></button>`
+          )
+          .join('')}
+      </div>`
+      : '';
+  const related = p.related
+    ? `<div class="pdp-related">
+          <p class="pdp-related__label">${esc(p.related.label)}</p>
+          <a href="${esc(p.related.href)}">${esc(p.related.text)}</a>
+        </div>`
+    : '';
+  const includes =
+    Array.isArray(p.includes) && p.includes.length
+      ? `<p class="pdp-meta">Includes ${esc(p.includes.join(' · '))}</p>`
+      : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -462,53 +558,7 @@ ${JSON.stringify(crumbs, null, 2)}
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/site.css"/>
-  <style>
-    .pdp { padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 96px; }
-    .pdp-grid {
-      display: grid; gap: 36px;
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-    @media (min-width: 880px) {
-      .pdp-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 56px; }
-    }
-    .pdp-art {
-      background: #f0eeea; border-radius: var(--bezel-r); overflow: hidden;
-      aspect-ratio: 1;
-    }
-    .pdp-art img { width: 100%; height: 100%; object-fit: cover; }
-    .pdp-kicker {
-      font-family: var(--callsign); font-size: 11px; font-weight: 600;
-      letter-spacing: .16em; text-transform: uppercase; color: var(--dim);
-      margin-bottom: 10px;
-    }
-    .pdp-title {
-      font-family: var(--display); font-size: clamp(28px, 4vw, 42px);
-      font-weight: 600; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 12px;
-    }
-    .pdp-price {
-      font-size: 18px; font-weight: 600; margin-bottom: 18px;
-    }
-    .pdp-desc { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 34em; margin-bottom: 22px; }
-    .pdp-meta { font-size: 13px; color: var(--dim); margin: 0 0 8px; }
-    .pdp-block { margin: 18px 0; }
-    .pdp-label {
-      display: block; font-size: 12px; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--dim); margin-bottom: 8px;
-    }
-    .pdp-opts { display: flex; flex-wrap: wrap; gap: 8px; }
-    .pdp-opt {
-      height: 36px; padding: 0 14px; border: 1px solid var(--line);
-      background: var(--card); border-radius: var(--bezel-r);
-      font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--ink);
-    }
-    .pdp-opt.is-active {
-      border-color: var(--ink); background: var(--ink); color: #fff;
-    }
-    .pdp-error { color: #B3261E; font-size: 13px; margin-top: 8px; }
-    .pdp-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .pdp-back { display: inline-block; margin-top: 28px; font-size: 14px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  </style>
+  <link rel="stylesheet" href="/css/shop.css"/>
 </head>
 <body id="top">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -556,8 +606,11 @@ ${JSON.stringify(crumbs, null, 2)}
       <a href="/">Home</a><span>/</span><a href="/merch">Shop</a><span>/</span>${esc(p.name)}
     </nav>
     <div class="pdp-grid">
-      <div class="pdp-art media-bezel fx-spec">
-        <img id="pdpImage" src="${esc(p.image)}" alt="${esc(p.name)}" width="1200" height="1200" fetchpriority="high" ${imgMap}/>
+      <div class="pdp-gallery">
+        <div class="${artClass}" id="pdpArt">
+          <img id="pdpImage" src="${esc(first.src)}" alt="${esc(first.alt || p.name)}" width="1200" height="1200" fetchpriority="high" ${imgMap}/>
+        </div>
+        ${thumbs}
       </div>
       <div>
         <p class="pdp-kicker">${esc(p.category)}</p>
@@ -566,6 +619,7 @@ ${JSON.stringify(crumbs, null, 2)}
         <p class="pdp-desc">${esc(p.description)}</p>
         <p class="pdp-meta">${esc(p.fit)}</p>
         <p class="pdp-meta">${esc(p.ships)}</p>
+        ${includes}
         ${
           p.colours.length
             ? `<div class="pdp-block"><span class="pdp-label">Colour</span><div class="pdp-opts" id="pdpColours" role="group">${colourBtns}</div></div>`
@@ -586,6 +640,7 @@ ${JSON.stringify(crumbs, null, 2)}
           <a class="btn btn-ghost" href="/merch">Back to shop</a>
         </div>
         <a class="pdp-back" href="/shipping">Shipping &amp; returns</a>
+        ${related}
       </div>
     </div>
   </div>
@@ -630,7 +685,45 @@ ${JSON.stringify(crumbs, null, 2)}
 (function () {
   var addBtn = document.getElementById('pdpAdd');
   var img = document.getElementById('pdpImage');
+  var art = document.getElementById('pdpArt');
   var sizeError = document.getElementById('pdpSizeError');
+  var thumbs = document.getElementById('pdpThumbs');
+
+  function setActiveThumb(btn) {
+    if (!thumbs || !btn) return;
+    Array.prototype.forEach.call(thumbs.querySelectorAll('.pdp-thumb'), function (b) {
+      var on = b === btn;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function showSrc(src, alt, isCover) {
+    if (!img) return;
+    img.src = src;
+    if (alt) img.alt = alt;
+    if (art) art.classList.toggle('pdp-art--cover', !!isCover);
+  }
+
+  if (thumbs) {
+    thumbs.addEventListener('click', function (e) {
+      var btn = e.target.closest('.pdp-thumb');
+      if (!btn) return;
+      setActiveThumb(btn);
+      showSrc(btn.getAttribute('data-src'), btn.getAttribute('data-alt'), btn.getAttribute('data-cover') === '1');
+      var colour = btn.getAttribute('data-colour');
+      if (colour) {
+        var colourBtn = document.querySelector('#pdpColours .pdp-opt[data-colour="' + colour + '"]');
+        if (colourBtn) {
+          Array.prototype.forEach.call(document.querySelectorAll('#pdpColours .pdp-opt'), function (b) {
+            var on = b === colourBtn;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+        }
+      }
+    });
+  }
 
   function wireGroup(host, onPick) {
     if (!host) return;
@@ -647,13 +740,19 @@ ${JSON.stringify(crumbs, null, 2)}
   }
 
   wireGroup(document.getElementById('pdpColours'), function (btn) {
+    var colour = btn.getAttribute('data-colour');
     var mapRaw = img.getAttribute('data-img-map');
-    if (!mapRaw) return;
-    try {
-      var map = JSON.parse(mapRaw);
-      var next = map[btn.getAttribute('data-colour')];
-      if (next) img.src = next;
-    } catch (err) {}
+    if (mapRaw) {
+      try {
+        var map = JSON.parse(mapRaw);
+        var next = map[colour];
+        if (next) showSrc(next, img.alt, false);
+      } catch (err) {}
+    }
+    if (thumbs) {
+      var match = thumbs.querySelector('.pdp-thumb[data-colour="' + colour + '"]');
+      if (match) setActiveThumb(match);
+    }
   });
   wireGroup(document.getElementById('pdpSizes'));
 
@@ -1340,21 +1439,25 @@ function patchAboutContactSchema() {
 }
 
 /* ---------- main ---------- */
-rewriteAllLinks();
-generateProductPages();
-updateMerchShop();
-addCrumbsCss();
-patchAllNavs();
-patchIndex();
-patchNewsIndex();
-patchLibrary();
-patchArtists();
-patchArtistPages();
-patchReleaseBreadcrumbs();
-patchNewsArticles();
-patchCartNoindex();
-patchShippingOg();
-patchAboutContactSchema();
-writeSitemap();
-patchVercelRedirects();
-console.log('Done.');
+if (require.main === module) {
+  rewriteAllLinks();
+  generateProductPages();
+  updateMerchShop();
+  addCrumbsCss();
+  patchAllNavs();
+  patchIndex();
+  patchNewsIndex();
+  patchLibrary();
+  patchArtists();
+  patchArtistPages();
+  patchReleaseBreadcrumbs();
+  patchNewsArticles();
+  patchCartNoindex();
+  patchShippingOg();
+  patchAboutContactSchema();
+  writeSitemap();
+  patchVercelRedirects();
+  console.log('Done.');
+}
+
+module.exports = { MERCH_PRODUCTS, generateProductPages, productPageHtml };
