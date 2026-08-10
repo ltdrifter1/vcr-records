@@ -42,6 +42,7 @@
           '</div>' +
           '<div class="wall-meta">' +
             '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
+            (rel.artist ? '<p class="wall-artist">' + esc(rel.artist) + '</p>' : '') +
             (rel.year ? '<p class="wall-date">' + esc(rel.year) + '</p>' : '') +
           '</div>' +
         '</div>' +
