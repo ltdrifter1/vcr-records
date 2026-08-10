@@ -134,7 +134,7 @@
         linear-gradient(180deg, transparent 0%, #000 26%, #000 72%, transparent 100%);
       mask-composite: intersect;
       -webkit-mask-composite: source-in;
-      opacity: .14;
+      opacity: .18;
       animation: gridDrift 28s linear infinite;
       will-change: background-position;
       transition: opacity .6s var(--ease);
@@ -162,7 +162,7 @@
     @keyframes gridDriftFine { from { background-position: 0 0; } to { background-position: 0 14px; } }
 
     .hero .fx-grid-horizon {
-      opacity: .14;
+      opacity: .2;
       transition: opacity .6s var(--ease);
     }
     .hero.is-live .fx-grid-horizon { opacity: .08; }
@@ -403,13 +403,16 @@
     }
     .hero .btn-chrome-on-dark,
     .hero .btn-ghost-on-dark {
-      min-width: 132px;
+      min-width: 148px;
+      height: 48px;
+      border-radius: 2px;
     }
     .hero .btn-chrome-on-dark {
       box-shadow:
-        0 1px 0 rgba(255,255,255,.9) inset,
-        0 -1px 0 rgba(80,90,110,.2) inset,
-        0 14px 36px rgba(0,0,0,.4);
+        0 1px 0 rgba(255,255,255,.98) inset,
+        0 -1px 0 rgba(60,70,90,.3) inset,
+        0 0 0 1px rgba(0,0,0,.45),
+        0 16px 36px rgba(0,0,0,.45);
     }
 
     /* Scroll cue — the hero fills the viewport; hint at the wall below ------ */

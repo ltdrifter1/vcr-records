@@ -39,9 +39,9 @@
   --blur-lg: 36px;
   --shadow: 0 1px 2px rgba(17,17,17,.04), 0 10px 28px rgba(26,30,38,.06);
   --shadow-lg: 0 2px 6px rgba(17,17,17,.05), 0 28px 64px rgba(26,30,38,.12);
-  --radius: 4px;
-  --radius-lg: 6px;
-  --bezel-r: 4px;
+  --radius: 2px;
+  --radius-lg: 4px;
+  --bezel-r: 2px;
   --pill: 980px;
   --ease: cubic-bezier(.22,1,.36,1);
   --dur: 280ms;
@@ -787,25 +787,38 @@ body.nav-on-dark:not(.nav-light) .nav-logo img {
 /* Dark-surface chrome CTAs ------------------------------------------------- */
 .btn-chrome-on-dark {
   background:
-    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(230,236,244,.9) 38%, rgba(186,198,214,.85) 100%);
+    linear-gradient(180deg, #ffffff 0%, #e8eef6 38%, #b7c4d4 72%, #9aa8b8 100%);
   color: #111;
-  border: 1px solid rgba(220,230,242,.7);
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: var(--bezel-r);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
   box-shadow:
-    0 1px 0 rgba(255,255,255,.85) inset,
-    0 -1px 0 rgba(80,90,110,.18) inset,
-    0 12px 32px rgba(0,0,0,.35);
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 -1px 0 rgba(60,70,90,.28) inset,
+    0 0 0 1px rgba(0,0,0,.4),
+    0 14px 32px rgba(0,0,0,.4);
 }
 .btn-ghost-on-dark {
-  background: rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
   color: #fff;
-  border: 1px solid rgba(200,214,230,.38);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+  border: 1px solid rgba(200,214,230,.48);
+  border-radius: var(--bezel-r);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 0 0 1px rgba(0,0,0,.25);
 }
 @media (hover:hover) {
-  .btn-chrome-on-dark:hover { opacity: .94; }
+  .btn-chrome-on-dark:hover { opacity: .94; filter: brightness(1.04); }
   .btn-ghost-on-dark:hover {
-    background: rgba(255,255,255,.16);
-    border-color: rgba(220,230,242,.55);
+    background: rgba(255,255,255,.14);
+    border-color: rgba(220,230,242,.7);
   }
 }
 
