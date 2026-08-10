@@ -140,6 +140,48 @@
       text-transform: uppercase; color: var(--dim);
     }
     @media (min-width: 800px) { .cat-head { display: grid; } }
+
+    .lib-filters {
+      display: flex; flex-wrap: wrap; align-items: end; gap: 14px 18px;
+      margin: 8px 0 28px; padding: 16px 0 4px;
+    }
+    .lib-filter {
+      display: flex; flex-direction: column; gap: 6px; min-width: min(100%, 200px);
+    }
+    .lib-filter label {
+      font-family: var(--callsign);
+      font-size: 11px; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--dim);
+    }
+    .lib-filter select {
+      appearance: none; -webkit-appearance: none;
+      min-height: 44px; padding: 0 36px 0 14px;
+      border: 1px solid rgba(170,182,200,.45);
+      border-radius: 2px;
+      background:
+        linear-gradient(45deg, transparent 50%, var(--muted) 50%) calc(100% - 18px) calc(50% - 3px) / 6px 6px no-repeat,
+        linear-gradient(135deg, var(--muted) 50%, transparent 50%) calc(100% - 13px) calc(50% - 3px) / 6px 6px no-repeat,
+        #fff;
+      color: var(--ink);
+      font: inherit; font-size: 14px;
+      cursor: pointer;
+    }
+    .lib-filter select:focus-visible {
+      outline: 2px solid var(--chrome-steel);
+      outline-offset: 2px;
+    }
+    .lib-filter-reset {
+      min-height: 44px; padding: 0 14px;
+      border: 0; background: none;
+      color: var(--muted); font: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(17,17,17,.25);
+    }
+    .lib-filter-reset[hidden] { display: none; }
+    @media (hover:hover) {
+      .lib-filter-reset:hover { color: var(--ink); text-decoration-color: rgba(17,17,17,.7); }
+    }
   </style>
 </head>
 <body id="top">
@@ -190,6 +232,22 @@
       </div>
       <a class="head-link" href="merch.html">Shop</a>
     </header>
+
+    <form class="lib-filters" id="libFilters" aria-label="Filter library">
+      <div class="lib-filter">
+        <label for="libArtist">Artist</label>
+        <select id="libArtist" name="artist">
+          <option value="">All artists</option>
+        </select>
+      </div>
+      <div class="lib-filter">
+        <label for="libYear">Release year</label>
+        <select id="libYear" name="year">
+          <option value="">All years</option>
+        </select>
+      </div>
+      <button type="button" class="lib-filter-reset" id="libFilterReset" hidden>Clear filters</button>
+    </form>
 
     <div class="cat-head" aria-hidden="true">
       <span></span>
