@@ -142,6 +142,23 @@
     })
     .catch(function () {
       grid.removeAttribute('aria-busy');
+      /* Keep statically embedded release cards for crawlability / offline. */
+      if (grid.querySelector('.wall-item')) {
+        grid.querySelectorAll('[data-play-release]').forEach(function (el) {
+          el.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (!window.VCRPlayer) return;
+            var id = el.getAttribute('data-play-release');
+            var cur = VCRPlayer.current && VCRPlayer.current();
+            if (cur && cur.releaseId === id) {
+              VCRPlayer.toggle();
+            } else {
+              VCRPlayer.playRelease(id, null, { autoplay: true, stage: true });
+            }
+          });
+        });
+        return;
+      }
       grid.innerHTML = '<p style="color:var(--muted)">Could not load releases. <a href="/library">Open Library</a></p>';
     });
 })();

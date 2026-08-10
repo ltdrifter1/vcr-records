@@ -402,6 +402,16 @@
       render();
     })
     .catch(function () {
+      /* Keep statically embedded rows so release URLs stay crawlable. */
+      if (list.querySelector('.cat-row')) {
+        bindPlayButtons();
+        observeReveals();
+        if (countEl && !filters.genre && !filters.artist) {
+          var n = list.querySelectorAll('.cat-row').length;
+          countEl.textContent = n === 1 ? '1 release' : n + ' releases';
+        }
+        return;
+      }
       list.innerHTML = '<p class="page-lead">Could not load the library. <a href="/merch">Shop</a></p>';
       if (countEl) countEl.textContent = '—';
     });
