@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Double-Edge — Club Copy</title>
-  <meta name="description" content="Double-Edge — jungle in the Pacific Northwest. Discography on Club Copy."/>
+  <meta name="description" content="Double-Edge — Pacific Northwest jungle. Sharp breaks, heavy air, and pressure cut for the floor."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <meta property="og:title" content="Double-Edge — Club Copy"/>
-  <meta property="og:description" content="Jungle in the Pacific Northwest."/>
+  <meta property="og:description" content="Pacific Northwest jungle — sharp breaks, heavy air, and pressure cut for the floor."/>
   <meta property="og:image" content="https://vcr-records.vercel.app/artists/double-edge.webp"/>
   <link rel="icon" href="../favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="../apple-touch-icon.png"/>
@@ -22,35 +22,35 @@
       display: grid;
       grid-template-columns: minmax(0,.7fr) minmax(0,1.3fr);
       gap: 40px; align-items: center;
-      margin-bottom: 64px;
     }
+    @media (min-width: 900px) { .artist-hero { gap: 56px; } }
     @media (max-width: 799px) { .artist-hero { grid-template-columns: 1fr; gap: 24px; } }
     .artist-photo {
-      background: var(--soft); border: 1px solid var(--line);
-      border-radius: var(--radius-lg); overflow: hidden; max-width: 320px;
+      background: var(--soft);
+      border: 1px solid rgba(150,162,180,.4);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      max-width: 320px;
+      width: 100%;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.55),
+        0 10px 28px rgba(26,30,38,.08);
     }
-    .artist-photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+    @media (max-width: 799px) { .artist-photo { max-width: 220px; } }
+    .artist-photo img {
+      width: 100%; aspect-ratio: 4/5; object-fit: cover;
+      filter: saturate(.92); display: block;
+    }
     .artist-hero h1 {
       font-size: clamp(36px, 6vw, 56px); font-weight: 600;
-      letter-spacing: -.03em; line-height: 1.05; margin: 8px 0 16px;
+      letter-spacing: -.03em; line-height: 1.05; margin: 8px 0 18px;
     }
-    .artist-bio { font-size: 17px; color: var(--muted); max-width: 32em; margin-bottom: 24px; line-height: 1.55; }
+    .artist-bio {
+      font-size: clamp(16px, 2vw, 18px);
+      color: var(--muted); max-width: 30em;
+      margin-bottom: 28px; line-height: 1.6;
+    }
     .artist-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .discog-head { margin-bottom: 20px; }
-    .discog-head h2 {
-      font-size: clamp(22px, 3vw, 28px); font-weight: 600; letter-spacing: -.025em;
-    }
-    .discog { border-top: 1px solid var(--line); }
-    .discog a {
-      display: grid; grid-template-columns: 72px minmax(0,1fr) auto;
-      gap: 18px; align-items: center;
-      padding: 18px 4px; border-bottom: 1px solid var(--line);
-    }
-    @media (hover:hover) { .discog a:hover { background: rgba(255,255,255,.45); } }
-    .discog img { width: 72px; height: 72px; object-fit: cover; background: var(--soft); }
-    .discog .t { font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
-    .discog .s { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
-    .discog .y { font-size: 13px; color: var(--dim); font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body id="top">
@@ -98,21 +98,15 @@
         <img src="double-edge.webp" alt="Double-Edge" width="800" height="1000" fetchpriority="high"/>
       </div>
       <div>
-        <p class="eyebrow">Artist</p>
+        <p class="eyebrow">Artist · Club Copy</p>
         <h1>Double-Edge</h1>
-        <p class="artist-bio">Jungle in the Pacific Northwest. Releases on Club Copy.</p>
+        <p class="artist-bio">Pacific Northwest jungle — sharp breaks, heavy air, and pressure cut for the floor.</p>
         <div class="artist-actions">
-          <a class="btn btn-dark" href="../library.html">Library</a>
+          <a class="btn btn-dark" href="../library.html?artist=double-edge">Library</a>
+          <a class="btn btn-ghost" href="../artists.html">All artists</a>
         </div>
       </div>
     </header>
-
-    <div class="discog-head">
-      <h2>Discography</h2>
-    </div>
-    <div class="discog" id="discog" aria-live="polite">
-      <p style="color:var(--dim);padding:20px 0">Loading…</p>
-    </div>
   </div>
 </main>
 
@@ -134,39 +128,5 @@
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/player.js"></script>
-<script>
-(function () {
-  var root = document.getElementById('discog');
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-  fetch('/data/catalog.json')
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      var list = (data.releases || []).filter(function (r) {
-        return r.artistId === 'double-edge' || r.artist === 'Double-Edge';
-      }).sort(function (a, b) {
-        return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
-      });
-      root.innerHTML = list.map(function (r) {
-        var href = '../' + (r.page || 'library.html');
-        var img = '../' + (r.coverThumb || r.cover);
-        var meta = [r.catalogue, r.status === 'Pre-Order' ? 'Pre-Order' : r.kind, r.tracksCount ? (r.tracksCount + (r.tracksCount === 1 ? ' track' : ' tracks')) : '']
-          .filter(Boolean).join(' · ');
-        return (
-          '<a href="' + esc(href) + '">' +
-            '<img src="' + esc(img) + '" alt="" width="120" height="120" loading="lazy"/>' +
-            '<span><span class="t">' + esc(r.title) + '</span><span class="s">' + esc(meta) + '</span></span>' +
-            '<span class="y">' + esc(r.year || '') + '</span>' +
-          '</a>'
-        );
-      }).join('') || '<p style="color:var(--dim);padding:20px 0">No releases yet.</p>';
-    })
-    .catch(function () {
-      root.innerHTML = '<p style="color:var(--dim);padding:20px 0"><a href="../library.html">Open Library</a></p>';
-    });
-})();
-</script>
 </body>
 </html>

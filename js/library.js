@@ -11,6 +11,46 @@
       .replace(/"/g, '&quot;');
   }
 
+  function artistFilter() {
+    try {
+      var params = new URLSearchParams(window.location.search || '');
+      return String(params.get('artist') || params.get('artistId') || '').trim();
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function matchesArtist(rel, filter) {
+    if (!filter) return true;
+    var q = filter.toLowerCase();
+    var id = String(rel.artistId || '').toLowerCase();
+    var name = String(rel.artist || '').toLowerCase();
+    return id === q || name === q || name.replace(/\s+/g, '-') === q;
+  }
+
+  function displayNameForFilter(releases, filter) {
+    if (!filter) return '';
+    for (var i = 0; i < releases.length; i++) {
+      var rel = releases[i];
+      if (matchesArtist(rel, filter)) return rel.artist || filter;
+    }
+    return filter.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function setLead(text, clearHref) {
+    var lead = document.querySelector('.page-lead');
+    if (!lead) return;
+    if (!text) {
+      lead.textContent = ' ';
+      return;
+    }
+    if (clearHref) {
+      lead.innerHTML = esc(text) + ' · <a href="library.html">All releases</a>';
+    } else {
+      lead.textContent = text;
+    }
+  }
+
   function formatMeta(rel) {
     var bits = [];
     if (rel.kind) bits.push(rel.kind);
@@ -106,11 +146,22 @@
       return r.json();
     })
     .then(function (data) {
+      var filter = artistFilter();
       var releases = (data.releases || []).slice().sort(function (a, b) {
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
+      if (filter) {
+        var filtered = releases.filter(function (r) { return matchesArtist(r, filter); });
+        var name = displayNameForFilter(releases, filter);
+        setLead(filtered.length ? ('Releases by ' + name) : ('No releases for ' + name), true);
+        releases = filtered;
+      } else {
+        setLead('');
+      }
       if (!releases.length) {
-        list.innerHTML = '<p class="page-lead">No releases yet.</p>';
+        list.innerHTML = filter
+          ? '<p class="page-lead">No releases for this artist. <a href="library.html">View full library</a></p>'
+          : '<p class="page-lead">No releases yet.</p>';
         return;
       }
       list.innerHTML = releases.map(row).join('');

@@ -68,39 +68,11 @@
       font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
       margin-bottom: 14px;
     }
-    .artist-bio { font-size: 16px; color: var(--muted); max-width: 32em; margin-bottom: 28px; }
-
-    .artist-releases { width: 100%; max-width: 440px; margin-bottom: 28px; }
-    .release-row {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 0;
-      border-bottom: 1px solid transparent;
-      box-shadow: inset 0 -1px 0 rgba(170,182,200,.28);
-      transition: opacity var(--dur) var(--ease);
+    .artist-bio {
+      font-size: 16px; color: var(--muted); max-width: 32em;
+      line-height: 1.55; margin-bottom: 28px;
     }
-    .release-row:first-child {
-      border-top: 1px solid transparent;
-      box-shadow:
-        inset 0 1px 0 rgba(170,182,200,.35),
-        inset 0 -1px 0 rgba(170,182,200,.28);
-    }
-    @media (hover:hover) { .release-row:hover { opacity: .65; } }
-    .release-row img {
-      width: 44px; height: 44px; border-radius: var(--radius);
-      object-fit: cover; border: 1px solid rgba(150,162,180,.4);
-      background: var(--soft);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
-    }
-    .release-row .rr-title { font-size: 15px; font-weight: 500; letter-spacing: -.01em; }
-    .release-row .rr-kind {
-      font-family: var(--callsign);
-      font-size: 11px; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--dim); margin-left: auto;
-    }
-
     .artist-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .archive-note { font-size: 14px; color: var(--dim); }
   </style>
 </head>
 <body id="top">
@@ -158,12 +130,10 @@
         </div>
         <div class="artist-copy">
           <h2 id="double-edge-name">Double-Edge</h2>
-          <p class="artist-bio">Jungle in the Pacific Northwest.</p>
-          <div class="artist-releases" data-artist-id="double-edge" data-artist-name="Double-Edge" aria-label="Discography">
-            <p style="font-size:13px;color:var(--dim)">Loading releases…</p>
-          </div>
+          <p class="artist-bio">Pacific Northwest jungle — sharp breaks, heavy air, and pressure cut for the floor.</p>
           <div class="artist-actions">
             <a class="btn btn-dark" href="artists/double-edge.html">Artist page</a>
+            <a class="btn btn-ghost" href="library.html?artist=double-edge">Library</a>
           </div>
         </div>
       </article>
@@ -174,12 +144,10 @@
         </div>
         <div class="artist-copy">
           <h2 id="inlet-knight-name">Inlet Knight</h2>
-          <p class="artist-bio">House music from Cumberland, British Columbia.</p>
-          <div class="artist-releases" data-artist-id="inlet-knight" data-artist-name="Inlet Knight" aria-label="Discography">
-            <p style="font-size:13px;color:var(--dim)">Loading releases…</p>
-          </div>
+          <p class="artist-bio">House from Cumberland, British Columbia — late nights, long drives, and the quiet between.</p>
           <div class="artist-actions">
             <a class="btn btn-dark" href="artists/inlet-knight.html">Artist page</a>
+            <a class="btn btn-ghost" href="library.html?artist=inlet-knight">Library</a>
           </div>
         </div>
       </article>
@@ -237,42 +205,6 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
-})();
-
-(function () {
-  var boxes = document.querySelectorAll('.artist-releases[data-artist-id]');
-  if (!boxes.length) return;
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-  fetch('/data/catalog.json')
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      boxes.forEach(function (box) {
-        var artistId = box.getAttribute('data-artist-id');
-        var artistName = box.getAttribute('data-artist-name') || '';
-        var list = (data.releases || []).filter(function (r) {
-          return r.artistId === artistId || r.artist === artistName;
-        }).sort(function (a, b) {
-          return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
-        });
-        box.innerHTML = list.map(function (r) {
-          return (
-            '<a class="release-row" href="' + esc(r.page) + '">' +
-              '<img src="' + esc(r.coverThumb || r.cover) + '" alt="" width="88" height="88" loading="lazy"/>' +
-              '<span class="rr-title">' + esc(r.title) + '</span>' +
-              '<span class="rr-kind">' + esc(r.catalogue || r.kind || '') + '</span>' +
-            '</a>'
-          );
-        }).join('') || '<p class="archive-note"><a href="library.html">View library</a></p>';
-      });
-    })
-    .catch(function () {
-      boxes.forEach(function (box) {
-        box.innerHTML = '<p class="archive-note"><a href="library.html">View library</a></p>';
-      });
-    });
 })();
 </script>
 </body>
