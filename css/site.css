@@ -874,3 +874,16 @@ body.nav-on-dark:not(.nav-light) .nav-logo img {
   }
   .fx-spec::before { opacity: 0 !important; }
 }
+
+
+/* Breadcrumbs — shared SEO / IA trail */
+.crumbs {
+  padding: 0 0 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--dim);
+}
+.crumbs a { color: var(--muted); transition: color var(--dur) var(--ease); }
+@media (hover:hover) { .crumbs a:hover { color: var(--ink); } }
+.crumbs span { margin: 0 10px; opacity: .4; }

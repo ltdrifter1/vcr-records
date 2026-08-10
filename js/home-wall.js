@@ -142,6 +142,6 @@
     })
     .catch(function () {
       grid.removeAttribute('aria-busy');
-      grid.innerHTML = '<p style="color:var(--muted)">Could not load releases. <a href="library.html">Open Library</a></p>';
+      grid.innerHTML = '<p style="color:var(--muted)">Could not load releases. <a href="/library">Open Library</a></p>';
     });
 })();

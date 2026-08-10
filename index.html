@@ -16,6 +16,10 @@
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
   <meta property="og:image" content="https://www.clubcopy.ca/together-cover.webp"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Club Copy"/>
+  <meta name="twitter:description" content="Pacific Northwest electronic music — house and jungle on Club Copy."/>
+  <meta name="twitter:image" content="https://www.clubcopy.ca/together-cover.webp"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -28,7 +32,18 @@
         "logo": "https://www.clubcopy.ca/apple-touch-icon.png",
         "email": "charlie@clubcopy.ca",
         "description": "Pacific Northwest record label releasing house and jungle.",
-        "areaServed": "Pacific Northwest"
+        "areaServed": "Pacific Northwest",
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "British Columbia, Canada"
+        },
+        "sameAs": [
+          "https://planetmp3.net"
+        ],
+        "member": [
+          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/inlet-knight", "name": "Inlet Knight", "url": "https://www.clubcopy.ca/artists/inlet-knight" },
+          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/double-edge", "name": "Double-Edge", "url": "https://www.clubcopy.ca/artists/double-edge" }
+        ]
       },
       {
         "@type": "WebSite",
@@ -1526,13 +1541,14 @@
     <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
         <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Listen</a>
-      <a href="library.html">Library</a>
-      <a href="artists.html">Artists</a>
-      <a href="merch.html">Shop</a>
-      <a href="contact.html">Contact</a>
+      <a href="/library">Library</a>
+      <a href="/artists">Artists</a>
+      <a href="/news">News</a>
+      <a href="/merch">Shop</a>
+      <a href="/contact">Contact</a>
     </nav>
     <div class="nav-end">
-      <a href="cart.html" class="nav-cart" data-cart-link aria-label="Cart">
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
           <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
@@ -1549,12 +1565,12 @@
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="#listen">Listen</a>
-  <a href="library.html">Library</a>
-  <a href="artists.html">Artists</a>
-  <a href="merch.html">Shop</a>
-  <a href="news.html">News</a>
-  <a href="contact.html">Contact</a>
-  <a href="cart.html">Cart</a>
+  <a href="/library">Library</a>
+  <a href="/artists">Artists</a>
+  <a href="/news">News</a>
+  <a href="/merch">Shop</a>
+  <a href="/contact">Contact</a>
+  <a href="/cart">Cart</a>
 </div>
 
 <main id="main">
@@ -1607,7 +1623,7 @@
           </div>
           <div class="hero-meta-row">
             <span class="hero-meta-label">EP</span>
-            <a class="hero-meta-value" href="together.html" data-room-page data-room-album>Together</a>
+            <a class="hero-meta-value" href="/together" data-room-page data-room-album>Together</a>
           </div>
         </div>
         <p class="hero-upnext" data-room-upnext hidden></p>
@@ -1656,7 +1672,7 @@
           <p class="eyebrow">Listen</p>
           <h2 id="listen-title">New Music</h2>
         </div>
-        <a class="head-link" href="library.html">View all</a>
+        <a class="head-link" href="/library">View all</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="true">
         <div class="wall-skel" aria-hidden="true">
@@ -1683,14 +1699,14 @@
   <!-- Place — one PNW beat between catalog and news -->
   <section class="place" aria-labelledby="place-title">
     <div class="place-frame" aria-hidden="true">
-      <img class="place-img" src="artists/inlet-knight.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
+      <img class="place-img" src="artists/inlet-knight.webp" alt="Inlet Knight — Club Copy artist" width="800" height="1000" loading="lazy" decoding="async"/>
       <div class="place-veil"></div>
     </div>
     <div class="place-copy rv">
       <p class="eyebrow">Pacific Northwest</p>
       <h2 class="place-title" id="place-title">Made here. Kept close.</h2>
       <p class="place-dek">House and jungle from the coast — small library, long shelf life.</p>
-      <a class="place-link" href="artists.html">Meet the artists</a>
+      <a class="place-link" href="/artists">Meet the artists</a>
     </div>
   </section>
 
@@ -1701,17 +1717,17 @@
       <header class="section-head" id="news">
         <div>
           <p class="eyebrow">Updates</p>
-          <h2 id="news-title"><a class="news-title-link" href="news.html">News</a></h2>
+          <h2 id="news-title"><a class="news-title-link" href="/news">News</a></h2>
         </div>
-        <a class="head-link" href="news.html">All news</a>
+        <a class="head-link" href="/news">All news</a>
       </header>
     </div>
 
     <div class="news-rail" tabindex="0" role="region" aria-label="News — scroll sideways">
       <div class="news-rail-track">
-        <a class="news-card rv" href="news/j-adore.html">
+        <a class="news-card rv" href="/news/j-adore">
           <div class="news-card-art media-bezel fx-spec">
-            <img src="news-jadore.webp" alt="" width="1200" height="1200" loading="lazy"/>
+            <img src="news-jadore.webp" alt="Fisheye photo of a blue car at dusk — j'adore" width="1200" height="1200" loading="lazy"/>
           </div>
           <div class="news-card-body">
             <p class="news-card-date">Aug 10, 2026</p>
@@ -1719,9 +1735,9 @@
             <p class="news-card-dek">New Inlet Knight single — don’t cry / j'adore.</p>
           </div>
         </a>
-        <a class="news-card rv" href="news/any-jungle.html">
+        <a class="news-card rv" href="/news/any-jungle">
           <div class="news-card-art media-bezel fx-spec">
-            <img src="news-keep.webp" alt="" width="1200" height="1200" loading="lazy"/>
+            <img src="news-keep.webp" alt="Record shop bins and shelves — Any Jungle" width="1200" height="1200" loading="lazy"/>
           </div>
           <div class="news-card-body">
             <p class="news-card-date">Aug 10, 2026</p>
@@ -1729,9 +1745,9 @@
             <p class="news-card-dek">Double-Edge’s next record is coming.</p>
           </div>
         </a>
-        <a class="news-card rv" href="news/double-edge-on-club-copy.html">
+        <a class="news-card rv" href="/news/double-edge-on-club-copy">
           <div class="news-card-art media-bezel fx-spec">
-            <img src="news-double.webp" alt="" width="1200" height="1200" loading="lazy"/>
+            <img src="news-double.webp" alt="Motion-blur silhouette at sunset — Double-Edge on Club Copy" width="1200" height="1200" loading="lazy"/>
           </div>
           <div class="news-card-body">
             <p class="news-card-date">Mar 4, 2026</p>
@@ -1739,9 +1755,9 @@
             <p class="news-card-dek">New artist. First release: Enter, Double-Edge.</p>
           </div>
         </a>
-        <a class="news-card rv" href="news/inlet-knight-on-club-copy.html">
+        <a class="news-card rv" href="/news/inlet-knight-on-club-copy">
           <div class="news-card-art media-bezel fx-spec">
-            <img src="news-night.webp" alt="" width="1200" height="1200" loading="lazy"/>
+            <img src="news-night.webp" alt="Halftone face in negative — Welcome, Inlet Knight" width="1200" height="1200" loading="lazy"/>
           </div>
           <div class="news-card-body">
             <p class="news-card-date">Feb 27, 2026</p>
@@ -1778,7 +1794,7 @@
   <div class="band">
     <div class="footer-top footer-top--brand">
       <div>
-        <a class="footer-logo-link" href="about.html"><img class="footer-logo" src="copy-house-publishing-logo.webp" alt="Copy House Publishing" width="1448" height="399" loading="lazy"/></a>
+        <a class="footer-logo-link" href="/about"><img class="footer-logo" src="copy-house-publishing-logo.webp" alt="Copy House Publishing" width="1448" height="399" loading="lazy"/></a>
         <p class="footer-manifesto">Copy House Publishing ©</p>
       </div>
     </div>
@@ -1786,12 +1802,12 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="#listen">Listen</a>
-        <a href="news.html">News</a>
-        <a href="artists.html">Artists</a>
-        <a href="merch.html">Shop</a>
-        <a href="planet.html">Planet MP3</a>
-        <a href="shipping.html">Shipping</a>
-        <a href="contact.html">Contact</a>
+        <a href="/news">News</a>
+        <a href="/artists">Artists</a>
+        <a href="/merch">Shop</a>
+        <a href="/planet">Planet MP3</a>
+        <a href="/shipping">Shipping</a>
+        <a href="/contact">Contact</a>
       </div>
     </div>
   </div>
