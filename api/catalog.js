@@ -15,7 +15,6 @@ const MERCH_PAGE_SKUS = [
   "dg-enter",
   "dg-together",
   "dg-letters-from-another-era",
-  "dg-double-edge-returns",
   "sm-cassette-inlet-knight",
   "bn-tee-enter",
   "bn-tee-together",
@@ -77,12 +76,6 @@ const PRODUCTS = {
   },
   "dg-letters-from-another-era": {
     name: "Letters From Another Era — Digital (EP)",
-    unitAmount: FORMAT.digital.unitAmount,
-    digital: true,
-    format: "digital",
-  },
-  "dg-double-edge-returns": {
-    name: "Double-Edge Returns — Digital (Album) Pre-Order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
