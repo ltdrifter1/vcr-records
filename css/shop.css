@@ -8,12 +8,13 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: min(52vh, 420px);
+  min-height: min(58vh, 480px);
   display: flex;
   align-items: flex-end;
   color: #fff;
   background: #08080a;
-  margin-top: calc(var(--nav-h) + var(--safe-t));
+  /* Full-bleed under transparent nav so white header links stay readable */
+  margin-top: 0;
 }
 .shop-hero__ambient {
   position: absolute;
@@ -44,10 +45,10 @@
   width: 100%;
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 48px max(24px, var(--safe-r)) 40px max(24px, var(--safe-l));
+  padding: calc(var(--nav-h) + var(--safe-t) + 36px) max(24px, var(--safe-r)) 40px max(24px, var(--safe-l));
 }
 @media (min-width: 800px) {
-  .shop-hero__inner { padding: 64px max(40px, var(--safe-r)) 52px max(40px, var(--safe-l)); }
+  .shop-hero__inner { padding: calc(var(--nav-h) + var(--safe-t) + 48px) max(40px, var(--safe-r)) 52px max(40px, var(--safe-l)); }
 }
 .shop-hero .crumbs { color: rgba(255,255,255,.45); padding-bottom: 18px; }
 .shop-hero .crumbs a { color: rgba(255,255,255,.62); }
@@ -63,7 +64,31 @@
   filter: drop-shadow(0 8px 28px rgba(0,0,0,.45));
   opacity: 0;
   transform: translateY(10px);
-  animation: shopBrandIn .9s var(--ease) .12s forwards;
+  transform-origin: 20% 50%;
+  animation:
+    shopBrandIn .9s var(--ease) .12s forwards,
+    shopBrandGlow 5.5s ease-in-out 1.1s infinite alternate;
+  transition: filter .45s var(--ease), opacity .45s var(--ease), transform .45s var(--ease);
+  cursor: default;
+}
+@media (hover:hover) {
+  .shop-hero__brand:hover {
+    animation-play-state: paused;
+    filter:
+      drop-shadow(0 16px 48px rgba(255,255,255,.16))
+      drop-shadow(0 0 28px rgba(200,214,230,.35))
+      drop-shadow(0 12px 36px rgba(0,0,0,.4));
+    opacity: 1;
+  }
+}
+@keyframes shopBrandGlow {
+  from { filter: drop-shadow(0 8px 28px rgba(0,0,0,.45)); }
+  to {
+    filter:
+      drop-shadow(0 14px 40px rgba(255,255,255,.1))
+      drop-shadow(0 0 18px rgba(200,214,230,.18))
+      drop-shadow(0 10px 28px rgba(0,0,0,.4));
+  }
 }
 .shop-hero__title {
   font-family: var(--display);
@@ -138,6 +163,8 @@ body.shop-page .nav-drawer a {
     opacity: 1;
     transform: none;
   }
+  .shop-hero__brand { transition: none; }
+  .shop-hero__brand:hover { filter: drop-shadow(0 8px 28px rgba(0,0,0,.45)); }
 }
 
 /* Catalog cards ------------------------------------------------------------ */
