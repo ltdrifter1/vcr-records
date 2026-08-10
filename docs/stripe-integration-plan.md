@@ -1,6 +1,6 @@
 # Club Copy — Stripe integration plan
 
-**Business:** [clubcopy.ca](https://clubcopy.ca) · Independent record label (Pacific Northwest)  
+**Business:** [clubcopy.ca](https://www.clubcopy.ca) · Independent record label (Pacific Northwest)  
 **Product focus:** One-time Payments (music + merch)  
 **Stack:** Static site on Vercel + `api/create-checkout-session.js` serverless function  
 **Currency:** CAD

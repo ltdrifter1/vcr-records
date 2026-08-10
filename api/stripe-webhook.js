@@ -3,7 +3,7 @@
  *
  * Env: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
  * Configure endpoint in Dashboard → Developers → Webhooks:
- *   https://clubcopy.ca/api/stripe-webhook
+ *   https://www.clubcopy.ca/api/stripe-webhook
  * Events: checkout.session.completed
  *
  * Digital: log / forward for email fulfillment (download links).

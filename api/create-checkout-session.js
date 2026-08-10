@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
     body.origin ||
     (req.headers.origin
       ? req.headers.origin
-      : `https://${req.headers.host || "clubcopy.ca"}`);
+      : `https://${req.headers.host || "www.clubcopy.ca"}`);
 
   const lineParams = {};
   let lineIndex = 0;
