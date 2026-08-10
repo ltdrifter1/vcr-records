@@ -4,20 +4,20 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Cap — Shop | Club Copy</title>
-  <meta name="description" content="Club Copy Cap — washed six-panel, one size."/>
+  <meta name="description" content="Washed six-panel. One size. The mark sits low and close."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="canonical" href="https://www.clubcopy.ca/merch/cap"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="product"/>
   <meta property="og:title" content="Cap — Club Copy"/>
-  <meta property="og:description" content="Club Copy Cap — washed six-panel, one size."/>
+  <meta property="og:description" content="Washed six-panel. One size. The mark sits low and close."/>
   <meta property="og:url" content="https://www.clubcopy.ca/merch/cap"/>
   <meta property="og:image" content="https://www.clubcopy.ca/merch/club-copy/prod-cap.webp"/>
   <meta property="product:price:amount" content="45"/>
   <meta property="product:price:currency" content="CAD"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Cap — Club Copy"/>
-  <meta name="twitter:description" content="Club Copy Cap — washed six-panel, one size."/>
+  <meta name="twitter:description" content="Washed six-panel. One size. The mark sits low and close."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/merch/club-copy/prod-cap.webp"/>
   <script type="application/ld+json">
 {
@@ -25,14 +25,14 @@
   "@type": "Product",
   "@id": "https://www.clubcopy.ca/merch/cap#product",
   "name": "Cap",
-  "description": "Club Copy Cap — washed six-panel, one size.",
+  "description": "Washed six-panel. One size. The mark sits low and close.",
   "image": "https://www.clubcopy.ca/merch/club-copy/prod-cap.webp",
   "sku": "sm-cap",
   "brand": {
     "@type": "Brand",
     "name": "Club Copy"
   },
-  "category": "Apparel",
+  "category": "Limited Collection",
   "offers": {
     "@type": "Offer",
     "url": "https://www.clubcopy.ca/merch/cap",
@@ -79,53 +79,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/site.css"/>
-  <style>
-    .pdp { padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 96px; }
-    .pdp-grid {
-      display: grid; gap: 36px;
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-    @media (min-width: 880px) {
-      .pdp-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 56px; }
-    }
-    .pdp-art {
-      background: #f0eeea; border-radius: var(--bezel-r); overflow: hidden;
-      aspect-ratio: 1;
-    }
-    .pdp-art img { width: 100%; height: 100%; object-fit: cover; }
-    .pdp-kicker {
-      font-family: var(--callsign); font-size: 11px; font-weight: 600;
-      letter-spacing: .16em; text-transform: uppercase; color: var(--dim);
-      margin-bottom: 10px;
-    }
-    .pdp-title {
-      font-family: var(--display); font-size: clamp(28px, 4vw, 42px);
-      font-weight: 600; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 12px;
-    }
-    .pdp-price {
-      font-size: 18px; font-weight: 600; margin-bottom: 18px;
-    }
-    .pdp-desc { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 34em; margin-bottom: 22px; }
-    .pdp-meta { font-size: 13px; color: var(--dim); margin: 0 0 8px; }
-    .pdp-block { margin: 18px 0; }
-    .pdp-label {
-      display: block; font-size: 12px; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--dim); margin-bottom: 8px;
-    }
-    .pdp-opts { display: flex; flex-wrap: wrap; gap: 8px; }
-    .pdp-opt {
-      height: 36px; padding: 0 14px; border: 1px solid var(--line);
-      background: var(--card); border-radius: var(--bezel-r);
-      font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--ink);
-    }
-    .pdp-opt.is-active {
-      border-color: var(--ink); background: var(--ink); color: #fff;
-    }
-    .pdp-error { color: #B3261E; font-size: 13px; margin-top: 8px; }
-    .pdp-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .pdp-back { display: inline-block; margin-top: 28px; font-size: 14px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  </style>
+  <link rel="stylesheet" href="/css/shop.css"/>
 </head>
 <body id="top">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -173,16 +127,22 @@
       <a href="/">Home</a><span>/</span><a href="/merch">Shop</a><span>/</span>Cap
     </nav>
     <div class="pdp-grid">
-      <div class="pdp-art media-bezel fx-spec">
-        <img id="pdpImage" src="/merch/club-copy/prod-cap.webp" alt="Cap" width="1200" height="1200" fetchpriority="high" />
+      <div class="pdp-gallery">
+        <div class="pdp-art media-bezel fx-spec" id="pdpArt">
+          <img id="pdpImage" src="/merch/club-copy/prod-cap.webp" alt="Cap" width="1200" height="1200" fetchpriority="high" />
+        </div>
+        <div class="pdp-thumbs" id="pdpThumbs" role="group" aria-label="Product images">
+        <button type="button" class="pdp-thumb is-active" aria-pressed="true" data-src="/merch/club-copy/prod-cap.webp" data-alt="Cap"><img src="/merch/club-copy/prod-cap.webp" alt="" loading="lazy"/></button><button type="button" class="pdp-thumb" aria-pressed="false" data-src="/merch/club-copy/prod-cap.jpg" data-alt="Cap alternate view"><img src="/merch/club-copy/prod-cap.jpg" alt="" loading="lazy"/></button>
+      </div>
       </div>
       <div>
-        <p class="pdp-kicker">Apparel</p>
+        <p class="pdp-kicker">Limited Collection</p>
         <h1 class="pdp-title">Cap</h1>
         <p class="pdp-price">$45 CAD</p>
-        <p class="pdp-desc">Club Copy Cap — washed six-panel, one size.</p>
+        <p class="pdp-desc">Washed six-panel. One size. The mark sits low and close.</p>
         <p class="pdp-meta">One size · washed six-panel</p>
         <p class="pdp-meta">Packed in BC · 2–4 business days</p>
+        
         
         
         <div class="pdp-actions">
@@ -195,6 +155,10 @@
           <a class="btn btn-ghost" href="/merch">Back to shop</a>
         </div>
         <a class="pdp-back" href="/shipping">Shipping &amp; returns</a>
+        <div class="pdp-related">
+          <p class="pdp-related__label">More from the collection</p>
+          <a href="/merch">Back to shop</a>
+        </div>
       </div>
     </div>
   </div>
@@ -239,7 +203,45 @@
 (function () {
   var addBtn = document.getElementById('pdpAdd');
   var img = document.getElementById('pdpImage');
+  var art = document.getElementById('pdpArt');
   var sizeError = document.getElementById('pdpSizeError');
+  var thumbs = document.getElementById('pdpThumbs');
+
+  function setActiveThumb(btn) {
+    if (!thumbs || !btn) return;
+    Array.prototype.forEach.call(thumbs.querySelectorAll('.pdp-thumb'), function (b) {
+      var on = b === btn;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function showSrc(src, alt, isCover) {
+    if (!img) return;
+    img.src = src;
+    if (alt) img.alt = alt;
+    if (art) art.classList.toggle('pdp-art--cover', !!isCover);
+  }
+
+  if (thumbs) {
+    thumbs.addEventListener('click', function (e) {
+      var btn = e.target.closest('.pdp-thumb');
+      if (!btn) return;
+      setActiveThumb(btn);
+      showSrc(btn.getAttribute('data-src'), btn.getAttribute('data-alt'), btn.getAttribute('data-cover') === '1');
+      var colour = btn.getAttribute('data-colour');
+      if (colour) {
+        var colourBtn = document.querySelector('#pdpColours .pdp-opt[data-colour="' + colour + '"]');
+        if (colourBtn) {
+          Array.prototype.forEach.call(document.querySelectorAll('#pdpColours .pdp-opt'), function (b) {
+            var on = b === colourBtn;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+        }
+      }
+    });
+  }
 
   function wireGroup(host, onPick) {
     if (!host) return;
@@ -256,13 +258,19 @@
   }
 
   wireGroup(document.getElementById('pdpColours'), function (btn) {
+    var colour = btn.getAttribute('data-colour');
     var mapRaw = img.getAttribute('data-img-map');
-    if (!mapRaw) return;
-    try {
-      var map = JSON.parse(mapRaw);
-      var next = map[btn.getAttribute('data-colour')];
-      if (next) img.src = next;
-    } catch (err) {}
+    if (mapRaw) {
+      try {
+        var map = JSON.parse(mapRaw);
+        var next = map[colour];
+        if (next) showSrc(next, img.alt, false);
+      } catch (err) {}
+    }
+    if (thumbs) {
+      var match = thumbs.querySelector('.pdp-thumb[data-colour="' + colour + '"]');
+      if (match) setActiveThumb(match);
+    }
   });
   wireGroup(document.getElementById('pdpSizes'));
 

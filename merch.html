@@ -144,18 +144,18 @@
   ]
 }
   </script>
-  <meta name="description" content="Club Copy shop — digital releases, cassettes, bundles, and clothing."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="description" content="Club Copy limited collection — digital releases, cassette, bundles, and label goods from the Pacific Northwest."/>
+  <meta name="theme-color" content="#08080a"/>
   <link rel="canonical" href="https://www.clubcopy.ca/merch"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Shop — Club Copy"/>
-  <meta property="og:description" content="Music, bundles, and goods from Club Copy."/>
+  <meta property="og:description" content="Limited collection from Club Copy — music, bundles, and label goods."/>
   <meta property="og:url" content="https://www.clubcopy.ca/merch"/>
   <meta property="og:image" content="https://www.clubcopy.ca/merch/club-copy/prod-simple-tee-black.jpg"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Shop — Club Copy"/>
-  <meta name="twitter:description" content="Music, bundles, and goods from Club Copy."/>
+  <meta name="twitter:description" content="Limited collection from Club Copy — music, bundles, and label goods."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/merch/club-copy/prod-simple-tee-black.jpg"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
@@ -163,11 +163,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/shop.css"/>
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    body.shop-page main { padding-top: calc(var(--nav-h) + var(--safe-t)); }
-
     /* Filter / sort bar — Stones Throw flow ------------------------------------ */
     .store-bar {
       position: sticky;
@@ -253,7 +252,7 @@
     .product-visual {
       position: relative;
       display: block; width: 100%; padding: 0; border: 0;
-      background: #f0eeea;
+      background: #0e1014;
       aspect-ratio: 1;
       overflow: hidden;
       cursor: pointer;
@@ -275,16 +274,6 @@
       object-fit: cover; object-position: center;
       transition: transform .7s var(--ease);
     }
-    .product[data-type="music"] .product-visual img,
-    .product[data-type="bundles"] .product-visual img {
-      object-fit: cover;
-    }
-    .product[data-type="clothing"] .product-visual img,
-    .product[data-type="goods"] .product-visual img {
-      object-fit: contain;
-      padding: 8%;
-      box-sizing: border-box;
-    }
     @media (hover:hover) {
       .product:hover .product-visual img { transform: scale(1.03); }
     }
@@ -302,10 +291,6 @@
     @media (hover:hover) {
       .product-title a:hover,
       .product-title button:hover { opacity: .65; }
-    }
-    .product-sub {
-      margin: 4px 0 0;
-      font-size: 13px; color: var(--muted); line-height: 1.35;
     }
 
     .store-empty {
@@ -449,13 +434,17 @@
 </div>
 
 <main id="main">
-  <div class="band" style="padding-top:calc(var(--nav-h) + var(--safe-t) + 28px);padding-bottom:8px">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span>/</span>Shop
-    </nav>
-    <h1 id="shop-title" style="font-family:var(--display);font-size:clamp(32px,5vw,48px);font-weight:600;letter-spacing:-.035em;line-height:1.05;margin:0 0 8px">Shop</h1>
-    <p style="color:var(--muted);font-size:15px;max-width:36em;margin:0">Digital releases, cassettes, bundles, and clothing from Club Copy.</p>
-  </div>
+  <section class="shop-hero" aria-labelledby="shop-title">
+    <div class="shop-hero__ambient" style="background-image:url('together-cover.webp')" aria-hidden="true"></div>
+    <div class="shop-hero__inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span>Shop
+      </nav>
+      <img class="shop-hero__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="901" height="280"/>
+      <h1 id="shop-title" class="shop-hero__title">Limited collection</h1>
+      <p class="shop-hero__lede">Releases, cassette, and label goods from the Pacific Northwest.</p>
+    </div>
+  </section>
   <div class="store-bar" aria-label="Shop filters">
     <div class="store-bar-inner">
       <div class="store-filters">
@@ -485,8 +474,12 @@
         <a class="product-visual media-bezel fx-spec" href="/j-adore" aria-label="j'adore">
           <img src="j-adore-cover.webp" alt="j'adore" width="1200" height="1200" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/j-adore">j'adore</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Digital</span>
+            <span class="product-price">$8</span>
+          </div>
         </div>
       </li>
 
@@ -494,8 +487,12 @@
         <a class="product-visual media-bezel fx-spec" href="/letters-from-another-era" aria-label="Letters From Another Era">
           <img src="letters-from-another-era-cover.webp" alt="Letters From Another Era" width="1200" height="1200" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/letters-from-another-era">Letters From Another Era</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Digital</span>
+            <span class="product-price">$8</span>
+          </div>
         </div>
       </li>
 
@@ -503,8 +500,12 @@
         <a class="product-visual media-bezel fx-spec" href="/enter" aria-label="Enter, Double-Edge">
           <img src="enter-cover.webp" alt="Enter, Double-Edge" width="1200" height="1200" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/enter">Enter, Double-Edge</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Digital</span>
+            <span class="product-price">$8</span>
+          </div>
         </div>
       </li>
 
@@ -512,8 +513,12 @@
         <a class="product-visual media-bezel fx-spec" href="/together" aria-label="Together">
           <img src="together-cover.webp" alt="Together" width="1200" height="1200" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/together">Together</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Digital</span>
+            <span class="product-price">$8</span>
+          </div>
         </div>
       </li>
 
@@ -521,8 +526,12 @@
         <a class="product-visual media-bezel fx-spec" href="/inlet-knight" aria-label="Inlet Knight">
           <img src="inlet-knight-cover.webp" alt="Inlet Knight" width="1200" height="1200" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/inlet-knight">Inlet Knight</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Cassette</span>
+            <span class="product-price">$20</span>
+          </div>
         </div>
       </li>
 
@@ -530,8 +539,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/micro-tee" aria-label="Micro Tee">
           <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/micro-tee">Micro Tee</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$40</span>
+          </div>
         </div>
       </li>
 
@@ -539,8 +552,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/long-sleeve" aria-label="Long Sleeve">
           <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/long-sleeve">Long Sleeve</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$53</span>
+          </div>
         </div>
       </li>
 
@@ -548,8 +565,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/sleeve-tee" aria-label="Sleeve Tee">
           <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Sleeve Tee" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/sleeve-tee">Sleeve Tee</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$55</span>
+          </div>
         </div>
       </li>
 
@@ -557,8 +578,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/hoodie" aria-label="Hoodie">
           <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/hoodie">Hoodie</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$85</span>
+          </div>
         </div>
       </li>
 
@@ -566,8 +591,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/crewneck" aria-label="Crewneck">
           <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/crewneck">Crewneck</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$73</span>
+          </div>
         </div>
       </li>
 
@@ -575,8 +604,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/cap" aria-label="Cap">
           <img src="merch/club-copy/prod-cap.webp" alt="Cap" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/cap">Cap</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$45</span>
+          </div>
         </div>
       </li>
 
@@ -584,8 +617,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/bikini" aria-label="Bikini">
           <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/bikini">Bikini</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Apparel</span>
+            <span class="product-price">$60</span>
+          </div>
         </div>
       </li>
 
@@ -593,8 +630,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/slipmat" aria-label="Slipmat Pair">
           <img src="merch/club-copy/prod-slipmat.webp" alt="Slipmat Pair" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/slipmat">Slipmat Pair</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Goods</span>
+            <span class="product-price">$22</span>
+          </div>
         </div>
       </li>
 
@@ -602,8 +643,12 @@
         <a class="product-visual media-bezel fx-spec" href="/merch/poly-outer" aria-label="Poly Outer">
           <img src="merch/club-copy/prod-poly-outer.webp" alt="Poly Outer" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/poly-outer">Poly Outer</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Goods</span>
+            <span class="product-price">$5</span>
+          </div>
         </div>
       </li>
 
@@ -612,8 +657,12 @@
           <span class="product-badge">Bundle</span>
           <img src="merch/club-copy/bundle-tee-enter-black.webp" alt="Bundle: Micro Tee and Enter, Double-Edge digital" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/bundle-tee-enter">Bundle: Micro Tee + Enter Digital</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Bundle</span>
+            <span class="product-price">$48</span>
+          </div>
         </div>
       </li>
 
@@ -622,8 +671,12 @@
           <span class="product-badge">Bundle</span>
           <img src="merch/club-copy/bundle-tee-together-black.webp" alt="Bundle: Micro Tee and Together digital" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/bundle-tee-together">Bundle: Micro Tee + Together Digital</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Bundle</span>
+            <span class="product-price">$48</span>
+          </div>
         </div>
       </li>
 
@@ -632,8 +685,12 @@
           <span class="product-badge">Bundle</span>
           <img src="merch/club-copy/bundle-tee-inlet-cass-black.webp" alt="Bundle: Micro Tee and Inlet Knight cassette" loading="lazy"/>
         </a>
-        <div>
+        <div class="product-info">
           <h3 class="product-title"><a href="/merch/bundle-tee-inlet-cassette">Bundle: Micro Tee + Inlet Knight Cassette</a></h3>
+          <div class="product-meta-row">
+            <span class="product-type">Bundle</span>
+            <span class="product-price">$60</span>
+          </div>
         </div>
       </li>
 
@@ -644,7 +701,7 @@
 
 <dialog class="product-drawer" id="productDrawer" aria-labelledby="drawerTitle">
   <div class="product-drawer__inner">
-    <button class="product-drawer__close" type="button" aria-label="Close">&times;</button>
+    <button class="product-drawer__close" type="button" aria-label="Close">&times;</a>
     <img id="drawerImage" alt=""/>
     <h2 id="drawerTitle"></h2>
     <div class="drawer-opts" id="drawerOpts">
