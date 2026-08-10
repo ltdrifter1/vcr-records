@@ -11,11 +11,19 @@
       .replace(/"/g, '&quot;');
   }
 
+  function formatRackMeta(rel) {
+    var bits = [];
+    if (rel.catalogue) bits.push(rel.catalogue);
+    if (rel.kind) bits.push(rel.kind);
+    if (rel.year) bits.push(String(rel.year));
+    if (String(rel.status || '').toLowerCase() === 'pre-order') bits.push('Pre-Order');
+    return bits.join(' · ');
+  }
+
   function card(rel) {
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var isPreorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
     var playBtn = hasTracks
       ? (
@@ -27,9 +35,7 @@
           '<span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span>'
         )
       : '';
-    var badge = isPreorder
-      ? '<span class="wall-badge">Pre-Order</span>'
-      : '';
+    var meta = formatRackMeta(rel);
     return (
       '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
         '<div class="wall-card">' +
@@ -37,13 +43,12 @@
             '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
               '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
             '</a>' +
-            badge +
             playBtn +
           '</div>' +
           '<div class="wall-meta">' +
+            (meta ? '<p class="wall-cat">' + esc(meta) + '</p>' : '') +
             '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
             (rel.artist ? '<p class="wall-artist">' + esc(rel.artist) + '</p>' : '') +
-            (rel.year ? '<p class="wall-date">' + esc(rel.year) + '</p>' : '') +
           '</div>' +
         '</div>' +
       '</article>'

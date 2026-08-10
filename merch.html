@@ -52,7 +52,7 @@
       color: var(--dim);
     }
     .store-chip {
-      height: 34px; padding: 0 14px; border-radius: var(--pill);
+      height: 34px; padding: 0 14px; border-radius: var(--bezel-r);
       border: 1px solid transparent;
       background: transparent; color: var(--muted);
       font-size: 13px; font-weight: 500; letter-spacing: -.01em;
@@ -70,7 +70,7 @@
     }
     .store-sort select {
       height: 34px; padding: 0 28px 0 12px;
-      border: 1px solid var(--line); border-radius: var(--pill);
+      border: 1px solid var(--line); border-radius: var(--bezel-r);
       background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 10px center;
       color: var(--ink); font: inherit; font-size: 13px; font-weight: 500;
       appearance: none; -webkit-appearance: none; cursor: pointer;
@@ -114,12 +114,16 @@
       overflow: hidden;
       cursor: pointer;
       text-align: left; color: inherit;
+      border-radius: var(--bezel-r);
     }
     .product-badge {
       position: absolute; top: 10px; left: 10px; z-index: 3;
-      background: #111; color: #fff;
+      background: rgba(8,8,10,.88); color: #fff;
+      font-family: var(--callsign);
       font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-      padding: 7px 9px;
+      padding: 6px 9px;
+      border: 1px solid rgba(200,214,230,.28);
+      border-radius: var(--bezel-r);
       pointer-events: none;
     }
     .product-visual img {
@@ -200,7 +204,7 @@
     }
     .merch-options { display: flex; gap: 8px; flex-wrap: wrap; }
     .merch-opt {
-      min-width: 40px; height: 34px; padding: 0 12px; border-radius: var(--pill);
+      min-width: 40px; height: 34px; padding: 0 12px; border-radius: var(--bezel-r);
       background: var(--soft); color: var(--muted);
       border: 1px solid var(--line);
       font-size: 13px; font-weight: 500; cursor: pointer;
@@ -215,9 +219,10 @@
     .merch-options[aria-invalid="true"] { outline: 1px solid rgba(180,35,24,.45); outline-offset: 4px; border-radius: 10px; }
     .merch-add {
       height: 48px; width: 100%;
-      border-radius: var(--pill);
-      background: var(--ink); color: #fff;
-      border: 1px solid var(--ink);
+      border-radius: var(--bezel-r);
+      background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 42%), linear-gradient(180deg, #3a404c 0%, #1a1e26 48%, #12151a 100%);
+      color: #fff;
+      border: 1px solid rgba(200,214,230,.28);
       font-size: 14px; font-weight: 600; letter-spacing: -.01em;
       cursor: pointer;
       transition: opacity var(--dur) var(--ease), transform 160ms var(--ease);
@@ -236,7 +241,7 @@
       display: flex; align-items: center; gap: 14px;
       background: var(--card); color: var(--ink);
       border: 1px solid var(--line);
-      padding: 12px 12px 12px 18px; border-radius: var(--pill);
+      padding: 12px 12px 12px 18px; border-radius: var(--bezel-r);
       box-shadow: var(--shadow-lg);
       transition: opacity .35s var(--ease), transform .35s var(--ease);
     }
@@ -246,8 +251,9 @@
     }
     .toast span { font-size: 13px; font-weight: 500; white-space: nowrap; }
     .toast a {
-      min-height: 44px; height: auto; padding: 0 14px; border-radius: var(--pill);
-      background: var(--ink); color: #fff;
+      min-height: 44px; height: auto; padding: 0 14px; border-radius: var(--bezel-r);
+      background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 42%), linear-gradient(180deg, #3a404c 0%, #1a1e26 100%);
+      color: #fff;
       font-size: 12px; font-weight: 600;
       display: inline-flex; align-items: center;
     }
@@ -323,7 +329,7 @@
     <ul class="store-grid" id="storeGrid" aria-label="Products">
 
       <li class="product merch-card is-shown" data-type="music" data-sku="dg-j-adore" data-name="j'adore" data-price="8" data-sort="91" data-stock="Digital — emailed after checkout">
-        <a class="product-visual" href="j-adore.html" aria-label="j'adore">
+        <a class="product-visual media-bezel fx-spec" href="j-adore.html" aria-label="j'adore">
           <img src="j-adore-cover.webp" alt="j'adore" width="1200" height="1200" loading="lazy"/>
         </a>
         <div>
@@ -332,7 +338,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="music" data-sku="dg-letters-from-another-era" data-name="Letters From Another Era" data-price="8" data-sort="90" data-stock="Digital — emailed after checkout">
-        <a class="product-visual" href="letters-from-another-era.html" aria-label="Letters From Another Era">
+        <a class="product-visual media-bezel fx-spec" href="letters-from-another-era.html" aria-label="Letters From Another Era">
           <img src="letters-from-another-era-cover.webp" alt="Letters From Another Era" width="1200" height="1200" loading="lazy"/>
         </a>
         <div>
@@ -341,7 +347,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="music" data-sku="dg-enter" data-name="Enter, Double-Edge" data-price="8" data-sort="80" data-stock="Digital — emailed after checkout">
-        <a class="product-visual" href="enter.html" aria-label="Enter, Double-Edge">
+        <a class="product-visual media-bezel fx-spec" href="enter.html" aria-label="Enter, Double-Edge">
           <img src="enter-cover.webp" alt="Enter, Double-Edge" width="1200" height="1200" loading="lazy"/>
         </a>
         <div>
@@ -350,7 +356,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="music" data-sku="dg-together" data-name="Together" data-price="8" data-sort="79" data-stock="Digital — emailed after checkout">
-        <a class="product-visual" href="together.html" aria-label="Together">
+        <a class="product-visual media-bezel fx-spec" href="together.html" aria-label="Together">
           <img src="together-cover.webp" alt="Together" width="1200" height="1200" loading="lazy"/>
         </a>
         <div>
@@ -359,7 +365,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="music" data-sku="sm-cassette-inlet-knight" data-name="Inlet Knight" data-price="20" data-sort="78" data-stock="In stock" data-stock-qty="36">
-        <a class="product-visual" href="inlet-knight.html" aria-label="Inlet Knight">
+        <a class="product-visual media-bezel fx-spec" href="inlet-knight.html" aria-label="Inlet Knight">
           <img src="inlet-knight-cover.webp" alt="Inlet Knight" width="1200" height="1200" loading="lazy"/>
         </a>
         <div>
@@ -368,7 +374,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-simple-tee" data-name="Micro Tee" data-price="40" data-sort="50" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
-        <button type="button" class="product-visual" data-open-product aria-label="Micro Tee">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Micro Tee">
           <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee" loading="lazy"/>
         </button>
         <div>
@@ -377,7 +383,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-longsleeve" data-name="Long Sleeve" data-price="53" data-sort="49" data-fit="Regular fit · long sleeve" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="40" data-sizes="S,M,L,XL">
-        <button type="button" class="product-visual" data-open-product aria-label="Long Sleeve">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Long Sleeve">
           <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve" loading="lazy"/>
         </button>
         <div>
@@ -386,7 +392,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-sleeve-tee" data-name="Sleeve Tee" data-price="55" data-sort="48" data-fit="Regular fit · sleeve print only" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-sizes="S,M,L,XL">
-        <button type="button" class="product-visual" data-open-product aria-label="Sleeve Tee">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Sleeve Tee">
           <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Sleeve Tee" loading="lazy"/>
         </button>
         <div>
@@ -395,7 +401,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-hoodie" data-name="Hoodie" data-price="85" data-sort="47" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL">
-        <button type="button" class="product-visual" data-open-product aria-label="Hoodie">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Hoodie">
           <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie" loading="lazy"/>
         </button>
         <div>
@@ -404,7 +410,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-crewneck" data-name="Crewneck" data-price="73" data-sort="46" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL">
-        <button type="button" class="product-visual" data-open-product aria-label="Crewneck">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Crewneck">
           <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
         </button>
         <div>
@@ -413,7 +419,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-cap" data-name="Cap" data-price="45" data-sort="45" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="50">
-        <button type="button" class="product-visual" data-open-product aria-label="Cap">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Cap">
           <img src="merch/club-copy/prod-cap.webp" alt="Cap" loading="lazy"/>
         </button>
         <div>
@@ -422,7 +428,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-bikini" data-name="Bikini" data-price="60" data-sort="44" data-fit="True to size · stretch jersey" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="20" data-sizes="XS,S,M,L">
-        <button type="button" class="product-visual" data-open-product aria-label="Bikini">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Bikini">
           <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini" loading="lazy"/>
         </button>
         <div>
@@ -431,7 +437,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="goods" data-sku="sm-slipmat" data-name="Slipmat Pair" data-price="22" data-sort="30" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="60">
-        <button type="button" class="product-visual" data-open-product aria-label="Slipmat Pair">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Slipmat Pair">
           <img src="merch/club-copy/prod-slipmat.webp" alt="Slipmat Pair" loading="lazy"/>
         </button>
         <div>
@@ -440,7 +446,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="goods" data-sku="sm-poly-outer" data-name="Poly Outer" data-price="5" data-sort="29" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="100">
-        <button type="button" class="product-visual" data-open-product aria-label="Poly Outer">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Poly Outer">
           <img src="merch/club-copy/prod-poly-outer.webp" alt="Poly Outer" loading="lazy"/>
         </button>
         <div>
@@ -449,7 +455,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="bundles" data-sku="bn-tee-enter" data-name="Bundle: Micro Tee + Enter Digital" data-price="48" data-sort="20" data-fit="Regular fit · heavyweight cotton" data-ships="Tee packed in BC · digital files emailed after checkout" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/bundle-tee-enter-black.webp" data-img-white="merch/club-copy/bundle-tee-enter-white.webp">
-        <button type="button" class="product-visual" data-open-product aria-label="Bundle: Micro Tee + Enter Digital">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Bundle: Micro Tee + Enter Digital">
           <span class="product-badge">Bundle</span>
           <img src="merch/club-copy/bundle-tee-enter-black.webp" alt="Bundle: Micro Tee and Enter, Double-Edge digital" loading="lazy"/>
         </button>
@@ -459,7 +465,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="bundles" data-sku="bn-tee-together" data-name="Bundle: Micro Tee + Together Digital" data-price="48" data-sort="19" data-fit="Regular fit · heavyweight cotton" data-ships="Tee packed in BC · digital files emailed after checkout" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/bundle-tee-together-black.webp" data-img-white="merch/club-copy/bundle-tee-together-white.webp">
-        <button type="button" class="product-visual" data-open-product aria-label="Bundle: Micro Tee + Together Digital">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Bundle: Micro Tee + Together Digital">
           <span class="product-badge">Bundle</span>
           <img src="merch/club-copy/bundle-tee-together-black.webp" alt="Bundle: Micro Tee and Together digital" loading="lazy"/>
         </button>
@@ -469,7 +475,7 @@
       </li>
 
       <li class="product merch-card is-shown" data-type="bundles" data-sku="bn-tee-inlet-cass" data-name="Bundle: Micro Tee + Inlet Knight Cassette" data-price="60" data-sort="18" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/bundle-tee-inlet-cass-black.webp" data-img-white="merch/club-copy/bundle-tee-inlet-cass-white.webp">
-        <button type="button" class="product-visual" data-open-product aria-label="Bundle: Micro Tee + Inlet Knight Cassette">
+        <button type="button" class="product-visual media-bezel fx-spec" data-open-product aria-label="Bundle: Micro Tee + Inlet Knight Cassette">
           <span class="product-badge">Bundle</span>
           <img src="merch/club-copy/bundle-tee-inlet-cass-black.webp" alt="Bundle: Micro Tee and Inlet Knight cassette" loading="lazy"/>
         </button>

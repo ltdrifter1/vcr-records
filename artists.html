@@ -42,24 +42,11 @@
     }
     .artist-photo {
       background: var(--soft);
-      border: 1px solid rgba(150,162,180,.4);
-      border-radius: var(--radius-lg);
+      border-radius: var(--bezel-r);
       overflow: hidden;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.55),
-        0 10px 28px rgba(26,30,38,.08);
       max-width: 320px;
       width: 100%;
       justify-self: start;
-      transition: border-color .45s var(--ease), box-shadow .45s var(--ease);
-    }
-    @media (hover:hover) {
-      .artist:hover .artist-photo {
-        border-color: rgba(120,136,158,.55);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.7),
-          0 16px 36px rgba(26,30,38,.12);
-      }
     }
     @media (max-width: 799px) {
       .artist-photo { max-width: 220px; }
@@ -132,7 +119,7 @@
     <div class="roster">
 
       <article class="artist rv" id="double-edge" aria-labelledby="double-edge-name">
-        <div class="artist-photo">
+        <div class="artist-photo media-bezel fx-spec">
           <img src="artists/double-edge.webp" alt="Double-Edge" fetchpriority="high"/>
         </div>
         <div class="artist-copy">
@@ -146,7 +133,7 @@
       </article>
 
       <article class="artist rv" id="inlet-knight" aria-labelledby="inlet-knight-name">
-        <div class="artist-photo">
+        <div class="artist-photo media-bezel fx-spec">
           <img src="artists/inlet-knight.webp" alt="Inlet Knight"/>
         </div>
         <div class="artist-copy">

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>News — Club Copy</title>
   <meta name="description" content="News and press from Club Copy — Pacific Northwest electronic music, new releases, and artist updates."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#080808"/>
   <link rel="canonical" href="https://www.clubcopy.ca/news"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Club Copy"/>
@@ -31,6 +31,38 @@
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/news.css"/>
   <style>
+    body.surface-night {
+      background: #080808;
+    }
+    body.surface-night .nav {
+      background: rgba(8,8,10,.55);
+      border-bottom-color: transparent;
+    }
+    body.surface-night .nav.scrolled {
+      background: rgba(8,8,10,.78);
+      border-bottom-color: rgba(255,255,255,.08);
+    }
+    body.surface-night .nav-links a { color: rgba(255,255,255,.7); }
+    body.surface-night .nav-links a:hover,
+    body.surface-night .nav-links a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.1); }
+    body.surface-night .nav-cart { color: #fff; }
+    body.surface-night .nav-ham span { background: #fff; }
+    body.surface-night .nav-logo img { filter: invert(1); }
+    body.surface-night .nav-drawer {
+      background: rgba(8,8,10,.94);
+      border-bottom-color: rgba(255,255,255,.08);
+    }
+    body.surface-night .nav-drawer a { color: #fff; border-bottom-color: rgba(255,255,255,.08); }
+    body.surface-night .footer {
+      background: #050505;
+      color: rgba(255,255,255,.55);
+      border-top: 1px solid rgba(200,214,230,.1);
+    }
+    body.surface-night .footer-copy { color: rgba(255,255,255,.35); }
+    body.surface-night .footer-links a { color: rgba(255,255,255,.5); }
+    @media (hover:hover) {
+      body.surface-night .footer-links a:hover { background: rgba(255,255,255,.08); color: #fff; }
+    }
     .news-index { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 96px; }
     .news-index .section-head { padding-top: 0; border-bottom: none; margin-bottom: 12px; }
     .news-index-lead {
@@ -42,7 +74,7 @@
     }
   </style>
 </head>
-<body id="top">
+<body id="top" class="surface-night">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -92,7 +124,7 @@
     <p class="news-index-lead">Updates from Club Copy.</p>
         <div class="news-grid">
       <a class="news-card" href="news/j-adore.html">
-        <div class="news-card-art">
+        <div class="news-card-art media-bezel fx-spec">
           <img src="news-jadore.webp" alt="" width="1200" height="1200" loading="lazy"/>
         </div>
         <div class="news-card-body">
@@ -102,7 +134,7 @@
         </div>
       </a>
       <a class="news-card" href="news/any-jungle.html">
-        <div class="news-card-art">
+        <div class="news-card-art media-bezel fx-spec">
           <img src="news-night.webp" alt="" width="1200" height="1200" loading="lazy"/>
         </div>
         <div class="news-card-body">
@@ -112,7 +144,7 @@
         </div>
       </a>
       <a class="news-card" href="news/double-edge-on-club-copy.html">
-        <div class="news-card-art">
+        <div class="news-card-art media-bezel fx-spec">
           <img src="news-double.webp" alt="" width="1200" height="1200" loading="lazy"/>
         </div>
         <div class="news-card-body">
@@ -122,7 +154,7 @@
         </div>
       </a>
       <a class="news-card" href="news/inlet-knight-on-club-copy.html">
-        <div class="news-card-art">
+        <div class="news-card-art media-bezel fx-spec">
           <img src="news-keep.webp" alt="" width="1200" height="1200" loading="lazy"/>
         </div>
         <div class="news-card-body">
