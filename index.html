@@ -31,6 +31,7 @@
         "url": "https://www.clubcopy.ca/",
         "logo": "https://www.clubcopy.ca/apple-touch-icon.png",
         "email": "charlie@clubcopy.ca",
+        "founder": { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/cj-archer#person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer" },
         "description": "Pacific Northwest record label releasing house and jungle.",
         "areaServed": "Pacific Northwest",
         "foundingLocation": {
@@ -40,9 +41,11 @@
         "sameAs": [
           "https://planetmp3.net"
         ],
-        "member": [
-          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/inlet-knight", "name": "Inlet Knight", "url": "https://www.clubcopy.ca/artists/inlet-knight" },
-          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/double-edge", "name": "Double-Edge", "url": "https://www.clubcopy.ca/artists/double-edge" }
+                "member": [
+          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/double-edge#artist", "name": "Double-Edge", "url": "https://www.clubcopy.ca/artists/double-edge" },
+          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/inlet-knight#artist", "name": "Inlet Knight", "url": "https://www.clubcopy.ca/artists/inlet-knight" },
+          { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/cj-archer#person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer" },
+          { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/lt-drifta#person", "name": "L.T. Drifta", "url": "https://www.clubcopy.ca/artists/lt-drifta" }
         ]
       },
       {
@@ -1267,6 +1270,19 @@
       color: rgba(200,214,230,.62);
       margin: 0;
     }
+    .place-roster {
+      display: flex; flex-wrap: wrap; gap: 10px 18px;
+      margin: 0 0 22px; max-width: 28em;
+    }
+    .place-roster a {
+      color: rgba(255,255,255,.78);
+      font-size: 15px; letter-spacing: -.01em;
+      text-decoration: underline; text-underline-offset: 3px;
+      text-decoration-color: rgba(255,255,255,.28);
+    }
+    @media (hover:hover) {
+      .place-roster a:hover { color: #fff; text-decoration-color: rgba(255,255,255,.7); }
+    }
     .place-title {
       margin: 0;
       max-width: 12em;
@@ -1420,6 +1436,7 @@
         padding-bottom: calc(40px + var(--safe-b));
         gap: 12px;
       }
+      .place-roster { margin-bottom: 16px; gap: 8px 14px; }
       .place-title { max-width: 10em; }
       .place-img { object-position: 48% 36%; }
     }
@@ -1675,24 +1692,12 @@
         </div>
         <a class="head-link" href="/library">View all</a>
       </header>
-      <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="true">
-        <div class="wall-skel" aria-hidden="true">
-          <div class="wall-skel-art"></div>
-          <div class="wall-skel-body">
-            <div class="wall-skel-line wall-skel-line--wide"></div>
-            <div class="wall-skel-line wall-skel-line--mid"></div>
-            <div class="wall-skel-line wall-skel-line--tag"></div>
-          </div>
-        </div>
-        <div class="wall-skel" aria-hidden="true">
-          <div class="wall-skel-art"></div>
-          <div class="wall-skel-body">
-            <div class="wall-skel-line wall-skel-line--wide"></div>
-            <div class="wall-skel-line wall-skel-line--mid"></div>
-            <div class="wall-skel-line wall-skel-line--tag"></div>
-          </div>
-        </div>
-        <p class="visually-hidden">Loading…</p>
+      <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
+<article class="wall-item rv" data-release="together"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/together" aria-label="Together — view release"><img src="together-cover-480.webp" srcset="together-cover-480.webp 480w, together-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Together — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="together" data-play-stage aria-label="Play Together"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC008 · EP · 2026</p><h3 class="wall-title"><a href="/together">Together</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="j-adore"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/j-adore" aria-label="j&#x27;adore — view release"><img src="j-adore-cover-480.webp" srcset="j-adore-cover-480.webp 480w, j-adore-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="j&#x27;adore — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="j-adore" data-play-stage aria-label="Play j&#x27;adore"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC007 · Single · 2026</p><h3 class="wall-title"><a href="/j-adore">j&#x27;adore</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="enter"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/enter" aria-label="Enter, Double-Edge — view release"><img src="enter-cover-480.webp" srcset="enter-cover-480.webp 480w, enter-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Enter, Double-Edge — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="enter" data-play-stage aria-label="Play Enter, Double-Edge"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC006 · EP · 2026</p><h3 class="wall-title"><a href="/enter">Enter, Double-Edge</a></h3><p class="wall-artist">Double-Edge</p></div></div></article>
+<article class="wall-item rv" data-release="inlet-knight"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/inlet-knight" aria-label="Inlet Knight — view release"><img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Inlet Knight — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC005 · Album · 2026</p><h3 class="wall-title"><a href="/inlet-knight">Inlet Knight</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="letters-from-another-era"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/letters-from-another-era" aria-label="Letters From Another Era — view release"><img src="letters-from-another-era-cover-480.webp" srcset="letters-from-another-era-cover-480.webp 480w, letters-from-another-era-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Letters From Another Era — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="letters-from-another-era" data-play-stage aria-label="Play Letters From Another Era"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC002 · EP · 2026</p><h3 class="wall-title"><a href="/letters-from-another-era">Letters From Another Era</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
       </div>
     </div>
   </section>
@@ -1700,12 +1705,18 @@
   <!-- Place — one PNW beat between catalog and news -->
   <section class="place" aria-labelledby="place-title">
     <div class="place-frame" aria-hidden="true">
-      <img class="place-img" src="xxt.webp" alt="" width="1800" height="1200" loading="lazy" decoding="async"/>
+      <img class="place-img" src="xxt.webp" alt="Club Copy — Pacific Northwest" width="1800" height="1200" loading="lazy" decoding="async"/>
       <div class="place-veil"></div>
     </div>
     <div class="place-copy rv">
       <h2 class="place-title" id="place-title">Who's in the mix?</h2>
-      <a class="place-link" href="/artists">Artists</a>
+      <nav class="place-roster" aria-label="Artists and producers">
+        <a href="/artists/double-edge">Double-Edge</a>
+        <a href="/artists/inlet-knight">Inlet Knight</a>
+        <a href="/artists/cj-archer">CJ Archer</a>
+        <a href="/artists/lt-drifta">L.T. Drifta</a>
+      </nav>
+      <a class="place-link" href="/artists">All artists</a>
     </div>
   </section>
 
