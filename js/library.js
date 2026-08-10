@@ -246,12 +246,12 @@
     }
 
     if (!releases.length) {
-      leadEl.innerHTML = 'No releases for ' + esc(bits.join(' · ')) + ' · <a href="library.html">All releases</a>';
+      leadEl.innerHTML = 'No releases for ' + esc(bits.join(' · ')) + ' · <a href="/library">All releases</a>';
       return;
     }
 
     var count = releases.length === 1 ? '1 release' : releases.length + ' releases';
-    leadEl.innerHTML = 'Showing ' + esc(bits.join(' · ')) + ' — ' + esc(count) + ' · <a href="library.html">All releases</a>';
+    leadEl.innerHTML = 'Showing ' + esc(bits.join(' · ')) + ' — ' + esc(count) + ' · <a href="/library">All releases</a>';
   }
 
   function setCount(n) {
@@ -339,7 +339,7 @@
 
     if (!releases.length) {
       list.innerHTML = (filters.genre || filters.artist)
-        ? '<p class="page-lead">No releases match these filters. <a href="library.html">View full library</a></p>'
+        ? '<p class="page-lead">No releases match these filters. <a href="/library">View full library</a></p>'
         : '<p class="page-lead">No releases yet.</p>';
       return;
     }
@@ -402,7 +402,7 @@
       render();
     })
     .catch(function () {
-      list.innerHTML = '<p class="page-lead">Could not load the library. <a href="merch.html">Shop</a></p>';
+      list.innerHTML = '<p class="page-lead">Could not load the library. <a href="/merch">Shop</a></p>';
       if (countEl) countEl.textContent = '—';
     });
 })();

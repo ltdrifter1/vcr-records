@@ -210,7 +210,7 @@ async function ensurePaymentLink({ priceId, productId, sku, digital }) {
     "metadata[label]": "club-copy",
     "after_completion[type]": "redirect",
     "after_completion[redirect][url]":
-      "https://www.clubcopy.ca/thank-you.html?session_id={CHECKOUT_SESSION_ID}",
+      "https://www.clubcopy.ca/thank-you?session_id={CHECKOUT_SESSION_ID}",
   };
   if (!digital) {
     params["shipping_address_collection[allowed_countries][0]"] = "CA";

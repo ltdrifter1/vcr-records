@@ -227,8 +227,8 @@ module.exports = async function handler(req, res) {
 
   const flat = {
     mode: "payment",
-    success_url: `${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/cart.html?canceled=1`,
+    success_url: `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}/cart?canceled=1`,
     "metadata[skus]": skusOrdered.join(","),
     "metadata[has_physical]": hasPhysical ? "1" : "0",
     "metadata[source]": "clubcopy-cart",
