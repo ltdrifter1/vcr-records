@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Club Copy — Pacific Northwest electronic music</title>
-  <meta name="description" content="Club Copy is a Pacific Northwest record label. House and jungle from Inlet Knight and Double-Edge — listen, buy digital and cassette."/>
+  <title>Club Copy — Pacific Northwest Record Label</title>
+  <meta name="description" content="Club Copy is an independent Pacific Northwest record label based in British Columbia. House and jungle from Inlet Knight and Double-Edge — listen, buy digital and cassette."/>
   <meta name="theme-color" content="#050505"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="format-detection" content="telephone=no"/>
   <link rel="canonical" href="https://www.clubcopy.ca/"/>
   <meta property="og:site_name" content="Club Copy"/>
-  <meta property="og:title" content="Club Copy"/>
-  <meta property="og:description" content="Pacific Northwest electronic music — house and jungle on Club Copy."/>
+  <meta property="og:title" content="Club Copy — Pacific Northwest Record Label"/>
+  <meta property="og:description" content="Independent Pacific Northwest record label for house and jungle. Listen and buy digital and cassette."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
   <meta property="og:image" content="https://www.clubcopy.ca/together-cover.webp"/>
+  <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Club Copy"/>
-  <meta name="twitter:description" content="Pacific Northwest electronic music — house and jungle on Club Copy."/>
+  <meta name="twitter:title" content="Club Copy — Pacific Northwest Record Label"/>
+  <meta name="twitter:description" content="Independent Pacific Northwest record label for house and jungle. Listen and buy digital and cassette."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/together-cover.webp"/>
   <script type="application/ld+json">
   {
@@ -28,32 +29,67 @@
         "@type": "RecordLabel",
         "@id": "https://www.clubcopy.ca/#label",
         "name": "Club Copy",
+        "alternateName": ["Club Copy Records", "Club Copy Label"],
+        "legalName": "Club Copy",
         "url": "https://www.clubcopy.ca/",
-        "logo": "https://www.clubcopy.ca/apple-touch-icon.png",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.clubcopy.ca/apple-touch-icon.png",
+          "width": 180,
+          "height": 180
+        },
+        "image": "https://www.clubcopy.ca/together-cover.webp",
         "email": "charlie@clubcopy.ca",
         "founder": { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/cj-archer#person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer" },
-        "description": "Pacific Northwest record label releasing house and jungle.",
-        "areaServed": "Pacific Northwest",
+        "description": "Club Copy is an independent Pacific Northwest record label based in British Columbia, Canada. The label releases house, jungle, and adjacent electronic music on digital and cassette.",
+        "slogan": "Music we want to keep.",
+        "genre": ["House", "Jungle", "UK Garage", "Electronic"],
+        "knowsAbout": ["Pacific Northwest electronic music", "House music", "Jungle music", "Independent record labels", "Cassette releases"],
+        "areaServed": ["Pacific Northwest", "British Columbia", "Canada", "United States"],
+        "foundingDate": "2024-02-12",
         "foundingLocation": {
           "@type": "Place",
-          "name": "British Columbia, Canada"
+          "name": "British Columbia, Canada",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "BC",
+            "addressCountry": "CA"
+          }
+        },
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "Copy House Publishing",
+          "url": "https://www.clubcopy.ca/about"
         },
         "sameAs": [
-          "https://planetmp3.net"
+          "https://planetmp3.net",
+          "https://www.clubcopy.ca/about",
+          "https://www.clubcopy.ca/news/cj-archer-interview"
         ],
-                "member": [
+        "member": [
           { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/double-edge#artist", "name": "Double-Edge", "url": "https://www.clubcopy.ca/artists/double-edge" },
           { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/inlet-knight#artist", "name": "Inlet Knight", "url": "https://www.clubcopy.ca/artists/inlet-knight" },
           { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/lt-drifta#person", "name": "L.T. Drifta", "url": "https://www.clubcopy.ca/artists/lt-drifta" }
-        ]
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "MusicAlbum",
+            "name": "Club Copy catalogue"
+          },
+          "url": "https://www.clubcopy.ca/library"
+        }
       },
       {
         "@type": "WebSite",
         "@id": "https://www.clubcopy.ca/#website",
         "url": "https://www.clubcopy.ca/",
         "name": "Club Copy",
+        "alternateName": "Club Copy Record Label",
+        "description": "Official site for Club Copy, an independent Pacific Northwest record label.",
         "publisher": {"@id": "https://www.clubcopy.ca/#label"},
-        "inLanguage": "en"
+        "about": {"@id": "https://www.clubcopy.ca/#label"},
+        "inLanguage": "en-CA"
       }
     ]
   }
@@ -425,6 +461,19 @@
       text-align: center;
       text-shadow: 0 1px 18px rgba(0,0,0,.4);
       animation: heroIn .85s var(--ease) .28s both;
+    }
+    .hero-idle-dek {
+      margin: 0;
+      max-width: 22em;
+      font-family: var(--display);
+      font-size: clamp(13px, 1.7vw, 15px);
+      font-weight: 400;
+      letter-spacing: -.005em;
+      line-height: 1.5;
+      color: rgba(255,255,255,.52);
+      text-align: center;
+      text-shadow: 0 1px 14px rgba(0,0,0,.35);
+      animation: heroIn .85s var(--ease) .38s both;
     }
     .hero-idle-track,
     .hero-idle-by { display: none; }
@@ -1605,6 +1654,7 @@
       <img class="hero-brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="1396" height="331" fetchpriority="high"/>
       <div class="hero-idle" data-room-idle>
         <h1 class="hero-idle-title">Electronic music from the Pacific Northwest.</h1>
+        <p class="hero-idle-dek">Independent record label for house and jungle.</p>
       </div>
 
       <div class="hero-platter">
