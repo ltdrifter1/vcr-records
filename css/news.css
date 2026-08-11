@@ -220,6 +220,7 @@ a.news-card.news-card--essay .news-card-art {
 .news-rail .rv:nth-child(3) { transition-delay: 120ms; }
 .news-rail .rv:nth-child(4) { transition-delay: 180ms; }
 .news-rail .rv:nth-child(5) { transition-delay: 240ms; }
+.news-rail .rv:nth-child(6) { transition-delay: 300ms; }
 @media (prefers-reduced-motion: reduce) {
   a.news-card,
   .news-card-art img { transition: none; }
@@ -342,6 +343,20 @@ a.news-card.news-card--essay .news-card-art {
   color: var(--ink);
   line-height: 1.65;
 }
+.news-body--interview p:first-of-type {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+.news-q {
+  margin: 1.55em 0 .45em !important;
+  color: var(--ink) !important;
+  font-weight: 600;
+  font-size: 15.5px !important;
+  line-height: 1.45 !important;
+  max-width: 34em;
+}
+.news-body--interview .news-q:first-of-type { margin-top: 0 !important; }
 .news-body em,
 .news-body i { font-style: italic; color: var(--ink); }
 .news-body a {
