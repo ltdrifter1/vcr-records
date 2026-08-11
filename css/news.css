@@ -19,6 +19,17 @@
     linear-gradient(180deg, #0a0a0c 0%, #080808 100%);
   color: #fff;
   padding: 0 0 72px;
+  /* Same parent width as .band — % inset matches heading without 100vw/scrollbar drift */
+  --news-gutter: max(24px, var(--safe-l));
+  --news-inset: max(
+    var(--news-gutter),
+    calc((100% - var(--wrap)) / 2 + var(--news-gutter))
+  );
+}
+@media (min-width: 800px) {
+  .news {
+    --news-gutter: max(40px, var(--safe-l));
+  }
 }
 .news > .band { padding-top: 8px; }
 .news .section-head {
@@ -58,19 +69,15 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
+  /* Snap to band inset — layout padding must NOT live on this scrollport
+     (Chromium scroll-snap scrolls scrollport padding away). */
+  scroll-padding-left: var(--news-inset);
   scrollbar-width: thin;
   scrollbar-color: rgba(150,162,180,.45) transparent;
-  /* Inset on the rail (definite width) so % matches .band — not the max-content track */
-  --news-gutter: max(24px, var(--safe-l));
-  padding: 8px 0 12px max(var(--news-gutter), calc((100% - var(--wrap)) / 2 + var(--news-gutter)));
+  padding: 8px 0 12px;
   outline: none;
   mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 36px), transparent 100%);
   -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 36px), transparent 100%);
-}
-@media (min-width: 800px) {
-  .news-rail {
-    --news-gutter: max(40px, var(--safe-l));
-  }
 }
 .news-rail:focus-visible {
   box-shadow: inset 0 0 0 2px rgba(200,214,230,.55);
@@ -85,12 +92,13 @@
   display: flex;
   gap: 18px;
   width: max-content;
-  padding: 0 max(24px, var(--safe-r)) 4px 0;
+  /* Real layout inset on the track so snap cannot eat it */
+  padding: 0 max(24px, var(--safe-r)) 4px var(--news-inset);
 }
 @media (min-width: 800px) {
   .news-rail-track {
     gap: 22px;
-    padding: 0 max(40px, var(--safe-r)) 4px 0;
+    padding: 0 max(40px, var(--safe-r)) 4px var(--news-inset);
   }
 }
 
