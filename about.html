@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>About — Club Copy</title>
+  <title>About Club Copy — Pacific Northwest Record Label</title>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -24,15 +24,93 @@
   ]
 }
   </script>
-  <meta name="description" content="Club Copy is a Pacific Northwest record label — house and jungle from Inlet Knight and Double-Edge."/>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "@id": "https://www.clubcopy.ca/about#page",
+  "url": "https://www.clubcopy.ca/about",
+  "name": "About Club Copy — Pacific Northwest Record Label",
+  "description": "Club Copy is an independent Pacific Northwest record label releasing house and jungle from British Columbia.",
+  "mainEntity": {
+    "@id": "https://www.clubcopy.ca/#label"
+  },
+  "about": {
+    "@type": "RecordLabel",
+    "@id": "https://www.clubcopy.ca/#label",
+    "name": "Club Copy",
+    "url": "https://www.clubcopy.ca/",
+    "description": "Independent Pacific Northwest record label for house and jungle.",
+    "foundingDate": "2024-02-12",
+    "foundingLocation": {
+      "@type": "Place",
+      "name": "British Columbia, Canada"
+    }
+  }
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.clubcopy.ca/about#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Club Copy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Copy is an independent Pacific Northwest record label based in British Columbia, Canada. It releases house, jungle, UK garage, and adjacent electronic music in small editions — digital and cassette."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Club Copy a record club or a record label?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Copy is a record label — not a mail-order record club. The name refers to the imprint releasing Pacific Northwest electronic music under Copy House Publishing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is Club Copy based?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Copy is based in the Pacific Northwest — British Columbia, Canada."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who founded Club Copy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Club Copy was founded by Charlie Archer (CJ Archer) and is published under Copy House Publishing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which artists are on Club Copy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The roster includes Double-Edge, Inlet Knight, and L.T. Drifta."
+      }
+    }
+  ]
+}
+  </script>
+  <meta name="description" content="About Club Copy — an independent Pacific Northwest record label in British Columbia releasing house and jungle from Inlet Knight, Double-Edge, and L.T. Drifta."/>
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="canonical" href="https://www.clubcopy.ca/about"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="About — Club Copy"/>
-  <meta property="og:description" content="Pacific Northwest record label — house and jungle."/>
+  <meta property="og:title" content="About Club Copy — Pacific Northwest Record Label"/>
+  <meta property="og:description" content="Independent Pacific Northwest record label — house and jungle from British Columbia."/>
   <meta property="og:url" content="https://www.clubcopy.ca/about"/>
   <meta property="og:image" content="https://www.clubcopy.ca/together-cover.webp"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="About Club Copy — Pacific Northwest Record Label"/>
+  <meta name="twitter:description" content="Independent Pacific Northwest record label — house and jungle from British Columbia."/>
+  <meta name="twitter:image" content="https://www.clubcopy.ca/together-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,6 +174,50 @@
       text-decoration: underline; text-underline-offset: 3px;
       text-decoration-color: rgba(17,17,17,.25);
     }
+    .about-faq {
+      margin-top: 72px;
+      border-top: 1px solid var(--line);
+      padding-top: 48px;
+    }
+    .about-faq h2 {
+      font-family: var(--display);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 600; letter-spacing: -.025em;
+      margin-bottom: 8px;
+    }
+    .about-faq-lead {
+      font-size: 15px; color: var(--muted); line-height: 1.55;
+      max-width: 36em; margin-bottom: 28px;
+    }
+    .about-faq details {
+      border-bottom: 1px solid rgba(170,182,200,.28);
+      padding: 16px 0;
+    }
+    .about-faq summary {
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -.015em;
+      color: var(--ink);
+      padding-right: 28px;
+      position: relative;
+    }
+    .about-faq summary::-webkit-details-marker { display: none; }
+    .about-faq summary::after {
+      content: "+";
+      position: absolute; right: 0; top: 0;
+      font-family: var(--callsign);
+      font-size: 18px; font-weight: 600;
+      color: var(--dim);
+    }
+    .about-faq details[open] summary::after { content: "–"; }
+    .about-faq details p {
+      margin-top: 10px;
+      font-size: 15px; color: var(--muted); line-height: 1.65;
+      max-width: 40em;
+    }
   </style>
 </head>
 <body id="top">
@@ -146,14 +268,14 @@
       </div>
     </header>
     <h1 class="about-hero">Music we want to keep.</h1>
-    <p class="about-lead">Club Copy is electronic music from the Pacific Northwest. Small library. Long shelf life. Made to be listened to, held, and returned to.</p>
+    <p class="about-lead">Club Copy is an independent Pacific Northwest record label. Small library. Long shelf life. Made to be listened to, held, and returned to.</p>
 
     <div class="about-grid">
       <div class="about-block rv">
         <h2>The label</h2>
-        <p>We release house, UK garage, and adjacent forms — records that feel finished when they leave, and still open when you play them years later.</p>
+        <p>We release house, UK garage, jungle, and adjacent forms — records that feel finished when they leave, and still open when you play them years later.</p>
         <p>Pressing, packaging, and merch are produced in limited batches. Release numbers (CC00x) mark each title in the library.</p>
-        <p>Founded by Charlie Archer. Published under Copy House Publishing.</p>
+        <p>Founded by Charlie Archer. Published under Copy House Publishing. Based in British Columbia, Canada.</p>
         <div class="about-actions">
           <a class="btn btn-dark" href="/library">View library</a>
           <a class="btn btn-ghost" href="/merch">Shop</a>
@@ -183,6 +305,31 @@
         </div>
       </dl>
     </div>
+
+    <section class="about-faq rv" aria-labelledby="about-faq-title">
+      <h2 id="about-faq-title">Club Copy, explained</h2>
+      <p class="about-faq-lead">Short answers for press, collectors, and anyone searching for the Pacific Northwest record label.</p>
+      <details>
+        <summary>What is Club Copy?</summary>
+        <p>An independent Pacific Northwest record label based in British Columbia. House, jungle, and adjacent electronic music — digital and cassette, in small editions.</p>
+      </details>
+      <details>
+        <summary>Is Club Copy a record club?</summary>
+        <p>No. Club Copy is a record label imprint under Copy House Publishing — not a mail-order record club pressing.</p>
+      </details>
+      <details>
+        <summary>Where is the label based?</summary>
+        <p>Pacific Northwest · British Columbia, Canada.</p>
+      </details>
+      <details>
+        <summary>Who’s on the roster?</summary>
+        <p><a href="/artists/double-edge">Double-Edge</a>, <a href="/artists/inlet-knight">Inlet Knight</a>, and <a href="/artists/lt-drifta">L.T. Drifta</a>.</p>
+      </details>
+      <details>
+        <summary>Where do I buy releases?</summary>
+        <p>In the <a href="/library">library</a> — digital and cassette. Merch ships to Canada and the US.</p>
+      </details>
+    </section>
   </div>
 </main>
 
