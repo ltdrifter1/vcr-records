@@ -35,6 +35,7 @@ const PAGE_MAP = {
   'artists/inlet-knight.html': '/artists/inlet-knight',
   'news/j-adore.html': '/news/j-adore',
   'news/lookout.html': '/news/lookout',
+  'news/bridget-in-my-room.html': '/news/bridget-in-my-room',
   'news/any-jungle.html': '/news/any-jungle',
   'news/double-edge-on-club-copy.html': '/news/double-edge-on-club-copy',
   'news/inlet-knight-on-club-copy.html': '/news/inlet-knight-on-club-copy',
@@ -1022,6 +1023,7 @@ function patchNewsIndex() {
   // Enrich CollectionPage ItemList if only CollectionPage
   if (!html.includes('ItemList')) {
     const items = [
+      { name: 'Bridget In My Room', url: ORIGIN + '/news/bridget-in-my-room' },
       { name: 'Lookout', url: ORIGIN + '/news/lookout' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
       { name: 'Any Jungle', url: ORIGIN + '/news/any-jungle' },
@@ -1268,6 +1270,7 @@ function patchReleaseBreadcrumbs() {
 
 function patchNewsArticles() {
   const articles = [
+    { file: 'news/bridget-in-my-room.html', name: 'Bridget In My Room', url: '/news/bridget-in-my-room' },
     { file: 'news/lookout.html', name: 'Lookout', url: '/news/lookout' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
     { file: 'news/any-jungle.html', name: 'Any Jungle', url: '/news/any-jungle' },
@@ -1349,6 +1352,7 @@ function writeSitemap() {
     ['/merch', 0.85, 'weekly'],
     ...MERCH_PRODUCTS.map((p) => [`/merch/${p.slug}`, 0.7, 'weekly']),
     ['/news', 0.8, 'weekly'],
+    ['/news/bridget-in-my-room', 0.7, 'monthly'],
     ['/news/lookout', 0.7, 'monthly'],
     ['/news/j-adore', 0.7, 'monthly'],
     ['/news/any-jungle', 0.7, 'monthly'],
