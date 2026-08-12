@@ -14,6 +14,7 @@ const FORMAT = {
 const MERCH_PAGE_SKUS = [
   "dg-any-jungle",
   "dg-lookout",
+  "dg-bridget-in-my-room",
   "dg-solar-eclipse-part-2",
   "dg-lunar-eclipse-part-3",
   "dg-sun-and-moon-eclipse",
@@ -94,6 +95,12 @@ const PRODUCTS = {
   },
   "dg-lookout": {
     name: "Lookout — Digital (Single) — Pre-order",
+    unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-bridget-in-my-room": {
+    name: "Bridget In My Room — Digital (Single) — Pre-order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
