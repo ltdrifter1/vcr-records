@@ -81,6 +81,59 @@
     document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* Homepage news rail — wheel + drag scroll on the picture row */
+  document.querySelectorAll('.news-rail').forEach(function (rail) {
+    rail.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      if (rail.scrollWidth <= rail.clientWidth + 1) return;
+      var max = rail.scrollWidth - rail.clientWidth;
+      var next = Math.min(max, Math.max(0, rail.scrollLeft + e.deltaY));
+      if (next === rail.scrollLeft) return;
+      e.preventDefault();
+      rail.scrollLeft = next;
+    }, { passive: false });
+
+    var drag = null;
+    rail.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      if (rail.scrollWidth <= rail.clientWidth + 1) return;
+      drag = {
+        id: e.pointerId,
+        x: e.clientX,
+        left: rail.scrollLeft,
+        moved: false
+      };
+      rail.setPointerCapture(e.pointerId);
+    });
+    rail.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) < 6) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        rail.classList.add('is-dragging');
+      }
+      rail.scrollLeft = drag.left - dx;
+    });
+    function endDrag(e) {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      var moved = drag.moved;
+      drag = null;
+      rail.classList.remove('is-dragging');
+      if (moved) {
+        // Swallow the click that would fire after a drag
+        var block = function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          rail.removeEventListener('click', block, true);
+        };
+        rail.addEventListener('click', block, true);
+      }
+    }
+    rail.addEventListener('pointerup', endDrag);
+    rail.addEventListener('pointercancel', endDrag);
+  });
+
   window.ClubCopy = window.ClubCopy || {};
   window.ClubCopy.closeDrawer = closeDrawer;
   window.ClubCopy.openDrawer = openDrawer;
