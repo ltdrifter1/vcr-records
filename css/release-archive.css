@@ -1196,6 +1196,58 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-weight: 400;
   text-transform: none;
 }
+.ra-series-list {
+  list-style: none;
+  margin: 0 0 1.25em;
+  padding: 0;
+  max-width: 36em;
+}
+.ra-series-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ra-line-soft);
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  letter-spacing: -.01em;
+  color: rgba(244, 241, 233, .88);
+}
+.ra-series-list a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(244, 241, 233, .28);
+}
+@media (hover: hover) {
+  .ra-series-list a:hover {
+    text-decoration-color: rgba(244, 241, 233, .7);
+  }
+}
+.ra-series-now {
+  font-family: var(--callsign, 'Oswald', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ra-dim);
+}
+.ra-series-press {
+  margin-top: .35em !important;
+}
+.ra-series-press a {
+  color: rgba(244, 241, 233, .88);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(244, 241, 233, .28);
+}
+@media (hover: hover) {
+  .ra-series-press a:hover {
+    text-decoration-color: rgba(244, 241, 233, .7);
+  }
+}
 .ra-specs {
   font-family: var(--sans, 'Space Grotesk', sans-serif);
   border-top: 1px solid var(--ra-line);
