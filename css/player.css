@@ -71,6 +71,20 @@ body.has-vcr-player {
   pointer-events: auto;
 }
 
+/* Header listening room / full stage owns playback — hide the floating dock
+   until the user scrolls the hero out of the top of the viewport. */
+body.vcr-dock-away .vcr-player.is-visible,
+body.vcr-stage-open .vcr-player.is-visible {
+  transform: translateY(140%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.vcr-dock-away.has-vcr-player,
+body.vcr-stage-open.has-vcr-player {
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
 .vcr-player__bug {
   margin: 0 0 2px;
   font-family: var(--callsign, 'Oswald', 'Space Grotesk', sans-serif);
