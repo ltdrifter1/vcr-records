@@ -12,6 +12,7 @@ const FORMAT = {
 
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
+  "dg-sun-and-moon-eclipse",
   "dg-j-adore",
   "dg-enter",
   "dg-together",
@@ -84,6 +85,12 @@ const PRODUCTS = {
   "dg-j-adore": {
     name: "j'adore — Digital (Single)",
     unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-sun-and-moon-eclipse": {
+    name: "Sun & Moon (Eclipse) — Digital (Single)",
+    unitAmount: 199,
     digital: true,
     format: "digital",
   },
