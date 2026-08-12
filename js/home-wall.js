@@ -24,8 +24,10 @@
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
-    var playBtn = hasTracks
+    var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
+      return !!(t && t.preview);
+    });
+    var playBtn = hasPreview
       ? (
           '<button type="button" class="wall-play" data-play-release="' + esc(rel.id) + '" data-play-stage aria-label="Play ' + esc(rel.title) + '">' +
             '<svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +

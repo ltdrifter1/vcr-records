@@ -124,8 +124,10 @@
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
     var genre = rel.genre ? '<span class="cat-genre">' + esc(rel.genre) + '</span>' : '';
-    var hasTracks = Array.isArray(rel.tracks) && rel.tracks.length > 0;
-    var playBtn = hasTracks
+    var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
+      return !!(t && t.preview);
+    });
+    var playBtn = hasPreview
       ? (
           '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '">' +
             '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
