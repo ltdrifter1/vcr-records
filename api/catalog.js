@@ -12,6 +12,8 @@ const FORMAT = {
 
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
+  "dg-any-jungle",
+  "dg-lookout",
   "dg-solar-eclipse-part-2",
   "dg-lunar-eclipse-part-3",
   "dg-sun-and-moon-eclipse",
@@ -80,6 +82,18 @@ const PRODUCTS = {
   },
   "dg-letters-from-another-era": {
     name: "Letters From Another Era — Digital (EP)",
+    unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-any-jungle": {
+    name: "Any Jungle — Digital (Album) — Pre-order",
+    unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-lookout": {
+    name: "Lookout — Digital (Single) — Pre-order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
