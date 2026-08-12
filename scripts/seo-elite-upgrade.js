@@ -34,6 +34,7 @@ const PAGE_MAP = {
   'artists/double-edge.html': '/artists/double-edge',
   'artists/inlet-knight.html': '/artists/inlet-knight',
   'news/j-adore.html': '/news/j-adore',
+  'news/lookout.html': '/news/lookout',
   'news/any-jungle.html': '/news/any-jungle',
   'news/double-edge-on-club-copy.html': '/news/double-edge-on-club-copy',
   'news/inlet-knight-on-club-copy.html': '/news/inlet-knight-on-club-copy',
@@ -1021,6 +1022,7 @@ function patchNewsIndex() {
   // Enrich CollectionPage ItemList if only CollectionPage
   if (!html.includes('ItemList')) {
     const items = [
+      { name: 'Lookout', url: ORIGIN + '/news/lookout' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
       { name: 'Any Jungle', url: ORIGIN + '/news/any-jungle' },
       { name: 'Double-Edge on Club Copy', url: ORIGIN + '/news/double-edge-on-club-copy' },
@@ -1266,6 +1268,7 @@ function patchReleaseBreadcrumbs() {
 
 function patchNewsArticles() {
   const articles = [
+    { file: 'news/lookout.html', name: 'Lookout', url: '/news/lookout' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
     { file: 'news/any-jungle.html', name: 'Any Jungle', url: '/news/any-jungle' },
     { file: 'news/double-edge-on-club-copy.html', name: 'Double-Edge on Club Copy', url: '/news/double-edge-on-club-copy' },
@@ -1346,6 +1349,7 @@ function writeSitemap() {
     ['/merch', 0.85, 'weekly'],
     ...MERCH_PRODUCTS.map((p) => [`/merch/${p.slug}`, 0.7, 'weekly']),
     ['/news', 0.8, 'weekly'],
+    ['/news/lookout', 0.7, 'monthly'],
     ['/news/j-adore', 0.7, 'monthly'],
     ['/news/any-jungle', 0.7, 'monthly'],
     ['/news/double-edge-on-club-copy', 0.65, 'monthly'],
