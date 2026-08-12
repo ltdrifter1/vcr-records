@@ -107,7 +107,7 @@ const PRODUCTS = {
     format: "digital",
   },
   "dg-need-you": {
-    name: "Need U — Digital (Single) — Pre-order",
+    name: "Need U — Digital (EP) — Pre-order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
