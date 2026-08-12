@@ -36,6 +36,10 @@
         )
       : '';
     var meta = formatRackMeta(rel);
+    var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
+    var pill = preorder
+      ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
+      : '';
     return (
       '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
         '<div class="wall-card">' +
@@ -44,6 +48,7 @@
               '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
             '</a>' +
             playBtn +
+            pill +
           '</div>' +
           '<div class="wall-meta">' +
             (meta ? '<p class="wall-cat">' + esc(meta) + '</p>' : '') +
