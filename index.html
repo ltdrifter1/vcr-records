@@ -1477,19 +1477,6 @@
       .place-img { object-position: 50% 40%; }
     }
 
-    /* While the in-page room is open, hide the floating dock on small screens
-       so controls aren't stacked on the home-indicator. */
-    @media (max-width: 760px) {
-      body.listening-room-live .vcr-player {
-        transform: translateY(140%) !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-      }
-      body.listening-room-live.has-vcr-player {
-        padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
-      }
-    }
-
     /* Short phones (SE / zoomed) — keep idle + live on one screen ---------- */
     @media (max-width: 700px) and (max-height: 740px) {
       .hero-stage {

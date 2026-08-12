@@ -10,6 +10,8 @@
   var stageOpen = false;
   var roomOpen = false;
   var roomBound = false;
+  var roomInView = true;
+  var roomObserver = null;
   var listenBound = false;
   var inited = false;
   var audioUnlocked = false;
@@ -411,6 +413,49 @@
     return document.querySelector("[data-listening-room]");
   }
 
+  /** Hide the floating dock while the in-page header room (or full stage) is the active surface. */
+  function syncDockAway() {
+    var away = !!stageOpen;
+    if (roomOpen) {
+      if ("IntersectionObserver" in window) away = away || roomInView;
+      else away = true;
+    }
+    document.body.classList.toggle("vcr-dock-away", away);
+  }
+
+  function ensureRoomObserver() {
+    if (roomObserver || !("IntersectionObserver" in window)) return;
+    roomObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (en) {
+          // Top ~35% of viewport: if the listening room still overlaps it, keep the dock away.
+          roomInView = !!en.isIntersecting;
+          syncDockAway();
+        });
+      },
+      { root: null, rootMargin: "0px 0px -65% 0px", threshold: [0, 0.01, 0.1] }
+    );
+  }
+
+  function observeListeningRoom() {
+    ensureRoomObserver();
+    var room = getRoom();
+    if (!roomObserver || !room) return;
+    roomObserver.observe(room);
+    // Seed immediately so first paint doesn't flash the dock over the hero.
+    var rect = room.getBoundingClientRect();
+    var vh = window.innerHeight || 1;
+    roomInView = rect.bottom > vh * 0.35 && rect.top < vh * 0.6;
+    syncDockAway();
+  }
+
+  function unobserveListeningRoom() {
+    var room = getRoom();
+    if (roomObserver && room) roomObserver.unobserve(room);
+    roomInView = false;
+    syncDockAway();
+  }
+
   function bindRoom(room) {
     if (!room || roomBound) return;
     roomBound = true;
@@ -512,6 +557,7 @@
     if (!track) {
       dock.classList.remove("is-visible");
       document.body.classList.remove("has-vcr-player");
+      document.body.classList.remove("vcr-dock-away");
       closeStage();
       closeRoom();
       renderRoom(null, false);
@@ -521,6 +567,7 @@
     dock.classList.add("is-visible");
     document.body.classList.add("has-vcr-player");
     dock.classList.toggle("is-playing", !!playing);
+    syncDockAway();
 
     var bug = dock.querySelector(".vcr-player__bug");
     if (bug) bug.textContent = playing ? "CC · On air" : "CC · Standby";
@@ -988,6 +1035,7 @@
     ui.stage.hidden = false;
     document.body.classList.add("vcr-stage-open");
     setDeepLink(current(), true);
+    syncDockAway();
     render();
     emit();
   }
@@ -997,6 +1045,7 @@
     if (ui) ui.stage.hidden = true;
     document.body.classList.remove("vcr-stage-open");
     if (current()) setDeepLink(current(), true);
+    syncDockAway();
     emit();
   }
 
@@ -1010,6 +1059,7 @@
     bindRoom(room);
     room.classList.add("is-live");
     document.body.classList.add("listening-room-live");
+    observeListeningRoom();
     if (opts.scroll) {
       var rect = room.getBoundingClientRect();
       var vh = window.innerHeight || 0;
@@ -1025,6 +1075,7 @@
       }
     }
     setDeepLink(current(), true);
+    syncDockAway();
     render();
     emit();
   }
@@ -1035,7 +1086,9 @@
     if (room) room.classList.remove("is-live");
     setRoomFormatsOpen(false);
     document.body.classList.remove("listening-room-live");
+    unobserveListeningRoom();
     if (current()) setDeepLink(current(), true);
+    syncDockAway();
     emit();
   }
 
