@@ -91,7 +91,7 @@ const PRODUCTS = {
     format: "digital",
   },
   "dg-sun-and-moon-eclipse": {
-    name: "Eclipse Part 1 — Digital (Single)",
+    name: "Sun & Moon (Eclipse Part 1) — Digital (Single)",
     unitAmount: 199,
     digital: true,
     format: "digital",
