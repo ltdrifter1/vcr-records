@@ -3,8 +3,8 @@
   var list = document.getElementById('catList');
   if (!list) return;
 
-  var genreChips = document.getElementById('libGenreChips');
-  var artistChips = document.getElementById('libArtistChips');
+  var genreSelect = document.getElementById('libGenreSelect');
+  var artistSelect = document.getElementById('libArtistSelect');
   var resetBtn = document.getElementById('libFilterReset');
   var countEl = document.getElementById('libCount');
   var leadEl = document.getElementById('libLead');
@@ -197,33 +197,29 @@
     return out;
   }
 
-  function renderChips(container, items, allLabel, activeValue, groupName) {
-    if (!container) return;
-    var html = '';
-    html +=
-      '<button type="button" class="lib-chip' + (!activeValue ? ' is-active' : '') + '" data-filter-group="' + esc(groupName) + '" data-filter-value="" aria-pressed="' + (!activeValue ? 'true' : 'false') + '">' +
-        esc(allLabel) +
-      '</button>';
+  function renderSelect(select, items, allLabel, activeValue) {
+    if (!select) return;
+    var html = '<option value="">' + esc(allLabel) + '</option>';
     items.forEach(function (item) {
-      var active = String(activeValue || '').toLowerCase() === String(item.id).toLowerCase();
-      html +=
-        '<button type="button" class="lib-chip' + (active ? ' is-active' : '') + '" data-filter-group="' + esc(groupName) + '" data-filter-value="' + esc(item.id) + '" aria-pressed="' + (active ? 'true' : 'false') + '">' +
-          esc(item.name) +
-        '</button>';
+      html += '<option value="' + esc(item.id) + '">' + esc(item.name) + '</option>';
     });
-    container.innerHTML = html;
+    select.innerHTML = html;
+    syncSelectState(select, activeValue);
   }
 
-  function syncChipState(container, activeValue) {
-    if (!container) return;
-    container.querySelectorAll('.lib-chip').forEach(function (btn) {
-      var value = btn.getAttribute('data-filter-value') || '';
-      var active = String(activeValue || '') === String(value);
-      if (!activeValue && !value) active = true;
-      if (activeValue && String(activeValue).toLowerCase() === String(value).toLowerCase()) active = true;
-      btn.classList.toggle('is-active', active);
-      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
+  function syncSelectState(select, activeValue) {
+    if (!select) return;
+    var value = String(activeValue || '');
+    var match = false;
+    for (var i = 0; i < select.options.length; i++) {
+      if (String(select.options[i].value).toLowerCase() === value.toLowerCase()) {
+        select.selectedIndex = i;
+        match = true;
+        break;
+      }
+    }
+    if (!match) select.value = '';
+    select.classList.toggle('has-value', !!select.value);
   }
 
   function syncViewButtons() {
@@ -333,8 +329,8 @@
 
   function render() {
     writeUrl();
-    syncChipState(genreChips, filters.genre);
-    syncChipState(artistChips, filters.artist);
+    syncSelectState(genreSelect, filters.genre);
+    syncSelectState(artistSelect, filters.artist);
     syncViewButtons();
 
     var releases = allReleases.filter(function (r) {
@@ -361,18 +357,15 @@
     }
   }
 
-  function onChipClick(e) {
-    var btn = e.target.closest('.lib-chip');
-    if (!btn) return;
-    var group = btn.getAttribute('data-filter-group');
-    var value = btn.getAttribute('data-filter-value') || '';
-    if (group === 'genre') filters.genre = value;
-    if (group === 'artist') filters.artist = value;
+  function onSelectChange(e) {
+    var select = e.target;
+    if (select === genreSelect) filters.genre = select.value || '';
+    if (select === artistSelect) filters.artist = select.value || '';
     render();
   }
 
-  if (genreChips) genreChips.addEventListener('click', onChipClick);
-  if (artistChips) artistChips.addEventListener('click', onChipClick);
+  if (genreSelect) genreSelect.addEventListener('change', onSelectChange);
+  if (artistSelect) artistSelect.addEventListener('change', onSelectChange);
 
   function setView(mode) {
     viewMode = mode === 'covers' ? 'covers' : 'list';
@@ -405,8 +398,8 @@
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
 
-      renderChips(genreChips, uniqueGenres(allReleases), 'All', filters.genre, 'genre');
-      renderChips(artistChips, uniqueArtists(allReleases), 'All', filters.artist, 'artist');
+      renderSelect(genreSelect, uniqueGenres(allReleases), 'All', filters.genre);
+      renderSelect(artistSelect, uniqueArtists(allReleases), 'All', filters.artist);
       render();
     })
     .catch(function () {

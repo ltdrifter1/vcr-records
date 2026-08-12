@@ -190,46 +190,58 @@
       color: var(--dim);
       margin-bottom: 10px;
     }
-    .lib-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .lib-select-wrap {
+      position: relative;
+      min-width: 0;
     }
-    .lib-chip {
+    .lib-select-wrap::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid var(--muted);
+      border-bottom: 1.5px solid var(--muted);
+      transform: translateY(-70%) rotate(45deg);
+      pointer-events: none;
+    }
+    .lib-select {
       appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      min-height: 40px;
+      padding: 0 36px 0 12px;
       border: 1px solid rgba(170,182,200,.42);
-      background: rgba(255,255,255,.45);
-      color: var(--muted);
+      border-radius: 2px;
+      background: rgba(255,255,255,.55);
+      color: var(--ink);
       font: inherit;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       letter-spacing: -.01em;
-      min-height: 36px;
-      padding: 0 12px;
-      border-radius: 2px;
       cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
       transition:
         color var(--dur) var(--ease),
         background var(--dur) var(--ease),
         border-color var(--dur) var(--ease),
         box-shadow var(--dur) var(--ease);
     }
-    .lib-chip:hover {
-      color: var(--ink);
-      background: rgba(255,255,255,.78);
+    .lib-select:hover {
+      background: rgba(255,255,255,.82);
       border-color: rgba(150,162,180,.55);
     }
-    .lib-chip.is-active {
-      color: var(--ink);
+    .lib-select:focus-visible {
+      outline: 2px solid var(--chrome-steel);
+      outline-offset: 2px;
+    }
+    .lib-select.has-value {
       background: rgba(255,255,255,.92);
       border-color: rgba(120,134,152,.55);
       box-shadow:
         inset 0 -2px 0 var(--chrome-steel),
         inset 0 1px 0 rgba(255,255,255,.9);
-    }
-    .lib-chip:focus-visible {
-      outline: 2px solid var(--chrome-steel);
-      outline-offset: 2px;
     }
 
     .lib-rail-end {
@@ -655,7 +667,7 @@
       .cat-row::before,
       .cat-cover img,
       .cat-play,
-      .lib-chip {
+      .lib-select {
         transition: none !important;
       }
       .cat-row:hover { transform: none; }
@@ -717,12 +729,20 @@
     <section class="lib-rail" aria-label="Library filters">
       <div class="lib-rail-groups">
         <div class="lib-group">
-          <span class="lib-group-label" id="libGenreLabel">Genre</span>
-          <div class="lib-chips" id="libGenreChips" role="group" aria-labelledby="libGenreLabel"></div>
+          <label class="lib-group-label" for="libGenreSelect">Genre</label>
+          <div class="lib-select-wrap">
+            <select class="lib-select" id="libGenreSelect" aria-label="Filter by genre">
+              <option value="">All</option>
+            </select>
+          </div>
         </div>
         <div class="lib-group">
-          <span class="lib-group-label" id="libArtistLabel">Artist</span>
-          <div class="lib-chips" id="libArtistChips" role="group" aria-labelledby="libArtistLabel"></div>
+          <label class="lib-group-label" for="libArtistSelect">Artist</label>
+          <div class="lib-select-wrap">
+            <select class="lib-select" id="libArtistSelect" aria-label="Filter by artist">
+              <option value="">All</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="lib-rail-end">
