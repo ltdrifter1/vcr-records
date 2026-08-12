@@ -94,6 +94,7 @@
   function formatCue(rel) {
     var bits = [];
     if (rel.kind) bits.push(rel.kind);
+    if (String(rel.status || '').toLowerCase() === 'pre-order') bits.push('Pre-order');
     if (rel.tracksCount) bits.push(rel.tracksCount + (rel.tracksCount === 1 ? ' track' : ' tracks'));
     var formats = [];
     if (rel.formats && rel.formats.cassette) formats.push('Cassette');
@@ -133,6 +134,10 @@
           '<span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span>'
         )
       : '';
+    var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
+    var pill = preorder
+      ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
+      : '';
 
     return (
       '<article class="cat-row rv" style="--cover:' + cssUrl(full || thumb) + '" data-release="' + esc(rel.id) + '" data-artist-id="' + esc(rel.artistId || '') + '" data-genre="' + esc(slugify(rel.genre)) + '">' +
@@ -142,6 +147,7 @@
           '</a>' +
           '<span class="cat-cc">' + esc(rel.catalogue || '') + '</span>' +
           playBtn +
+          pill +
         '</div>' +
         '<div class="cat-main">' +
           '<a class="cat-title" href="' + esc(href) + '">' + esc(rel.title) + '</a>' +
