@@ -34,6 +34,7 @@ const PAGE_MAP = {
   'artists/double-edge.html': '/artists/double-edge',
   'artists/inlet-knight.html': '/artists/inlet-knight',
   'news/j-adore.html': '/news/j-adore',
+  'news/lookout.html': '/news/lookout',
   'news/any-jungle.html': '/news/any-jungle',
   'news/double-edge-on-club-copy.html': '/news/double-edge-on-club-copy',
   'news/inlet-knight-on-club-copy.html': '/news/inlet-knight-on-club-copy',
