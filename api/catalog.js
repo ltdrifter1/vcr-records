@@ -95,7 +95,7 @@ const PRODUCTS = {
     format: "digital",
   },
   "dg-lookout": {
-    name: "Lookout — Digital (Single) — Pre-order",
+    name: "Lookout — Digital (Album) — Pre-order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
@@ -107,7 +107,7 @@ const PRODUCTS = {
     format: "digital",
   },
   "dg-need-you": {
-    name: "Need U — Digital (EP) — Pre-order",
+    name: "Need U — Digital (Album) — Pre-order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
