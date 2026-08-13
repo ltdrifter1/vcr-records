@@ -1,7 +1,7 @@
-/* Club Copy — News (home rail + index + articles)
+/* Club Copy : News (home rail + index + articles)
    Home/index: nocturnal chrome continuum. Articles: warm paper + chrome bezel. */
 
-/* Soft exit from dark Releases wall — stay in the night continuum --------- */
+/* Soft exit from dark Releases wall : stay in the night continuum --------- */
 .news-bridge {
   height: 56px;
   margin-top: -1px;
@@ -19,7 +19,7 @@
     linear-gradient(180deg, #0a0a0c 0%, #080808 100%);
   color: #fff;
   padding: 0 0 72px;
-  /* Same parent width as .band — % inset matches heading without 100vw/scrollbar drift */
+  /* Same parent width as .band : % inset matches heading without 100vw/scrollbar drift */
   --news-gutter: max(24px, var(--safe-l));
   --news-inset: max(
     var(--news-gutter),
@@ -62,7 +62,7 @@
   .news-title-link:hover { opacity: .72; }
 }
 
-/* Horizontal news rail (homepage) — scrollbar desktop, swipe mobile ------ */
+/* Horizontal news rail (homepage) : scrollbar desktop, swipe mobile ------ */
 .news-rail {
   overflow-x: auto;
   overflow-y: hidden;
@@ -70,7 +70,7 @@
   overscroll-behavior-x: contain;
   touch-action: pan-x;
   scroll-snap-type: x proximity;
-  /* Snap to band inset — layout padding must NOT live on this scrollport
+  /* Snap to band inset : layout padding must NOT live on this scrollport
      (Chromium scroll-snap scrolls scrollport padding away). */
   scroll-padding-left: var(--news-inset);
   scrollbar-width: auto;
@@ -114,7 +114,7 @@
   }
 }
 
-/* Cards — chrome media frames --------------------------------------------- */
+/* Cards : chrome media frames --------------------------------------------- */
 a.news-card {
   display: flex;
   flex-direction: column;
@@ -212,7 +212,7 @@ a.news-card.news-card--essay .news-card-art {
     0 14px 36px rgba(0,0,0,.3);
 }
 
-/* Type chip — Essay vs Press ---------------------------------------------- */
+/* Type chip : Essay vs Press ---------------------------------------------- */
 .news-type {
   display: inline-flex;
   align-self: flex-start;
@@ -255,7 +255,7 @@ a.news-card.news-card--essay .news-card-art {
   .news-rail { scroll-snap-type: none; }
 }
 
-/* News index — same nocturnal continuum ----------------------------------- */
+/* News index : same nocturnal continuum ----------------------------------- */
 .news-index {
   background:
     radial-gradient(720px 420px at 12% 0%, rgba(200,214,230,.08), transparent 55%),
@@ -269,7 +269,7 @@ a.news-card.news-card--essay .news-card-art {
   color: rgba(255,255,255,.55) !important;
 }
 
-/* Article pages — warm paper + chrome bezel media ------------------------- */
+/* Article pages : warm paper + chrome bezel media ------------------------- */
 .news-page {
   padding: calc(var(--nav-h) + var(--safe-t) + 48px) 0 96px;
 }
@@ -533,4 +533,43 @@ a.news-card.news-card--essay .news-card-art {
   .news { padding-bottom: 64px; }
   .news-article-hero,
   .news-article--essay .news-article-hero { aspect-ratio: 1; }
+}
+
+
+/* News index filters + type chips ----------------------------------------- */
+.news-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 36px;
+}
+.news-filter {
+  appearance: none;
+  border: 1px solid rgba(170,182,200,.35);
+  background: transparent;
+  color: rgba(200,214,230,.72);
+  font-family: var(--callsign);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-radius: var(--bezel-r, 4px);
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.news-filter:hover { color: #fff; border-color: rgba(200,214,230,.55); }
+.news-filter.is-active {
+  color: #0a0a0c;
+  background: rgba(232,236,242,.92);
+  border-color: transparent;
+}
+.news-index .news-type {
+  color: rgba(200,214,230,.58);
+  border-color: rgba(170,182,200,.28);
+}
+.news-index .news-card[hidden] { display: none !important; }
+.news-kicker span + span::before {
+  content: "·";
+  margin: 0 .55em;
+  opacity: .55;
 }
