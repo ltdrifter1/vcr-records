@@ -41,8 +41,8 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="L.T. Drifta — Club Copy"/>
   <meta name="twitter:description" content="Producer based in Vancouver. Club Copy."/>
-  <meta name="twitter:image" content="https://www.clubcopy.ca/club-copy-logo-chrome.webp"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/club-copy-logo-chrome.webp"/>
+  <meta name="twitter:image" content="https://www.clubcopy.ca/artists/lt-drifta.webp"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/artists/lt-drifta.webp"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -88,19 +88,9 @@
         0 10px 28px rgba(26,30,38,.08);
     }
     @media (max-width: 799px) { .artist-photo { max-width: 220px; } }
-    .artist-photo--mark {
-      display: grid; place-items: center;
-      aspect-ratio: 4/5;
-      background:
-        linear-gradient(160deg, rgba(255,255,255,.55), transparent 42%),
-        radial-gradient(120% 90% at 12% 8%, rgba(26,30,38,.06), transparent 55%),
-        var(--soft);
-    }
-    .artist-photo--mark span {
-      font-family: var(--display);
-      font-size: clamp(36px, 6vw, 52px);
-      font-weight: 600; letter-spacing: -.04em;
-      color: var(--ink); opacity: .78;
+    .artist-photo img {
+      width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
+      filter: saturate(.92); display: block;
     }
     .artist-hero h1 {
       font-size: clamp(36px, 6vw, 56px); font-weight: 600;
@@ -233,8 +223,8 @@
 <main id="main" class="page">
   <div class="band">
     <header class="artist-hero">
-      <div class="artist-photo artist-photo--mark" aria-hidden="true">
-        <span>LT</span>
+      <div class="artist-photo">
+        <img src="lt-drifta.webp" alt="L.T. Drifta" width="1254" height="1254" fetchpriority="high"/>
       </div>
       <div>
         <p class="eyebrow">Producer</p>
