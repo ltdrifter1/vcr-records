@@ -62,7 +62,7 @@
   .news-title-link:hover { opacity: .72; }
 }
 
-/* Horizontal news rail (homepage) — teletext / ticker --------------------- */
+/* Horizontal news rail (homepage) — scrollbar desktop, swipe mobile ------ */
 .news-rail {
   overflow-x: auto;
   overflow-y: hidden;
@@ -73,21 +73,13 @@
   /* Snap to band inset — layout padding must NOT live on this scrollport
      (Chromium scroll-snap scrolls scrollport padding away). */
   scroll-padding-left: var(--news-inset);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(150,162,180,.45) transparent;
-  padding: 8px 0 12px;
+  scrollbar-width: auto;
+  scrollbar-color: rgba(180,190,205,.7) rgba(255,255,255,.06);
+  padding: 8px 0 14px;
   outline: none;
-  cursor: grab;
+  /* Soft right fade on the viewport; scrollbar sits below the cards */
   mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 36px), transparent 100%);
   -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 36px), transparent 100%);
-}
-.news-rail.is-dragging {
-  cursor: grabbing;
-  scroll-snap-type: none;
-  user-select: none;
-}
-.news-rail.is-dragging a.news-card {
-  pointer-events: none;
 }
 .news-rail .news-card-art img {
   -webkit-user-drag: none;
@@ -96,11 +88,20 @@
 .news-rail:focus-visible {
   box-shadow: inset 0 0 0 2px rgba(200,214,230,.55);
 }
-.news-rail::-webkit-scrollbar { height: 6px; }
-.news-rail::-webkit-scrollbar-track { background: transparent; }
+.news-rail::-webkit-scrollbar { height: 10px; }
+.news-rail::-webkit-scrollbar-track {
+  background: rgba(255,255,255,.06);
+  border-radius: 0;
+}
 .news-rail::-webkit-scrollbar-thumb {
-  background: rgba(150,162,180,.4);
-  border-radius: 2px;
+  background: rgba(180,190,205,.7);
+  border-radius: 0;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.news-rail::-webkit-scrollbar-thumb:hover {
+  background: rgba(210,218,230,.9);
+  background-clip: padding-box;
 }
 .news-rail-track {
   display: flex;
