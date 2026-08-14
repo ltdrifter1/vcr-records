@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#FAF8F5"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <style>
     body { min-height: 100vh; display: grid; place-items: center; padding: 28px; }
@@ -70,9 +70,13 @@
     }
     .ty-card-top strong { color: #fff; font-weight: 600; }
     .ty-card-name {
-      font-family: var(--display);
-      font-size: 28px; font-weight: 600; letter-spacing: -.03em;
-      margin: 0 0 8px; line-height: 1.05;
+      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+      font-size: 20px; font-weight: 700; letter-spacing: .12em;
+      margin: 0 0 10px; line-height: 1.15;
+      text-transform: uppercase;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.2),
+        0 -1px 0 rgba(0,0,0,.45);
     }
     .ty-card-meta { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.5; }
     .ty-card-meta b { color: rgba(255,255,255,.88); font-weight: 600; }
@@ -134,10 +138,10 @@
           : 'Club is active. Your card is ready — member copies of each digital selection are yours.';
       document.getElementById('fulfillNote').textContent =
         level === 'premium'
-          ? 'Open this cycle’s selection, then apply Club Credit at checkout with the same email.'
-          : 'Renews yearly. Open this cycle’s selection whenever you are ready.';
+          ? 'Open the club selection, then apply Club Credit at checkout with the same email.'
+          : 'Renews yearly. Open the club selection whenever you are ready.';
       document.getElementById('tyPrimary').href = '/#selection';
-      document.getElementById('tyPrimary').textContent = 'Open this cycle’s selection';
+      document.getElementById('tyPrimary').textContent = 'Open club selection';
 
       var profile = window.ClubMember ? ClubMember.readProfile() : null;
       if (!profile) {
@@ -156,7 +160,7 @@
       card.hidden = false;
       document.getElementById('tyLevel').textContent = level === 'premium' ? 'PREMIUM' : 'CLUB';
       document.getElementById('tyName').textContent =
-        (profile && profile.displayName) || (profile && profile.email) || 'Member';
+        String((profile && profile.displayName) || (profile && profile.email) || 'Member').toUpperCase();
       var email = (profile && profile.email) || '';
       var number = (profile && profile.memberNumber) ||
         (window.ClubMember ? ClubMember.memberNumberFromEmail(email || 'member') : '0000');

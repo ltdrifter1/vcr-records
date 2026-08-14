@@ -96,20 +96,20 @@
     return 'Guest';
   }
 
-  function passedCycle(cycleId) {
+  function passedSelection(selectionId) {
     try {
       var map = JSON.parse(localStorage.getItem(PASS_KEY) || '{}');
-      return !!(map && map[cycleId]);
+      return !!(map && map[selectionId]);
     } catch (e) {
       return false;
     }
   }
 
-  function passCycle(cycleId) {
+  function passSelection(selectionId) {
     try {
       var map = JSON.parse(localStorage.getItem(PASS_KEY) || '{}');
       if (!map || typeof map !== 'object') map = {};
-      map[cycleId] = Date.now();
+      map[selectionId] = Date.now();
       localStorage.setItem(PASS_KEY, JSON.stringify(map));
     } catch (e) {}
   }
@@ -204,8 +204,11 @@
     memberDigitalPrice: memberDigitalPrice,
     displayPrice: displayPrice,
     levelLabel: levelLabel,
-    passedCycle: passedCycle,
-    passCycle: passCycle,
+    passedSelection: passedSelection,
+    passSelection: passSelection,
+    /* aliases for older callers */
+    passedCycle: passedSelection,
+    passCycle: passSelection,
     sync: sync
   };
 
