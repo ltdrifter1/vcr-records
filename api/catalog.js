@@ -137,12 +137,36 @@ const PRODUCTS = {
     format: "digital",
   },
 
-  // Club membership — $10 join → $25 Club Credit (positive choice, no auto-ship)
-  "club-join": {
-    name: "Club Copy Membership — Join",
+  // Membership levels
+  // Free — no SKU (newsletter / limited streaming)
+  // Club — $0.99/mo full streaming + member card
+  // Premium — $10/yr physical purchase credits
+  "club-level": {
+    name: "Club Copy — Club Level",
+    unitAmount: 99,
+    digital: true,
+    format: "membership",
+    level: "club",
+    subscription: { interval: "month" },
+  },
+  "club-premium": {
+    name: "Club Copy — Premium Level",
     unitAmount: 1000,
     digital: true,
     format: "membership",
+    level: "premium",
+    subscription: { interval: "year" },
+    creditGrantCents: 2500,
+  },
+  // Legacy alias (maps to Premium grant behavior in webhook)
+  "club-join": {
+    name: "Club Copy — Premium Level",
+    unitAmount: 1000,
+    digital: true,
+    format: "membership",
+    level: "premium",
+    subscription: { interval: "year" },
+    creditGrantCents: 2500,
   },
 
   // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
@@ -190,4 +214,27 @@ module.exports = {
   MERCH_PAGE_SKUS,
   SHIPPING,
   priceIdFromEnv,
+  MEMBERSHIP: {
+    free: {
+      id: "free",
+      label: "Free",
+      priceLabel: "$0",
+      blurb: "Limited digital streaming only.",
+    },
+    club: {
+      id: "club",
+      sku: "club-level",
+      label: "Club",
+      priceLabel: "$0.99/mo",
+      blurb: "Full streaming + digital & physical membership card.",
+    },
+    premium: {
+      id: "premium",
+      sku: "club-premium",
+      label: "Premium",
+      priceLabel: "$10/yr",
+      blurb: "Annual credits for physical purchases all year.",
+      creditGrantCents: 2500,
+    },
+  },
 };

@@ -1101,7 +1101,7 @@
     }
 
     /* Signup : nocturnal chrome membership panel --------------------------- */
-    /* Club join offer ------------------------------------------------------- */
+    /* Club membership intake ----------------------------------------------- */
     .club-join {
       position: relative;
       isolation: isolate;
@@ -1109,7 +1109,7 @@
         radial-gradient(720px 380px at 50% 0%, rgba(200,214,230,.12), transparent 60%),
         linear-gradient(180deg, #0a0a0c 0%, #080808 100%);
       color: #fff;
-      padding: 72px 0 64px;
+      padding: 72px 0 72px;
       overflow: hidden;
       border-top: 1px solid rgba(200,214,230,.1);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
@@ -1117,7 +1117,7 @@
     .club-join-inner {
       position: relative;
       z-index: 1;
-      max-width: 420px;
+      max-width: 560px;
       margin: 0 auto;
       text-align: center;
     }
@@ -1126,7 +1126,7 @@
       margin-bottom: 14px;
     }
     .club-join-title {
-      margin: 0 0 14px;
+      margin: 0 0 12px;
       font-family: var(--display);
       font-size: clamp(32px, 5vw, 48px);
       font-weight: 600;
@@ -1136,38 +1136,227 @@
     }
     .club-join-lead {
       margin: 0 auto 28px;
-      max-width: 26em;
+      max-width: 28em;
       font-size: 16px;
       line-height: 1.5;
       color: rgba(255,255,255,.58);
     }
-    .club-join-gets {
-      list-style: none;
-      margin: 0 auto 32px;
-      padding: 0;
-      max-width: 22em;
+    .join-levels {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 22px;
       text-align: left;
-      border-top: 1px solid rgba(255,255,255,.12);
     }
-    .club-join-gets li {
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,.12);
-      font-size: 15px;
-      font-weight: 500;
+    .join-level {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+      padding: 16px 16px;
+      border-radius: var(--bezel-r, 4px);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+    }
+    .join-level:hover {
+      border-color: rgba(255,255,255,.28);
+      background: rgba(255,255,255,.07);
+    }
+    .join-level[aria-checked="true"] {
+      border-color: rgba(220,230,242,.55);
+      background: rgba(255,255,255,.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .join-level-dot {
+      width: 18px; height: 18px; margin-top: 2px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.35);
+      position: relative;
+    }
+    .join-level[aria-checked="true"] .join-level-dot {
+      border-color: #fff;
+    }
+    .join-level[aria-checked="true"] .join-level-dot::after {
+      content: "";
+      position: absolute; inset: 3px;
+      border-radius: 50%;
+      background: #fff;
+    }
+    .join-level-name {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+      margin-bottom: 4px;
+    }
+    .join-level-blurb {
+      display: block;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255,255,255,.55);
+    }
+    .join-level-price {
+      font-size: 14px;
+      font-weight: 600;
       letter-spacing: -.015em;
+      white-space: nowrap;
       color: rgba(255,255,255,.88);
     }
+    .join-panel {
+      margin-top: 8px;
+      text-align: left;
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 22px;
+    }
+    .join-panel[hidden] { display: none; }
+    .join-field {
+      margin-bottom: 16px;
+    }
+    .join-field label {
+      display: block;
+      font-size: 11px;
+      font-family: var(--callsign);
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(200,214,230,.5);
+      margin-bottom: 8px;
+    }
+    .join-field input[type="email"],
+    .join-field input[type="text"] {
+      width: 100%;
+      height: 48px;
+      border-radius: var(--bezel-r, 4px);
+      border: 1px solid rgba(200,214,230,.28);
+      padding: 0 14px;
+      background: rgba(12,12,14,.72);
+      color: #fff;
+      font: inherit;
+      font-size: 16px;
+    }
+    .join-field input:focus {
+      outline: none;
+      border-color: rgba(200,214,230,.55);
+    }
+    .join-genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .join-genre {
+      height: 36px;
+      padding: 0 12px;
+      border-radius: var(--bezel-r, 4px);
+      border: 1px solid rgba(255,255,255,.18);
+      background: transparent;
+      color: rgba(255,255,255,.75);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .join-genre[aria-pressed="true"] {
+      background: #fff;
+      color: #0a0a0a;
+      border-color: #fff;
+    }
+    .join-weird {
+      display: grid;
+      gap: 8px;
+    }
+    .join-weird-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      font-family: var(--callsign);
+      font-weight: 600;
+    }
+    .join-weird input[type="range"] {
+      width: 100%;
+      accent-color: #fff;
+    }
+    .member-card {
+      margin: 8px 0 20px;
+      padding: 22px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(220,230,242,.35);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
+        linear-gradient(180deg, #1a1e26, #0c0e12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.2),
+        0 18px 40px rgba(0,0,0,.35);
+      text-align: left;
+    }
+    .member-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 18px;
+    }
+    .member-card-brand {
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+    }
+    .member-card-level {
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .member-card-name {
+      font-family: var(--display);
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+      margin: 0 0 8px;
+    }
+    .member-card-meta {
+      font-size: 13px;
+      color: rgba(255,255,255,.55);
+      line-height: 1.5;
+    }
+    .member-card-meta strong {
+      color: rgba(255,255,255,.85);
+      font-weight: 600;
+    }
     .club-join-btn {
-      min-width: 180px;
-      height: 50px;
+      width: 100%;
+      min-height: 50px;
       font-size: 15px;
     }
+    .club-join-btn:disabled {
+      opacity: .45;
+      cursor: wait;
+    }
     .club-join-note {
-      margin: 16px 0 0;
+      margin: 14px 0 0;
       font-size: 13px;
       line-height: 1.45;
       color: rgba(255,255,255,.4);
+      text-align: center;
     }
+    .club-join-status {
+      margin: 12px 0 0;
+      font-size: 14px;
+      color: rgba(255,255,255,.85);
+      text-align: center;
+    }
+    .club-join-status.is-error { color: #f0a8a2; }
+    .club-join-status[hidden] { display: none; }
 
     .signup {
       position: relative;
@@ -2091,20 +2280,88 @@
     </div>
   </section>
 
-  <!-- Club join offer -->
+  <!-- Membership intake -->
   <section class="club-join" id="join" aria-labelledby="join-title">
     <div class="band">
       <div class="club-join-inner rv">
-        <p class="eyebrow">The Club</p>
-        <h2 class="club-join-title" id="join-title">Join for $10.</h2>
-        <p class="club-join-lead">Get $25 in Club Credit. You choose what ships — nothing is sent unless you ask.</p>
-        <ul class="club-join-gets">
-          <li>$25 Club Credit</li>
-          <li>Member card / digital membership</li>
-          <li>Access to catalog &amp; exclusives</li>
-        </ul>
-        <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Join for $10</button>
-        <p class="club-join-note">Cash up front. No trap. Spend your credit on releases you pick.</p>
+        <p class="eyebrow">Membership</p>
+        <h2 class="club-join-title" id="join-title">Join the club.</h2>
+        <p class="club-join-lead">Three levels. Pick one, set your taste, get your card. Nothing ships unless you choose it.</p>
+
+        <div class="join-levels" role="radiogroup" aria-label="Membership level">
+          <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
+            <span class="join-level-dot" aria-hidden="true"></span>
+            <span>
+              <span class="join-level-name">Free</span>
+              <span class="join-level-blurb">Limited digital streaming only.</span>
+            </span>
+            <span class="join-level-price">$0</span>
+          </button>
+          <button type="button" class="join-level" data-level="club" role="radio" aria-checked="true">
+            <span class="join-level-dot" aria-hidden="true"></span>
+            <span>
+              <span class="join-level-name">Club</span>
+              <span class="join-level-blurb">Full streaming + digital &amp; physical membership card.</span>
+            </span>
+            <span class="join-level-price">$0.99/mo</span>
+          </button>
+          <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
+            <span class="join-level-dot" aria-hidden="true"></span>
+            <span>
+              <span class="join-level-name">Premium</span>
+              <span class="join-level-blurb">$25 Club Credit for physical purchases all year.</span>
+            </span>
+            <span class="join-level-price">$10/yr</span>
+          </button>
+        </div>
+
+        <div class="join-panel" id="joinPanel">
+          <div class="join-field">
+            <label for="joinEmail">Email</label>
+            <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
+          </div>
+          <div class="join-field">
+            <label for="joinName">Name on card</label>
+            <input type="text" id="joinName" name="displayName" placeholder="First name or alias" maxlength="40" autocomplete="nickname"/>
+          </div>
+          <div class="join-field">
+            <label>What do you listen to? <span style="opacity:.55;letter-spacing:.02em;text-transform:none;font-family:inherit;font-weight:500">Pick up to 3</span></label>
+            <div class="join-genres" id="joinGenres">
+              <button type="button" class="join-genre" data-genre="house" aria-pressed="false">House</button>
+              <button type="button" class="join-genre" data-genre="techno" aria-pressed="false">Techno</button>
+              <button type="button" class="join-genre" data-genre="jungle" aria-pressed="false">Jungle</button>
+              <button type="button" class="join-genre" data-genre="ukg" aria-pressed="false">UKG</button>
+              <button type="button" class="join-genre" data-genre="hip-hop" aria-pressed="false">Hip-hop</button>
+              <button type="button" class="join-genre" data-genre="ambient" aria-pressed="false">Ambient</button>
+              <button type="button" class="join-genre" data-genre="experimental" aria-pressed="false">Experimental</button>
+              <button type="button" class="join-genre" data-genre="indie" aria-pressed="false">Indie</button>
+              <button type="button" class="join-genre" data-genre="soul" aria-pressed="false">Soul</button>
+            </div>
+          </div>
+          <div class="join-field">
+            <label for="joinWeird">How adventurous?</label>
+            <div class="join-weird">
+              <div class="join-weird-ends"><span>Safe</span><span>Weird</span></div>
+              <input type="range" id="joinWeird" min="0" max="100" value="50"/>
+            </div>
+          </div>
+
+          <div class="member-card" id="memberCard" aria-live="polite">
+            <div class="member-card-top">
+              <span class="member-card-brand">Club Copy</span>
+              <span class="member-card-level" id="cardLevel">CLUB</span>
+            </div>
+            <p class="member-card-name" id="cardName">Your name</p>
+            <p class="member-card-meta">
+              MEMBER <strong id="cardNumber">0000</strong><br/>
+              <span id="cardSignal">Pick your sound</span> · <span id="cardWeird">IN BETWEEN</span>
+            </p>
+          </div>
+
+          <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Continue with Club — $0.99/mo</button>
+          <p class="club-join-note" id="joinNote">Cancel anytime. Full streaming and your membership card.</p>
+          <p class="club-join-status" id="joinStatus" role="status" hidden></p>
+        </div>
       </div>
     </div>
   </section>
@@ -2219,22 +2476,184 @@
     }
   });
 
-  // Newsletter : submit in place; falls back to a normal POST if fetch fails.
-  var joinBtn = document.getElementById('clubJoinBtn');
-  if (joinBtn && window.VCRCart) {
-    joinBtn.addEventListener('click', function () {
-      VCRCart.add({
-        sku: 'club-join',
-        name: 'Club Copy Membership — Join',
-        price: 10,
-        image: 'club-copy-logo-chrome.webp',
-        qty: 1,
-        id: 'club-join'
+  // Membership intake : Free / Club / Premium + card + taste
+  (function () {
+    var levelBtns = document.querySelectorAll('.join-level');
+    var genreBtns = document.querySelectorAll('.join-genre');
+    var joinBtn = document.getElementById('clubJoinBtn');
+    var joinEmail = document.getElementById('joinEmail');
+    var joinName = document.getElementById('joinName');
+    var joinWeird = document.getElementById('joinWeird');
+    var joinNote = document.getElementById('joinNote');
+    var joinStatus = document.getElementById('joinStatus');
+    var cardLevel = document.getElementById('cardLevel');
+    var cardName = document.getElementById('cardName');
+    var cardNumber = document.getElementById('cardNumber');
+    var cardSignal = document.getElementById('cardSignal');
+    var cardWeird = document.getElementById('cardWeird');
+    if (!joinBtn || !levelBtns.length) return;
+
+    var state = {
+      level: 'club',
+      genres: []
+    };
+
+    function memberNumber(email) {
+      var s = String(email || 'guest').trim().toLowerCase();
+      var hash = 0;
+      for (var i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
+      return String((hash % 9000) + 1000).padStart(4, '0');
+    }
+
+    function weirdLabel(v) {
+      if (v < 34) return 'SAFE';
+      if (v > 66) return 'WEIRD';
+      return 'IN BETWEEN';
+    }
+
+    function syncCard() {
+      var name = (joinName && joinName.value.trim()) || 'Your name';
+      var email = (joinEmail && joinEmail.value.trim()) || '';
+      cardName.textContent = name;
+      cardNumber.textContent = memberNumber(email || name);
+      cardLevel.textContent = state.level === 'premium' ? 'PREMIUM' : state.level === 'free' ? 'FREE' : 'CLUB';
+      cardSignal.textContent = state.genres.length
+        ? state.genres.map(function (g) { return g.toUpperCase(); }).join(' · ')
+        : 'Pick your sound';
+      cardWeird.textContent = weirdLabel(Number(joinWeird && joinWeird.value) || 50);
+
+      if (state.level === 'free') {
+        joinBtn.textContent = 'Join Free';
+        joinNote.textContent = 'Limited streaming on Planet MP3. Upgrade anytime.';
+      } else if (state.level === 'premium') {
+        joinBtn.textContent = 'Continue with Premium — $10/yr';
+        joinNote.textContent = '$25 Club Credit for physical purchases. You choose what ships.';
+      } else {
+        joinBtn.textContent = 'Continue with Club — $0.99/mo';
+        joinNote.textContent = 'Cancel anytime. Full streaming and your membership card.';
+      }
+    }
+
+    levelBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.level = btn.getAttribute('data-level');
+        levelBtns.forEach(function (b) {
+          b.setAttribute('aria-checked', b === btn ? 'true' : 'false');
+        });
+        syncCard();
       });
-      joinBtn.textContent = 'Added ✓';
-      setTimeout(function () { window.location.href = '/cart'; }, 450);
     });
-  }
+
+    genreBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var g = btn.getAttribute('data-genre');
+        var on = btn.getAttribute('aria-pressed') === 'true';
+        if (on) {
+          btn.setAttribute('aria-pressed', 'false');
+          state.genres = state.genres.filter(function (x) { return x !== g; });
+        } else if (state.genres.length < 3) {
+          btn.setAttribute('aria-pressed', 'true');
+          state.genres.push(g);
+        }
+        syncCard();
+      });
+    });
+
+    if (joinName) joinName.addEventListener('input', syncCard);
+    if (joinEmail) joinEmail.addEventListener('input', syncCard);
+    if (joinWeird) joinWeird.addEventListener('input', syncCard);
+    syncCard();
+
+    function showStatus(msg, isError) {
+      joinStatus.hidden = false;
+      joinStatus.textContent = msg;
+      joinStatus.classList.toggle('is-error', !!isError);
+    }
+
+    joinBtn.addEventListener('click', async function () {
+      var email = joinEmail && joinEmail.value.trim();
+      if (!email || email.indexOf('@') < 1) {
+        showStatus('Enter a valid email.', true);
+        joinEmail && joinEmail.focus();
+        return;
+      }
+      joinBtn.disabled = true;
+      joinStatus.hidden = true;
+
+      var payload = {
+        email: email,
+        displayName: (joinName && joinName.value.trim()) || '',
+        genres: state.genres.slice(),
+        weirdness: Number(joinWeird && joinWeird.value) || 50,
+        level: state.level
+      };
+
+      try {
+        localStorage.setItem('club_credit_email', email);
+        localStorage.setItem('club_member_profile', JSON.stringify(payload));
+      } catch (e) {}
+
+      try {
+        await fetch('/api/club-member', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {}
+
+      if (state.level === 'free') {
+        // Soft join via newsletter endpoint
+        try {
+          var fd = new FormData();
+          fd.append('email', email);
+          fd.append('level', 'free');
+          fd.append('message', 'Free membership — limited streaming');
+          var r = await fetch('https://formspree.io/f/xdkwjzzr', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: fd
+          });
+          if (!r.ok) throw new Error('signup');
+          showStatus("You're on Free. Limited streaming on Planet MP3 — upgrade anytime.");
+          joinBtn.textContent = 'Joined ✓';
+          setTimeout(function () { window.location.href = '/planet'; }, 900);
+        } catch (e) {
+          showStatus("Couldn't finish Free signup. Try again.", true);
+          joinBtn.disabled = false;
+          syncCard();
+        }
+        return;
+      }
+
+      joinBtn.textContent = 'Redirecting…';
+      try {
+        var res = await fetch('/api/create-membership-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            origin: window.location.origin,
+            level: state.level,
+            email: payload.email,
+            displayName: payload.displayName,
+            genres: payload.genres,
+            weirdness: payload.weirdness
+          })
+        });
+        var data = await res.json().catch(function () { return {}; });
+        if (!res.ok || !data.url) {
+          showStatus(data.error || 'Checkout unavailable right now.', true);
+          joinBtn.disabled = false;
+          syncCard();
+          return;
+        }
+        window.location.href = data.url;
+      } catch (e) {
+        showStatus('Could not reach checkout. Try again.', true);
+        joinBtn.disabled = false;
+        syncCard();
+      }
+    });
+  })();
 
   var signupForm = document.querySelector('.signup-form');
   var signupStatus = document.querySelector('.signup-status');

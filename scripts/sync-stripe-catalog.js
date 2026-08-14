@@ -142,17 +142,23 @@ async function ensureProduct({ name, sku, format, description }) {
   });
 }
 
-async function ensurePrice({ productId, unitAmount, lookupKey }) {
+async function ensurePrice({ productId, unitAmount, lookupKey, recurring }) {
   const existing = await findPriceByLookupKey(lookupKey);
   const productMatch =
     existing &&
     (existing.product === productId ||
       (existing.product && existing.product.id === productId));
+  const recurringMatch =
+    !recurring ||
+    (existing &&
+      existing.recurring &&
+      existing.recurring.interval === recurring.interval);
   if (existing) {
     if (
       existing.unit_amount === unitAmount &&
       existing.currency === currency &&
-      productMatch
+      productMatch &&
+      recurringMatch
     ) {
       return existing;
     }
@@ -162,13 +168,17 @@ async function ensurePrice({ productId, unitAmount, lookupKey }) {
       transfer_lookup_key: "true",
     }).catch(() => {});
   }
-  return stripe("/prices", "POST", {
+  const params = {
     product: productId,
     currency,
     unit_amount: String(unitAmount),
     lookup_key: lookupKey,
     transfer_lookup_key: "true",
-  });
+  };
+  if (recurring && recurring.interval) {
+    params["recurring[interval]"] = recurring.interval;
+  }
+  return stripe("/prices", "POST", params);
 }
 
 async function ensurePaymentLink({ priceId, productId, sku, digital }) {
@@ -339,6 +349,7 @@ async function main() {
       productId: p.id,
       unitAmount: product.unitAmount,
       lookupKey: sku,
+      recurring: product.subscription || null,
     });
     let link = null;
     if (!skipLinks && MERCH_PAGE_SKUS.includes(sku)) {

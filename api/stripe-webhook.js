@@ -13,7 +13,7 @@
  */
 const crypto = require("crypto");
 const {
-  JOIN_SKU,
+  CREDIT_GRANT_SKUS,
   JOIN_CREDIT_CENTS,
   grantCredit,
   spendCredit,
@@ -89,11 +89,14 @@ async function handleClubCredit(session) {
     .filter(Boolean);
   const results = { grant: null, spend: null };
 
-  if (isValidEmail(email) && skus.includes(JOIN_SKU)) {
+  if (
+    isValidEmail(email) &&
+    skus.some((s) => CREDIT_GRANT_SKUS.has(s))
+  ) {
     results.grant = await grantCredit({
       email,
       amountCents: JOIN_CREDIT_CENTS,
-      reason: "Club join — $25 Club Credit",
+      reason: "Premium membership — $25 Club Credit",
       ref: `grant:${session.id}`,
     });
   }
