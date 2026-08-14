@@ -10,7 +10,9 @@
  * Env (Stripe fallback / coupons):
  *   STRIPE_SECRET_KEY
  *
- * Join grant: Premium ($10/yr) → +$25.00 CAD (2500¢)
+ * Premium credit: pay $10+ annually year → 2.5×–5.0× Club Credit
+ *   $10 → 2.5× ($25) … $100+ → 5.0×
+ * Club: $5 / year digital record club
  */
 
 const JOIN_SKU = "club-join"; // legacy
@@ -18,9 +20,40 @@ const PREMIUM_SKU = "club-premium";
 const CLUB_LEVEL_SKU = "club-level";
 const MEMBERSHIP_SKUS = new Set([JOIN_SKU, PREMIUM_SKU, CLUB_LEVEL_SKU]);
 const CREDIT_GRANT_SKUS = new Set([JOIN_SKU, PREMIUM_SKU]);
+/** @deprecated fixed floor example; use premiumCreditCents() */
 const JOIN_CREDIT_CENTS = 2500;
+const PREMIUM_MIN_CENTS = 1000; // $10
+const PREMIUM_MAX_BONUS_AT_CENTS = 10000; // $100 → full 5.0×
+const PREMIUM_MULT_MIN = 2.5;
+const PREMIUM_MULT_MAX = 5.0;
+const CLUB_ANNUAL_CENTS = 500; // $5/yr
 const CURRENCY = "cad";
 const META_BALANCE = "club_credit_cents";
+
+/**
+ * Credit multiplier for Premium annual contribution.
+ * Linear from 2.5× at $10 to 5.0× at $100+ (capped).
+ */
+function premiumMultiplier(amountCents) {
+  const amount = Math.floor(Number(amountCents) || 0);
+  if (amount < PREMIUM_MIN_CENTS) return 0;
+  const span = PREMIUM_MAX_BONUS_AT_CENTS - PREMIUM_MIN_CENTS;
+  const t = Math.min(1, Math.max(0, (amount - PREMIUM_MIN_CENTS) / span));
+  return PREMIUM_MULT_MIN + (PREMIUM_MULT_MAX - PREMIUM_MULT_MIN) * t;
+}
+
+function premiumCreditCents(amountCents) {
+  const amount = Math.floor(Number(amountCents) || 0);
+  if (amount < PREMIUM_MIN_CENTS) return 0;
+  return Math.round(amount * premiumMultiplier(amount));
+}
+
+function normalizePremiumAmountCents(raw) {
+  const n = Math.floor(Number(raw) || 0);
+  if (!Number.isFinite(n) || n < PREMIUM_MIN_CENTS) return null;
+  // Cap absurd one-shot amounts at $5,000
+  return Math.min(n, 500000);
+}
 
 function normalizeEmail(email) {
   return String(email || "")
@@ -499,6 +532,11 @@ module.exports = {
   MEMBERSHIP_SKUS,
   CREDIT_GRANT_SKUS,
   JOIN_CREDIT_CENTS,
+  PREMIUM_MIN_CENTS,
+  PREMIUM_MAX_BONUS_AT_CENTS,
+  PREMIUM_MULT_MIN,
+  PREMIUM_MULT_MAX,
+  CLUB_ANNUAL_CENTS,
   CURRENCY,
   normalizeEmail,
   isValidEmail,
@@ -511,4 +549,7 @@ module.exports = {
   maxApplicableCredit,
   createCreditCoupon,
   findOrCreateCustomer,
+  premiumMultiplier,
+  premiumCreditCents,
+  normalizePremiumAmountCents,
 };

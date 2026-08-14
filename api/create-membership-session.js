@@ -6,14 +6,23 @@
  *   level: "club" | "premium",
  *   email: string,
  *   displayName?: string,
+ *   amountCents?: number,  // Premium only — min 1000 ($10)
  *   origin?: string
  * }
+ *
+ * Club: $5/year subscription
+ * Premium: annual contribution ($10+) → 2.5×–5.0× Club Credit
  */
 const { PRODUCTS, MEMBERSHIP, priceIdFromEnv } = require("./catalog");
 const {
   normalizeEmail,
   isValidEmail,
   findOrCreateCustomer,
+  normalizePremiumAmountCents,
+  premiumCreditCents,
+  premiumMultiplier,
+  PREMIUM_MIN_CENTS,
+  CLUB_ANNUAL_CENTS,
 } = require("./lib/credit-ledger");
 
 function formBody(params) {
@@ -54,6 +63,7 @@ async function stripeRequest(secret, method, path, params, idempotencyKey) {
 async function resolveRecurringPrice(secret, sku, product, currency) {
   const expected = product.unitAmount;
   const interval = product.subscription && product.subscription.interval;
+  if (!interval) return null;
   const fromEnv = priceIdFromEnv(sku);
   if (fromEnv) {
     const price = await stripeRequest(secret, "GET", `/prices/${fromEnv}`);
@@ -151,7 +161,7 @@ module.exports = async function handler(req, res) {
   const plan = MEMBERSHIP[level];
   const sku = plan.sku;
   const product = PRODUCTS[sku];
-  if (!product || !product.subscription) {
+  if (!product) {
     res.statusCode = 500;
     res.setHeader("Content-Type", "application/json");
     return res.end(JSON.stringify({ error: "Membership product missing" }));
@@ -180,47 +190,113 @@ module.exports = async function handler(req, res) {
     }
     await stripeRequest(secret, "POST", `/customers/${customer.id}`, memberMeta);
 
-    const priceId = await resolveRecurringPrice(
-      secret,
-      sku,
-      product,
-      currency
-    );
+    // —— Club: fixed $5 / year subscription ——
+    if (level === "club") {
+      if (!product.subscription) {
+        res.statusCode = 500;
+        res.setHeader("Content-Type", "application/json");
+        return res.end(JSON.stringify({ error: "Club subscription missing" }));
+      }
+      const priceId = await resolveRecurringPrice(
+        secret,
+        sku,
+        { ...product, unitAmount: CLUB_ANNUAL_CENTS },
+        currency
+      );
+      const line = {};
+      if (priceId) {
+        line["line_items[0][price]"] = priceId;
+        line["line_items[0][quantity]"] = 1;
+      } else {
+        line["line_items[0][quantity]"] = 1;
+        line["line_items[0][price_data][currency]"] = currency;
+        line["line_items[0][price_data][unit_amount]"] = CLUB_ANNUAL_CENTS;
+        line["line_items[0][price_data][recurring][interval]"] = "year";
+        line["line_items[0][price_data][product_data][name]"] = product.name;
+        line["line_items[0][price_data][product_data][metadata][sku]"] = sku;
+        line["line_items[0][price_data][product_data][metadata][level]"] =
+          level;
+      }
 
-    const line = {};
-    if (priceId) {
-      line["line_items[0][price]"] = priceId;
-      line["line_items[0][quantity]"] = 1;
-    } else {
-      line["line_items[0][quantity]"] = 1;
-      line["line_items[0][price_data][currency]"] = currency;
-      line["line_items[0][price_data][unit_amount]"] = product.unitAmount;
-      line["line_items[0][price_data][recurring][interval]"] =
-        product.subscription.interval;
-      line["line_items[0][price_data][product_data][name]"] = product.name;
-      line["line_items[0][price_data][product_data][metadata][sku]"] = sku;
-      line["line_items[0][price_data][product_data][metadata][level]"] = level;
+      const session = await stripeRequest(
+        secret,
+        "POST",
+        "/checkout/sessions",
+        {
+          mode: "subscription",
+          customer: customer.id,
+          client_reference_id: email,
+          success_url: `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}&member=1&level=club`,
+          cancel_url: `${origin}/#join`,
+          "metadata[skus]": sku,
+          "metadata[source]": "clubcopy-record-club",
+          "metadata[club_level]": "club",
+          "metadata[club_credit_email]": email,
+          "metadata[club_display_name]": displayName || "",
+          "subscription_data[metadata][sku]": sku,
+          "subscription_data[metadata][club_level]": "club",
+          ...line,
+        }
+      );
+
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      return res.end(JSON.stringify({ url: session.url, id: session.id }));
     }
 
+    // —— Premium: pay-what-you-want annual contribution → credit multiplier ——
+    const amountCents =
+      normalizePremiumAmountCents(body.amountCents) || PREMIUM_MIN_CENTS;
+    if (amountCents < PREMIUM_MIN_CENTS) {
+      res.statusCode = 400;
+      res.setHeader("Content-Type", "application/json");
+      return res.end(
+        JSON.stringify({
+          error: "Premium starts at $10 CAD per year.",
+          code: "PREMIUM_MIN",
+        })
+      );
+    }
+    const creditCents = premiumCreditCents(amountCents);
+    const mult = premiumMultiplier(amountCents);
+
     const session = await stripeRequest(secret, "POST", "/checkout/sessions", {
-      mode: "subscription",
+      mode: "payment",
       customer: customer.id,
       client_reference_id: email,
-      success_url: `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}&member=1&level=${level}`,
+      success_url: `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}&member=1&level=premium&credit=${creditCents}`,
       cancel_url: `${origin}/#join`,
       "metadata[skus]": sku,
       "metadata[source]": "clubcopy-record-club",
-      "metadata[club_level]": level,
+      "metadata[club_level]": "premium",
       "metadata[club_credit_email]": email,
       "metadata[club_display_name]": displayName || "",
-      "subscription_data[metadata][sku]": sku,
-      "subscription_data[metadata][club_level]": level,
-      ...line,
+      "metadata[premium_amount_cents]": String(amountCents),
+      "metadata[premium_credit_grant_cents]": String(creditCents),
+      "metadata[premium_credit_multiplier]": String(mult.toFixed(2)),
+      "line_items[0][quantity]": 1,
+      "line_items[0][price_data][currency]": currency,
+      "line_items[0][price_data][unit_amount]": amountCents,
+      "line_items[0][price_data][product_data][name]":
+        "Club Copy Record Club — Premium (annual)",
+      "line_items[0][price_data][product_data][description]": `$${(
+        creditCents / 100
+      ).toFixed(2)} Club Credit (${mult.toFixed(1)}×) toward physical releases`,
+      "line_items[0][price_data][product_data][metadata][sku]": sku,
+      "line_items[0][price_data][product_data][metadata][level]": "premium",
     });
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
-    return res.end(JSON.stringify({ url: session.url, id: session.id }));
+    return res.end(
+      JSON.stringify({
+        url: session.url,
+        id: session.id,
+        amountCents,
+        creditCents,
+        multiplier: Number(mult.toFixed(2)),
+      })
+    );
   } catch (err) {
     res.statusCode = 502;
     res.setHeader("Content-Type", "application/json");
