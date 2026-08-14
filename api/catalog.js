@@ -142,7 +142,7 @@ const PRODUCTS = {
   // Club — $0.99/mo full streaming + member card
   // Premium — $10/yr physical purchase credits
   "club-level": {
-    name: "Club Copy — Club Level",
+    name: "Club Copy Record Club — Club",
     unitAmount: 99,
     digital: true,
     format: "membership",
@@ -150,7 +150,7 @@ const PRODUCTS = {
     subscription: { interval: "month" },
   },
   "club-premium": {
-    name: "Club Copy — Premium Level",
+    name: "Club Copy Record Club — Premium",
     unitAmount: 1000,
     digital: true,
     format: "membership",
@@ -160,7 +160,7 @@ const PRODUCTS = {
   },
   // Legacy alias (maps to Premium grant behavior in webhook)
   "club-join": {
-    name: "Club Copy — Premium Level",
+    name: "Club Copy Record Club — Premium",
     unitAmount: 1000,
     digital: true,
     format: "membership",
@@ -219,22 +219,27 @@ module.exports = {
       id: "free",
       label: "Free",
       priceLabel: "$0",
-      blurb: "Limited digital streaming only.",
+      blurb: "Release alerts, catalog access, and first listens.",
+      layer: "catalog",
     },
     club: {
       id: "club",
       sku: "club-level",
       label: "Club",
       priceLabel: "$0.99/mo",
-      blurb: "Full streaming + digital & physical membership card.",
+      blurb:
+        "Digital record club — member pricing, exclusive digital releases, early access, membership card.",
+      layer: "digital",
     },
     premium: {
       id: "premium",
       sku: "club-premium",
       label: "Premium",
       priceLabel: "$10/yr",
-      blurb: "Annual credits for physical purchases all year.",
+      blurb:
+        "Physical record club — $25 credit toward cassettes & limited pressings, plus everything in Club.",
       creditGrantCents: 2500,
+      layer: "physical",
     },
   },
 };

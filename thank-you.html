@@ -53,13 +53,9 @@
       margin: 8px auto 24px;
       max-width: 360px;
       padding: 22px 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid rgba(26,30,38,.18);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.9), rgba(245,247,250,.95)),
-        #111;
-      background:
-        linear-gradient(145deg, #2a303a, #12151a);
+      background: linear-gradient(145deg, #2a303a, #12151a);
       color: #fff;
       text-align: left;
       box-shadow: 0 16px 36px rgba(17,17,17,.12);
@@ -96,7 +92,7 @@
       <p class="ty-card-name" id="tyName">Member</p>
       <p class="ty-card-meta">
         MEMBER <b id="tyNumber">0000</b><br/>
-        <span id="tySignal">—</span> · <span id="tyWeird">—</span>
+        <span id="tyLayer">DIGITAL</span> · PACIFIC NORTHWEST
       </p>
     </div>
 
@@ -110,7 +106,7 @@
     </div>
     <div class="links">
       <a href="/#listen">Listen</a>
-      <a href="/#join">Membership</a>
+      <a href="/#join">Record Club</a>
       <a href="/merch">Shop</a>
       <a href="/artists">Artists</a>
       <a href="/contact">Contact</a>
@@ -130,17 +126,17 @@
     }
 
     if (isMember) {
-      document.getElementById('tyTitle').textContent = 'Welcome in.';
+      document.getElementById('tyTitle').textContent = 'Welcome to the club.';
       document.getElementById('msg').textContent =
         level === 'premium'
-          ? 'Premium is active. $25 Club Credit is on your email — spend it on releases you choose.'
-          : 'Club is active. Full streaming and your membership card are ready.';
+          ? 'Premium is active. $25 Club Credit is on your email — spend it on cassettes and limited pressings you choose.'
+          : 'Club is active. Member pricing on digital releases, early access, and your card are ready.';
       document.getElementById('fulfillNote').textContent =
         level === 'premium'
           ? 'Nothing ships until you pick something. Apply Club Credit at checkout with the same email.'
-          : 'Cancel anytime from your Stripe receipt. Upgrade to Premium anytime for physical credits.';
-      document.getElementById('tyPrimary').href = level === 'premium' ? '/library' : '/planet';
-      document.getElementById('tyPrimary').textContent = level === 'premium' ? 'Browse library' : 'Open Planet MP3';
+          : 'Cancel anytime from your Stripe receipt. Upgrade to Premium for physical credit anytime.';
+      document.getElementById('tyPrimary').href = '/library';
+      document.getElementById('tyPrimary').textContent = 'Browse the library';
 
       var profile = null;
       try { profile = JSON.parse(localStorage.getItem('club_member_profile') || 'null'); } catch (e) {}
@@ -154,12 +150,8 @@
       var s = email || 'member';
       for (var i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
       document.getElementById('tyNumber').textContent = String((hash % 9000) + 1000).padStart(4, '0');
-      var genres = (profile && profile.genres) || [];
-      document.getElementById('tySignal').textContent = genres.length
-        ? genres.map(function (g) { return String(g).toUpperCase(); }).join(' · ')
-        : 'YOUR SIGNAL';
-      var w = (profile && profile.weirdness != null) ? Number(profile.weirdness) : 50;
-      document.getElementById('tyWeird').textContent = w < 34 ? 'SAFE' : w > 66 ? 'WEIRD' : 'IN BETWEEN';
+      document.getElementById('tyLayer').textContent =
+        level === 'premium' ? 'DIGITAL + PHYSICAL' : 'DIGITAL';
     }
   </script>
 </body>
