@@ -1,4 +1,4 @@
-/* Club Copy — this cycle's Club Selection (Columbia House ritual, opt-in) */
+/* Club Copy — Club Selection (opt-in membership offer) */
 (function () {
   function $(id) { return document.getElementById(id); }
 
@@ -33,7 +33,8 @@
     var root = $('selection');
     if (!root || !data) return;
 
-    var cycle = $('clubSelCycle');
+    var selectionId = data.selectionId || data.cycleId;
+    var label = $('clubSelLabel');
     var title = $('clubSelTitle');
     var meta = $('clubSelMeta');
     var cover = $('clubSelCover');
@@ -45,8 +46,10 @@
     var claim = $('clubSelClaim');
     var pass = $('clubSelPass');
     var gate = $('clubSelGate');
+    var kicker = $('clubSelKicker');
 
-    if (cycle) cycle.textContent = data.cycleLabel || data.eyebrow || 'This cycle';
+    if (label) label.textContent = data.selectionLabel || data.cycleLabel || 'Now';
+    if (kicker) kicker.textContent = data.eyebrow || 'Club selection';
     if (title) title.textContent = data.title || '';
     if (meta) {
       meta.textContent = [data.catalogue, data.artist, data.genre].filter(Boolean).join(' · ');
@@ -71,7 +74,7 @@
       var profile = window.ClubMember && ClubMember.readProfile();
       var paid = window.ClubMember && ClubMember.hasMemberPricing(profile);
       var premium = window.ClubMember && ClubMember.isPremium(profile);
-      var passed = window.ClubMember && ClubMember.passedCycle(data.cycleId);
+      var passed = window.ClubMember && ClubMember.passedSelection(selectionId);
       var digMember = window.ClubMember
         ? ClubMember.memberDigitalPrice(data.digitalPrice)
         : null;
@@ -113,7 +116,7 @@
       }
 
       if (pass) {
-        pass.textContent = passed ? 'Passed this cycle' : 'Pass for now';
+        pass.textContent = passed ? 'Passed' : 'Pass for now';
         pass.disabled = !!passed;
       }
 
@@ -178,12 +181,12 @@
         if (!window.ClubMember) return;
         var profile = ClubMember.readProfile();
         if (!profile) {
-          setStatus('Accept an invitation first — then you can pass a cycle.', true);
+          setStatus('Accept an invitation first — then you can pass a selection.', true);
           return;
         }
-        ClubMember.passCycle(data.cycleId);
+        ClubMember.passSelection(selectionId);
         refreshActions();
-        setStatus('Passed. Next cycle\'s letter will find Member ' + profile.memberNumber + '.');
+        setStatus('Passed. The next selection will find Member ' + profile.memberNumber + '.');
       });
     }
 

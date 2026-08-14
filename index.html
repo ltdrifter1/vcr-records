@@ -1421,27 +1421,32 @@
       color: rgba(255,255,255,.42);
     }
 
-    /* Membership card — physical plastic / glass object */
+    /* Membership card — late-90s PVC / embossed plastic -------------------- */
     .member-card {
+      --card-ink: #1a1c22;
+      --card-mute: rgba(26,28,34,.55);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 280px;
+      aspect-ratio: 1.586 / 1;
+      width: 100%;
+      min-height: 0;
       margin: 0;
-      padding: 26px 24px 22px;
-      border-radius: 22px;
-      border: 1px solid rgba(236,244,255,.28);
+      padding: 18px 20px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.35);
       background:
-        radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.18), transparent 45%),
-        radial-gradient(90% 70% at 0% 100%, rgba(168,188,214,.22), transparent 50%),
-        linear-gradient(145deg, #2a3340 0%, #12161d 48%, #0a0c10 100%);
+        linear-gradient(145deg, rgba(255,255,255,.35), transparent 42%),
+        linear-gradient(180deg, #d8dde6 0%, #b7c0ce 48%, #9aa6b8 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.28),
-        inset 0 -1px 0 rgba(0,0,0,.35),
-        0 28px 60px rgba(0,0,0,.45);
+        inset 0 1px 0 rgba(255,255,255,.7),
+        inset 0 -1px 0 rgba(40,50,70,.18),
+        0 18px 40px rgba(0,0,0,.38),
+        0 2px 0 rgba(255,255,255,.12);
       text-align: left;
+      color: var(--card-ink);
       isolation: isolate;
       transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
     }
@@ -1453,162 +1458,163 @@
       pointer-events: none;
       background: linear-gradient(
         115deg,
-        transparent 30%,
-        rgba(255,255,255,.08) 45%,
-        rgba(255,255,255,.22) 50%,
-        rgba(255,255,255,.06) 55%,
-        transparent 70%
+        transparent 34%,
+        rgba(255,255,255,.12) 46%,
+        rgba(255,255,255,.38) 50%,
+        rgba(255,255,255,.1) 54%,
+        transparent 66%
       );
       transform: translateX(-30%);
-      animation: cardSheen 7.5s ease-in-out infinite;
+      animation: cardSheen 8s ease-in-out infinite;
     }
     @keyframes cardSheen {
-      0%, 100% { transform: translateX(-35%) rotate(8deg); opacity: .55; }
-      50% { transform: translateX(25%) rotate(8deg); opacity: .9; }
+      0%, 100% { transform: translateX(-40%) rotate(8deg); opacity: .45; }
+      50% { transform: translateX(30%) rotate(8deg); opacity: .85; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .member-card::before { animation: none; opacity: .35; }
+      .member-card::before { animation: none; opacity: .3; }
     }
-    .member-card > *:not(.member-card-mark) { position: relative; z-index: 2; }
-    .member-card-mark {
-      display: none;
+    .member-card > * { position: relative; z-index: 2; }
+    .member-card-holo {
       position: absolute;
+      right: 18px;
+      top: 52px;
       z-index: 1;
+      width: 52px;
+      height: 52px;
+      border-radius: 6px;
       pointer-events: none;
-      user-select: none;
-    }
-    .member-card.is-free {
       background:
-        radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.1), transparent 45%),
-        linear-gradient(145deg, #1a1e24 0%, #0d1014 100%);
-      border-color: rgba(200,214,230,.18);
-    }
-    /* Digital club card — ice-chrome Y2K plastic, distinct from charcoal join */
-    .member-card.is-club {
-      color: #071018;
-      min-height: 320px;
-      border-color: rgba(255,255,255,.62);
-      background:
-        radial-gradient(120% 90% at 12% 8%, rgba(255,255,255,.72), transparent 42%),
-        radial-gradient(90% 70% at 92% 18%, rgba(180,120,255,.28), transparent 46%),
-        radial-gradient(100% 80% at 50% 110%, rgba(40,180,255,.35), transparent 55%),
-        linear-gradient(155deg, #f4fbff 0%, #b9e0f6 28%, #6eb4e8 58%, #3d7ec4 82%, #2a5f9a 100%);
+        conic-gradient(from 210deg, #c4f1ff, #f7c4ff, #ffe7a8, #b8ffd4, #c4f1ff);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.75),
-        inset 0 -1px 0 rgba(20,60,110,.22),
-        0 28px 56px rgba(30,90,150,.38),
-        0 0 0 1px rgba(120,190,240,.25);
+        inset 0 0 0 1px rgba(255,255,255,.45),
+        0 6px 14px rgba(0,0,0,.18);
+      opacity: .9;
+      mix-blend-mode: screen;
     }
-    .member-card.is-club::after {
+    .member-card-holo::after {
       content: "";
       position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: .35;
-      background-image:
-        linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+      inset: 8px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,.35);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 45%),
+        linear-gradient(135deg, transparent 40%, rgba(255,255,255,.35), transparent 60%);
     }
-    .member-card.is-club .member-card-mark {
-      display: block;
-      left: 50%;
-      top: 44%;
-      width: min(128%, 420px);
-      height: auto;
-      transform: translate(-50%, -50%);
-      opacity: .96;
-      filter:
-        drop-shadow(0 10px 28px rgba(10,40,80,.28))
-        drop-shadow(0 0 18px rgba(255,255,255,.35));
+    .member-card-stripe {
+      display: none;
     }
-    .member-card.is-club .member-card-logo {
-      visibility: hidden;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
+    .member-card.is-free {
+      --card-ink: #eef2f6;
+      --card-mute: rgba(238,242,246,.55);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.1), transparent 40%),
+        linear-gradient(180deg, #2a3038 0%, #15181d 100%);
+      border-color: rgba(200,214,230,.22);
+      color: var(--card-ink);
     }
-    .member-card.is-club .member-card-chip { display: none; }
-    .member-card.is-club .member-card-top {
-      margin-bottom: 0;
-      min-height: 34px;
-    }
-    .member-card.is-club .member-card-level {
-      background: rgba(7,16,24,.88);
-      color: #eef8ff;
+    .member-card.is-free .member-card-holo { opacity: .35; mix-blend-mode: normal; }
+    /* Digital club — pearl PVC, embossed member plate */
+    .member-card.is-club {
+      --card-ink: #141820;
+      --card-mute: rgba(20,24,32,.52);
+      min-height: 0;
+      border-color: rgba(255,255,255,.55);
+      background:
+        linear-gradient(125deg, rgba(255,255,255,.55) 0%, transparent 34%),
+        linear-gradient(180deg, #f3f5f8 0%, #d5dbe6 42%, #aeb8c8 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.18),
-        0 10px 22px rgba(10,40,80,.28);
+        inset 0 1px 0 rgba(255,255,255,.85),
+        inset 0 -1px 0 rgba(60,70,90,.16),
+        0 22px 44px rgba(0,0,0,.4),
+        0 0 0 1px rgba(170,180,195,.35);
+      color: var(--card-ink);
     }
-    .member-card.is-club .member-card-identity {
-      margin-top: auto;
-      padding-top: 72px;
-    }
-    .member-card.is-club .member-card-name {
-      color: #061018;
-      text-shadow: 0 1px 0 rgba(255,255,255,.35);
-    }
-    .member-card.is-club .member-card-meta {
-      color: rgba(8,28,48,.55);
-    }
-    .member-card.is-club .member-card-meta strong {
-      color: rgba(6,16,28,.92);
-    }
-    .member-card.is-club .member-card-foot {
-      border-top-color: rgba(8,40,70,.16);
-    }
-    .member-card.is-club .member-card-region {
-      color: rgba(8,32,56,.48);
+    .member-card.is-club .member-card-stripe {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 8px;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(
+          90deg,
+          #7dd3fc,
+          #c4b5fd,
+          #f9a8d4,
+          #fde68a,
+          #86efac,
+          #7dd3fc
+        );
+      opacity: .85;
+      box-shadow: 0 1px 0 rgba(255,255,255,.35);
     }
     .member-card.is-premium {
+      --card-ink: #f6efe2;
+      --card-mute: rgba(246,239,226,.55);
       background:
-        radial-gradient(110% 80% at 100% 0%, rgba(236,224,196,.28), transparent 42%),
-        radial-gradient(90% 70% at 0% 100%, rgba(170,198,230,.28), transparent 48%),
-        linear-gradient(145deg, #3a3428 0%, #17151a 45%, #0a0c10 100%);
-      border-color: rgba(236,224,196,.38);
+        radial-gradient(110% 80% at 100% 0%, rgba(236,224,196,.35), transparent 42%),
+        linear-gradient(145deg, #4a3f2e 0%, #1c1814 50%, #0d0c0a 100%);
+      border-color: rgba(236,224,196,.4);
+      color: var(--card-ink);
+    }
+    .member-card.is-premium .member-card-holo {
+      opacity: .7;
+      mix-blend-mode: soft-light;
     }
     .member-card-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 28px;
+      gap: 12px;
+      margin-bottom: 10px;
     }
     .member-card-logo {
       display: block;
-      width: min(148px, 46%);
+      width: min(118px, 42%);
       height: auto;
-      filter: drop-shadow(0 2px 10px rgba(0,0,0,.35));
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,.2));
+    }
+    .member-card.is-free .member-card-logo,
+    .member-card.is-premium .member-card-logo {
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
     }
     .member-card-level {
       font-family: var(--callsign);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: .18em;
+      letter-spacing: .16em;
       text-transform: uppercase;
       color: #0b0d10;
       background: rgba(255,255,255,.92);
-      padding: 8px 11px;
-      border-radius: 999px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      padding: 6px 9px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.18);
       white-space: nowrap;
     }
     .member-card.is-premium .member-card-level {
       background: linear-gradient(135deg, #f2e6c8, #d8c49a);
       color: #1a150e;
     }
+    .member-card.is-club .member-card-level {
+      background: #141820;
+      color: #f2f5f8;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 4px 12px rgba(0,0,0,.2);
+    }
     .member-card-chip {
-      width: 44px;
-      height: 32px;
-      margin-bottom: 22px;
-      border-radius: 7px;
+      width: 40px;
+      height: 30px;
+      margin: 4px 0 14px;
+      border-radius: 5px;
       background:
         linear-gradient(135deg, #d7c38a 0%, #f0e2b4 35%, #b89a58 70%, #e8d9a4 100%);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.55),
-        0 6px 14px rgba(0,0,0,.28);
+        0 4px 10px rgba(0,0,0,.22);
       position: relative;
       overflow: hidden;
     }
@@ -1627,48 +1633,88 @@
     .member-card.is-free .member-card-chip {
       background: linear-gradient(135deg, #8a93a0, #c5ccd6 45%, #6f7886);
     }
-    .member-card-name {
-      font-family: var(--display);
-      font-size: clamp(30px, 4.2vw, 40px);
+    .member-card.is-club .member-card-chip {
+      margin-top: 8px;
+      margin-bottom: 28px;
+    }
+    .member-card-identity {
+      margin-top: auto;
+      padding-top: 8px;
+    }
+    .member-card-name-label {
+      margin: 0 0 4px;
+      font-family: var(--callsign);
+      font-size: 8px;
       font-weight: 600;
-      letter-spacing: -.04em;
-      line-height: 1.02;
-      margin: 0 0 14px;
-      color: #fff;
-      text-shadow: 0 2px 18px rgba(0,0,0,.25);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--card-mute);
+    }
+    .member-card-name {
+      font-family: "Courier New", "IBM Plex Mono", ui-monospace, monospace;
+      font-size: clamp(18px, 2.4vw, 22px);
+      font-weight: 700;
+      letter-spacing: .12em;
+      line-height: 1.15;
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      color: var(--card-ink);
+      /* embossed PVC lettering */
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.55),
+        0 -1px 0 rgba(0,0,0,.35),
+        0 2px 2px rgba(0,0,0,.18);
+    }
+    .member-card.is-free .member-card-name,
+    .member-card.is-premium .member-card-name {
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.18),
+        0 -1px 0 rgba(0,0,0,.55),
+        0 2px 3px rgba(0,0,0,.35);
     }
     .member-card-meta {
       margin: 0;
-      font-size: 12px;
+      font-size: 10px;
       font-family: var(--callsign);
       font-weight: 600;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.52);
-      line-height: 1.65;
+      color: var(--card-mute);
+      line-height: 1.45;
     }
     .member-card-meta strong {
-      color: rgba(255,255,255,.92);
-      font-weight: 600;
+      color: var(--card-ink);
+      font-weight: 700;
       letter-spacing: .16em;
+      font-variant-numeric: tabular-nums;
+    }
+    .member-card-sep {
+      margin: 0 6px;
+      opacity: .5;
     }
     .member-card-foot {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 12px;
-      margin-top: 8px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,.12);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(20,24,32,.12);
     }
-    .member-card-region {
-      font-size: 11px;
+    .member-card.is-free .member-card-foot,
+    .member-card.is-premium .member-card-foot {
+      border-top-color: rgba(255,255,255,.14);
+    }
+    .member-card-region,
+    .member-card-valid {
+      font-size: 9px;
       letter-spacing: .12em;
       text-transform: uppercase;
       font-family: var(--callsign);
       font-weight: 600;
-      color: rgba(255,255,255,.4);
+      color: var(--card-mute);
     }
+    .member-card-valid { text-align: right; }
 
     .club-join-btn {
       width: 100%;
@@ -1751,147 +1797,101 @@
       .wall-art img { transition: none; }
     }
 
-    /* Place beat : artists roster before footer ---------------------------- */
-    .place {
+    /* Home artists roster — portraits before footer ------------------------ */
+    .home-artists {
       position: relative;
-      isolation: isolate;
-      color: #fff;
-      background: #050505;
-      overflow: hidden;
+      padding: 72px 0 calc(96px + var(--safe-b));
+      color: #f4f6f8;
+      background:
+        radial-gradient(720px 360px at 10% 0%, rgba(186,204,224,.1), transparent 55%),
+        linear-gradient(180deg, #090a0d 0%, #050506 100%);
       border-top: 1px solid rgba(200,214,230,.08);
     }
-    .place--roster {
-      min-height: 0;
-      padding:
-        72px 0
-        calc(96px + var(--safe-b));
-    }
     @media (min-width: 800px) {
-      .place--roster {
-        padding:
-          96px 0
-          calc(120px + var(--safe-b));
+      .home-artists {
+        padding: 96px 0 calc(120px + var(--safe-b));
       }
     }
-    .place-frame {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+    .home-artists .section-head {
+      border-bottom-color: rgba(200,214,230,.12);
     }
-    .place-img {
+    .home-artists .eyebrow { color: rgba(200,214,230,.5); }
+    .home-artists h2 { color: #fff; }
+    .home-artists .head-link { color: rgba(244,246,248,.55); }
+    @media (hover:hover) {
+      .home-artists .head-link:hover { color: #fff; }
+    }
+    .home-artists-grid {
+      display: grid;
+      gap: 28px;
+      margin-top: 36px;
+    }
+    @media (min-width: 720px) {
+      .home-artists-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 28px;
+        margin-top: 44px;
+      }
+    }
+    .home-artist {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      color: inherit;
+      text-decoration: none;
+    }
+    .home-artist-photo {
+      display: block;
+      overflow: hidden;
+      background: #111;
+      aspect-ratio: 4 / 5;
+    }
+    .home-artist-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Late-90s VHS static field : keep brighter noise in upper frame */
-      object-position: 50% 30%;
       display: block;
-      transform: scale(1.04);
-      animation: placeDrift 28s ease-in-out infinite alternate;
-      will-change: transform;
-    }
-    @keyframes placeDrift {
-      from { transform: scale(1.04) translate3d(0, 0, 0); }
-      to   { transform: scale(1.1) translate3d(-1.2%, 1%, 0); }
-    }
-    .place-veil {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(180deg, rgba(5,5,5,.28) 0%, rgba(5,5,5,.08) 34%, rgba(5,5,5,.55) 68%, rgba(5,5,5,.92) 100%),
-        radial-gradient(ellipse 70% 55% at 50% 100%, rgba(0,0,0,.55), transparent 70%);
-    }
-    .place-copy {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-start;
-      gap: 14px;
-      max-width: var(--wrap);
-      margin: 0 auto;
-      padding: 0 max(24px, var(--safe-r)) 0 max(24px, var(--safe-l));
-    }
-    .place--roster .place-copy {
-      min-height: 0;
-      justify-content: flex-start;
-    }
-    @media (min-width: 800px) {
-      .place-copy {
-        padding-left: max(40px, var(--safe-l));
-        padding-right: max(40px, var(--safe-r));
-      }
-    }
-    .place .eyebrow {
-      color: rgba(200,214,230,.62);
-      margin: 0;
-    }
-    .place-roster {
-      display: flex; flex-wrap: wrap; gap: 10px 18px;
-      margin: 0 0 22px; max-width: 28em;
-    }
-    .place-roster a {
-      color: rgba(255,255,255,.78);
-      font-size: 15px; letter-spacing: -.01em;
-      text-decoration: underline; text-underline-offset: 3px;
-      text-decoration-color: rgba(255,255,255,.28);
+      filter: saturate(.92) contrast(1.02);
+      transition: transform .55s var(--ease), filter .55s var(--ease);
     }
     @media (hover:hover) {
-      .place-roster a:hover { color: #fff; text-decoration-color: rgba(255,255,255,.7); }
+      .home-artist:hover .home-artist-photo img {
+        transform: scale(1.04);
+        filter: saturate(1.05) contrast(1.04);
+      }
     }
-    .place-title {
-      margin: 0;
-      max-width: 12em;
+    .home-artist-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .home-artist-name {
       font-family: var(--display);
-      font-size: clamp(34px, 6vw, 64px);
+      font-size: clamp(22px, 3vw, 28px);
       font-weight: 600;
-      letter-spacing: -.035em;
-      line-height: 1.02;
+      letter-spacing: -.03em;
+      line-height: 1.05;
       color: #fff;
     }
-    .place--roster .place-title {
-      text-shadow: none;
-    }
-    .place-dek {
-      margin: 0;
-      max-width: 22em;
-      font-size: clamp(15px, 1.8vw, 18px);
-      line-height: 1.45;
-      color: rgba(255,255,255,.72);
-      text-shadow: 0 8px 28px rgba(0,0,0,.4);
-    }
-    .place-link {
-      margin-top: 6px;
-      display: inline-flex;
-      align-items: center;
-      height: 44px;
-      padding: 0 18px;
+    .home-artist-role {
       font-family: var(--callsign);
       font-size: 11px;
       font-weight: 600;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: #111;
-      text-decoration: none;
-      border-radius: var(--bezel-r, 4px);
-      border: 1px solid rgba(255,255,255,.75);
-      background:
-        linear-gradient(180deg, #ffffff 0%, #e8eef6 38%, #b7c4d4 72%, #9aa8b8 100%);
-      box-shadow:
-        0 1px 0 rgba(255,255,255,.95) inset,
-        0 -1px 0 rgba(60,70,90,.28) inset,
-        0 0 0 1px rgba(0,0,0,.35),
-        0 14px 32px rgba(0,0,0,.35);
-      transition: opacity var(--dur) var(--ease), transform .25s var(--ease), filter var(--dur) var(--ease);
+      color: rgba(200,214,230,.48);
     }
-    @media (hover:hover) {
-      .place-link:hover { opacity: .94; filter: brightness(1.04); transform: translateY(-1px); }
-    }
-    .place-link:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-    }
+
+    /* Legacy place styles kept unused (image frame removed) ---------------- */
+    .place,
+    .place-frame,
+    .place-img,
+    .place-veil,
+    .place-copy,
+    .place-roster,
+    .place-title,
+    .place-dek,
+    .place-link { display: none; }
 
     /* iOS / mobile listening room ------------------------------------------- */
     @media (max-width: 700px) {
@@ -1980,14 +1980,11 @@
       }
       .wall-title { font-size: 16px; }
       .club-join { padding: 64px 0 80px; }
-      .member-card { min-height: 250px; }
-      .member-card.is-club { min-height: 300px; }
+      .member-card { min-height: 0; }
+      .member-card.is-club { min-height: 0; }
       .join-panel { padding: 22px 18px 20px; }
-      .place--roster {
-        padding: 56px 0 calc(80px + var(--safe-b));
-      }
-      .place-roster { margin-bottom: 16px; gap: 8px 14px; }
-      .place-title { max-width: 10em; }
+      .home-artists { padding: 56px 0 calc(80px + var(--safe-b)); }
+      .home-artists-grid { margin-top: 28px; gap: 22px; }
     }
 
     /* Short phones (SE / zoomed) : keep idle + live on one screen ---------- */
@@ -2248,7 +2245,7 @@
     </div>
   </section>
 
-  <!-- Club Selection — this cycle's letter -->
+  <!-- Club Selection -->
   <section class="club-selection" id="selection" aria-labelledby="club-sel-title">
     <div class="band">
       <div class="club-sel-grid rv">
@@ -2256,13 +2253,13 @@
           <img id="clubSelCover" src="inlet-knight-cover.webp" alt="Inlet Knight artwork" width="1200" height="1200" loading="lazy"/>
         </a>
         <div class="club-sel-letter">
-          <p class="club-sel-eyebrow" id="clubSelCycle">August 2026</p>
-          <p class="club-sel-kicker">This cycle’s selection</p>
+          <p class="club-sel-eyebrow" id="clubSelLabel">August 2026</p>
+          <p class="club-sel-kicker" id="clubSelKicker">Club selection</p>
           <h2 class="club-sel-title" id="club-sel-title"><span id="clubSelTitle">Inlet Knight</span></h2>
           <p class="club-sel-meta" id="clubSelMeta">CC005 · Inlet Knight · House</p>
           <p class="club-sel-from" id="clubSelFrom">The listening room</p>
           <div class="club-sel-body" id="clubSelLetter">
-            <span class="club-sel-para">This cycle we held the Inlet Knight album close — the record that still opens when you play it years later.</span><br/><br/>
+            <span class="club-sel-para">We held the Inlet Knight album close — the record that still opens when you play it years later.</span><br/><br/>
             <span class="club-sel-para">Keep the digital copy at member price, claim the cassette with Club Credit if you’re Premium, or pass and wait for the next letter. Nothing ships unless you choose it.</span>
           </div>
           <div class="club-sel-actions">
@@ -2285,7 +2282,7 @@
         <header class="club-join-head">
           <p class="eyebrow">An invitation</p>
           <h2 class="club-join-title" id="join-title">Join the Record Club.</h2>
-          <p class="club-join-lead">A letter each cycle. A card with your number. Music worth keeping — digital member copies, and physical credit when you want the shelf. Nothing ships unless you choose it.</p>
+          <p class="club-join-lead">A letter with each selection. A card with your number. Music worth keeping — digital member copies, and physical credit when you want the shelf. Nothing ships unless you choose it.</p>
         </header>
 
         <div class="join-levels" role="radiogroup" aria-label="Record club level">
@@ -2360,21 +2357,25 @@
           </div>
 
           <div class="member-card is-club" id="memberCard" aria-live="polite">
-            <img class="member-card-mark" src="club-copy-logo-chrome.webp" alt="" width="901" height="418" decoding="async" aria-hidden="true"/>
+            <div class="member-card-holo" aria-hidden="true"></div>
+            <div class="member-card-stripe" aria-hidden="true"></div>
             <div class="member-card-top">
               <img class="member-card-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="901" height="418" decoding="async"/>
               <span class="member-card-level" id="cardLevel">CLUB</span>
             </div>
             <div class="member-card-chip" aria-hidden="true"></div>
             <div class="member-card-identity">
-              <p class="member-card-name" id="cardName">Your name</p>
+              <p class="member-card-name-label">Member name</p>
+              <p class="member-card-name" id="cardName">YOUR NAME</p>
               <p class="member-card-meta">
-                Member <strong id="cardNumber">0000</strong><br/>
+                Member <strong id="cardNumber">0000</strong>
+                <span class="member-card-sep" aria-hidden="true">·</span>
                 <span id="cardLayer">Digital</span>
               </p>
             </div>
             <div class="member-card-foot">
               <span class="member-card-region">Pacific Northwest</span>
+              <span class="member-card-valid">Valid thru membership</span>
             </div>
           </div>
         </div>
@@ -2654,16 +2655,45 @@
     </div>
   </section>
 
-  <!-- Artists : bottom of page -->
-  <section class="place place--roster" aria-labelledby="place-title">
-    <div class="place-copy rv">
-      <h2 class="place-title" id="place-title">Artists</h2>
-      <nav class="place-roster" aria-label="Artists and producers">
-        <a href="/artists/double-edge">Double-Edge</a>
-        <a href="/artists/inlet-knight">Inlet Knight</a>
-        <a href="/artists/lt-drifta">L.T. Drifta</a>
-      </nav>
-      <a class="place-link" href="/artists">All artists</a>
+  <!-- Artists -->
+  <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
+    <div class="band">
+      <header class="section-head home-artists-head rv">
+        <div>
+          <p class="eyebrow">Roster</p>
+          <h2 id="home-artists-title">Artists</h2>
+        </div>
+        <a class="head-link" href="/artists">All artists</a>
+      </header>
+      <div class="home-artists-grid">
+        <a class="home-artist rv" href="/artists/double-edge">
+          <span class="home-artist-photo media-bezel">
+            <img src="artists/double-edge.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
+          </span>
+          <span class="home-artist-copy">
+            <span class="home-artist-name">Double-Edge</span>
+            <span class="home-artist-role">Jungle</span>
+          </span>
+        </a>
+        <a class="home-artist rv" href="/artists/inlet-knight">
+          <span class="home-artist-photo media-bezel">
+            <img src="artists/inlet-knight.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
+          </span>
+          <span class="home-artist-copy">
+            <span class="home-artist-name">Inlet Knight</span>
+            <span class="home-artist-role">House</span>
+          </span>
+        </a>
+        <a class="home-artist rv" href="/artists/lt-drifta">
+          <span class="home-artist-photo media-bezel">
+            <img src="artists/lt-drifta.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
+          </span>
+          <span class="home-artist-copy">
+            <span class="home-artist-name">L.T. Drifta</span>
+            <span class="home-artist-role">Producer</span>
+          </span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -2819,7 +2849,7 @@
     function syncCard() {
       var name = (joinName && joinName.value.trim()) || 'Your name';
       var email = (joinEmail && joinEmail.value.trim()) || '';
-      cardName.textContent = name;
+      cardName.textContent = name.toUpperCase();
       cardNumber.textContent = memberNumber(email || name);
       cardLevel.textContent = state.level === 'premium' ? 'PREMIUM' : state.level === 'free' ? 'FREE' : 'CLUB';
       cardLayer.textContent = state.level === 'premium' ? 'Digital + Physical' : state.level === 'free' ? 'Catalog' : 'Digital';
