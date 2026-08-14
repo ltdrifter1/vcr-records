@@ -131,6 +131,56 @@
       text-decoration: underline; text-underline-offset: 2px;
     }
     .ship-hint { font-size: 13px; color: var(--dim); margin-top: 6px; }
+
+    .credit-box {
+      margin: 0 0 18px;
+      padding: 16px 0 0;
+      border-top: 1px solid var(--line);
+    }
+    .credit-box label.credit-email-label {
+      display: block;
+      font-size: 12px; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--dim); margin-bottom: 8px;
+    }
+    .credit-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .credit-row input[type="email"] {
+      width: 100%; min-width: 0; height: 44px;
+      border: 1px solid var(--line); border-radius: var(--bezel-r);
+      padding: 0 12px; font: inherit; font-size: 15px;
+      background: var(--soft); color: var(--ink);
+    }
+    .credit-row input[type="email"]:focus {
+      outline: none; border-color: rgba(26,30,38,.35);
+      box-shadow: 0 0 0 3px rgba(26,30,38,.08);
+    }
+    .credit-row button {
+      height: 44px; padding: 0 14px;
+      border-radius: var(--bezel-r);
+      border: 1px solid var(--line);
+      background: var(--card); color: var(--ink);
+      font-size: 13px; font-weight: 600;
+    }
+    @media (hover:hover) {
+      .credit-row button:hover { background: var(--fill); }
+    }
+    .credit-status {
+      margin: 10px 0 0; font-size: 13px; color: var(--muted); line-height: 1.45;
+      min-height: 1.2em;
+    }
+    .credit-status.is-error { color: #a33a2a; }
+    .credit-apply {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-top: 12px; font-size: 14px; color: var(--ink);
+    }
+    .credit-apply input { margin-top: 3px; }
+    .credit-apply[hidden] { display: none; }
+    .sum-row.credit { color: var(--ink); }
+    .sum-row.credit[hidden] { display: none; }
   </style>
 </head>
 <body id="top">
@@ -200,8 +250,23 @@
       <aside class="summary-panel" id="summaryPanel">
         <h2>Summary</h2>
         <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
+        <div class="sum-row credit" id="sumCreditRow" hidden><span>Club Credit</span><span id="sumCredit">−$0.00</span></div>
         <div class="sum-row"><span>Shipping</span><span id="sumShipping">CA $8 / US $14</span></div>
         <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
+
+        <div class="credit-box">
+          <label class="credit-email-label" for="creditEmail">Club Credit</label>
+          <div class="credit-row">
+            <input type="email" id="creditEmail" name="email" placeholder="Email used to join" autocomplete="email"/>
+            <button type="button" id="creditCheckBtn">Check</button>
+          </div>
+          <p class="credit-status" id="creditStatus" role="status" aria-live="polite"></p>
+          <label class="credit-apply" id="creditApplyLabel" hidden>
+            <input type="checkbox" id="creditApply" checked/>
+            <span id="creditApplyText">Apply Club Credit at checkout</span>
+          </label>
+        </div>
+
         <p class="summary-note" id="checkoutNote">
           Ships from British Columbia in 2–4 business days. Tracked. Canada $8 CAD · United States $14 CAD — choose at payment. We ship to CA & US.
         </p>
@@ -280,8 +345,103 @@
   }
 
   function isDigital(item) {
-    return String(item.sku || '').indexOf('dg-') === 0;
+    var sku = String(item.sku || '');
+    return sku.indexOf('dg-') === 0 || sku === 'club-join';
   }
+
+  var creditState = {
+    email: '',
+    balanceCents: 0,
+    checked: false
+  };
+
+  function creditEligibleSubtotal(items) {
+    return items.reduce(function (n, i) {
+      if (String(i.sku || '') === 'club-join') return n;
+      return n + (Number(i.price) || 0) * (i.qty || 0);
+    }, 0);
+  }
+
+  function applicableCreditCents(items) {
+    if (!creditState.checked) return 0;
+    var apply = document.getElementById('creditApply');
+    if (!apply || !apply.checked) return 0;
+    var eligible = Math.round(creditEligibleSubtotal(items) * 100);
+    return Math.min(creditState.balanceCents, eligible);
+  }
+
+  function moneyFromCents(cents) {
+    return VCRCart.money((Number(cents) || 0) / 100);
+  }
+
+  var creditEmail = document.getElementById('creditEmail');
+  var creditCheckBtn = document.getElementById('creditCheckBtn');
+  var creditStatus = document.getElementById('creditStatus');
+  var creditApply = document.getElementById('creditApply');
+  var creditApplyLabel = document.getElementById('creditApplyLabel');
+  var creditApplyText = document.getElementById('creditApplyText');
+
+  try {
+    var savedEmail = localStorage.getItem('club_credit_email');
+    if (savedEmail && creditEmail) creditEmail.value = savedEmail;
+  } catch (e) {}
+
+  async function checkCredit() {
+    if (!creditEmail || !creditStatus) return;
+    var email = String(creditEmail.value || '').trim().toLowerCase();
+    creditStatus.classList.remove('is-error');
+    if (!email || email.indexOf('@') < 1) {
+      creditStatus.textContent = 'Enter the email you used to join.';
+      creditStatus.classList.add('is-error');
+      return;
+    }
+    creditCheckBtn.disabled = true;
+    creditCheckBtn.textContent = '…';
+    creditStatus.textContent = 'Checking…';
+    try {
+      var res = await fetch('/api/club-credit?email=' + encodeURIComponent(email));
+      var data = await res.json().catch(function () { return {}; });
+      if (!res.ok) {
+        creditStatus.textContent = data.error || 'Could not check credit.';
+        creditStatus.classList.add('is-error');
+        creditState.checked = false;
+        creditApplyLabel.hidden = true;
+        render();
+        return;
+      }
+      creditState.email = data.email || email;
+      creditState.balanceCents = Math.max(0, Number(data.balanceCents) || 0);
+      creditState.checked = true;
+      try { localStorage.setItem('club_credit_email', creditState.email); } catch (e) {}
+      if (creditState.balanceCents > 0) {
+        creditStatus.textContent = 'Balance: ' + moneyFromCents(creditState.balanceCents) + ' CAD';
+        creditApplyLabel.hidden = false;
+        creditApply.checked = true;
+        creditApplyText.textContent = 'Apply up to ' + moneyFromCents(creditState.balanceCents) + ' Club Credit';
+      } else {
+        creditStatus.textContent = 'No Club Credit on this email yet. Join for $10 to get $25.';
+        creditApplyLabel.hidden = true;
+      }
+      render();
+    } catch (e) {
+      creditStatus.textContent = 'Could not reach Club Credit. Try again.';
+      creditStatus.classList.add('is-error');
+    } finally {
+      creditCheckBtn.disabled = false;
+      creditCheckBtn.textContent = 'Check';
+    }
+  }
+
+  if (creditCheckBtn) creditCheckBtn.addEventListener('click', checkCredit);
+  if (creditEmail) {
+    creditEmail.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        checkCredit();
+      }
+    });
+  }
+  if (creditApply) creditApply.addEventListener('change', render);
 
   function variantLabel(item) {
     var bits = [];
@@ -327,15 +487,29 @@
     var err = document.getElementById('checkoutError');
 
     VCRCart.updateBadges();
-    document.getElementById('sumSubtotal').textContent = VCRCart.money(VCRCart.subtotal(items));
-    document.getElementById('sumTotal').textContent = VCRCart.money(VCRCart.subtotal(items));
+    var subtotal = VCRCart.subtotal(items);
+    var creditCents = applicableCreditCents(items);
+    var creditDollars = creditCents / 100;
+    var total = Math.max(0, subtotal - creditDollars);
+    document.getElementById('sumSubtotal').textContent = VCRCart.money(subtotal);
+    var creditRow = document.getElementById('sumCreditRow');
+    var creditEl = document.getElementById('sumCredit');
+    if (creditRow && creditEl) {
+      if (creditCents > 0) {
+        creditRow.hidden = false;
+        creditEl.textContent = '−' + moneyFromCents(creditCents);
+      } else {
+        creditRow.hidden = true;
+      }
+    }
+    document.getElementById('sumTotal').textContent = VCRCart.money(total);
     var allDigital = items.length > 0 && items.every(function (i) { return isDigital(i); });
     var shipEl = document.getElementById('sumShipping');
     var noteEl = document.getElementById('checkoutNote');
     if (shipEl) shipEl.textContent = allDigital ? 'Free — digital order' : 'CA $8 / US $14';
     if (noteEl && !wasCanceled) {
       noteEl.textContent = allDigital
-        ? 'Digital order — download links are emailed after checkout. No shipping required.'
+        ? 'Digital order — download links / membership are emailed after checkout. No shipping required.'
         : 'Ships from British Columbia in 2–4 business days. Tracked. Canada $8 CAD · United States $14 CAD — choose at payment. We ship to CA & US.';
     }
     checkoutBtn.disabled = items.length === 0;
@@ -354,7 +528,7 @@
             '<div class="cart-name">' + esc(item.name) + '</div>' +
             (variantLabel(item) ? '<div class="cart-meta">' + esc(variantLabel(item)) + '</div>' : '') +
             '<div class="cart-price">' + VCRCart.money(item.price) + ' · each</div>' +
-            '<p class="ship-hint">' + (isDigital(item) ? 'Digital — link emailed after checkout' : 'Ships in 2–4 business days') + '</p>' +
+            '<p class="ship-hint">' + (isDigital(item) ? (item.sku === 'club-join' ? 'Membership — $25 Club Credit after checkout' : 'Digital — link emailed after checkout') : 'Ships in 2–4 business days') + '</p>' +
           '</div>' +
           '<div class="cart-line-side">' +
             '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
@@ -400,6 +574,8 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           origin: window.location.origin,
+          email: (creditEmail && creditEmail.value) || creditState.email || undefined,
+          applyCredit: !!(creditApply && creditApply.checked && creditState.checked && creditState.balanceCents > 0),
           items: items.map(function (i) {
             return {
               sku: i.sku,
