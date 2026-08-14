@@ -137,10 +137,10 @@ const PRODUCTS = {
     format: "digital",
   },
 
-  // Membership levels
-  // Free — no SKU (newsletter / limited streaming)
-  // Club — $0.99/mo full streaming + member card
-  // Premium — $10/yr physical purchase credits
+  // Membership — Club Copy record club
+  // Free — release alerts + catalog (no SKU)
+  // Club — $0.99/mo digital record club
+  // Premium — $10/yr physical credit + Club
   "club-level": {
     name: "Club Copy Record Club — Club",
     unitAmount: 99,
