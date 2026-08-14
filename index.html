@@ -1751,16 +1751,27 @@
       .wall-art img { transition: none; }
     }
 
-    /* Place beat : full-bleed artists frame at page bottom ------------------ */
+    /* Place beat : artists roster before footer ---------------------------- */
     .place {
       position: relative;
       isolation: isolate;
-      min-height: min(88vh, 820px);
-      min-height: min(88svh, 820px);
       color: #fff;
       background: #050505;
       overflow: hidden;
       border-top: 1px solid rgba(200,214,230,.08);
+    }
+    .place--roster {
+      min-height: 0;
+      padding:
+        72px 0
+        calc(96px + var(--safe-b));
+    }
+    @media (min-width: 800px) {
+      .place--roster {
+        padding:
+          96px 0
+          calc(120px + var(--safe-b));
+      }
     }
     .place-frame {
       position: absolute;
@@ -1793,7 +1804,6 @@
     .place-copy {
       position: relative;
       z-index: 1;
-      min-height: inherit;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -1801,17 +1811,16 @@
       gap: 14px;
       max-width: var(--wrap);
       margin: 0 auto;
-      padding:
-        calc(var(--nav-h) + var(--safe-t) + 48px)
-        max(24px, var(--safe-r))
-        calc(56px + var(--safe-b))
-        max(24px, var(--safe-l));
+      padding: 0 max(24px, var(--safe-r)) 0 max(24px, var(--safe-l));
+    }
+    .place--roster .place-copy {
+      min-height: 0;
+      justify-content: flex-start;
     }
     @media (min-width: 800px) {
       .place-copy {
         padding-left: max(40px, var(--safe-l));
         padding-right: max(40px, var(--safe-r));
-        padding-bottom: calc(72px + var(--safe-b));
       }
     }
     .place .eyebrow {
@@ -1840,7 +1849,9 @@
       letter-spacing: -.035em;
       line-height: 1.02;
       color: #fff;
-      text-shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+    .place--roster .place-title {
+      text-shadow: none;
     }
     .place-dek {
       margin: 0;
@@ -2651,11 +2662,7 @@
   </section>
 
   <!-- Artists : bottom of page -->
-  <section class="place" aria-labelledby="place-title">
-    <div class="place-frame" aria-hidden="true">
-      <img class="place-img" src="place-shop-y2k.webp" alt="Late-90s VHS static. Club Copy" width="1800" height="1200" loading="lazy" decoding="async"/>
-      <div class="place-veil"></div>
-    </div>
+  <section class="place place--roster" aria-labelledby="place-title">
     <div class="place-copy rv">
       <h2 class="place-title" id="place-title">Artists</h2>
       <nav class="place-roster" aria-label="Artists and producers">
