@@ -1443,7 +1443,7 @@
         0 28px 60px rgba(0,0,0,.45);
       text-align: left;
       isolation: isolate;
-      transition: background .35s var(--ease), border-color .35s var(--ease);
+      transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
     }
     .member-card::before {
       content: "";
@@ -1469,12 +1469,98 @@
     @media (prefers-reduced-motion: reduce) {
       .member-card::before { animation: none; opacity: .35; }
     }
-    .member-card > * { position: relative; z-index: 1; }
+    .member-card > *:not(.member-card-mark) { position: relative; z-index: 2; }
+    .member-card-mark {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;
+    }
     .member-card.is-free {
       background:
         radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.1), transparent 45%),
         linear-gradient(145deg, #1a1e24 0%, #0d1014 100%);
       border-color: rgba(200,214,230,.18);
+    }
+    /* Digital club card — ice-chrome Y2K plastic, distinct from charcoal join */
+    .member-card.is-club {
+      color: #071018;
+      min-height: 320px;
+      border-color: rgba(255,255,255,.62);
+      background:
+        radial-gradient(120% 90% at 12% 8%, rgba(255,255,255,.72), transparent 42%),
+        radial-gradient(90% 70% at 92% 18%, rgba(180,120,255,.28), transparent 46%),
+        radial-gradient(100% 80% at 50% 110%, rgba(40,180,255,.35), transparent 55%),
+        linear-gradient(155deg, #f4fbff 0%, #b9e0f6 28%, #6eb4e8 58%, #3d7ec4 82%, #2a5f9a 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.75),
+        inset 0 -1px 0 rgba(20,60,110,.22),
+        0 28px 56px rgba(30,90,150,.38),
+        0 0 0 1px rgba(120,190,240,.25);
+    }
+    .member-card.is-club::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .35;
+      background-image:
+        linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+    }
+    .member-card.is-club .member-card-mark {
+      display: block;
+      left: 50%;
+      top: 44%;
+      width: min(128%, 420px);
+      height: auto;
+      transform: translate(-50%, -50%);
+      opacity: .96;
+      filter:
+        drop-shadow(0 10px 28px rgba(10,40,80,.28))
+        drop-shadow(0 0 18px rgba(255,255,255,.35));
+    }
+    .member-card.is-club .member-card-logo {
+      visibility: hidden;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .member-card.is-club .member-card-chip { display: none; }
+    .member-card.is-club .member-card-top {
+      margin-bottom: 0;
+      min-height: 34px;
+    }
+    .member-card.is-club .member-card-level {
+      background: rgba(7,16,24,.88);
+      color: #eef8ff;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.18),
+        0 10px 22px rgba(10,40,80,.28);
+    }
+    .member-card.is-club .member-card-identity {
+      margin-top: auto;
+      padding-top: 72px;
+    }
+    .member-card.is-club .member-card-name {
+      color: #061018;
+      text-shadow: 0 1px 0 rgba(255,255,255,.35);
+    }
+    .member-card.is-club .member-card-meta {
+      color: rgba(8,28,48,.55);
+    }
+    .member-card.is-club .member-card-meta strong {
+      color: rgba(6,16,28,.92);
+    }
+    .member-card.is-club .member-card-foot {
+      border-top-color: rgba(8,40,70,.16);
+    }
+    .member-card.is-club .member-card-region {
+      color: rgba(8,32,56,.48);
     }
     .member-card.is-premium {
       background:
@@ -1884,6 +1970,7 @@
       .wall-title { font-size: 16px; }
       .club-join { padding: 64px 0 80px; }
       .member-card { min-height: 250px; }
+      .member-card.is-club { min-height: 300px; }
       .join-panel { padding: 22px 18px 20px; }
       .place {
         min-height: min(78vh, 640px);
@@ -2175,9 +2262,9 @@
             </span>
             <span>
               <span class="join-level-name">Free</span>
-              <span class="join-level-blurb">Release alerts, catalog access, and first listens. Stay close to every drop.</span>
+              <span class="join-level-blurb">Stay close to every drop — release alerts, catalog access, and first listens.</span>
             </span>
-            <span class="join-level-tag">Alerts</span>
+            <span class="join-level-tag">On the list</span>
           </button>
           <button type="button" class="join-level" data-level="club" role="radio" aria-checked="true">
             <span class="join-level-top">
@@ -2186,9 +2273,9 @@
             </span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Digital record club — member pricing, exclusive digital releases, early access, membership card.</span>
+              <span class="join-level-blurb">Member pricing on digital releases, exclusives, early access, and your membership card.</span>
             </span>
-            <span class="join-level-tag">Digital</span>
+            <span class="join-level-tag">Collect digital</span>
           </button>
           <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
             <span class="join-level-top">
@@ -2197,9 +2284,9 @@
             </span>
             <span>
               <span class="join-level-name">Premium</span>
-              <span class="join-level-blurb">Physical record club — pay what you want. Get 2.5×–5.0× credit toward cassettes &amp; limited pressings, plus everything in Club.</span>
+              <span class="join-level-blurb">Pay what you want. Get store credit for cassettes and limited pressings you choose — plus everything in Club.</span>
             </span>
-            <span class="join-level-tag">Physical</span>
+            <span class="join-level-tag">Collect physical</span>
           </button>
         </div>
 
@@ -2229,7 +2316,7 @@
                 <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
               </div>
               <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
-                You get <strong>$25.00</strong> Club Credit <span>(2.5×)</span>
+                You get <strong>$25.00</strong> to spend on cassettes &amp; pressings you choose. <span>2.5× this contribution.</span>
               </p>
             </div>
 
@@ -2239,12 +2326,13 @@
           </div>
 
           <div class="member-card is-club" id="memberCard" aria-live="polite">
+            <img class="member-card-mark" src="club-copy-logo-chrome.webp" alt="" width="901" height="418" decoding="async" aria-hidden="true"/>
             <div class="member-card-top">
               <img class="member-card-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="901" height="418" decoding="async"/>
               <span class="member-card-level" id="cardLevel">CLUB</span>
             </div>
             <div class="member-card-chip" aria-hidden="true"></div>
-            <div>
+            <div class="member-card-identity">
               <p class="member-card-name" id="cardName">Your name</p>
               <p class="member-card-meta">
                 Member <strong id="cardNumber">0000</strong><br/>
@@ -2692,7 +2780,8 @@
       var mult = premiumMult(d);
       var credit = premiumCredit(d);
       premiumPreview.innerHTML =
-        'You get <strong>' + money(credit) + '</strong> Club Credit <span>(' + mult.toFixed(1) + '×)</span>';
+        'You get <strong>' + money(credit) + '</strong> to spend on cassettes &amp; pressings you choose. <span>' +
+        mult.toFixed(1) + '× this contribution.</span>';
     }
 
     function syncCard() {
@@ -2718,7 +2807,7 @@
         syncPremiumPreview();
         var d = state.premiumDollars;
         joinBtn.textContent = 'Join Premium — ' + money(d) + '/yr';
-        joinNote.textContent = money(premiumCredit(d)) + ' Club Credit (' + premiumMult(d).toFixed(1) + '×). You choose what ships.';
+        joinNote.textContent = 'Pay what you want. Nothing ships until you pick something.';
       } else {
         joinBtn.textContent = 'Join Club — $5/yr';
         joinNote.textContent = 'Renews yearly. Member pricing on every digital release.';
