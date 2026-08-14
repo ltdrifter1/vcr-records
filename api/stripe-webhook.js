@@ -8,8 +8,18 @@
  *
  * Digital: log / forward for email fulfillment (download links).
  * Physical: packing notification (email inbox for now).
+ * Club join: grant $25 Club Credit (idempotent).
+ * Club Credit spend: debit ledger when metadata.club_credit_cents is set.
  */
 const crypto = require("crypto");
+const {
+  JOIN_SKU,
+  JOIN_CREDIT_CENTS,
+  grantCredit,
+  spendCredit,
+  normalizeEmail,
+  isValidEmail,
+} = require("./lib/credit-ledger");
 
 function timingSafeEqual(a, b) {
   const bufA = Buffer.from(a);
@@ -62,6 +72,47 @@ async function readRawBody(req) {
   return Buffer.concat(chunks).toString("utf8");
 }
 
+function sessionEmail(session) {
+  return normalizeEmail(
+    (session.customer_details && session.customer_details.email) ||
+      session.customer_email ||
+      (session.metadata && session.metadata.club_credit_email) ||
+      ""
+  );
+}
+
+async function handleClubCredit(session) {
+  const email = sessionEmail(session);
+  const skus = String((session.metadata && session.metadata.skus) || "")
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  const results = { grant: null, spend: null };
+
+  if (isValidEmail(email) && skus.includes(JOIN_SKU)) {
+    results.grant = await grantCredit({
+      email,
+      amountCents: JOIN_CREDIT_CENTS,
+      reason: "Club join — $25 Club Credit",
+      ref: `grant:${session.id}`,
+    });
+  }
+
+  const spendCents = Math.floor(
+    Number(session.metadata && session.metadata.club_credit_cents) || 0
+  );
+  if (isValidEmail(email) && spendCents > 0) {
+    results.spend = await spendCredit({
+      email,
+      amountCents: spendCents,
+      reason: "Applied at Club Copy checkout",
+      ref: `spend:${session.id}`,
+    });
+  }
+
+  return results;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.statusCode = 405;
@@ -104,6 +155,24 @@ module.exports = async function handler(req, res) {
       const skus = (session.metadata && session.metadata.skus) || "";
       const hasPhysical =
         session.metadata && session.metadata.has_physical === "1";
+
+      let credit = null;
+      try {
+        credit = await handleClubCredit(session);
+      } catch (creditErr) {
+        console.error(
+          JSON.stringify({
+            type: "club_credit_error",
+            sessionId: session.id,
+            message: creditErr.message,
+            code: creditErr.code,
+          })
+        );
+        // Retry webhook so credit is not silently dropped
+        res.statusCode = 500;
+        return res.end("Club Credit ledger error");
+      }
+
       // Fulfillment hook: replace with email provider / packing queue.
       console.log(
         JSON.stringify({
@@ -114,6 +183,16 @@ module.exports = async function handler(req, res) {
           hasPhysical,
           amountTotal: session.amount_total,
           currency: session.currency,
+          clubCredit: credit
+            ? {
+                granted: credit.grant
+                  ? credit.grant.balanceCents
+                  : null,
+                spent: credit.spend ? true : false,
+                grantDuplicate: !!(credit.grant && credit.grant.duplicate),
+                spendDuplicate: !!(credit.spend && credit.spend.duplicate),
+              }
+            : null,
         })
       );
     }

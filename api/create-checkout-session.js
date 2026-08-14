@@ -8,9 +8,22 @@
  * Checkout uses that Price / Product so Dashboard Products stay in sync.
  *
  * POST /api/create-checkout-session
- * Body: { items: [{ sku, name, colour?, size?, qty, image? }] }
+ * Body: {
+ *   items: [{ sku, name, colour?, size?, qty, image? }],
+ *   email?: string,
+ *   applyCredit?: boolean
+ * }
  */
 const { PRODUCTS, SHIPPING, priceIdFromEnv } = require("./catalog");
+const {
+  getBalance,
+  creditEligibleCents,
+  maxApplicableCredit,
+  createCreditCoupon,
+  normalizeEmail,
+  isValidEmail,
+  JOIN_SKU,
+} = require("./lib/credit-ledger");
 
 function formBody(params) {
   return Object.entries(params)
@@ -194,6 +207,45 @@ module.exports = async function handler(req, res) {
     lineIndex += 1;
   }
 
+  const buyerEmail = isValidEmail(body.email)
+    ? normalizeEmail(body.email)
+    : "";
+  let creditAppliedCents = 0;
+  let creditCouponId = null;
+  const joinOnly =
+    skusOrdered.length === 1 && skusOrdered[0] === JOIN_SKU;
+
+  // Joining alone never consumes credit; mixed carts can.
+  if (body.applyCredit && buyerEmail && !joinOnly) {
+    try {
+      const bal = await getBalance(buyerEmail);
+      const eligible = creditEligibleCents(items, PRODUCTS);
+      creditAppliedCents = maxApplicableCredit(bal.balanceCents, eligible);
+      if (creditAppliedCents > 0) {
+        const couponRef = `cart:${buyerEmail}:${creditAppliedCents}:${skusOrdered.join(",")}:${Date.now()}`;
+        const coupon = await createCreditCoupon({
+          email: buyerEmail,
+          amountCents: creditAppliedCents,
+          sessionRef: couponRef.slice(0, 200),
+        });
+        if (coupon && coupon.id) creditCouponId = coupon.id;
+        else creditAppliedCents = 0;
+      }
+    } catch (creditErr) {
+      res.statusCode =
+        creditErr.code === "LEDGER_NOT_CONFIGURED" ? 503 : 400;
+      res.setHeader("Content-Type", "application/json");
+      return res.end(
+        JSON.stringify({
+          error:
+            creditErr.message ||
+            "Could not apply Club Credit. Try checkout without credit.",
+          code: creditErr.code || "CREDIT_APPLY_FAILED",
+        })
+      );
+    }
+  }
+
   const shippingParams = {
     "shipping_address_collection[allowed_countries][0]": "CA",
     "shipping_address_collection[allowed_countries][1]": "US",
@@ -232,6 +284,14 @@ module.exports = async function handler(req, res) {
     "metadata[skus]": skusOrdered.join(","),
     "metadata[has_physical]": hasPhysical ? "1" : "0",
     "metadata[source]": "clubcopy-cart",
+    "metadata[club_credit_cents]": String(creditAppliedCents || 0),
+    ...(buyerEmail
+      ? {
+          customer_email: buyerEmail,
+          "metadata[club_credit_email]": buyerEmail,
+        }
+      : {}),
+    ...(creditCouponId ? { "discounts[0][coupon]": creditCouponId } : {}),
     ...(hasPhysical ? shippingParams : {}),
     ...lineParams,
   };
