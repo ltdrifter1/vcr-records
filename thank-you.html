@@ -70,9 +70,13 @@
     }
     .ty-card-top strong { color: #fff; font-weight: 600; }
     .ty-card-name {
-      font-family: var(--display);
-      font-size: 28px; font-weight: 600; letter-spacing: -.03em;
-      margin: 0 0 8px; line-height: 1.05;
+      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+      font-size: 20px; font-weight: 700; letter-spacing: .12em;
+      margin: 0 0 10px; line-height: 1.15;
+      text-transform: uppercase;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.2),
+        0 -1px 0 rgba(0,0,0,.45);
     }
     .ty-card-meta { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.5; }
     .ty-card-meta b { color: rgba(255,255,255,.88); font-weight: 600; }
@@ -156,7 +160,7 @@
       card.hidden = false;
       document.getElementById('tyLevel').textContent = level === 'premium' ? 'PREMIUM' : 'CLUB';
       document.getElementById('tyName').textContent =
-        (profile && profile.displayName) || (profile && profile.email) || 'Member';
+        String((profile && profile.displayName) || (profile && profile.email) || 'Member').toUpperCase();
       var email = (profile && profile.email) || '';
       var number = (profile && profile.memberNumber) ||
         (window.ClubMember ? ClubMember.memberNumberFromEmail(email || 'member') : '0000');
