@@ -38,8 +38,20 @@
     var items = load();
     var id = item.id || lineId(item);
     var existing = items.find(function (i) { return i.id === id; });
+    var price = Number(item.price);
+    var sku = String(item.sku || '');
+    if (
+      global.ClubMember &&
+      ClubMember.hasMemberPricing() &&
+      sku.indexOf('dg-') === 0
+    ) {
+      // Prefer retail→member mapping; ignore if line is already member-priced
+      var memberPrice = ClubMember.memberDigitalPrice(price);
+      if (memberPrice != null) price = memberPrice;
+    }
     if (existing) {
       existing.qty += item.qty || 1;
+      if (Number.isFinite(price)) existing.price = price;
     } else {
       items.push({
         id: id,
@@ -47,7 +59,7 @@
         name: item.name,
         colour: item.colour || null,
         size: item.size || null,
-        price: Number(item.price),
+        price: price,
         image: item.image,
         stripe: item.stripe,
         qty: item.qty || 1

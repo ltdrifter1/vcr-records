@@ -14,7 +14,13 @@
  *   applyCredit?: boolean
  * }
  */
-const { PRODUCTS, SHIPPING, priceIdFromEnv } = require("./catalog");
+const {
+  PRODUCTS,
+  SHIPPING,
+  priceIdFromEnv,
+  memberDigitalUnitAmount,
+  isMemberPricedDigital,
+} = require("./catalog");
 const {
   getBalance,
   creditEligibleCents,
@@ -124,10 +130,36 @@ module.exports = async function handler(req, res) {
       ? req.headers.origin
       : `https://${req.headers.host || "www.clubcopy.ca"}`);
 
+  const buyerEmail = isValidEmail(body.email)
+    ? normalizeEmail(body.email)
+    : "";
+
+  /** Club / Premium digital pricing — verified from Stripe Customer metadata. */
+  let memberPricing = false;
+  let memberLevel = "";
+  if (buyerEmail) {
+    try {
+      const list = await stripeGet(
+        secret,
+        `/customers?email=${encodeURIComponent(buyerEmail)}&limit=1`
+      );
+      const customer = list && list.data && list.data[0];
+      const level =
+        customer && customer.metadata && customer.metadata.club_level;
+      if (level === "club" || level === "premium") {
+        memberPricing = true;
+        memberLevel = level;
+      }
+    } catch (e) {
+      memberPricing = false;
+    }
+  }
+
   const lineParams = {};
   let lineIndex = 0;
   let hasPhysical = false;
   const skusOrdered = [];
+  let memberPricedLines = 0;
 
   for (const raw of items) {
     const sku = String(raw.sku || "").toLowerCase();
@@ -157,17 +189,27 @@ module.exports = async function handler(req, res) {
     if (raw.colour) bits.push(String(raw.colour));
     if (raw.size) bits.push(`Size ${raw.size}`);
     const description = bits.join(" · ") || undefined;
-    const name = `${product.name}${description ? ` — ${description}` : ""}`;
+    let name = `${product.name}${description ? ` — ${description}` : ""}`;
+
+    let unitAmount = product.unitAmount;
+    let usedMemberPrice = false;
+    if (memberPricing && isMemberPricedDigital(product)) {
+      const memberAmount = memberDigitalUnitAmount(product.unitAmount);
+      if (memberAmount != null) {
+        unitAmount = memberAmount;
+        usedMemberPrice = true;
+        memberPricedLines += 1;
+        name = `${name} — Member price`;
+      }
+    }
+
     const hasVariant = !!(raw.colour || raw.size);
 
     lineParams[`line_items[${lineIndex}][quantity]`] = qty;
 
-    const stripePrice = await resolveStripePrice(
-      secret,
-      sku,
-      product.unitAmount,
-      currency
-    );
+    const stripePrice = usedMemberPrice
+      ? null
+      : await resolveStripePrice(secret, sku, product.unitAmount, currency);
 
     if (stripePrice && !hasVariant) {
       // Plain SKU → use live Dashboard Price (amount locked in Stripe)
@@ -176,16 +218,16 @@ module.exports = async function handler(req, res) {
       // Sized/coloured line → reuse Product, lock amount from catalog
       lineParams[`line_items[${lineIndex}][price_data][currency]`] = currency;
       lineParams[`line_items[${lineIndex}][price_data][unit_amount]`] =
-        product.unitAmount;
+        unitAmount;
       lineParams[`line_items[${lineIndex}][price_data][product]`] =
         typeof stripePrice.product === "string"
           ? stripePrice.product
           : stripePrice.product.id;
     } else {
-      // Fallback: ad-hoc product_data (still catalog amount)
+      // Fallback / member price: ad-hoc product_data (catalog or member amount)
       lineParams[`line_items[${lineIndex}][price_data][currency]`] = currency;
       lineParams[`line_items[${lineIndex}][price_data][unit_amount]`] =
-        product.unitAmount;
+        unitAmount;
       lineParams[`line_items[${lineIndex}][price_data][product_data][name]`] =
         name;
       if (raw.image && String(raw.image).startsWith("http")) {
@@ -201,15 +243,20 @@ module.exports = async function handler(req, res) {
           `line_items[${lineIndex}][price_data][product_data][metadata][format]`
         ] = product.format;
       }
+      if (usedMemberPrice) {
+        lineParams[
+          `line_items[${lineIndex}][price_data][product_data][metadata][member_price]`
+        ] = "1";
+        lineParams[
+          `line_items[${lineIndex}][price_data][product_data][metadata][club_level]`
+        ] = memberLevel;
+      }
     }
 
     skusOrdered.push(sku);
     lineIndex += 1;
   }
 
-  const buyerEmail = isValidEmail(body.email)
-    ? normalizeEmail(body.email)
-    : "";
   let creditAppliedCents = 0;
   let creditCouponId = null;
   const membershipOnly =
@@ -286,6 +333,8 @@ module.exports = async function handler(req, res) {
     "metadata[has_physical]": hasPhysical ? "1" : "0",
     "metadata[source]": "clubcopy-cart",
     "metadata[club_credit_cents]": String(creditAppliedCents || 0),
+    "metadata[member_priced_lines]": String(memberPricedLines || 0),
+    "metadata[club_level]": memberLevel || "",
     ...(buyerEmail
       ? {
           customer_email: buyerEmail,

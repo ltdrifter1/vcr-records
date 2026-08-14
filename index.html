@@ -2159,7 +2159,7 @@
       <div class="hero-idle-actions" data-room-idle>
         <div class="hero-ctas">
           <button type="button" class="btn btn-chrome-on-dark" data-play-release="together" data-play-stage>Play</button>
-          <a class="btn btn-ghost-on-dark" href="#join">Join</a>
+          <a class="btn btn-ghost-on-dark" href="#join">Enter the club</a>
         </div>
       </div>
 
@@ -2244,14 +2244,44 @@
     </div>
   </section>
 
-  <!-- Record club intake -->
+  <!-- Club Selection — this cycle's letter -->
+  <section class="club-selection" id="selection" aria-labelledby="club-sel-title">
+    <div class="band">
+      <div class="club-sel-grid rv">
+        <a class="club-sel-cover" id="clubSelCoverLink" href="/inlet-knight">
+          <img id="clubSelCover" src="inlet-knight-cover.webp" alt="Inlet Knight artwork" width="1200" height="1200" loading="lazy"/>
+        </a>
+        <div class="club-sel-letter">
+          <p class="club-sel-eyebrow" id="clubSelCycle">August 2026</p>
+          <p class="club-sel-kicker">This cycle’s selection</p>
+          <h2 class="club-sel-title" id="club-sel-title"><span id="clubSelTitle">Inlet Knight</span></h2>
+          <p class="club-sel-meta" id="clubSelMeta">CC005 · Inlet Knight · House</p>
+          <p class="club-sel-from" id="clubSelFrom">The listening room</p>
+          <div class="club-sel-body" id="clubSelLetter">
+            <span class="club-sel-para">This cycle we held the Inlet Knight album close — the record that still opens when you play it years later.</span><br/><br/>
+            <span class="club-sel-para">Keep the digital copy at member price, claim the cassette with Club Credit if you’re Premium, or pass and wait for the next letter. Nothing ships unless you choose it.</span>
+          </div>
+          <div class="club-sel-actions">
+            <a class="btn btn-chrome-on-dark" id="clubSelListen" href="/inlet-knight" data-play-release="inlet-knight" data-play-stage>Listen</a>
+            <button type="button" class="btn btn-ghost-on-dark" id="clubSelKeep">Keep digital — $6</button>
+            <button type="button" class="btn btn-ghost-on-dark" id="clubSelClaim">Claim cassette — $20</button>
+            <button type="button" class="btn btn-ghost-on-dark" id="clubSelPass">Pass for now</button>
+          </div>
+          <p class="club-sel-gate" id="clubSelGate">Not on the list yet? <a href="#join">Accept your invitation</a> — then this selection is addressed to you.</p>
+          <p class="club-sel-status" id="clubSelStatus" role="status" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Record club invitation -->
   <section class="club-join" id="join" aria-labelledby="join-title">
     <div class="band">
       <div class="club-join-inner rv">
         <header class="club-join-head">
-          <p class="eyebrow">The Record Club</p>
-          <h2 class="club-join-title" id="join-title">Music worth keeping.</h2>
-          <p class="club-join-lead">A digital and physical club for Club Copy releases. You already know the music — this is how you collect it. Nothing ships unless you choose it.</p>
+          <p class="eyebrow">An invitation</p>
+          <h2 class="club-join-title" id="join-title">Join the Record Club.</h2>
+          <p class="club-join-lead">A letter each cycle. A card with your number. Music worth keeping — digital member copies, and physical credit when you want the shelf. Nothing ships unless you choose it.</p>
         </header>
 
         <div class="join-levels" role="radiogroup" aria-label="Record club level">
@@ -2262,7 +2292,7 @@
             </span>
             <span>
               <span class="join-level-name">Free</span>
-              <span class="join-level-blurb">Stay close to every drop — release alerts, catalog access, and first listens.</span>
+              <span class="join-level-blurb">Get the letters — release alerts, catalog access, and first listens.</span>
             </span>
             <span class="join-level-tag">On the list</span>
           </button>
@@ -2273,9 +2303,9 @@
             </span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Member pricing on digital releases, exclusives, early access, and your membership card.</span>
+              <span class="join-level-blurb">Get your card — member copies of each digital selection, early access, exclusives.</span>
             </span>
-            <span class="join-level-tag">Collect digital</span>
+            <span class="join-level-tag">Your card</span>
           </button>
           <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
             <span class="join-level-top">
@@ -2284,15 +2314,15 @@
             </span>
             <span>
               <span class="join-level-name">Premium</span>
-              <span class="join-level-blurb">Pay what you want. Get store credit for cassettes and limited pressings you choose — plus everything in Club.</span>
+              <span class="join-level-blurb">Get credit for the shelf — pay what you want, spend it on cassettes you choose, plus everything in Club.</span>
             </span>
-            <span class="join-level-tag">Collect physical</span>
+            <span class="join-level-tag">Your shelf</span>
           </button>
         </div>
 
         <div class="join-stage">
           <div class="join-panel" id="joinPanel">
-            <p class="join-panel-label">Your membership</p>
+            <p class="join-panel-label">Accept your place</p>
             <div class="join-fields">
               <div class="join-field">
                 <label for="joinEmail">Email</label>
@@ -2320,8 +2350,8 @@
               </p>
             </div>
 
-            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join Club — $5/yr</button>
-            <p class="club-join-note" id="joinNote">Renews yearly. Member pricing on every digital release.</p>
+            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Accept Club — $5/yr</button>
+            <p class="club-join-note" id="joinNote">Renews yearly. Member copies of every digital selection.</p>
             <p class="club-join-status" id="joinStatus" role="status" hidden></p>
           </div>
 
@@ -2667,8 +2697,10 @@
 
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/member.js"></script>
 <script src="js/player.js"></script>
 <script src="js/home-wall.js"></script>
+<script src="js/club-selection.js"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');
@@ -2801,16 +2833,16 @@
       if (premiumBox) premiumBox.hidden = state.level !== 'premium';
 
       if (state.level === 'free') {
-        joinBtn.textContent = 'Join Free';
-        joinNote.textContent = 'Release alerts and catalog access. Upgrade anytime.';
+        joinBtn.textContent = 'Accept Free';
+        joinNote.textContent = 'Get the letters. Upgrade anytime for member copies.';
       } else if (state.level === 'premium') {
         syncPremiumPreview();
         var d = state.premiumDollars;
-        joinBtn.textContent = 'Join Premium — ' + money(d) + '/yr';
+        joinBtn.textContent = 'Accept Premium — ' + money(d) + '/yr';
         joinNote.textContent = 'Pay what you want. Nothing ships until you pick something.';
       } else {
-        joinBtn.textContent = 'Join Club — $5/yr';
-        joinNote.textContent = 'Renews yearly. Member pricing on every digital release.';
+        joinBtn.textContent = 'Accept Club — $5/yr';
+        joinNote.textContent = 'Renews yearly. Member copies of every digital selection.';
       }
     }
 
@@ -2878,12 +2910,18 @@
       var payload = {
         email: email,
         displayName: (joinName && joinName.value.trim()) || '',
-        level: state.level
+        level: state.level,
+        memberNumber: window.ClubMember
+          ? ClubMember.memberNumberFromEmail(email)
+          : undefined
       };
 
       try {
-        localStorage.setItem('club_credit_email', email);
-        localStorage.setItem('club_member_profile', JSON.stringify(payload));
+        if (window.ClubMember) ClubMember.writeProfile(payload);
+        else {
+          localStorage.setItem('club_credit_email', email);
+          localStorage.setItem('club_member_profile', JSON.stringify(payload));
+        }
       } catch (e) {}
 
       try {
@@ -2906,9 +2944,9 @@
             body: fd
           });
           if (!r.ok) throw new Error('signup');
-          showStatus("You're on Free. We'll write when something new lands.");
-          joinBtn.textContent = 'Joined ✓';
-          setTimeout(function () { window.location.href = '/library'; }, 900);
+          showStatus("You're on the list. We'll write when the next letter lands.");
+          joinBtn.textContent = 'Accepted ✓';
+          setTimeout(function () { window.location.href = '/#selection'; }, 900);
         } catch (e) {
           showStatus("Couldn't finish Free signup. Try again.", true);
           joinBtn.disabled = false;
