@@ -1421,10 +1421,16 @@
       color: rgba(255,255,255,.42);
     }
 
-    /* Membership card — late-90s PVC / embossed plastic -------------------- */
+    /* Membership card — premium late-90s PVC object ----------------------- */
+    .member-card-stage {
+      perspective: 900px;
+      display: flex;
+      align-items: center;
+    }
     .member-card {
-      --card-ink: #1a1c22;
-      --card-mute: rgba(26,28,34,.55);
+      --card-ink: #eef3f8;
+      --card-mute: rgba(238,243,248,.55);
+      --card-metal: #c9d2de;
       position: relative;
       overflow: hidden;
       display: flex;
@@ -1434,243 +1440,326 @@
       width: 100%;
       min-height: 0;
       margin: 0;
-      padding: 18px 20px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.35);
+      padding: 20px 22px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.22);
       background:
-        linear-gradient(145deg, rgba(255,255,255,.35), transparent 42%),
-        linear-gradient(180deg, #d8dde6 0%, #b7c0ce 48%, #9aa6b8 100%);
+        linear-gradient(145deg, rgba(255,255,255,.14), transparent 36%),
+        linear-gradient(180deg, #2a3340 0%, #151a22 52%, #0b0e13 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.7),
-        inset 0 -1px 0 rgba(40,50,70,.18),
-        0 18px 40px rgba(0,0,0,.38),
-        0 2px 0 rgba(255,255,255,.12);
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -1px 0 rgba(0,0,0,.45),
+        0 1px 0 rgba(255,255,255,.08),
+        0 28px 50px rgba(0,0,0,.48),
+        0 8px 18px rgba(0,0,0,.28);
       text-align: left;
       color: var(--card-ink);
       isolation: isolate;
-      transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
+      transform: rotateY(-6deg) rotateX(4deg);
+      transform-style: preserve-3d;
+      transition:
+        background .35s var(--ease),
+        border-color .35s var(--ease),
+        color .35s var(--ease),
+        box-shadow .35s var(--ease),
+        transform .45s var(--ease);
     }
-    .member-card::before {
-      content: "";
+    @media (hover:hover) {
+      .member-card-stage:hover .member-card {
+        transform: rotateY(-2deg) rotateX(2deg) translateY(-4px);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.32),
+          inset 0 -1px 0 rgba(0,0,0,.45),
+          0 1px 0 rgba(255,255,255,.1),
+          0 34px 60px rgba(0,0,0,.52),
+          0 12px 24px rgba(0,0,0,.3);
+      }
+    }
+    .member-card-grain,
+    .member-card-glare {
       position: absolute;
-      inset: -40% -20%;
-      z-index: 0;
+      inset: 0;
       pointer-events: none;
+      z-index: 0;
+    }
+    .member-card-grain {
+      opacity: .22;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+    .member-card-glare {
+      z-index: 1;
       background: linear-gradient(
         115deg,
-        transparent 34%,
-        rgba(255,255,255,.12) 46%,
-        rgba(255,255,255,.38) 50%,
-        rgba(255,255,255,.1) 54%,
-        transparent 66%
+        transparent 28%,
+        rgba(255,255,255,.04) 42%,
+        rgba(255,255,255,.22) 50%,
+        rgba(255,255,255,.05) 58%,
+        transparent 72%
       );
-      transform: translateX(-30%);
-      animation: cardSheen 8s ease-in-out infinite;
+      animation: cardSheen 7.5s ease-in-out infinite;
+      transform: translateX(-20%);
     }
     @keyframes cardSheen {
-      0%, 100% { transform: translateX(-40%) rotate(8deg); opacity: .45; }
-      50% { transform: translateX(30%) rotate(8deg); opacity: .85; }
+      0%, 100% { transform: translateX(-35%) rotate(6deg); opacity: .45; }
+      50% { transform: translateX(28%) rotate(6deg); opacity: .95; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .member-card::before { animation: none; opacity: .3; }
+      .member-card,
+      .member-card-stage:hover .member-card { transform: none; }
+      .member-card-glare { animation: none; opacity: .35; }
     }
-    .member-card > * { position: relative; z-index: 2; }
-    .member-card-holo {
-      position: absolute;
-      right: 18px;
-      top: 52px;
-      z-index: 1;
-      width: 52px;
-      height: 52px;
-      border-radius: 6px;
-      pointer-events: none;
+    .member-card > *:not(.member-card-grain):not(.member-card-glare) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .member-card.is-free {
+      --card-ink: #e8eef6;
+      --card-mute: rgba(232,238,246,.5);
       background:
-        conic-gradient(from 210deg, #c4f1ff, #f7c4ff, #ffe7a8, #b8ffd4, #c4f1ff);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.45),
-        0 6px 14px rgba(0,0,0,.18);
-      opacity: .9;
-      mix-blend-mode: screen;
+        linear-gradient(145deg, rgba(255,255,255,.08), transparent 40%),
+        linear-gradient(180deg, #22262e 0%, #12151a 100%);
+      border-color: rgba(200,214,230,.18);
+      transform: none;
     }
-    .member-card-holo::after {
+    .member-card.is-free .member-card-holo { opacity: .4; }
+
+    .member-card.is-club {
+      --card-ink: #f4f7fb;
+      --card-mute: rgba(220,230,242,.58);
+      --card-metal: #d7e0ec;
+      border-color: rgba(186,210,240,.45);
+      background:
+        radial-gradient(120% 90% at 0% 0%, rgba(140,190,255,.22), transparent 42%),
+        radial-gradient(90% 70% at 100% 10%, rgba(180,140,255,.16), transparent 46%),
+        linear-gradient(155deg, #3a4a63 0%, #1a2436 38%, #0d1420 72%, #080c14 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.35),
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(120,160,210,.2),
+        0 30px 55px rgba(10,30,60,.55),
+        0 10px 22px rgba(0,0,0,.35);
+    }
+    .member-card.is-club::after {
       content: "";
       position: absolute;
-      inset: 8px;
-      border-radius: 3px;
-      border: 1px solid rgba(255,255,255,.35);
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 45%),
-        linear-gradient(135deg, transparent 40%, rgba(255,255,255,.35), transparent 60%);
-    }
-    .member-card-stripe {
-      display: none;
-    }
-    .member-card.is-free {
-      --card-ink: #eef2f6;
-      --card-mute: rgba(238,242,246,.55);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.1), transparent 40%),
-        linear-gradient(180deg, #2a3038 0%, #15181d 100%);
-      border-color: rgba(200,214,230,.22);
-      color: var(--card-ink);
-    }
-    .member-card.is-free .member-card-holo { opacity: .35; mix-blend-mode: normal; }
-    /* Digital club — pearl PVC, embossed member plate */
-    .member-card.is-club {
-      --card-ink: #141820;
-      --card-mute: rgba(20,24,32,.52);
-      min-height: 0;
-      border-color: rgba(255,255,255,.55);
-      background:
-        linear-gradient(125deg, rgba(255,255,255,.55) 0%, transparent 34%),
-        linear-gradient(180deg, #f3f5f8 0%, #d5dbe6 42%, #aeb8c8 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.85),
-        inset 0 -1px 0 rgba(60,70,90,.16),
-        0 22px 44px rgba(0,0,0,.4),
-        0 0 0 1px rgba(170,180,195,.35);
-      color: var(--card-ink);
-    }
-    .member-card.is-club .member-card-stripe {
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 8px;
-      z-index: 1;
+      inset: 10px;
+      z-index: 0;
       pointer-events: none;
-      background:
-        linear-gradient(
-          90deg,
-          #7dd3fc,
-          #c4b5fd,
-          #f9a8d4,
-          #fde68a,
-          #86efac,
-          #7dd3fc
-        );
-      opacity: .85;
-      box-shadow: 0 1px 0 rgba(255,255,255,.35);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
     }
+
     .member-card.is-premium {
-      --card-ink: #f6efe2;
-      --card-mute: rgba(246,239,226,.55);
+      --card-ink: #f7efdf;
+      --card-mute: rgba(247,239,223,.58);
+      --card-metal: #f2e6c8;
       background:
-        radial-gradient(110% 80% at 100% 0%, rgba(236,224,196,.35), transparent 42%),
+        radial-gradient(110% 80% at 100% 0%, rgba(236,224,196,.32), transparent 42%),
         linear-gradient(145deg, #4a3f2e 0%, #1c1814 50%, #0d0c0a 100%);
-      border-color: rgba(236,224,196,.4);
-      color: var(--card-ink);
+      border-color: rgba(236,224,196,.42);
+      transform: none;
     }
-    .member-card.is-premium .member-card-holo {
-      opacity: .7;
-      mix-blend-mode: soft-light;
-    }
+
     .member-card-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
     .member-card-logo {
       display: block;
-      width: min(118px, 42%);
+      width: min(132px, 46%);
       height: auto;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,.2));
-    }
-    .member-card.is-free .member-card-logo,
-    .member-card.is-premium .member-card-logo {
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
+      filter:
+        drop-shadow(0 1px 0 rgba(255,255,255,.25))
+        drop-shadow(0 6px 14px rgba(0,0,0,.35));
     }
     .member-card-level {
       font-family: var(--callsign);
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: .16em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: #0b0d10;
-      background: rgba(255,255,255,.92);
-      padding: 6px 9px;
-      border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.18);
+      color: #0a0e14;
+      background: linear-gradient(180deg, #f5f7fa 0%, #c8d0dc 100%);
+      padding: 7px 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.8),
+        0 6px 14px rgba(0,0,0,.28);
       white-space: nowrap;
+    }
+    .member-card.is-club .member-card-level {
+      color: #071018;
+      background: linear-gradient(180deg, #eef5ff 0%, #b7c9e0 55%, #8ea8c8 100%);
     }
     .member-card.is-premium .member-card-level {
       background: linear-gradient(135deg, #f2e6c8, #d8c49a);
       color: #1a150e;
     }
-    .member-card.is-club .member-card-level {
-      background: #141820;
-      color: #f2f5f8;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 4px 12px rgba(0,0,0,.2);
+
+    .member-card-mid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 2px 0 18px;
+      min-height: 42px;
     }
     .member-card-chip {
-      width: 40px;
-      height: 30px;
-      margin: 4px 0 14px;
-      border-radius: 5px;
+      width: 46px;
+      height: 34px;
+      border-radius: 6px;
+      flex: 0 0 auto;
       background:
-        linear-gradient(135deg, #d7c38a 0%, #f0e2b4 35%, #b89a58 70%, #e8d9a4 100%);
+        linear-gradient(135deg, #e8d49a 0%, #f6e7b8 28%, #c4a45a 58%, #f0dfab 78%, #b8924a 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.55),
-        0 4px 10px rgba(0,0,0,.22);
+        inset 0 1px 0 rgba(255,255,255,.65),
+        inset 0 -1px 0 rgba(80,50,10,.35),
+        0 8px 16px rgba(0,0,0,.28);
       position: relative;
       overflow: hidden;
+    }
+    .member-card-chip::before {
+      content: "";
+      position: absolute;
+      inset: 5px 6px;
+      background:
+        linear-gradient(#8a6a28, #8a6a28) center/1px 100% no-repeat,
+        linear-gradient(#8a6a28, #8a6a28) center/100% 1px no-repeat,
+        linear-gradient(#8a6a28, #8a6a28) 33% center/1px 100% no-repeat,
+        linear-gradient(#8a6a28, #8a6a28) 66% center/1px 100% no-repeat,
+        linear-gradient(#8a6a28, #8a6a28) center 33%/100% 1px no-repeat,
+        linear-gradient(#8a6a28, #8a6a28) center 66%/100% 1px no-repeat;
+      opacity: .55;
     }
     .member-card-chip::after {
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        repeating-linear-gradient(
-          -28deg,
-          transparent 0 3px,
-          rgba(255,255,255,.18) 3px 4px
-        );
+      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35), transparent 70%);
       opacity: .55;
     }
     .member-card.is-free .member-card-chip {
       background: linear-gradient(135deg, #8a93a0, #c5ccd6 45%, #6f7886);
     }
-    .member-card.is-club .member-card-chip {
-      margin-top: 8px;
-      margin-bottom: 28px;
+
+    .member-card-holo {
+      width: 58px;
+      height: 58px;
+      border-radius: 8px;
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+      background:
+        conic-gradient(from 200deg, #7dd3fc, #c4b5fd, #f9a8d4, #fde68a, #86efac, #7dd3fc);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.45),
+        0 8px 18px rgba(0,0,0,.3);
     }
-    .member-card-identity {
-      margin-top: auto;
-      padding-top: 8px;
+    .member-card-holo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          -32deg,
+          transparent 0 3px,
+          rgba(255,255,255,.14) 3px 4px
+        );
+      mix-blend-mode: overlay;
+      opacity: .7;
     }
+    .member-card-holo-mark {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.7);
+      box-shadow:
+        0 0 0 4px rgba(255,255,255,.12),
+        inset 0 0 0 1px rgba(0,0,0,.15);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.55), transparent 45%);
+    }
+    .member-card-holo-mark::before,
+    .member-card-holo-mark::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,.75);
+    }
+    .member-card-holo-mark::before {
+      left: 50%; top: -6px; bottom: -6px; width: 2px;
+      transform: translateX(-50%);
+    }
+    .member-card-holo-mark::after {
+      top: 50%; left: -6px; right: -6px; height: 2px;
+      transform: translateY(-50%);
+    }
+
+    .member-card-identity { margin-top: auto; }
     .member-card-name-label {
-      margin: 0 0 4px;
+      margin: 0 0 5px;
       font-family: var(--callsign);
       font-size: 8px;
       font-weight: 600;
-      letter-spacing: .18em;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--card-mute);
     }
     .member-card-name {
       font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
-      font-size: clamp(18px, 2.4vw, 22px);
+      font-size: clamp(20px, 2.6vw, 26px);
       font-weight: 700;
-      letter-spacing: .12em;
-      line-height: 1.15;
+      letter-spacing: .14em;
+      line-height: 1.1;
       margin: 0 0 10px;
       text-transform: uppercase;
-      color: var(--card-ink);
-      /* embossed PVC lettering */
+      color: var(--card-metal);
       text-shadow:
         0 1px 0 rgba(255,255,255,.55),
-        0 -1px 0 rgba(0,0,0,.35),
-        0 2px 2px rgba(0,0,0,.18);
+        0 -1px 0 rgba(0,0,0,.75),
+        1px 0 0 rgba(0,0,0,.25),
+        -1px 0 0 rgba(255,255,255,.12),
+        0 3px 4px rgba(0,0,0,.4);
     }
-    .member-card.is-free .member-card-name,
-    .member-card.is-premium .member-card-name {
+    .member-card.is-free .member-card-name {
+      color: #dfe6ef;
       text-shadow:
-        0 1px 0 rgba(255,255,255,.18),
-        0 -1px 0 rgba(0,0,0,.55),
+        0 1px 0 rgba(255,255,255,.2),
+        0 -1px 0 rgba(0,0,0,.6),
         0 2px 3px rgba(0,0,0,.35);
+    }
+    .member-card.is-premium .member-card-name {
+      color: #f2e6c8;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.25),
+        0 -1px 0 rgba(0,0,0,.65),
+        0 3px 4px rgba(0,0,0,.4);
+    }
+    .member-card-acct {
+      margin: 0 0 8px;
+      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--card-mute);
+    }
+    .member-card-acct span { margin-right: 8px; opacity: .7; }
+    .member-card-acct strong {
+      color: var(--card-metal);
+      font-weight: 700;
+      letter-spacing: .22em;
+      font-variant-numeric: tabular-nums;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.35),
+        0 -1px 0 rgba(0,0,0,.55);
     }
     .member-card-meta {
       margin: 0;
@@ -1682,39 +1771,34 @@
       color: var(--card-mute);
       line-height: 1.45;
     }
-    .member-card-meta strong {
-      color: var(--card-ink);
-      font-weight: 700;
-      letter-spacing: .16em;
-      font-variant-numeric: tabular-nums;
-    }
     .member-card-sep {
-      margin: 0 6px;
-      opacity: .5;
+      margin: 0 7px;
+      opacity: .45;
     }
     .member-card-foot {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 12px;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(20,24,32,.12);
-    }
-    .member-card.is-free .member-card-foot,
-    .member-card.is-premium .member-card-foot {
-      border-top-color: rgba(255,255,255,.14);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.12);
     }
     .member-card-region,
     .member-card-valid {
       font-size: 9px;
-      letter-spacing: .12em;
+      letter-spacing: .14em;
       text-transform: uppercase;
       font-family: var(--callsign);
       font-weight: 600;
       color: var(--card-mute);
     }
     .member-card-valid { text-align: right; }
+
+    @media (max-width: 899px) {
+      .member-card { transform: none; }
+      .member-card-stage:hover .member-card { transform: none; }
+    }
 
     .club-join-btn {
       width: 100%;
@@ -2371,26 +2455,37 @@
             <p class="club-join-status" id="joinStatus" role="status" hidden></p>
           </div>
 
-          <div class="member-card is-club" id="memberCard" aria-live="polite">
-            <div class="member-card-holo" aria-hidden="true"></div>
-            <div class="member-card-stripe" aria-hidden="true"></div>
-            <div class="member-card-top">
-              <img class="member-card-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="901" height="418" decoding="async"/>
-              <span class="member-card-level" id="cardLevel">CLUB</span>
-            </div>
-            <div class="member-card-chip" aria-hidden="true"></div>
-            <div class="member-card-identity">
-              <p class="member-card-name-label">Member name</p>
-              <p class="member-card-name" id="cardName">YOUR NAME</p>
-              <p class="member-card-meta">
-                Member <strong id="cardNumber">0000</strong>
-                <span class="member-card-sep" aria-hidden="true">·</span>
-                <span id="cardLayer">Digital</span>
-              </p>
-            </div>
-            <div class="member-card-foot">
-              <span class="member-card-region">Pacific Northwest</span>
-              <span class="member-card-valid">Valid thru membership</span>
+          <div class="member-card-stage">
+            <div class="member-card is-club" id="memberCard" aria-live="polite">
+              <div class="member-card-grain" aria-hidden="true"></div>
+              <div class="member-card-glare" aria-hidden="true"></div>
+              <div class="member-card-top">
+                <img class="member-card-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="901" height="418" decoding="async"/>
+                <span class="member-card-level" id="cardLevel">CLUB</span>
+              </div>
+              <div class="member-card-mid">
+                <div class="member-card-chip" aria-hidden="true"></div>
+                <div class="member-card-holo" aria-hidden="true">
+                  <span class="member-card-holo-mark"></span>
+                </div>
+              </div>
+              <div class="member-card-identity">
+                <p class="member-card-name-label">Member name</p>
+                <p class="member-card-name" id="cardName">YOUR NAME</p>
+                <p class="member-card-acct">
+                  <span>No.</span>
+                  <strong id="cardNumber">0000</strong>
+                </p>
+                <p class="member-card-meta">
+                  <span id="cardLayer">Digital</span>
+                  <span class="member-card-sep" aria-hidden="true">·</span>
+                  <span>Record club</span>
+                </p>
+              </div>
+              <div class="member-card-foot">
+                <span class="member-card-region">Pacific Northwest</span>
+                <span class="member-card-valid">Valid thru membership</span>
+              </div>
             </div>
           </div>
         </div>
