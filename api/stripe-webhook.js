@@ -96,7 +96,7 @@ async function handleClubCredit(session) {
     results.grant = await grantCredit({
       email,
       amountCents: JOIN_CREDIT_CENTS,
-      reason: "Premium membership — $25 Club Credit",
+      reason: "Premium record club — $25 Club Credit",
       ref: `grant:${session.id}`,
     });
   }

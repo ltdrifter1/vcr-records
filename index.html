@@ -1100,8 +1100,7 @@
       .wall-card { transition: none; }
     }
 
-    /* Signup : nocturnal chrome membership panel --------------------------- */
-    /* Club membership intake ----------------------------------------------- */
+    /* Club Copy record club intake ---------------------------------------- */
     .club-join {
       position: relative;
       isolation: isolate;
@@ -1109,7 +1108,7 @@
         radial-gradient(720px 380px at 50% 0%, rgba(200,214,230,.12), transparent 60%),
         linear-gradient(180deg, #0a0a0c 0%, #080808 100%);
       color: #fff;
-      padding: 72px 0 72px;
+      padding: 80px 0 88px;
       overflow: hidden;
       border-top: 1px solid rgba(200,214,230,.1);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
@@ -1117,7 +1116,7 @@
     .club-join-inner {
       position: relative;
       z-index: 1;
-      max-width: 560px;
+      max-width: 540px;
       margin: 0 auto;
       text-align: center;
     }
@@ -1126,17 +1125,17 @@
       margin-bottom: 14px;
     }
     .club-join-title {
-      margin: 0 0 12px;
+      margin: 0 0 14px;
       font-family: var(--display);
-      font-size: clamp(32px, 5vw, 48px);
+      font-size: clamp(34px, 5.5vw, 52px);
       font-weight: 600;
-      letter-spacing: -.035em;
-      line-height: 1.05;
+      letter-spacing: -.04em;
+      line-height: 1.02;
       color: #fff;
     }
     .club-join-lead {
-      margin: 0 auto 28px;
-      max-width: 28em;
+      margin: 0 auto 32px;
+      max-width: 26em;
       font-size: 16px;
       line-height: 1.5;
       color: rgba(255,255,255,.58);
@@ -1144,7 +1143,7 @@
     .join-levels {
       display: grid;
       gap: 10px;
-      margin: 0 0 22px;
+      margin: 0 0 28px;
       text-align: left;
     }
     .join-level {
@@ -1153,7 +1152,7 @@
       gap: 14px;
       align-items: start;
       width: 100%;
-      padding: 16px 16px;
+      padding: 18px 16px;
       border-radius: var(--bezel-r, 4px);
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
@@ -1172,14 +1171,13 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
     }
     .join-level-dot {
-      width: 18px; height: 18px; margin-top: 2px;
+      width: 18px; height: 18px; margin-top: 3px;
       border-radius: 50%;
       border: 2px solid rgba(255,255,255,.35);
       position: relative;
+      flex-shrink: 0;
     }
-    .join-level[aria-checked="true"] .join-level-dot {
-      border-color: #fff;
-    }
+    .join-level[aria-checked="true"] .join-level-dot { border-color: #fff; }
     .join-level[aria-checked="true"] .join-level-dot::after {
       content: "";
       position: absolute; inset: 3px;
@@ -1191,13 +1189,14 @@
       font-size: 16px;
       font-weight: 600;
       letter-spacing: -.02em;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     .join-level-blurb {
       display: block;
       font-size: 13px;
       line-height: 1.45;
       color: rgba(255,255,255,.55);
+      max-width: 28em;
     }
     .join-level-price {
       font-size: 14px;
@@ -1205,17 +1204,15 @@
       letter-spacing: -.015em;
       white-space: nowrap;
       color: rgba(255,255,255,.88);
+      padding-top: 1px;
     }
     .join-panel {
-      margin-top: 8px;
+      margin-top: 4px;
       text-align: left;
       border-top: 1px solid rgba(255,255,255,.1);
-      padding-top: 22px;
+      padding-top: 24px;
     }
-    .join-panel[hidden] { display: none; }
-    .join-field {
-      margin-bottom: 16px;
-    }
+    .join-field { margin-bottom: 14px; }
     .join-field label {
       display: block;
       font-size: 11px;
@@ -1242,100 +1239,64 @@
       outline: none;
       border-color: rgba(200,214,230,.55);
     }
-    .join-genres {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .join-genre {
-      height: 36px;
-      padding: 0 12px;
-      border-radius: var(--bezel-r, 4px);
-      border: 1px solid rgba(255,255,255,.18);
-      background: transparent;
-      color: rgba(255,255,255,.75);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    .join-genre[aria-pressed="true"] {
-      background: #fff;
-      color: #0a0a0a;
-      border-color: #fff;
-    }
-    .join-weird {
+    .join-fields {
       display: grid;
-      gap: 8px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
-    .join-weird-ends {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.4);
-      font-family: var(--callsign);
-      font-weight: 600;
-    }
-    .join-weird input[type="range"] {
-      width: 100%;
-      accent-color: #fff;
+    @media (min-width: 560px) {
+      .join-fields { grid-template-columns: 1.2fr .8fr; }
+      .join-fields .join-field { margin-bottom: 0; }
     }
     .member-card {
-      margin: 8px 0 20px;
-      padding: 22px 20px;
-      border-radius: 12px;
-      border: 1px solid rgba(220,230,242,.35);
+      margin: 0 0 20px;
+      padding: 24px 22px;
+      border-radius: 14px;
+      border: 1px solid rgba(220,230,242,.32);
       background:
-        linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
-        linear-gradient(180deg, #1a1e26, #0c0e12);
+        linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,255,255,.03)),
+        linear-gradient(180deg, #1c2129, #0b0d11);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.2),
-        0 18px 40px rgba(0,0,0,.35);
+        inset 0 1px 0 rgba(255,255,255,.18),
+        0 20px 44px rgba(0,0,0,.38);
       text-align: left;
     }
     .member-card-top {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
-    .member-card-brand {
+    .member-card-brand,
+    .member-card-level {
       font-family: var(--callsign);
       font-size: 11px;
       font-weight: 600;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.7);
     }
-    .member-card-level {
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: #fff;
-    }
+    .member-card-brand { color: rgba(255,255,255,.62); }
+    .member-card-level { color: #fff; }
     .member-card-name {
       font-family: var(--display);
-      font-size: clamp(26px, 4vw, 34px);
+      font-size: clamp(28px, 4.5vw, 36px);
       font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1.05;
-      margin: 0 0 8px;
+      letter-spacing: -.035em;
+      line-height: 1.02;
+      margin: 0 0 10px;
     }
     .member-card-meta {
       font-size: 13px;
-      color: rgba(255,255,255,.55);
-      line-height: 1.5;
+      color: rgba(255,255,255,.52);
+      line-height: 1.55;
     }
     .member-card-meta strong {
-      color: rgba(255,255,255,.85);
+      color: rgba(255,255,255,.88);
       font-weight: 600;
     }
     .club-join-btn {
       width: 100%;
-      min-height: 50px;
+      min-height: 52px;
       font-size: 15px;
     }
     .club-join-btn:disabled {
@@ -1713,7 +1674,7 @@
         touch-action: manipulation;
       }
       .wall-title { font-size: 16px; }
-      .club-join { padding: 64px 0 48px; }
+      .club-join { padding: 64px 0 72px; }
       .signup { padding: 64px 0 96px; }
       .signup-form button,
       .signup-form input[type="email"] {
@@ -2280,20 +2241,20 @@
     </div>
   </section>
 
-  <!-- Membership intake -->
+  <!-- Record club intake -->
   <section class="club-join" id="join" aria-labelledby="join-title">
     <div class="band">
       <div class="club-join-inner rv">
-        <p class="eyebrow">Membership</p>
-        <h2 class="club-join-title" id="join-title">Join the club.</h2>
-        <p class="club-join-lead">Three levels. Pick one, set your taste, get your card. Nothing ships unless you choose it.</p>
+        <p class="eyebrow">The Record Club</p>
+        <h2 class="club-join-title" id="join-title">Music worth keeping.</h2>
+        <p class="club-join-lead">A digital and physical club for Club Copy releases. You already know the music — this is how you collect it. Nothing ships unless you choose it.</p>
 
-        <div class="join-levels" role="radiogroup" aria-label="Membership level">
+        <div class="join-levels" role="radiogroup" aria-label="Record club level">
           <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
             <span class="join-level-dot" aria-hidden="true"></span>
             <span>
               <span class="join-level-name">Free</span>
-              <span class="join-level-blurb">Limited digital streaming only.</span>
+              <span class="join-level-blurb">Release alerts, catalog access, and first listens. Stay close to every drop.</span>
             </span>
             <span class="join-level-price">$0</span>
           </button>
@@ -2301,7 +2262,7 @@
             <span class="join-level-dot" aria-hidden="true"></span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Full streaming + digital &amp; physical membership card.</span>
+              <span class="join-level-blurb">Digital record club — member pricing, exclusive digital releases, early access, membership card.</span>
             </span>
             <span class="join-level-price">$0.99/mo</span>
           </button>
@@ -2309,40 +2270,21 @@
             <span class="join-level-dot" aria-hidden="true"></span>
             <span>
               <span class="join-level-name">Premium</span>
-              <span class="join-level-blurb">$25 Club Credit for physical purchases all year.</span>
+              <span class="join-level-blurb">Physical record club — $25 credit toward cassettes &amp; limited pressings, plus everything in Club.</span>
             </span>
             <span class="join-level-price">$10/yr</span>
           </button>
         </div>
 
         <div class="join-panel" id="joinPanel">
-          <div class="join-field">
-            <label for="joinEmail">Email</label>
-            <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
-          </div>
-          <div class="join-field">
-            <label for="joinName">Name on card</label>
-            <input type="text" id="joinName" name="displayName" placeholder="First name or alias" maxlength="40" autocomplete="nickname"/>
-          </div>
-          <div class="join-field">
-            <label>What do you listen to? <span style="opacity:.55;letter-spacing:.02em;text-transform:none;font-family:inherit;font-weight:500">Pick up to 3</span></label>
-            <div class="join-genres" id="joinGenres">
-              <button type="button" class="join-genre" data-genre="house" aria-pressed="false">House</button>
-              <button type="button" class="join-genre" data-genre="techno" aria-pressed="false">Techno</button>
-              <button type="button" class="join-genre" data-genre="jungle" aria-pressed="false">Jungle</button>
-              <button type="button" class="join-genre" data-genre="ukg" aria-pressed="false">UKG</button>
-              <button type="button" class="join-genre" data-genre="hip-hop" aria-pressed="false">Hip-hop</button>
-              <button type="button" class="join-genre" data-genre="ambient" aria-pressed="false">Ambient</button>
-              <button type="button" class="join-genre" data-genre="experimental" aria-pressed="false">Experimental</button>
-              <button type="button" class="join-genre" data-genre="indie" aria-pressed="false">Indie</button>
-              <button type="button" class="join-genre" data-genre="soul" aria-pressed="false">Soul</button>
+          <div class="join-fields">
+            <div class="join-field">
+              <label for="joinEmail">Email</label>
+              <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
             </div>
-          </div>
-          <div class="join-field">
-            <label for="joinWeird">How adventurous?</label>
-            <div class="join-weird">
-              <div class="join-weird-ends"><span>Safe</span><span>Weird</span></div>
-              <input type="range" id="joinWeird" min="0" max="100" value="50"/>
+            <div class="join-field">
+              <label for="joinName">Name on card</label>
+              <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
             </div>
           </div>
 
@@ -2354,12 +2296,12 @@
             <p class="member-card-name" id="cardName">Your name</p>
             <p class="member-card-meta">
               MEMBER <strong id="cardNumber">0000</strong><br/>
-              <span id="cardSignal">Pick your sound</span> · <span id="cardWeird">IN BETWEEN</span>
+              <span id="cardLayer">DIGITAL</span> · PACIFIC NORTHWEST
             </p>
           </div>
 
-          <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Continue with Club — $0.99/mo</button>
-          <p class="club-join-note" id="joinNote">Cancel anytime. Full streaming and your membership card.</p>
+          <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Join Club — $0.99/mo</button>
+          <p class="club-join-note" id="joinNote">Cancel anytime. Member pricing on every digital release.</p>
           <p class="club-join-status" id="joinStatus" role="status" hidden></p>
         </div>
       </div>
@@ -2476,27 +2418,21 @@
     }
   });
 
-  // Membership intake : Free / Club / Premium + card + taste
+  // Record club intake : Free / Club / Premium + member card
   (function () {
     var levelBtns = document.querySelectorAll('.join-level');
-    var genreBtns = document.querySelectorAll('.join-genre');
     var joinBtn = document.getElementById('clubJoinBtn');
     var joinEmail = document.getElementById('joinEmail');
     var joinName = document.getElementById('joinName');
-    var joinWeird = document.getElementById('joinWeird');
     var joinNote = document.getElementById('joinNote');
     var joinStatus = document.getElementById('joinStatus');
     var cardLevel = document.getElementById('cardLevel');
     var cardName = document.getElementById('cardName');
     var cardNumber = document.getElementById('cardNumber');
-    var cardSignal = document.getElementById('cardSignal');
-    var cardWeird = document.getElementById('cardWeird');
+    var cardLayer = document.getElementById('cardLayer');
     if (!joinBtn || !levelBtns.length) return;
 
-    var state = {
-      level: 'club',
-      genres: []
-    };
+    var state = { level: 'club' };
 
     function memberNumber(email) {
       var s = String(email || 'guest').trim().toLowerCase();
@@ -2505,32 +2441,23 @@
       return String((hash % 9000) + 1000).padStart(4, '0');
     }
 
-    function weirdLabel(v) {
-      if (v < 34) return 'SAFE';
-      if (v > 66) return 'WEIRD';
-      return 'IN BETWEEN';
-    }
-
     function syncCard() {
       var name = (joinName && joinName.value.trim()) || 'Your name';
       var email = (joinEmail && joinEmail.value.trim()) || '';
       cardName.textContent = name;
       cardNumber.textContent = memberNumber(email || name);
       cardLevel.textContent = state.level === 'premium' ? 'PREMIUM' : state.level === 'free' ? 'FREE' : 'CLUB';
-      cardSignal.textContent = state.genres.length
-        ? state.genres.map(function (g) { return g.toUpperCase(); }).join(' · ')
-        : 'Pick your sound';
-      cardWeird.textContent = weirdLabel(Number(joinWeird && joinWeird.value) || 50);
+      cardLayer.textContent = state.level === 'premium' ? 'DIGITAL + PHYSICAL' : state.level === 'free' ? 'CATALOG' : 'DIGITAL';
 
       if (state.level === 'free') {
         joinBtn.textContent = 'Join Free';
-        joinNote.textContent = 'Limited streaming on Planet MP3. Upgrade anytime.';
+        joinNote.textContent = 'Release alerts and catalog access. Upgrade anytime.';
       } else if (state.level === 'premium') {
-        joinBtn.textContent = 'Continue with Premium — $10/yr';
-        joinNote.textContent = '$25 Club Credit for physical purchases. You choose what ships.';
+        joinBtn.textContent = 'Join Premium — $10/yr';
+        joinNote.textContent = '$25 credit toward physical editions. You choose what ships.';
       } else {
-        joinBtn.textContent = 'Continue with Club — $0.99/mo';
-        joinNote.textContent = 'Cancel anytime. Full streaming and your membership card.';
+        joinBtn.textContent = 'Join Club — $0.99/mo';
+        joinNote.textContent = 'Cancel anytime. Member pricing on every digital release.';
       }
     }
 
@@ -2544,24 +2471,8 @@
       });
     });
 
-    genreBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var g = btn.getAttribute('data-genre');
-        var on = btn.getAttribute('aria-pressed') === 'true';
-        if (on) {
-          btn.setAttribute('aria-pressed', 'false');
-          state.genres = state.genres.filter(function (x) { return x !== g; });
-        } else if (state.genres.length < 3) {
-          btn.setAttribute('aria-pressed', 'true');
-          state.genres.push(g);
-        }
-        syncCard();
-      });
-    });
-
     if (joinName) joinName.addEventListener('input', syncCard);
     if (joinEmail) joinEmail.addEventListener('input', syncCard);
-    if (joinWeird) joinWeird.addEventListener('input', syncCard);
     syncCard();
 
     function showStatus(msg, isError) {
@@ -2583,8 +2494,6 @@
       var payload = {
         email: email,
         displayName: (joinName && joinName.value.trim()) || '',
-        genres: state.genres.slice(),
-        weirdness: Number(joinWeird && joinWeird.value) || 50,
         level: state.level
       };
 
@@ -2602,21 +2511,20 @@
       } catch (e) {}
 
       if (state.level === 'free') {
-        // Soft join via newsletter endpoint
         try {
           var fd = new FormData();
           fd.append('email', email);
           fd.append('level', 'free');
-          fd.append('message', 'Free membership — limited streaming');
+          fd.append('message', 'Free record club — release alerts');
           var r = await fetch('https://formspree.io/f/xdkwjzzr', {
             method: 'POST',
             headers: { 'Accept': 'application/json' },
             body: fd
           });
           if (!r.ok) throw new Error('signup');
-          showStatus("You're on Free. Limited streaming on Planet MP3 — upgrade anytime.");
+          showStatus("You're on Free. We'll write when something new lands.");
           joinBtn.textContent = 'Joined ✓';
-          setTimeout(function () { window.location.href = '/planet'; }, 900);
+          setTimeout(function () { window.location.href = '/library'; }, 900);
         } catch (e) {
           showStatus("Couldn't finish Free signup. Try again.", true);
           joinBtn.disabled = false;
@@ -2634,9 +2542,7 @@
             origin: window.location.origin,
             level: state.level,
             email: payload.email,
-            displayName: payload.displayName,
-            genres: payload.genres,
-            weirdness: payload.weirdness
+            displayName: payload.displayName
           })
         });
         var data = await res.json().catch(function () { return {}; });

@@ -1,8 +1,8 @@
 /**
- * Club member profile (taste + card).
+ * Club member profile (record club card).
  *
  * GET  /api/club-member?email=
- * POST /api/club-member  { email, displayName?, genres?, weirdness?, level? }
+ * POST /api/club-member  { email, displayName?, level? }
  *
  * Stored on Stripe Customer metadata; mirrored to Redis when available.
  */
@@ -12,18 +12,6 @@ const {
   findOrCreateCustomer,
   redisConfig,
 } = require("./lib/credit-ledger");
-
-const GENRES = [
-  "house",
-  "techno",
-  "jungle",
-  "ukg",
-  "hip-hop",
-  "ambient",
-  "experimental",
-  "indie",
-  "soul",
-];
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -68,26 +56,6 @@ async function stripeRequest(secret, method, path, params) {
   return data;
 }
 
-function cleanGenres(list) {
-  const allowed = new Set(GENRES);
-  const out = [];
-  (Array.isArray(list) ? list : String(list || "").split(",")).forEach((g) => {
-    const key = String(g || "")
-      .trim()
-      .toLowerCase();
-    if (allowed.has(key) && out.indexOf(key) === -1 && out.length < 3) {
-      out.push(key);
-    }
-  });
-  return out;
-}
-
-function clampWeirdness(n) {
-  const v = Number(n);
-  if (!Number.isFinite(v)) return 50;
-  return Math.max(0, Math.min(100, Math.round(v)));
-}
-
 function memberNumberFromEmail(email) {
   let hash = 0;
   const s = normalizeEmail(email);
@@ -98,35 +66,32 @@ function memberNumberFromEmail(email) {
   return String(n).padStart(4, "0");
 }
 
+function layerForLevel(level) {
+  if (level === "premium") return "DIGITAL + PHYSICAL";
+  if (level === "club") return "DIGITAL";
+  return "CATALOG";
+}
+
 function profileFromCustomer(customer, email) {
   const meta = (customer && customer.metadata) || {};
-  const genres = cleanGenres(meta.club_genres);
-  const weirdness = clampWeirdness(
-    meta.club_weirdness != null ? meta.club_weirdness : 50
-  );
   const level = ["free", "club", "premium"].includes(meta.club_level)
     ? meta.club_level
     : "free";
+  const memberNumber =
+    meta.club_member_number || memberNumberFromEmail(email);
   return {
     email: normalizeEmail(email),
     displayName: meta.club_display_name || "",
     level,
-    genres,
-    weirdness,
-    memberNumber: meta.club_member_number || memberNumberFromEmail(email),
+    memberNumber,
     memberSince: meta.club_member_since || null,
     card: {
       title: "CLUB COPY",
       levelLabel:
         level === "premium" ? "PREMIUM" : level === "club" ? "CLUB" : "FREE",
-      memberNumber:
-        meta.club_member_number || memberNumberFromEmail(email),
-      signal: genres.length
-        ? genres.map((g) => g.toUpperCase()).join(" · ")
-        : "UNSET",
-      weirdLabel:
-        weirdness < 34 ? "SAFE" : weirdness > 66 ? "WEIRD" : "IN BETWEEN",
-      weirdness,
+      memberNumber,
+      layer: layerForLevel(level),
+      region: "PACIFIC NORTHWEST",
     },
   };
 }
@@ -204,8 +169,7 @@ module.exports = async function handler(req, res) {
         limit: 1,
       });
       const customer = list.data && list.data[0];
-      const profile = profileFromCustomer(customer, email);
-      return json(res, 200, profile);
+      return json(res, 200, profileFromCustomer(customer, email));
     }
 
     if (req.method === "POST") {
@@ -227,8 +191,6 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const genres = cleanGenres(body.genres);
-      const weirdness = clampWeirdness(body.weirdness);
       const displayName = String(body.displayName || "")
         .trim()
         .slice(0, 40);
@@ -242,11 +204,10 @@ module.exports = async function handler(req, res) {
         customer = await findOrCreateCustomer(secret, email);
         const meta = {
           "metadata[club_level]": level,
-          "metadata[club_genres]": genres.join(","),
-          "metadata[club_weirdness]": String(weirdness),
           "metadata[club_display_name]": displayName,
           "metadata[club_member_number]": memberNumber,
           "metadata[club_member]": "1",
+          "metadata[club_layer]": layerForLevel(level),
         };
         if (!(customer.metadata && customer.metadata.club_member_since)) {
           meta["metadata[club_member_since]"] = new Date().toISOString();
@@ -263,8 +224,6 @@ module.exports = async function handler(req, res) {
         customer || {
           metadata: {
             club_level: level,
-            club_genres: genres.join(","),
-            club_weirdness: String(weirdness),
             club_display_name: displayName,
             club_member_number: memberNumber,
             club_member_since: new Date().toISOString(),
@@ -285,5 +244,5 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports.GENRES = GENRES;
 module.exports.memberNumberFromEmail = memberNumberFromEmail;
+module.exports.layerForLevel = layerForLevel;

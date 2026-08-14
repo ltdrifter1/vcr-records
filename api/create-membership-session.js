@@ -1,13 +1,11 @@
 /**
- * Create a Stripe Checkout Session for Club / Premium membership.
+ * Create a Stripe Checkout Session for Club / Premium record club membership.
  *
  * POST /api/create-membership-session
  * Body: {
  *   level: "club" | "premium",
  *   email: string,
  *   displayName?: string,
- *   genres?: string[],
- *   weirdness?: number (0–100),
  *   origin?: string
  * }
  */
@@ -88,34 +86,8 @@ async function resolveRecurringPrice(secret, sku, product, currency) {
   return null;
 }
 
-function clampWeirdness(n) {
-  const v = Number(n);
-  if (!Number.isFinite(v)) return 50;
-  return Math.max(0, Math.min(100, Math.round(v)));
-}
-
-function cleanGenres(list) {
-  const allowed = new Set([
-    "house",
-    "techno",
-    "jungle",
-    "ukg",
-    "hip-hop",
-    "ambient",
-    "experimental",
-    "indie",
-    "soul",
-  ]);
-  const out = [];
-  (Array.isArray(list) ? list : []).forEach((g) => {
-    const key = String(g || "")
-      .trim()
-      .toLowerCase();
-    if (allowed.has(key) && out.indexOf(key) === -1 && out.length < 3) {
-      out.push(key);
-    }
-  });
-  return out;
+function layerForLevel(level) {
+  return level === "premium" ? "DIGITAL + PHYSICAL" : "DIGITAL";
 }
 
 module.exports = async function handler(req, res) {
@@ -160,7 +132,10 @@ module.exports = async function handler(req, res) {
     res.statusCode = 400;
     res.setHeader("Content-Type", "application/json");
     return res.end(
-      JSON.stringify({ error: "Choose Club or Premium.", code: "INVALID_LEVEL" })
+      JSON.stringify({
+        error: "Choose Club or Premium.",
+        code: "INVALID_LEVEL",
+      })
     );
   }
 
@@ -188,9 +163,6 @@ module.exports = async function handler(req, res) {
     (req.headers.origin
       ? req.headers.origin
       : `https://${req.headers.host || "www.clubcopy.ca"}`);
-
-  const genres = cleanGenres(body.genres);
-  const weirdness = clampWeirdness(body.weirdness);
   const displayName = String(body.displayName || "")
     .trim()
     .slice(0, 40);
@@ -198,11 +170,10 @@ module.exports = async function handler(req, res) {
   try {
     const customer = await findOrCreateCustomer(secret, email);
     const memberMeta = {
-      [`metadata[club_level]`]: level,
-      [`metadata[club_genres]`]: genres.join(","),
-      [`metadata[club_weirdness]`]: String(weirdness),
-      [`metadata[club_display_name]`]: displayName || "",
-      [`metadata[club_member]`]: "1",
+      "metadata[club_level]": level,
+      "metadata[club_display_name]": displayName || "",
+      "metadata[club_member]": "1",
+      "metadata[club_layer]": layerForLevel(level),
     };
     if (!(customer.metadata && customer.metadata.club_member_since)) {
       memberMeta["metadata[club_member_since]"] = new Date().toISOString();
@@ -238,11 +209,9 @@ module.exports = async function handler(req, res) {
       success_url: `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}&member=1&level=${level}`,
       cancel_url: `${origin}/#join`,
       "metadata[skus]": sku,
-      "metadata[source]": "clubcopy-membership",
+      "metadata[source]": "clubcopy-record-club",
       "metadata[club_level]": level,
       "metadata[club_credit_email]": email,
-      "metadata[club_genres]": genres.join(","),
-      "metadata[club_weirdness]": String(weirdness),
       "metadata[club_display_name]": displayName || "",
       "subscription_data[metadata][sku]": sku,
       "subscription_data[metadata][club_level]": level,
