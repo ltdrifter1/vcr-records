@@ -45,6 +45,7 @@
       ClubMember.hasMemberPricing() &&
       sku.indexOf('dg-') === 0
     ) {
+      // Prefer retail→member mapping; ignore if line is already member-priced
       var memberPrice = ClubMember.memberDigitalPrice(price);
       if (memberPrice != null) price = memberPrice;
     }
