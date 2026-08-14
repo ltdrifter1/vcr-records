@@ -1294,6 +1294,9 @@
       gap: 22px;
       align-items: start;
     }
+    @media (max-width: 899px) {
+      .member-card { order: -1; }
+    }
     @media (min-width: 900px) {
       .join-stage {
         grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr);
@@ -1583,6 +1586,7 @@
 
     .club-join-btn {
       width: 100%;
+      height: 54px;
       min-height: 54px;
       margin-top: 4px;
       border: 0;
@@ -1661,7 +1665,7 @@
       .wall-art img { transition: none; }
     }
 
-    /* Place beat : one full-bleed PNW frame between catalog and news -------- */
+    /* Place beat : full-bleed artists frame at page bottom ------------------ */
     .place {
       position: relative;
       isolation: isolate;
