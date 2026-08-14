@@ -74,8 +74,10 @@
   function memberDigitalPrice(retail) {
     var v = Number(retail);
     if (!isFinite(v)) return null;
+    // Already at member price
+    if (v === 6 || v === 1.5) return v;
     if (v >= 8) return 6;
-    if (v >= 1.99) return 1.5;
+    if (Math.abs(v - 1.99) < 0.001) return 1.5;
     return null;
   }
 
