@@ -137,6 +137,14 @@ const PRODUCTS = {
     format: "digital",
   },
 
+  // Club membership — $10 join → $25 Club Credit (positive choice, no auto-ship)
+  "club-join": {
+    name: "Club Copy Membership — Join",
+    unitAmount: 1000,
+    digital: true,
+    format: "membership",
+  },
+
   // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
   "bn-tee-enter": {
     name: "Bundle: Micro Tee + Enter Digital",

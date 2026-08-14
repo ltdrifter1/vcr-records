@@ -1101,6 +1101,74 @@
     }
 
     /* Signup : nocturnal chrome membership panel --------------------------- */
+    /* Club join offer ------------------------------------------------------- */
+    .club-join {
+      position: relative;
+      isolation: isolate;
+      background:
+        radial-gradient(720px 380px at 50% 0%, rgba(200,214,230,.12), transparent 60%),
+        linear-gradient(180deg, #0a0a0c 0%, #080808 100%);
+      color: #fff;
+      padding: 72px 0 64px;
+      overflow: hidden;
+      border-top: 1px solid rgba(200,214,230,.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .club-join-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .club-join .eyebrow {
+      color: rgba(200,214,230,.5);
+      margin-bottom: 14px;
+    }
+    .club-join-title {
+      margin: 0 0 14px;
+      font-family: var(--display);
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 600;
+      letter-spacing: -.035em;
+      line-height: 1.05;
+      color: #fff;
+    }
+    .club-join-lead {
+      margin: 0 auto 28px;
+      max-width: 26em;
+      font-size: 16px;
+      line-height: 1.5;
+      color: rgba(255,255,255,.58);
+    }
+    .club-join-gets {
+      list-style: none;
+      margin: 0 auto 32px;
+      padding: 0;
+      max-width: 22em;
+      text-align: left;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+    .club-join-gets li {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -.015em;
+      color: rgba(255,255,255,.88);
+    }
+    .club-join-btn {
+      min-width: 180px;
+      height: 50px;
+      font-size: 15px;
+    }
+    .club-join-note {
+      margin: 16px 0 0;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255,255,255,.4);
+    }
+
     .signup {
       position: relative;
       isolation: isolate;
@@ -1456,6 +1524,7 @@
         touch-action: manipulation;
       }
       .wall-title { font-size: 16px; }
+      .club-join { padding: 64px 0 48px; }
       .signup { padding: 64px 0 96px; }
       .signup-form button,
       .signup-form input[type="email"] {
@@ -2022,6 +2091,24 @@
     </div>
   </section>
 
+  <!-- Club join offer -->
+  <section class="club-join" id="join" aria-labelledby="join-title">
+    <div class="band">
+      <div class="club-join-inner rv">
+        <p class="eyebrow">The Club</p>
+        <h2 class="club-join-title" id="join-title">Join for $10.</h2>
+        <p class="club-join-lead">Get $25 in Club Credit. You choose what ships — nothing is sent unless you ask.</p>
+        <ul class="club-join-gets">
+          <li>$25 Club Credit</li>
+          <li>Member card / digital membership</li>
+          <li>Access to catalog &amp; exclusives</li>
+        </ul>
+        <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Join for $10</button>
+        <p class="club-join-note">Cash up front. No trap. Spend your credit on releases you pick.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Stay close -->
   <section class="signup" aria-labelledby="newsletter-title">
     <div class="band">
@@ -2055,6 +2142,7 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="#listen">Listen</a>
+        <a href="#join">Join</a>
         <a href="/news">News</a>
         <a href="/artists">Artists</a>
         <a href="/merch">Shop</a>
@@ -2132,6 +2220,22 @@
   });
 
   // Newsletter : submit in place; falls back to a normal POST if fetch fails.
+  var joinBtn = document.getElementById('clubJoinBtn');
+  if (joinBtn && window.VCRCart) {
+    joinBtn.addEventListener('click', function () {
+      VCRCart.add({
+        sku: 'club-join',
+        name: 'Club Copy Membership — Join',
+        price: 10,
+        image: 'club-copy-logo-chrome.webp',
+        qty: 1,
+        id: 'club-join'
+      });
+      joinBtn.textContent = 'Added ✓';
+      setTimeout(function () { window.location.href = '/cart'; }, 450);
+    });
+  }
+
   var signupForm = document.querySelector('.signup-form');
   var signupStatus = document.querySelector('.signup-status');
   if (signupForm && signupStatus && window.fetch) {
