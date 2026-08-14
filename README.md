@@ -14,6 +14,7 @@ Pages keep only page-specific rules inline.
 ## Commerce
 
 - **Format prices (CAD):** Digital **$8** · Cassette **$20** · Vinyl **$45**
+- **Club join:** **$10** → **$25 Club Credit** + membership (positive choice — customer picks what ships)
 - **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
 - **Digital**: sold on-site (email delivery after Checkout).
 - On-site listening uses **90s preview** clips in `previews/` only — full masters are not in the deploy.
