@@ -209,18 +209,37 @@ function priceIdFromEnv(sku) {
   return process.env[key] || null;
 }
 
+/** Club / Premium digital member price (cents). Retail $8→$6, $1.99→$1.50. */
+function memberDigitalUnitAmount(unitAmount) {
+  const n = Math.floor(Number(unitAmount) || 0);
+  if (n >= 800) return 600;
+  if (n >= 199) return 150;
+  return null;
+}
+
+function isMemberPricedDigital(product) {
+  return !!(
+    product &&
+    product.digital &&
+    product.format === "digital" &&
+    memberDigitalUnitAmount(product.unitAmount) != null
+  );
+}
+
 module.exports = {
   FORMAT,
   PRODUCTS,
   MERCH_PAGE_SKUS,
   SHIPPING,
   priceIdFromEnv,
+  memberDigitalUnitAmount,
+  isMemberPricedDigital,
   MEMBERSHIP: {
     free: {
       id: "free",
       label: "Free",
       priceLabel: "$0",
-      blurb: "Release alerts, catalog access, and first listens.",
+      blurb: "Get the letters — release alerts, catalog access, first listens.",
       layer: "catalog",
     },
     club: {
@@ -229,7 +248,7 @@ module.exports = {
       label: "Club",
       priceLabel: "$5/yr",
       blurb:
-        "Digital record club — member pricing, exclusive digital releases, early access, membership card.",
+        "Get your card — member copies of each digital selection, early access, exclusives.",
       layer: "digital",
     },
     premium: {
@@ -238,7 +257,7 @@ module.exports = {
       label: "Premium",
       priceLabel: "From $10/yr",
       blurb:
-        "Physical record club — pay what you want ($10 min). Get 2.5×–5.0× Club Credit toward cassettes & limited pressings, plus everything in Club.",
+        "Get credit for the shelf — pay what you want, spend Club Credit on cassettes you choose, plus everything in Club.",
       minAmountCents: 1000,
       creditMultMin: 2.5,
       creditMultMax: 5.0,

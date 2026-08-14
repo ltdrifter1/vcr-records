@@ -113,6 +113,7 @@
     </div>
   </main>
   <script src="js/cart.js"></script>
+<script src="js/member.js"></script>
   <script>
     if (window.VCRCart) VCRCart.clear();
     var params = new URLSearchParams(location.search);
@@ -126,30 +127,46 @@
     }
 
     if (isMember) {
-      document.getElementById('tyTitle').textContent = 'Welcome to the club.';
+      document.getElementById('tyTitle').textContent = 'Your place is reserved.';
       document.getElementById('msg').textContent =
         level === 'premium'
-          ? 'Premium is active. Your Club Credit is on this email — spend it on cassettes and limited pressings you choose.'
-          : 'Club is active. Member pricing on digital releases, early access, and your card are ready.';
+          ? 'Premium is active. Your Club Credit is on this email — spend it on cassettes and pressings you choose. Nothing ships until you pick.'
+          : 'Club is active. Your card is ready — member copies of each digital selection are yours.';
       document.getElementById('fulfillNote').textContent =
         level === 'premium'
-          ? 'Nothing ships until you pick something. Apply Club Credit at checkout with the same email.'
-          : 'Renews yearly. Upgrade to Premium anytime for physical credit.';
-      document.getElementById('tyPrimary').href = '/library';
-      document.getElementById('tyPrimary').textContent = 'Browse the library';
+          ? 'Open this cycle’s selection, then apply Club Credit at checkout with the same email.'
+          : 'Renews yearly. Open this cycle’s selection whenever you are ready.';
+      document.getElementById('tyPrimary').href = '/#selection';
+      document.getElementById('tyPrimary').textContent = 'Open this cycle’s selection';
 
-      var profile = null;
-      try { profile = JSON.parse(localStorage.getItem('club_member_profile') || 'null'); } catch (e) {}
+      var profile = window.ClubMember ? ClubMember.readProfile() : null;
+      if (!profile) {
+        try { profile = JSON.parse(localStorage.getItem('club_member_profile') || 'null'); } catch (e) {}
+      }
+      if (profile && window.ClubMember) {
+        ClubMember.writeProfile({
+          email: profile.email,
+          displayName: profile.displayName || '',
+          level: level === 'premium' ? 'premium' : (level === 'club' ? 'club' : (profile.level || 'club')),
+          memberNumber: profile.memberNumber
+        });
+        profile = ClubMember.readProfile();
+      }
       var card = document.getElementById('tyCard');
       card.hidden = false;
       document.getElementById('tyLevel').textContent = level === 'premium' ? 'PREMIUM' : 'CLUB';
       document.getElementById('tyName').textContent =
         (profile && profile.displayName) || (profile && profile.email) || 'Member';
       var email = (profile && profile.email) || '';
-      var hash = 0;
-      var s = email || 'member';
-      for (var i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
-      document.getElementById('tyNumber').textContent = String((hash % 9000) + 1000).padStart(4, '0');
+      var number = (profile && profile.memberNumber) ||
+        (window.ClubMember ? ClubMember.memberNumberFromEmail(email || 'member') : '0000');
+      if (!profile || !profile.memberNumber) {
+        var hash = 0;
+        var s = email || 'member';
+        for (var i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
+        number = String((hash % 9000) + 1000).padStart(4, '0');
+      }
+      document.getElementById('tyNumber').textContent = number;
       document.getElementById('tyLayer').textContent =
         level === 'premium' ? 'DIGITAL + PHYSICAL' : 'DIGITAL';
     }

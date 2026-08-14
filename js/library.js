@@ -287,7 +287,14 @@
     if (filters.artist) bits.push(displayNameForArtist(filters.artist));
 
     if (!bits.length) {
-      leadEl.innerHTML = 'Catalogue by number — formats that exist, with club member pricing. <a href="/#join">Join</a>';
+      var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
+      if (profile && ClubMember.hasMemberPricing(profile)) {
+        leadEl.innerHTML = 'Club edition — Member ' + esc(profile.memberNumber) + '. Digital copies at your price. <a href="/#selection">This cycle’s selection</a>';
+      } else if (profile) {
+        leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member copies.';
+      } else {
+        leadEl.innerHTML = 'Catalogue by number — formats that exist, with club member pricing. <a href="/#join">Accept invitation</a>';
+      }
       return;
     }
 

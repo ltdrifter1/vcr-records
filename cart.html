@@ -319,6 +319,7 @@
 
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
+<script src="js/member.js"></script>
 <script src="js/player.js"></script>
 <script>
 (function () {
@@ -384,7 +385,8 @@
   var creditApplyText = document.getElementById('creditApplyText');
 
   try {
-    var savedEmail = localStorage.getItem('club_credit_email');
+    var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
+    var savedEmail = (profile && profile.email) || localStorage.getItem('club_credit_email');
     if (savedEmail && creditEmail) creditEmail.value = savedEmail;
   } catch (e) {}
 
@@ -576,7 +578,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           origin: window.location.origin,
-          email: (creditEmail && creditEmail.value) || creditState.email || undefined,
+          email: (creditEmail && creditEmail.value) ||
+            creditState.email ||
+            (window.ClubMember && ClubMember.readProfile() && ClubMember.readProfile().email) ||
+            undefined,
           applyCredit: !!(creditApply && creditApply.checked && creditState.checked && creditState.balanceCents > 0),
           items: items.map(function (i) {
             return {
