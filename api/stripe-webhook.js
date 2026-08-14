@@ -19,6 +19,8 @@ const {
   spendCredit,
   normalizeEmail,
   isValidEmail,
+  premiumCreditCents,
+  PREMIUM_MIN_CENTS,
 } = require("./lib/credit-ledger");
 
 function timingSafeEqual(a, b) {
@@ -93,10 +95,25 @@ async function handleClubCredit(session) {
     isValidEmail(email) &&
     skus.some((s) => CREDIT_GRANT_SKUS.has(s))
   ) {
+    const fromMeta = Math.floor(
+      Number(session.metadata && session.metadata.premium_credit_grant_cents) ||
+        0
+    );
+    const fromAmount = Math.floor(
+      Number(session.metadata && session.metadata.premium_amount_cents) ||
+        session.amount_total ||
+        0
+    );
+    const grantCents =
+      fromMeta > 0
+        ? fromMeta
+        : fromAmount >= PREMIUM_MIN_CENTS
+          ? premiumCreditCents(fromAmount)
+          : JOIN_CREDIT_CENTS;
     results.grant = await grantCredit({
       email,
-      amountCents: JOIN_CREDIT_CENTS,
-      reason: "Premium record club — $25 Club Credit",
+      amountCents: grantCents,
+      reason: `Premium record club — $${(grantCents / 100).toFixed(2)} Club Credit`,
       ref: `grant:${session.id}`,
     });
   }

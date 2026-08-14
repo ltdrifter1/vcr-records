@@ -139,34 +139,35 @@ const PRODUCTS = {
 
   // Membership — Club Copy record club
   // Free — release alerts + catalog (no SKU)
-  // Club — $0.99/mo digital record club
-  // Premium — $10/yr physical credit + Club
+  // Club — $5/yr digital record club
+  // Premium — $10+ /yr (pay what you want) → 2.5×–5.0× Club Credit
   "club-level": {
     name: "Club Copy Record Club — Club",
-    unitAmount: 99,
+    unitAmount: 500,
     digital: true,
     format: "membership",
     level: "club",
-    subscription: { interval: "month" },
+    subscription: { interval: "year" },
   },
   "club-premium": {
     name: "Club Copy Record Club — Premium",
-    unitAmount: 1000,
+    unitAmount: 1000, // minimum; checkout accepts custom amount
     digital: true,
     format: "membership",
     level: "premium",
-    subscription: { interval: "year" },
-    creditGrantCents: 2500,
+    // Annual contribution (variable amount) — not a fixed subscription price
+    flexibleAmount: true,
+    minAmountCents: 1000,
   },
-  // Legacy alias (maps to Premium grant behavior in webhook)
+  // Legacy alias
   "club-join": {
     name: "Club Copy Record Club — Premium",
     unitAmount: 1000,
     digital: true,
     format: "membership",
     level: "premium",
-    subscription: { interval: "year" },
-    creditGrantCents: 2500,
+    flexibleAmount: true,
+    minAmountCents: 1000,
   },
 
   // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
@@ -226,7 +227,7 @@ module.exports = {
       id: "club",
       sku: "club-level",
       label: "Club",
-      priceLabel: "$0.99/mo",
+      priceLabel: "$5/yr",
       blurb:
         "Digital record club — member pricing, exclusive digital releases, early access, membership card.",
       layer: "digital",
@@ -235,10 +236,12 @@ module.exports = {
       id: "premium",
       sku: "club-premium",
       label: "Premium",
-      priceLabel: "$10/yr",
+      priceLabel: "From $10/yr",
       blurb:
-        "Physical record club — $25 credit toward cassettes & limited pressings, plus everything in Club.",
-      creditGrantCents: 2500,
+        "Physical record club — pay what you want ($10 min). Get 2.5×–5.0× Club Credit toward cassettes & limited pressings, plus everything in Club.",
+      minAmountCents: 1000,
+      creditMultMin: 2.5,
+      creditMultMax: 5.0,
       layer: "physical",
     },
   },
