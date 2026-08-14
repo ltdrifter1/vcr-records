@@ -1846,6 +1846,21 @@
       background: #111;
       aspect-ratio: 4 / 5;
     }
+    .home-artist-photo--mark {
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(120% 90% at 20% 10%, rgba(255,255,255,.12), transparent 50%),
+        linear-gradient(160deg, #1a1e26 0%, #0a0c10 100%);
+      border: 1px solid rgba(200,214,230,.16);
+    }
+    .home-artist-photo--mark span {
+      font-family: var(--display);
+      font-size: clamp(42px, 6vw, 64px);
+      font-weight: 600;
+      letter-spacing: -.04em;
+      color: rgba(244,246,248,.82);
+    }
     .home-artist-photo img {
       width: 100%;
       height: 100%;
@@ -2685,8 +2700,8 @@
           </span>
         </a>
         <a class="home-artist rv" href="/artists/lt-drifta">
-          <span class="home-artist-photo media-bezel">
-            <img src="artists/lt-drifta.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
+          <span class="home-artist-photo home-artist-photo--mark media-bezel" aria-hidden="true">
+            <span>LT</span>
           </span>
           <span class="home-artist-copy">
             <span class="home-artist-name">L.T. Drifta</span>
