@@ -339,6 +339,7 @@ async function main() {
       productId: p.id,
       unitAmount: product.unitAmount,
       lookupKey: sku,
+      recurring: product.subscription || null,
     });
     let link = null;
     if (!skipLinks && MERCH_PAGE_SKUS.includes(sku)) {
