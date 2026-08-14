@@ -14,8 +14,8 @@ Pages keep only page-specific rules inline.
 ## Commerce
 
 - **Format prices (CAD):** Digital **$8** · Cassette **$20** · Vinyl **$45**
-- **Club join:** **$10** → **$25 Club Credit** + membership (positive choice — customer picks what ships)
-- **Club Credit ledger:** email-keyed balance. Join webhook grants **$25**; cart can apply credit at Checkout via one-time Stripe coupon; webhook debits on success. Storage: Upstash/Vercel KV if configured, else Stripe Customer metadata + balance transactions.
+- **Membership:** **Free** (limited streaming) · **Club** **$0.99/mo** (full streaming + member card) · **Premium** **$10/yr** (**$25 Club Credit** for physical purchases)
+- **Club Credit ledger:** email-keyed balance. Premium webhook grants **$25**; cart can apply credit at Checkout via one-time Stripe coupon; webhook debits on success. Storage: Upstash/Vercel KV if configured, else Stripe Customer metadata + balance transactions.
 - **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
 - **Digital**: sold on-site (email delivery after Checkout).
 - On-site listening uses **90s preview** clips in `previews/` only — full masters are not in the deploy.

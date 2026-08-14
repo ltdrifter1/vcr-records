@@ -10,10 +10,14 @@
  * Env (Stripe fallback / coupons):
  *   STRIPE_SECRET_KEY
  *
- * Join grant: $10 club-join → +$25.00 CAD (2500¢)
+ * Join grant: Premium ($10/yr) → +$25.00 CAD (2500¢)
  */
 
-const JOIN_SKU = "club-join";
+const JOIN_SKU = "club-join"; // legacy
+const PREMIUM_SKU = "club-premium";
+const CLUB_LEVEL_SKU = "club-level";
+const MEMBERSHIP_SKUS = new Set([JOIN_SKU, PREMIUM_SKU, CLUB_LEVEL_SKU]);
+const CREDIT_GRANT_SKUS = new Set([JOIN_SKU, PREMIUM_SKU]);
 const JOIN_CREDIT_CENTS = 2500;
 const CURRENCY = "cad";
 const META_BALANCE = "club_credit_cents";
@@ -170,15 +174,21 @@ async function stripeRequest(secret, method, path, params, idempotencyKey) {
   return data;
 }
 
-async function findOrCreateCustomer(secret, email) {
+async function findCustomerByEmail(secret, email) {
   const normalized = normalizeEmail(email);
   const existing = await stripeRequest(secret, "GET", "/customers", {
     email: normalized,
     limit: 1,
   });
   if (existing.data && existing.data[0]) return existing.data[0];
+  return null;
+}
+
+async function findOrCreateCustomer(secret, email) {
+  const found = await findCustomerByEmail(secret, email);
+  if (found) return found;
   return stripeRequest(secret, "POST", "/customers", {
-    email: normalized,
+    email: normalizeEmail(email),
     "metadata[source]": "clubcopy",
     "metadata[club_member]": "1",
   });
@@ -196,10 +206,15 @@ function balanceFromCustomer(customer) {
   return 0;
 }
 
-async function loadStripeAccount(email) {
+async function loadStripeAccount(email, { create = false } = {}) {
   const secret = process.env.STRIPE_SECRET_KEY;
   if (!secret) return emptyAccount(email);
-  const customer = await findOrCreateCustomer(secret, email);
+  const customer = create
+    ? await findOrCreateCustomer(secret, email)
+    : await findCustomerByEmail(secret, email);
+  if (!customer) {
+    return { ...emptyAccount(email), storage: "stripe" };
+  }
   const balanceCents = balanceFromCustomer(customer);
   let entries = [];
   try {
@@ -242,7 +257,7 @@ function creditEligibleCents(lineItems, catalogProducts) {
   let total = 0;
   for (const raw of lineItems || []) {
     const sku = String(raw.sku || "").toLowerCase();
-    if (!sku || sku === JOIN_SKU) continue;
+    if (!sku || MEMBERSHIP_SKUS.has(sku)) continue;
     const product = catalogProducts[sku];
     if (!product) continue;
     const qty = Math.min(20, Math.max(1, parseInt(raw.qty, 10) || 1));
@@ -420,7 +435,7 @@ async function mirrorStripeBalance(email, absoluteBalanceCents, change) {
   }
   await stripeRequest(secret, "POST", `/customers/${customer.id}`, meta);
 
-  const account = await loadStripeAccount(email);
+  const account = await loadStripeAccount(email, { create: true });
   return { ...account, duplicate: false };
 }
 
@@ -479,6 +494,10 @@ async function createCreditCoupon({ email, amountCents, sessionRef }) {
 
 module.exports = {
   JOIN_SKU,
+  PREMIUM_SKU,
+  CLUB_LEVEL_SKU,
+  MEMBERSHIP_SKUS,
+  CREDIT_GRANT_SKUS,
   JOIN_CREDIT_CENTS,
   CURRENCY,
   normalizeEmail,

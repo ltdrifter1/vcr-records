@@ -22,7 +22,7 @@ const {
   createCreditCoupon,
   normalizeEmail,
   isValidEmail,
-  JOIN_SKU,
+  MEMBERSHIP_SKUS,
 } = require("./lib/credit-ledger");
 
 function formBody(params) {
@@ -212,11 +212,12 @@ module.exports = async function handler(req, res) {
     : "";
   let creditAppliedCents = 0;
   let creditCouponId = null;
-  const joinOnly =
-    skusOrdered.length === 1 && skusOrdered[0] === JOIN_SKU;
+  const membershipOnly =
+    skusOrdered.length > 0 &&
+    skusOrdered.every((s) => MEMBERSHIP_SKUS.has(s));
 
-  // Joining alone never consumes credit; mixed carts can.
-  if (body.applyCredit && buyerEmail && !joinOnly) {
+  // Membership-only carts never consume credit; mixed carts can.
+  if (body.applyCredit && buyerEmail && !membershipOnly) {
     try {
       const bal = await getBalance(buyerEmail);
       const eligible = creditEligibleCents(items, PRODUCTS);

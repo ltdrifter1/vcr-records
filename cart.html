@@ -346,7 +346,7 @@
 
   function isDigital(item) {
     var sku = String(item.sku || '');
-    return sku.indexOf('dg-') === 0 || sku === 'club-join';
+    return sku.indexOf('dg-') === 0 || sku.indexOf('club-') === 0;
   }
 
   var creditState = {
@@ -357,7 +357,7 @@
 
   function creditEligibleSubtotal(items) {
     return items.reduce(function (n, i) {
-      if (String(i.sku || '') === 'club-join') return n;
+      if (String(i.sku || '').indexOf('club-') === 0) return n;
       return n + (Number(i.price) || 0) * (i.qty || 0);
     }, 0);
   }
@@ -528,7 +528,7 @@
             '<div class="cart-name">' + esc(item.name) + '</div>' +
             (variantLabel(item) ? '<div class="cart-meta">' + esc(variantLabel(item)) + '</div>' : '') +
             '<div class="cart-price">' + VCRCart.money(item.price) + ' · each</div>' +
-            '<p class="ship-hint">' + (isDigital(item) ? (item.sku === 'club-join' ? 'Membership — $25 Club Credit after checkout' : 'Digital — link emailed after checkout') : 'Ships in 2–4 business days') + '</p>' +
+            '<p class="ship-hint">' + (isDigital(item) ? (String(item.sku || '').indexOf('club-') === 0 ? 'Membership' : 'Digital — link emailed after checkout') : 'Ships in 2–4 business days') + '</p>' +
           '</div>' +
           '<div class="cart-line-side">' +
             '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
