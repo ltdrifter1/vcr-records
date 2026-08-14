@@ -1378,112 +1378,6 @@
     .club-join-status.is-error { color: #f0a8a2; }
     .club-join-status[hidden] { display: none; }
 
-    .signup {
-      position: relative;
-      isolation: isolate;
-      background:
-        radial-gradient(640px 360px at 50% 0%, rgba(200,214,230,.1), transparent 58%),
-        linear-gradient(180deg, #080808 0%, #0a0a0c 48%, #050505 100%);
-      color: #fff;
-      padding: 72px 0 112px;
-      overflow: hidden;
-      border-top: 1px solid rgba(200,214,230,.1);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-    }
-    .signup-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 440px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .signup .eyebrow {
-      color: rgba(200,214,230,.5);
-      margin-bottom: 14px;
-    }
-    .signup-title {
-      margin: 0 0 12px;
-      font-family: var(--display);
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 600;
-      letter-spacing: -.035em;
-      line-height: 1.08;
-      color: #fff;
-      text-shadow: none;
-    }
-    .signup-copy {
-      margin: 0 auto 28px;
-      max-width: 24em;
-      font-size: 15px;
-      line-height: 1.5;
-      color: rgba(255,255,255,.55);
-    }
-    .signup-form {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 8px;
-      align-items: stretch;
-    }
-    @media (max-width: 520px) {
-      .signup-form { grid-template-columns: 1fr; }
-    }
-    .signup-form input[type="email"] {
-      width: 100%;
-      min-width: 0;
-      height: 48px;
-      border-radius: var(--bezel-r, 4px);
-      border: 1px solid rgba(200,214,230,.28);
-      padding: 0 16px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
-        rgba(12,12,14,.72);
-      color: #fff;
-      font: inherit;
-      font-size: 16px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
-      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-    }
-    .signup-form input[type="email"]::placeholder { color: rgba(255,255,255,.38); }
-    .signup-form input[type="email"]:focus {
-      outline: none;
-      border-color: rgba(200,214,230,.55);
-      background: rgba(18,18,22,.88);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 0 0 3px rgba(168,180,196,.16);
-    }
-    .signup-form button {
-      height: 48px;
-      padding: 0 22px;
-      border-radius: var(--bezel-r, 4px);
-      border: 1px solid rgba(220,230,242,.55);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(230,236,244,.92) 40%, rgba(186,198,214,.88) 100%);
-      color: #111;
-      font-size: 14px;
-      font-weight: 650;
-      letter-spacing: -.015em;
-      white-space: nowrap;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 10px 28px rgba(0,0,0,.3);
-      transition: opacity var(--dur) var(--ease), transform .25s var(--ease);
-    }
-    @media (hover:hover) {
-      .signup-form button:hover { opacity: .94; transform: translateY(-1px); }
-    }
-    .signup-note {
-      margin: 14px 0 0;
-      font-size: 12px;
-      color: rgba(255,255,255,.38);
-    }
-    .signup-form button[disabled] { opacity: .6; cursor: wait; }
-    .signup-status {
-      margin: 14px 0 0;
-      font-size: 14px;
-      line-height: 1.5;
-      color: rgba(255,255,255,.85);
-    }
-    .signup-status[hidden] { display: none; }
-    .signup-status.is-error { color: #f0a8a2; }
-    .signup.is-done .signup-form,
-    .signup.is-done .signup-note { display: none; }
 
     body.hero-top .footer {
       color: rgba(255,255,255,.7);
@@ -1733,14 +1627,7 @@
         touch-action: manipulation;
       }
       .wall-title { font-size: 16px; }
-      .club-join { padding: 64px 0 72px; }
-      .signup { padding: 64px 0 96px; }
-      .signup-form button,
-      .signup-form input[type="email"] {
-        min-height: 48px;
-        font-size: 16px; /* prevent iOS zoom on focus */
-        -webkit-tap-highlight-color: transparent;
-      }
+      .club-join { padding: 64px 0 96px; }
       .place {
         min-height: min(78vh, 640px);
         min-height: min(78svh, 640px);
@@ -1864,6 +1751,7 @@
       <a href="/artists">Artists</a>
       <a href="/news">News</a>
       <a href="/merch">Shop</a>
+      <a href="#join">Join</a>
       <a href="/contact">Contact</a>
     </nav>
     <div class="nav-end">
@@ -1888,6 +1776,7 @@
   <a href="/artists">Artists</a>
   <a href="/news">News</a>
   <a href="/merch">Shop</a>
+  <a href="#join">Join</a>
   <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>
@@ -1926,7 +1815,7 @@
       <div class="hero-idle-actions" data-room-idle>
         <div class="hero-ctas">
           <button type="button" class="btn btn-chrome-on-dark" data-play-release="together" data-play-stage>Play</button>
-          <a class="btn btn-ghost-on-dark" href="#listen">Releases</a>
+          <a class="btn btn-ghost-on-dark" href="#join">Join</a>
         </div>
       </div>
 
@@ -2011,7 +1900,7 @@
     </div>
   </section>
 
-  <!-- Place : one PNW beat between catalog and news -->
+  <!-- Place : roster beat before record club -->
   <section class="place" aria-labelledby="place-title">
     <div class="place-frame" aria-hidden="true">
       <img class="place-img" src="place-shop-y2k.webp" alt="Late-90s VHS static. Club Copy" width="1800" height="1200" loading="lazy" decoding="async"/>
@@ -2027,6 +1916,90 @@
       <a class="place-link" href="/artists">All artists</a>
     </div>
   </section>
+
+  <!-- Record club intake -->
+  <section class="club-join" id="join" aria-labelledby="join-title">
+    <div class="band">
+      <div class="club-join-inner rv">
+        <p class="eyebrow">The Record Club</p>
+        <h2 class="club-join-title" id="join-title">Music worth keeping.</h2>
+        <p class="club-join-lead">A digital and physical club for Club Copy releases. You already know the music — this is how you collect it. Nothing ships unless you choose it.</p>
+
+        <div class="join-levels" role="radiogroup" aria-label="Record club level">
+          <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
+            <span class="join-level-dot" aria-hidden="true"></span>
+            <span>
+              <span class="join-level-name">Free</span>
+              <span class="join-level-blurb">Release alerts, catalog access, and first listens. Stay close to every drop.</span>
+            </span>
+            <span class="join-level-price">$0</span>
+          </button>
+          <button type="button" class="join-level" data-level="club" role="radio" aria-checked="true">
+            <span class="join-level-dot" aria-hidden="true"></span>
+            <span>
+              <span class="join-level-name">Club</span>
+              <span class="join-level-blurb">Digital record club — member pricing, exclusive digital releases, early access, membership card.</span>
+            </span>
+            <span class="join-level-price">$5/yr</span>
+          </button>
+          <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
+            <span class="join-level-dot" aria-hidden="true"></span>
+            <span>
+              <span class="join-level-name">Premium</span>
+              <span class="join-level-blurb">Physical record club — pay what you want. Get 2.5×–5.0× credit toward cassettes &amp; limited pressings, plus everything in Club.</span>
+            </span>
+            <span class="join-level-price">From $10/yr</span>
+          </button>
+        </div>
+
+        <div class="join-panel" id="joinPanel">
+          <div class="join-fields">
+            <div class="join-field">
+              <label for="joinEmail">Email</label>
+              <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
+            </div>
+            <div class="join-field">
+              <label for="joinName">Name on card</label>
+              <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
+            </div>
+          </div>
+
+          <div class="join-premium-amount" id="premiumAmountBox" hidden>
+            <div class="join-field">
+              <label for="premiumAmount">Annual contribution (CAD)</label>
+              <div class="premium-presets" id="premiumPresets">
+                <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
+                <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
+                <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
+                <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
+              </div>
+              <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
+            </div>
+            <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
+              You get <strong>$25.00</strong> Club Credit <span>(2.5×)</span>
+            </p>
+          </div>
+
+          <div class="member-card" id="memberCard" aria-live="polite">
+            <div class="member-card-top">
+              <span class="member-card-brand">Club Copy</span>
+              <span class="member-card-level" id="cardLevel">CLUB</span>
+            </div>
+            <p class="member-card-name" id="cardName">Your name</p>
+            <p class="member-card-meta">
+              MEMBER <strong id="cardNumber">0000</strong><br/>
+              <span id="cardLayer">DIGITAL</span> · PACIFIC NORTHWEST
+            </p>
+          </div>
+
+          <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Join Club — $5/yr</button>
+          <p class="club-join-note" id="joinNote">Renews yearly. Member pricing on every digital release.</p>
+          <p class="club-join-status" id="joinStatus" role="status" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- News -->
   <section class="news" aria-labelledby="news-title">
@@ -2300,108 +2273,6 @@
     </div>
   </section>
 
-  <!-- Record club intake -->
-  <section class="club-join" id="join" aria-labelledby="join-title">
-    <div class="band">
-      <div class="club-join-inner rv">
-        <p class="eyebrow">The Record Club</p>
-        <h2 class="club-join-title" id="join-title">Music worth keeping.</h2>
-        <p class="club-join-lead">A digital and physical club for Club Copy releases. You already know the music — this is how you collect it. Nothing ships unless you choose it.</p>
-
-        <div class="join-levels" role="radiogroup" aria-label="Record club level">
-          <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
-            <span class="join-level-dot" aria-hidden="true"></span>
-            <span>
-              <span class="join-level-name">Free</span>
-              <span class="join-level-blurb">Release alerts, catalog access, and first listens. Stay close to every drop.</span>
-            </span>
-            <span class="join-level-price">$0</span>
-          </button>
-          <button type="button" class="join-level" data-level="club" role="radio" aria-checked="true">
-            <span class="join-level-dot" aria-hidden="true"></span>
-            <span>
-              <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Digital record club — member pricing, exclusive digital releases, early access, membership card.</span>
-            </span>
-            <span class="join-level-price">$5/yr</span>
-          </button>
-          <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
-            <span class="join-level-dot" aria-hidden="true"></span>
-            <span>
-              <span class="join-level-name">Premium</span>
-              <span class="join-level-blurb">Physical record club — pay what you want. Get 2.5×–5.0× credit toward cassettes &amp; limited pressings, plus everything in Club.</span>
-            </span>
-            <span class="join-level-price">From $10/yr</span>
-          </button>
-        </div>
-
-        <div class="join-panel" id="joinPanel">
-          <div class="join-fields">
-            <div class="join-field">
-              <label for="joinEmail">Email</label>
-              <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
-            </div>
-            <div class="join-field">
-              <label for="joinName">Name on card</label>
-              <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
-            </div>
-          </div>
-
-          <div class="join-premium-amount" id="premiumAmountBox" hidden>
-            <div class="join-field">
-              <label for="premiumAmount">Annual contribution (CAD)</label>
-              <div class="premium-presets" id="premiumPresets">
-                <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
-                <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
-                <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
-                <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
-              </div>
-              <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
-            </div>
-            <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
-              You get <strong>$25.00</strong> Club Credit <span>(2.5×)</span>
-            </p>
-          </div>
-
-          <div class="member-card" id="memberCard" aria-live="polite">
-            <div class="member-card-top">
-              <span class="member-card-brand">Club Copy</span>
-              <span class="member-card-level" id="cardLevel">CLUB</span>
-            </div>
-            <p class="member-card-name" id="cardName">Your name</p>
-            <p class="member-card-meta">
-              MEMBER <strong id="cardNumber">0000</strong><br/>
-              <span id="cardLayer">DIGITAL</span> · PACIFIC NORTHWEST
-            </p>
-          </div>
-
-          <button type="button" class="btn btn-dark club-join-btn" id="clubJoinBtn">Join Club — $5/yr</button>
-          <p class="club-join-note" id="joinNote">Renews yearly. Member pricing on every digital release.</p>
-          <p class="club-join-status" id="joinStatus" role="status" hidden></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stay close -->
-  <section class="signup" aria-labelledby="newsletter-title">
-    <div class="band">
-      <div class="signup-inner rv">
-        <p class="eyebrow">Newsletter</p>
-        <h2 class="signup-title" id="newsletter-title">New drops to your inbox.</h2>
-        <p class="signup-copy">Release alerts only. No spam.</p>
-        <form class="signup-form" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-labelledby="newsletter-title">
-          <label class="visually-hidden" for="newsletterEmail">Email</label>
-          <input type="email" id="newsletterEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Subscribe</button>
-        </form>
-        <p class="signup-note">Unsubscribe anytime.</p>
-        <p class="signup-status" role="status" aria-live="polite" hidden></p>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="footer">
@@ -2440,7 +2311,7 @@
     var y = window.scrollY;
     nav.classList.toggle('scrolled', y > 24);
     document.body.classList.toggle('scrolled-past-hero', y > window.innerHeight * 0.25);
-    /* Home stays nocturnal through news + signup : keep dark nav */
+    /* Home stays nocturnal through news + join : keep dark nav */
     document.body.classList.toggle('nav-light', false);
     ticking = false;
   }
@@ -2705,38 +2576,6 @@
     });
   })();
 
-  var signupForm = document.querySelector('.signup-form');
-  var signupStatus = document.querySelector('.signup-status');
-  if (signupForm && signupStatus && window.fetch) {
-    signupForm.addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      var btn = signupForm.querySelector('button[type="submit"]');
-      var restore = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      signupStatus.hidden = true;
-      signupStatus.classList.remove('is-error');
-      fetch(signupForm.action, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(signupForm)
-      })
-        .then(function (r) {
-          if (!r.ok) throw new Error('signup');
-          var section = signupForm.closest('.signup');
-          if (section) section.classList.add('is-done');
-          signupStatus.textContent = "You're in. See you at the next one.";
-          signupStatus.hidden = false;
-        })
-        .catch(function () {
-          btn.disabled = false;
-          btn.textContent = restore;
-          signupStatus.classList.add('is-error');
-          signupStatus.textContent = "That didn't go through : give it another try.";
-          signupStatus.hidden = false;
-        });
-    });
-  }
 })();
 </script>
 </body>

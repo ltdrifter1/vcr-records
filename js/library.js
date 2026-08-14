@@ -113,6 +113,44 @@
     return formats.join(' · ');
   }
 
+  function money(n) {
+    var v = Number(n);
+    if (!isFinite(v)) return '';
+    return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.00$/, '');
+  }
+
+  function memberDigitalPrice(retail) {
+    var v = Number(retail);
+    if (!isFinite(v)) return null;
+    if (v >= 8) return 6;
+    if (v >= 1.99) return 1.5;
+    return null;
+  }
+
+  function priceSide(rel) {
+    var f = rel.formats || {};
+    if (f.cassette && f.cassette.price != null) {
+      var cass = money(f.cassette.price);
+      var dig = f.digital && f.digital.price != null ? money(f.digital.price) : '';
+      var mem = f.digital ? memberDigitalPrice(f.digital.price) : null;
+      var lines = ['Cassette $' + cass];
+      if (dig) {
+        lines.push('Digital $' + dig + (mem != null ? ' · Members $' + money(mem) : ''));
+      }
+      lines.push('Premium credit eligible');
+      return { label: 'Price', value: lines.join('\n'), multi: true };
+    }
+    if (f.digital && f.digital.price != null) {
+      var retail = money(f.digital.price);
+      var m = memberDigitalPrice(f.digital.price);
+      if (m != null) {
+        return { label: 'Price', value: '$' + retail + ' · Members $' + money(m), multi: false };
+      }
+      return { label: 'Price', value: '$' + retail, multi: false };
+    }
+    return { label: 'Format', value: formatSide(rel), multi: false };
+  }
+
   function coverSrc(rel) {
     return rel.coverThumb || rel.cover || '';
   }
@@ -123,6 +161,7 @@
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
+    var pricing = priceSide(rel);
     var genre = rel.genre ? '<span class="cat-genre">' + esc(rel.genre) + '</span>' : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && t.preview);
@@ -140,6 +179,9 @@
     var pill = preorder
       ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
       : '';
+    var sideValue = pricing.multi
+      ? pricing.value.split('\n').map(function (line) { return esc(line); }).join('<br/>')
+      : esc(pricing.value);
 
     return (
       '<article class="cat-row rv" style="--cover:' + cssUrl(full || thumb) + '" data-release="' + esc(rel.id) + '" data-artist-id="' + esc(rel.artistId || '') + '" data-genre="' + esc(slugify(rel.genre)) + '">' +
@@ -160,8 +202,8 @@
           '</div>' +
         '</div>' +
         '<div class="cat-side">' +
-          '<p class="cat-side-label">Format</p>' +
-          '<p class="cat-side-value">' + esc(formatSide(rel)) + '</p>' +
+          '<p class="cat-side-label">' + esc(pricing.label) + '</p>' +
+          '<p class="cat-side-value">' + sideValue + '</p>' +
         '</div>' +
         '<a class="cat-go" href="' + esc(href) + '" aria-label="Open ' + esc(rel.title) + '">' +
           '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
@@ -245,7 +287,7 @@
     if (filters.artist) bits.push(displayNameForArtist(filters.artist));
 
     if (!bits.length) {
-      leadEl.textContent = 'Every release on Club Copy.';
+      leadEl.innerHTML = 'Catalogue by number — formats that exist, with club member pricing. <a href="/#join">Join</a>';
       return;
     }
 
