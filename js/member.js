@@ -2,7 +2,6 @@
 (function (global) {
   var PROFILE_KEY = 'club_member_profile';
   var EMAIL_KEY = 'club_credit_email';
-  var PASS_KEY = 'club_selection_pass';
 
   function normalizeEmail(email) {
     return String(email || '').trim().toLowerCase().replace(/\s+/g, '');
@@ -96,32 +95,14 @@
     return 'Guest';
   }
 
-  function passedSelection(selectionId) {
-    try {
-      var map = JSON.parse(localStorage.getItem(PASS_KEY) || '{}');
-      return !!(map && map[selectionId]);
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function passSelection(selectionId) {
-    try {
-      var map = JSON.parse(localStorage.getItem(PASS_KEY) || '{}');
-      if (!map || typeof map !== 'object') map = {};
-      map[selectionId] = Date.now();
-      localStorage.setItem(PASS_KEY, JSON.stringify(map));
-    } catch (e) {}
-  }
-
   function injectNavChip(profile) {
     var end = document.querySelector('.nav-end');
     if (!end) return;
 
     var existing = document.getElementById('navMember');
     var navJoinLinks = document.querySelectorAll(
-      '.nav-links a[href="#join"], .nav-links a[href="/#join"], .nav-links a[href="#selection"], .nav-links a[href="/#selection"], ' +
-      '.nav-drawer a[href="#join"], .nav-drawer a[href="/#join"], .nav-drawer a[href="#selection"], .nav-drawer a[href="/#selection"]'
+      '.nav-links a[href="#join"], .nav-links a[href="/#join"], ' +
+      '.nav-drawer a[href="#join"], .nav-drawer a[href="/#join"]'
     );
 
     if (!profile) {
@@ -138,15 +119,15 @@
     document.body.classList.toggle('is-club-member', hasMemberPricing(profile));
     document.body.classList.toggle('is-premium-member', isPremium(profile));
 
-    var selectionHref = (location.pathname === '/' || location.pathname === '/index.html')
-      ? '#selection'
-      : '/#selection';
+    var joinHref = (location.pathname === '/' || location.pathname === '/index.html')
+      ? '#join'
+      : '/#join';
 
     navJoinLinks.forEach(function (a) {
       if (!a.dataset.memberHrefBound) a.dataset.memberHrefBound = a.getAttribute('href');
       if (!a.dataset.memberLabelBound) a.dataset.memberLabelBound = a.textContent;
-      a.setAttribute('href', selectionHref);
-      a.textContent = hasMemberPricing(profile) ? 'Selection' : 'Club';
+      a.setAttribute('href', joinHref);
+      a.textContent = 'Club';
     });
 
     if (!existing) {
@@ -155,7 +136,7 @@
       existing.className = 'nav-member';
       end.insertBefore(existing, end.firstChild);
     }
-    existing.href = selectionHref;
+    existing.href = joinHref;
     existing.setAttribute(
       'aria-label',
       'Member ' + profile.memberNumber + ', ' + levelLabel(profile.level)
@@ -204,11 +185,6 @@
     memberDigitalPrice: memberDigitalPrice,
     displayPrice: displayPrice,
     levelLabel: levelLabel,
-    passedSelection: passedSelection,
-    passSelection: passSelection,
-    /* aliases for older callers */
-    passedCycle: passedSelection,
-    passCycle: passSelection,
     sync: sync
   };
 

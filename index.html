@@ -2345,35 +2345,6 @@
   </section>
 
   <!-- Club Selection -->
-  <section class="club-selection" id="selection" aria-labelledby="club-sel-title">
-    <div class="band">
-      <div class="club-sel-grid rv">
-        <a class="club-sel-cover" id="clubSelCoverLink" href="/inlet-knight">
-          <img id="clubSelCover" src="inlet-knight-cover.webp" alt="Inlet Knight artwork" width="1200" height="1200" loading="lazy"/>
-        </a>
-        <div class="club-sel-letter">
-          <p class="club-sel-eyebrow" id="clubSelLabel">August 2026</p>
-          <p class="club-sel-kicker" id="clubSelKicker">Club selection</p>
-          <h2 class="club-sel-title" id="club-sel-title"><span id="clubSelTitle">Inlet Knight</span></h2>
-          <p class="club-sel-meta" id="clubSelMeta">CC005 · Inlet Knight · House</p>
-          <p class="club-sel-from" id="clubSelFrom">The listening room</p>
-          <div class="club-sel-body" id="clubSelLetter">
-            <span class="club-sel-para">We held the Inlet Knight album close — the record that still opens when you play it years later.</span><br/><br/>
-            <span class="club-sel-para">Keep the digital copy at member price, claim the cassette with Club Credit if you’re Premium, or pass and wait for the next letter. Nothing ships unless you choose it.</span>
-          </div>
-          <div class="club-sel-actions">
-            <a class="btn btn-chrome-on-dark" id="clubSelListen" href="/inlet-knight" data-play-release="inlet-knight" data-play-stage>Listen</a>
-            <button type="button" class="btn btn-ghost-on-dark" id="clubSelKeep">Keep digital — $6</button>
-            <button type="button" class="btn btn-ghost-on-dark" id="clubSelClaim">Claim cassette — $20</button>
-            <button type="button" class="btn btn-ghost-on-dark" id="clubSelPass">Pass for now</button>
-          </div>
-          <p class="club-sel-gate" id="clubSelGate">Not on the list yet? <a href="#join">Accept your invitation</a> — then this selection is addressed to you.</p>
-          <p class="club-sel-status" id="clubSelStatus" role="status" hidden></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Record club invitation -->
   <section class="club-join" id="join" aria-labelledby="join-title">
     <div class="band">
@@ -2840,7 +2811,6 @@
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
 <script src="js/home-wall.js"></script>
-<script src="js/club-selection.js"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');
@@ -3086,7 +3056,7 @@
           if (!r.ok) throw new Error('signup');
           showStatus("You're on the list. We'll write when the next letter lands.");
           joinBtn.textContent = 'Accepted ✓';
-          setTimeout(function () { window.location.href = '/#selection'; }, 900);
+          setTimeout(function () { window.location.href = '/#join'; }, 900);
         } catch (e) {
           showStatus("Couldn't finish Free signup. Try again.", true);
           joinBtn.disabled = false;

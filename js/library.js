@@ -290,7 +290,7 @@
     if (!bits.length) {
       var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
       if (profile && ClubMember.hasMemberPricing(profile)) {
-        leadEl.innerHTML = 'Club edition — Member ' + esc(profile.memberNumber) + '. Digital copies at your price. <a href="/#selection">Club selection</a>';
+        leadEl.innerHTML = 'Club edition — Member ' + esc(profile.memberNumber) + '. Digital copies at your price. <a href="/#join">Your club</a>';
       } else if (profile) {
         leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member copies.';
       } else {

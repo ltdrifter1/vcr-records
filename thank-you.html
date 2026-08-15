@@ -138,10 +138,10 @@
           : 'Club is active. Your card is ready — member copies of each digital selection are yours.';
       document.getElementById('fulfillNote').textContent =
         level === 'premium'
-          ? 'Open the club selection, then apply Club Credit at checkout with the same email.'
-          : 'Renews yearly. Open the club selection whenever you are ready.';
-      document.getElementById('tyPrimary').href = '/#selection';
-      document.getElementById('tyPrimary').textContent = 'Open club selection';
+          ? 'Browse the library, then apply Club Credit at checkout with the same email.'
+          : 'Renews yearly. Browse the library whenever you are ready for member copies.';
+      document.getElementById('tyPrimary').href = '/library';
+      document.getElementById('tyPrimary').textContent = 'Browse the library';
 
       var profile = window.ClubMember ? ClubMember.readProfile() : null;
       if (!profile) {
