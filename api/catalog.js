@@ -248,7 +248,7 @@ module.exports = {
       label: "Club",
       priceLabel: "$5/yr",
       blurb:
-        "Get your card — member copies of each digital selection, early access, exclusives.",
+        "Get your card — digital releases at member price, early access, exclusives.",
       layer: "digital",
     },
     premium: {

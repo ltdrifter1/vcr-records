@@ -292,7 +292,7 @@
       if (profile && ClubMember.hasMemberPricing(profile)) {
         leadEl.innerHTML = 'Club edition — Member ' + esc(profile.memberNumber) + '. Digital copies at your price. <a href="/#join">Your club</a>';
       } else if (profile) {
-        leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member copies.';
+        leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member pricing.';
       } else {
         leadEl.innerHTML = 'Catalogue by number — formats that exist, with club member pricing. <a href="/#join">Accept invitation</a>';
       }

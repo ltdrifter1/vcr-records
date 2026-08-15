@@ -1164,6 +1164,50 @@
       line-height: 1.55;
       color: var(--join-muted);
     }
+    .join-member-home {
+      text-align: center;
+      max-width: 28em;
+      margin: 0 auto 36px;
+    }
+    .join-member-kicker {
+      margin: 0 0 10px;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--join-dim);
+    }
+    .join-member-title {
+      margin: 0 0 12px;
+      font-family: var(--display);
+      font-size: clamp(28px, 4.5vw, 40px);
+      font-weight: 600;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+      color: #fff;
+    }
+    .join-member-dek {
+      margin: 0 auto 22px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--join-muted);
+    }
+    .join-member-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .join-member-actions .btn { min-height: 48px; }
+    .club-join.is-member-home .club-join-lead { display: none; }
+    .club-join.is-member-home .join-levels,
+    .club-join.is-member-home .join-panel { display: none; }
+    .club-join.is-member-home .join-stage {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+    .club-join.is-member-home .member-card-stage { max-width: 360px; width: 100%; }
     .join-levels {
       display: grid;
       gap: 14px;
@@ -2328,18 +2372,12 @@
         <a class="head-link" href="/library">View all</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
-<article class="wall-item rv" data-release="any-jungle"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/any-jungle" aria-label="Any Jungle. view release"><img src="any-jungle-cover-480.webp" srcset="any-jungle-cover-480.webp 480w, any-jungle-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Any Jungle. artwork" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC009 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/any-jungle">Any Jungle</a></h3><p class="wall-artist">Double-Edge</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lookout" aria-label="Lookout. view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Glass facade reflecting a high-rise under blue sky. Lookout" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC010 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lookout" aria-label="Lookout. view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Glass facade reflecting a high-rise under blue sky. Lookout" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC010 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="any-jungle"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/any-jungle" aria-label="Any Jungle. view release"><img src="any-jungle-cover-480.webp" srcset="any-jungle-cover-480.webp 480w, any-jungle-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Any Jungle. artwork" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC009 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/any-jungle">Any Jungle</a></h3><p class="wall-artist">Double-Edge</p></div></div></article>
 <article class="wall-item rv" data-release="solar-eclipse-part-2"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/solar-eclipse-part-2" aria-label="Solar (Eclipse Part 2). view release"><img src="solar-eclipse-part-2-cover-480.webp" srcset="solar-eclipse-part-2-cover-480.webp 480w, solar-eclipse-part-2-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Solar (Eclipse Part 2). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="solar-eclipse-part-2" data-play-stage aria-label="Play Solar (Eclipse Part 2)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/solar-eclipse-part-2">Solar (Eclipse Part 2)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="lunar-eclipse-part-3"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lunar-eclipse-part-3" aria-label="Lunar (Eclipse Part 3). view release"><img src="lunar-eclipse-part-3-cover-480.webp" srcset="lunar-eclipse-part-3-cover-480.webp 480w, lunar-eclipse-part-3-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Lunar (Eclipse Part 3). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="lunar-eclipse-part-3" data-play-stage aria-label="Play Lunar (Eclipse Part 3)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/lunar-eclipse-part-3">Lunar (Eclipse Part 3)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="sun-and-moon-eclipse"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/sun-and-moon-eclipse" aria-label="Sun & Moon (Eclipse Part 1). view release"><img src="sun-and-moon-eclipse-cover-480.webp" srcset="sun-and-moon-eclipse-cover-480.webp 480w, sun-and-moon-eclipse-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Sun & Moon (Eclipse Part 1). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="sun-and-moon-eclipse" data-play-stage aria-label="Play Sun & Moon (Eclipse Part 1)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/sun-and-moon-eclipse">Sun & Moon (Eclipse Part 1)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="together"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/together" aria-label="Together. view release"><img src="together-cover-480.webp" srcset="together-cover-480.webp 480w, together-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Together. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="together" data-play-stage aria-label="Play Together"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC008 · EP · 2026</p><h3 class="wall-title"><a href="/together">Together</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="j-adore"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/j-adore" aria-label="j&#x27;adore. view release"><img src="j-adore-cover-480.webp" srcset="j-adore-cover-480.webp 480w, j-adore-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="j&#x27;adore. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="j-adore" data-play-stage aria-label="Play j&#x27;adore"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC007 · Single · 2026</p><h3 class="wall-title"><a href="/j-adore">j&#x27;adore</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="enter"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/enter" aria-label="Enter, Double-Edge. view release"><img src="enter-cover-480.webp" srcset="enter-cover-480.webp 480w, enter-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Enter, Double-Edge. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="enter" data-play-stage aria-label="Play Enter, Double-Edge"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC006 · EP · 2026</p><h3 class="wall-title"><a href="/enter">Enter, Double-Edge</a></h3><p class="wall-artist">Double-Edge</p></div></div></article>
-<article class="wall-item rv" data-release="inlet-knight"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/inlet-knight" aria-label="Inlet Knight. view release"><img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Inlet Knight. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="inlet-knight" data-play-stage aria-label="Play Inlet Knight"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC005 · Album · 2026</p><h3 class="wall-title"><a href="/inlet-knight">Inlet Knight</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="letters-from-another-era"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/letters-from-another-era" aria-label="Letters From Another Era. view release"><img src="letters-from-another-era-cover-480.webp" srcset="letters-from-another-era-cover-480.webp 480w, letters-from-another-era-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Letters From Another Era. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="letters-from-another-era" data-play-stage aria-label="Play Letters From Another Era"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC002 · EP · 2026</p><h3 class="wall-title"><a href="/letters-from-another-era">Letters From Another Era</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
       </div>
     </div>
   </section>
@@ -2351,10 +2389,20 @@
         <header class="club-join-head">
           <p class="eyebrow">An invitation</p>
           <h2 class="club-join-title" id="join-title">Join the Record Club.</h2>
-          <p class="club-join-lead">A letter with each selection. A card with your number. Music worth keeping — digital member copies, and physical credit when you want the shelf. Nothing ships unless you choose it.</p>
+          <p class="club-join-lead">A card with your number. Digital releases at member price. Club Credit for cassettes when you want the shelf. Nothing ships unless you choose it.</p>
         </header>
 
-        <div class="join-levels" role="radiogroup" aria-label="Record club level">
+        <div class="join-member-home" id="joinMemberHome" hidden>
+          <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
+          <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
+          <p class="join-member-dek" id="joinMemberDek">Your card is ready. Browse the library at your member price.</p>
+          <div class="join-member-actions">
+            <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
+            <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Manage membership</button>
+          </div>
+        </div>
+
+        <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
           <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
             <span class="join-level-top">
               <span class="join-level-dot" aria-hidden="true"></span>
@@ -2373,7 +2421,7 @@
             </span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Get your card — member copies of each digital selection, early access, exclusives.</span>
+              <span class="join-level-blurb">Get your card — digital releases at member price, early access, exclusives.</span>
             </span>
             <span class="join-level-tag">Your card</span>
           </button>
@@ -2421,7 +2469,7 @@
             </div>
 
             <button type="button" class="btn club-join-btn" id="clubJoinBtn">Accept Club — $5/yr</button>
-            <p class="club-join-note" id="joinNote">Renews yearly. Member copies of every digital selection.</p>
+            <p class="club-join-note" id="joinNote">Renews yearly. Digital releases at your member price.</p>
             <p class="club-join-status" id="joinStatus" role="status" hidden></p>
           </div>
 
@@ -2943,7 +2991,7 @@
 
       if (state.level === 'free') {
         joinBtn.textContent = 'Accept Free';
-        joinNote.textContent = 'Get the letters. Upgrade anytime for member copies.';
+        joinNote.textContent = 'Get the letters. Upgrade anytime for member pricing.';
       } else if (state.level === 'premium') {
         syncPremiumPreview();
         var d = state.premiumDollars;
@@ -2951,7 +2999,7 @@
         joinNote.textContent = 'Pay what you want. Nothing ships until you pick something.';
       } else {
         joinBtn.textContent = 'Accept Club — $5/yr';
-        joinNote.textContent = 'Renews yearly. Member copies of every digital selection.';
+        joinNote.textContent = 'Renews yearly. Digital releases at your member price.';
       }
     }
 
@@ -2989,6 +3037,97 @@
     if (joinName) joinName.addEventListener('input', syncCard);
     if (joinEmail) joinEmail.addEventListener('input', syncCard);
     syncCard();
+
+    var joinSection = document.getElementById('join');
+    var joinTitle = document.getElementById('join-title');
+    var joinMemberHome = document.getElementById('joinMemberHome');
+    var joinMemberNo = document.getElementById('joinMemberNo');
+    var joinMemberKicker = document.getElementById('joinMemberKicker');
+    var joinMemberDek = document.getElementById('joinMemberDek');
+    var joinMemberManage = document.getElementById('joinMemberManage');
+    var joinLevels = document.getElementById('joinLevels');
+    var joinPanel = document.getElementById('joinPanel');
+    var managing = false;
+
+    function fillCardFromProfile(profile) {
+      if (!profile) return;
+      var name = (profile.displayName || '').trim() || profile.email || 'Member';
+      cardName.textContent = name.toUpperCase();
+      cardNumber.textContent = profile.memberNumber || memberNumber(profile.email);
+      cardLevel.textContent = profile.level === 'premium' ? 'PREMIUM' : profile.level === 'free' ? 'FREE' : 'CLUB';
+      cardLayer.textContent = profile.level === 'premium' ? 'Digital + Physical' : profile.level === 'free' ? 'Catalog' : 'Digital';
+      var card = document.getElementById('memberCard');
+      if (card) {
+        card.classList.remove('is-free', 'is-club', 'is-premium');
+        card.classList.add(profile.level === 'premium' ? 'is-premium' : profile.level === 'free' ? 'is-free' : 'is-club');
+      }
+      if (joinEmail && !joinEmail.value) joinEmail.value = profile.email || '';
+      if (joinName && !joinName.value && profile.displayName) joinName.value = profile.displayName;
+    }
+
+    function showMemberHome(profile) {
+      if (!joinSection || !joinMemberHome || !profile) return;
+      managing = false;
+      fillCardFromProfile(profile);
+      joinMemberNo.textContent = profile.memberNumber || memberNumber(profile.email);
+      if (joinTitle) joinTitle.textContent = 'Your Record Club.';
+      if (joinMemberKicker) {
+        joinMemberKicker.textContent = profile.level === 'free' ? "You're on the list" : "You're in";
+      }
+      if (joinMemberDek) {
+        if (profile.level === 'premium') {
+          joinMemberDek.textContent = 'Premium Member ' + (profile.memberNumber || '') + '. Club Credit is on this email — spend it on cassettes you choose.';
+        } else if (profile.level === 'club') {
+          joinMemberDek.textContent = 'Member ' + (profile.memberNumber || '') + '. Your card is ready — browse the library at your member price.';
+        } else {
+          joinMemberDek.textContent = 'Member ' + (profile.memberNumber || '') + '. You get the letters. Upgrade anytime for member pricing.';
+        }
+      }
+      if (joinMemberManage) {
+        joinMemberManage.textContent = profile.level === 'free' ? 'Upgrade membership' : 'Manage membership';
+      }
+      joinMemberHome.hidden = false;
+      joinSection.classList.add('is-member-home');
+      if (joinLevels) joinLevels.hidden = true;
+      if (joinPanel) joinPanel.hidden = true;
+    }
+
+    function showJoinIntake(profile) {
+      managing = true;
+      if (joinSection) joinSection.classList.remove('is-member-home');
+      if (joinMemberHome) joinMemberHome.hidden = true;
+      if (joinLevels) joinLevels.hidden = false;
+      if (joinPanel) joinPanel.hidden = false;
+      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Join the Record Club.';
+      if (profile) {
+        fillCardFromProfile(profile);
+        if (profile.level === 'premium') state.level = 'premium';
+        else if (profile.level === 'club') state.level = 'club';
+        else state.level = 'free';
+        levelBtns.forEach(function (b) {
+          b.setAttribute('aria-checked', b.getAttribute('data-level') === state.level ? 'true' : 'false');
+        });
+      }
+      syncCard();
+    }
+
+    function syncMemberView() {
+      var profile = window.ClubMember && ClubMember.readProfile();
+      if (profile && !managing) showMemberHome(profile);
+      else if (!profile) showJoinIntake(null);
+    }
+
+    if (joinMemberManage) {
+      joinMemberManage.addEventListener('click', function () {
+        var profile = window.ClubMember && ClubMember.readProfile();
+        showJoinIntake(profile);
+      });
+    }
+
+    window.addEventListener('club:member', function () {
+      if (!managing) syncMemberView();
+    });
+    syncMemberView();
 
     function showStatus(msg, isError) {
       joinStatus.hidden = false;
@@ -3053,9 +3192,16 @@
             body: fd
           });
           if (!r.ok) throw new Error('signup');
-          showStatus("You're on the list. We'll write when the next letter lands.");
-          joinBtn.textContent = 'Accepted ✓';
-          setTimeout(function () { window.location.href = '/#join'; }, 900);
+          managing = false;
+          joinBtn.disabled = false;
+          syncMemberView();
+          var homeProfile = window.ClubMember && ClubMember.readProfile();
+          if (homeProfile) showMemberHome(homeProfile);
+          if (joinMemberDek) {
+            joinMemberDek.textContent = "You're on the list. Member " +
+              (payload.memberNumber || memberNumber(email)) +
+              ' is ready — upgrade anytime for member pricing.';
+          }
         } catch (e) {
           showStatus("Couldn't finish Free signup. Try again.", true);
           joinBtn.disabled = false;
