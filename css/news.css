@@ -68,15 +68,28 @@
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  touch-action: pan-x;
+  /* Keep vertical page/trackpad scroll working on desktop.
+     pan-x-only was eating PC scroll when the pointer sat on the rail. */
+  touch-action: manipulation;
   scroll-snap-type: x proximity;
   /* Snap to band inset : layout padding must NOT live on this scrollport
      (Chromium scroll-snap scrolls scrollport padding away). */
   scroll-padding-left: var(--news-inset);
-  scrollbar-width: auto;
-  scrollbar-color: rgba(180,190,205,.7) rgba(255,255,255,.06);
-  padding: 8px 0 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(180,190,205,.85) rgba(255,255,255,.08);
+  padding: 8px 0 18px;
   outline: none;
+}
+@media (pointer: coarse) {
+  .news-rail {
+    touch-action: pan-x;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  /* Desktop: native scrollbar is the affordance; snap fights thumb drag. */
+  .news-rail {
+    scroll-snap-type: none;
+  }
 }
 .news-rail .news-card-art img {
   -webkit-user-drag: none;
@@ -85,20 +98,17 @@
 .news-rail:focus-visible {
   box-shadow: inset 0 0 0 2px rgba(200,214,230,.55);
 }
-.news-rail::-webkit-scrollbar { height: 10px; }
+.news-rail::-webkit-scrollbar { height: 12px; }
 .news-rail::-webkit-scrollbar-track {
-  background: rgba(255,255,255,.06);
+  background: rgba(255,255,255,.08);
   border-radius: 0;
 }
 .news-rail::-webkit-scrollbar-thumb {
-  background: rgba(180,190,205,.7);
+  background: rgba(180,190,205,.85);
   border-radius: 0;
-  border: 2px solid transparent;
-  background-clip: padding-box;
 }
 .news-rail::-webkit-scrollbar-thumb:hover {
-  background: rgba(210,218,230,.9);
-  background-clip: padding-box;
+  background: rgba(210,218,230,.95);
 }
 .news-rail-track {
   display: flex;
