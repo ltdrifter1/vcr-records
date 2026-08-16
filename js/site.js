@@ -82,7 +82,9 @@
   }
 
   /* Homepage news rail — native scrollbar (desktop) + swipe (touch).
-     No wheel remapping: vertical mouse wheel must keep scrolling the page. */
+     No wheel remapping: vertical mouse wheel must keep scrolling the page.
+     Desktop also skips touch-action:pan-x / scroll-snap so the PC scrollbar
+     stays draggable (see css/news.css). */
 
   window.ClubCopy = window.ClubCopy || {};
   window.ClubCopy.closeDrawer = closeDrawer;
