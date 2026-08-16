@@ -19,6 +19,7 @@ const MERCH_PAGE_SKUS = [
   "dg-solar-eclipse-part-2",
   "dg-lunar-eclipse-part-3",
   "dg-sun-and-moon-eclipse",
+  "dg-champion-sound",
   "dg-j-adore",
   "dg-enter",
   "dg-together",
@@ -136,6 +137,12 @@ const PRODUCTS = {
     digital: true,
     format: "digital",
   },
+  "dg-champion-sound": {
+    name: "Champion Sound — Digital (Single)",
+    unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
 
   // Membership — Club Copy record club
   // Free — release alerts + catalog (no SKU)
@@ -212,6 +219,7 @@ function priceIdFromEnv(sku) {
 /** Club / Premium digital member price (cents). Retail $8→$6, $1.99→$1.50. */
 function memberDigitalUnitAmount(unitAmount) {
   const n = Math.floor(Number(unitAmount) || 0);
+  if (n === 150) return 150;
   if (n >= 800) return 600;
   if (n >= 199) return 150;
   return null;
