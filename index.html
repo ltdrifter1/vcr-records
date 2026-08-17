@@ -451,7 +451,6 @@
     }
     .hero-idle-title {
       margin: 0;
-      max-width: 18em;
       font-family: var(--display);
       font-size: clamp(15px, 2.1vw, 18px);
       font-weight: 500;
@@ -460,6 +459,7 @@
       color: rgba(255,255,255,.72);
       text-align: center;
       text-shadow: 0 1px 18px rgba(0,0,0,.4);
+      white-space: nowrap;
       animation: heroIn .85s var(--ease) .28s both;
     }
     .hero-idle-track,
@@ -2005,7 +2005,7 @@
       .hero.is-live .hero-brand { width: min(52vw, 200px); margin: 0; }
       .hero.is-live .hero-station { margin-bottom: 2px; }
       .hero-idle { gap: 12px; margin-top: 12px; }
-      .hero-idle-title { font-size: clamp(15px, 3.8vw, 17px); }
+      .hero-idle-title { font-size: clamp(12px, 3.5vw, 17px); }
       .hero:not(.is-live) .hero-platter { display: none; }
       .hero-ctas { width: 100%; margin-top: 4px; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
@@ -2086,7 +2086,7 @@
       .hero.is-live .hero-brand { width: min(42vw, 150px); }
       .hero.is-live .hero-station { display: none; }
       .hero-idle { gap: 12px; }
-      .hero-idle-title { font-size: clamp(14px, 3.6vw, 16px); }
+      .hero-idle-title { font-size: clamp(11px, 3.3vw, 16px); }
       .hero-ctas { margin-top: 0; gap: 8px; }
       .hero-ctas .btn { height: 44px; }
       .hero.is-live .hero-platter { width: min(28vw, 108px); }
@@ -2145,7 +2145,7 @@
       .hero-format-options { justify-content: flex-start; }
       .hero.is-live .hero-controls,
       .hero.is-live .hero-console-actions { justify-content: flex-start; }
-      .hero-idle-title { font-size: 15px; }
+      .hero-idle-title { font-size: clamp(12px, 2.4vw, 15px); }
     }
 
     /* Dark dock over the dark homepage ------------------------------------- */
