@@ -571,141 +571,102 @@
     }
 
     .cat-price-panel {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
       max-width: 280px;
     }
-
-    .cat-priceboard {
+    .cat-price-tile {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-    .cat-priceboard-fmt {
-      margin: 0;
-      font-family: var(--callsign);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
-    .cat-price-tiers {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      border-radius: 4px;
-      overflow: hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.3));
-      border: 1px solid rgba(170,182,200,.32);
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 72px;
+      padding: 14px 15px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(160, 172, 190, .22);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.75),
-        0 8px 20px rgba(26,30,38,.04);
+        0 1px 0 rgba(255, 255, 255, .9) inset,
+        0 10px 28px -18px rgba(20, 28, 40, .28);
+      transition:
+        background var(--dur) var(--ease),
+        border-color var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease),
+        transform var(--dur) var(--ease);
     }
-    .cat-price-tier {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding: 12px 14px;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      transition: background var(--dur) var(--ease);
-    }
-    .cat-price-tier + .cat-price-tier {
-      border-left: 1px solid rgba(170,182,200,.28);
-    }
-    .cat-price-tier-label {
-      font-family: var(--callsign);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--dim);
-      line-height: 1;
-    }
-    .cat-price-tier-amt {
-      font-family: var(--display);
-      font-size: clamp(20px, 2.1vw, 24px);
-      font-weight: 600;
-      letter-spacing: -.04em;
-      line-height: 1;
-      color: var(--muted);
-      font-variant-numeric: tabular-nums;
-    }
-    .cat-price-tier--member {
-      background:
-        linear-gradient(165deg, rgba(255,255,255,.5) 0%, rgba(220,230,242,.72) 100%);
-    }
-    .cat-price-tier--member .cat-price-tier-label {
-      color: rgba(26,34,48,.58);
-    }
-    .cat-price-tier--member .cat-price-tier-amt,
-    .cat-price-tier.is-active .cat-price-tier-amt {
-      color: var(--ink);
-    }
-    .cat-price-tier--member.is-yours {
-      background:
-        linear-gradient(165deg, rgba(255,255,255,.7) 0%, rgba(198,214,232,.82) 100%);
-    }
-    .cat-price-tier--member.is-yours .cat-price-tier-label::after {
-      content: " · yours";
-      letter-spacing: .08em;
-    }
-
-    .cat-price-solo {
-      display: flex;
+    .cat-price-tile--wide {
+      grid-column: 1 / -1;
+      flex-direction: row;
       align-items: baseline;
       justify-content: space-between;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 4px;
+      min-height: 0;
+      padding: 15px 16px;
+    }
+    .cat-price-tile--physical {
+      background: rgba(255, 255, 255, .82);
+    }
+    .cat-price-tile--member {
       background:
-        linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.28));
-      border: 1px solid rgba(170,182,200,.28);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+        linear-gradient(165deg, rgba(255, 255, 255, .9) 0%, rgba(232, 238, 246, .92) 100%);
+      border-color: rgba(140, 158, 182, .28);
     }
-    .cat-price-solo-label {
-      font-family: var(--callsign);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
+    .cat-price-tile.is-active .cat-price-tile-amt,
+    .cat-price-tile--member .cat-price-tile-amt {
+      color: var(--ink);
+    }
+    .cat-price-tile--member.is-yours {
+      border-color: rgba(110, 132, 160, .42);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, .95) inset,
+        0 0 0 1px rgba(110, 132, 160, .16),
+        0 14px 30px -18px rgba(20, 28, 40, .3);
+    }
+    .cat-price-tile--member.is-yours .cat-price-tile-label::after {
+      content: " · yours";
+      letter-spacing: .06em;
+      text-transform: none;
+      font-weight: 500;
+    }
+    .cat-price-tile-label {
+      font-family: var(--sans, 'Space Grotesk', sans-serif);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: -.01em;
       color: var(--dim);
+      line-height: 1.2;
     }
-    .cat-price-solo-amt {
+    .cat-price-tile-amt {
       font-family: var(--display);
-      font-size: clamp(18px, 2vw, 22px);
+      font-size: clamp(22px, 2.2vw, 26px);
       font-weight: 600;
-      letter-spacing: -.03em;
+      letter-spacing: -.045em;
+      line-height: 1;
       color: var(--ink);
       font-variant-numeric: tabular-nums;
-      line-height: 1;
     }
-    .cat-price-solo-amt--text {
+    .cat-price-tile--wide .cat-price-tile-amt {
+      font-size: clamp(20px, 2vw, 24px);
+    }
+    .cat-price-tile-amt--text {
       font-family: var(--sans, 'Space Grotesk', sans-serif);
       font-size: 14px;
       font-weight: 500;
-      letter-spacing: -.01em;
+      letter-spacing: -.015em;
       color: var(--muted);
-    }
-    .cat-price-note {
-      margin: 0;
-      font-size: 11px;
-      color: var(--dim);
-      letter-spacing: -.01em;
-      line-height: 1.3;
     }
 
     @media (hover:hover) {
-      .cat-row:hover .cat-price-tiers {
-        border-color: rgba(140,154,174,.42);
+      .cat-row:hover .cat-price-tile {
+        background: rgba(255, 255, 255, .9);
+        border-color: rgba(140, 154, 174, .34);
         box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.88),
-          0 10px 24px rgba(26,30,38,.07);
+          0 1px 0 rgba(255, 255, 255, .95) inset,
+          0 16px 32px -18px rgba(20, 28, 40, .32);
+      }
+      .cat-row:hover .cat-price-tile--member {
+        background:
+          linear-gradient(165deg, rgba(255, 255, 255, .96) 0%, rgba(226, 234, 244, .96) 100%);
       }
     }
 
@@ -796,6 +757,12 @@
     }
     .cat-list.is-covers .cat-price-panel {
       max-width: none;
+      gap: 10px;
+    }
+    .cat-list.is-covers .cat-price-tile {
+      min-height: 76px;
+      padding: 16px;
+      border-radius: 16px;
     }
     .cat-list.is-covers .cat-main { align-self: stretch; }
     .cat-list.is-covers .cat-title {

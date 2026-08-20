@@ -137,34 +137,21 @@
     );
   }
 
-  function dualTierHtml(retail, member, opts) {
+  function priceTileHtml(label, amount, opts) {
     var o = opts || {};
-    var yours = isMemberShopper();
-    var fmt = o.formatLabel
-      ? '<p class="cat-priceboard-fmt">' + esc(o.formatLabel) + '</p>'
-      : '';
+    var classes = ['cat-price-tile'];
+    if (o.member) classes.push('cat-price-tile--member');
+    if (o.physical) classes.push('cat-price-tile--physical');
+    if (o.active) classes.push('is-active');
+    if (o.yours) classes.push('is-yours');
+    if (o.wide) classes.push('cat-price-tile--wide');
+    var amt = amount == null
+      ? '<span class="cat-price-tile-amt cat-price-tile-amt--text">' + esc(o.text || '') + '</span>'
+      : '<span class="cat-price-tile-amt">$' + esc(money(amount)) + '</span>';
     return (
-      '<div class="cat-priceboard" role="group" aria-label="' + esc(o.aria || 'Pricing') + '">' +
-        fmt +
-        '<div class="cat-price-tiers">' +
-          '<div class="cat-price-tier' + (yours ? '' : ' is-active') + '">' +
-            '<span class="cat-price-tier-label">Regular</span>' +
-            '<span class="cat-price-tier-amt">$' + esc(money(retail)) + '</span>' +
-          '</div>' +
-          '<div class="cat-price-tier cat-price-tier--member' + (yours ? ' is-active is-yours' : '') + '">' +
-            '<span class="cat-price-tier-label">Member</span>' +
-            '<span class="cat-price-tier-amt">$' + esc(money(member)) + '</span>' +
-          '</div>' +
-        '</div>' +
-      '</div>'
-    );
-  }
-
-  function singlePriceHtml(amount, label) {
-    return (
-      '<div class="cat-price-solo">' +
-        '<span class="cat-price-solo-label">' + esc(label || 'Digital') + '</span>' +
-        '<span class="cat-price-solo-amt">$' + esc(money(amount)) + '</span>' +
+      '<div class="' + classes.join(' ') + '">' +
+        '<span class="cat-price-tile-label">' + esc(label) + '</span>' +
+        amt +
       '</div>'
     );
   }
@@ -174,43 +161,46 @@
     var chunks = [];
     var hasCassette = !!(f.cassette && f.cassette.price != null);
     var hasDigital = !!(f.digital && f.digital.price != null);
+    var yours = isMemberShopper();
 
     if (hasCassette) {
-      chunks.push(
-        '<div class="cat-price-solo cat-price-solo--physical">' +
-          '<span class="cat-price-solo-label">Cassette</span>' +
-          '<span class="cat-price-solo-amt">$' + esc(money(f.cassette.price)) + '</span>' +
-        '</div>'
-      );
+      chunks.push(priceTileHtml('Cassette', f.cassette.price, {
+        physical: true,
+        wide: true
+      }));
     }
 
     if (hasDigital) {
       var retail = Number(f.digital.price);
       var mem = memberDigitalPrice(retail);
       if (mem != null && mem < retail) {
-        chunks.push(dualTierHtml(retail, mem, {
-          formatLabel: hasCassette ? 'Digital' : '',
-          aria: (rel.title || 'Release') + ' digital pricing'
+        chunks.push(priceTileHtml('Regular', retail, {
+          active: !yours
+        }));
+        chunks.push(priceTileHtml('Member', mem, {
+          member: true,
+          active: yours,
+          yours: yours
         }));
       } else {
-        chunks.push(singlePriceHtml(retail, hasCassette ? 'Digital' : 'Digital'));
+        chunks.push(priceTileHtml('Digital', retail, {
+          wide: !hasCassette
+        }));
       }
     }
 
-    if (hasCassette) {
-      chunks.push('<p class="cat-price-note">Premium credit eligible</p>');
-    }
-
     if (!chunks.length) {
-      return (
-        '<div class="cat-price-solo">' +
-          '<span class="cat-price-solo-label">Format</span>' +
-          '<span class="cat-price-solo-amt cat-price-solo-amt--text">' + esc(formatSide(rel)) + '</span>' +
-        '</div>'
-      );
+      chunks.push(priceTileHtml('Format', null, {
+        text: formatSide(rel),
+        wide: true
+      }));
     }
 
-    return '<div class="cat-price-panel">' + chunks.join('') + '</div>';
+    return (
+      '<div class="cat-price-panel" role="group" aria-label="' +
+        esc((rel.title || 'Release') + ' pricing') +
+      '">' + chunks.join('') + '</div>'
+    );
   }
 
   function coverSrc(rel) {
