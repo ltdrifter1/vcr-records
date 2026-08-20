@@ -20,6 +20,7 @@ const MERCH_PAGE_SKUS = [
   "dg-lunar-eclipse-part-3",
   "dg-sun-and-moon-eclipse",
   "dg-champion-sound",
+  "dg-summer-madness",
   "dg-j-adore",
   "dg-enter",
   "dg-together",
@@ -140,6 +141,12 @@ const PRODUCTS = {
   "dg-champion-sound": {
     name: "Champion Sound — Digital (Single)",
     unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
+  "dg-summer-madness": {
+    name: "Summer Madness — Digital (Album)",
+    unitAmount: 900,
     digital: true,
     format: "digital",
   },
