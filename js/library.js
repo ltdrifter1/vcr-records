@@ -501,6 +501,8 @@
     })
     .then(function (data) {
       allReleases = (data.releases || []).slice().sort(function (a, b) {
+        var yearDiff = (Number(b.year) || 0) - (Number(a.year) || 0);
+        if (yearDiff) return yearDiff;
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
 
