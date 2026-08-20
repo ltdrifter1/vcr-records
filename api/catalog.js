@@ -21,6 +21,7 @@ const MERCH_PAGE_SKUS = [
   "dg-sun-and-moon-eclipse",
   "dg-champion-sound",
   "dg-summer-madness",
+  "dg-ep1",
   "dg-j-adore",
   "dg-enter",
   "dg-together",
@@ -150,6 +151,12 @@ const PRODUCTS = {
     digital: true,
     format: "digital",
   },
+  "dg-ep1": {
+    name: "EP1 — Digital (EP)",
+    unitAmount: 300,
+    digital: true,
+    format: "digital",
+  },
 
   // Membership — Club Copy record club
   // Free — release alerts + catalog (no SKU)
@@ -223,12 +230,13 @@ function priceIdFromEnv(sku) {
   return process.env[key] || null;
 }
 
-/** Club / Premium digital member price (cents). Retail $8→$6, $1.99→$1.50. */
+/** Club / Premium digital member price (cents). Retail $8→$6, $3→$2, $1.99→$1.50. */
 function memberDigitalUnitAmount(unitAmount) {
   const n = Math.floor(Number(unitAmount) || 0);
-  if (n === 150) return 150;
+  if (n === 150 || n === 200 || n === 600) return n;
   if (n >= 800) return 600;
-  if (n >= 199) return 150;
+  if (n === 300) return 200;
+  if (n === 199) return 150;
   return null;
 }
 
