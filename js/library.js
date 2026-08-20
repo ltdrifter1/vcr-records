@@ -128,28 +128,88 @@
     return null;
   }
 
-  function priceSide(rel) {
+  function isMemberShopper() {
+    return !!(
+      window.ClubMember &&
+      ClubMember.hasMemberPricing &&
+      ClubMember.hasMemberPricing()
+    );
+  }
+
+  function dualTierHtml(retail, member, opts) {
+    var o = opts || {};
+    var yours = isMemberShopper();
+    var fmt = o.formatLabel
+      ? '<p class="cat-priceboard-fmt">' + esc(o.formatLabel) + '</p>'
+      : '';
+    return (
+      '<div class="cat-priceboard" role="group" aria-label="' + esc(o.aria || 'Pricing') + '">' +
+        fmt +
+        '<div class="cat-price-tiers">' +
+          '<div class="cat-price-tier' + (yours ? '' : ' is-active') + '">' +
+            '<span class="cat-price-tier-label">Regular</span>' +
+            '<span class="cat-price-tier-amt">$' + esc(money(retail)) + '</span>' +
+          '</div>' +
+          '<div class="cat-price-tier cat-price-tier--member' + (yours ? ' is-active is-yours' : '') + '">' +
+            '<span class="cat-price-tier-label">Member</span>' +
+            '<span class="cat-price-tier-amt">$' + esc(money(member)) + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function singlePriceHtml(amount, label) {
+    return (
+      '<div class="cat-price-solo">' +
+        '<span class="cat-price-solo-label">' + esc(label || 'Digital') + '</span>' +
+        '<span class="cat-price-solo-amt">$' + esc(money(amount)) + '</span>' +
+      '</div>'
+    );
+  }
+
+  function pricePanelHtml(rel) {
     var f = rel.formats || {};
-    if (f.cassette && f.cassette.price != null) {
-      var cass = money(f.cassette.price);
-      var dig = f.digital && f.digital.price != null ? money(f.digital.price) : '';
-      var mem = f.digital ? memberDigitalPrice(f.digital.price) : null;
-      var lines = ['Cassette $' + cass];
-      if (dig) {
-        lines.push('Digital $' + dig + (mem != null ? ' · Members $' + money(mem) : ''));
-      }
-      lines.push('Premium credit eligible');
-      return { label: 'Price', value: lines.join('\n'), multi: true };
+    var chunks = [];
+    var hasCassette = !!(f.cassette && f.cassette.price != null);
+    var hasDigital = !!(f.digital && f.digital.price != null);
+
+    if (hasCassette) {
+      chunks.push(
+        '<div class="cat-price-solo cat-price-solo--physical">' +
+          '<span class="cat-price-solo-label">Cassette</span>' +
+          '<span class="cat-price-solo-amt">$' + esc(money(f.cassette.price)) + '</span>' +
+        '</div>'
+      );
     }
-    if (f.digital && f.digital.price != null) {
-      var retail = money(f.digital.price);
-      var m = memberDigitalPrice(f.digital.price);
-      if (m != null) {
-        return { label: 'Price', value: '$' + retail + ' · Members $' + money(m), multi: false };
+
+    if (hasDigital) {
+      var retail = Number(f.digital.price);
+      var mem = memberDigitalPrice(retail);
+      if (mem != null && mem < retail) {
+        chunks.push(dualTierHtml(retail, mem, {
+          formatLabel: hasCassette ? 'Digital' : '',
+          aria: (rel.title || 'Release') + ' digital pricing'
+        }));
+      } else {
+        chunks.push(singlePriceHtml(retail, hasCassette ? 'Digital' : 'Digital'));
       }
-      return { label: 'Price', value: '$' + retail, multi: false };
     }
-    return { label: 'Format', value: formatSide(rel), multi: false };
+
+    if (hasCassette) {
+      chunks.push('<p class="cat-price-note">Premium credit eligible</p>');
+    }
+
+    if (!chunks.length) {
+      return (
+        '<div class="cat-price-solo">' +
+          '<span class="cat-price-solo-label">Format</span>' +
+          '<span class="cat-price-solo-amt cat-price-solo-amt--text">' + esc(formatSide(rel)) + '</span>' +
+        '</div>'
+      );
+    }
+
+    return '<div class="cat-price-panel">' + chunks.join('') + '</div>';
   }
 
   function coverSrc(rel) {
@@ -162,7 +222,6 @@
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
-    var pricing = priceSide(rel);
     var genre = rel.genre ? '<span class="cat-genre">' + esc(rel.genre) + '</span>' : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && t.preview);
@@ -180,9 +239,6 @@
     var pill = preorder
       ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
       : '';
-    var sideValue = pricing.multi
-      ? pricing.value.split('\n').map(function (line) { return esc(line); }).join('<br/>')
-      : esc(pricing.value);
 
     return (
       '<article class="cat-row rv" style="--cover:' + cssUrl(full || thumb) + '" data-release="' + esc(rel.id) + '" data-artist-id="' + esc(rel.artistId || '') + '" data-genre="' + esc(slugify(rel.genre)) + '">' +
@@ -203,8 +259,7 @@
           '</div>' +
         '</div>' +
         '<div class="cat-side">' +
-          '<p class="cat-side-label">' + esc(pricing.label) + '</p>' +
-          '<p class="cat-side-value">' + sideValue + '</p>' +
+          pricePanelHtml(rel) +
         '</div>' +
         '<a class="cat-go" href="' + esc(href) + '" aria-label="Open ' + esc(rel.title) + '">' +
           '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
@@ -294,7 +349,7 @@
       } else if (profile) {
         leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member pricing.';
       } else {
-        leadEl.innerHTML = 'Catalogue by number — formats that exist, with club member pricing. <a href="/#join">Accept invitation</a>';
+        leadEl.innerHTML = 'Catalogue by number — regular and member price on every release. <a href="/#join">Accept invitation</a>';
       }
       return;
     }
