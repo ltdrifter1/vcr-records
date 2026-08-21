@@ -185,21 +185,27 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   container-type: inline-size;
   width: min(500px, 86vw);
   aspect-ratio: 100 / 63;
+  /* Smoked 90s acetate — translucent grey-green plastic */
   background:
-    radial-gradient(120% 80% at 18% 12%, rgba(255, 255, 255, .07), transparent 42%),
-    radial-gradient(90% 70% at 82% 88%, rgba(0, 0, 0, .35), transparent 50%),
+    linear-gradient(125deg, rgba(255, 255, 255, .26) 0%, transparent 16%, transparent 74%, rgba(255, 255, 255, .07) 100%),
+    radial-gradient(120% 80% at 18% 12%, rgba(210, 230, 220, .28), transparent 42%),
+    radial-gradient(90% 70% at 82% 88%, rgba(10, 16, 12, .45), transparent 50%),
     repeating-linear-gradient(
       118deg,
-      rgba(255, 255, 255, .015) 0 1px,
-      transparent 1px 3px
+      rgba(255, 255, 255, .03) 0 1px,
+      transparent 1px 4px
     ),
-    linear-gradient(172deg, #2a2a28 0%, #171715 42%, #0f0f0d 72%, #1a1a18 100%);
+    linear-gradient(172deg,
+      rgba(78, 88, 82, .94) 0%,
+      rgba(40, 46, 42, .96) 36%,
+      rgba(16, 18, 17, .98) 68%,
+      rgba(32, 36, 34, .95) 100%);
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, .55);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .16) inset,
+    0 1px 0 rgba(220, 235, 225, .22) inset,
     0 -2px 0 rgba(0, 0, 0, .55) inset,
-    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    0 0 0 1px rgba(180, 200, 190, .08) inset,
     0 34px 70px -18px rgba(0, 0, 0, .82),
     0 8px 18px rgba(0, 0, 0, .45);
   transform-style: preserve-3d;
@@ -693,24 +699,31 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   container-type: inline-size;
   width: 100%;
   aspect-ratio: 100 / 62;
-  border-radius: 11px;
+  border-radius: 10px;
+  /* Smoked 90s acetate shell — clear plastic with grey-green tint */
   background:
-    radial-gradient(100% 80% at 18% 6%, rgba(255, 255, 255, .2), transparent 36%),
-    radial-gradient(70% 60% at 84% 94%, rgba(0, 0, 0, .55), transparent 46%),
+    linear-gradient(125deg, rgba(255, 255, 255, .28) 0%, transparent 18%, transparent 72%, rgba(255, 255, 255, .08) 100%),
+    radial-gradient(110% 90% at 16% 4%, rgba(220, 235, 225, .35), transparent 38%),
+    radial-gradient(80% 70% at 88% 96%, rgba(20, 28, 24, .55), transparent 48%),
     repeating-linear-gradient(
-      116deg,
-      rgba(255, 255, 255, .03) 0 1px,
-      transparent 1px 3px
+      118deg,
+      rgba(255, 255, 255, .04) 0 1px,
+      transparent 1px 4px
     ),
-    linear-gradient(170deg, #4a4a44 0%, #2a2a26 28%, #161613 62%, #242420 100%);
-  border: 1px solid rgba(0, 0, 0, .85);
+    linear-gradient(168deg,
+      rgba(92, 102, 96, .92) 0%,
+      rgba(48, 54, 50, .94) 22%,
+      rgba(28, 32, 30, .96) 48%,
+      rgba(18, 20, 19, .98) 72%,
+      rgba(36, 40, 38, .95) 100%);
+  border: 1px solid rgba(0, 0, 0, .78);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .32) inset,
-    0 -4px 0 rgba(0, 0, 0, .55) inset,
-    0 0 0 1px rgba(255, 255, 255, .07) inset,
+    0 1px 0 rgba(255, 255, 255, .42) inset,
+    0 -3px 0 rgba(0, 0, 0, .5) inset,
+    0 0 0 1px rgba(180, 200, 190, .12) inset,
     0 18px 28px -8px rgba(0, 0, 0, .95),
     0 4px 10px rgba(0, 0, 0, .55),
-    0 0 0 1px rgba(0, 0, 0, .6);
+    0 0 0 1px rgba(0, 0, 0, .55);
   overflow: hidden;
   transform: rotateX(6deg) rotateY(-3deg) translateZ(0);
   transform-style: preserve-3d;
@@ -783,48 +796,86 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 
 .ra-deck-face {
   position: absolute;
-  inset: 14% 10% 18% 10%;
+  inset: 12% 9% 17% 9%;
   display: flex;
   flex-direction: column;
-  gap: 7%;
+  gap: 5%;
   z-index: 2;
 }
+/* Aged paper acetate label — track title lives here */
 .ra-deck-stamp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  flex: 0 0 34%;
+  min-height: 0;
+  padding: 5px 3.5% 6px;
+  border-radius: 1px;
+  background:
+    radial-gradient(ellipse at 14% 18%, rgba(255, 252, 235, .75), transparent 48%),
+    radial-gradient(ellipse at 90% 82%, rgba(130, 100, 55, .16), transparent 44%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(70, 55, 25, .055) 0 1px,
+      transparent 1px 3px
+    ),
+    linear-gradient(162deg, #F8F1DC 0%, #E9DDBA 48%, #D2C090 100%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .6),
+    0 1px 2px rgba(0, 0, 0, .4) inset,
+    0 2px 4px rgba(0, 0, 0, .2);
+  color: #241e14;
+  overflow: hidden;
+}
+.ra-deck-stamp-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  flex: 0 0 26%;
-  padding: 0 3.5%;
-  border-radius: 2px;
-  background:
-    radial-gradient(ellipse at 18% 20%, rgba(255, 252, 235, .7), transparent 46%),
-    radial-gradient(ellipse at 88% 78%, rgba(120, 95, 50, .14), transparent 42%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(70, 55, 25, .05) 0 1px,
-      transparent 1px 3px
-    ),
-    linear-gradient(160deg, #F7F0DC 0%, #E8DCBA 52%, #D4C498 100%);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, .55),
-    0 1px 2px rgba(0, 0, 0, .35) inset,
-    0 2px 4px rgba(0, 0, 0, .22);
-  color: #241e14;
+  gap: 8px;
+  flex-shrink: 0;
   font-family: var(--ra-mono);
-  font-size: clamp(9px, 2.4cqw, 12px);
+  font-size: clamp(7px, 1.9cqw, 10px);
   font-weight: 500;
-  letter-spacing: .16em;
+  letter-spacing: .14em;
   text-transform: uppercase;
+  color: rgba(36, 30, 20, .72);
+  line-height: 1.2;
+}
+.ra-deck-stamp-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .ra-deck-stamp-side {
+  flex-shrink: 0;
   border: 1px solid rgba(40, 34, 22, .85);
-  padding: 2px 7px;
+  padding: 1px 6px;
   line-height: 1.35;
-  background: rgba(255, 250, 235, .45);
+  background: rgba(255, 250, 235, .5);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, .45) inset,
     0 1px 1px rgba(0, 0, 0, .12);
+  font-size: inherit;
+  letter-spacing: .12em;
+}
+/* Track title on the tinted label — must fit, never spill */
+.ra-deck-stamp-title {
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  font-family: var(--ra-mono);
+  font-size: clamp(10px, 3.1cqw, 15px);
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  color: #1a1610;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 .ra-deck-window {
@@ -835,14 +886,15 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   justify-content: space-between;
   padding: 0 6.5%;
   border-radius: 999px;
+  /* Tinted acetate window — smoky green-grey plastic */
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, .1), transparent 26%),
-    linear-gradient(180deg, #000, #161612 52%, #050504);
+    linear-gradient(180deg, rgba(200, 220, 210, .14), transparent 28%),
+    linear-gradient(180deg, #050806, #121814 50%, #030403);
   box-shadow:
-    0 0 0 2px #5a5a52,
-    0 0 0 5px #22221e,
+    0 0 0 2px #6a746c,
+    0 0 0 5px #1e2420,
     0 6px 14px rgba(0, 0, 0, .92) inset,
-    0 1px 0 rgba(255, 255, 255, .14);
+    0 1px 0 rgba(220, 235, 225, .18);
   overflow: hidden;
 }
 .ra-deck-window::before {
@@ -974,7 +1026,15 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   opacity: .95;
 }
 
-.ra-deck-now { font-family: var(--sans, 'Space Grotesk', sans-serif); }
+.ra-deck-now {
+  position: relative;
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+}
 .ra-deck-now .idx {
   font-family: var(--callsign, 'Oswald', sans-serif);
   font-size: 11px;
@@ -982,15 +1042,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--ra-dim);
-}
-.ra-deck-now .name {
-  font-family: var(--display, 'Space Grotesk', sans-serif);
-  font-size: clamp(20px, 2.6vw, 26px);
-  font-weight: 600;
-  letter-spacing: -.02em;
-  line-height: 1.15;
-  margin: 6px 0 4px;
-  color: #fff;
+  flex-shrink: 0;
 }
 .ra-deck-now .sub {
   font-family: var(--sans, 'Space Grotesk', sans-serif);
@@ -998,6 +1050,24 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-weight: 500;
   letter-spacing: -.01em;
   color: var(--ra-dim);
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+/* Legacy name slot kept for bind compatibility — title lives on stamp */
+.ra-deck-now .name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* waveform — the scrubber */
@@ -1073,6 +1143,16 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   margin-top: 12px;
 }
 .ra-deck .p-msg.err { color: #C98A7D; }
+
+/* Display-only deck (no preview audio yet) -------------------------------- */
+.ra-deck--display .ra-wave,
+.ra-deck--display .ra-deck-times,
+.ra-deck--display .ra-transport {
+  display: none;
+}
+.ra-deck--display .ra-deck-now {
+  margin-bottom: 4px;
+}
 
 /* Track list — cue sheet ---------------------------------------------------- */
 .ra-tracks {

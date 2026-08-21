@@ -221,18 +221,61 @@
         </div>
         <span class="head-note">EP · 5:06</span>
       </header>
-      <div class="ra-tracks ra-reveal" style="max-width:36rem">
-        <div class="track-row">
-          <span class="track-no">01</span>
-          <span class="track-title">Lakeshore West 23:55</span>
-          <span class="track-dur">3:55</span>
+      <div class="ra-player-grid">
+
+        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Tracklist cassette">
+          <div class="ra-deck-head">
+            <span>CC Tape Deck</span>
+            <span class="live" id="ipTrackIndex">01 / 02</span>
+          </div>
+          <div class="ra-deck-cassette" aria-hidden="true">
+            <div class="ra-deck-shell">
+              <span class="ra-deck-screw ra-deck-screw--tl"></span>
+              <span class="ra-deck-screw ra-deck-screw--tr"></span>
+              <span class="ra-deck-screw ra-deck-screw--bl"></span>
+              <span class="ra-deck-screw ra-deck-screw--br"></span>
+              <div class="ra-deck-face">
+                <div class="ra-deck-stamp">
+                  <div class="ra-deck-stamp-meta">
+                    <span class="ra-deck-stamp-label">Club Copy</span>
+                    <span class="ra-deck-stamp-side" id="ipStampSide">Side A</span>
+                  </div>
+                  <p class="ra-deck-stamp-title" id="ipStampTitle">Lakeshore West 23:55</p>
+                </div>
+                <div class="ra-deck-window">
+                  <div class="ra-reel"><span class="ra-reel-hub"></span></div>
+                  <div class="ra-deck-tape"><span></span></div>
+                  <div class="ra-reel ra-reel--b"><span class="ra-reel-hub"></span></div>
+                </div>
+              </div>
+              <div class="ra-deck-bay" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+          <div class="ra-deck-now">
+            <div class="idx">Now Cueing</div>
+            <p class="name" id="ipTrackName">Lakeshore West 23:55</p>
+            <p class="sub"><span id="ipArtist">L.T. Drifta</span> — <span id="ipRelease">EP1</span></p>
+          </div>
+          <div class="p-msg" id="pMsg" aria-live="polite"></div>
         </div>
-        <div class="track-row">
-          <span class="track-no">02</span>
-          <span class="track-title">Hold U</span>
-          <span class="track-dur">1:11</span>
+
+        <div class="ra-tracks ra-reveal">
+          <div class="track-row is-active" data-index="0">
+            <span class="track-no">01</span>
+            <span class="track-title">Lakeshore West 23:55</span>
+            <span class="track-dur">3:55</span>
+            <button class="track-play-btn" type="button" aria-label="Select Lakeshore West 23:55" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="1">
+            <span class="track-no">02</span>
+            <span class="track-title">Hold U</span>
+            <span class="track-dur">1:11</span>
+            <button class="track-play-btn" type="button" aria-label="Select Hold U" tabindex="-1"></button>
+          </div>
+          <p class="ra-tracks-note">Total running time 5:06 · files after checkout</p>
         </div>
-        <p class="ra-tracks-note">Total running time 5:06 · files after checkout</p>
       </div>
     </div>
   </section>
@@ -322,8 +365,20 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="js/player.js"></script>
+<script src="js/release-bind.js"></script>
+<script src="js/tape-player.js"></script>
 <script>
 const $ = id => document.getElementById(id);
+VCRReleaseBind({
+  releaseId: 'ep1',
+  displayOnly: true,
+  displayMessage: "Full tracks after checkout.",
+  tracks: [
+  { id: 'ep1-01', title: "Lakeshore West 23:55" },
+  { id: 'ep1-02', title: "Hold U" }
+]
+});
+
 (function() {
   const FORMATS = {
     digital: { sku: 'dg-ep1', name: 'EP1 — Digital (EP)', price: 3 }

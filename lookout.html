@@ -196,6 +196,7 @@
           <meta itemprop="price" content="8.00"/>
           <link itemprop="availability" href="https://schema.org/PreOrder"/>
           <a class="btn btn-light" href="#acquire">Pre-order Digital — $8 CAD</a>
+          <button type="button" class="btn btn-outline" id="heroListen">Listen</button>
         </div>
       </div>
     </div>
@@ -208,15 +209,74 @@
           <p class="eyebrow">On air</p>
           <h2>Listen</h2>
         </div>
-        <span class="head-note">Coming with the release</span>
+        <span class="head-note">90 second preview</span>
       </header>
-      <div class="ra-tracks ra-reveal" style="max-width:36rem">
-        <div class="track-row">
-          <span class="track-no">01</span>
-          <span class="track-title">Lookout</span>
-          <span class="track-dur">—</span>
+      <div class="ra-player-grid">
+
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Preview player">
+          <div class="ra-deck-head">
+            <span>CC Tape Deck</span>
+            <span class="live" id="ipTrackIndex">01 / 01</span>
+          </div>
+          <div class="ra-deck-cassette" aria-hidden="true">
+            <div class="ra-deck-shell">
+              <span class="ra-deck-screw ra-deck-screw--tl"></span>
+              <span class="ra-deck-screw ra-deck-screw--tr"></span>
+              <span class="ra-deck-screw ra-deck-screw--bl"></span>
+              <span class="ra-deck-screw ra-deck-screw--br"></span>
+              <div class="ra-deck-face">
+                <div class="ra-deck-stamp">
+                  <div class="ra-deck-stamp-meta">
+                    <span class="ra-deck-stamp-label">Club Copy</span>
+                    <span class="ra-deck-stamp-side" id="ipStampSide">Side A</span>
+                  </div>
+                  <p class="ra-deck-stamp-title" id="ipStampTitle">Lookout</p>
+                </div>
+                <div class="ra-deck-window">
+                  <div class="ra-reel"><span class="ra-reel-hub"></span></div>
+                  <div class="ra-deck-tape"><span></span></div>
+                  <div class="ra-reel ra-reel--b"><span class="ra-reel-hub"></span></div>
+                </div>
+              </div>
+              <div class="ra-deck-bay" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+          <div class="ra-deck-now">
+            <div class="idx">Now Cueing</div>
+            <p class="name" id="ipTrackName">Lookout</p>
+            <p class="sub"><span id="ipArtist">Inlet Knight</span> — <span id="ipRelease">Lookout</span></p>
+          </div>
+          <canvas class="ra-wave" id="raWave" data-release="lookout" aria-label="Seek within track" role="slider"></canvas>
+          <div class="ra-deck-times">
+            <span id="ipElapsed">0:00</span>
+            <span id="ipRemaining">-0:00</span>
+          </div>
+          <div class="ra-transport">
+            <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+            </button>
+            <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play / pause">
+              <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+            </button>
+          </div>
+          <div class="p-msg" id="pMsg" aria-live="polite"></div>
         </div>
-        <p class="ra-tracks-note">No preview yet · full album when it drops</p>
+
+        <div class="ra-tracks ra-reveal">
+          <div class="track-row is-active" data-index="0">
+            <span class="track-no">01</span>
+            <span class="track-title">Lookout</span>
+            <span class="track-dur">4:00</span>
+            <button class="track-play-btn" type="button" aria-label="Play Lookout" tabindex="-1"></button>
+          </div>
+          <p class="ra-tracks-note">Preview · full album when it drops</p>
+        </div>
       </div>
     </div>
   </section>
@@ -307,8 +367,17 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="js/player.js"></script>
+<script src="js/release-bind.js"></script>
+<script src="js/tape-player.js"></script>
 <script>
 const $ = id => document.getElementById(id);
+VCRReleaseBind({
+  releaseId: 'lookout',
+  tracks: [
+  { id: 'lk-01', title: "Lookout" }
+]
+});
+
 (function() {
   const FORMATS = {
     digital: { sku: 'dg-lookout', name: "Lookout — Digital (Album) — Pre-order", price: 8 }
@@ -331,6 +400,18 @@ const $ = id => document.getElementById(id);
     buyBtn.textContent = 'Added to Collection \u2713';
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => { buyBtn.textContent = 'Pre-order Digital'; }, 2200);
+  });
+})();
+
+
+(function() {
+  const listen = $('heroListen');
+  if (!listen) return;
+  listen.addEventListener('click', () => {
+    const el = document.getElementById('listen');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const play = $('ipPlayConsole') || $('ipPlay');
+    if (play) play.click();
   });
 })();
 
