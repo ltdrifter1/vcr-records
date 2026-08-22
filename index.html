@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Club Copy | Pacific Northwest Record Label</title>
   <meta name="description" content="Club Copy is an independent Pacific Northwest record label based in British Columbia. House and jungle from Inlet Knight and Double-Edge : listen, buy digital and cassette."/>
-  <meta name="theme-color" content="#0b2236"/>
+  <meta name="theme-color" content="#16191e"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="format-detection" content="telephone=no"/>
@@ -114,9 +114,9 @@
       place-items: center;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 90% 70% at 50% 28%, rgba(64, 118, 168, .42), transparent 62%),
-        radial-gradient(ellipse 70% 50% at 82% 78%, rgba(32, 88, 96, .34), transparent 58%),
-        linear-gradient(168deg, #12324a 0%, #0b2236 42%, #071828 100%);
+        radial-gradient(ellipse 90% 70% at 50% 28%, rgba(160, 172, 188, .22), transparent 62%),
+        radial-gradient(ellipse 70% 50% at 82% 78%, rgba(88, 98, 112, .28), transparent 58%),
+        linear-gradient(168deg, #2a3038 0%, #1a1e24 42%, #101318 100%);
       color: #fff;
       isolation: isolate;
     }
@@ -124,8 +124,8 @@
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 78% 62% at 50% 48%, rgba(120, 176, 220, .28), transparent 70%),
-        radial-gradient(ellipse 42% 34% at 50% 46%, rgba(170, 210, 240, .1), transparent 72%);
+        radial-gradient(ellipse 78% 62% at 50% 48%, rgba(200, 210, 222, .16), transparent 70%),
+        radial-gradient(ellipse 42% 34% at 50% 46%, rgba(255, 255, 255, .06), transparent 72%);
     }
     /* Dominant edge-to-edge cover : atmosphere centered on the brand */
     .hero-ambient {
@@ -136,9 +136,9 @@
       background-size: cover;
       /* Bias cream label orb onto the lockup, not above it */
       background-position: center 58%;
-      filter: blur(44px) saturate(1.15) brightness(.72) contrast(1.05) hue-rotate(198deg);
+      filter: blur(44px) saturate(.55) brightness(.68) contrast(1.08) grayscale(.35);
       transform: scale(1.5);
-      opacity: .78;
+      opacity: .82;
       mix-blend-mode: soft-light;
       animation: ambientBreath 26s ease-in-out infinite alternate;
       transition: filter .7s var(--ease), opacity .7s var(--ease), transform .7s var(--ease);
@@ -146,17 +146,17 @@
     }
     .hero.is-live .hero-ambient {
       animation: none;
-      filter: blur(52px) saturate(1.05) brightness(.48) contrast(1.04) hue-rotate(198deg);
+      filter: blur(52px) saturate(.45) brightness(.45) contrast(1.06) grayscale(.4);
       transform: scale(1.4);
       background-position: center center;
-      opacity: .7;
+      opacity: .72;
     }
     .hero-ambient::after {
       content: "";
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 64% 54% at 50% 48%, rgba(8, 28, 48, .35) 0%, rgba(6, 20, 36, .55) 50%, rgba(4, 14, 26, .88) 100%),
-        linear-gradient(180deg, rgba(10, 32, 52, .62) 0%, transparent 42%, rgba(4, 16, 28, .86) 100%);
+        radial-gradient(ellipse 64% 54% at 50% 48%, rgba(26, 30, 36, .28) 0%, rgba(16, 18, 22, .52) 50%, rgba(8, 9, 11, .9) 100%),
+        linear-gradient(180deg, rgba(36, 40, 48, .58) 0%, transparent 42%, rgba(10, 12, 14, .88) 100%);
       mix-blend-mode: normal;
     }
     @keyframes ambientBreath {
@@ -881,12 +881,12 @@
       }
     }
 
-    /* Ink-steel nav over hero, frosted steel after scroll -------------------- */
+    /* Gunmetal chrome nav over hero, frosted slate after scroll -------------- */
     body.hero-top .nav {
       background:
-        linear-gradient(180deg, rgba(14, 42, 66, .78) 0%, rgba(10, 32, 52, .42) 100%);
-      border-bottom-color: rgba(120, 176, 220, .14);
-      box-shadow: inset 0 -1px 0 rgba(120, 176, 220, .1);
+        linear-gradient(180deg, rgba(36, 40, 48, .82) 0%, rgba(22, 25, 30, .48) 100%);
+      border-bottom-color: rgba(168, 180, 196, .14);
+      box-shadow: inset 0 -1px 0 rgba(200, 210, 222, .08);
     }
     body.hero-top .nav.scrolled {
       background: rgba(250,248,245,.72);
@@ -903,12 +903,12 @@
 
     /* Dark continuum + listening wall --------------------------------------- */
     body.hero-top {
-      background: #0b2236;
+      background: #16191e;
     }
     body.hero-top:not(.nav-light) .nav.scrolled {
-      background: rgba(12, 36, 56, .88);
-      border-bottom-color: rgba(120, 176, 220, .16);
-      box-shadow: inset 0 1px 0 rgba(150, 200, 235, .1), 0 8px 28px rgba(0, 18, 36, .4);
+      background: rgba(26, 30, 36, .9);
+      border-bottom-color: rgba(168, 180, 196, .14);
+      box-shadow: inset 0 1px 0 rgba(200, 210, 222, .08), 0 8px 28px rgba(0, 0, 0, .4);
     }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a { color: rgba(255,255,255,.7); }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a:hover,
@@ -919,11 +919,11 @@
     body.hero-top:not(.nav-light) .nav.scrolled .nav-ham span { background: #fff; }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-cart-count { background: #fff; color: #000; }
     body.hero-top:not(.nav-light) .nav-drawer {
-      background: rgba(12, 36, 56, .96);
-      border-bottom-color: rgba(120, 176, 220, .14);
+      background: rgba(26, 30, 36, .96);
+      border-bottom-color: rgba(168, 180, 196, .14);
     }
     body.hero-top:not(.nav-light) .nav-drawer a {
-      color: #fff; border-bottom-color: rgba(120, 176, 220, .12);
+      color: #fff; border-bottom-color: rgba(168, 180, 196, .12);
     }
 
     .wall {
@@ -934,7 +934,7 @@
     }
     .wall-bridge {
       height: 56px;
-      background: linear-gradient(180deg, #0b2236 0%, #080808 100%);
+      background: linear-gradient(180deg, #16191e 0%, #080808 100%);
       pointer-events: none;
     }
     .wall .section-head {
@@ -2314,7 +2314,7 @@
 
       <div class="hero-idle-actions" data-room-idle>
         <div class="hero-ctas">
-          <button type="button" class="btn btn-chrome-on-dark" data-play-release="together" data-play-stage>Play</button>
+          <button type="button" class="btn btn-chrome-on-dark" data-play-release="together" data-play-stage>Listen</button>
           <a class="btn btn-ghost-on-dark" href="#join">Join</a>
         </div>
       </div>
