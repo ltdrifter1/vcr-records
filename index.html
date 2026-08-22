@@ -1929,7 +1929,7 @@
       .wall-art img { transition: none; }
     }
 
-    /* Home artists roster — portraits before footer ------------------------ */
+    /* Home artists — link strip before footer ------------------------------ */
     .home-artists {
       position: relative;
       padding: 72px 0 calc(96px + var(--safe-b));
@@ -1946,95 +1946,12 @@
     }
     .home-artists .section-head {
       border-bottom-color: rgba(200,214,230,.12);
+      margin-bottom: 0;
     }
-    .home-artists .eyebrow { color: rgba(200,214,230,.5); }
     .home-artists h2 { color: #fff; }
     .home-artists .head-link { color: rgba(244,246,248,.55); }
     @media (hover:hover) {
       .home-artists .head-link:hover { color: #fff; }
-    }
-    .home-artists-grid {
-      display: grid;
-      gap: 22px 18px;
-      margin-top: 36px;
-      justify-items: start;
-    }
-    @media (min-width: 720px) {
-      .home-artists-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 28px 24px;
-        margin-top: 44px;
-      }
-    }
-    .home-artist {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-      width: min(132px, 38vw);
-      color: inherit;
-      text-decoration: none;
-    }
-    @media (min-width: 720px) {
-      .home-artist { width: 120px; }
-    }
-    .home-artist-photo {
-      display: block;
-      width: 100%;
-      overflow: hidden;
-      background: #111;
-      aspect-ratio: 4 / 5;
-    }
-    .home-artist-photo--mark {
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(120% 90% at 20% 10%, rgba(255,255,255,.12), transparent 50%),
-        linear-gradient(160deg, #1a1e26 0%, #0a0c10 100%);
-      border: 1px solid rgba(200,214,230,.16);
-    }
-    .home-artist-photo--mark span {
-      font-family: var(--display);
-      font-size: clamp(22px, 4vw, 28px);
-      font-weight: 600;
-      letter-spacing: -.04em;
-      color: rgba(244,246,248,.82);
-    }
-    .home-artist-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(.92) contrast(1.02);
-      transition: transform .55s var(--ease), filter .55s var(--ease);
-    }
-    @media (hover:hover) {
-      .home-artist:hover .home-artist-photo img {
-        transform: scale(1.04);
-        filter: saturate(1.05) contrast(1.04);
-      }
-    }
-    .home-artist-copy {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      width: 100%;
-    }
-    .home-artist-name {
-      font-family: var(--display);
-      font-size: clamp(15px, 2.2vw, 18px);
-      font-weight: 600;
-      letter-spacing: -.02em;
-      line-height: 1.15;
-      color: #fff;
-    }
-    .home-artist-role {
-      font-family: var(--callsign);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(200,214,230,.48);
     }
 
     /* Legacy place styles kept unused (image frame removed) ---------------- */
@@ -2139,7 +2056,6 @@
       .member-card.is-club { min-height: 0; }
       .join-panel { padding: 22px 18px 20px; }
       .home-artists { padding: 56px 0 calc(80px + var(--safe-b)); }
-      .home-artists-grid { margin-top: 28px; gap: 22px; }
     }
 
     /* Short phones (SE / zoomed) : keep idle + live on one screen ---------- */
@@ -2399,7 +2315,6 @@
     <div class="band">
       <div class="club-join-inner rv">
         <header class="club-join-head">
-          <p class="eyebrow">An invitation</p>
           <h2 class="club-join-title" id="join-title">Join the Record Club.</h2>
           <p class="club-join-lead">A card with your number. Digital releases at member price. Club Credit for cassettes when you want the shelf. Nothing ships unless you choose it.</p>
         </header>
@@ -2791,40 +2706,10 @@
     <div class="band">
       <header class="section-head home-artists-head rv">
         <div>
-          <p class="eyebrow">Roster</p>
           <h2 id="home-artists-title">Artists</h2>
         </div>
-        <a class="head-link" href="/artists">All artists</a>
+        <a class="head-link" href="/artists">View artists</a>
       </header>
-      <div class="home-artists-grid">
-        <a class="home-artist rv" href="/artists/double-edge">
-          <span class="home-artist-photo media-bezel">
-            <img src="artists/double-edge.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
-          </span>
-          <span class="home-artist-copy">
-            <span class="home-artist-name">Double-Edge</span>
-            <span class="home-artist-role">Jungle</span>
-          </span>
-        </a>
-        <a class="home-artist rv" href="/artists/inlet-knight">
-          <span class="home-artist-photo media-bezel">
-            <img src="artists/inlet-knight.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"/>
-          </span>
-          <span class="home-artist-copy">
-            <span class="home-artist-name">Inlet Knight</span>
-            <span class="home-artist-role">House</span>
-          </span>
-        </a>
-        <a class="home-artist rv" href="/artists/lt-drifta">
-          <span class="home-artist-photo media-bezel">
-            <img src="artists/lt-drifta.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async"/>
-          </span>
-          <span class="home-artist-copy">
-            <span class="home-artist-name">L.T. Drifta</span>
-            <span class="home-artist-role">Producer</span>
-          </span>
-        </a>
-      </div>
     </div>
   </section>
 
