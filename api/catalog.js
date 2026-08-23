@@ -22,6 +22,7 @@ const MERCH_PAGE_SKUS = [
   "dg-champion-sound",
   "dg-summer-madness",
   "dg-ep1",
+  "dg-ep-6",
   "dg-j-adore",
   "dg-enter",
   "dg-together",
@@ -154,6 +155,12 @@ const PRODUCTS = {
   "dg-ep1": {
     name: "EP1 — Digital (EP)",
     unitAmount: 300,
+    digital: true,
+    format: "digital",
+  },
+  "dg-ep-6": {
+    name: "EP-6 — Digital (EP)",
+    unitAmount: 900,
     digital: true,
     format: "digital",
   },
