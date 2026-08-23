@@ -119,14 +119,19 @@
     return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.00$/, '');
   }
 
-  function memberDigitalPrice(retail) {
+  /** Map retail digital → club member price (CAD). Always returns a number when retail is valid. */
+  function digitalMemberPrice(retail) {
     var v = Number(retail);
     if (!isFinite(v)) return null;
+    if (window.ClubMember && typeof ClubMember.memberDigitalPrice === 'function') {
+      var mapped = ClubMember.memberDigitalPrice(v);
+      if (mapped != null && isFinite(Number(mapped))) return Number(mapped);
+    }
     if (v === 6 || v === 2 || v === 1.5) return v;
     if (v >= 8) return 6;
     if (Math.abs(v - 3) < 0.001) return 2;
     if (Math.abs(v - 1.99) < 0.001) return 1.5;
-    return null;
+    return v;
   }
 
   function isMemberShopper() {
@@ -137,17 +142,21 @@
     );
   }
 
+  function otherFormatsLabel(rel) {
+    var f = rel.formats || {};
+    var other = [];
+    if (f.cassette) other.push('Cassette');
+    if (f.vinyl) other.push('Vinyl');
+    return other;
+  }
+
   function priceTileHtml(label, amount, opts) {
     var o = opts || {};
     var classes = ['cat-price-tile'];
     if (o.member) classes.push('cat-price-tile--member');
-    if (o.physical) classes.push('cat-price-tile--physical');
     if (o.active) classes.push('is-active');
     if (o.yours) classes.push('is-yours');
-    if (o.wide) classes.push('cat-price-tile--wide');
-    var amt = amount == null
-      ? '<span class="cat-price-tile-amt cat-price-tile-amt--text">' + esc(o.text || '') + '</span>'
-      : '<span class="cat-price-tile-amt">$' + esc(money(amount)) + '</span>';
+    var amt = '<span class="cat-price-tile-amt">$' + esc(money(amount)) + '</span>';
     return (
       '<div class="' + classes.join(' ') + '">' +
         '<span class="cat-price-tile-label">' + esc(label) + '</span>' +
@@ -158,48 +167,51 @@
 
   function pricePanelHtml(rel) {
     var f = rel.formats || {};
-    var chunks = [];
-    var hasCassette = !!(f.cassette && f.cassette.price != null);
     var hasDigital = !!(f.digital && f.digital.price != null);
     var yours = isMemberShopper();
-
-    if (hasCassette) {
-      chunks.push(priceTileHtml('Cassette', f.cassette.price, {
-        physical: true,
-        wide: true
-      }));
-    }
+    var other = otherFormatsLabel(rel);
+    var chunks = [];
 
     if (hasDigital) {
       var retail = Number(f.digital.price);
-      var mem = memberDigitalPrice(retail);
-      if (mem != null && mem < retail) {
-        chunks.push(priceTileHtml('Regular', retail, {
-          active: !yours
-        }));
-        chunks.push(priceTileHtml('Member', mem, {
-          member: true,
-          active: yours,
-          yours: yours
-        }));
-      } else {
-        chunks.push(priceTileHtml('Digital', retail, {
-          wide: !hasCassette
-        }));
-      }
-    }
-
-    if (!chunks.length) {
-      chunks.push(priceTileHtml('Format', null, {
-        text: formatSide(rel),
-        wide: true
+      var mem = digitalMemberPrice(retail);
+      if (mem == null) mem = retail;
+      chunks.push(priceTileHtml('Regular', retail, {
+        active: !yours
+      }));
+      chunks.push(priceTileHtml('Member', mem, {
+        member: true,
+        active: yours,
+        yours: yours
       }));
     }
 
+    var note = '';
+    if (other.length) {
+      note =
+        '<p class="cat-format-note">' +
+          esc(other.join(' · ') + ' available') +
+        '</p>';
+    } else if (!hasDigital) {
+      note =
+        '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
+    }
+
+    if (!chunks.length && !note) {
+      note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
+    }
+
     return (
-      '<div class="cat-price-panel" role="group" aria-label="' +
-        esc((rel.title || 'Release') + ' pricing') +
-      '">' + chunks.join('') + '</div>'
+      '<div class="cat-side-pricing">' +
+        (chunks.length
+          ? (
+              '<div class="cat-price-panel" role="group" aria-label="' +
+                esc((rel.title || 'Release') + ' digital pricing') +
+              '">' + chunks.join('') + '</div>'
+            )
+          : '') +
+        note +
+      '</div>'
     );
   }
 
@@ -340,7 +352,7 @@
       } else if (profile) {
         leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member pricing.';
       } else {
-        leadEl.innerHTML = 'Catalogue by number — regular and member price on every release. <a href="/#join">Accept invitation</a>';
+        leadEl.innerHTML = 'Catalogue by number — regular vs member digital price on every release. <a href="/#join">Accept invitation</a>';
       }
       return;
     }
@@ -480,6 +492,10 @@
 
   window.addEventListener('vcr:player', function (e) {
     syncAir(e.detail);
+  });
+
+  window.addEventListener('club:member', function () {
+    if (allReleases.length) render();
   });
 
   readFiltersFromUrl();
