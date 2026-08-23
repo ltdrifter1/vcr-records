@@ -156,11 +156,13 @@
     if (o.member) classes.push('cat-price-tile--member');
     if (o.active) classes.push('is-active');
     if (o.yours) classes.push('is-yours');
-    var amt = '<span class="cat-price-tile-amt">$' + esc(money(amount)) + '</span>';
     return (
       '<div class="' + classes.join(' ') + '">' +
         '<span class="cat-price-tile-label">' + esc(label) + '</span>' +
-        amt +
+        '<span class="cat-price-tile-amt">' +
+          '<span class="cat-price-tile-currency" aria-hidden="true">$</span>' +
+          esc(money(amount)) +
+        '</span>' +
       '</div>'
     );
   }
@@ -170,49 +172,52 @@
     var hasDigital = !!(f.digital && f.digital.price != null);
     var yours = isMemberShopper();
     var other = otherFormatsLabel(rel);
-    var chunks = [];
+    var board = '';
 
     if (hasDigital) {
       var retail = Number(f.digital.price);
       var mem = digitalMemberPrice(retail);
       if (mem == null) mem = retail;
-      chunks.push(priceTileHtml('Regular', retail, {
-        active: !yours
-      }));
-      chunks.push(priceTileHtml('Member', mem, {
-        member: true,
-        active: yours,
-        yours: yours
-      }));
+      board =
+        '<div class="cat-priceboard">' +
+          '<p class="cat-priceboard-kicker">Digital</p>' +
+          '<div class="cat-price-panel" role="group" aria-label="' +
+            esc((rel.title || 'Release') + ' digital pricing') +
+          '">' +
+            priceTileHtml('Regular', retail, { active: !yours }) +
+            priceTileHtml('Member', mem, {
+              member: true,
+              active: yours,
+              yours: yours
+            }) +
+          '</div>' +
+        '</div>';
     }
 
     var note = '';
     if (other.length) {
       note =
         '<p class="cat-format-note">' +
-          esc(other.join(' · ') + ' available') +
+          '<span class="cat-format-note-mark" aria-hidden="true"></span>' +
+          '<span>' + esc(other.join(' · ') + ' available') + '</span>' +
         '</p>';
     } else if (!hasDigital) {
       note =
-        '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
+        '<p class="cat-format-note">' +
+          '<span class="cat-format-note-mark" aria-hidden="true"></span>' +
+          '<span>' + esc(formatSide(rel)) + '</span>' +
+        '</p>';
     }
 
-    if (!chunks.length && !note) {
-      note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
+    if (!board && !note) {
+      note =
+        '<p class="cat-format-note">' +
+          '<span class="cat-format-note-mark" aria-hidden="true"></span>' +
+          '<span>' + esc(formatSide(rel)) + '</span>' +
+        '</p>';
     }
 
-    return (
-      '<div class="cat-side-pricing">' +
-        (chunks.length
-          ? (
-              '<div class="cat-price-panel" role="group" aria-label="' +
-                esc((rel.title || 'Release') + ' digital pricing') +
-              '">' + chunks.join('') + '</div>'
-            )
-          : '') +
-        note +
-      '</div>'
-    );
+    return '<div class="cat-side-pricing">' + board + note + '</div>';
   }
 
   function coverSrc(rel) {
