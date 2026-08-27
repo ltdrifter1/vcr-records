@@ -1186,10 +1186,8 @@
       .wall-card { transition: none; }
     }
 
-    /* Club Copy record club intake — premium glass ----------------------- */
+    /* Club Copy record club intake — handmade chrome-glass ---------------- */
     .club-join {
-      --join-glass: linear-gradient(165deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
-      --join-edge: rgba(210,222,236,.22);
       --join-ink: #f4f6f8;
       --join-muted: rgba(244,246,248,.58);
       --join-dim: rgba(200,214,230,.42);
@@ -1198,13 +1196,15 @@
       color: var(--join-ink);
       padding: 88px 0 100px;
       overflow: hidden;
-      border-top: 1px solid rgba(200,214,230,.1);
+      border-top: 1px solid rgba(186,204,224,.22);
       background:
         radial-gradient(900px 480px at 18% 0%, rgba(186,204,224,.16), transparent 58%),
         radial-gradient(700px 420px at 88% 12%, rgba(232,220,196,.1), transparent 55%),
         radial-gradient(520px 360px at 50% 100%, rgba(140,160,190,.1), transparent 60%),
         linear-gradient(180deg, #0b0c10 0%, #07080b 55%, #050506 100%);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.1),
+        inset 0 8px 0 rgba(255,255,255,.03);
     }
     .club-join::before {
       content: "";
@@ -1251,30 +1251,71 @@
       color: var(--join-muted);
     }
     .join-member-home {
+      position: relative;
       text-align: center;
-      max-width: 28em;
-      margin: 0 auto 36px;
+      max-width: 34em;
+      margin: 0 auto;
+      padding: 0 0 22px;
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(180deg, rgba(16,18,24,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.78) 0%,
+          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.28) 58%,
+          rgba(92,108,128,.62) 100%) border-box;
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 16px 36px rgba(0,0,0,.4);
     }
+    .join-member-home[hidden] { display: none; }
+    .join-member-home::after {
+      content: "";
+      position: absolute;
+      inset: 42px 12px 10px;
+      pointer-events: none;
+      background:
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 1px 10px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 1px 10px no-repeat;
+      opacity: .4;
+    }
+    .join-member-home > * { position: relative; z-index: 1; }
     .join-member-kicker {
-      margin: 0 0 10px;
+      margin: 0 0 16px;
+      padding: 12px 18px 11px;
       font-family: var(--callsign);
       font-size: 11px;
       font-weight: 600;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--join-dim);
+      color: rgba(220,230,242,.62);
+      background:
+        linear-gradient(180deg, rgba(220,230,242,.16) 0%, rgba(40,48,58,.55) 48%, rgba(16,18,22,.7) 100%);
+      border-bottom: 1px solid rgba(0,0,0,.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.26),
+        0 1px 0 rgba(255,255,255,.05);
     }
     .join-member-title {
-      margin: 0 0 12px;
-      font-family: var(--display);
-      font-size: clamp(28px, 4.5vw, 40px);
+      margin: 8px 18px 12px;
+      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+      font-size: clamp(26px, 4vw, 36px);
       font-weight: 600;
-      letter-spacing: -.04em;
+      letter-spacing: .12em;
       line-height: 1.05;
+      text-transform: uppercase;
       color: #fff;
     }
     .join-member-dek {
-      margin: 0 auto 22px;
+      margin: 0 18px 22px;
       font-size: 15px;
       line-height: 1.55;
       color: var(--join-muted);
@@ -1284,112 +1325,149 @@
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
+      padding: 0 18px;
     }
     .join-member-actions .btn { min-height: 48px; }
     .club-join.is-member-home .club-join-lead { display: none; }
     .club-join.is-member-home .join-levels,
-    .club-join.is-member-home .join-panel { display: none; }
-    .club-join.is-member-home .join-stage {
-      grid-template-columns: 1fr;
-      justify-items: center;
-    }
-    .club-join.is-member-home .member-card-stage { max-width: 360px; width: 100%; }
+    .club-join.is-member-home .join-panel,
+    .club-join.is-member-home .join-stage { display: none; }
     .join-levels {
       display: grid;
-      gap: 14px;
-      margin: 0 0 36px;
+      gap: 12px;
+      margin: 0 0 32px;
       text-align: left;
     }
     @media (min-width: 860px) {
       .join-levels {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-        margin-bottom: 44px;
+        gap: 12px;
+        margin-bottom: 40px;
       }
     }
+    /* Handmade chrome-glass plate — metal rim, top rail, crop marks */
     .join-level {
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 0;
       width: 100%;
       min-height: 100%;
-      padding: 22px 20px 20px;
-      border-radius: 18px;
-      border: 1px solid var(--join-edge);
+      padding: 0 0 16px;
+      border-radius: 2px;
+      border: 1px solid transparent;
       background:
-        var(--join-glass),
-        linear-gradient(180deg, rgba(22,26,34,.72), rgba(10,12,16,.78));
-      backdrop-filter: blur(22px) saturate(140%);
-      -webkit-backdrop-filter: blur(22px) saturate(140%);
+        linear-gradient(180deg, rgba(24,28,36,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.78) 0%,
+          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.28) 58%,
+          rgba(92,108,128,.62) 100%) border-box;
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.16),
-        0 18px 40px rgba(0,0,0,.28);
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -1px 0 rgba(0,0,0,.55),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 10px 26px rgba(0,0,0,.38);
       color: #fff;
       text-align: left;
       cursor: pointer;
+      overflow: hidden;
       transition:
         border-color .25s var(--ease),
-        background .25s var(--ease),
-        transform .25s var(--ease),
-        box-shadow .25s var(--ease);
+        box-shadow .25s var(--ease),
+        background .25s var(--ease);
     }
+    .join-level::after {
+      content: "";
+      position: absolute;
+      inset: 28px 8px 8px;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 1px 10px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 1px 10px no-repeat;
+      opacity: .5;
+    }
+    .join-level > * { position: relative; z-index: 1; }
+    .join-level > span:nth-child(2) { flex: 1 1 auto; }
     .join-level:hover {
-      border-color: rgba(230,238,248,.38);
-      transform: translateY(-2px);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.2),
-        0 22px 48px rgba(0,0,0,.34);
+        inset 0 1px 0 rgba(255,255,255,.38),
+        inset 0 -1px 0 rgba(0,0,0,.55),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 0 0 1px rgba(210,226,242,.18),
+        0 12px 28px rgba(0,0,0,.42);
     }
     .join-level[aria-checked="true"] {
-      border-color: rgba(240,246,255,.55);
       background:
-        linear-gradient(165deg, rgba(255,255,255,.18), rgba(255,255,255,.05)),
-        linear-gradient(180deg, rgba(36,44,56,.85), rgba(12,14,18,.9));
+        linear-gradient(180deg, rgba(36,46,60,.97), rgba(10,12,16,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.92) 0%,
+          rgba(196,214,234,.7) 34%,
+          rgba(255,255,255,.42) 58%,
+          rgba(120,150,180,.7) 100%) border-box;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.28),
-        0 0 0 1px rgba(255,255,255,.06),
-        0 24px 56px rgba(0,0,0,.4);
+        inset 0 1px 0 rgba(255,255,255,.42),
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.45),
+        0 0 0 1px rgba(200,220,240,.28),
+        0 14px 32px rgba(0,0,0,.46);
     }
+    .join-level[aria-checked="true"]::after { opacity: .82; }
     .join-level-top {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
+      margin: 0 0 14px;
+      padding: 9px 14px 8px;
+      background:
+        linear-gradient(180deg, rgba(220,230,242,.18) 0%, rgba(40,48,58,.55) 48%, rgba(16,18,22,.7) 100%);
+      border-bottom: 1px solid rgba(0,0,0,.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        0 1px 0 rgba(255,255,255,.05);
     }
     .join-level-dot {
-      width: 18px; height: 18px; margin-top: 2px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,.35);
+      width: 9px; height: 9px;
+      border-radius: 1px;
+      border: 1px solid rgba(255,255,255,.45);
       position: relative;
       flex-shrink: 0;
-      background: rgba(0,0,0,.2);
+      background: rgba(0,0,0,.5);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.6);
     }
-    .join-level[aria-checked="true"] .join-level-dot { border-color: #fff; }
-    .join-level[aria-checked="true"] .join-level-dot::after {
-      content: "";
-      position: absolute; inset: 3px;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 0 10px rgba(255,255,255,.55);
+    .join-level[aria-checked="true"] .join-level-dot {
+      border-color: #f4f8fc;
+      background: linear-gradient(180deg, #ffffff, #c8d6e8);
+      box-shadow:
+        0 0 8px rgba(210,230,255,.45),
+        inset 0 1px 0 #fff;
     }
     .join-level-price {
-      font-family: var(--callsign);
-      font-size: 12px;
+      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: .12em;
+      letter-spacing: .16em;
       text-transform: uppercase;
       white-space: nowrap;
-      color: rgba(255,255,255,.78);
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
+      color: rgba(232,240,250,.88);
+      padding: 3px 7px 2px;
+      border-radius: 1px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.04));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.3),
+        0 1px 0 rgba(0,0,0,.4);
     }
     .join-level[aria-checked="true"] .join-level-price {
       color: #0a0c10;
-      background: #fff;
-      border-color: #fff;
+      background: linear-gradient(180deg, #f7fafc 0%, #c5d0dc 100%);
+      border-color: rgba(255,255,255,.7);
     }
     .join-level-name {
       display: block;
@@ -1397,7 +1475,7 @@
       font-size: 22px;
       font-weight: 600;
       letter-spacing: -.03em;
-      margin-bottom: 8px;
+      margin: 0 16px 8px;
     }
     .join-level-blurb {
       display: block;
@@ -1405,11 +1483,12 @@
       line-height: 1.5;
       color: rgba(255,255,255,.56);
       max-width: 28em;
+      margin: 0 16px;
     }
     .join-level-tag {
       display: inline-block;
-      margin-top: auto;
-      padding-top: 4px;
+      margin: auto 16px 0;
+      padding-top: 14px;
       font-family: var(--callsign);
       font-size: 10px;
       font-weight: 600;
@@ -1420,44 +1499,67 @@
     .join-level[aria-checked="true"] .join-level-tag { color: rgba(232,240,250,.72); }
 
     .join-stage {
-      display: grid;
-      gap: 22px;
-      align-items: start;
-    }
-    @media (max-width: 899px) {
-      .member-card { order: -1; }
-    }
-    @media (min-width: 900px) {
-      .join-stage {
-        grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr);
-        gap: 28px;
-        align-items: stretch;
-      }
+      display: block;
+      max-width: 580px;
+      margin: 0 auto;
     }
 
     .join-panel {
+      position: relative;
       margin: 0;
       text-align: left;
-      padding: 26px 24px 24px;
-      border-radius: 22px;
-      border: 1px solid var(--join-edge);
+      padding: 0 0 18px;
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid transparent;
       background:
-        linear-gradient(165deg, rgba(255,255,255,.1), rgba(255,255,255,.03)),
-        rgba(12,14,18,.55);
-      backdrop-filter: blur(28px) saturate(150%);
-      -webkit-backdrop-filter: blur(28px) saturate(150%);
+        linear-gradient(180deg, rgba(16,18,24,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.78) 0%,
+          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.28) 58%,
+          rgba(92,108,128,.62) 100%) border-box;
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.14),
-        0 24px 50px rgba(0,0,0,.3);
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 16px 36px rgba(0,0,0,.4);
     }
+    .join-panel::after {
+      content: "";
+      position: absolute;
+      inset: 42px 12px 10px;
+      pointer-events: none;
+      background:
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 1px 10px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 1px 10px no-repeat;
+      opacity: .42;
+    }
+    .join-panel > * { position: relative; z-index: 1; }
     .join-panel-label {
       font-family: var(--callsign);
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: .18em;
+      letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--join-dim);
-      margin: 0 0 18px;
+      color: rgba(220,230,242,.62);
+      margin: 0 0 16px;
+      padding: 12px 18px 11px;
+      background:
+        linear-gradient(180deg, rgba(220,230,242,.16) 0%, rgba(40,48,58,.55) 48%, rgba(16,18,22,.7) 100%);
+      border-bottom: 1px solid rgba(0,0,0,.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.26),
+        0 1px 0 rgba(255,255,255,.05);
+    }
+    .join-fields,
+    .join-premium-amount {
+      margin-left: 18px;
+      margin-right: 18px;
     }
     .join-field { margin-bottom: 14px; }
     .join-field label {
@@ -1474,68 +1576,79 @@
     .join-field input[type="text"],
     #premiumAmount {
       width: 100%;
-      height: 50px;
-      border-radius: 12px;
-      border: 1px solid rgba(200,214,230,.24);
-      padding: 0 14px;
-      background: rgba(8,10,14,.55);
+      height: 48px;
+      border-radius: 2px;
+      border: 1px solid rgba(140,160,184,.28);
+      padding: 0 12px;
+      background: rgba(4,6,10,.7);
       color: #fff;
       font: inherit;
       font-size: 16px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      box-shadow:
+        inset 0 2px 5px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 1px 0 rgba(255,255,255,.06);
       transition: border-color .2s var(--ease), background .2s var(--ease);
     }
     .join-field input:focus,
     #premiumAmount:focus {
       outline: none;
-      border-color: rgba(220,232,246,.55);
-      background: rgba(10,12,16,.72);
+      border-color: rgba(210,226,242,.5);
+      background: rgba(6,8,12,.82);
     }
     .join-fields {
       display: grid;
       gap: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     @media (min-width: 560px) {
       .join-fields { grid-template-columns: 1.2fr .8fr; }
       .join-fields .join-field { margin-bottom: 0; }
     }
     .join-premium-amount {
-      margin: 0 0 18px;
-      padding: 16px;
-      border-radius: 14px;
+      margin: 0 0 16px;
+      padding: 14px;
+      border-radius: 2px;
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+      background: rgba(0,0,0,.28);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        inset 0 2px 6px rgba(0,0,0,.3);
     }
     .join-premium-amount[hidden] { display: none; }
     .join-premium-amount .join-field { margin-bottom: 0; }
     .premium-presets {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 10px;
     }
     .premium-preset {
-      height: 38px;
-      padding: 0 14px;
-      border-radius: 999px;
+      height: 36px;
+      min-width: 52px;
+      padding: 0 12px;
+      border-radius: 2px;
       border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.04);
+      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
       color: rgba(255,255,255,.82);
-      font-size: 13px;
+      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
+      font-size: 12px;
       font-weight: 600;
+      letter-spacing: .04em;
       cursor: pointer;
-      backdrop-filter: blur(10px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.22),
+        0 1px 0 rgba(0,0,0,.35);
       transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
     }
     .premium-preset:hover {
       border-color: rgba(255,255,255,.32);
-      background: rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
     }
     .premium-preset[aria-pressed="true"] {
-      background: #fff;
+      background: linear-gradient(180deg, #f7fafc, #c5d0dc);
       color: #0a0a0a;
-      border-color: #fff;
+      border-color: rgba(255,255,255,.7);
     }
     .premium-credit-preview {
       margin: 12px 0 0;
@@ -1551,338 +1664,14 @@
       color: rgba(255,255,255,.42);
     }
 
-    /* Membership card — late-90s PVC club card ---------------------------- */
-    .member-card-stage {
-      perspective: 900px;
-      display: flex;
-      align-items: center;
-    }
-    .member-card {
-      --card-ink: #f2f6fb;
-      --card-mute: rgba(210,222,236,.62);
-      --card-metal: #e8eef6;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      aspect-ratio: 1.586 / 1;
-      width: 100%;
-      min-height: 0;
-      margin: 0;
-      padding: 18px 20px 16px;
-      border-radius: 10px;
-      border: 2px solid #9eb0c4;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.18) 0%, transparent 18%),
-        linear-gradient(90deg, #1a2740 0%, #243556 28%, #152338 62%, #0c1422 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.45),
-        inset 0 -2px 0 rgba(0,0,0,.55),
-        inset 0 0 0 1px rgba(0,0,0,.35),
-        0 2px 0 rgba(255,255,255,.08),
-        0 22px 42px rgba(0,0,0,.5),
-        0 8px 16px rgba(0,0,0,.32);
-      text-align: left;
-      color: var(--card-ink);
-      isolation: isolate;
-      transform: rotateY(-6deg) rotateX(4deg);
-      transform-style: preserve-3d;
-      transition:
-        background .35s var(--ease),
-        border-color .35s var(--ease),
-        color .35s var(--ease),
-        box-shadow .35s var(--ease),
-        transform .45s var(--ease);
-    }
-    /* Mag stripe — classic late-90s membership PVC */
-    .member-card-stripe {
-      height: 26px;
-      margin: 0 -20px 16px;
-      width: calc(100% + 40px);
-      flex: 0 0 auto;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          #0a0c10 0 2px,
-          #1a1e26 2px 3px,
-          #0a0c10 3px 5px,
-          #2a3140 5px 6px
-        ),
-        linear-gradient(180deg, #1c222c 0%, #050608 45%, #2a303a 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.12),
-        inset 0 -1px 0 rgba(0,0,0,.7),
-        0 1px 0 rgba(255,255,255,.06);
-      opacity: .95;
-    }
-    .member-card.is-free .member-card-stripe { opacity: .78; }
-    .member-card.is-premium .member-card-stripe {
-      background:
-        repeating-linear-gradient(
-          90deg,
-          #1a140c 0 2px,
-          #2a2216 2px 3px,
-          #1a140c 3px 5px,
-          #3a3020 5px 6px
-        ),
-        linear-gradient(180deg, #2a2218 0%, #0a0806 45%, #2a2418 100%);
-    }
-    @media (hover:hover) {
-      .member-card-stage:hover .member-card {
-        transform: rotateY(-2deg) rotateX(2deg) translateY(-4px);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.5),
-          inset 0 -2px 0 rgba(0,0,0,.55),
-          inset 0 0 0 1px rgba(0,0,0,.35),
-          0 2px 0 rgba(255,255,255,.1),
-          0 28px 52px rgba(0,0,0,.55),
-          0 12px 22px rgba(0,0,0,.34);
-      }
-    }
-    .member-card-grain,
-    .member-card-glare {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .member-card-grain {
-      opacity: .28;
-      background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-      mix-blend-mode: soft-light;
-    }
-    .member-card-glare {
-      z-index: 1;
-      background: linear-gradient(
-        118deg,
-        transparent 24%,
-        rgba(255,255,255,.05) 40%,
-        rgba(180,220,255,.28) 50%,
-        rgba(255,255,255,.06) 60%,
-        transparent 76%
-      );
-      animation: cardSheen 8s ease-in-out infinite;
-      transform: translateX(-20%);
-    }
-    @keyframes cardSheen {
-      0%, 100% { transform: translateX(-38%) rotate(8deg); opacity: .4; }
-      50% { transform: translateX(30%) rotate(8deg); opacity: 1; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .member-card,
-      .member-card-stage:hover .member-card { transform: none; }
-      .member-card-glare { animation: none; opacity: .35; }
-    }
-    .member-card > *:not(.member-card-grain):not(.member-card-glare) {
-      position: relative;
-      z-index: 2;
-    }
-
-    .member-card.is-free {
-      --card-ink: #e8eef6;
-      --card-mute: rgba(210,220,232,.55);
-      --card-metal: #d8e0ea;
-      border-color: #7a8798;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.1) 0%, transparent 20%),
-        linear-gradient(90deg, #2a3038 0%, #1a1e24 55%, #101318 100%);
-      transform: none;
-    }
-
-    .member-card.is-club {
-      --card-ink: #f5f9ff;
-      --card-mute: rgba(186,214,242,.7);
-      --card-metal: #eef5ff;
-      border-color: #8eb0d4;
-      background:
-        linear-gradient(180deg, rgba(180,210,255,.22) 0%, transparent 22%),
-        linear-gradient(105deg, #1e3a68 0%, #24508a 34%, #16305a 68%, #0a1830 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.5),
-        inset 0 -2px 0 rgba(0,0,0,.55),
-        inset 0 0 0 1px rgba(20,40,80,.45),
-        0 0 0 1px rgba(120,170,230,.25),
-        0 24px 48px rgba(8,24,56,.55),
-        0 8px 18px rgba(0,0,0,.35);
-    }
-    .member-card.is-club::after {
-      content: "";
-      position: absolute;
-      inset: 7px;
-      z-index: 0;
-      pointer-events: none;
-      border-radius: 5px;
-      border: 1px solid rgba(200,220,255,.18);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
-    }
-
-    .member-card.is-premium {
-      --card-ink: #fff6e4;
-      --card-mute: rgba(236,214,170,.68);
-      --card-metal: #f6e7c2;
-      border-color: #c9ad74;
-      background:
-        linear-gradient(180deg, rgba(255,230,180,.2) 0%, transparent 22%),
-        linear-gradient(110deg, #4a3a22 0%, #2a2216 48%, #12100c 100%);
-      transform: none;
-    }
-
-    .member-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .member-card-logo {
-      display: block;
-      width: min(168px, 58%);
-      height: auto;
-      filter:
-        drop-shadow(0 1px 0 rgba(255,255,255,.4))
-        drop-shadow(0 0 1px rgba(255,255,255,.35))
-        drop-shadow(0 6px 12px rgba(0,0,0,.4));
-    }
-    .member-card-level {
-      font-family: var(--display);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #071018;
-      background:
-        linear-gradient(180deg, #ffffff 0%, #d7e2f0 42%, #9eb4cc 100%);
-      padding: 8px 11px 7px;
-      border-radius: 3px;
-      border: 1px solid rgba(255,255,255,.55);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.95),
-        inset 0 -1px 0 rgba(40,60,90,.25),
-        0 1px 0 rgba(0,0,0,.35),
-        0 4px 10px rgba(0,0,0,.28);
-      white-space: nowrap;
-      line-height: 1;
-    }
-    .member-card.is-club .member-card-level {
-      color: #04101c;
-      background:
-        linear-gradient(180deg, #f4f9ff 0%, #c5d8f0 48%, #7ea4cc 100%);
-    }
-    .member-card.is-premium .member-card-level {
-      color: #1a1208;
-      background:
-        linear-gradient(180deg, #fff8e8 0%, #e8d4a4 48%, #c4a46a 100%);
-    }
-    .member-card.is-free .member-card-level {
-      color: #101418;
-      background:
-        linear-gradient(180deg, #f0f2f5 0%, #c8ced6 48%, #8e96a0 100%);
-    }
-
-    .member-card-identity { margin-top: auto; }
-    .member-card-name-label {
-      margin: 0 0 4px;
-      font-family: var(--callsign);
-      font-size: 8px;
-      font-weight: 600;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--card-mute);
-    }
-    .member-card-name {
-      font-family: var(--display);
-      font-size: clamp(22px, 2.8vw, 28px);
-      font-weight: 600;
-      letter-spacing: .06em;
-      line-height: 1.05;
-      margin: 0 0 10px;
-      text-transform: uppercase;
-      color: var(--card-metal);
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.65),
-        0 -1px 0 rgba(0,0,0,.8),
-        1px 1px 0 rgba(0,0,0,.45),
-        -1px 0 0 rgba(255,255,255,.15),
-        0 3px 5px rgba(0,0,0,.45);
-    }
-    .member-card.is-free .member-card-name {
-      color: #dfe6ef;
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.25),
-        0 -1px 0 rgba(0,0,0,.65),
-        0 2px 3px rgba(0,0,0,.35);
-    }
-    .member-card.is-premium .member-card-name {
-      color: #f6e7c2;
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.3),
-        0 -1px 0 rgba(0,0,0,.7),
-        0 3px 4px rgba(0,0,0,.4);
-    }
-    .member-card-acct {
-      margin: 0 0 8px;
-      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--card-mute);
-    }
-    .member-card-acct span { margin-right: 8px; opacity: .7; }
-    .member-card-acct strong {
-      color: var(--card-metal);
-      font-weight: 700;
-      letter-spacing: .24em;
-      font-variant-numeric: tabular-nums;
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.4),
-        0 -1px 0 rgba(0,0,0,.55);
-    }
-    .member-card-meta {
-      margin: 0;
-      font-size: 11px;
-      font-family: var(--display);
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--card-ink);
-      line-height: 1.35;
-      text-shadow: 0 1px 0 rgba(0,0,0,.45);
-    }
-    .member-card-foot {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 12px;
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,.16);
-    }
-    .member-card-region,
-    .member-card-valid {
-      font-size: 8px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      font-family: var(--callsign);
-      font-weight: 600;
-      color: var(--card-mute);
-    }
-    .member-card-valid { text-align: right; }
-
-    @media (max-width: 899px) {
-      .member-card { transform: none; }
-      .member-card-stage:hover .member-card { transform: none; }
-    }
-
     .club-join-btn {
-      width: 100%;
-      height: 54px;
-      min-height: 54px;
-      margin-top: 4px;
-      border: 1px solid rgba(255,255,255,.42);
-      border-radius: var(--btn-r, 12px);
+      display: block;
+      width: auto;
+      height: 50px;
+      min-height: 50px;
+      margin: 4px 18px 0;
+      border: 1px solid transparent;
+      border-radius: 2px;
       font-size: 15px;
       font-weight: 600;
       letter-spacing: -.015em;
@@ -1912,14 +1701,14 @@
       filter: none;
     }
     .club-join-note {
-      margin: 14px 0 0;
+      margin: 14px 18px 0;
       font-size: 13px;
       line-height: 1.45;
       color: rgba(255,255,255,.42);
       text-align: center;
     }
     .club-join-status {
-      margin: 12px 0 0;
+      margin: 12px 18px 0;
       font-size: 14px;
       color: rgba(255,255,255,.85);
       text-align: center;
@@ -2082,9 +1871,6 @@
       }
       .wall-title { font-size: 16px; }
       .club-join { padding: 64px 0 80px; }
-      .member-card { min-height: 0; }
-      .member-card.is-club { min-height: 0; }
-      .join-panel { padding: 22px 18px 20px; }
       .home-artists { padding: 56px 0 calc(80px + var(--safe-b)); }
     }
 
@@ -2348,13 +2134,13 @@
       <div class="club-join-inner rv">
         <header class="club-join-head">
           <h2 class="club-join-title" id="join-title">Join the Record Club.</h2>
-          <p class="club-join-lead">A card with your number. Digital releases at member price. Club Credit for cassettes when you want the shelf. Nothing ships unless you choose it.</p>
+          <p class="club-join-lead">Your number on the list. Digital releases at member price. Club Credit for cassettes when you want the shelf. Nothing ships unless you choose it.</p>
         </header>
 
         <div class="join-member-home" id="joinMemberHome" hidden>
           <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
           <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
-          <p class="join-member-dek" id="joinMemberDek">Your card is ready. Browse the library at your member price.</p>
+          <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member price.</p>
           <div class="join-member-actions">
             <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
             <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Manage membership</button>
@@ -2380,9 +2166,9 @@
             </span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Get your card — digital releases at member price, early access, exclusives.</span>
+              <span class="join-level-blurb">Digital releases at member price, early access, exclusives.</span>
             </span>
-            <span class="join-level-tag">Your card</span>
+            <span class="join-level-tag">Member price</span>
           </button>
           <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
             <span class="join-level-top">
@@ -2406,7 +2192,7 @@
                 <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
               </div>
               <div class="join-field">
-                <label for="joinName">Name on card</label>
+                <label for="joinName">Name</label>
                 <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
               </div>
             </div>
@@ -2430,31 +2216,6 @@
             <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join the Club — $5/yr</button>
             <p class="club-join-note" id="joinNote">Renews yearly. Digital releases at your member price.</p>
             <p class="club-join-status" id="joinStatus" role="status" hidden></p>
-          </div>
-
-          <div class="member-card-stage">
-            <div class="member-card is-club" id="memberCard" aria-live="polite">
-              <div class="member-card-grain" aria-hidden="true"></div>
-              <div class="member-card-glare" aria-hidden="true"></div>
-              <div class="member-card-top">
-                <img class="member-card-logo" src="club-copy-logo-chrome.webp" alt="Club Copy" width="901" height="418" decoding="async"/>
-                <span class="member-card-level" id="cardLevel">Club Level</span>
-              </div>
-              <div class="member-card-stripe" aria-hidden="true"></div>
-              <div class="member-card-identity">
-                <p class="member-card-name-label">Member name</p>
-                <p class="member-card-name" id="cardName">YOUR NAME</p>
-                <p class="member-card-acct">
-                  <span>No.</span>
-                  <strong id="cardNumber">0000</strong>
-                </p>
-                <p class="member-card-meta" id="cardLayer">Digital Record Club</p>
-              </div>
-              <div class="member-card-foot">
-                <span class="member-card-region">Pacific Northwest</span>
-                <span class="member-card-valid">Valid membership</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -2818,7 +2579,7 @@
     }
   });
 
-  // Record club intake : Free / Club / Premium + member card
+  // Record club intake : Free / Club / Premium
   (function () {
     var levelBtns = document.querySelectorAll('.join-level');
     var joinBtn = document.getElementById('clubJoinBtn');
@@ -2826,10 +2587,6 @@
     var joinName = document.getElementById('joinName');
     var joinNote = document.getElementById('joinNote');
     var joinStatus = document.getElementById('joinStatus');
-    var cardLevel = document.getElementById('cardLevel');
-    var cardName = document.getElementById('cardName');
-    var cardNumber = document.getElementById('cardNumber');
-    var cardLayer = document.getElementById('cardLayer');
     var premiumBox = document.getElementById('premiumAmountBox');
     var premiumAmount = document.getElementById('premiumAmount');
     var premiumPreview = document.getElementById('premiumCreditPreview');
@@ -2872,20 +2629,7 @@
         mult.toFixed(1) + '× this contribution.</span>';
     }
 
-    function syncCard() {
-      var name = (joinName && joinName.value.trim()) || 'Your name';
-      var email = (joinEmail && joinEmail.value.trim()) || '';
-      cardName.textContent = name.toUpperCase();
-      cardNumber.textContent = memberNumber(email || name);
-      cardLevel.textContent = state.level === 'premium' ? 'Premium Level' : state.level === 'free' ? 'Free Level' : 'Club Level';
-      cardLayer.textContent = state.level === 'premium' ? 'Digital + Physical' : state.level === 'free' ? 'Catalog Access' : 'Digital Record Club';
-
-      var card = document.getElementById('memberCard');
-      if (card) {
-        card.classList.remove('is-free', 'is-club', 'is-premium');
-        card.classList.add(state.level === 'premium' ? 'is-premium' : state.level === 'free' ? 'is-free' : 'is-club');
-      }
-
+    function syncJoin() {
       if (premiumBox) premiumBox.hidden = state.level !== 'premium';
 
       if (state.level === 'free') {
@@ -2908,7 +2652,7 @@
         levelBtns.forEach(function (b) {
           b.setAttribute('aria-checked', b === btn ? 'true' : 'false');
         });
-        syncCard();
+        syncJoin();
       });
     });
 
@@ -2919,7 +2663,7 @@
         premiumPresets.forEach(function (b) {
           b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
         });
-        syncCard();
+        syncJoin();
       });
     });
 
@@ -2929,13 +2673,11 @@
           var match = Number(b.getAttribute('data-amount')) === Number(premiumAmount.value);
           b.setAttribute('aria-pressed', match ? 'true' : 'false');
         });
-        syncCard();
+        syncJoin();
       });
     }
 
-    if (joinName) joinName.addEventListener('input', syncCard);
-    if (joinEmail) joinEmail.addEventListener('input', syncCard);
-    syncCard();
+    syncJoin();
 
     var joinSection = document.getElementById('join');
     var joinTitle = document.getElementById('join-title');
@@ -2948,18 +2690,8 @@
     var joinPanel = document.getElementById('joinPanel');
     var managing = false;
 
-    function fillCardFromProfile(profile) {
+    function fillFormFromProfile(profile) {
       if (!profile) return;
-      var name = (profile.displayName || '').trim() || profile.email || 'Member';
-      cardName.textContent = name.toUpperCase();
-      cardNumber.textContent = profile.memberNumber || memberNumber(profile.email);
-      cardLevel.textContent = profile.level === 'premium' ? 'Premium Level' : profile.level === 'free' ? 'Free Level' : 'Club Level';
-      cardLayer.textContent = profile.level === 'premium' ? 'Digital + Physical' : profile.level === 'free' ? 'Catalog Access' : 'Digital Record Club';
-      var card = document.getElementById('memberCard');
-      if (card) {
-        card.classList.remove('is-free', 'is-club', 'is-premium');
-        card.classList.add(profile.level === 'premium' ? 'is-premium' : profile.level === 'free' ? 'is-free' : 'is-club');
-      }
       if (joinEmail && !joinEmail.value) joinEmail.value = profile.email || '';
       if (joinName && !joinName.value && profile.displayName) joinName.value = profile.displayName;
     }
@@ -2967,7 +2699,7 @@
     function showMemberHome(profile) {
       if (!joinSection || !joinMemberHome || !profile) return;
       managing = false;
-      fillCardFromProfile(profile);
+      fillFormFromProfile(profile);
       joinMemberNo.textContent = profile.memberNumber || memberNumber(profile.email);
       if (joinTitle) joinTitle.textContent = 'Your Record Club.';
       if (joinMemberKicker) {
@@ -2977,7 +2709,7 @@
         if (profile.level === 'premium') {
           joinMemberDek.textContent = 'Premium Member ' + (profile.memberNumber || '') + '. Club Credit is on this email — spend it on cassettes you choose.';
         } else if (profile.level === 'club') {
-          joinMemberDek.textContent = 'Member ' + (profile.memberNumber || '') + '. Your card is ready — browse the library at your member price.';
+          joinMemberDek.textContent = 'Member ' + (profile.memberNumber || '') + '. Browse the library at your member price.';
         } else {
           joinMemberDek.textContent = 'Member ' + (profile.memberNumber || '') + '. You get the letters. Upgrade anytime for member pricing.';
         }
@@ -2999,7 +2731,7 @@
       if (joinPanel) joinPanel.hidden = false;
       if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Join the Record Club.';
       if (profile) {
-        fillCardFromProfile(profile);
+        fillFormFromProfile(profile);
         if (profile.level === 'premium') state.level = 'premium';
         else if (profile.level === 'club') state.level = 'club';
         else state.level = 'free';
@@ -3007,7 +2739,7 @@
           b.setAttribute('aria-checked', b.getAttribute('data-level') === state.level ? 'true' : 'false');
         });
       }
-      syncCard();
+      syncJoin();
     }
 
     function syncMemberView() {
@@ -3104,7 +2836,7 @@
         } catch (e) {
           showStatus("Couldn't finish Free signup. Try again.", true);
           joinBtn.disabled = false;
-          syncCard();
+          syncJoin();
         }
         return;
       }
@@ -3129,14 +2861,14 @@
         if (!res.ok || !data.url) {
           showStatus(data.error || 'Checkout unavailable right now.', true);
           joinBtn.disabled = false;
-          syncCard();
+          syncJoin();
           return;
         }
         window.location.href = data.url;
       } catch (e) {
         showStatus('Could not reach checkout. Try again.', true);
         joinBtn.disabled = false;
-        syncCard();
+        syncJoin();
       }
     });
   })();
