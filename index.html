@@ -129,16 +129,15 @@
     /* Dominant edge-to-edge cover : atmosphere centered on the brand */
     .hero-ambient {
       position: absolute;
-      inset: -14%;
+      inset: -10%;
       z-index: 0;
       pointer-events: none;
       background-size: cover;
-      /* Bias cream label orb onto the lockup, not above it */
-      background-position: center 58%;
-      filter: blur(44px) saturate(.55) brightness(.68) contrast(1.08) grayscale(.35);
-      transform: scale(1.5);
-      opacity: .82;
-      mix-blend-mode: soft-light;
+      background-position: center 48%;
+      filter: blur(28px) saturate(1.15) brightness(.62) contrast(1.12);
+      transform: scale(1.38);
+      opacity: .9;
+      mix-blend-mode: normal;
       animation: ambientBreath 26s ease-in-out infinite alternate;
       transition: filter .7s var(--ease), opacity .7s var(--ease), transform .7s var(--ease);
       will-change: transform;
@@ -154,8 +153,8 @@
       content: "";
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 64% 54% at 50% 48%, rgba(26, 30, 36, .28) 0%, rgba(16, 18, 22, .52) 50%, rgba(8, 9, 11, .9) 100%),
-        linear-gradient(180deg, rgba(36, 40, 48, .58) 0%, transparent 42%, rgba(10, 12, 14, .88) 100%);
+        radial-gradient(ellipse 64% 54% at 50% 48%, rgba(26, 30, 36, .12) 0%, rgba(16, 18, 22, .38) 50%, rgba(8, 9, 11, .78) 100%),
+        linear-gradient(180deg, rgba(36, 40, 48, .32) 0%, transparent 42%, rgba(10, 12, 14, .78) 100%);
       mix-blend-mode: normal;
     }
     @keyframes ambientBreath {
@@ -235,13 +234,13 @@
     }
     .hero.is-live .hero-stage { gap: 16px; }
 
-    /* Platter : live console only; hidden at idle start ------------------- */
+    /* Platter : newest release on idle, full console when live --------------- */
     .hero-platter {
       position: relative;
-      display: none;
-      width: min(168px, 38vw);
+      display: block;
+      width: min(132px, 28vw);
       aspect-ratio: 1;
-      margin: 18px 0 6px;
+      margin: 14px 0 4px;
       filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
       transition: width .5s var(--ease), filter .5s var(--ease), margin .5s var(--ease);
     }
@@ -363,6 +362,7 @@
       outline-offset: 4px;
     }
     .hero-disc-hit:focus-visible .disc-glyph { opacity: .92; }
+    .hero:not(.is-live) .hero-disc-hit .disc-glyph { opacity: 0; }
     .hero-pulse {
       position: absolute;
       inset: -8%;
@@ -498,6 +498,15 @@
       text-transform: uppercase;
       color: rgba(255,255,255,.55);
       animation: fxIdentIn .9s var(--ease) .18s both;
+    }
+    .hero-idle-kicker {
+      margin: 0;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.64);
     }
     .hero-idle-title {
       margin: 0;
@@ -840,20 +849,20 @@
     }
     .hero-console-link--primary {
       background:
-        linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
-      color: #0c1016;
-      border-color: rgba(255,255,255,.62);
+        linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.08) 100%);
+      color: #fff;
+      border-color: rgba(255,255,255,.42);
       font-family: var(--callsign);
       font-size: 12px;
       font-weight: 600;
       letter-spacing: .16em;
       text-transform: uppercase;
-      backdrop-filter: blur(22px) saturate(1.5);
-      -webkit-backdrop-filter: blur(22px) saturate(1.5);
+      backdrop-filter: blur(22px) saturate(1.6);
+      -webkit-backdrop-filter: blur(22px) saturate(1.6);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 1px 0 rgba(255,255,255,.62),
         0 12px 28px rgba(0,0,0,.32),
-        0 0 24px rgba(210,224,240,.16);
+        0 0 28px rgba(186,214,255,.18);
       width: 100%;
     }
     .hero-format-options .hero-console-link {
@@ -1872,29 +1881,29 @@
       height: 54px;
       min-height: 54px;
       margin-top: 4px;
-      border: 1px solid rgba(255,255,255,.62);
+      border: 1px solid rgba(255,255,255,.42);
       border-radius: var(--btn-r, 12px);
       font-size: 15px;
       font-weight: 600;
       letter-spacing: -.015em;
-      color: #0a0c10;
-      background: linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
-      backdrop-filter: blur(22px) saturate(1.5);
-      -webkit-backdrop-filter: blur(22px) saturate(1.5);
+      color: #fff;
+      background: linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.08) 100%);
+      backdrop-filter: blur(22px) saturate(1.6);
+      -webkit-backdrop-filter: blur(22px) saturate(1.6);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 1px 0 rgba(255,255,255,.62),
         0 14px 32px rgba(0,0,0,.28),
-        0 0 24px rgba(210,224,240,.16);
+        0 0 28px rgba(186,214,255,.18);
       transition: transform .2s var(--ease), filter .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
     }
     .club-join-btn:hover {
-      filter: brightness(1.06);
+      filter: brightness(1.08);
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,.82);
+      border-color: rgba(255,255,255,.7);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.98),
+        inset 0 1px 0 rgba(255,255,255,.85),
         0 18px 38px rgba(0,0,0,.34),
-        0 0 32px rgba(220,234,255,.24);
+        0 0 36px rgba(210,230,255,.28);
     }
     .club-join-btn:disabled {
       opacity: .45;
@@ -2001,16 +2010,16 @@
         gap: 0;
       }
       .hero-ambient {
-        transform: scale(1.55);
-        filter: blur(40px) saturate(.55) brightness(.7) contrast(1.08) grayscale(.35);
-        background-position: center 54%;
+        transform: scale(1.48);
+        filter: blur(26px) saturate(1.1) brightness(.64) contrast(1.1);
+        background-position: center 50%;
       }
       .hero-brand { width: min(90vw, 380px); }
       .hero.is-live .hero-brand { width: min(52vw, 200px); margin: 0; }
       .hero.is-live .hero-station { margin-bottom: 2px; }
       .hero-idle { gap: 12px; margin-top: 12px; }
       .hero-idle-title { font-size: clamp(12px, 3.5vw, 17px); }
-      .hero:not(.is-live) .hero-platter { display: none; }
+      .hero:not(.is-live) .hero-platter { display: block; width: min(96px, 26vw); margin: 8px 0 2px; }
       .hero-ctas { width: 100%; margin-top: 4px; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
 
@@ -2086,6 +2095,7 @@
         padding-bottom: calc(16px + var(--safe-b));
       }
       .hero-brand { width: min(78vw, 300px); }
+      .hero:not(.is-live) .hero-platter { display: none; }
       .hero.is-live .hero-brand { width: min(42vw, 150px); }
       .hero.is-live .hero-station { display: none; }
       .hero-idle { gap: 12px; }
@@ -2232,6 +2242,7 @@
       </div>
       <img class="hero-brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="1396" height="331" fetchpriority="high"/>
       <div class="hero-idle" data-room-idle>
+        <p class="hero-idle-kicker">New single · Aug 27</p>
         <h1 class="hero-idle-title">Electronic music from the Pacific Northwest.</h1>
         <p class="hero-idle-dek visually-hidden">Independent record label for house and jungle.</p>
       </div>
