@@ -15,12 +15,12 @@
   <meta property="og:description" content="Independent Pacific Northwest record label for house and jungle. Listen and buy digital and cassette."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/together-cover.webp"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/bridget-in-my-room-cover.webp"/>
   <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Club Copy | Pacific Northwest Record Label"/>
   <meta name="twitter:description" content="Independent Pacific Northwest record label for house and jungle. Listen and buy digital and cassette."/>
-  <meta name="twitter:image" content="https://www.clubcopy.ca/together-cover.webp"/>
+  <meta name="twitter:image" content="https://www.clubcopy.ca/bridget-in-my-room-cover.webp"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,7 +38,7 @@
           "width": 180,
           "height": 180
         },
-        "image": "https://www.clubcopy.ca/together-cover.webp",
+        "image": "https://www.clubcopy.ca/bridget-in-my-room-cover.webp",
         "email": "charlie@clubcopy.ca",
         "founder": { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/cj-archer#person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer" },
         "description": "Club Copy is an independent Pacific Northwest record label based in British Columbia, Canada. The label releases house, jungle, and adjacent electronic music on digital and cassette.",
@@ -532,14 +532,22 @@
     .hero .btn-ghost-on-dark {
       min-width: 148px;
       height: 48px;
-      border-radius: 2px;
+      border-radius: var(--btn-r, 12px);
     }
-    .hero .btn-chrome-on-dark {
-      box-shadow:
-        0 1px 0 rgba(255,255,255,.98) inset,
-        0 -1px 0 rgba(60,70,90,.3) inset,
-        0 0 0 1px rgba(0,0,0,.45),
-        0 16px 36px rgba(0,0,0,.45);
+    .hero-ctas .btn::before {
+      animation: glassSheenIdle 6.2s ease-in-out 1.4s infinite;
+    }
+    .hero-ctas .btn:hover::before,
+    .hero-ctas .btn:focus-visible::before {
+      animation: none;
+    }
+    @keyframes glassSheenIdle {
+      0%, 72%, 100% { transform: translateX(-55%) rotate(8deg); opacity: 0; }
+      80% { opacity: .9; }
+      90% { transform: translateX(42%) rotate(8deg); opacity: .25; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-ctas .btn::before { animation: none !important; }
     }
 
     /* Scroll cue : the hero fills the viewport; hint at the wall below ------ */
@@ -812,33 +820,40 @@
       appearance: none;
       cursor: pointer;
       font: inherit;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
       height: 44px; padding: 0 18px;
-      border-radius: var(--bezel-r, 4px);
+      border-radius: var(--btn-r, 12px);
       display: inline-flex; align-items: center; justify-content: center;
       font-size: 13px; font-weight: 500;
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.28);
       color: #fff;
       text-decoration: none;
-      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform 160ms var(--ease);
+      backdrop-filter: blur(16px) saturate(1.35);
+      -webkit-backdrop-filter: blur(16px) saturate(1.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), transform 160ms var(--ease), box-shadow var(--dur) var(--ease);
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
     }
     .hero-console-link--primary {
       background:
-        linear-gradient(180deg, #ffffff 0%, #e8eef6 38%, #b7c4d4 72%, #9aa8b8 100%);
-      color: #111;
-      border-color: rgba(255,255,255,.75);
+        linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
+      color: #0c1016;
+      border-color: rgba(255,255,255,.62);
       font-family: var(--callsign);
       font-size: 12px;
       font-weight: 600;
       letter-spacing: .16em;
       text-transform: uppercase;
+      backdrop-filter: blur(22px) saturate(1.5);
+      -webkit-backdrop-filter: blur(22px) saturate(1.5);
       box-shadow:
-        0 1px 0 rgba(255,255,255,.95) inset,
-        0 -1px 0 rgba(60,70,90,.28) inset,
-        0 0 0 1px rgba(0,0,0,.4),
-        0 12px 28px rgba(0,0,0,.36);
+        inset 0 1px 0 rgba(255,255,255,.9),
+        0 12px 28px rgba(0,0,0,.32),
+        0 0 24px rgba(210,224,240,.16);
       width: 100%;
     }
     .hero-format-options .hero-console-link {
@@ -846,13 +861,18 @@
       min-width: 88px;
     }
     @media (hover:hover) {
-      .hero-console-link:hover { background: rgba(255,255,255,.18); border-color: rgba(200,214,230,.42); }
+      .hero-console-link:hover {
+        background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08));
+        border-color: rgba(255,255,255,.48);
+      }
       .hero-console-link--primary:hover {
-        opacity: .94;
-        filter: brightness(1.04);
+        filter: brightness(1.06);
         transform: translateY(-1px);
-        background:
-          linear-gradient(180deg, #ffffff 0%, #e8eef6 38%, #b7c4d4 72%, #9aa8b8 100%);
+        border-color: rgba(255,255,255,.82);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.98),
+          0 16px 36px rgba(0,0,0,.36),
+          0 0 28px rgba(220,234,255,.24);
       }
     }
     .hero-console-link[hidden] { display: none !important; }
@@ -1852,27 +1872,29 @@
       height: 54px;
       min-height: 54px;
       margin-top: 4px;
-      border: 0;
-      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.62);
+      border-radius: var(--btn-r, 12px);
       font-size: 15px;
       font-weight: 600;
       letter-spacing: -.015em;
       color: #0a0c10;
-      background:
-        linear-gradient(180deg, #ffffff 0%, #e8eef6 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
+      backdrop-filter: blur(22px) saturate(1.5);
+      -webkit-backdrop-filter: blur(22px) saturate(1.5);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.9),
-        0 14px 28px rgba(0,0,0,.28),
-        0 0 0 1px rgba(255,255,255,.12);
-      transition: transform .2s var(--ease), filter .2s var(--ease), box-shadow .2s var(--ease);
+        0 14px 32px rgba(0,0,0,.28),
+        0 0 24px rgba(210,224,240,.16);
+      transition: transform .2s var(--ease), filter .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
     }
     .club-join-btn:hover {
-      filter: brightness(1.03);
+      filter: brightness(1.06);
       transform: translateY(-1px);
+      border-color: rgba(255,255,255,.82);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.95),
-        0 18px 34px rgba(0,0,0,.34),
-        0 0 0 1px rgba(255,255,255,.16);
+        inset 0 1px 0 rgba(255,255,255,.98),
+        0 18px 38px rgba(0,0,0,.34),
+        0 0 32px rgba(220,234,255,.24);
     }
     .club-join-btn:disabled {
       opacity: .45;
@@ -2200,7 +2222,7 @@
 
   <!-- Featured release -->
   <section class="hero fx-phosphor" id="room" data-listening-room aria-label="Featured release">
-    <div class="hero-ambient" data-room-bg style="background-image:url('together-cover.webp')" aria-hidden="true"></div>
+    <div class="hero-ambient" data-room-bg style="background-image:url('bridget-in-my-room-cover.webp')" aria-hidden="true"></div>
     <div class="hero-vhs" aria-hidden="true"></div>
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="fx-grid-horizon" aria-hidden="true"></div>
@@ -2217,9 +2239,9 @@
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
         <div class="hero-disc" data-room-disc>
-          <img data-room-art src="together-cover.webp" alt="Together. EP artwork" width="1200" height="1200"/>
+          <img data-room-art src="bridget-in-my-room-cover.webp" alt="Bridget In My Room. artwork" width="1200" height="1200"/>
         </div>
-        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Play Together">
+        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Open Bridget In My Room">
           <span class="disc-glyph" aria-hidden="true">
             <svg class="glyph-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <svg class="glyph-pause" viewBox="0 0 24 24"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
@@ -2229,7 +2251,7 @@
 
       <div class="hero-idle-actions" data-room-idle>
         <div class="hero-ctas">
-          <button type="button" class="btn btn-chrome-on-dark" data-play-release="together" data-play-stage>Listen</button>
+          <a class="btn btn-chrome-on-dark" href="/bridget-in-my-room">Listen</a>
           <a class="btn btn-ghost-on-dark" href="#join">Join</a>
         </div>
       </div>
@@ -2239,15 +2261,15 @@
         <div class="hero-meta">
           <div class="hero-meta-row">
             <span class="hero-meta-label">Track</span>
-            <p class="hero-meta-value" data-room-title>Noted</p>
+            <p class="hero-meta-value" data-room-title>Bridget In My Room</p>
           </div>
           <div class="hero-meta-row">
             <span class="hero-meta-label">Artist</span>
             <p class="hero-meta-value" data-room-artist>Inlet Knight</p>
           </div>
           <div class="hero-meta-row">
-            <span class="hero-meta-label">EP</span>
-            <a class="hero-meta-value" href="/together" data-room-page data-room-album>Together</a>
+            <span class="hero-meta-label">Single</span>
+            <a class="hero-meta-value" href="/bridget-in-my-room" data-room-page data-room-album>Bridget In My Room</a>
           </div>
         </div>
         <p class="hero-upnext" data-room-upnext hidden></p>
@@ -2299,9 +2321,9 @@
         <a class="head-link" href="/library">View all</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
+<article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Available</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="the-mystic-jade-touch"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/the-mystic-jade-touch" aria-label="The Mystic / Jade Touch. view release"><img src="the-mystic-jade-touch-cover-480.webp" srcset="the-mystic-jade-touch-cover-480.webp 480w, the-mystic-jade-touch-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="The Mystic / Jade Touch. Club Copy CC016 label" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC016 · Single · 2026</p><h3 class="wall-title"><a href="/the-mystic-jade-touch">The Mystic / Jade Touch</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Available</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lookout" aria-label="Lookout. view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Glass facade reflecting a high-rise under blue sky. Lookout" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC010 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="solar-eclipse-part-2"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/solar-eclipse-part-2" aria-label="Solar (Eclipse Part 2). view release"><img src="solar-eclipse-part-2-cover-480.webp" srcset="solar-eclipse-part-2-cover-480.webp 480w, solar-eclipse-part-2-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Solar (Eclipse Part 2). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="solar-eclipse-part-2" data-play-stage aria-label="Play Solar (Eclipse Part 2)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/solar-eclipse-part-2">Solar (Eclipse Part 2)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="lunar-eclipse-part-3"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lunar-eclipse-part-3" aria-label="Lunar (Eclipse Part 3). view release"><img src="lunar-eclipse-part-3-cover-480.webp" srcset="lunar-eclipse-part-3-cover-480.webp 480w, lunar-eclipse-part-3-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Lunar (Eclipse Part 3). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="lunar-eclipse-part-3" data-play-stage aria-label="Play Lunar (Eclipse Part 3)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/lunar-eclipse-part-3">Lunar (Eclipse Part 3)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
@@ -2443,6 +2465,17 @@
 
     <div class="news-rail" tabindex="0" role="region" aria-label="News. scroll sideways">
       <div class="news-rail-track">
+<a class="news-card rv" href="/news/bridget-in-my-room" data-type="release">
+          <div class="news-card-art media-bezel fx-spec">
+            <img src="news-bridget-in-my-room.webp" alt="Circular photo of two silhouettes on rippled water at dusk. Bridget In My Room" width="1254" height="1254" loading="lazy"/>
+          </div>
+          <div class="news-card-body">
+            <p class="news-card-date">Aug 27, 2026</p>
+            <span class="news-type">Release</span>
+          <h3 class="news-card-title">Bridget In My Room</h3>
+            <p class="news-card-dek">Feels like somebody stayed.</p>
+          </div>
+        </a>
         <a class="news-card rv" href="/news/sun-and-moon-eclipse" data-type="release">
           <div class="news-card-art media-bezel fx-spec">
             <img src="news-eclipse.webp" alt="Sun & Moon, Solar, and Lunar vinyl labels. Eclipse Parts 1-3" width="1400" height="1400" loading="lazy"/>
@@ -2476,17 +2509,7 @@
             <p class="news-card-dek">We’ve had this one on repeat.</p>
           </div>
         </a>
-        <a class="news-card rv" href="/news/bridget-in-my-room" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-bridget-in-my-room.webp" alt="Circular photo of two silhouettes on rippled water at dusk. Bridget In My Room" width="1254" height="1254" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jul 5, 2026</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Bridget In My Room</h3>
-            <p class="news-card-dek">Feels like somebody stayed.</p>
-          </div>
-        </a>
+        
         <a class="news-card rv" href="/news/together" data-type="release">
           <div class="news-card-art media-bezel fx-spec">
             <img src="news-together.webp" alt="Surreal anime-style illustration of two figures in a flower field. Together" width="1120" height="1400" loading="lazy"/>
@@ -2769,7 +2792,7 @@
     discHit.addEventListener('click', function () {
       if (!window.VCRPlayer) return;
       if (VCRPlayer.current()) VCRPlayer.toggle();
-      else VCRPlayer.playRelease('together', null, { autoplay: true, stage: true });
+      else window.location.href = '/bridget-in-my-room';
     });
   }
 
@@ -2779,7 +2802,7 @@
     var d = e.detail || {};
     var playing = !!d.playing;
     if (discHit) {
-      var title = d.track ? d.track.releaseTitle : 'Together';
+      var title = d.track ? d.track.releaseTitle : 'Bridget In My Room';
       discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
     }
   });

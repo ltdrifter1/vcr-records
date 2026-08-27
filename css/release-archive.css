@@ -617,21 +617,36 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 /* light primary pill on dark ground (mirrors home hero CTA weight) */
 .ra-hero-ctas .btn-light {
   background:
-    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(230,236,244,.92) 40%, rgba(186,198,214,.88) 100%);
-  color: #0a0a0a;
-  border: 1px solid rgba(220,230,242,.7);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .85) inset, 0 10px 28px rgba(0, 0, 0, .4);
+    linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
+  color: #0c1016;
+  border: 1px solid rgba(255,255,255,.62);
+  backdrop-filter: blur(22px) saturate(1.55);
+  -webkit-backdrop-filter: blur(22px) saturate(1.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 16px 40px rgba(0,0,0,.32),
+    0 0 28px rgba(210,224,240,.16);
 }
-.ra-hero-ctas .btn-light:hover { opacity: .92; }
+.ra-hero-ctas .btn-light:hover {
+  filter: brightness(1.06);
+  border-color: rgba(255,255,255,.82);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.98),
+    0 18px 44px rgba(0,0,0,.38),
+    0 0 36px rgba(220,234,255,.28);
+}
 .ra-hero-ctas .btn-outline {
-  background: rgba(255, 255, 255, .08);
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
   color: #fff;
-  border: 1px solid rgba(200, 214, 230, .42);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.28);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28);
 }
-.ra-hero-ctas .btn-outline:hover { background: rgba(255, 255, 255, .14); border-color: rgba(220, 230, 242, .55); }
+.ra-hero-ctas .btn-outline:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08));
+  border-color: rgba(255,255,255,.48);
+}
 
 /* ==========================================================================
    2. TapePlayer + TrackList — one listening module
@@ -1536,24 +1551,35 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 
 /* buttons on dark surfaces */
 body.archive-release .btn-ghost {
-  background: rgba(255, 255, 255, .06);
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
   color: var(--ra-ink);
-  border: 1px solid rgba(255, 255, 255, .22);
+  border: 1px solid rgba(255,255,255,.28);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
 }
 body.archive-release .btn-ghost:hover {
-  background: rgba(255, 255, 255, .92);
+  background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.4));
   color: #0a0a0a;
-  border-color: transparent;
+  border-color: rgba(255,255,255,.7);
 }
 body.archive-release .btn-fill,
 body.archive-release .btn-dark {
-  background: linear-gradient(180deg, #FFFFFF 0%, #E9E5DA 100%);
-  color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, .4);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 10px 28px rgba(0, 0, 0, .4);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
+  color: #0c1016;
+  border: 1px solid rgba(255,255,255,.55);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 14px 32px rgba(0,0,0,.32),
+    0 0 24px rgba(210,224,240,.14);
 }
 body.archive-release .btn-fill:hover,
-body.archive-release .btn-dark:hover { opacity: .92; }
+body.archive-release .btn-dark:hover {
+  filter: brightness(1.06);
+  border-color: rgba(255,255,255,.82);
+}
 
 /* ==========================================================================
    Purchase-complete modal — dark
@@ -1622,8 +1648,11 @@ body.archive-release .footer-form input {
   color: var(--ra-ink);
 }
 body.archive-release .footer-form button {
-  background: #fff;
-  color: #000;
+  background: linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.28) 100%);
+  color: #0c1016;
+  border: 1px solid rgba(255,255,255,.55);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
 }
 
 /* Section rhythm ------------------------------------------------------------ */
