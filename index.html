@@ -1752,26 +1752,26 @@
     /* Home artists — roster before footer ---------------------------------- */
     .home-artists {
       position: relative;
-      padding: 0 0 56px;
+      padding: 0 0 40px;
       color: #f4f6f8;
       background:
         radial-gradient(720px 360px at 88% 100%, rgba(186,204,224,.08), transparent 55%),
         linear-gradient(180deg, #080808 0%, #050506 100%);
     }
     @media (min-width: 800px) {
-      .home-artists { padding-bottom: 64px; }
+      .home-artists { padding-bottom: 48px; }
     }
     .home-artists .section-head {
       border-bottom: none;
       box-shadow: none;
-      padding-top: 28px;
+      padding-top: 8px;
       padding-bottom: 0;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     @media (min-width: 800px) {
       .home-artists .section-head {
-        padding-top: 40px;
-        margin-bottom: 28px;
+        padding-top: 12px;
+        margin-bottom: 24px;
       }
     }
     .home-artists .eyebrow { color: rgba(255,255,255,.42); }
@@ -1786,7 +1786,7 @@
 
     .home-roster {
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
     @media (min-width: 800px) {
       .home-roster {
@@ -1842,11 +1842,13 @@
       overflow: hidden;
       background: #111;
       border-radius: 0;
-      box-shadow: inset -1px 0 0 rgba(0,0,0,.35);
+      min-height: 100%;
+      box-shadow: inset -1px 0 0 rgba(0,0,0,.4);
     }
     .home-artist-photo img {
       width: 100%;
       height: 100%;
+      min-height: 100%;
       object-fit: cover;
       display: block;
       aspect-ratio: 4 / 5;
@@ -1856,8 +1858,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 6px;
-      padding: 14px 16px 14px 18px;
+      gap: 7px;
+      padding: 16px 18px 16px 20px;
       min-width: 0;
     }
     .home-artist-role {
