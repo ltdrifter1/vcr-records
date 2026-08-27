@@ -102,9 +102,9 @@
     })
     .then(function (data) {
       var releases = (data.releases || []).slice().sort(function (a, b) {
-        var aPre = String(a.status || '').toLowerCase() === 'pre-order' ? 0 : 1;
-        var bPre = String(b.status || '').toLowerCase() === 'pre-order' ? 0 : 1;
-        if (aPre !== bPre) return aPre - bPre;
+        var aDate = String(a.released || '');
+        var bDate = String(b.released || '');
+        if (aDate !== bDate) return bDate.localeCompare(aDate);
         var yearDiff = (Number(b.year) || 0) - (Number(a.year) || 0);
         if (yearDiff) return yearDiff;
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
