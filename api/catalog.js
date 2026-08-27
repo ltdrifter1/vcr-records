@@ -13,7 +13,6 @@ const FORMAT = {
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
   "dg-the-mystic-jade-touch",
-  "dg-any-jungle",
   "dg-lookout",
   "dg-bridget-in-my-room",
   "dg-need-you",
@@ -25,11 +24,9 @@ const MERCH_PAGE_SKUS = [
   "dg-ep1",
   "dg-ep-6",
   "dg-j-adore",
-  "dg-enter",
   "dg-together",
   "dg-letters-from-another-era",
   "sm-cassette-inlet-knight",
-  "bn-tee-enter",
   "bn-tee-together",
   "bn-tee-inlet-cass",
   "sm-slipmat",
@@ -81,20 +78,8 @@ const PRODUCTS = {
     digital: true,
     format: "digital",
   },
-  "dg-enter": {
-    name: "Enter, Double-Edge — Digital (EP)",
-    unitAmount: FORMAT.digital.unitAmount,
-    digital: true,
-    format: "digital",
-  },
   "dg-letters-from-another-era": {
     name: "Letters From Another Era — Digital (EP)",
-    unitAmount: FORMAT.digital.unitAmount,
-    digital: true,
-    format: "digital",
-  },
-  "dg-any-jungle": {
-    name: "Any Jungle — Digital (Album) — Pre-order",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
@@ -206,13 +191,6 @@ const PRODUCTS = {
   },
 
   // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
-  "bn-tee-enter": {
-    name: "Bundle: Micro Tee + Enter Digital",
-    unitAmount: 4800,
-    stock: 80,
-    bundle: true,
-    format: "bundle",
-  },
   "bn-tee-together": {
     name: "Bundle: Micro Tee + Together Digital",
     unitAmount: 4800,

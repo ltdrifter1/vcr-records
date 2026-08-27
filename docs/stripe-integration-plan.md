@@ -35,7 +35,7 @@ Three reusable format tiers — your “codes”:
 | `fmt-cassette` | Cassette | **$20.00 CAD** | Physical; CA/US shipping |
 | `fmt-vinyl` | Vinyl | **$45.00 CAD** | Physical; CA/US shipping |
 
-Each release SKU (`dg-enter`, `sm-cassette-inlet-knight`, future `sm-vinyl-*`) maps to one of these amounts. Per-SKU Stripe Products still get their own Price so line items show the release name; amounts stay locked to the format tier.
+Each release SKU (`dg-together`, `sm-cassette-inlet-knight`, future `sm-vinyl-*`) maps to one of these amounts. Per-SKU Stripe Products still get their own Price so line items show the release name; amounts stay locked to the format tier.
 
 Merch apparel/essentials keep individual SKU prices (phase 2 sync).
 

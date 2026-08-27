@@ -27,18 +27,14 @@ const PAGE_MAP = {
   'thank-you.html': '/thank-you',
   '404.html': '/404',
   'j-adore.html': '/j-adore',
-  'enter.html': '/enter',
   'together.html': '/together',
   'letters-from-another-era.html': '/letters-from-another-era',
   'inlet-knight.html': '/inlet-knight',
-  'artists/double-edge.html': '/artists/double-edge',
   'artists/inlet-knight.html': '/artists/inlet-knight',
   'news/j-adore.html': '/news/j-adore',
   'news/lookout.html': '/news/lookout',
   'news/bridget-in-my-room.html': '/news/bridget-in-my-room',
   'news/need-you.html': '/news/need-you',
-  'news/any-jungle.html': '/news/any-jungle',
-  'news/double-edge-on-club-copy.html': '/news/double-edge-on-club-copy',
   'news/inlet-knight-on-club-copy.html': '/news/inlet-knight-on-club-copy',
 };
 
@@ -223,32 +219,6 @@ const MERCH_PRODUCTS = [
     description:
       'Clear protective outer for records and sleeves. Keep the archive clean.',
     related: { label: 'Keep listening', href: '/library', text: 'Browse the library' },
-  },
-  {
-    slug: 'bundle-tee-enter',
-    sku: 'bn-tee-enter',
-    name: 'Bundle: Micro Tee + Enter Digital',
-    price: 48,
-    type: 'bundles',
-    category: 'Bundle',
-    image: '/merch/club-copy/bundle-tee-enter-black.webp',
-    images: {
-      Black: '/merch/club-copy/bundle-tee-enter-black.webp',
-      White: '/merch/club-copy/bundle-tee-enter-white.webp',
-    },
-    gallery: [
-      { src: '/merch/club-copy/bundle-tee-enter-black.webp', alt: 'Bundle tee black with Enter', colour: 'Black' },
-      { src: '/merch/club-copy/bundle-tee-enter-white.webp', alt: 'Bundle tee white with Enter', colour: 'White' },
-      { src: '/enter-cover.webp', alt: 'Enter, Double-Edge cover', cover: true },
-    ],
-    colours: ['Black', 'White'],
-    sizes: ['S', 'M', 'L', 'XL'],
-    fit: 'Regular fit · heavyweight cotton',
-    ships: 'Tee packed in BC · digital files emailed after checkout',
-    description:
-      'Micro Tee plus Enter by Double-Edge as digital files. Wear the label, keep the release.',
-    includes: ['Micro Tee', 'Enter, Double-Edge (digital)'],
-    related: { label: 'Hear the release', href: '/enter', text: 'Enter, Double-Edge' },
   },
   {
     slug: 'bundle-tee-together',
@@ -827,7 +797,6 @@ function updateMerchShop() {
     const musicItems = [
       { name: "j'adore", url: ORIGIN + '/j-adore' },
       { name: 'Letters From Another Era', url: ORIGIN + '/letters-from-another-era' },
-      { name: 'Enter, Double-Edge', url: ORIGIN + '/enter' },
       { name: 'Together', url: ORIGIN + '/together' },
       { name: 'Inlet Knight', url: ORIGIN + '/inlet-knight' },
     ];
@@ -966,7 +935,7 @@ function patchIndex() {
         ],
         "member": [
           { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/inlet-knight", "name": "Inlet Knight", "url": "https://www.clubcopy.ca/artists/inlet-knight" },
-          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/double-edge", "name": "Double-Edge", "url": "https://www.clubcopy.ca/artists/double-edge" }
+          { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/lt-drifta", "name": "L.T. Drifta", "url": "https://www.clubcopy.ca/artists/lt-drifta" }
         ]
       }`
   );
@@ -974,8 +943,6 @@ function patchIndex() {
   // Fix empty news alts + place image
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-any-jungle.webp', 'Cassette rack with priced tapes — Any Jungle'],
-    ['news-double.webp', 'Motion-blur silhouette at sunset — Double-Edge on Club Copy'],
     ['news-night.webp', 'Halftone face in negative — Welcome, Inlet Knight'],
   ];
   for (const [src, alt] of altMap) {
@@ -1010,8 +977,6 @@ function patchNewsIndex() {
   let html = fs.readFileSync(file, 'utf8');
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-any-jungle.webp', 'Cassette rack with priced tapes — Any Jungle'],
-    ['news-double.webp', 'Motion-blur silhouette at sunset — Double-Edge on Club Copy'],
     ['news-night.webp', 'Halftone face in negative — Welcome, Inlet Knight'],
   ];
   for (const [src, alt] of altMap) {
@@ -1028,8 +993,6 @@ function patchNewsIndex() {
       { name: 'Bridget In My Room', url: ORIGIN + '/news/bridget-in-my-room' },
       { name: 'Lookout', url: ORIGIN + '/news/lookout' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
-      { name: 'Any Jungle', url: ORIGIN + '/news/any-jungle' },
-      { name: 'Double-Edge on Club Copy', url: ORIGIN + '/news/double-edge-on-club-copy' },
       { name: 'Welcome, Inlet Knight', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
     ];
     const ld = {
@@ -1088,7 +1051,6 @@ function patchLibrary() {
     const items = [
       { name: "j'adore", url: ORIGIN + '/j-adore' },
       { name: 'Letters From Another Era', url: ORIGIN + '/letters-from-another-era' },
-      { name: 'Enter, Double-Edge', url: ORIGIN + '/enter' },
       { name: 'Together', url: ORIGIN + '/together' },
       { name: 'Inlet Knight', url: ORIGIN + '/inlet-knight' },
     ];
@@ -1133,7 +1095,7 @@ function patchArtists() {
   if (!html.includes('ItemList')) {
     const items = [
       { name: 'Inlet Knight', url: ORIGIN + '/artists/inlet-knight' },
-      { name: 'Double-Edge', url: ORIGIN + '/artists/double-edge' },
+      { name: 'L.T. Drifta', url: ORIGIN + '/artists/lt-drifta' },
     ];
     const ld = {
       '@context': 'https://schema.org',
@@ -1187,16 +1149,6 @@ function patchArtistPages() {
         ['letters-from-another-era-cover.webp', 'Letters From Another Era — artwork'],
       ],
     },
-    {
-      file: 'artists/double-edge.html',
-      name: 'Double-Edge',
-      crumbs: [
-        { name: 'Home', url: ORIGIN + '/' },
-        { name: 'Artists', url: ORIGIN + '/artists' },
-        { name: 'Double-Edge', url: ORIGIN + '/artists/double-edge' },
-      ],
-      alts: [['enter-cover.webp', 'Enter, Double-Edge — artwork']],
-    },
   ];
   for (const p of pages) {
     const file = path.join(ROOT, p.file);
@@ -1229,7 +1181,6 @@ function patchArtistPages() {
 function patchReleaseBreadcrumbs() {
   const releases = [
     { file: 'j-adore.html', name: "j'adore", artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/j-adore' },
-    { file: 'enter.html', name: 'Enter, Double-Edge', artist: 'Double-Edge', artistUrl: '/artists/double-edge', url: '/enter' },
     { file: 'together.html', name: 'Together', artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/together' },
     { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/letters-from-another-era' },
     { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/inlet-knight' },
@@ -1276,8 +1227,6 @@ function patchNewsArticles() {
     { file: 'news/bridget-in-my-room.html', name: 'Bridget In My Room', url: '/news/bridget-in-my-room' },
     { file: 'news/lookout.html', name: 'Lookout', url: '/news/lookout' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
-    { file: 'news/any-jungle.html', name: 'Any Jungle', url: '/news/any-jungle' },
-    { file: 'news/double-edge-on-club-copy.html', name: 'Double-Edge on Club Copy', url: '/news/double-edge-on-club-copy' },
     { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Inlet Knight', url: '/news/inlet-knight-on-club-copy' },
   ];
   for (const a of articles) {
@@ -1350,7 +1299,6 @@ function writeSitemap() {
     ['/', 1.0, 'weekly'],
     ['/library', 0.9, 'weekly'],
     ['/artists', 0.8, 'monthly'],
-    ['/artists/double-edge', 0.85, 'monthly'],
     ['/artists/inlet-knight', 0.85, 'monthly'],
     ['/merch', 0.85, 'weekly'],
     ...MERCH_PRODUCTS.map((p) => [`/merch/${p.slug}`, 0.7, 'weekly']),
@@ -1359,11 +1307,8 @@ function writeSitemap() {
     ['/news/bridget-in-my-room', 0.7, 'monthly'],
     ['/news/lookout', 0.7, 'monthly'],
     ['/news/j-adore', 0.7, 'monthly'],
-    ['/news/any-jungle', 0.7, 'monthly'],
-    ['/news/double-edge-on-club-copy', 0.65, 'monthly'],
     ['/news/inlet-knight-on-club-copy', 0.65, 'monthly'],
     ['/j-adore', 0.9, 'monthly'],
-    ['/enter', 0.9, 'monthly'],
     ['/together', 0.9, 'monthly'],
     ['/letters-from-another-era', 0.9, 'monthly'],
     ['/inlet-knight', 0.9, 'monthly'],
