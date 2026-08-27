@@ -91,7 +91,7 @@ const PRODUCTS = {
     format: "digital",
   },
   "dg-bridget-in-my-room": {
-    name: "Bridget In My Room — Digital (Single) — Pre-order",
+    name: "Bridget In My Room — Digital (Single)",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
