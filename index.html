@@ -1255,34 +1255,30 @@
       text-align: center;
       max-width: 34em;
       margin: 0 auto;
-      padding: 28px 24px 24px;
+      padding: 0 0 22px;
+      overflow: hidden;
       border-radius: 2px;
-      border: 1px solid rgba(186,204,224,.32);
+      border: 1px solid transparent;
       background:
-        linear-gradient(165deg, rgba(255,255,255,.1) 0%, rgba(255,255,255,.03) 40%, transparent 72%),
-        rgba(10,12,16,.62);
-      backdrop-filter: blur(22px) saturate(140%);
-      -webkit-backdrop-filter: blur(22px) saturate(140%);
+        linear-gradient(180deg, rgba(16,18,24,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.78) 0%,
+          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.28) 58%,
+          rgba(92,108,128,.62) 100%) border-box;
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.28),
-        inset 0 -1px 0 rgba(0,0,0,.45),
-        inset 0 0 0 1px rgba(255,255,255,.05),
-        0 0 0 1px rgba(0,0,0,.38),
-        0 16px 40px rgba(0,0,0,.36);
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 16px 36px rgba(0,0,0,.4);
     }
     .join-member-home[hidden] { display: none; }
-    .join-member-home::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      pointer-events: none;
-      border: 1px solid rgba(210,222,236,.12);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.22);
-    }
     .join-member-home::after {
       content: "";
       position: absolute;
-      inset: 8px;
+      inset: 42px 12px 10px;
       pointer-events: none;
       background:
         linear-gradient(#e8f0f8, #e8f0f8) top left / 10px 1px no-repeat,
@@ -1293,16 +1289,23 @@
     }
     .join-member-home > * { position: relative; z-index: 1; }
     .join-member-kicker {
-      margin: 0 0 10px;
+      margin: 0 0 16px;
+      padding: 12px 18px 11px;
       font-family: var(--callsign);
       font-size: 11px;
       font-weight: 600;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--join-dim);
+      color: rgba(220,230,242,.62);
+      background:
+        linear-gradient(180deg, rgba(220,230,242,.16) 0%, rgba(40,48,58,.55) 48%, rgba(16,18,22,.7) 100%);
+      border-bottom: 1px solid rgba(0,0,0,.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.26),
+        0 1px 0 rgba(255,255,255,.05);
     }
     .join-member-title {
-      margin: 0 0 12px;
+      margin: 8px 18px 12px;
       font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
       font-size: clamp(26px, 4vw, 36px);
       font-weight: 600;
@@ -1312,7 +1315,7 @@
       color: #fff;
     }
     .join-member-dek {
-      margin: 0 auto 22px;
+      margin: 0 18px 22px;
       font-size: 15px;
       line-height: 1.55;
       color: var(--join-muted);
@@ -1322,6 +1325,7 @@
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
+      padding: 0 18px;
     }
     .join-member-actions .btn { min-height: 48px; }
     .club-join.is-member-home .club-join-lead { display: none; }
@@ -1341,105 +1345,107 @@
         margin-bottom: 40px;
       }
     }
-    /* Handmade chrome-glass plate — sharp bezel, inner frame, no SaaS pill */
+    /* Handmade chrome-glass plate — metal rim, top rail, crop marks */
     .join-level {
-      --join-r: 2px;
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 0;
       width: 100%;
       min-height: 100%;
-      padding: 22px 20px 18px;
-      border-radius: var(--join-r);
-      border: 1px solid rgba(186,204,224,.32);
+      padding: 0 0 16px;
+      border-radius: 2px;
+      border: 1px solid transparent;
       background:
-        linear-gradient(165deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.03) 38%, transparent 72%),
-        linear-gradient(180deg, rgba(28,34,44,.82), rgba(8,10,14,.9));
-      backdrop-filter: blur(18px) saturate(132%);
-      -webkit-backdrop-filter: blur(18px) saturate(132%);
+        linear-gradient(180deg, rgba(24,28,36,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.78) 0%,
+          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.28) 58%,
+          rgba(92,108,128,.62) 100%) border-box;
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.32),
-        inset 0 -1px 0 rgba(0,0,0,.5),
-        inset 0 0 0 1px rgba(255,255,255,.05),
-        0 0 0 1px rgba(0,0,0,.38),
-        0 10px 28px rgba(0,0,0,.34);
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -1px 0 rgba(0,0,0,.55),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 10px 26px rgba(0,0,0,.38);
       color: #fff;
       text-align: left;
       cursor: pointer;
+      overflow: hidden;
       transition:
         border-color .25s var(--ease),
-        background .25s var(--ease),
-        box-shadow .25s var(--ease);
-    }
-    .join-level::before {
-      content: "";
-      position: absolute;
-      inset: 7px;
-      z-index: 0;
-      pointer-events: none;
-      border: 1px solid rgba(210,222,236,.14);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.28);
+        box-shadow .25s var(--ease),
+        background .25s var(--ease);
     }
     .join-level::after {
       content: "";
       position: absolute;
-      inset: 7px;
+      inset: 28px 8px 8px;
       z-index: 0;
       pointer-events: none;
       background:
-        linear-gradient(#e8f0f8, #e8f0f8) top left / 9px 1px no-repeat,
-        linear-gradient(#e8f0f8, #e8f0f8) top left / 1px 9px no-repeat,
-        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 9px 1px no-repeat,
-        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 1px 9px no-repeat;
-      opacity: .42;
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) top left / 1px 10px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 10px 1px no-repeat,
+        linear-gradient(#e8f0f8, #e8f0f8) bottom right / 1px 10px no-repeat;
+      opacity: .5;
     }
     .join-level > * { position: relative; z-index: 1; }
+    .join-level > span:nth-child(2) { flex: 1 1 auto; }
     .join-level:hover {
-      border-color: rgba(220,232,246,.48);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.4),
-        inset 0 -1px 0 rgba(0,0,0,.5),
-        inset 0 0 0 1px rgba(255,255,255,.07),
-        0 0 0 1px rgba(0,0,0,.38),
-        0 12px 32px rgba(0,0,0,.38);
+        inset 0 1px 0 rgba(255,255,255,.38),
+        inset 0 -1px 0 rgba(0,0,0,.55),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 0 0 1px rgba(210,226,242,.18),
+        0 12px 28px rgba(0,0,0,.42);
     }
     .join-level[aria-checked="true"] {
-      border-color: rgba(230,240,252,.62);
       background:
-        linear-gradient(165deg, rgba(255,255,255,.18) 0%, rgba(186,210,236,.08) 36%, transparent 70%),
-        linear-gradient(180deg, rgba(38,48,62,.9), rgba(10,12,16,.94));
+        linear-gradient(180deg, rgba(36,46,60,.97), rgba(10,12,16,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.92) 0%,
+          rgba(196,214,234,.7) 34%,
+          rgba(255,255,255,.42) 58%,
+          rgba(120,150,180,.7) 100%) border-box;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.48),
-        inset 0 -1px 0 rgba(0,0,0,.45),
-        inset 0 0 0 1px rgba(255,255,255,.1),
-        0 0 0 1px rgba(186,210,236,.28),
-        0 14px 36px rgba(0,0,0,.42);
+        inset 0 1px 0 rgba(255,255,255,.42),
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.45),
+        0 0 0 1px rgba(200,220,240,.28),
+        0 14px 32px rgba(0,0,0,.46);
     }
-    .join-level[aria-checked="true"]::before {
-      border-color: rgba(230,240,252,.32);
-    }
-    .join-level[aria-checked="true"]::after { opacity: .78; }
+    .join-level[aria-checked="true"]::after { opacity: .82; }
     .join-level-top {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
+      margin: 0 0 14px;
+      padding: 9px 14px 8px;
+      background:
+        linear-gradient(180deg, rgba(220,230,242,.18) 0%, rgba(40,48,58,.55) 48%, rgba(16,18,22,.7) 100%);
+      border-bottom: 1px solid rgba(0,0,0,.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        0 1px 0 rgba(255,255,255,.05);
     }
     .join-level-dot {
-      width: 11px; height: 11px; margin-top: 4px;
+      width: 9px; height: 9px;
       border-radius: 1px;
-      border: 1px solid rgba(255,255,255,.42);
+      border: 1px solid rgba(255,255,255,.45);
       position: relative;
       flex-shrink: 0;
-      background: rgba(0,0,0,.4);
-      box-shadow: inset 0 1px 2px rgba(0,0,0,.55);
+      background: rgba(0,0,0,.5);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.6);
     }
     .join-level[aria-checked="true"] .join-level-dot {
       border-color: #f4f8fc;
       background: linear-gradient(180deg, #ffffff, #c8d6e8);
       box-shadow:
-        0 0 10px rgba(210,230,255,.5),
+        0 0 8px rgba(210,230,255,.45),
         inset 0 1px 0 #fff;
     }
     .join-level-price {
@@ -1449,13 +1455,13 @@
       letter-spacing: .16em;
       text-transform: uppercase;
       white-space: nowrap;
-      color: rgba(232,240,250,.82);
-      padding: 5px 8px 4px;
+      color: rgba(232,240,250,.88);
+      padding: 3px 7px 2px;
       border-radius: 1px;
-      border: 1px solid rgba(255,255,255,.2);
-      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.04));
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.32),
+        inset 0 1px 0 rgba(255,255,255,.3),
         0 1px 0 rgba(0,0,0,.4);
     }
     .join-level[aria-checked="true"] .join-level-price {
@@ -1469,7 +1475,7 @@
       font-size: 22px;
       font-weight: 600;
       letter-spacing: -.03em;
-      margin-bottom: 8px;
+      margin: 0 16px 8px;
     }
     .join-level-blurb {
       display: block;
@@ -1477,11 +1483,12 @@
       line-height: 1.5;
       color: rgba(255,255,255,.56);
       max-width: 28em;
+      margin: 0 16px;
     }
     .join-level-tag {
       display: inline-block;
-      margin-top: auto;
-      padding-top: 4px;
+      margin: auto 16px 0;
+      padding-top: 14px;
       font-family: var(--callsign);
       font-size: 10px;
       font-weight: 600;
@@ -1501,50 +1508,58 @@
       position: relative;
       margin: 0;
       text-align: left;
-      padding: 26px 24px 22px;
+      padding: 0 0 18px;
+      overflow: hidden;
       border-radius: 2px;
-      border: 1px solid rgba(186,204,224,.32);
+      border: 1px solid transparent;
       background:
-        linear-gradient(165deg, rgba(255,255,255,.1) 0%, rgba(255,255,255,.03) 40%, transparent 72%),
-        rgba(10,12,16,.62);
-      backdrop-filter: blur(22px) saturate(140%);
-      -webkit-backdrop-filter: blur(22px) saturate(140%);
+        linear-gradient(180deg, rgba(16,18,24,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.78) 0%,
+          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.28) 58%,
+          rgba(92,108,128,.62) 100%) border-box;
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.28),
-        inset 0 -1px 0 rgba(0,0,0,.45),
-        inset 0 0 0 1px rgba(255,255,255,.05),
-        0 0 0 1px rgba(0,0,0,.38),
-        0 16px 40px rgba(0,0,0,.36);
-    }
-    .join-panel::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      pointer-events: none;
-      border: 1px solid rgba(210,222,236,.12);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.22);
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.5),
+        0 16px 36px rgba(0,0,0,.4);
     }
     .join-panel::after {
       content: "";
       position: absolute;
-      inset: 8px;
+      inset: 42px 12px 10px;
       pointer-events: none;
       background:
         linear-gradient(#e8f0f8, #e8f0f8) top left / 10px 1px no-repeat,
         linear-gradient(#e8f0f8, #e8f0f8) top left / 1px 10px no-repeat,
         linear-gradient(#e8f0f8, #e8f0f8) bottom right / 10px 1px no-repeat,
         linear-gradient(#e8f0f8, #e8f0f8) bottom right / 1px 10px no-repeat;
-      opacity: .4;
+      opacity: .42;
     }
     .join-panel > * { position: relative; z-index: 1; }
     .join-panel-label {
       font-family: var(--callsign);
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: .2em;
+      letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--join-dim);
+      color: rgba(220,230,242,.62);
       margin: 0 0 16px;
+      padding: 12px 18px 11px;
+      background:
+        linear-gradient(180deg, rgba(220,230,242,.16) 0%, rgba(40,48,58,.55) 48%, rgba(16,18,22,.7) 100%);
+      border-bottom: 1px solid rgba(0,0,0,.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.26),
+        0 1px 0 rgba(255,255,255,.05);
+    }
+    .join-fields,
+    .join-premium-amount {
+      margin-left: 18px;
+      margin-right: 18px;
     }
     .join-field { margin-bottom: 14px; }
     .join-field label {
@@ -1650,11 +1665,12 @@
     }
 
     .club-join-btn {
-      width: 100%;
-      height: 52px;
-      min-height: 52px;
-      margin-top: 4px;
-      border: 1px solid rgba(255,255,255,.42);
+      display: block;
+      width: auto;
+      height: 50px;
+      min-height: 50px;
+      margin: 4px 18px 0;
+      border: 1px solid transparent;
       border-radius: 2px;
       font-size: 15px;
       font-weight: 600;
@@ -1685,14 +1701,14 @@
       filter: none;
     }
     .club-join-note {
-      margin: 14px 0 0;
+      margin: 14px 18px 0;
       font-size: 13px;
       line-height: 1.45;
       color: rgba(255,255,255,.42);
       text-align: center;
     }
     .club-join-status {
-      margin: 12px 0 0;
+      margin: 12px 18px 0;
       font-size: 14px;
       color: rgba(255,255,255,.85);
       text-align: center;
@@ -1855,7 +1871,6 @@
       }
       .wall-title { font-size: 16px; }
       .club-join { padding: 64px 0 80px; }
-      .join-panel { padding: 22px 16px 18px; }
       .home-artists { padding: 56px 0 calc(80px + var(--safe-b)); }
     }
 
