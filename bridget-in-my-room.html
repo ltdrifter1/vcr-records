@@ -207,6 +207,7 @@
           <meta itemprop="price" content="8.00"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
           <a class="btn btn-light" href="#acquire">Buy Digital — $8 CAD</a>
+          <button type="button" class="btn btn-outline" id="heroListen">Listen</button>
         </div>
       </div>
     </div>
@@ -219,13 +220,13 @@
           <p class="eyebrow">On air</p>
           <h2>Listen</h2>
         </div>
-        <span class="head-note">Full single · 11:10</span>
+        <span class="head-note">90 second previews</span>
       </header>
       <div class="ra-player-grid">
 
-        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Tracklist cassette">
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Preview player">
           <div class="ra-deck-head">
-            <span>CC Tape Deck</span>
+            <span>CC Deck</span>
             <span class="live" id="ipTrackIndex">01 / 02</span>
           </div>
           <div class="ra-deck-cassette" aria-hidden="true">
@@ -258,6 +259,23 @@
             <p class="name" id="ipTrackName">Bridget In My Room</p>
             <p class="sub"><span id="ipArtist">Inlet Knight</span> — <span id="ipRelease">Bridget In My Room</span></p>
           </div>
+          <canvas class="ra-wave" id="raWave" data-release="bridget-in-my-room" aria-label="Seek within track" role="slider"></canvas>
+          <div class="ra-deck-times">
+            <span id="ipElapsed">0:00</span>
+            <span id="ipRemaining">-0:00</span>
+          </div>
+          <div class="ra-transport">
+            <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+            </button>
+            <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play / pause">
+              <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+            </button>
+          </div>
           <div class="p-msg" id="pMsg" aria-live="polite"></div>
         </div>
 
@@ -266,15 +284,15 @@
             <span class="track-no">01</span>
             <span class="track-title">Bridget In My Room</span>
             <span class="track-dur">6:15</span>
-            <button class="track-play-btn" type="button" aria-label="Select Bridget In My Room" tabindex="-1"></button>
+            <button class="track-play-btn" type="button" aria-label="Play Bridget In My Room" tabindex="-1"></button>
           </div>
           <div class="track-row" data-index="1">
             <span class="track-no">02</span>
             <span class="track-title">Follow You</span>
             <span class="track-dur">4:55</span>
-            <button class="track-play-btn" type="button" aria-label="Select Follow You" tabindex="-1"></button>
+            <button class="track-play-btn" type="button" aria-label="Play Follow You" tabindex="-1"></button>
           </div>
-          <p class="ra-tracks-note">Total running time 11:10 · files after checkout</p>
+          <p class="ra-tracks-note">Total running time 11:10 · 90s previews · full files after checkout</p>
         </div>
       </div>
     </div>
@@ -372,8 +390,6 @@
 const $ = id => document.getElementById(id);
 VCRReleaseBind({
   releaseId: 'bridget-in-my-room',
-  displayOnly: true,
-  displayMessage: "Full tracks after checkout.",
   tracks: [
   { id: 'bimr-01', title: "Bridget In My Room" },
   { id: 'bimr-02', title: "Follow You" }
@@ -402,6 +418,15 @@ VCRReleaseBind({
     buyBtn.textContent = 'Added to Collection \u2713';
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
+  });
+})();
+
+(function() {
+  const listen = $('heroListen');
+  if (!listen) return;
+  listen.addEventListener('click', () => {
+    document.getElementById('listen')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('ipPlayConsole')?.click();
   });
 })();
 
