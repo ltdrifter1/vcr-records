@@ -2118,7 +2118,7 @@
         <a class="head-link" href="/library">View all</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
-<article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Available</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="bridget-in-my-room" data-play-stage aria-label="Play Bridget In My Room"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Available</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="the-mystic-jade-touch"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/the-mystic-jade-touch" aria-label="The Mystic / Jade Touch. view release"><img src="the-mystic-jade-touch-cover-480.webp" srcset="the-mystic-jade-touch-cover-480.webp 480w, the-mystic-jade-touch-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="The Mystic / Jade Touch. Club Copy CC016 label" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC016 · Single · 2026</p><h3 class="wall-title"><a href="/the-mystic-jade-touch">The Mystic / Jade Touch</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lookout" aria-label="Lookout. view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Glass facade reflecting a high-rise under blue sky. Lookout" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC010 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
@@ -2563,8 +2563,14 @@
   if (discHit) {
     discHit.addEventListener('click', function () {
       if (!window.VCRPlayer) return;
-      if (VCRPlayer.current()) VCRPlayer.toggle();
-      else window.location.href = '/bridget-in-my-room';
+      var cur = VCRPlayer.current && VCRPlayer.current();
+      if (cur && cur.releaseId === 'bridget-in-my-room') {
+        VCRPlayer.toggle();
+        return;
+      }
+      VCRPlayer.playRelease('bridget-in-my-room', null, { autoplay: true, stage: true }).catch(function () {
+        window.location.href = '/bridget-in-my-room';
+      });
     });
   }
 
