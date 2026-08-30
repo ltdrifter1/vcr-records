@@ -258,13 +258,15 @@
     }
     @media (min-width: 700px) {
       .product--featured.is-shown {
-        display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+        display: grid !important;
+        grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
         gap: 28px;
         align-items: center;
       }
-      .product--featured .product-title,
-      .product--featured .merch-title {
+      .product--featured .product-visual {
+        max-width: min(420px, 100%);
+      }
+      .product--featured .product-title {
         font-size: clamp(26px, 3.4vw, 36px);
         letter-spacing: -.03em;
       }
@@ -918,6 +920,10 @@
     var items = products();
     var sort = sortSelect.value;
     items.sort(function (a, b) {
+      var af = a.classList.contains('product--featured') ? 0 : 1;
+      var bf = b.classList.contains('product--featured') ? 0 : 1;
+      if (af !== bf) return af - bf;
+
       var an = (a.dataset.name || '').toLowerCase();
       var bn = (b.dataset.name || '').toLowerCase();
       if (sort === 'az') return an.localeCompare(bn);
