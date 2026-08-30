@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Club Copy — warm-chrome commerce continuum
+   PDP + Cart stay on warm paper but share chrome glass / bezel hardware
+   with the music path — no generic Shopify cliff.
+   ========================================================================== */
+
+body.pdp-page,
+body.cart-page {
+  background:
+    radial-gradient(780px 480px at 92% -6%, rgba(210, 222, 236, .55), transparent 58%),
+    radial-gradient(640px 420px at 6% 8%, rgba(236, 230, 220, .7), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(186, 198, 214, .22), transparent 55%),
+    linear-gradient(180deg, #F4F3F0 0%, #F7F5F1 40%, #F0EEE9 100%);
+}
+
+/* PDP buy panel — glass hardware ------------------------------------------- */
+body.pdp-page .pdp-buy {
+  margin-top: 8px;
+  padding: 22px 20px 20px;
+  border-radius: var(--radius-lg);
+  background:
+    var(--iridescent),
+    linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .48));
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .85),
+    inset 0 0 0 1px rgba(170, 182, 200, .32),
+    0 16px 40px rgba(26, 30, 38, .07);
+}
+body.pdp-page .pdp-actions { margin-top: 0; }
+body.pdp-page .pdp-actions .btn-dark,
+body.pdp-page .pdp-actions .btn-chrome {
+  flex: 1 1 180px;
+  min-height: 48px;
+  border-radius: var(--bezel-r);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+body.pdp-page .pdp-art {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .55),
+    0 0 0 1px rgba(170, 182, 200, .35),
+    0 22px 48px rgba(26, 30, 38, .1);
+}
+body.pdp-page .pdp-opt.is-active {
+  border-color: rgba(120, 134, 152, .7);
+  background:
+    linear-gradient(180deg, rgba(40, 46, 56, .96), rgba(18, 20, 26, .98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+}
+
+/* Cart — hardware acquisition ---------------------------------------------- */
+body.cart-page .cart-line,
+body.cart-page .summary-panel,
+body.cart-page .empty,
+body.cart-page .undo-bar {
+  background:
+    var(--iridescent),
+    linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .62));
+  border: 1px solid transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    inset 0 0 0 1px rgba(170, 182, 200, .3),
+    0 12px 32px rgba(26, 30, 38, .06);
+}
+body.cart-page .cart-thumb {
+  border-radius: var(--bezel-r);
+  border: 1px solid rgba(170, 182, 200, .4);
+  background: #0a0a0c;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+body.cart-page .cart-thumb img {
+  mix-blend-mode: normal;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+}
+body.cart-page .summary-panel {
+  padding: 26px 22px;
+}
+body.cart-page .summary-panel h2 {
+  font-family: var(--callsign);
+  letter-spacing: .16em;
+}
+body.cart-page .summary-panel .btn-dark,
+body.cart-page .empty .btn-dark {
+  border-radius: var(--bezel-r);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  min-height: 48px;
+}
+body.cart-page .sum-row.total {
+  border-top-color: rgba(170, 182, 200, .35);
+}
+body.cart-page .credit-box {
+  border-top-color: rgba(170, 182, 200, .28);
+}
+body.cart-page .credit-row input[type="email"] {
+  background: rgba(255, 255, 255, .7);
+  border-color: rgba(170, 182, 200, .42);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .85);
+}
+
+/* News article bridge — night chrome header strip on warm paper ------------ */
+body.news-article-page {
+  background:
+    radial-gradient(720px 320px at 50% -4%, rgba(186, 204, 224, .14), transparent 55%),
+    radial-gradient(640px 420px at 6% 12%, rgba(236, 230, 220, .65), transparent 52%),
+    linear-gradient(180deg, #EDEBE6 0%, #F7F5F1 28%, #F0EEE9 100%);
+}
+body.news-article-page .news-chrome-bridge {
+  height: 1px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto 28px;
+  border: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(170, 182, 200, .45) 18%,
+    rgba(255, 255, 255, .85) 50%,
+    rgba(170, 182, 200, .45) 82%,
+    transparent 100%);
+}
+body.news-article-page .news-article--essay ~ .news-chrome-bridge,
+body.news-article-page .news-article.news-article--essay + * {
+  /* no-op keep cascade calm */
+}
+body.news-article-page .news-article-hero {
+  border-radius: var(--bezel-r, 2px);
+  border-color: rgba(160, 174, 194, .5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .55),
+    0 0 0 1px rgba(26, 30, 38, .05),
+    0 22px 48px rgba(26, 30, 38, .12);
+}
+body.news-article-page .news-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+body.news-article-page .news-cta-row .btn {
+  border-radius: var(--bezel-r);
+  font-family: var(--callsign);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* Planet — chrome CTA (overrides pill) ------------------------------------- */
+.planet-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: var(--bezel-r, 2px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, .1) 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .42);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  backdrop-filter: blur(22px) saturate(1.7);
+  -webkit-backdrop-filter: blur(22px) saturate(1.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .62),
+    inset 0 -1px 0 rgba(255, 255, 255, .08),
+    0 0 0 1px rgba(255, 255, 255, .08),
+    0 16px 40px rgba(0, 0, 0, .32),
+    0 0 36px rgba(186, 214, 255, .22);
+  transition: filter .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease);
+}
+@media (hover: hover) {
+  .planet-cta:hover {
+    filter: brightness(1.08);
+    border-color: rgba(255, 255, 255, .7);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .85),
+      0 18px 44px rgba(0, 0, 0, .38),
+      0 0 42px rgba(210, 230, 255, .32);
+  }
+}
+.planet-cta span {
+  opacity: .55;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
