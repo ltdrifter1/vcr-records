@@ -164,13 +164,13 @@
       border: 1px solid rgba(150,162,180,.4);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      max-width: 320px;
+      max-width: 420px;
       width: 100%;
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.55),
         0 10px 28px rgba(26,30,38,.08);
     }
-    @media (max-width: 799px) { .artist-photo { max-width: 220px; } }
+    @media (max-width: 799px) { .artist-photo { max-width: 280px; } }
     .artist-photo img {
       width: 100%; aspect-ratio: 4/5; object-fit: cover;
       filter: saturate(.92); display: block;
@@ -232,6 +232,21 @@
     }
     @media (max-width: 560px) {
       .artist-release-list .ar-art { width: 56px; height: 56px; }
+    }
+    .artist-release-list li:first-child a {
+      padding-top: 22px;
+      padding-bottom: 22px;
+    }
+    .artist-release-list li:first-child .ar-art {
+      width: 104px; height: 104px;
+      border-radius: 2px;
+    }
+    .artist-release-list li:first-child .ar-title {
+      font-size: clamp(20px, 3vw, 26px);
+      letter-spacing: -.03em;
+    }
+    @media (max-width: 560px) {
+      .artist-release-list li:first-child .ar-art { width: 72px; height: 72px; }
     }
     .artist-release-list .ar-art img {
       width: 100%; height: 100%; object-fit: cover;
@@ -314,10 +329,7 @@
         <h1>Inlet Knight</h1>
         <p class="artist-bio">House from Cumberland, BC.</p>
         <div class="artist-actions">
-          <a class="btn btn-dark" href="/bridget-in-my-room">Buy Bridget In My Room</a>
-          <a class="btn btn-ghost" href="/the-mystic-jade-touch">Buy The Mystic / Jade Touch</a>
-          <a class="btn btn-ghost" href="/need-you">Buy Need U</a>
-          <a class="btn btn-ghost" href="/lookout">Pre-order Lookout</a>
+          <a class="btn btn-dark" href="/bridget-in-my-room">Listen &amp; buy — Bridget In My Room</a>
           <a class="btn btn-ghost" href="/library?artist=inlet-knight">Full library</a>
         </div>
       </div>
