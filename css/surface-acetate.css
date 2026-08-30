@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Club Copy — Acetate surface (warm paper + chrome-glass)
+   Utility / reading pages: Contact, Shipping, Cart, news articles, merch PDPs.
+   Same chrome language as night — not a second brand.
+   ========================================================================== */
+
+body.surface-acetate {
+  --acetate-ink: #111111;
+  --acetate-muted: #5F636B;
+  --acetate-dim: #727780;
+  --acetate-line: rgba(170,182,200,.42);
+  background:
+    radial-gradient(780px 480px at 92% -6%, rgba(210,222,236,.42), transparent 58%),
+    radial-gradient(640px 420px at 6% 8%, rgba(236,230,220,.55), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(186,198,214,.14), transparent 55%),
+    linear-gradient(180deg, #F4F3F0 0%, #F7F5F1 40%, #F0EEE9 100%);
+  color: var(--acetate-ink);
+  color-scheme: light;
+}
+
+/* Chrome panel — frosted glass on paper ------------------------------------ */
+.acetate-panel,
+body.surface-acetate .card.panel,
+body.surface-acetate .summary-panel,
+body.surface-acetate .empty {
+  background:
+    var(--iridescent, linear-gradient(118deg, rgba(190,210,230,.2), rgba(255,255,255,.12) 38%, rgba(210,200,185,.14) 72%)),
+    linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.55));
+  border: 1px solid rgba(170,182,200,.42);
+  border-radius: var(--bezel-r, 2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.82),
+    0 0 0 1px rgba(255,255,255,.25),
+    0 14px 36px rgba(26,30,38,.06);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+}
+
+body.surface-acetate .section-head {
+  box-shadow:
+    inset 0 -1px 0 rgba(170,182,200,.35),
+    0 1px 0 rgba(255,255,255,.55);
+}
+body.surface-acetate .eyebrow {
+  color: var(--acetate-dim);
+}
+body.surface-acetate .page-lead {
+  color: var(--acetate-muted);
+}
+
+/* Policy / FAQ hairlines with chrome edge ---------------------------------- */
+body.surface-acetate .policy,
+body.surface-acetate .policy article,
+body.surface-acetate .about-faq details,
+body.surface-acetate .fact {
+  border-color: transparent;
+  box-shadow: inset 0 -1px 0 rgba(170,182,200,.28);
+}
+
+/* Cart lines on acetate ---------------------------------------------------- */
+body.surface-acetate .cart-line {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+  border-color: rgba(170,182,200,.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+}
+body.surface-acetate .cart-thumb {
+  border-color: rgba(160,174,194,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 8px 18px rgba(26,30,38,.08);
+}
+
+/* News article acetate polish ---------------------------------------------- */
+body.surface-acetate .news-article-hero {
+  border-color: rgba(160,174,194,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.62),
+    0 0 0 1px rgba(26,30,38,.05),
+    0 22px 48px rgba(26,30,38,.12);
+}
+body.surface-acetate .news-kicker {
+  font-family: var(--callsign);
+  letter-spacing: .16em;
+}
+
+/* PDP acetate — continue shop chrome without dark snap --------------------- */
+body.surface-acetate .pdp-art {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 0 0 1px rgba(160,174,194,.4),
+    0 18px 40px rgba(26,30,38,.1);
+}
+body.surface-acetate .pdp-kicker {
+  color: var(--acetate-dim);
+}
+
+/* Transparent nav over acetate bumper -------------------------------------- */
+body.surface-acetate.has-station-bumper .nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+body.surface-acetate.has-station-bumper .nav.scrolled {
+  background: rgba(247,245,241,.86);
+  border-bottom-color: rgba(170,182,200,.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    0 8px 28px rgba(26,30,38,.05);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+}
+
+/* News / PDP body spacing under bumper ------------------------------------- */
+body.has-station-bumper .news-page .band:not(.station-bumper__inner),
+body.has-station-bumper .pdp .band:not(.station-bumper__inner) {
+  padding-top: 28px;
+  padding-bottom: 72px;
+}
+@media (min-width: 800px) {
+  body.has-station-bumper .news-page .band:not(.station-bumper__inner),
+  body.has-station-bumper .pdp .band:not(.station-bumper__inner) {
+    padding-top: 36px;
+  }
+}

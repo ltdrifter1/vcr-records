@@ -7,26 +7,30 @@
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <meta name="robots" content="noindex"/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#F7F5F1"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/surface-acetate.css"/>
   <style>
-    body { min-height: 100vh; display: grid; place-items: center; padding: 28px; }
+    body.surface-acetate { min-height: 100vh; display: grid; place-items: center; padding: 28px; }
     .confirm {
       width: min(560px, 100%);
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
       padding: 56px 32px;
       text-align: center;
     }
     @media (min-width: 600px) { .confirm { padding: 64px 48px; } }
     .confirm h1 {
+      font-family: var(--display);
       font-size: clamp(34px, 6vw, 48px); font-weight: 600;
       letter-spacing: -.03em; line-height: 1.05; margin-bottom: 14px;
+    }
+    .confirm-mark {
+      display: block;
+      width: min(180px, 48vw);
+      height: auto;
+      margin: 0 auto 22px;
     }
     .confirm p {
       color: var(--muted); font-size: 16px;
@@ -39,7 +43,7 @@
     .confirm-actions {
       display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
     }
-    .links { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line);
+    .links { margin-top: 28px; padding-top: 22px; border-top: 1px solid rgba(170,182,200,.32);
       display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
     .links a {
       color: var(--dim); font-size: 13px; font-weight: 500;
@@ -82,8 +86,9 @@
     .ty-card-meta b { color: rgba(255,255,255,.88); font-weight: 600; }
   </style>
 </head>
-<body>
-  <main class="confirm">
+<body class="surface-acetate">
+  <main class="confirm acetate-panel">
+    <img class="confirm-mark" src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/>
     <a href="/about"><img src="copy-house-publishing-logo.webp" alt="Copy House Publishing" width="1448" height="399" style="width:min(156px,44vw);height:auto;margin:0 auto 20px;display:block;opacity:.58"/></a>
     <h1 id="tyTitle">Thank you.</h1>
     <p id="msg">Your order is confirmed. A receipt is on its way from Stripe.</p>
