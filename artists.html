@@ -51,7 +51,7 @@
 }
   </script>
   <meta name="description" content="Artists on Club Copy, the Pacific Northwest record label — Inlet Knight and L.T. Drifta."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#0c0e12"/>
   <link rel="canonical" href="https://www.clubcopy.ca/artists"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
@@ -65,85 +65,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/artists.css"/>
   <link rel="stylesheet" href="css/player.css"/>
-  <style>
-    .page { padding-bottom: 40px; }
-    .page .section-head { padding-top: calc(var(--nav-h) + var(--safe-t) + 56px); }
-    @media (min-width: 800px) { .page .section-head { padding-top: calc(var(--nav-h) + var(--safe-t) + 88px); } }
-
-    .roster { display: flex; flex-direction: column; gap: 96px; }
-    @media (min-width: 900px) { .roster { gap: 128px; } }
-
-    .artist {
-      display: grid;
-      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
-      gap: 40px;
-      align-items: center;
-      scroll-margin-top: calc(var(--nav-h) + var(--safe-t) + 24px);
-    }
-    @media (min-width: 900px) { .artist { gap: 56px; } }
-    @media (max-width: 799px) { .artist { grid-template-columns: 1fr; gap: 24px; } }
-    @media (min-width: 800px) {
-      .artist:nth-child(even) .artist-photo { order: 2; }
-    }
-    .artist-photo {
-      background: var(--soft);
-      border-radius: var(--bezel-r);
-      overflow: hidden;
-      max-width: 420px;
-      width: 100%;
-      justify-self: start;
-    }
-    @media (max-width: 799px) {
-      .artist-photo { max-width: 280px; }
-    }
-    .artist-photo img {
-      width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
-      filter: saturate(.92);
-      display: block;
-    }
-    .artist-copy { display: flex; flex-direction: column; align-items: flex-start; }
-    .artist-copy h2 {
-      font-size: clamp(30px, 4.4vw, 48px);
-      font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
-      margin-bottom: 8px;
-    }
-    .artist-role {
-      font-family: var(--callsign);
-      font-size: 11px; font-weight: 600; letter-spacing: .16em;
-      text-transform: uppercase; color: var(--dim);
-      margin: 0 0 14px;
-    }
-    .artist-bio {
-      font-size: 15px; color: var(--muted); max-width: 28em;
-      line-height: 1.45; margin-bottom: 28px;
-      letter-spacing: -.01em;
-    }
-    .artist-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .artist-photo--mark {
-      display: grid; place-items: center;
-      aspect-ratio: 4 / 5;
-      background:
-        linear-gradient(160deg, rgba(255,255,255,.55), transparent 42%),
-        radial-gradient(120% 90% at 12% 8%, rgba(26,30,38,.06), transparent 55%),
-        var(--soft);
-      border: 1px solid rgba(150,162,180,.28);
-    }
-    .artist-photo--mark span {
-      font-family: var(--display);
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 600; letter-spacing: -.04em;
-      color: var(--ink); opacity: .78;
-    }
-  </style>
 </head>
-<body id="top">
+<body id="top" class="artist-world-page">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-        <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" aria-label="Primary">
       <a href="/#listen">Listen</a>
       <a href="/library">Library</a>
       <a href="/artists" aria-current="page">Artists</a>
@@ -179,44 +110,47 @@
   <a href="/cart">Cart</a>
 </div>
 
-<main id="main" class="page">
+<main id="main" class="roster-page">
   <div class="band">
     <header class="section-head">
       <div>
-        <p class="eyebrow">Roster</p>
+        <p class="eyebrow">Club Copy</p>
         <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Artists</nav>
         <h1>Artists</h1>
+        <p class="roster-lead">Two producers from the Pacific Northwest. House, breaks, and records made to keep.</p>
       </div>
     </header>
 
     <div class="roster">
 
-      <article class="artist rv" id="inlet-knight" aria-labelledby="inlet-knight-name">
-        <div class="artist-photo media-bezel">
-          <img src="artists/inlet-knight.webp" alt="Inlet Knight"/>
+      <article class="roster-artist rv" id="inlet-knight" aria-labelledby="inlet-knight-name">
+        <div class="roster-photo">
+          <img src="artists/inlet-knight.webp" alt="Inlet Knight" width="800" height="1000" fetchpriority="high"/>
         </div>
-        <div class="artist-copy">
+        <div class="roster-copy">
+          <p class="eyebrow">House</p>
           <h2 id="inlet-knight-name">Inlet Knight</h2>
-          <p class="artist-role">Artist</p>
-          <p class="artist-bio">House from Cumberland, BC.</p>
-          <div class="artist-actions">
-            <a class="btn btn-dark" href="/artists/inlet-knight">More</a>
-            <a class="btn btn-ghost" href="/library?artist=inlet-knight">Library</a>
+          <p class="roster-place">Cumberland, BC</p>
+          <p class="roster-bio">Locked drums, long loops, and house that feels finished when it leaves — still open years later. Bridget In My Room is out now; Lookout is on pre-order.</p>
+          <div class="roster-actions">
+            <a class="btn btn-chrome-on-dark" href="/artists/inlet-knight">Enter</a>
+            <a class="btn btn-ghost-on-dark" href="/bridget-in-my-room">Buy Bridget</a>
           </div>
         </div>
       </article>
 
-      <article class="artist rv" id="lt-drifta" aria-labelledby="lt-drifta-name">
-        <div class="artist-photo media-bezel">
-          <img src="artists/lt-drifta.webp" alt="L.T. Drifta"/>
+      <article class="roster-artist rv" id="lt-drifta" aria-labelledby="lt-drifta-name">
+        <div class="roster-photo">
+          <img src="artists/lt-drifta.webp" alt="L.T. Drifta" width="1024" height="1024" loading="lazy"/>
         </div>
-        <div class="artist-copy">
+        <div class="roster-copy">
+          <p class="eyebrow">Breaks</p>
           <h2 id="lt-drifta-name">L.T. Drifta</h2>
-          <p class="artist-role">Producer</p>
-          <p class="artist-bio">Exploring the soulful side of electronic breakbeats. Cumberland, BC.</p>
-          <div class="artist-actions">
-            <a class="btn btn-dark" href="/artists/lt-drifta">More</a>
-            <a class="btn btn-ghost" href="/library?artist=lt-drifta">Library</a>
+          <p class="roster-place">Cumberland, BC</p>
+          <p class="roster-bio">Soulful electronic breakbeats dug from crates and rebuilt for late rooms. EP-6 and Champion Sound live in the library.</p>
+          <div class="roster-actions">
+            <a class="btn btn-chrome-on-dark" href="/artists/lt-drifta">Enter</a>
+            <a class="btn btn-ghost-on-dark" href="/ep-6">Listen EP-6</a>
           </div>
         </div>
       </article>
@@ -276,6 +210,17 @@
     requestAnimationFrame(syncNav);
   }, { passive: true });
   syncNav();
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
+  } else {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+  }
 })();
 </script>
 </body>
