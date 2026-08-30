@@ -99,7 +99,7 @@
 }
   </script>
   <meta name="description" content="About Club Copy — Pacific Northwest record label and record club releasing house and jungle from Inlet Knight and L.T. Drifta."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#0a0a0c"/>
   <link rel="canonical" href="https://www.clubcopy.ca/about"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
@@ -117,6 +117,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/surface-night.css"/>
+  <link rel="stylesheet" href="css/listen-object.css"/>
   <style>
     .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 96px; }
     .page .section-head { padding-top: 0; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -126,11 +128,14 @@
       font-size: clamp(32px, 5.5vw, 56px);
       font-weight: 600; letter-spacing: -.035em; line-height: 1.05;
       margin: 28px 0 20px;
+      color: #fff;
+      animation: aboutIn .9s var(--ease) both;
     }
     .about-lead {
       font-size: clamp(17px, 2.2vw, 20px);
-      color: var(--muted); line-height: 1.5;
+      color: rgba(255,255,255,.62); line-height: 1.5;
       max-width: 28em; margin-bottom: 36px;
+      animation: aboutIn .9s var(--ease) .08s both;
     }
     .about-sleeves {
       display: grid;
@@ -138,6 +143,7 @@
       gap: 12px;
       margin: 0 0 56px;
       max-width: 520px;
+      animation: aboutIn .9s var(--ease) .16s both;
     }
     @media (max-width: 560px) {
       .about-sleeves { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -148,23 +154,42 @@
       border-radius: var(--bezel-r);
       overflow: hidden;
       background: #0a0a0c;
+      position: relative;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.35),
-        0 0 0 1px rgba(150,162,180,.28),
-        0 10px 24px rgba(26,30,38,.1);
-      transition: transform .45s var(--ease);
+        inset 0 1px 0 rgba(255,255,255,.18),
+        0 0 0 1px rgba(200,214,230,.28),
+        0 12px 28px rgba(0,0,0,.4);
+      transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+    }
+    .about-sleeves a::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 42%);
+      opacity: .5;
+      mix-blend-mode: soft-light;
     }
     .about-sleeves a img {
       width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .7s var(--ease);
     }
     @media (hover:hover) {
-      .about-sleeves a:hover { transform: translateY(-2px); }
+      .about-sleeves a:hover {
+        transform: translateY(-3px);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.24),
+          0 0 0 1px rgba(200,214,230,.42),
+          0 18px 36px rgba(0,0,0,.48),
+          0 0 28px rgba(186,204,224,.12);
+      }
+      .about-sleeves a:hover img { transform: scale(1.04); }
     }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 48px;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid rgba(200,214,230,.16);
       padding-top: 48px;
     }
     @media (min-width: 800px) {
@@ -175,36 +200,40 @@
       font-size: clamp(22px, 3vw, 28px);
       font-weight: 600; letter-spacing: -.025em;
       margin-bottom: 14px;
+      color: #fff;
     }
     .about-block p {
-      font-size: 15px; color: var(--muted); line-height: 1.65;
+      font-size: 15px; color: rgba(255,255,255,.62); line-height: 1.65;
       max-width: 36em; margin-bottom: 14px;
     }
     .about-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
     .facts {
       display: flex; flex-direction: column; gap: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid rgba(200,214,230,.16);
     }
     .fact {
       display: grid; grid-template-columns: 120px 1fr;
       gap: 16px; padding: 18px 0;
       border-bottom: 1px solid transparent;
-      box-shadow: inset 0 -1px 0 rgba(170,182,200,.28);
+      box-shadow: inset 0 -1px 0 rgba(200,214,230,.14);
     }
     .fact dt {
       font-family: var(--callsign);
       font-size: 11px; font-weight: 600; letter-spacing: .16em;
-      text-transform: uppercase; color: var(--dim);
+      text-transform: uppercase; color: rgba(200,214,230,.48);
     }
-    .fact dd { font-size: 15px; color: var(--ink); }
+    .fact dd { font-size: 15px; color: rgba(244,246,248,.88); }
     .fact a {
-      color: var(--ink);
+      color: #fff;
       text-decoration: underline; text-underline-offset: 3px;
-      text-decoration-color: rgba(17,17,17,.25);
+      text-decoration-color: rgba(255,255,255,.28);
+    }
+    @media (hover:hover) {
+      .fact a:hover { text-decoration-color: rgba(255,255,255,.7); }
     }
     .about-faq {
       margin-top: 72px;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid rgba(200,214,230,.16);
       padding-top: 48px;
     }
     .about-faq h2 {
@@ -212,13 +241,14 @@
       font-size: clamp(22px, 3vw, 28px);
       font-weight: 600; letter-spacing: -.025em;
       margin-bottom: 8px;
+      color: #fff;
     }
     .about-faq-lead {
-      font-size: 15px; color: var(--muted); line-height: 1.55;
+      font-size: 15px; color: rgba(255,255,255,.58); line-height: 1.55;
       max-width: 36em; margin-bottom: 28px;
     }
     .about-faq details {
-      border-bottom: 1px solid rgba(170,182,200,.28);
+      border-bottom: 1px solid rgba(200,214,230,.14);
       padding: 16px 0;
     }
     .about-faq summary {
@@ -228,7 +258,7 @@
       font-size: 16px;
       font-weight: 500;
       letter-spacing: -.015em;
-      color: var(--ink);
+      color: #fff;
       padding-right: 28px;
       position: relative;
     }
@@ -238,17 +268,24 @@
       position: absolute; right: 0; top: 0;
       font-family: var(--callsign);
       font-size: 18px; font-weight: 600;
-      color: var(--dim);
+      color: rgba(200,214,230,.5);
     }
     .about-faq details[open] summary::after { content: "–"; }
     .about-faq details p {
       margin-top: 10px;
-      font-size: 15px; color: var(--muted); line-height: 1.65;
+      font-size: 15px; color: rgba(255,255,255,.6); line-height: 1.65;
       max-width: 40em;
+    }
+    @keyframes aboutIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .about-hero, .about-lead, .about-sleeves { animation: none !important; }
     }
   </style>
 </head>
-<body id="top">
+<body id="top" class="surface-night">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -314,8 +351,8 @@
         <p>Pressing, packaging, and merch are produced in limited batches. Release numbers (CC00x) mark each title in the library. The record club is the invitation: a member number, digital releases at member price, and Club Credit toward physical editions — nothing ships unless you choose it.</p>
         <p>Founded by Charlie Archer. Published under Copy House Publishing. Based in British Columbia, Canada.</p>
         <div class="about-actions">
-          <a class="btn btn-dark" href="/#join">Join the club</a>
-          <a class="btn btn-ghost" href="/library">View library</a>
+          <a class="btn btn-chrome-on-dark" href="/#join">Join the club</a>
+          <a class="btn btn-ghost-on-dark" href="/library">View library</a>
         </div>
       </div>
 

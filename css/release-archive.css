@@ -403,7 +403,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   filter: blur(8px);
 }
 
-/* play hit on the object */
+/* play hit on the object — chrome bezel matches listen-object */
 .ra-stage-hit {
   position: absolute;
   inset: 0;
@@ -411,26 +411,49 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   display: grid;
   place-items: center;
   cursor: pointer;
+  border: 0;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 .ra-stage-hit .glyph {
-  width: 56px; height: 56px;
+  width: clamp(56px, 14%, 72px);
+  aspect-ratio: 1;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: rgba(244, 241, 233, .92);
-  color: #0a0a0a;
-  opacity: .72;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.92) 42%, rgba(176,190,208,.86) 100%);
+  color: #111;
+  border: 1px solid rgba(255,255,255,.58);
+  opacity: .9;
   transform: scale(1);
-  transition: opacity .35s var(--ra-ease), transform .35s var(--ra-ease);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, .5);
+  transition: opacity .35s var(--ra-ease), transform .35s var(--ra-ease), filter .35s var(--ra-ease), box-shadow .35s var(--ra-ease);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(80,90,110,.16),
+    0 0 0 1px rgba(0,0,0,.28),
+    0 12px 28px rgba(0,0,0,.45);
 }
 .ra-stage-hit:hover .glyph,
-.ra-stage-hit:focus-visible .glyph { opacity: 1; transform: scale(1.04); }
-.ra-stage-hit svg { width: 20px; height: 20px; fill: currentColor; }
-.ra-stage-hit .i-pause { display: none; }
-.ra-stage-hit.on .i-pause { display: block; }
+.ra-stage-hit:focus-visible .glyph {
+  opacity: 1;
+  transform: scale(1.06);
+  filter: brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(0,0,0,.22),
+    0 14px 32px rgba(0,0,0,.48),
+    0 0 28px rgba(210,226,244,.26);
+}
+.ra-stage-hit svg { width: 38%; height: 38%; fill: currentColor; margin-left: 6%; }
+.ra-stage-hit .i-pause { display: none; margin-left: 0; }
+.ra-stage-hit.on .i-pause { display: block; margin-left: 0; }
 .ra-stage-hit.on .i-play { display: none; }
 .ra-stage-hit.on .glyph { opacity: 1; transform: scale(1); }
+.ra-stage.is-playing .ra-stage-hit .glyph { opacity: 0; }
+@media (hover:hover) {
+  .ra-stage.is-playing .ra-stage-hit:hover .glyph { opacity: .94; }
+}
 
 /* Vinyl object (album releases) --------------------------------------------- */
 .ra-vinyl {
@@ -517,10 +540,20 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   overflow: hidden;
   background: #0B0B0B;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, .08) inset,
+    inset 0 1px 0 rgba(255, 255, 255, .16),
+    0 0 0 1px rgba(200, 214, 230, .26),
     0 34px 70px -18px rgba(0, 0, 0, .85),
     0 8px 18px rgba(0, 0, 0, .4);
   transition: box-shadow .8s var(--ra-ease);
+}
+.ra-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 40%, transparent 60%, rgba(0,0,0,.16) 100%);
+  opacity: .5;
+  mix-blend-mode: soft-light;
 }
 .ra-cover img {
   width: 100%;
@@ -533,21 +566,23 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 .ra-stage:hover .ra-vinyl { transform: none; }
 .ra-cover.is-spinning {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, .12) inset,
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    0 0 0 1px rgba(200, 214, 230, .4),
     0 40px 80px -16px rgba(0, 0, 0, .9),
-    0 10px 22px rgba(0, 0, 0, .45);
+    0 10px 22px rgba(0, 0, 0, .45),
+    0 0 40px rgba(186, 204, 224, .12);
 }
 
 .ra-hero .crumbs {
-  color: rgba(255,255,255,.42);
+  color: rgba(255,255,255,.52);
   padding: 0 0 14px;
   font-size: 12px;
 }
-.ra-hero .crumbs a { color: rgba(255,255,255,.58); }
+.ra-hero .crumbs a { color: rgba(255,255,255,.72); }
 @media (hover:hover) {
   .ra-hero .crumbs a:hover { color: #fff; }
 }
-.ra-hero .crumbs span { opacity: .35; }
+.ra-hero .crumbs span { opacity: .4; }
 .ra-hero-callsign {
   margin: 0 0 10px;
   font-family: var(--callsign, 'Oswald', sans-serif);
@@ -555,7 +590,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-weight: 600;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: rgba(244, 241, 233, .48);
+  color: rgba(200, 214, 230, .52);
 }
 
 /* Single-format purchase (digital-only) ------------------------------------ */
