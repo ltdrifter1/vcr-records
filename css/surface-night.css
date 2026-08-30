@@ -1,25 +1,35 @@
 /* ==========================================================================
    Club Copy — nocturnal continuum
-   Shared night surface for music path: Library, Artists roster, News, Home.
+   Shared night surface for music path: Library, Artists, About, News, Home.
    Utility pages (Contact, Shipping) stay on warm paper.
    ========================================================================== */
 
 body.surface-night {
+  --night-ink: #f4f6f8;
+  --night-muted: rgba(244,246,248,.62);
+  --night-dim: rgba(200,214,230,.48);
+  --night-line: rgba(200,214,230,.16);
+  --night-glass: rgba(18,20,26,.72);
+  --night-hi: rgba(255,255,255,.12);
   background:
-    radial-gradient(720px 420px at 12% 0%, rgba(200,214,230,.08), transparent 55%),
-    linear-gradient(180deg, #0a0a0c 0%, #080808 100%);
-  color: #f4f6f8;
+    radial-gradient(880px 480px at 14% -4%, rgba(186,204,224,.09), transparent 58%),
+    radial-gradient(720px 420px at 88% 8%, rgba(120,140,170,.06), transparent 52%),
+    linear-gradient(180deg, #0a0a0c 0%, #07080a 55%, #050506 100%);
+  color: var(--night-ink);
+  color-scheme: dark;
 }
 body.surface-night .nav {
   background: rgba(8,8,10,.55);
   border-bottom-color: transparent;
 }
 body.surface-night .nav.scrolled {
-  background: rgba(8,8,10,.78);
+  background: rgba(8,8,10,.82);
   border-bottom-color: rgba(255,255,255,.08);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.06),
-    0 8px 28px rgba(0,0,0,.25);
+    0 8px 28px rgba(0,0,0,.28);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
 }
 body.surface-night .nav-links a { color: rgba(255,255,255,.7); }
 body.surface-night .nav-links a:hover,
@@ -76,16 +86,34 @@ body.surface-night .section-head .head-link {
     border-bottom-color: rgba(200,214,230,.45);
   }
 }
-body.surface-night .crumbs { color: rgba(255,255,255,.4); }
-body.surface-night .crumbs a { color: rgba(255,255,255,.58); }
+body.surface-night .crumbs { color: rgba(255,255,255,.48); }
+body.surface-night .crumbs a { color: rgba(255,255,255,.68); }
 @media (hover:hover) {
   body.surface-night .crumbs a:hover { color: #fff; }
 }
 body.surface-night .page-lead,
 body.surface-night .roster-lead {
-  color: rgba(255,255,255,.58);
+  color: rgba(255,255,255,.62);
 }
 body.surface-night .page-lead a {
   color: #fff;
   text-decoration-color: rgba(255,255,255,.35);
+}
+
+/* Shared glass chip / pill on night ---------------------------------------- */
+body.surface-night .chip-glass,
+body.surface-night .cat-genre {
+  color: rgba(244,246,248,.9);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+  border-color: rgba(200,214,230,.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 0 0 1px rgba(0,0,0,.2);
+}
+
+/* Selection / focus polish ------------------------------------------------- */
+body.surface-night ::selection {
+  background: rgba(200,214,230,.28);
+  color: #fff;
 }

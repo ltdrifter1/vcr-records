@@ -214,20 +214,30 @@
       background: #0a0a0c;
       filter: none;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.14),
-        0 0 0 1px rgba(200,214,230,.28),
+        inset 0 1px 0 rgba(255,255,255,.16),
+        0 0 0 1px rgba(200,214,230,.3),
         0 28px 64px rgba(0,0,0,.55);
       transition: width .5s var(--ease), box-shadow .5s var(--ease), margin .5s var(--ease);
+    }
+    .hero-platter::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.14) 0%, transparent 38%, transparent 62%, rgba(0,0,0,.2) 100%);
+      opacity: .55;
+      mix-blend-mode: soft-light;
     }
     .hero.is-live .hero-platter {
       display: block;
       width: min(280px, 48vw);
       margin: 0 0 4px;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.22),
-        0 0 0 1px rgba(200,214,230,.42),
+        inset 0 1px 0 rgba(255,255,255,.24),
+        0 0 0 1px rgba(200,214,230,.46),
         0 32px 72px rgba(0,0,0,.62),
-        0 0 40px rgba(186,204,224,.12);
+        0 0 48px rgba(186,204,224,.14);
       animation: platterIn .85s var(--ease) both;
     }
     @keyframes platterIn {
@@ -281,16 +291,17 @@
       display: grid;
       place-items: center;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(230,236,244,.88) 42%, rgba(186,198,214,.82) 100%);
+        linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.92) 42%, rgba(176,190,208,.86) 100%);
       color: #111;
-      border: 1px solid rgba(255,255,255,.55);
+      border: 1px solid rgba(255,255,255,.58);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 1px 0 rgba(255,255,255,.95),
+        inset 0 -1px 0 rgba(80,90,110,.16),
         0 0 0 1px rgba(0,0,0,.28),
         0 12px 28px rgba(0,0,0,.4);
-      opacity: .92;
+      opacity: .94;
       transform: scale(1);
-      transition: opacity .35s var(--ease), transform .35s var(--ease), filter .35s var(--ease);
+      transition: opacity .35s var(--ease), transform .35s var(--ease), filter .35s var(--ease), box-shadow .35s var(--ease);
     }
     .hero-disc-hit svg {
       width: 38%; height: 38%;
@@ -299,7 +310,15 @@
     }
     .hero-disc-hit .glyph-pause { display: none; margin-left: 0; }
     @media (hover:hover) {
-      .hero-disc-hit:hover .disc-glyph { transform: scale(1.07); filter: brightness(1.06); }
+      .hero-disc-hit:hover .disc-glyph {
+        transform: scale(1.07);
+        filter: brightness(1.07);
+        box-shadow:
+          inset 0 1px 0 #fff,
+          0 0 0 1px rgba(0,0,0,.22),
+          0 14px 32px rgba(0,0,0,.45),
+          0 0 28px rgba(210,226,244,.28);
+      }
     }
     .hero-disc-hit:active .disc-glyph { transform: scale(.96); }
     /* While audio runs, fade the glyph away; reveal pause on hover/tap intent */
@@ -1089,19 +1108,20 @@
     }
     .wall-play {
       position: absolute; right: 12px; bottom: 12px;
-      width: 44px; height: 44px; border-radius: var(--bezel-r, 4px);
+      width: 44px; height: 44px; border-radius: 50%;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(230,236,244,.92) 40%, rgba(186,198,214,.88) 100%);
+        linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.92) 42%, rgba(176,190,208,.86) 100%);
       color: #111;
       display: inline-flex; align-items: center; justify-content: center;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 1px 0 rgba(255,255,255,.95),
+        inset 0 -1px 0 rgba(80,90,110,.16),
         0 0 0 1px rgba(0,0,0,.25),
         0 10px 24px rgba(0,0,0,.4);
-      border: 1px solid rgba(220,230,242,.55);
+      border: 1px solid rgba(255,255,255,.58);
       opacity: 0; transform: translateY(6px);
       z-index: 4;
-      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), background var(--dur) var(--ease);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), filter var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     }
     .wall-play svg { width: 15px; height: 15px; fill: currentColor; margin-left: 2px; }
     .wall-play .wp-pause { display: none; margin-left: 0; }
