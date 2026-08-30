@@ -134,13 +134,12 @@
       pointer-events: none;
       background-size: cover;
       background-position: center 48%;
-      filter: blur(28px) saturate(1.15) brightness(.62) contrast(1.12);
-      transform: scale(1.38);
-      opacity: .9;
+      filter: blur(36px) saturate(1.05) brightness(.55) contrast(1.08);
+      transform: scale(1.28);
+      opacity: .78;
       mix-blend-mode: normal;
-      animation: ambientBreath 26s ease-in-out infinite alternate;
+      animation: none;
       transition: filter .7s var(--ease), opacity .7s var(--ease), transform .7s var(--ease);
-      will-change: transform;
     }
     .hero.is-live .hero-ambient {
       animation: none;
@@ -163,40 +162,12 @@
     }
     .hero.fx-phosphor::before { opacity: .34; }
     .hero.fx-phosphor::after { opacity: .28; }
-    .hero-vhs {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: url('hero-vhs.webp') center / cover no-repeat;
-      opacity: .11;
-      mix-blend-mode: soft-light;
+    /* Effect stack cut : keep chrome brand + disc motion only -------------- */
+    .hero-vhs,
+    .hero-grid,
+    .hero .fx-grid-horizon {
+      display: none !important;
     }
-    .hero-grid {
-      position: absolute;
-      inset: -18% -12% -40%;
-      z-index: 0;
-      pointer-events: none;
-      transform-origin: 50% 0%;
-      transform: perspective(720px) rotateX(58deg) translateY(-6%);
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,.12) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.12) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image:
-        radial-gradient(ellipse 72% 58% at 50% 40%, #000 0%, transparent 72%),
-        linear-gradient(180deg, transparent 0%, #000 26%, #000 72%, transparent 100%);
-      -webkit-mask-image:
-        radial-gradient(ellipse 72% 58% at 50% 40%, #000 0%, transparent 72%),
-        linear-gradient(180deg, transparent 0%, #000 26%, #000 72%, transparent 100%);
-      mask-composite: intersect;
-      -webkit-mask-composite: source-in;
-      opacity: .18;
-      animation: gridDrift 28s linear infinite;
-      will-change: background-position;
-      transition: opacity .6s var(--ease);
-    }
-    .hero.is-live .hero-grid { opacity: .08; }
     .hero-grid::before {
       content: "";
       position: absolute; inset: 0;
@@ -234,19 +205,20 @@
     }
     .hero.is-live .hero-stage { gap: 16px; }
 
-    /* Platter : newest release on idle, full console when live --------------- */
+    /* Platter : release is the hero object (idle + live) -------------------- */
     .hero-platter {
       position: relative;
       display: block;
-      width: min(132px, 28vw);
+      width: min(360px, 62vw);
       aspect-ratio: 1;
-      margin: 14px 0 4px;
-      filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
+      margin: 8px 0 6px;
+      order: 1;
+      filter: drop-shadow(0 22px 48px rgba(0,0,0,.55));
       transition: width .5s var(--ease), filter .5s var(--ease), margin .5s var(--ease);
     }
     .hero.is-live .hero-platter {
       display: block;
-      width: min(280px, 52vw);
+      width: min(300px, 52vw);
       margin: 0 0 4px;
       filter: drop-shadow(0 28px 60px rgba(0,0,0,.55));
       animation: platterIn .85s var(--ease) both;
@@ -381,13 +353,24 @@
       100% { transform: scale(1.06); opacity: 0; }
     }
 
-    /* Idle : Club Copy owns the viewport (no inset photo + logo card) ------ */
+    /* Idle copy sits under the platter; CTAs follow ------------------------ */
     .hero-idle {
-      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
       width: 100%;
-      margin-top: 18px;
+      margin-top: 4px;
+      order: 2;
       transition: opacity .35s var(--ease), transform .35s var(--ease);
     }
+    .hero-idle-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+      order: 3;
+    }
+    .hero-console { order: 4; }
+    .hero-station { order: -1; }
     .hero.is-live .hero-idle,
     .hero.is-live .hero-idle-actions {
       position: absolute;
@@ -397,22 +380,14 @@
       opacity: 0;
       pointer-events: none;
     }
-    .hero-idle-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      margin-top: 8px;
-    }
-    /* Transparent chrome lockup : hero-scale idle; station ID when live ------ */
+    /* Transparent chrome lockup : identity signal above the release -------- */
     .hero-brand {
-      width: min(760px, 88vw);
+      width: min(420px, 72vw);
       height: auto;
-      margin: 0 0 2px;
-      filter: drop-shadow(0 12px 40px rgba(0,0,0,.45));
-      animation:
-        brandIn 1.05s var(--ease) both,
-        brandGlow 5.5s ease-in-out 1.2s infinite alternate;
+      margin: 0 0 10px;
+      order: 0;
+      filter: drop-shadow(0 12px 36px rgba(0,0,0,.45));
+      animation: brandIn 1.05s var(--ease) both;
       transform-origin: 50% 55%;
       transition:
         width .5s var(--ease),
@@ -420,7 +395,6 @@
         filter .45s var(--ease),
         opacity .45s var(--ease),
         transform .55s var(--ease);
-      will-change: transform, filter;
     }
     .hero.is-live .hero-brand {
       width: min(300px, 46vw);
@@ -431,22 +405,13 @@
     }
     @media (hover:hover) {
       .hero:not(.is-live) .hero-brand:hover {
-        animation:
-          brandChromeLift .55s var(--ease) both,
-          brandChromeShimmer 1.35s ease-in-out infinite alternate;
-        transform: scale(1.055) rotate(-1.25deg);
-        filter:
-          drop-shadow(0 22px 48px rgba(0,0,0,.5))
-          drop-shadow(0 0 28px rgba(186,214,240,.35))
-          brightness(1.18) contrast(1.08) saturate(1.15);
+        transform: scale(1.03);
+        filter: drop-shadow(0 16px 40px rgba(0,0,0,.5)) brightness(1.08);
       }
       .hero.is-live .hero-brand:hover {
         animation: none;
-        transform: scale(1.04);
-        filter:
-          drop-shadow(0 14px 32px rgba(0,0,0,.55))
-          drop-shadow(0 0 22px rgba(200,214,230,.28))
-          brightness(1.12);
+        transform: scale(1.03);
+        filter: drop-shadow(0 12px 28px rgba(0,0,0,.55)) brightness(1.08);
         opacity: 1;
       }
     }
@@ -500,23 +465,15 @@
       color: rgba(255,255,255,.55);
       animation: fxIdentIn .9s var(--ease) .18s both;
     }
-    .hero-idle-kicker {
-      margin: 0;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.64);
-    }
+    .hero-idle-kicker { display: none; }
     .hero-idle-title {
       margin: 0;
       font-family: var(--display);
-      font-size: clamp(26px, 5vw, 42px);
+      font-size: clamp(28px, 5.2vw, 44px);
       font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1.08;
-      color: rgba(255,255,255,.94);
+      letter-spacing: -.035em;
+      line-height: 1.06;
+      color: rgba(255,255,255,.96);
       text-align: center;
       text-shadow: 0 1px 18px rgba(0,0,0,.4);
       max-width: 14em;
@@ -524,13 +481,22 @@
     }
     .hero-idle-track { display: none; }
     .hero-idle-by {
-      margin: 2px 0 0;
+      margin: 0;
+      order: -1;
       font-family: var(--callsign);
       font-size: 12px;
       font-weight: 600;
       letter-spacing: .18em;
       text-transform: uppercase;
       color: rgba(255,255,255,.58);
+      animation: heroIn .85s var(--ease) .22s both;
+    }
+    .hero-idle-dek:not(.visually-hidden) {
+      margin: 4px 0 0;
+      max-width: 22em;
+      font-size: clamp(14px, 2vw, 16px);
+      line-height: 1.45;
+      color: rgba(255,255,255,.62);
       animation: heroIn .85s var(--ease) .34s both;
     }
     .hero-join-cue {
@@ -568,19 +534,7 @@
       border-radius: var(--btn-r, 12px);
     }
     .hero-ctas .btn::before {
-      animation: glassSheenIdle 6.2s ease-in-out 1.4s infinite;
-    }
-    .hero-ctas .btn:hover::before,
-    .hero-ctas .btn:focus-visible::before {
       animation: none;
-    }
-    @keyframes glassSheenIdle {
-      0%, 72%, 100% { transform: translateX(-55%) rotate(8deg); opacity: 0; }
-      80% { opacity: .9; }
-      90% { transform: translateX(42%) rotate(8deg); opacity: .25; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-ctas .btn::before { animation: none !important; }
     }
 
     /* Scroll cue : the hero fills the viewport; hint at the wall below ------ */
@@ -1086,6 +1040,26 @@
     }
     @media (max-width: 980px) { .wall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; } }
     @media (max-width: 560px) { .wall-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+
+    .wall-item--featured {
+      grid-column: 1 / -1;
+    }
+    @media (min-width: 700px) {
+      .wall-item--featured {
+        grid-column: 1 / span 2;
+      }
+      .wall-item--featured .wall-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+        gap: 28px;
+        align-items: center;
+      }
+      .wall-item--featured .wall-meta { padding-right: 8px; }
+      .wall-item--featured .wall-title {
+        font-size: clamp(28px, 3.6vw, 40px);
+        letter-spacing: -.035em;
+      }
+    }
 
     .wall-item {
       display: flex;
@@ -2066,12 +2040,12 @@
         filter: blur(26px) saturate(1.1) brightness(.64) contrast(1.1);
         background-position: center 50%;
       }
-      .hero-brand { width: min(90vw, 380px); }
+      .hero-brand { width: min(72vw, 280px); }
       .hero.is-live .hero-brand { width: min(52vw, 200px); margin: 0; }
       .hero.is-live .hero-station { margin-bottom: 2px; }
-      .hero-idle { gap: 12px; margin-top: 12px; }
-      .hero-idle-title { font-size: clamp(12px, 3.5vw, 17px); }
-      .hero:not(.is-live) .hero-platter { display: block; width: min(96px, 26vw); margin: 8px 0 2px; }
+      .hero-idle { gap: 8px; margin-top: 4px; }
+      .hero-idle-title { font-size: clamp(24px, 7vw, 34px); }
+      .hero:not(.is-live) .hero-platter { display: block; width: min(280px, 68vw); margin: 6px 0 4px; }
       .hero-ctas { width: 100%; margin-top: 4px; }
       .hero-ctas .btn { flex: 1 1 auto; min-width: 140px; }
 
@@ -2142,12 +2116,13 @@
         padding-top: calc(var(--nav-h) + var(--safe-t) + 12px);
         padding-bottom: calc(16px + var(--safe-b));
       }
-      .hero-brand { width: min(78vw, 300px); }
-      .hero:not(.is-live) .hero-platter { display: none; }
+      .hero-brand { width: min(58vw, 220px); }
+      .hero:not(.is-live) .hero-platter { display: block; width: min(200px, 48vw); margin: 4px 0 2px; }
       .hero.is-live .hero-brand { width: min(42vw, 150px); }
       .hero.is-live .hero-station { display: none; }
-      .hero-idle { gap: 12px; }
-      .hero-idle-title { font-size: clamp(11px, 3.3vw, 16px); }
+      .hero-idle { gap: 6px; }
+      .hero-idle-title { font-size: clamp(20px, 5.5vw, 28px); }
+      .hero-idle-dek { display: none; }
       .hero-ctas { margin-top: 0; gap: 8px; }
       .hero-ctas .btn { height: 44px; }
       .hero.is-live .hero-platter { width: min(28vw, 108px); }
@@ -2206,7 +2181,7 @@
       .hero-format-options { justify-content: flex-start; }
       .hero.is-live .hero-controls,
       .hero.is-live .hero-console-actions { justify-content: flex-start; }
-      .hero-idle-title { font-size: clamp(12px, 2.4vw, 15px); }
+      .hero-idle-title { font-size: clamp(18px, 3.2vw, 24px); }
     }
 
     /* Dark dock over the dark homepage ------------------------------------- */
@@ -2279,21 +2254,17 @@
 <main id="main">
 
   <!-- Featured release -->
-  <section class="hero fx-phosphor" id="room" data-listening-room aria-label="Featured release">
+  <section class="hero" id="room" data-listening-room aria-label="Featured release">
     <div class="hero-ambient" data-room-bg style="background-image:url('bridget-in-my-room-cover.webp')" aria-hidden="true"></div>
-    <div class="hero-vhs" aria-hidden="true"></div>
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="fx-grid-horizon" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-station" data-room-station aria-hidden="true">
         <span class="status-chip status-chip--air">On air</span>
       </div>
       <img class="hero-brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="1396" height="331" fetchpriority="high"/>
       <div class="hero-idle" data-room-idle>
-        <p class="hero-idle-kicker">New single · Aug 27</p>
-        <h1 class="hero-idle-title">Bridget In My Room</h1>
         <p class="hero-idle-by">Inlet Knight</p>
-        <p class="hero-idle-dek visually-hidden">House single on Club Copy. Play a preview or buy digital.</p>
+        <h1 class="hero-idle-title">Bridget In My Room</h1>
+        <p class="hero-idle-dek">House single. Play a preview or buy digital.</p>
       </div>
 
       <div class="hero-platter">
@@ -2374,7 +2345,7 @@
   <section class="campaign" id="campaign" aria-labelledby="campaign-title">
     <div class="campaign-bridge" aria-hidden="true"></div>
     <div class="band campaign-inner rv">
-      <figure class="campaign-art media-bezel fx-spec">
+      <figure class="campaign-art media-bezel">
         <img src="lookout-cover.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:800px) 88vw, 420px" alt="Lookout album artwork — glass facade reflecting a high-rise" width="1200" height="1200" loading="lazy"/>
       </figure>
       <div class="campaign-copy">
@@ -2395,16 +2366,16 @@
     <div class="band">
       <header class="section-head" id="listen">
         <div>
-          <p class="eyebrow">Also out</p>
-          <h2 id="listen-title">More from the label</h2>
+          <p class="eyebrow">Catalogue</p>
+          <h2 id="listen-title">New Music</h2>
         </div>
         <a class="head-link" href="/library">View all</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
-<article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="bridget-in-my-room" data-play-stage aria-label="Play Bridget In My Room"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Available</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="ep-6"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/ep-6" aria-label="EP-6. view release"><img src="ep-6-cover-480.webp" srcset="ep-6-cover-480.webp 480w, ep-6-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="EP-6. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">EP · L.T. Drifta</p><h3 class="wall-title"><a href="/ep-6">EP-6</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
-<article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="champion-sound"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/champion-sound" aria-label="Champion Sound. view release"><img src="champion-sound-cover-480.webp" srcset="champion-sound-cover-480.webp 480w, champion-sound-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Champion Sound. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">L.T. Drifta</p><h3 class="wall-title"><a href="/champion-sound">Champion Sound</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
+<article class="wall-item wall-item--featured rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 55vw, 420px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="bridget-in-my-room" data-play-stage aria-label="Play Bridget In My Room"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">Out now · CC011 · Single</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="ep-6"><div class="wall-card"><div class="wall-art media-bezel"><a href="/ep-6" aria-label="EP-6. view release"><img src="ep-6-cover-480.webp" srcset="ep-6-cover-480.webp 480w, ep-6-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="EP-6. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">EP · L.T. Drifta</p><h3 class="wall-title"><a href="/ep-6">EP-6</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
+<article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="champion-sound"><div class="wall-card"><div class="wall-art media-bezel"><a href="/champion-sound" aria-label="Champion Sound. view release"><img src="champion-sound-cover-480.webp" srcset="champion-sound-cover-480.webp 480w, champion-sound-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Champion Sound. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">L.T. Drifta</p><h3 class="wall-title"><a href="/champion-sound">Champion Sound</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
       </div>
     </div>
   </section>
@@ -2524,7 +2495,7 @@
     <div class="news-rail" tabindex="0" role="region" aria-label="News. scroll sideways">
       <div class="news-rail-track">
         <a class="news-card rv" href="/news/bridget-in-my-room" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
+          <div class="news-card-art media-bezel">
             <img src="news-bridget-in-my-room.webp" alt="Circular photo of two silhouettes on rippled water at dusk. Bridget In My Room" width="1254" height="1254" loading="lazy"/>
           </div>
           <div class="news-card-body">
@@ -2535,7 +2506,7 @@
           </div>
         </a>
         <a class="news-card rv" href="/news/lookout" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
+          <div class="news-card-art media-bezel">
             <img src="news-lookout.webp" alt="Glass facade reflecting a high-rise under blue sky. Lookout" width="1400" height="933" loading="lazy"/>
           </div>
           <div class="news-card-body">
@@ -2546,7 +2517,7 @@
           </div>
         </a>
         <a class="news-card rv" href="/news/sun-and-moon-eclipse" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
+          <div class="news-card-art media-bezel">
             <img src="news-eclipse.webp" alt="Sun & Moon, Solar, and Lunar vinyl labels. Eclipse Parts 1-3" width="1400" height="1400" loading="lazy"/>
           </div>
           <div class="news-card-body">
@@ -2557,7 +2528,7 @@
           </div>
         </a>
         <a class="news-card rv" href="/news/lt-drifta-on-club-copy" data-type="artist">
-          <div class="news-card-art media-bezel fx-spec">
+          <div class="news-card-art media-bezel">
             <img src="news-drifta-intro.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" loading="lazy" draggable="false"/>
           </div>
           <div class="news-card-body">
@@ -2583,7 +2554,7 @@
       </header>
       <div class="home-roster">
         <a class="home-artist rv" href="/artists/inlet-knight">
-          <div class="home-artist-photo fx-spec">
+          <div class="home-artist-photo">
             <img src="artists/inlet-knight.webp" alt="" width="800" height="1000" loading="lazy"/>
           </div>
           <div class="home-artist-meta">
@@ -2594,7 +2565,7 @@
           </div>
         </a>
         <a class="home-artist rv" href="/artists/lt-drifta">
-          <div class="home-artist-photo fx-spec">
+          <div class="home-artist-photo">
             <img src="artists/lt-drifta.webp" alt="" width="800" height="1000" loading="lazy"/>
           </div>
           <div class="home-artist-meta">

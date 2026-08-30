@@ -22,10 +22,9 @@
   z-index: 0;
   background-size: cover;
   background-position: center 42%;
-  filter: blur(40px) saturate(1.35) brightness(.72) contrast(1.06);
-  transform: scale(1.28);
-  animation: shopAmbient 28s ease-in-out infinite alternate;
-  will-change: transform;
+  filter: blur(44px) saturate(1.1) brightness(.62) contrast(1.04);
+  transform: scale(1.22);
+  animation: none;
 }
 .shop-hero__ambient::after {
   content: "";
@@ -34,10 +33,6 @@
   background:
     radial-gradient(ellipse 70% 58% at 50% 42%, rgba(0,0,0,.18) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.88) 100%),
     linear-gradient(180deg, rgba(0,0,0,.35) 0%, transparent 38%, rgba(0,0,0,.82) 100%);
-}
-@keyframes shopAmbient {
-  from { transform: scale(1.22) translate(0, 0); }
-  to   { transform: scale(1.34) translate(-1.2%, .6%); }
 }
 .shop-hero__inner {
   position: relative;
@@ -65,29 +60,16 @@
   opacity: 0;
   transform: translateY(10px);
   transform-origin: 20% 50%;
-  animation:
-    shopBrandIn .9s var(--ease) .12s forwards,
-    shopBrandGlow 5.5s ease-in-out 1.1s infinite alternate;
+  animation: shopBrandIn .9s var(--ease) .12s forwards;
   transition: filter .45s var(--ease), opacity .45s var(--ease), transform .45s var(--ease);
   cursor: default;
 }
 @media (hover:hover) {
   .shop-hero__brand:hover {
-    animation-play-state: paused;
     filter:
-      drop-shadow(0 16px 48px rgba(255,255,255,.16))
-      drop-shadow(0 0 28px rgba(200,214,230,.35))
-      drop-shadow(0 12px 36px rgba(0,0,0,.4));
+      drop-shadow(0 12px 36px rgba(0,0,0,.5))
+      brightness(1.06);
     opacity: 1;
-  }
-}
-@keyframes shopBrandGlow {
-  from { filter: drop-shadow(0 8px 28px rgba(0,0,0,.45)); }
-  to {
-    filter:
-      drop-shadow(0 14px 40px rgba(255,255,255,.1))
-      drop-shadow(0 0 18px rgba(200,214,230,.18))
-      drop-shadow(0 10px 28px rgba(0,0,0,.4));
   }
 }
 .shop-hero__title {

@@ -357,7 +357,7 @@
       } else if (profile) {
         leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member pricing.';
       } else {
-        leadEl.innerHTML = 'Catalogue by number — regular vs member digital price on every release. <a href="/#join">Accept invitation</a>';
+        leadEl.innerHTML = 'Every Club Copy release by catalogue number. <a href="/#join">Record Club</a>';
       }
       return;
     }

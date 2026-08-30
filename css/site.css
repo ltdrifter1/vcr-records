@@ -799,23 +799,26 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #fff; }
   transition: opacity .45s var(--ease);
 }
 @media (hover:hover) {
+  /* Specular sweep only on primary interactive media, not dense catalogs */
   .fx-spec:hover::before,
-  .product:hover .fx-spec::before,
   .wall-item:hover .fx-spec::before,
-  .cat-row:hover .fx-spec::before,
-  a.card:hover .fx-spec::before,
-  a.news-card:hover .fx-spec::before,
-  .artist:hover .fx-spec::before {
+  .wall-item--featured:hover .media-bezel::before {
     animation: chromeSpecSweep .9s var(--ease) both;
   }
   .fx-spec:hover::after,
-  .product:hover .fx-spec::after,
-  .wall-item:hover .fx-spec::after,
-  .cat-row:hover .fx-spec::after,
-  a.card:hover .fx-spec::after,
-  a.news-card:hover .fx-spec::after,
-  .artist:hover .fx-spec::after {
+  .wall-item:hover .fx-spec::after {
     opacity: 1;
+  }
+  .cat-row .fx-spec:hover::before,
+  .cat-row .fx-spec:hover::after,
+  a.news-card .fx-spec:hover::before,
+  a.news-card .fx-spec:hover::after,
+  .product .fx-spec:hover::before,
+  .product .fx-spec:hover::after,
+  .artist .fx-spec:hover::before,
+  .artist .fx-spec:hover::after {
+    animation: none;
+    opacity: 0;
   }
 }
 .is-now-playing .fx-spec::after,
