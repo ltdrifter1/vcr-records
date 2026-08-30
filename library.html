@@ -108,12 +108,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/surface-night.css"/>
+  <link rel="stylesheet" href="css/station-bumper.css"/>
   <link rel="stylesheet" href="css/listen-object.css"/>
   <link rel="stylesheet" href="css/station.css"/>
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 112px; }
+    .page { padding: 0 0 112px; }
+    .lib-body { padding-top: 28px; }
+    @media (min-width: 800px) { .lib-body { padding-top: 36px; } }
     .page .section-head {
       padding-top: 0;
       margin-bottom: 28px;
@@ -1052,7 +1055,7 @@
     }
   </style>
 </head>
-<body id="top" class="surface-night">
+<body id="top" class="surface-night has-station-bumper">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -1095,17 +1098,39 @@
 </div>
 
 <main id="main" class="page">
-  <div class="band">
-    <header class="section-head">
-      <div>
-        <img class="brand-lockup" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="640" height="280" decoding="async"/>
-        <p class="eyebrow">Catalogue</p>
-        <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Library</nav>
-        <h1>Library</h1>
-        <p class="page-lead" id="libLead">Every Club Copy release by catalogue number.</p>
+  <section class="station-bumper station-bumper--night station-bumper--compact" aria-label="Library">
+    <div class="station-bumper__ambient" style="background-image:url('lookout-cover.webp')" aria-hidden="true"></div>
+    <div class="band station-bumper__inner">
+      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Library</nav>
+      <p class="station-bumper__callsign">Catalogue</p>
+      <img class="station-bumper__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="1396" height="331" fetchpriority="high"/>
+      <h1 class="station-bumper__title">Library</h1>
+      <p class="station-bumper__lede" id="libLead">Every Club Copy release by catalogue number — formats and member pricing.</p>
+      <div class="station-bumper__ctas">
+        <a class="btn btn-chrome-on-dark" href="/#join">Record Club</a>
+        <a class="btn btn-ghost-on-dark" href="/#listen">Listen</a>
       </div>
-      <a class="head-link" href="/#join">Record Club</a>
-    </header>
+    </div>
+  </section>
+
+  <div class="band lib-body">
+    <section class="lib-shelf rv" aria-label="Featured on the shelf">
+      <div class="lib-shelf__ambient" style="background-image:url('lookout-cover.webp')" aria-hidden="true"></div>
+      <div class="lib-shelf__grid">
+        <figure class="lib-shelf__art media-bezel">
+          <a href="/lookout"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:799px) 70vw, 280px" alt="Lookout artwork" width="1200" height="1200" loading="lazy"/></a>
+        </figure>
+        <div>
+          <p class="lib-shelf__callsign">On the shelf · Pre-order</p>
+          <h2 class="lib-shelf__title"><a href="/lookout">Lookout</a></h2>
+          <p class="lib-shelf__meta">Inlet Knight · Album · CC010 · Digital from $8 · Members $6</p>
+          <div class="lib-shelf__actions">
+            <a class="btn btn-chrome-on-dark" href="/lookout">Open release</a>
+            <button type="button" class="btn btn-ghost-on-dark" data-play-release="lookout">Play preview</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="lib-rail" aria-label="Library filters">
       <div class="lib-rail-groups">

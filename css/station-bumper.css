@@ -1,0 +1,195 @@
+/* ==========================================================================
+   Club Copy — Station bumper
+   Shared page entrance: ambient field + callsign + brand lockup + one line.
+   Use on About, Library, Contact, Cart, Shipping, news articles, merch PDPs.
+   Modes: --night (broadcast) · --acetate (warm chrome paper)
+   ========================================================================== */
+
+.station-bumper {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(42vh, 360px);
+  color: #fff;
+  margin: 0;
+}
+.station-bumper--compact {
+  min-height: min(32vh, 280px);
+}
+.station-bumper--acetate {
+  color: var(--ink, #111);
+  min-height: min(34vh, 300px);
+}
+
+.station-bumper__ambient {
+  position: absolute;
+  inset: -16%;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #0a0a0c;
+  background-size: cover;
+  background-position: center 42%;
+  filter: blur(44px) saturate(1.08) brightness(.55) contrast(1.06);
+  transform: scale(1.22);
+  opacity: .88;
+  animation: bumperAmbientBreath 28s ease-in-out infinite alternate;
+}
+.station-bumper--acetate .station-bumper__ambient {
+  filter: blur(46px) saturate(1.1) brightness(.48) contrast(1.06);
+  opacity: .85;
+}
+.station-bumper--acetate .station-bumper__ambient::after {
+  background:
+    radial-gradient(ellipse 70% 55% at 40% 38%, rgba(0,0,0,.18) 0%, rgba(20,22,28,.45) 48%, rgba(247,245,241,.88) 100%),
+    linear-gradient(180deg, rgba(16,18,22,.5) 0%, transparent 36%, rgba(247,245,241,.96) 100%);
+}
+.station-bumper--acetate {
+  color: var(--ink, #111);
+  min-height: min(34vh, 300px);
+}
+.station-bumper--acetate .station-bumper__callsign { color: rgba(255,255,255,.55); }
+.station-bumper--acetate .station-bumper__title { color: #fff; text-shadow: 0 1px 18px rgba(0,0,0,.35); }
+.station-bumper--acetate .station-bumper__lede { color: rgba(244,246,248,.78); }
+.station-bumper--acetate .station-bumper__crumbs { color: rgba(255,255,255,.45); }
+.station-bumper--acetate .station-bumper__crumbs a { color: rgba(255,255,255,.68); }
+@media (hover:hover) {
+  .station-bumper--acetate .station-bumper__crumbs a:hover { color: #fff; }
+}
+.station-bumper--acetate .station-bumper__brand {
+  filter: drop-shadow(0 10px 28px rgba(0,0,0,.4));
+}
+
+.station-bumper__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-top: calc(var(--nav-h, 64px) + var(--safe-t, 0px) + 36px);
+  padding-bottom: 36px;
+}
+@media (min-width: 800px) {
+  .station-bumper__inner { padding-top: calc(var(--nav-h, 64px) + var(--safe-t, 0px) + 48px); padding-bottom: 48px; }
+}
+
+.station-bumper__callsign {
+  font-family: var(--callsign, 'Oswald', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(200,214,230,.55);
+  margin: 0 0 14px;
+  transform: translateY(10px);
+  animation: bumperIn .85s var(--ease, cubic-bezier(.22,1,.36,1)) .06s both;
+}
+.station-bumper--acetate .station-bumper__callsign {
+  color: var(--dim, #727780);
+}
+
+.station-bumper__brand {
+  display: block;
+  width: min(260px, 64vw);
+  height: auto;
+  margin: 0 0 16px;
+  filter: drop-shadow(0 10px 28px rgba(0,0,0,.45));
+  transform: translateY(12px);
+  transform-origin: 20% 50%;
+  animation: bumperIn .9s var(--ease, cubic-bezier(.22,1,.36,1)) .12s both;
+}
+.station-bumper--acetate .station-bumper__brand {
+  filter: drop-shadow(0 8px 20px rgba(26,30,38,.18));
+  /* Ink mark needs a bit of weight on paper */
+  opacity: 1;
+}
+
+.station-bumper__title {
+  font-family: var(--display, 'Space Grotesk', sans-serif);
+  font-size: clamp(26px, 4.2vw, 40px);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  margin: 0 0 10px;
+  max-width: 16em;
+  transform: translateY(12px);
+  animation: bumperIn .9s var(--ease, cubic-bezier(.22,1,.36,1)) .2s both;
+}
+.station-bumper--night .station-bumper__title { color: #fff; }
+.station-bumper--acetate .station-bumper__title { color: var(--ink, #111); }
+
+.station-bumper__lede {
+  margin: 0;
+  max-width: 30em;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(232,228,220,.78);
+  transform: translateY(12px);
+  animation: bumperIn .9s var(--ease, cubic-bezier(.22,1,.36,1)) .28s both;
+}
+.station-bumper--acetate .station-bumper__lede {
+  color: var(--muted, #5F636B);
+}
+
+.station-bumper__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+  transform: translateY(12px);
+  animation: bumperIn .9s var(--ease, cubic-bezier(.22,1,.36,1)) .36s both;
+}
+
+.station-bumper__crumbs {
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,.45);
+  transform: translateY(8px);
+  animation: bumperIn .8s var(--ease, cubic-bezier(.22,1,.36,1)) 0s both;
+}
+.station-bumper__crumbs a { color: rgba(255,255,255,.62); }
+@media (hover:hover) {
+  .station-bumper__crumbs a:hover { color: #fff; }
+}
+.station-bumper__crumbs span { margin: 0 10px; opacity: .35; }
+.station-bumper--acetate .station-bumper__crumbs { color: var(--dim, #727780); }
+.station-bumper--acetate .station-bumper__crumbs a { color: var(--muted, #5F636B); }
+@media (hover:hover) {
+  .station-bumper--acetate .station-bumper__crumbs a:hover { color: var(--ink, #111); }
+}
+
+@keyframes bumperIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes bumperAmbientBreath {
+  from { transform: scale(1.2) translate(0, 0); }
+  to { transform: scale(1.28) translate(-1.2%, .6%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .station-bumper__ambient { animation: none; }
+  .station-bumper__callsign,
+  .station-bumper__brand,
+  .station-bumper__title,
+  .station-bumper__lede,
+  .station-bumper__ctas,
+  .station-bumper__crumbs {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* When bumper owns the top, main page padding can drop ------------------- */
+body.has-station-bumper main.page,
+body.has-station-bumper main.news-page,
+body.has-station-bumper main.pdp {
+  padding-top: 0;
+}
+body.has-station-bumper .page > .band > .section-head:first-child,
+body.has-station-bumper .pdp > .band > .crumbs:first-child {
+  /* crumbs move into bumper when present */
+}

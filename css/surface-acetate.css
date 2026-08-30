@@ -1,0 +1,213 @@
+/* ==========================================================================
+   Club Copy — Acetate surface (warm paper + chrome-glass)
+   Utility / reading pages: Contact, Shipping, Cart, news articles, merch PDPs.
+   Same chrome language as night — not a second brand.
+   ========================================================================== */
+
+body.surface-acetate {
+  --acetate-ink: #111111;
+  --acetate-muted: #5F636B;
+  --acetate-dim: #727780;
+  --acetate-line: rgba(170,182,200,.42);
+  background:
+    radial-gradient(780px 480px at 92% -6%, rgba(210,222,236,.42), transparent 58%),
+    radial-gradient(640px 420px at 6% 8%, rgba(236,230,220,.55), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(186,198,214,.14), transparent 55%),
+    linear-gradient(180deg, #F4F3F0 0%, #F7F5F1 40%, #F0EEE9 100%);
+  color: var(--acetate-ink);
+  color-scheme: light;
+}
+
+/* Chrome panel — frosted glass on paper ------------------------------------ */
+.acetate-panel,
+body.surface-acetate .card.panel,
+body.surface-acetate .summary-panel,
+body.surface-acetate .empty {
+  background:
+    var(--iridescent, linear-gradient(118deg, rgba(190,210,230,.2), rgba(255,255,255,.12) 38%, rgba(210,200,185,.14) 72%)),
+    linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.55));
+  border: 1px solid rgba(170,182,200,.42);
+  border-radius: var(--bezel-r, 2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.82),
+    0 0 0 1px rgba(255,255,255,.25),
+    0 14px 36px rgba(26,30,38,.06);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+}
+
+body.surface-acetate .section-head {
+  box-shadow:
+    inset 0 -1px 0 rgba(170,182,200,.35),
+    0 1px 0 rgba(255,255,255,.55);
+}
+body.surface-acetate .eyebrow {
+  color: var(--acetate-dim);
+}
+body.surface-acetate .page-lead {
+  color: var(--acetate-muted);
+}
+
+/* Policy / FAQ hairlines with chrome edge ---------------------------------- */
+body.surface-acetate .policy,
+body.surface-acetate .policy article,
+body.surface-acetate .about-faq details,
+body.surface-acetate .fact {
+  border-color: transparent;
+  box-shadow: inset 0 -1px 0 rgba(170,182,200,.28);
+}
+
+/* Cart lines on acetate ---------------------------------------------------- */
+body.surface-acetate .cart-line {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+  border-color: rgba(170,182,200,.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+}
+body.surface-acetate .cart-thumb {
+  border-color: rgba(160,174,194,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 8px 18px rgba(26,30,38,.08);
+}
+
+/* News article acetate polish ---------------------------------------------- */
+body.surface-acetate .news-article-hero {
+  border-color: rgba(160,174,194,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.62),
+    0 0 0 1px rgba(26,30,38,.05),
+    0 22px 48px rgba(26,30,38,.12);
+}
+body.surface-acetate .news-kicker {
+  font-family: var(--callsign);
+  letter-spacing: .16em;
+}
+
+/* PDP acetate — continue shop chrome without dark snap --------------------- */
+body.surface-acetate .pdp-art {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 0 0 1px rgba(160,174,194,.4),
+    0 18px 40px rgba(26,30,38,.1);
+}
+body.surface-acetate .pdp-kicker {
+  color: var(--acetate-dim);
+}
+
+/* Transparent nav over acetate bumper -------------------------------------- */
+body.surface-acetate.has-station-bumper .nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+body.surface-acetate.has-station-bumper .nav.scrolled {
+  background: rgba(247,245,241,.86);
+  border-bottom-color: rgba(170,182,200,.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    0 8px 28px rgba(26,30,38,.05);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+}
+
+/* News / PDP body spacing under bumper ------------------------------------- */
+body.has-station-bumper .news-page .band:not(.station-bumper__inner),
+body.has-station-bumper .pdp .band:not(.station-bumper__inner) {
+  padding-top: 28px;
+  padding-bottom: 72px;
+}
+@media (min-width: 800px) {
+  body.has-station-bumper .news-page .band:not(.station-bumper__inner),
+  body.has-station-bumper .pdp .band:not(.station-bumper__inner) {
+    padding-top: 36px;
+  }
+}
+
+/* PDP buy panel — glass hardware on acetate -------------------------------- */
+body.surface-acetate .pdp-buy {
+  margin-top: 8px;
+  padding: 22px 20px 20px;
+  border-radius: var(--radius-lg, 4px);
+  background:
+    var(--iridescent, linear-gradient(118deg, rgba(190,210,230,.2), rgba(255,255,255,.12) 38%, rgba(210,200,185,.14) 72%)),
+    linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .48));
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .85),
+    inset 0 0 0 1px rgba(170, 182, 200, .32),
+    0 16px 40px rgba(26, 30, 38, .07);
+}
+body.surface-acetate .pdp-buy .pdp-actions { margin-top: 0; }
+body.surface-acetate .pdp-buy .btn-dark,
+body.surface-acetate .pdp-buy .btn-chrome {
+  flex: 1 1 180px;
+  min-height: 48px;
+  border-radius: var(--bezel-r, 2px);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+body.surface-acetate .pdp-opt.is-active {
+  border-color: rgba(120, 134, 152, .7);
+  background:
+    linear-gradient(180deg, rgba(40, 46, 56, .96), rgba(18, 20, 26, .98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+}
+
+/* Cart — station edge + callsign checkout on acetate ----------------------- */
+body.surface-acetate .summary-panel,
+body.surface-acetate .empty,
+body.surface-acetate .undo-bar {
+  position: relative;
+}
+body.surface-acetate .empty::before,
+body.surface-acetate .summary-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  border-radius: 2px 0 0 2px;
+  background: linear-gradient(180deg, rgba(168, 180, 196, .95), rgba(168, 180, 196, .2));
+  pointer-events: none;
+}
+body.surface-acetate .summary-panel .btn-soft,
+body.surface-acetate .empty .btn-soft,
+body.surface-acetate .summary-panel .btn-dark,
+body.surface-acetate .empty .btn-dark {
+  border-radius: var(--bezel-r, 2px);
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  min-height: 48px;
+}
+body.surface-acetate .summary-panel .btn-soft,
+body.surface-acetate .empty .btn-soft {
+  font-size: 11px;
+  min-height: 44px;
+}
+body.surface-acetate .summary-panel h2 {
+  font-family: var(--callsign);
+  letter-spacing: .16em;
+}
+body.surface-acetate .cart-thumb {
+  border-radius: var(--bezel-r, 2px);
+  background: #0a0a0c;
+}
+body.surface-acetate .cart-thumb img {
+  mix-blend-mode: normal;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+}
+body.surface-acetate .credit-row input[type="email"] {
+  background: rgba(255, 255, 255, .7);
+  border-color: rgba(170, 182, 200, .42);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .85);
+}
