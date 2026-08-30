@@ -172,13 +172,17 @@ body.surface-night .news-filter.is-active,
   height: auto;
   margin: 0 0 16px;
   filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .35));
-  opacity: 0;
-  transform: translateY(8px);
-  animation: fxBrandIn .85s var(--ease) .08s forwards;
+  opacity: 1;
+  transform: none;
+  animation: fxBrandIn .85s var(--ease) .08s both;
 }
 body.surface-night .brand-lockup,
 .surface-night .brand-lockup {
   filter: drop-shadow(0 10px 28px rgba(0, 0, 0, .55));
+}
+@keyframes fxBrandIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .brand-lockup {
