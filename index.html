@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Club Copy | Pacific Northwest Record Label</title>
-  <meta name="description" content="Club Copy is an independent Pacific Northwest record label based in British Columbia. House and jungle from Inlet Knight and L.T. Drifta : listen, buy digital and cassette."/>
+  <meta name="description" content="Club Copy — Bridget In My Room out now. Lookout album pre-order. House and jungle from the Pacific Northwest. Listen, buy digital, join the Record Club."/>
   <meta name="theme-color" content="#16191e"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="format-detection" content="telephone=no"/>
   <link rel="canonical" href="https://www.clubcopy.ca/"/>
   <meta property="og:site_name" content="Club Copy"/>
-  <meta property="og:title" content="Club Copy | Pacific Northwest Record Label"/>
-  <meta property="og:description" content="Independent Pacific Northwest record label for house and jungle. Listen and buy digital and cassette."/>
+  <meta property="og:title" content="Club Copy | Bridget In My Room + Lookout"/>
+  <meta property="og:description" content="Bridget In My Room out now. Lookout album pre-order. Independent Pacific Northwest label — listen and buy digital."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
   <meta property="og:image" content="https://www.clubcopy.ca/bridget-in-my-room-cover.webp"/>
   <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Club Copy | Pacific Northwest Record Label"/>
-  <meta name="twitter:description" content="Independent Pacific Northwest record label for house and jungle. Listen and buy digital and cassette."/>
+  <meta name="twitter:title" content="Club Copy | Bridget In My Room + Lookout"/>
+  <meta name="twitter:description" content="Bridget In My Room out now. Lookout album pre-order. Listen and buy digital."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/bridget-in-my-room-cover.webp"/>
+  <title>Club Copy | Bridget In My Room + Lookout</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -362,7 +362,8 @@
       outline-offset: 4px;
     }
     .hero-disc-hit:focus-visible .disc-glyph { opacity: .92; }
-    .hero:not(.is-live) .hero-disc-hit .disc-glyph { opacity: 0; }
+    /* Idle: keep play affordance visible so the room starts in one tap */
+    .hero:not(.is-live) .hero-disc-hit .disc-glyph { opacity: .78; }
     .hero-pulse {
       position: absolute;
       inset: -8%;
@@ -511,18 +512,41 @@
     .hero-idle-title {
       margin: 0;
       font-family: var(--display);
-      font-size: clamp(15px, 2.1vw, 18px);
-      font-weight: 500;
-      letter-spacing: -.01em;
-      line-height: 1.45;
-      color: rgba(255,255,255,.72);
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.08;
+      color: rgba(255,255,255,.94);
       text-align: center;
       text-shadow: 0 1px 18px rgba(0,0,0,.4);
-      white-space: nowrap;
+      max-width: 14em;
       animation: heroIn .85s var(--ease) .28s both;
     }
-    .hero-idle-track,
-    .hero-idle-by { display: none; }
+    .hero-idle-track { display: none; }
+    .hero-idle-by {
+      margin: 2px 0 0;
+      font-family: var(--callsign);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.58);
+      animation: heroIn .85s var(--ease) .34s both;
+    }
+    .hero-join-cue {
+      margin: 14px 0 0;
+      font-size: 13px;
+      color: rgba(255,255,255,.48);
+      animation: heroIn .85s var(--ease) .5s both;
+    }
+    .hero-join-cue a {
+      color: rgba(255,255,255,.72);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.28);
+    }
+    @media (hover:hover) {
+      .hero-join-cue a:hover { color: #fff; border-bottom-color: rgba(255,255,255,.7); }
+    }
     .visually-hidden {
       position: absolute;
       width: 1px; height: 1px;
@@ -961,9 +985,88 @@
       padding: 0 0 72px;
     }
     .wall-bridge {
-      height: 56px;
-      background: linear-gradient(180deg, #16191e 0%, #080808 100%);
+      height: 40px;
+      background: linear-gradient(180deg, #0c0e12 0%, #080808 100%);
       pointer-events: none;
+    }
+    /* Album campaign spine — Lookout owns this beat between hero and wall */
+    .campaign {
+      position: relative;
+      background: #0c0e12;
+      color: #fff;
+      padding: 0 0 8px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .campaign-bridge {
+      height: 48px;
+      background: linear-gradient(180deg, #16191e 0%, #0c0e12 100%);
+      pointer-events: none;
+    }
+    .campaign-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: clamp(28px, 5vw, 56px);
+      align-items: center;
+      padding: 28px 0 56px;
+    }
+    @media (max-width: 800px) {
+      .campaign-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 20px 0 48px;
+        text-align: center;
+      }
+    }
+    .campaign-art {
+      position: relative;
+      margin: 0;
+      border-radius: 2px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      max-width: min(420px, 100%);
+      box-shadow: 0 24px 56px rgba(0,0,0,.45);
+    }
+    @media (max-width: 800px) {
+      .campaign-art { margin: 0 auto; max-width: min(320px, 88vw); }
+    }
+    .campaign-art img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .campaign-copy .eyebrow {
+      color: rgba(255,255,255,.45);
+      margin-bottom: 12px;
+    }
+    .campaign-title {
+      margin: 0 0 12px;
+      font-family: var(--display);
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 600;
+      letter-spacing: -.04em;
+      line-height: 1.02;
+      color: #fff;
+    }
+    .campaign-dek {
+      margin: 0 0 24px;
+      max-width: 28em;
+      font-size: clamp(15px, 2vw, 17px);
+      line-height: 1.5;
+      color: rgba(255,255,255,.62);
+    }
+    @media (max-width: 800px) {
+      .campaign-dek { margin-left: auto; margin-right: auto; }
+    }
+    .campaign-actions {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+    @media (max-width: 800px) {
+      .campaign-actions { justify-content: center; }
+    }
+    .campaign .btn-chrome-on-dark,
+    .campaign .btn-ghost-on-dark {
+      min-width: 148px;
+      height: 48px;
+      border-radius: var(--btn-r, 12px);
     }
     .wall .section-head {
       border-bottom-color: rgba(255,255,255,.1);
@@ -1243,6 +1346,45 @@
       line-height: 1.02;
       color: #fff;
     }
+    .club-join-dek {
+      margin: 14px auto 0;
+      max-width: 28em;
+      font-size: clamp(15px, 2vw, 17px);
+      line-height: 1.5;
+      color: var(--join-muted);
+    }
+    .join-collectors {
+      max-width: 720px;
+      margin: 18px auto 0;
+      border-top: 1px solid rgba(186,204,224,.14);
+      padding-top: 16px;
+    }
+    .join-collectors > summary {
+      list-style: none;
+      cursor: pointer;
+      text-align: center;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(200,214,230,.55);
+      padding: 8px 12px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .join-collectors > summary::-webkit-details-marker { display: none; }
+    .join-collectors > summary::after {
+      content: " +";
+      letter-spacing: 0;
+    }
+    .join-collectors[open] > summary::after { content: " −"; }
+    @media (hover:hover) {
+      .join-collectors > summary:hover { color: rgba(232,240,250,.85); }
+    }
+    .join-collectors .join-level {
+      margin-top: 14px;
+      width: 100%;
+    }
     .join-member-home {
       position: relative;
       text-align: center;
@@ -1322,19 +1464,23 @@
     }
     .join-member-actions .btn { min-height: 48px; }
     .club-join.is-member-home .join-levels,
+    .club-join.is-member-home .join-collectors,
     .club-join.is-member-home .join-panel,
     .club-join.is-member-home .join-stage { display: none; }
     .join-levels {
       display: grid;
       gap: 12px;
-      margin: 0 0 32px;
+      margin: 0 0 20px;
       text-align: left;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    @media (min-width: 860px) {
+    @media (min-width: 720px) {
       .join-levels {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
-        margin-bottom: 40px;
+        margin-bottom: 28px;
       }
     }
     /* Handmade chrome-glass plate — metal rim, top rail, crop marks */
@@ -2145,8 +2291,9 @@
       <img class="hero-brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="1396" height="331" fetchpriority="high"/>
       <div class="hero-idle" data-room-idle>
         <p class="hero-idle-kicker">New single · Aug 27</p>
-        <h1 class="hero-idle-title">Electronic music from the Pacific Northwest.</h1>
-        <p class="hero-idle-dek visually-hidden">Independent record label for house and jungle.</p>
+        <h1 class="hero-idle-title">Bridget In My Room</h1>
+        <p class="hero-idle-by">Inlet Knight</p>
+        <p class="hero-idle-dek visually-hidden">House single on Club Copy. Play a preview or buy digital.</p>
       </div>
 
       <div class="hero-platter">
@@ -2154,7 +2301,7 @@
         <div class="hero-disc" data-room-disc>
           <img data-room-art src="bridget-in-my-room-cover.webp" alt="Bridget In My Room. artwork" width="1200" height="1200"/>
         </div>
-        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Open Bridget In My Room">
+        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Play Bridget In My Room">
           <span class="disc-glyph" aria-hidden="true">
             <svg class="glyph-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <svg class="glyph-pause" viewBox="0 0 24 24"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
@@ -2164,9 +2311,10 @@
 
       <div class="hero-idle-actions" data-room-idle>
         <div class="hero-ctas">
-          <a class="btn btn-chrome-on-dark" href="/bridget-in-my-room">Listen</a>
-          <a class="btn btn-ghost-on-dark" href="#join">Join</a>
+          <button type="button" class="btn btn-chrome-on-dark" id="heroPlayBtn">Play</button>
+          <a class="btn btn-ghost-on-dark" href="/bridget-in-my-room#acquire">Buy Digital — $8</a>
         </div>
+        <p class="hero-join-cue"><a href="#join">Join the Record Club</a> · members pay $6</p>
       </div>
 
       <div class="hero-console" data-room-console>
@@ -2222,24 +2370,41 @@
     </a>
   </section>
 
+  <!-- Album campaign spine -->
+  <section class="campaign" id="campaign" aria-labelledby="campaign-title">
+    <div class="campaign-bridge" aria-hidden="true"></div>
+    <div class="band campaign-inner rv">
+      <figure class="campaign-art media-bezel fx-spec">
+        <img src="lookout-cover.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:800px) 88vw, 420px" alt="Lookout album artwork — glass facade reflecting a high-rise" width="1200" height="1200" loading="lazy"/>
+      </figure>
+      <div class="campaign-copy">
+        <p class="eyebrow">Album pre-order · CC010</p>
+        <h2 class="campaign-title" id="campaign-title">Lookout</h2>
+        <p class="campaign-dek">Inlet Knight’s next album. Digital pre-order open now — files land when it drops.</p>
+        <div class="campaign-actions">
+          <a class="btn btn-chrome-on-dark" href="/lookout#acquire">Pre-order Digital — $8</a>
+          <a class="btn btn-ghost-on-dark" href="/lookout">View release</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Releases -->
   <section class="wall" aria-labelledby="listen-title">
     <div class="wall-bridge" aria-hidden="true"></div>
     <div class="band">
       <header class="section-head" id="listen">
         <div>
-          <p class="eyebrow">Listen</p>
-          <h2 id="listen-title">New Music</h2>
+          <p class="eyebrow">Also out</p>
+          <h2 id="listen-title">More from the label</h2>
         </div>
         <a class="head-link" href="/library">View all</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
 <article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/bridget-in-my-room" aria-label="Bridget In My Room. view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Bridget In My Room. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="bridget-in-my-room" data-play-stage aria-label="Play Bridget In My Room"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC011 · Single · 2026 · Available</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="the-mystic-jade-touch"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/the-mystic-jade-touch" aria-label="The Mystic / Jade Touch. view release"><img src="the-mystic-jade-touch-cover-480.webp" srcset="the-mystic-jade-touch-cover-480.webp 480w, the-mystic-jade-touch-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="The Mystic / Jade Touch. Club Copy CC016 label" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC016 · Single · 2026</p><h3 class="wall-title"><a href="/the-mystic-jade-touch">The Mystic / Jade Touch</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="ep-6"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/ep-6" aria-label="EP-6. view release"><img src="ep-6-cover-480.webp" srcset="ep-6-cover-480.webp 480w, ep-6-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="EP-6. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">EP · L.T. Drifta</p><h3 class="wall-title"><a href="/ep-6">EP-6</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lookout" aria-label="Lookout. view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Glass facade reflecting a high-rise under blue sky. Lookout" loading="lazy" width="1200" height="1200"/></a><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC010 · Album · 2026 · Pre-Order</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="solar-eclipse-part-2"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/solar-eclipse-part-2" aria-label="Solar (Eclipse Part 2). view release"><img src="solar-eclipse-part-2-cover-480.webp" srcset="solar-eclipse-part-2-cover-480.webp 480w, solar-eclipse-part-2-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Solar (Eclipse Part 2). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="solar-eclipse-part-2" data-play-stage aria-label="Play Solar (Eclipse Part 2)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/solar-eclipse-part-2">Solar (Eclipse Part 2)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
-<article class="wall-item rv" data-release="lunar-eclipse-part-3"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/lunar-eclipse-part-3" aria-label="Lunar (Eclipse Part 3). view release"><img src="lunar-eclipse-part-3-cover-480.webp" srcset="lunar-eclipse-part-3-cover-480.webp 480w, lunar-eclipse-part-3-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Lunar (Eclipse Part 3). artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="lunar-eclipse-part-3" data-play-stage aria-label="Play Lunar (Eclipse Part 3)"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="wall-meta"><p class="wall-cat">CC012 · Single · 2026</p><h3 class="wall-title"><a href="/lunar-eclipse-part-3">Lunar (Eclipse Part 3)</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
+<article class="wall-item rv" data-release="champion-sound"><div class="wall-card"><div class="wall-art media-bezel fx-spec"><a href="/champion-sound" aria-label="Champion Sound. view release"><img src="champion-sound-cover-480.webp" srcset="champion-sound-cover-480.webp 480w, champion-sound-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Champion Sound. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">L.T. Drifta</p><h3 class="wall-title"><a href="/champion-sound">Champion Sound</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
       </div>
     </div>
   </section>
@@ -2249,7 +2414,9 @@
     <div class="band">
       <div class="club-join-inner rv">
         <header class="club-join-head">
-          <h2 class="club-join-title" id="join-title">Join the Record Club.</h2>
+          <p class="eyebrow">Record Club</p>
+          <h2 class="club-join-title" id="join-title">Get every drop first.</h2>
+          <p class="club-join-dek">Free keeps you on the list. Club is $5/yr for digital at member price ($6). Collectors can add credit for cassettes.</p>
         </header>
 
         <div class="join-member-home" id="joinMemberHome" hidden>
@@ -2263,28 +2430,32 @@
         </div>
 
         <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
-          <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
+          <button type="button" class="join-level" data-level="free" role="radio" aria-checked="true">
             <span class="join-level-top">
               <span class="join-level-dot" aria-hidden="true"></span>
               <span class="join-level-price">$0</span>
             </span>
             <span>
               <span class="join-level-name">Free</span>
-              <span class="join-level-blurb">Get the letters — release alerts, catalog access, and first listens.</span>
+              <span class="join-level-blurb">Release alerts, catalog access, and first listens — every drop.</span>
             </span>
-            <span class="join-level-tag">On the list</span>
+            <span class="join-level-tag">Start here</span>
           </button>
-          <button type="button" class="join-level" data-level="club" role="radio" aria-checked="true">
+          <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
             <span class="join-level-top">
               <span class="join-level-dot" aria-hidden="true"></span>
               <span class="join-level-price">$5/yr</span>
             </span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Digital releases at member price, early access, exclusives.</span>
+              <span class="join-level-blurb">Digital at member price ($6 vs $8), early access, exclusives.</span>
             </span>
             <span class="join-level-tag">Member price</span>
           </button>
+        </div>
+
+        <details class="join-collectors" id="joinCollectors">
+          <summary>For collectors — Premium with Club Credit</summary>
           <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
             <span class="join-level-top">
               <span class="join-level-dot" aria-hidden="true"></span>
@@ -2292,11 +2463,11 @@
             </span>
             <span>
               <span class="join-level-name">Premium</span>
-              <span class="join-level-blurb">Get credit for the shelf — pay what you want, spend it on cassettes you choose, plus everything in Club.</span>
+              <span class="join-level-blurb">Pay what you want, get Club Credit for cassettes you choose — plus everything in Club.</span>
             </span>
             <span class="join-level-tag">Your shelf</span>
           </button>
-        </div>
+        </details>
 
         <div class="join-stage">
           <div class="join-panel" id="joinPanel">
@@ -2328,8 +2499,8 @@
               </p>
             </div>
 
-            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join the Club — $5/yr</button>
-            <p class="club-join-note" id="joinNote">Renews yearly. Digital releases at your member price.</p>
+            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Get on the list — Free</button>
+            <p class="club-join-note" id="joinNote">No charge. Upgrade anytime for member pricing.</p>
             <p class="club-join-status" id="joinStatus" role="status" hidden></p>
           </div>
         </div>
@@ -2352,60 +2523,15 @@
 
     <div class="news-rail" tabindex="0" role="region" aria-label="News. scroll sideways">
       <div class="news-rail-track">
-<a class="news-card rv" href="/news/bridget-in-my-room" data-type="release">
+        <a class="news-card rv" href="/news/bridget-in-my-room" data-type="release">
           <div class="news-card-art media-bezel fx-spec">
             <img src="news-bridget-in-my-room.webp" alt="Circular photo of two silhouettes on rippled water at dusk. Bridget In My Room" width="1254" height="1254" loading="lazy"/>
           </div>
           <div class="news-card-body">
             <p class="news-card-date">Aug 27, 2026</p>
             <span class="news-type">Release</span>
-          <h3 class="news-card-title">Bridget In My Room</h3>
+            <h3 class="news-card-title">Bridget In My Room</h3>
             <p class="news-card-dek">Feels like somebody stayed.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/sun-and-moon-eclipse" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-eclipse.webp" alt="Sun & Moon, Solar, and Lunar vinyl labels. Eclipse Parts 1-3" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 12, 2026</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Sun & Moon (Eclipse Parts 1-3)</h3>
-            <p class="news-card-dek">The sun and moon once loved each other. So the universe made the eclipse.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/j-adore" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-jadore.webp" alt="Fisheye photo of a blue car at dusk. j'adore" width="1200" height="1200" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 10, 2026</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">j'adore</h3>
-            <p class="news-card-dek">A car ride that doesn’t end when the song does.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/need-you" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-need-you.webp" alt="Neon blue line-art face on black. Need U" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jul 29, 2026</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Need U</h3>
-            <p class="news-card-dek">We’ve had this one on repeat.</p>
-          </div>
-        </a>
-        
-        <a class="news-card rv" href="/news/together" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-together.webp" alt="Surreal anime-style illustration of two figures in a flower field. Together" width="1120" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">May 14, 2026</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Together</h3>
-            <p class="news-card-dek">Basement, forgotten soul side, sunrise drive home.</p>
           </div>
         </a>
         <a class="news-card rv" href="/news/lookout" data-type="release">
@@ -2415,96 +2541,19 @@
           <div class="news-card-body">
             <p class="news-card-date">Mar 20, 2026</p>
             <span class="news-type">Release</span>
-          <h3 class="news-card-title">Lookout</h3>
+            <h3 class="news-card-title">Lookout</h3>
             <p class="news-card-dek">This one made sense immediately.</p>
           </div>
         </a>
-        <a class="news-card rv" href="/news/inlet-knight" data-type="release">
+        <a class="news-card rv" href="/news/sun-and-moon-eclipse" data-type="release">
           <div class="news-card-art media-bezel fx-spec">
-            <img src="news-inlet-knight.webp" alt="Inlet Knight boat on the water. self-titled album artwork" width="1400" height="1400" loading="lazy"/>
+            <img src="news-eclipse.webp" alt="Sun & Moon, Solar, and Lunar vinyl labels. Eclipse Parts 1-3" width="1400" height="1400" loading="lazy"/>
           </div>
           <div class="news-card-body">
-            <p class="news-card-date">Feb 20, 2026</p>
+            <p class="news-card-date">Aug 12, 2026</p>
             <span class="news-type">Release</span>
-          <h3 class="news-card-title">Inlet Knight</h3>
-            <p class="news-card-dek">Eleven tracks. Dubbed to cassette.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/last-emperor" data-type="listening">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-last-emperor.webp" alt="The Last Emperor soundtrack cover. child emperor and bowing figure under a yellow banner" width="1400" height="1400" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jan 28, 2026</p>
-            <span class="news-type">Listening</span>
-          <h3 class="news-card-title">Essential Listening: The Last Emperor</h3>
-            <p class="news-card-dek">Big history that somehow feels private.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/inlet-knight-on-club-copy" data-type="artist">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="artists/inlet-knight.webp" alt="Inlet Knight" width="800" height="1000" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jan 4, 2026</p>
-            <span class="news-type">Artist</span>
-          <h3 class="news-card-title">Welcome, Inlet Knight</h3>
-            <p class="news-card-dek">Cumberland. We knew immediately.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/champion-sound" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-champion-sound.webp" alt="Champion Sound circular logo artwork" width="1400" height="1400" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 15, 2025</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Champion Sound</h3>
-            <p class="news-card-dek">The room after the bridge.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/donuts" data-type="listening">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-donuts.webp" alt="J Dilla Donuts album cover. smiling portrait in a Detroit D cap" width="1400" height="1400" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jul 8, 2025</p>
-            <span class="news-type">Listening</span>
-          <h3 class="news-card-title">Essential Listening: Donuts</h3>
-            <p class="news-card-dek">Put this on when your loops feel too clean.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/lions-gate" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-lions-gate.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Nov 8, 2024</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Lions' Gate</h3>
-            <p class="news-card-dek">Named for the bridge, not the postcard.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/buried-treasure" data-type="label">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-buried.webp" alt="Cyclist on a lime bike past a cream building with a red door. Buried Treasure" width="933" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Sep 3, 2024</p>
-            <span class="news-type">Label note</span>
-          <h3 class="news-card-title">Buried Treasure</h3>
-            <p class="news-card-dek">Flip until something holds.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/summer-madness" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-summer-madness.webp" alt="Hands framing a sunset over misty hills. Summer Madness" width="1170" height="1028" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Apr 20, 2024</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Summer Madness</h3>
-            <p class="news-card-dek">Warm room. Nobody wants to leave.</p>
+            <h3 class="news-card-title">Sun & Moon (Eclipse Parts 1-3)</h3>
+            <p class="news-card-dek">The sun and moon once loved each other. So the universe made the eclipse.</p>
           </div>
         </a>
         <a class="news-card rv" href="/news/lt-drifta-on-club-copy" data-type="artist">
@@ -2514,74 +2563,8 @@
           <div class="news-card-body">
             <p class="news-card-date">Apr 18, 2024</p>
             <span class="news-type">Artist</span>
-          <h3 class="news-card-title">L.T. Drifta on Club Copy</h3>
+            <h3 class="news-card-title">L.T. Drifta on Club Copy</h3>
             <p class="news-card-dek">Brb gonna go dig through some crates…</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/endtroducing" data-type="listening">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-endtroducing.webp" alt="DJ Shadow Endtroducing album cover. crate diggers in a record shop" width="1400" height="1400" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Feb 12, 2024</p>
-            <span class="news-type">Listening</span>
-          <h3 class="news-card-title">Essential Listening: Endtroducing</h3>
-            <p class="news-card-dek">Still the door I send people through.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/music-long-memory" data-type="label">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-music-long-memory.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Nov 15, 2023</p>
-            <span class="news-type">Label note</span>
-          <h3 class="news-card-title">Music Has a Long Memory</h3>
-            <p class="news-card-dek">The past gives us a language. The present gives us something to say.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/beat-tape" data-type="release">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-beat-tape.webp" alt="Club Copy oval logo with star on textured gray" width="1254" height="1254" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 22, 2023</p>
-            <span class="news-type">Release</span>
-          <h3 class="news-card-title">Beat Tape</h3>
-            <p class="news-card-dek">CJ Archer's beat tape is out on Club Copy.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/ahmad-jamal-73" data-type="listening">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-ahmad-jamal-73.webp" alt="Ahmad Jamal '73 album cover. pop-art portrait with hand on cheek" width="1400" height="1400" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">May 23, 2023</p>
-            <span class="news-type">Listening</span>
-          <h3 class="news-card-title">Essential Listening: Ahmad Jamal '73</h3>
-            <p class="news-card-dek">The Rhodes was a gift from Switzerland.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/art-of-sound-and-zen" data-type="label">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-art-of-sound-and-zen.webp" alt="Club Copy oval logo with star on textured gray" width="1254" height="1254" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Mar 14, 2023</p>
-            <span class="news-type">Label note</span>
-          <h3 class="news-card-title">The Art of Sound and Zen</h3>
-            <p class="news-card-dek">Sit with a loop until it stops asking.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/cj-archer-interview" data-type="interview">
-          <div class="news-card-art media-bezel fx-spec">
-            <img src="news-interview.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Oct 27, 2022</p>
-            <span class="news-type">Interview</span>
-          <h3 class="news-card-title">CJ Archer: A Short Conversation</h3>
-            <p class="news-card-dek">Where it started, the Pacific Northwest, making records, and running Club Copy.</p>
           </div>
         </a>
       </div>
@@ -2699,19 +2682,24 @@
   syncActiveFromURL();
 
   // The record is the play control: tap to start the room, tap again to pause.
+  function playFeaturedRelease() {
+    if (!window.VCRPlayer) return;
+    var cur = VCRPlayer.current && VCRPlayer.current();
+    if (cur && cur.releaseId === 'bridget-in-my-room') {
+      VCRPlayer.toggle();
+      return;
+    }
+    VCRPlayer.playRelease('bridget-in-my-room', null, { autoplay: true, stage: true }).catch(function () {
+      window.location.href = '/bridget-in-my-room';
+    });
+  }
   var discHit = document.getElementById('discHit');
   if (discHit) {
-    discHit.addEventListener('click', function () {
-      if (!window.VCRPlayer) return;
-      var cur = VCRPlayer.current && VCRPlayer.current();
-      if (cur && cur.releaseId === 'bridget-in-my-room') {
-        VCRPlayer.toggle();
-        return;
-      }
-      VCRPlayer.playRelease('bridget-in-my-room', null, { autoplay: true, stage: true }).catch(function () {
-        window.location.href = '/bridget-in-my-room';
-      });
-    });
+    discHit.addEventListener('click', playFeaturedRelease);
+  }
+  var heroPlayBtn = document.getElementById('heroPlayBtn');
+  if (heroPlayBtn) {
+    heroPlayBtn.addEventListener('click', playFeaturedRelease);
   }
 
   // Wall NOW / UP NEXT sync lives in js/home-wall.js.
@@ -2719,9 +2707,12 @@
   window.addEventListener('vcr:player', function (e) {
     var d = e.detail || {};
     var playing = !!d.playing;
+    var title = d.track ? d.track.releaseTitle : 'Bridget In My Room';
     if (discHit) {
-      var title = d.track ? d.track.releaseTitle : 'Bridget In My Room';
       discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
+    }
+    if (heroPlayBtn) {
+      heroPlayBtn.textContent = playing && d.track && d.track.releaseId === 'bridget-in-my-room' ? 'Pause' : 'Play';
     }
   });
 
@@ -2739,7 +2730,8 @@
     var premiumPresets = document.querySelectorAll('.premium-preset');
     if (!joinBtn || !levelBtns.length) return;
 
-    var state = { level: 'club', premiumDollars: 10 };
+    var state = { level: 'free', premiumDollars: 10 };
+    var collectors = document.getElementById('joinCollectors');
 
     function memberNumber(email) {
       var s = String(email || 'guest').trim().toLowerCase();
@@ -2777,10 +2769,11 @@
 
     function syncJoin() {
       if (premiumBox) premiumBox.hidden = state.level !== 'premium';
+      if (collectors && state.level === 'premium') collectors.open = true;
 
       if (state.level === 'free') {
-        joinBtn.textContent = 'Accept Free';
-        joinNote.textContent = 'Get the letters. Upgrade anytime for member pricing.';
+        joinBtn.textContent = 'Get on the list — Free';
+        joinNote.textContent = 'No charge. Upgrade anytime for member pricing.';
       } else if (state.level === 'premium') {
         syncPremiumPreview();
         var d = state.premiumDollars;
@@ -2788,7 +2781,7 @@
         joinNote.textContent = 'Pay what you want. Nothing ships until you pick something.';
       } else {
         joinBtn.textContent = 'Join the Club — $5/yr';
-        joinNote.textContent = 'Renews yearly. Digital releases at your member price.';
+        joinNote.textContent = 'Renews yearly. Digital at member price ($6 vs $8).';
       }
     }
 
@@ -2866,6 +2859,7 @@
       joinMemberHome.hidden = false;
       joinSection.classList.add('is-member-home');
       if (joinLevels) joinLevels.hidden = true;
+      if (collectors) collectors.hidden = true;
       if (joinPanel) joinPanel.hidden = true;
     }
 
@@ -2874,8 +2868,9 @@
       if (joinSection) joinSection.classList.remove('is-member-home');
       if (joinMemberHome) joinMemberHome.hidden = true;
       if (joinLevels) joinLevels.hidden = false;
+      if (collectors) collectors.hidden = false;
       if (joinPanel) joinPanel.hidden = false;
-      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Join the Record Club.';
+      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Get every drop first.';
       if (profile) {
         fillFormFromProfile(profile);
         if (profile.level === 'premium') state.level = 'premium';

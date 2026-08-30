@@ -3,6 +3,9 @@
   var grid = document.getElementById('wallGrid');
   if (!grid) return;
 
+  /* Curated campaign spine: current single, Drifta, album support, Drifta catalog */
+  var HOME_SPINE = ['bridget-in-my-room', 'ep-6', 'need-you', 'champion-sound'];
+
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;')
@@ -95,55 +98,67 @@
     syncAir(e.detail);
   });
 
+  function bindPlayButtons() {
+    grid.querySelectorAll('[data-play-release]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!window.VCRPlayer) return;
+        var id = el.getAttribute('data-play-release');
+        var cur = VCRPlayer.current && VCRPlayer.current();
+        if (cur && cur.releaseId === id) {
+          if (!document.body.classList.contains('listening-room-live') &&
+              document.querySelector('[data-listening-room]')) {
+            VCRPlayer.openRoom({ scroll: true });
+          } else {
+            VCRPlayer.toggle();
+          }
+        } else {
+          VCRPlayer.playRelease(id, null, { autoplay: true, stage: true });
+        }
+      });
+    });
+  }
+
+  function observeReveal() {
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            en.target.classList.add('in');
+            obs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      grid.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
+    } else {
+      grid.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    }
+  }
+
+  function pickSpine(releases) {
+    var byId = {};
+    (releases || []).forEach(function (rel) {
+      if (rel && rel.id) byId[rel.id] = rel;
+    });
+    var picked = [];
+    HOME_SPINE.forEach(function (id) {
+      if (byId[id]) picked.push(byId[id]);
+    });
+    if (picked.length) return picked;
+    return (releases || []).slice(0, 4);
+  }
+
   fetch('/data/catalog.json')
     .then(function (r) {
       if (!r.ok) throw new Error('catalog');
       return r.json();
     })
     .then(function (data) {
-      var releases = (data.releases || []).slice().sort(function (a, b) {
-        var aDate = String(a.released || '');
-        var bDate = String(b.released || '');
-        if (aDate !== bDate) return bDate.localeCompare(aDate);
-        var yearDiff = (Number(b.year) || 0) - (Number(a.year) || 0);
-        if (yearDiff) return yearDiff;
-        return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
-      }).slice(0, 6);
+      var releases = pickSpine(data.releases || []);
       grid.innerHTML = releases.map(card).join('');
       grid.removeAttribute('aria-busy');
-
-      grid.querySelectorAll('[data-play-release]').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (!window.VCRPlayer) return;
-          var id = el.getAttribute('data-play-release');
-          var cur = VCRPlayer.current && VCRPlayer.current();
-          if (cur && cur.releaseId === id) {
-            if (!document.body.classList.contains('listening-room-live') &&
-                document.querySelector('[data-listening-room]')) {
-              VCRPlayer.openRoom({ scroll: true });
-            } else {
-              VCRPlayer.toggle();
-            }
-          } else {
-            VCRPlayer.playRelease(id, null, { autoplay: true, stage: true });
-          }
-        });
-      });
-
-      if ('IntersectionObserver' in window) {
-        var obs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) {
-              en.target.classList.add('in');
-              obs.unobserve(en.target);
-            }
-          });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-        grid.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
-      } else {
-        grid.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
-      }
+      bindPlayButtons();
+      observeReveal();
 
       if (window.VCRPlayer && typeof VCRPlayer.getState === 'function') {
         syncAir(VCRPlayer.getState());
@@ -153,19 +168,7 @@
       grid.removeAttribute('aria-busy');
       /* Keep statically embedded release cards for crawlability / offline. */
       if (grid.querySelector('.wall-item')) {
-        grid.querySelectorAll('[data-play-release]').forEach(function (el) {
-          el.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (!window.VCRPlayer) return;
-            var id = el.getAttribute('data-play-release');
-            var cur = VCRPlayer.current && VCRPlayer.current();
-            if (cur && cur.releaseId === id) {
-              VCRPlayer.toggle();
-            } else {
-              VCRPlayer.playRelease(id, null, { autoplay: true, stage: true });
-            }
-          });
-        });
+        bindPlayButtons();
         return;
       }
       grid.innerHTML = '<p style="color:var(--muted)">Could not load releases. <a href="/library">Open Library</a></p>';
