@@ -30,17 +30,17 @@
   ]
 }
   </script>
-  <meta name="description" content="L.T. Drifta — exploring the soulful side of electronic breakbeats. Cumberland, British Columbia. On Club Copy."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="description" content="L.T. Drifta — soulful electronic breakbeats from Cumberland, BC. Producer on Club Copy."/>
+  <meta name="theme-color" content="#0a0c10"/>
   <link rel="canonical" href="https://www.clubcopy.ca/artists/lt-drifta"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="profile"/>
   <meta property="og:title" content="L.T. Drifta — Club Copy"/>
-  <meta property="og:description" content="Exploring the soulful side of electronic breakbeats. Cumberland, British Columbia."/>
+  <meta property="og:description" content="Soulful electronic breakbeats. Cumberland, British Columbia."/>
   <meta property="og:url" content="https://www.clubcopy.ca/artists/lt-drifta"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="L.T. Drifta — Club Copy"/>
-  <meta name="twitter:description" content="Exploring the soulful side of electronic breakbeats. Cumberland, British Columbia."/>
+  <meta name="twitter:description" content="Soulful electronic breakbeats. Cumberland, British Columbia."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/artists/lt-drifta.webp"/>
   <meta property="og:image" content="https://www.clubcopy.ca/artists/lt-drifta.webp"/>
   <script type="application/ld+json">
@@ -66,136 +66,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
+  <link rel="stylesheet" href="../css/artists.css"/>
   <link rel="stylesheet" href="../css/player.css"/>
-  <style>
-    .page { padding: calc(var(--nav-h) + var(--safe-t) + 48px) 0 96px; }
-    .artist-hero {
-      display: grid;
-      grid-template-columns: minmax(0,.7fr) minmax(0,1.3fr);
-      gap: 40px; align-items: center;
-    }
-    @media (min-width: 900px) { .artist-hero { gap: 56px; } }
-    @media (max-width: 799px) { .artist-hero { grid-template-columns: 1fr; gap: 24px; } }
-    .artist-photo {
-      background: var(--soft);
-      border: 1px solid rgba(150,162,180,.4);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      max-width: 420px;
-      width: 100%;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.55),
-        0 10px 28px rgba(26,30,38,.08);
-    }
-    @media (max-width: 799px) { .artist-photo { max-width: 280px; } }
-    .artist-photo img {
-      width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover;
-      filter: saturate(.92); display: block;
-    }
-    .artist-hero h1 {
-      font-size: clamp(36px, 6vw, 56px); font-weight: 600;
-      letter-spacing: -.03em; line-height: 1.05; margin: 8px 0 10px;
-    }
-    .artist-role {
-      font-family: var(--callsign);
-      font-size: 11px; font-weight: 600; letter-spacing: .16em;
-      text-transform: uppercase; color: var(--dim);
-      margin: 0 0 16px;
-    }
-    .artist-bio {
-      font-size: clamp(16px, 2vw, 18px);
-      color: var(--muted); max-width: 32em;
-      margin-bottom: 28px; line-height: 1.6;
-    }
-    .artist-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-    .artist-releases {
-      margin-top: 72px;
-      max-width: 720px;
-    }
-    .artist-releases .section-head {
-      padding-top: 0;
-      margin-bottom: 8px;
-      border-bottom: none;
-    }
-    .artist-releases-lead {
-      color: var(--muted);
-      font-size: 15px;
-      margin: 0 0 20px;
-      max-width: 34em;
-    }
-    .artist-release-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border-top: 1px solid rgba(170,182,200,.35);
-    }
-    .artist-release-list a {
-      display: grid;
-      grid-template-columns: 72px minmax(0, 1fr) auto;
-      gap: 16px 20px;
-      align-items: center;
-      padding: 18px 4px;
-      border-bottom: 1px solid rgba(170,182,200,.28);
-      color: inherit;
-    }
-    @media (max-width: 560px) {
-      .artist-release-list a { grid-template-columns: 56px minmax(0, 1fr); }
-      .artist-release-list .ar-meta { grid-column: 2; }
-    }
-    .artist-release-list .ar-art {
-      width: 72px; height: 72px;
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--soft);
-      box-shadow: inset 0 0 0 1px rgba(150,162,180,.35);
-    }
-    @media (max-width: 560px) {
-      .artist-release-list .ar-art { width: 56px; height: 56px; }
-    }
-    .artist-release-list li:first-child a {
-      padding-top: 22px;
-      padding-bottom: 22px;
-    }
-    .artist-release-list li:first-child .ar-art {
-      width: 104px; height: 104px;
-      border-radius: 2px;
-    }
-    .artist-release-list li:first-child .ar-title {
-      font-size: clamp(20px, 3vw, 26px);
-      letter-spacing: -.03em;
-    }
-    @media (max-width: 560px) {
-      .artist-release-list li:first-child .ar-art { width: 72px; height: 72px; }
-    }
-    .artist-release-list .ar-art img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .artist-release-list .ar-title {
-      font-weight: 600;
-      letter-spacing: -.02em;
-      font-size: 17px;
-      line-height: 1.25;
-    }
-    .artist-release-list .ar-sub {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 4px;
-      letter-spacing: .01em;
-    }
-    .artist-release-list .ar-meta {
-      color: var(--dim);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      white-space: nowrap;
-    }
-    @media (hover:hover) {
-      .artist-release-list a:hover .ar-title { opacity: .72; }
-    }
-  </style>
 </head>
-<body id="top">
+<body id="top" class="artist-world-page">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -237,82 +111,73 @@
   <a href="/cart">Cart</a>
 </div>
 
-<main id="main" class="page">
-  <div class="band">
-    <header class="artist-hero">
-      <div class="artist-photo">
-        <img src="lt-drifta.webp" alt="L.T. Drifta" width="1024" height="1024" fetchpriority="high"/>
+<main id="main" class="artist-world">
+  <header class="artist-world-hero">
+    <div class="artist-world-photo">
+      <img src="lt-drifta.webp" alt="L.T. Drifta" width="1024" height="1024" fetchpriority="high"/>
+    </div>
+    <div class="artist-world-copy">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/artists">Artists</a><span>/</span>L.T. Drifta</nav>
+      <p class="eyebrow">Breaks</p>
+      <h1>L.T. Drifta</h1>
+      <p class="artist-world-place">Cumberland, British Columbia</p>
+      <p class="artist-world-bio">Exploring the soulful side of electronic breakbeats — dug from crates, rebuilt for late rooms, pressed into small editions.</p>
+      <p class="artist-world-bio">EP-6 is the latest chapter. Champion Sound still hits.</p>
+      <div class="artist-world-actions">
+        <a class="btn btn-chrome-on-dark" href="/ep-6">Buy EP-6</a>
+        <a class="btn btn-ghost-on-dark" href="/library?artist=lt-drifta">Library</a>
       </div>
-      <div>
-        <p class="eyebrow">Producer</p>
-        <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/artists">Artists</a><span>/</span>L.T. Drifta</nav>
-        <h1>L.T. Drifta</h1>
-        <p class="artist-role">Producer · Cumberland, BC</p>
-        <p class="artist-bio">Exploring the soulful side of electronic breakbeats.</p>
-        <div class="artist-actions">
-          <a class="btn btn-dark" href="/ep-6">Listen &amp; buy — EP-6</a>
-          <a class="btn btn-ghost" href="/library?artist=lt-drifta">Full library</a>
-        </div>
-      </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="artist-releases" aria-labelledby="credits-title">
+  <div class="band">
+    <section class="artist-shelf" aria-labelledby="credits-title">
       <header class="section-head">
         <div>
           <p class="eyebrow">Discography</p>
           <h2 id="credits-title">Releases</h2>
         </div>
       </header>
-      <p class="artist-releases-lead">Out now on Club Copy.</p>
-      <ul class="artist-release-list">
+      <p class="artist-shelf-lead">Out now on Club Copy.</p>
+      <ul class="artist-shelf-list">
         <li>
           <a href="/ep-6">
-            <div class="ar-art"><img src="../ep-6-cover.webp" alt="EP-6 — artwork" width="144" height="144" loading="lazy"/></div>
+            <div class="ar-art"><img src="../ep-6-cover.webp" alt="EP-6 — artwork" width="176" height="176" loading="lazy"/></div>
             <div>
               <p class="ar-title">EP-6</p>
               <p class="ar-sub">EP · Digital · 6 tracks</p>
             </div>
-            <span class="ar-meta">CC017 · 2025</span>
+            <span class="ar-meta">CC017</span>
           </a>
         </li>
         <li>
           <a href="/ep1">
-            <div class="ar-art"><img src="../ep1-cover.webp" alt="EP1 — artwork" width="144" height="144" loading="lazy"/></div>
+            <div class="ar-art"><img src="../ep1-cover.webp" alt="EP1 — artwork" width="176" height="176" loading="lazy"/></div>
             <div>
               <p class="ar-title">EP1</p>
               <p class="ar-sub">EP · Digital · 2 tracks</p>
             </div>
-            <span class="ar-meta">VCR026D3 · 2025</span>
+            <span class="ar-meta">VCR026D3</span>
           </a>
         </li>
         <li>
           <a href="/summer-madness">
-            <div class="ar-art"><img src="../summer-madness-cover.webp" alt="Summer Madness — artwork" width="144" height="144" loading="lazy"/></div>
+            <div class="ar-art"><img src="../summer-madness-cover.webp" alt="Summer Madness — artwork" width="176" height="176" loading="lazy"/></div>
             <div>
               <p class="ar-title">Summer Madness</p>
               <p class="ar-sub">Album · Digital · 8 tracks</p>
             </div>
-            <span class="ar-meta">VCR026D2 · 2025</span>
+            <span class="ar-meta">VCR026D2</span>
           </a>
         </li>
         <li>
           <a href="/champion-sound">
-            <div class="ar-art"><img src="../champion-sound-cover.webp" alt="Champion Sound — artwork" width="144" height="144" loading="lazy"/></div>
+            <div class="ar-art"><img src="../champion-sound-cover.webp" alt="Champion Sound — artwork" width="176" height="176" loading="lazy"/></div>
             <div>
               <p class="ar-title">Champion Sound</p>
-              <p class="ar-sub">Single · Digital · 1 track</p>
+              <p class="ar-sub">Single · Digital</p>
             </div>
-            <span class="ar-meta">CC001 · 2025</span>
-          </a>
-        </li>
-        <li>
-          <a href="/library?artist=lt-drifta">
-            <div class="ar-art"><img src="../together-cover.webp" alt="Club Copy library" width="144" height="144" loading="lazy"/></div>
-            <div>
-              <p class="ar-title">Library</p>
-              <p class="ar-sub">All releases on Club Copy</p>
-            </div>
-            <span class="ar-meta">Browse</span>
+            <span class="ar-meta">CC001</span>
           </a>
         </li>
       </ul>
@@ -340,5 +205,14 @@
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>
 <script src="../js/player.js"></script>
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+})();
+</script>
 </body>
 </html>
