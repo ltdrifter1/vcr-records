@@ -75,8 +75,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
+  <link rel="stylesheet" href="../css/surface-acetate.css"/>
+  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top">
+<body id="top" class="surface-acetate has-station-bumper">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -119,14 +121,22 @@
 </div>
 
 <main id="main" class="news-page">
+  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Lookout">
+    <div class="station-bumper__ambient" style="background-image:url('../news-lookout.webp')" aria-hidden="true"></div>
+    <div class="band station-bumper__inner">
+      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">News</a><span>/</span>Lookout</nav>
+      <p class="station-bumper__callsign">Club Copy · Journal</p>
+      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
+      <h1 class="station-bumper__title">Lookout</h1>
+      <p class="station-bumper__lede">This one made sense immediately.</p>
+    </div>
+  </section>
   <div class="band">
     <article class="news-article">
       <div class="news-article-hero">
         <img src="../news-lookout.webp" alt="Glass facade reflecting a high-rise under blue sky. Lookout" width="1400" height="933" fetchpriority="high"/>
       </div>
       <p class="news-kicker"><span>Release</span><span>Mar 20, 2026</span></p>
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">News</a><span>/</span>Lookout</nav>
-      <h1>Lookout</h1>
       <div class="news-body">
         <p>This one made sense immediately.</p>
         <p><em>Lookout</em> is the next full-length from Inlet Knight. Long sightlines. Late-room drums. The kind of album you put on when you’re waiting for something you can’t name yet.</p>

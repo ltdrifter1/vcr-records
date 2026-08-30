@@ -8,17 +8,36 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <meta name="robots" content="noindex,nofollow"/>
   <meta name="description" content="Your Club Copy cart."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#F7F5F1"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/surface-acetate.css"/>
+  <link rel="stylesheet" href="css/station-bumper.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
-    .page { padding: calc(var(--nav-h) + var(--safe-t) + 56px) 0 100px; min-height: 70vh; }
-    @media (min-width: 900px) { .page { padding-top: calc(var(--nav-h) + var(--safe-t) + 80px); } }
+    .page { padding: 0 0 100px; min-height: 70vh; }
+    .cart-body { padding-top: 28px; }
+    @media (min-width: 900px) { .cart-body { padding-top: 36px; } }
 
-    .page .section-head { padding-top: 0; }
+    .cart-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 28px;
+    }
+    .cart-head h2 {
+      font-family: var(--display);
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 600; letter-spacing: -.025em;
+    }
+    .cart-head .head-link {
+      font-family: var(--callsign);
+      font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    @media (hover:hover) {
+      .cart-head .head-link:hover { color: var(--ink); }
+    }
 
     .cart-layout {
       display: grid;
@@ -183,13 +202,13 @@
     .sum-row.credit[hidden] { display: none; }
   </style>
 </head>
-<body id="top">
+<body id="top" class="surface-acetate has-station-bumper">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-        <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" aria-label="Primary">
       <a href="/#listen">Listen</a>
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
@@ -226,14 +245,26 @@
 </div>
 
 <main class="page" id="main">
-  <div class="band">
-    <header class="section-head">
-      <div>
-        <p class="eyebrow">Club Copy</p>
-        <h1>Cart</h1>
+  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Cart">
+    <div class="station-bumper__ambient" style="background-image:url('place-shop-y2k.webp')" aria-hidden="true"></div>
+    <div class="band station-bumper__inner">
+      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Cart</nav>
+      <p class="station-bumper__callsign">Club Copy</p>
+      <img class="station-bumper__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
+      <h1 class="station-bumper__title">Cart</h1>
+      <p class="station-bumper__lede">Review your bag, apply Club Credit, and check out securely.</p>
+      <div class="station-bumper__ctas">
+        <a class="btn btn-ghost" href="/merch">Continue shopping</a>
+        <a class="btn btn-ghost" href="/library">Browse library</a>
       </div>
+    </div>
+  </section>
+
+  <div class="band cart-body">
+    <div class="cart-head">
+      <h2>Your bag</h2>
       <a class="head-link" href="/merch">Continue shopping</a>
-    </header>
+    </div>
 
     <div class="cart-layout">
       <section aria-label="Cart items">

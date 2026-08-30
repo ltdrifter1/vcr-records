@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Shipping &amp; Returns — Club Copy</title>
   <meta name="description" content="Shipping, returns, and order information for Club Copy."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#F7F5F1"/>
   <link rel="canonical" href="https://www.clubcopy.ca/shipping"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:title" content="Shipping &amp; Returns — Club Copy"/>
@@ -19,20 +19,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/surface-acetate.css"/>
+  <link rel="stylesheet" href="css/station-bumper.css"/>
   <style>
-    .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 96px; }
-    .page .section-head { padding-top: 0; }
+    .page { padding: 0 0 96px; }
+    .ship-body { padding-top: 32px; }
+    @media (min-width: 800px) { .ship-body { padding-top: 40px; } }
     .page-lead { margin-top: 12px; font-size: 16px; color: var(--muted); max-width: 34em; }
     .policy {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0;
       max-width: 720px;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(170,182,200,.32);
     }
     .policy article {
       padding: 36px 0;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid transparent;
+      box-shadow: inset 0 -1px 0 rgba(170,182,200,.28);
     }
     .policy h2 {
       font-family: var(--display);
@@ -53,7 +58,7 @@
     }
   </style>
 </head>
-<body id="top">
+<body id="top" class="surface-acetate has-station-bumper">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -96,15 +101,18 @@
 </div>
 
 <main id="main" class="page">
-  <div class="band">
-    <header class="section-head">
-      <div>
-        <p class="eyebrow">Orders</p>
-        <h1>Shipping &amp; returns</h1>
-        <p class="page-lead">Clear terms before you check out. If something is unclear, write us.</p>
-      </div>
-    </header>
+  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Shipping">
+    <div class="station-bumper__ambient" style="background-image:url('place-shop-y2k.webp')" aria-hidden="true"></div>
+    <div class="band station-bumper__inner">
+      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Shipping</nav>
+      <p class="station-bumper__callsign">Orders</p>
+      <img class="station-bumper__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
+      <h1 class="station-bumper__title">Shipping &amp; returns</h1>
+      <p class="station-bumper__lede">Clear terms before you check out. If something is unclear, write us.</p>
+    </div>
+  </section>
 
+  <div class="band ship-body">
     <div class="policy">
       <article>
         <h2>Shipping</h2>

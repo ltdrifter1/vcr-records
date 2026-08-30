@@ -4,12 +4,15 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 ## Design
 
-Warm, editorial, precise. Shared design tokens and site chrome live in `css/site.css`;
-the audio dock styles live in `css/player.css`. Shared nav/drawer lives in `js/site.js`.
-Pages keep only page-specific rules inline.
+Warm ground + chrome-glass Y2K. Shared tokens in `css/site.css`.
+Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About, News index.
+Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, news articles, merch PDPs.
+Station bumper (`css/station-bumper.css`) is the shared page entrance — brand lockup first.
+Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
-- Background `#FAF8F5` · Ink `#111111` · Cards `#FFFFFF` · Soft ground `#F2F0EC` · Borders `#E5E3DF`
-- Type: Space Grotesk
+- Background `#F7F5F1` · Ink `#111111` · Night ground `#0a0a0c`
+- Type: Space Grotesk + Oswald callsigns
+- Chrome steel accents — not costume neon
 
 ## Commerce
 

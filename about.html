@@ -118,32 +118,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/surface-night.css"/>
+  <link rel="stylesheet" href="css/station-bumper.css"/>
   <link rel="stylesheet" href="css/listen-object.css"/>
   <style>
-    .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 96px; }
-    .page .section-head { padding-top: 0; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .about-hero {
-      max-width: 18em;
-      font-family: var(--display);
-      font-size: clamp(32px, 5.5vw, 56px);
-      font-weight: 600; letter-spacing: -.035em; line-height: 1.05;
-      margin: 28px 0 20px;
-      color: #fff;
-      animation: aboutIn .9s var(--ease) both;
-    }
-    .about-lead {
-      font-size: clamp(17px, 2.2vw, 20px);
-      color: rgba(255,255,255,.62); line-height: 1.5;
-      max-width: 28em; margin-bottom: 36px;
-      animation: aboutIn .9s var(--ease) .08s both;
-    }
+    .page { padding: 0 0 96px; }
+    .about-body { padding-top: 40px; }
+    @media (min-width: 800px) { .about-body { padding-top: 56px; } }
     .about-sleeves {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin: 0 0 56px;
       max-width: 520px;
-      animation: aboutIn .9s var(--ease) .16s both;
     }
     @media (max-width: 560px) {
       .about-sleeves { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -276,16 +262,9 @@
       font-size: 15px; color: rgba(255,255,255,.6); line-height: 1.65;
       max-width: 40em;
     }
-    @keyframes aboutIn {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .about-hero, .about-lead, .about-sleeves { animation: none !important; }
-    }
   </style>
 </head>
-<body id="top" class="surface-night">
+<body id="top" class="surface-night has-station-bumper">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -328,15 +307,22 @@
 </div>
 
 <main id="main" class="page">
-  <div class="band">
-    <header class="section-head">
-      <div>
-        <p class="eyebrow">About</p>
+  <section class="station-bumper station-bumper--night station-bumper--compact" aria-label="About Club Copy">
+    <div class="station-bumper__ambient" style="background-image:url('bridget-in-my-room-cover.webp')" aria-hidden="true"></div>
+    <div class="band station-bumper__inner">
+      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>About</nav>
+      <p class="station-bumper__callsign">Pacific Northwest · Est. 2024</p>
+      <img class="station-bumper__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="1396" height="331" fetchpriority="high"/>
+      <h1 class="station-bumper__title">Music we want to keep.</h1>
+      <p class="station-bumper__lede">Independent record label and record club. Small library. Long shelf life. Made to be listened to, held, and collected.</p>
+      <div class="station-bumper__ctas">
+        <a class="btn btn-chrome-on-dark" href="/#join">Join the club</a>
+        <a class="btn btn-ghost-on-dark" href="/library">View library</a>
       </div>
-    </header>
-    <h1 class="about-hero">Music we want to keep.</h1>
-    <p class="about-lead">Club Copy is an independent Pacific Northwest record label that runs a digital and physical record club. Small library. Long shelf life. Made to be listened to, held, and collected.</p>
+    </div>
+  </section>
 
+  <div class="band about-body">
     <div class="about-sleeves rv" aria-label="Recent releases">
       <a href="/bridget-in-my-room"><img src="bridget-in-my-room-cover-480.webp" alt="Bridget In My Room" width="480" height="480" loading="lazy"/></a>
       <a href="/lookout"><img src="lookout-cover-480.webp" alt="Lookout" width="480" height="480" loading="lazy"/></a>
