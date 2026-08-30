@@ -1,0 +1,193 @@
+/* ==========================================================================
+   Club Copy — station control family
+   Sharp bezel chips / filters. Hardware deck, not soft pills.
+   Use on day (warm glass) and night (surface-night) surfaces.
+   ========================================================================== */
+
+.station-chip {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 2px;
+  border: 1px solid rgba(170, 182, 200, .45);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .28));
+  color: var(--muted);
+  font-family: var(--callsign);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(14px) saturate(1.35);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    0 0 0 1px rgba(26, 30, 38, .03);
+  transition:
+    color var(--dur) var(--ease),
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+@media (hover: hover) {
+  .station-chip:hover {
+    color: var(--ink);
+    border-color: rgba(150, 162, 180, .62);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .4));
+  }
+}
+.station-chip.is-active,
+.station-chip[aria-pressed="true"] {
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .48));
+  border-color: rgba(120, 134, 152, .55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    inset 0 -2px 0 var(--chrome-steel),
+    0 8px 18px rgba(26, 30, 38, .08);
+}
+.station-chip:focus-visible {
+  outline: 2px solid var(--chrome-steel);
+  outline-offset: 2px;
+}
+
+/* Night surface chips ------------------------------------------------------ */
+body.surface-night .station-chip,
+.surface-night .station-chip {
+  border-color: rgba(200, 214, 230, .28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .04));
+  color: rgba(200, 214, 230, .72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16);
+}
+@media (hover: hover) {
+  body.surface-night .station-chip:hover,
+  .surface-night .station-chip:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, .42);
+  }
+}
+body.surface-night .station-chip.is-active,
+body.surface-night .station-chip[aria-pressed="true"],
+.surface-night .station-chip.is-active,
+.surface-night .station-chip[aria-pressed="true"] {
+  color: #0a0a0c;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .48));
+  border-color: rgba(255, 255, 255, .72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    0 8px 20px rgba(0, 0, 0, .18);
+}
+
+/* Alias: legacy store / news filter class names map to station ------------- */
+.store-chip,
+.news-filter {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 2px;
+  border: 1px solid rgba(170, 182, 200, .45);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .28));
+  color: var(--muted);
+  font-family: var(--callsign);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(14px) saturate(1.35);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    0 0 0 1px rgba(26, 30, 38, .03);
+  transition:
+    color var(--dur) var(--ease),
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+@media (hover: hover) {
+  .store-chip:hover,
+  .news-filter:hover {
+    color: var(--ink);
+    border-color: rgba(150, 162, 180, .62);
+  }
+}
+.store-chip.is-active,
+.store-chip[aria-pressed="true"],
+.news-filter.is-active {
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .48));
+  border-color: rgba(120, 134, 152, .55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    inset 0 -2px 0 var(--chrome-steel),
+    0 8px 18px rgba(26, 30, 38, .08);
+}
+
+body.surface-night .news-filter,
+.news-index .news-filter {
+  border-color: rgba(200, 214, 230, .28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .04));
+  color: rgba(200, 214, 230, .72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16);
+}
+@media (hover: hover) {
+  body.surface-night .news-filter:hover,
+  .news-index .news-filter:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, .42);
+  }
+}
+body.surface-night .news-filter.is-active,
+.news-index .news-filter.is-active {
+  color: #0a0a0c;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .48));
+  border-color: rgba(255, 255, 255, .72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    0 8px 20px rgba(0, 0, 0, .18);
+}
+
+/* Brand lockup for catalogue entries --------------------------------------- */
+.brand-lockup {
+  display: block;
+  width: min(148px, 42vw);
+  height: auto;
+  margin: 0 0 16px;
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .35));
+  opacity: 1;
+  transform: none;
+  animation: fxBrandIn .85s var(--ease) .08s both;
+}
+body.surface-night .brand-lockup,
+.surface-night .brand-lockup {
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, .55));
+}
+@keyframes fxBrandIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-lockup {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

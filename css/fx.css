@@ -148,10 +148,88 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes fxBrandIn {
+  to { opacity: 1; transform: none; }
+}
+@keyframes fxAmbientBreath {
+  from { transform: scale(1.08) translate(0, 0); }
+  to   { transform: scale(1.14) translate(-.6%, .5%); }
+}
+@keyframes fxRoomPulse {
+  0% { transform: scale(.92); opacity: .35; }
+  70% { transform: scale(1.06); opacity: 0; }
+  100% { transform: scale(1.06); opacity: 0; }
+}
+
+/* Listening-room motion pack — reuse on dark heroes sitewide -------------- */
+.fx-ambient-breath {
+  animation: fxAmbientBreath 28s ease-in-out alternate infinite;
+  will-change: transform;
+}
+.fx-room-pulse {
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .16);
+  opacity: 0;
+  pointer-events: none;
+}
+.is-playing .fx-room-pulse,
+.fx-room-pulse.is-live {
+  animation: fxRoomPulse 2.4s var(--ease, cubic-bezier(.22,1,.36,1)) infinite;
+}
+
+/* Planet — chrome bezel CTA (not soft pill) -------------------------------- */
+.planet-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: var(--bezel-r, 2px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, .1) 100%);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .42);
+  font-family: var(--callsign, 'Oswald', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  backdrop-filter: blur(22px) saturate(1.7);
+  -webkit-backdrop-filter: blur(22px) saturate(1.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .62),
+    inset 0 -1px 0 rgba(255, 255, 255, .08),
+    0 0 0 1px rgba(255, 255, 255, .08),
+    0 16px 40px rgba(0, 0, 0, .32),
+    0 0 36px rgba(186, 214, 255, .22);
+  transition: filter .25s var(--ease, cubic-bezier(.22,1,.36,1)), border-color .25s var(--ease, cubic-bezier(.22,1,.36,1)), box-shadow .25s var(--ease, cubic-bezier(.22,1,.36,1)), transform .25s var(--ease, cubic-bezier(.22,1,.36,1));
+}
+@media (hover: hover) {
+  .planet-cta:hover {
+    filter: brightness(1.08);
+    border-color: rgba(255, 255, 255, .7);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .85),
+      0 18px 44px rgba(0, 0, 0, .38),
+      0 0 42px rgba(210, 230, 255, .32);
+  }
+}
+.planet-cta span {
+  opacity: .55;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .fx-phosphor::before,
-  .fx-grid-horizon {
+  .fx-grid-horizon,
+  .fx-ambient-breath,
+  .is-playing .fx-room-pulse,
+  .fx-room-pulse.is-live {
     animation: none !important;
   }
 }

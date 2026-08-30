@@ -22,7 +22,10 @@
   <link rel="stylesheet" href="css/fx.css"/>
   <style>
     body {
-      background: #0A0A0A;
+      background:
+        radial-gradient(880px 480px at 14% -4%, rgba(186,204,224,.09), transparent 58%),
+        radial-gradient(720px 420px at 88% 8%, rgba(120,140,170,.06), transparent 52%),
+        linear-gradient(180deg, #0a0a0c 0%, #07080a 55%, #050506 100%);
       color: #F4F4F2;
     }
     .nav {
@@ -121,25 +124,7 @@
       color: rgba(255,255,255,.5);
       line-height: 1.5;
     }
-    .planet-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      height: 52px;
-      padding: 0 28px;
-      border-radius: 999px;
-      background: #fff;
-      color: #0A0A0A;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -.015em;
-      transition: opacity .25s var(--ease), transform .25s var(--ease);
-    }
-    @media (hover:hover) {
-      .planet-cta:hover { opacity: .88; transform: translateY(-1px); }
-    }
-    .planet-cta span { opacity: .45; font-weight: 500; }
+    /* .planet-cta → css/fx.css (chrome bezel CTA) */
 
     .footer {
       background: transparent;
