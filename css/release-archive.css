@@ -126,6 +126,10 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   isolation: isolate;
   padding: calc(var(--nav-h, 64px) + 40px) 0 72px;
 }
+@keyframes fxAmbientBreath {
+  from { transform: scale(1.32) translate(0, 0); }
+  to   { transform: scale(1.4) translate(-.5%, .4%); }
+}
 .ra-hero-ambient {
   position: absolute;
   inset: -14%;
@@ -134,7 +138,8 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   background: url('../together-cover.webp') center 55% / cover no-repeat;
   filter: blur(48px) saturate(1.08) brightness(.48) contrast(1.04);
   transform: scale(1.32);
-  animation: none;
+  animation: fxAmbientBreath 32s ease-in-out alternate infinite;
+  will-change: transform;
   opacity: .85;
 }
 .ra-hero-ambient::after {
