@@ -529,8 +529,8 @@
     .hero .btn-chrome-on-dark,
     .hero .btn-ghost-on-dark {
       min-width: 148px;
-      height: 48px;
-      border-radius: var(--btn-r, 12px);
+      height: 50px;
+      border-radius: 14px;
     }
     .hero-ctas .btn::before {
       animation: none;
@@ -911,9 +911,16 @@
       background: #16191e;
     }
     body.hero-top:not(.nav-light) .nav.scrolled {
-      background: rgba(26, 30, 36, .9);
-      border-bottom-color: rgba(168, 180, 196, .14);
-      box-shadow: inset 0 1px 0 rgba(200, 210, 222, .08), 0 8px 28px rgba(0, 0, 0, .4);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.02)),
+        rgba(18, 22, 28, .58);
+      border-bottom-color: rgba(200, 214, 230, .18);
+      backdrop-filter: saturate(190%) blur(var(--blur-lg));
+      -webkit-backdrop-filter: saturate(190%) blur(var(--blur-lg));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -1px 0 rgba(255,255,255,.04),
+        0 12px 36px rgba(0, 0, 0, .35);
     }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a { color: rgba(255,255,255,.7); }
     body.hero-top:not(.nav-light) .nav.scrolled .nav-links a:hover,
@@ -1487,22 +1494,22 @@
       width: 100%;
       min-height: 100%;
       padding: 0 0 16px;
-      border-radius: 2px;
+      border-radius: 14px;
       border: 1px solid transparent;
       background:
-        linear-gradient(180deg, rgba(24,28,36,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(180deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.04) 36%, rgba(12,16,22,.62) 100%) padding-box,
         linear-gradient(135deg,
-          rgba(255,255,255,.78) 0%,
-          rgba(168,184,204,.5) 36%,
-          rgba(255,255,255,.28) 58%,
-          rgba(92,108,128,.62) 100%) border-box;
-      backdrop-filter: blur(8px) saturate(120%);
-      -webkit-backdrop-filter: blur(8px) saturate(120%);
+          rgba(255,255,255,.82) 0%,
+          rgba(168,184,204,.52) 36%,
+          rgba(255,255,255,.3) 58%,
+          rgba(92,108,128,.58) 100%) border-box;
+      backdrop-filter: blur(28px) saturate(1.55);
+      -webkit-backdrop-filter: blur(28px) saturate(1.55);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.28),
-        inset 0 -1px 0 rgba(0,0,0,.55),
-        0 0 0 1px rgba(0,0,0,.5),
-        0 10px 26px rgba(0,0,0,.38);
+        inset 0 1px 0 rgba(255,255,255,.38),
+        inset 0 -1px 0 rgba(0,0,0,.35),
+        0 0 0 1px rgba(255,255,255,.06),
+        0 16px 40px rgba(0,0,0,.36);
       color: #fff;
       text-align: left;
       cursor: pointer;
@@ -1510,7 +1517,8 @@
       transition:
         border-color .25s var(--ease),
         box-shadow .25s var(--ease),
-        background .25s var(--ease);
+        background .25s var(--ease),
+        transform .25s var(--ease);
     }
     .join-level::after {
       content: "";
@@ -1537,18 +1545,18 @@
     }
     .join-level[aria-checked="true"] {
       background:
-        linear-gradient(180deg, rgba(36,46,60,.97), rgba(10,12,16,.98)) padding-box,
+        linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,.07) 40%, rgba(16,22,32,.58) 100%) padding-box,
         linear-gradient(135deg,
-          rgba(255,255,255,.92) 0%,
-          rgba(196,214,234,.7) 34%,
-          rgba(255,255,255,.42) 58%,
-          rgba(120,150,180,.7) 100%) border-box;
+          rgba(255,255,255,.94) 0%,
+          rgba(196,214,234,.72) 34%,
+          rgba(255,255,255,.44) 58%,
+          rgba(120,150,180,.68) 100%) border-box;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.42),
-        inset 0 -1px 0 rgba(0,0,0,.5),
-        0 0 0 1px rgba(0,0,0,.45),
-        0 0 0 1px rgba(200,220,240,.28),
-        0 14px 32px rgba(0,0,0,.46);
+        inset 0 1px 0 rgba(255,255,255,.55),
+        inset 0 -1px 0 rgba(0,0,0,.32),
+        0 0 0 1px rgba(255,255,255,.1),
+        0 0 0 1px rgba(200,220,240,.22),
+        0 20px 48px rgba(0,0,0,.42);
     }
     .join-level[aria-checked="true"]::after { opacity: .82; }
     .join-level-top {
@@ -1643,22 +1651,22 @@
       text-align: left;
       padding: 0 0 18px;
       overflow: hidden;
-      border-radius: 2px;
+      border-radius: 16px;
       border: 1px solid transparent;
       background:
-        linear-gradient(180deg, rgba(16,18,24,.96), rgba(8,10,14,.98)) padding-box,
+        linear-gradient(180deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.04) 40%, rgba(10,12,18,.58) 100%) padding-box,
         linear-gradient(135deg,
-          rgba(255,255,255,.78) 0%,
-          rgba(168,184,204,.5) 36%,
+          rgba(255,255,255,.82) 0%,
+          rgba(168,184,204,.52) 36%,
           rgba(255,255,255,.28) 58%,
-          rgba(92,108,128,.62) 100%) border-box;
-      backdrop-filter: blur(8px) saturate(120%);
-      -webkit-backdrop-filter: blur(8px) saturate(120%);
+          rgba(92,108,128,.58) 100%) border-box;
+      backdrop-filter: blur(30px) saturate(1.55);
+      -webkit-backdrop-filter: blur(30px) saturate(1.55);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.28),
-        inset 0 -1px 0 rgba(0,0,0,.5),
-        0 0 0 1px rgba(0,0,0,.5),
-        0 16px 36px rgba(0,0,0,.4);
+        inset 0 1px 0 rgba(255,255,255,.36),
+        inset 0 -1px 0 rgba(0,0,0,.32),
+        0 0 0 1px rgba(255,255,255,.06),
+        0 20px 48px rgba(0,0,0,.38);
     }
     .join-panel::after {
       content: "";
@@ -1800,32 +1808,35 @@
     .club-join-btn {
       display: block;
       width: auto;
-      height: 50px;
-      min-height: 50px;
+      height: 52px;
+      min-height: 52px;
       margin: 4px 18px 0;
-      border: 1px solid transparent;
-      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,.46);
+      border-radius: 14px;
       font-size: 15px;
       font-weight: 600;
       letter-spacing: -.015em;
       color: #fff;
-      background: linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.08) 100%);
-      backdrop-filter: blur(22px) saturate(1.6);
-      -webkit-backdrop-filter: blur(22px) saturate(1.6);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.4) 0%, rgba(255,255,255,.1) 48%, rgba(255,255,255,.04) 100%);
+      backdrop-filter: blur(28px) saturate(1.8);
+      -webkit-backdrop-filter: blur(28px) saturate(1.8);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.62),
-        0 14px 32px rgba(0,0,0,.28),
-        0 0 28px rgba(186,214,255,.18);
-      transition: transform .2s var(--ease), filter .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
+        inset 0 1px 0 rgba(255,255,255,.72),
+        inset 0 -1px 0 rgba(255,255,255,.08),
+        0 0 0 1px rgba(255,255,255,.08),
+        0 18px 40px rgba(0,0,0,.32);
+      transition: transform .2s var(--ease), filter .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
     }
     .club-join-btn:hover {
-      filter: brightness(1.08);
+      filter: brightness(1.06);
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,.7);
+      border-color: rgba(255,255,255,.72);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.14) 48%, rgba(255,255,255,.06) 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.85),
-        0 18px 38px rgba(0,0,0,.34),
-        0 0 36px rgba(210,230,255,.28);
+        inset 0 1px 0 rgba(255,255,255,.88),
+        0 20px 44px rgba(0,0,0,.36);
     }
     .club-join-btn:disabled {
       opacity: .45;
@@ -1879,156 +1890,6 @@
 
     @media (prefers-reduced-motion: reduce) {
       .wall-art img { transition: none; }
-      .home-artist-photo img { transition: none; }
-    }
-
-    /* Home artists — roster before footer ---------------------------------- */
-    .home-artists {
-      position: relative;
-      padding: 0 0 40px;
-      color: #f4f6f8;
-      background:
-        radial-gradient(720px 360px at 88% 100%, rgba(186,204,224,.08), transparent 55%),
-        linear-gradient(180deg, #080808 0%, #050506 100%);
-    }
-    @media (min-width: 800px) {
-      .home-artists { padding-bottom: 48px; }
-    }
-    .home-artists .section-head {
-      border-bottom: none;
-      box-shadow: none;
-      padding-top: 8px;
-      padding-bottom: 0;
-      margin-bottom: 20px;
-    }
-    @media (min-width: 800px) {
-      .home-artists .section-head {
-        padding-top: 12px;
-        margin-bottom: 24px;
-      }
-    }
-    .home-artists .eyebrow { color: rgba(255,255,255,.42); }
-    .home-artists h2 { color: #fff; }
-    .home-artists .head-link { color: rgba(244,246,248,.55); }
-    @media (hover:hover) {
-      .home-artists .head-link:hover {
-        color: #fff;
-        border-bottom-color: rgba(200,214,230,.45);
-      }
-    }
-
-    .home-roster {
-      display: grid;
-      gap: 14px;
-    }
-    @media (min-width: 800px) {
-      .home-roster {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-      }
-    }
-    .home-artist {
-      position: relative;
-      display: grid;
-      grid-template-columns: 108px minmax(0, 1fr);
-      align-items: stretch;
-      min-height: 0;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      border-radius: 2px;
-      border: 1px solid transparent;
-      background:
-        linear-gradient(180deg, rgba(22,26,34,.94), rgba(8,10,14,.97)) padding-box,
-        linear-gradient(135deg,
-          rgba(255,255,255,.72) 0%,
-          rgba(168,184,204,.46) 36%,
-          rgba(255,255,255,.24) 58%,
-          rgba(92,108,128,.58) 100%) border-box;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.22),
-        inset 0 -1px 0 rgba(0,0,0,.5),
-        0 0 0 1px rgba(0,0,0,.45),
-        0 10px 24px rgba(0,0,0,.32);
-      transition: box-shadow .25s var(--ease);
-    }
-    @media (min-width: 800px) {
-      .home-artist { grid-template-columns: 132px minmax(0, 1fr); }
-    }
-    @media (hover:hover) {
-      .home-artist:hover {
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.32),
-          inset 0 -1px 0 rgba(0,0,0,.5),
-          0 0 0 1px rgba(0,0,0,.45),
-          0 0 0 1px rgba(200,220,240,.22),
-          0 14px 28px rgba(0,0,0,.4);
-      }
-      .home-artist:hover .home-artist-photo img {
-        transform: scale(1.035);
-        filter: brightness(1.06);
-      }
-      .home-artist:hover .home-artist-go { color: #fff; }
-    }
-    .home-artist-photo {
-      position: relative;
-      overflow: hidden;
-      background: #111;
-      border-radius: 0;
-      min-height: 100%;
-      box-shadow: inset -1px 0 0 rgba(0,0,0,.4);
-    }
-    .home-artist-photo img {
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      display: block;
-      aspect-ratio: 4 / 5;
-      transition: transform .85s var(--ease), filter .85s var(--ease);
-    }
-    .home-artist-meta {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 7px;
-      padding: 16px 18px 16px 20px;
-      min-width: 0;
-    }
-    .home-artist-role {
-      margin: 0;
-      font-family: var(--callsign);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(200,214,230,.5);
-    }
-    .home-artist-name {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(20px, 2.4vw, 26px);
-      font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1.08;
-      color: #fff;
-    }
-    .home-artist-dek {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.45;
-      color: rgba(244,246,248,.55);
-      max-width: 28em;
-    }
-    .home-artist-go {
-      margin-top: 6px;
-      font-family: var(--callsign);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: rgba(200,214,230,.58);
-      transition: color .25s var(--ease);
     }
 
     /* Planet MP3 transmission --------------------------------------------- */
@@ -2048,8 +1909,22 @@
       grid-template-columns: auto minmax(0, 1fr);
       gap: 22px 28px;
       align-items: center;
-      padding: 28px 0 8px;
-      border-top: 1px solid rgba(200,214,230,.14);
+      padding: 28px 26px;
+      border-radius: 18px;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(165deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.04) 45%, rgba(10,12,18,.55) 100%) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.55) 0%,
+          rgba(168,184,204,.35) 40%,
+          rgba(255,255,255,.18) 70%,
+          rgba(92,108,128,.4) 100%) border-box;
+      backdrop-filter: blur(30px) saturate(1.5);
+      -webkit-backdrop-filter: blur(30px) saturate(1.5);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -1px 0 rgba(0,0,0,.28),
+        0 18px 48px rgba(0,0,0,.32);
     }
     @media (max-width: 560px) {
       .home-planet-inner {
@@ -2201,7 +2076,6 @@
       }
       .wall-title { font-size: 16px; }
       .club-join { padding: 64px 0 80px; }
-      .home-artists { padding-bottom: 32px; }
       .home-planet { padding-bottom: 40px; }
       .home-planet-inner { padding-top: 20px; }
     }
@@ -2360,7 +2234,7 @@
       <div class="hero-idle" data-room-idle>
         <p class="hero-idle-by">Inlet Knight</p>
         <h1 class="hero-idle-title">Bridget In My Room</h1>
-        <p class="hero-idle-dek">Pacific Northwest house pressure · out now</p>
+        <p class="hero-idle-dek">House single · out now</p>
       </div>
 
       <div class="hero-platter">
@@ -2453,43 +2327,6 @@
 <article class="wall-item rv" data-release="ep-6"><div class="wall-card"><div class="wall-art media-bezel"><a href="/ep-6" aria-label="EP-6. view release"><img src="ep-6-cover-480.webp" srcset="ep-6-cover-480.webp 480w, ep-6-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="EP-6. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">EP · L.T. Drifta</p><h3 class="wall-title"><a href="/ep-6">EP-6</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
 <article class="wall-item rv" data-release="champion-sound"><div class="wall-card"><div class="wall-art media-bezel"><a href="/champion-sound" aria-label="Champion Sound. view release"><img src="champion-sound-cover-480.webp" srcset="champion-sound-cover-480.webp 480w, champion-sound-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Champion Sound. artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-cat">L.T. Drifta</p><h3 class="wall-title"><a href="/champion-sound">Champion Sound</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Roster -->
-  <section class="home-artists" id="roster" aria-labelledby="roster-title">
-    <div class="band">
-      <header class="section-head">
-        <div>
-          <p class="eyebrow">Roster</p>
-          <h2 id="roster-title">The crew</h2>
-        </div>
-        <a class="head-link" href="/artists">All artists</a>
-      </header>
-      <div class="home-roster">
-        <a class="home-artist rv" href="/artists/inlet-knight">
-          <div class="home-artist-photo">
-            <img src="artists/inlet-knight.webp" alt="" width="800" height="1000" loading="lazy"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">House</p>
-            <h3 class="home-artist-name">Inlet Knight</h3>
-            <p class="home-artist-dek">Locked drums. Long loops. Records finished when they leave.</p>
-            <span class="home-artist-go">Enter →</span>
-          </div>
-        </a>
-        <a class="home-artist rv" href="/artists/lt-drifta">
-          <div class="home-artist-photo">
-            <img src="artists/lt-drifta.webp" alt="" width="1024" height="1024" loading="lazy"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Instrumental hip-hop · Breaks</p>
-            <h3 class="home-artist-name">L.T. Drifta</h3>
-            <p class="home-artist-dek">Crate heat rebuilt for late rooms. Sessions that don’t apologize.</p>
-            <span class="home-artist-go">Enter →</span>
-          </div>
-        </a>
       </div>
     </div>
   </section>
