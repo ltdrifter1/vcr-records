@@ -93,7 +93,7 @@
 }
   </script>
   <meta name="description" content="Club Copy library — every Pacific Northwest house and jungle release by catalogue number, with formats and record club member pricing."/>
-  <meta name="theme-color" content="#FAF8F5"/>
+  <meta name="theme-color" content="#080808"/>
   <link rel="canonical" href="https://www.clubcopy.ca/library"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
@@ -107,6 +107,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
+  <link rel="stylesheet" href="css/surface-night.css"/>
+  <link rel="stylesheet" href="css/listen-object.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <style>
     .page { padding: calc(var(--nav-h) + var(--safe-t) + 40px) 0 112px; }
@@ -901,9 +903,82 @@
       }
       .cat-row:hover { transform: none; }
     }
+
+
+    /* Night continuum overrides ------------------------------------------- */
+    body.surface-night .lib-rail {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
+        rgba(18,20,26,.72);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        inset 0 0 0 1px rgba(200,214,230,.18),
+        0 12px 36px rgba(0,0,0,.28);
+    }
+    body.surface-night .lib-rail::before {
+      background: linear-gradient(180deg, rgba(200,214,230,.7), rgba(200,214,230,.12));
+    }
+    body.surface-night .lib-group-label { color: rgba(200,214,230,.45); }
+    body.surface-night .lib-select {
+      background: rgba(8,8,10,.55);
+      color: #fff;
+      border-color: rgba(255,255,255,.14);
+    }
+    body.surface-night .lib-select:hover,
+    body.surface-night .lib-select:focus-visible {
+      border-color: rgba(200,214,230,.4);
+    }
+    body.surface-night .lib-count { color: rgba(255,255,255,.45); }
+    body.surface-night .lib-view-btn {
+      color: rgba(255,255,255,.55);
+      border-color: rgba(255,255,255,.14);
+      background: transparent;
+    }
+    body.surface-night .lib-view-btn.is-active {
+      color: #111;
+      background: #fff;
+      border-color: #fff;
+    }
+    body.surface-night .cat-row {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 0 0 1px rgba(200,214,230,.14);
+      color: #fff;
+    }
+    @media (hover:hover) {
+      body.surface-night .cat-row:hover {
+        background:
+          linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04));
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.14),
+          inset 0 0 0 1px rgba(200,214,230,.28),
+          0 14px 34px rgba(0,0,0,.28);
+      }
+    }
+    body.surface-night .cat-title { color: #fff; }
+    body.surface-night .cat-artist,
+    body.surface-night .cat-sub,
+    body.surface-night .cat-meta { color: rgba(255,255,255,.55); }
+    body.surface-night .cat-cover {
+      border-radius: var(--bezel-r, 2px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        0 0 0 1px rgba(200,214,230,.28),
+        0 8px 18px rgba(0,0,0,.35);
+    }
+    body.surface-night .cat-priceboard,
+    body.surface-night .cat-format-note,
+    body.surface-night .cat-price-panel { color: rgba(255,255,255,.55); }
+    body.surface-night .cat-go {
+      border-color: rgba(255,255,255,.2);
+      color: #fff;
+      background: rgba(255,255,255,.06);
+    }
   </style>
 </head>
-<body id="top">
+<body id="top" class="surface-night">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">

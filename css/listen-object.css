@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Club Copy — shared listening object
+   Square sleeve + chrome play bezel. Used on home hero, releases, shelves.
+   ========================================================================== */
+
+.listen-sleeve {
+  position: relative;
+  width: min(420px, 72vw);
+  aspect-ratio: 1;
+  border-radius: var(--bezel-r, 2px);
+  overflow: hidden;
+  background: #0a0a0c;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    0 0 0 1px rgba(200,214,230,.22),
+    0 28px 64px rgba(0,0,0,.55);
+  isolation: isolate;
+}
+.listen-sleeve img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.listen-sleeve.is-live {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 0 0 1px rgba(200,214,230,.42),
+    0 32px 72px rgba(0,0,0,.62),
+    0 0 40px rgba(186,204,224,.12);
+}
+
+.listen-sleeve-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.listen-sleeve-hit .listen-glyph {
+  width: clamp(56px, 16%, 72px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(230,236,244,.88) 42%, rgba(186,198,214,.82) 100%);
+  color: #111;
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 0 0 1px rgba(0,0,0,.28),
+    0 12px 28px rgba(0,0,0,.4);
+  opacity: .92;
+  transform: scale(1);
+  transition: opacity .35s var(--ease), transform .35s var(--ease), filter .35s var(--ease);
+}
+.listen-sleeve-hit svg {
+  width: 38%;
+  height: 38%;
+  fill: currentColor;
+  margin-left: 6%;
+  display: block;
+}
+.listen-sleeve-hit .glyph-pause,
+.listen-sleeve-hit .i-pause { display: none; margin-left: 0; }
+.listen-sleeve-hit.is-playing .glyph-play,
+.listen-sleeve-hit.is-playing .i-play,
+.listen-sleeve-hit.on .glyph-play,
+.listen-sleeve-hit.on .i-play { display: none; }
+.listen-sleeve-hit.is-playing .glyph-pause,
+.listen-sleeve-hit.is-playing .i-pause,
+.listen-sleeve-hit.on .glyph-pause,
+.listen-sleeve-hit.on .i-pause { display: block; margin-left: 0; }
+
+@media (hover:hover) {
+  .listen-sleeve-hit:hover .listen-glyph {
+    transform: scale(1.07);
+    filter: brightness(1.06);
+  }
+}
+.listen-sleeve-hit:active .listen-glyph { transform: scale(.96); }
+.listen-sleeve-hit:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+/* While audio runs, fade the glyph; reveal on hover */
+.listen-sleeve.is-playing .listen-sleeve-hit .listen-glyph { opacity: 0; }
+@media (hover:hover) {
+  .listen-sleeve.is-playing .listen-sleeve-hit:hover .listen-glyph { opacity: .92; }
+}
+
+/* Compact shelf / list variant */
+.listen-sleeve--sm {
+  width: 88px;
+  box-shadow:
+    inset 0 0 0 1px rgba(150,162,180,.35),
+    0 8px 18px rgba(26,30,38,.1);
+}
+@media (max-width: 560px) {
+  .listen-sleeve--sm { width: 64px; }
+}
+.listen-sleeve--sm .listen-sleeve-hit .listen-glyph {
+  width: 36px;
+  opacity: 0;
+  transform: translateY(4px);
+}
+@media (hover:hover) {
+  .listen-sleeve--sm:hover .listen-sleeve-hit .listen-glyph,
+  .listen-sleeve--sm.is-playing .listen-sleeve-hit .listen-glyph {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (hover:none) {
+  .listen-sleeve--sm .listen-sleeve-hit .listen-glyph { opacity: 1; transform: none; }
+}
