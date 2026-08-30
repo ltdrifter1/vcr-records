@@ -2859,6 +2859,7 @@
       joinMemberHome.hidden = false;
       joinSection.classList.add('is-member-home');
       if (joinLevels) joinLevels.hidden = true;
+      if (collectors) collectors.hidden = true;
       if (joinPanel) joinPanel.hidden = true;
     }
 
@@ -2867,8 +2868,9 @@
       if (joinSection) joinSection.classList.remove('is-member-home');
       if (joinMemberHome) joinMemberHome.hidden = true;
       if (joinLevels) joinLevels.hidden = false;
+      if (collectors) collectors.hidden = false;
       if (joinPanel) joinPanel.hidden = false;
-      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Join the Record Club.';
+      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Get every drop first.';
       if (profile) {
         fillFormFromProfile(profile);
         if (profile.level === 'premium') state.level = 'premium';
