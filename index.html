@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="description" content="Club Copy — Bridget In My Room out now. Lookout album pre-order. House and jungle from the Pacific Northwest. Listen, buy digital, join the Record Club."/>
+  <meta name="description" content="Club Copy — Bridget In My Room out now. Pacific Northwest house, jungle, and instrumental hip-hop. Small library. Long shelf life. Listen, collect, join the Record Club."/>
   <meta name="theme-color" content="#16191e"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -11,14 +11,14 @@
   <link rel="canonical" href="https://www.clubcopy.ca/"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:title" content="Club Copy | Bridget In My Room + Lookout"/>
-  <meta property="og:description" content="Bridget In My Room out now. Lookout album pre-order. Independent Pacific Northwest label — listen and buy digital."/>
+  <meta property="og:description" content="Bridget In My Room out now. Lookout on pre-order. Pacific Northwest house, jungle, and instrumental hip-hop — listen and collect."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
   <meta property="og:image" content="https://www.clubcopy.ca/bridget-in-my-room-cover.webp"/>
   <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Club Copy | Bridget In My Room + Lookout"/>
-  <meta name="twitter:description" content="Bridget In My Room out now. Lookout album pre-order. Listen and buy digital."/>
+  <meta name="twitter:description" content="Bridget In My Room out now. Lookout on pre-order. House, jungle, instrumental hip-hop — listen and collect."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/bridget-in-my-room-cover.webp"/>
   <title>Club Copy | Bridget In My Room + Lookout</title>
   <script type="application/ld+json">
@@ -41,10 +41,10 @@
         "image": "https://www.clubcopy.ca/bridget-in-my-room-cover.webp",
         "email": "charlie@clubcopy.ca",
         "founder": { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/cj-archer#person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer" },
-        "description": "Club Copy is an independent Pacific Northwest record label based in British Columbia, Canada. The label releases house, jungle, and adjacent electronic music on digital and cassette.",
+        "description": "Club Copy is an independent Pacific Northwest record label based in British Columbia, Canada. The label releases house, jungle, instrumental hip-hop, and adjacent forms on digital and cassette — small editions, long shelf life.",
         "slogan": "Music we want to keep.",
-        "genre": ["House", "Jungle", "UK Garage", "Electronic"],
-        "knowsAbout": ["Pacific Northwest electronic music", "House music", "Jungle music", "Independent record labels", "Cassette releases"],
+        "genre": ["House", "Jungle", "UK Garage", "Instrumental Hip Hop", "Hip Hop", "Electronic"],
+        "knowsAbout": ["Pacific Northwest electronic music", "House music", "Jungle music", "Instrumental hip-hop", "Independent record labels", "Cassette releases"],
         "areaServed": ["Pacific Northwest", "British Columbia", "Canada", "United States"],
         "foundingDate": "2024-02-12",
         "foundingLocation": {
@@ -2031,6 +2031,78 @@
       transition: color .25s var(--ease);
     }
 
+    /* Planet MP3 transmission --------------------------------------------- */
+    .home-planet {
+      position: relative;
+      padding: 8px 0 56px;
+      color: #f4f6f8;
+      background:
+        radial-gradient(640px 280px at 12% 80%, rgba(186,204,224,.1), transparent 58%),
+        linear-gradient(180deg, #050506 0%, #080808 100%);
+    }
+    @media (min-width: 800px) {
+      .home-planet { padding: 12px 0 72px; }
+    }
+    .home-planet-inner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 22px 28px;
+      align-items: center;
+      padding: 28px 0 8px;
+      border-top: 1px solid rgba(200,214,230,.14);
+    }
+    @media (max-width: 560px) {
+      .home-planet-inner {
+        grid-template-columns: 1fr;
+        justify-items: start;
+        gap: 18px;
+        padding-top: 24px;
+      }
+    }
+    .home-planet-mark {
+      width: 72px;
+      height: auto;
+      border-radius: 20%;
+      display: block;
+      box-shadow:
+        0 0 0 1px rgba(200,214,230,.28),
+        0 16px 36px rgba(0,0,0,.45);
+    }
+    @media (min-width: 800px) {
+      .home-planet-mark { width: 88px; }
+    }
+    .home-planet-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      min-width: 0;
+    }
+    .home-planet .eyebrow {
+      color: rgba(200,214,230,.48);
+      margin-bottom: 10px;
+    }
+    .home-planet h2 {
+      margin: 0 0 12px;
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+      color: #fff;
+    }
+    .home-planet-dek {
+      margin: 0 0 22px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: rgba(244,246,248,.58);
+      max-width: 34em;
+    }
+    .home-planet .btn {
+      min-width: 148px;
+      height: 48px;
+    }
+
     /* Legacy place styles kept unused (image frame removed) ---------------- */
     .place,
     .place-frame,
@@ -2129,6 +2201,9 @@
       }
       .wall-title { font-size: 16px; }
       .club-join { padding: 64px 0 80px; }
+      .home-artists { padding-bottom: 32px; }
+      .home-planet { padding-bottom: 40px; }
+      .home-planet-inner { padding-top: 20px; }
     }
 
     /* Short phones (SE / zoomed) : keep idle + live on one screen ---------- */
@@ -2285,7 +2360,7 @@
       <div class="hero-idle" data-room-idle>
         <p class="hero-idle-by">Inlet Knight</p>
         <h1 class="hero-idle-title">Bridget In My Room</h1>
-        <p class="hero-idle-dek">House single · out now</p>
+        <p class="hero-idle-dek">Pacific Northwest house pressure · out now</p>
       </div>
 
       <div class="hero-platter">
@@ -2303,7 +2378,8 @@
 
       <div class="hero-idle-actions" data-room-idle>
         <div class="hero-ctas">
-          <a class="btn btn-chrome-on-dark" href="/bridget-in-my-room#acquire">Buy Digital — $8</a>
+          <button type="button" class="btn btn-chrome-on-dark" id="heroPlayBtn">Play</button>
+          <a class="btn btn-ghost-on-dark" href="#join">Join the club</a>
         </div>
       </div>
 
@@ -2361,16 +2437,16 @@
   </section>
 
 
-  <!-- Also out -->
+  <!-- In rotation -->
   <section class="wall" aria-labelledby="listen-title">
     <div class="wall-bridge" aria-hidden="true"></div>
     <div class="band">
       <header class="section-head" id="listen">
         <div>
-          <p class="eyebrow">Also out</p>
-          <h2 id="listen-title">More from the label</h2>
+          <p class="eyebrow">Catalogue</p>
+          <h2 id="listen-title">In rotation</h2>
         </div>
-        <a class="head-link" href="/library">View all</a>
+        <a class="head-link" href="/library">Full library</a>
       </header>
       <div class="wall-grid" id="wallGrid" aria-live="polite" aria-busy="false">
 <article class="wall-item wall-item--featured rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel"><a href="/lookout" aria-label="Lookout. view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 55vw, 420px" alt="Lookout. artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="wall-play" data-play-release="lookout" data-play-stage aria-label="Play Lookout"><svg class="wp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="wp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><div class="wall-eq" aria-hidden="true"><i></i><i></i><i></i></div><span class="wall-air status-chip status-chip--air" aria-hidden="true">On air</span><span class="release-pill release-pill--preorder">Pre-order</span></div><div class="wall-meta"><p class="wall-cat">CC010 · Album · Pre-Order</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Inlet Knight</p></div></div></article>
@@ -2381,14 +2457,66 @@
     </div>
   </section>
 
+  <!-- Roster -->
+  <section class="home-artists" id="roster" aria-labelledby="roster-title">
+    <div class="band">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow">Roster</p>
+          <h2 id="roster-title">The crew</h2>
+        </div>
+        <a class="head-link" href="/artists">All artists</a>
+      </header>
+      <div class="home-roster">
+        <a class="home-artist rv" href="/artists/inlet-knight">
+          <div class="home-artist-photo">
+            <img src="artists/inlet-knight.webp" alt="" width="800" height="1000" loading="lazy"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">House</p>
+            <h3 class="home-artist-name">Inlet Knight</h3>
+            <p class="home-artist-dek">Locked drums. Long loops. Records finished when they leave.</p>
+            <span class="home-artist-go">Enter →</span>
+          </div>
+        </a>
+        <a class="home-artist rv" href="/artists/lt-drifta">
+          <div class="home-artist-photo">
+            <img src="artists/lt-drifta.webp" alt="" width="1024" height="1024" loading="lazy"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Instrumental hip-hop · Breaks</p>
+            <h3 class="home-artist-name">L.T. Drifta</h3>
+            <p class="home-artist-dek">Crate heat rebuilt for late rooms. Sessions that don’t apologize.</p>
+            <span class="home-artist-go">Enter →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transmission -->
+  <section class="home-planet" id="transmission" aria-labelledby="planet-title">
+    <div class="band">
+      <div class="home-planet-inner rv">
+        <img class="home-planet-mark" src="planetmp3-logo.webp" alt="" width="256" height="256" loading="lazy"/>
+        <div class="home-planet-copy">
+          <p class="eyebrow">Transmission</p>
+          <h2 id="planet-title">Planet MP3</h2>
+          <p class="home-planet-dek">The station behind the imprint. Music that follows the day — mix for any length of time.</p>
+          <a class="btn btn-chrome-on-dark" href="/planet">Enter the stream</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Record club invitation -->
   <section class="club-join" id="join" aria-labelledby="join-title">
     <div class="band">
       <div class="club-join-inner rv">
         <header class="club-join-head">
           <p class="eyebrow">Record Club</p>
-          <h2 class="club-join-title" id="join-title">Get every drop first.</h2>
-          <p class="club-join-dek">Get every drop · Free alerts, or Club at $5/yr for member digital pricing ($6).</p>
+          <h2 class="club-join-title" id="join-title">Member number. First listen.</h2>
+          <p class="club-join-dek">Numbered members. First listens. Credit for the pressings you keep.</p>
         </header>
 
         <div class="join-member-home" id="joinMemberHome" hidden>
@@ -2409,7 +2537,7 @@
             </span>
             <span>
               <span class="join-level-name">Free</span>
-              <span class="join-level-blurb">Release alerts, catalog access, and first listens — every drop.</span>
+              <span class="join-level-blurb">Release alerts, first listens, catalogue access — every drop.</span>
             </span>
             <span class="join-level-tag">Start here</span>
           </button>
@@ -2420,7 +2548,7 @@
             </span>
             <span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-blurb">Digital at member price ($6 vs $8), early access, exclusives.</span>
+              <span class="join-level-blurb">Member digital, early access, exclusives. Numbered card.</span>
             </span>
             <span class="join-level-tag">Member price</span>
           </button>
@@ -2435,7 +2563,7 @@
             </span>
             <span>
               <span class="join-level-name">Premium</span>
-              <span class="join-level-blurb">Pay what you want, get Club Credit for cassettes you choose — plus everything in Club.</span>
+              <span class="join-level-blurb">Pay what you want. Club Credit for cassettes you choose — plus everything in Club.</span>
             </span>
             <span class="join-level-tag">Your shelf</span>
           </button>
@@ -2471,8 +2599,8 @@
               </p>
             </div>
 
-            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Get on the list — Free</button>
-            <p class="club-join-note" id="joinNote">No charge. Upgrade anytime for member pricing.</p>
+            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Get a member number — Free</button>
+            <p class="club-join-note" id="joinNote">No charge. First listens. Upgrade when you want member digital.</p>
             <p class="club-join-status" id="joinStatus" role="status" hidden></p>
           </div>
         </div>
@@ -2643,8 +2771,8 @@
       if (collectors && state.level === 'premium') collectors.open = true;
 
       if (state.level === 'free') {
-        joinBtn.textContent = 'Get on the list — Free';
-        joinNote.textContent = 'No charge. Upgrade anytime for member pricing.';
+        joinBtn.textContent = 'Get a member number — Free';
+        joinNote.textContent = 'No charge. First listens. Upgrade when you want member digital.';
       } else if (state.level === 'premium') {
         syncPremiumPreview();
         var d = state.premiumDollars;
@@ -2652,7 +2780,7 @@
         joinNote.textContent = 'Pay what you want. Nothing ships until you pick something.';
       } else {
         joinBtn.textContent = 'Join the Club — $5/yr';
-        joinNote.textContent = 'Renews yearly. Digital at member price ($6 vs $8).';
+        joinNote.textContent = 'Renews yearly. Member digital at $6 (regular $8).';
       }
     }
 
@@ -2741,7 +2869,7 @@
       if (joinLevels) joinLevels.hidden = false;
       if (collectors) collectors.hidden = false;
       if (joinPanel) joinPanel.hidden = false;
-      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Get every drop first.';
+      if (joinTitle) joinTitle.textContent = profile ? 'Manage your membership.' : 'Member number. First listen.';
       if (profile) {
         fillFormFromProfile(profile);
         if (profile.level === 'premium') state.level = 'premium';
