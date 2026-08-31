@@ -769,12 +769,12 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #fff; }
 .is-now-playing .media-bezel,
 .media-bezel.is-live,
 .is-now-playing.media-bezel {
-  border-color: rgba(200,214,230,.85);
+  border-color: rgba(var(--room-a), .72);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.7),
-    inset 0 0 0 1px rgba(220,230,242,.4),
-    0 0 0 1px rgba(200,214,230,.42),
-    0 0 36px rgba(170,190,220,.28),
+    inset 0 0 0 1px rgba(var(--room-c), .28),
+    0 0 0 1px rgba(var(--room-a), .4),
+    0 0 40px rgba(var(--room-a), calc(0.22 + var(--room-energy, .18) * 0.2)),
     0 16px 40px rgba(26,30,38,.18);
 }
 
