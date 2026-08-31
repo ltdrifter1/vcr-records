@@ -165,9 +165,8 @@
       var clubLabel = yours ? 'yours' : 'club';
       board =
         '<div class="cat-price' + (yours ? ' is-yours' : '') + '">' +
-          '<p class="cat-price-kicker">Digital</p>' +
           '<p class="cat-price-line" aria-label="' +
-            esc((rel.title || 'Release') + ' digital pricing') +
+            esc((rel.title || 'Release') + ' digital price') +
           '">' +
             '<span class="cat-price-amt">$' + esc(money(retail)) + '</span>' +
             (showClub

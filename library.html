@@ -157,6 +157,43 @@
     }
     .page .station-bumper__lede { max-width: 28em; }
 
+    .page .btn-chrome-on-dark,
+    .page .btn-ghost-on-dark {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      text-transform: none;
+      border-radius: 4px;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .page .btn-chrome-on-dark {
+      color: #111;
+      background: #fff;
+      border: 0;
+      box-shadow: none;
+    }
+    .page .btn-chrome-on-dark::before,
+    .page .btn-chrome-on-dark::after,
+    .page .btn-ghost-on-dark::before,
+    .page .btn-ghost-on-dark::after { display: none; }
+    .page .btn-chrome-on-dark:hover {
+      filter: none;
+      background: #eceff2;
+      box-shadow: none;
+    }
+    .page .btn-ghost-on-dark {
+      color: #fff;
+      background: none;
+      border: 1px solid rgba(255,255,255,.28);
+      box-shadow: none;
+    }
+    .page .btn-ghost-on-dark:hover {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.5);
+    }
+
     /* Filters — one quiet row ---------------------------------------------- */
     .lib-rail {
       display: grid;
@@ -350,6 +387,15 @@
     .cat-main { grid-area: main; min-width: 0; }
     .cat-side { grid-area: side; min-width: 0; }
     .cat-go { grid-area: go; }
+    @media (max-width: 859px) {
+      .cat-go { display: none; }
+      .cat-row {
+        grid-template-columns: 88px minmax(0, 1fr);
+        grid-template-areas:
+          "cover main"
+          "cover side";
+      }
+    }
     @media (min-width: 860px) {
       .cat-row {
         grid-template-columns: 96px minmax(0, 1.6fr) minmax(140px, .7fr) auto;
@@ -783,7 +829,7 @@
       <h1 class="station-bumper__title">Library</h1>
       <p class="station-bumper__lede" id="libLead">Every Club Copy release. Digital is cheaper if you join the club.</p>
       <div class="station-bumper__ctas">
-        <a class="btn btn-chrome-on-dark" href="/#join">Join the Record Club</a>
+        '<a class="btn btn-chrome-on-dark" href="/#join">Join the club</a>'
       </div>
     </div>
   </section>
@@ -798,7 +844,7 @@
         <div>
           <p class="lib-shelf__callsign">On the shelf</p>
           <h2 class="lib-shelf__title"><a href="/lookout">Lookout</a></h2>
-          <p class="lib-shelf__meta">Inlet Knight · Album · $8 · $6 if you’re in the club</p>
+          <p class="lib-shelf__meta">Inlet Knight · Album · $8 · $6 club</p>
           <div class="lib-shelf__actions">
             <a class="btn btn-chrome-on-dark" href="/lookout">Open</a>
             <button type="button" class="btn btn-ghost-on-dark" data-play-release="lookout">Play</button>
