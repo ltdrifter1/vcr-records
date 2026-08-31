@@ -13,6 +13,9 @@ const FORMAT = {
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
   "dg-any-jungle",
+  "dg-escape-from-industria",
+  "dg-she-spells-doom",
+  "dg-classic-jazz",
   "dg-the-mystic-jade-touch",
   "dg-lookout",
   "dg-bridget-in-my-room",
@@ -130,6 +133,24 @@ const PRODUCTS = {
   "dg-any-jungle": {
     name: "any jungle — Digital (Single)",
     unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
+  "dg-escape-from-industria": {
+    name: "Escape From Industria — Digital (Single)",
+    unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
+  "dg-she-spells-doom": {
+    name: "She Spells Doom — Digital (Single)",
+    unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
+  "dg-classic-jazz": {
+    name: "Classic Jazz — Digital (Album)",
+    unitAmount: 900,
     digital: true,
     format: "digital",
   },
