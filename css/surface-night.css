@@ -101,8 +101,7 @@ body.surface-night .page-lead a {
 }
 
 /* Shared glass chip / pill on night ---------------------------------------- */
-body.surface-night .chip-glass,
-body.surface-night .cat-genre {
+body.surface-night .chip-glass {
   color: rgba(244,246,248,.9);
   background:
     linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
@@ -132,68 +131,47 @@ body.surface-night.has-station-bumper .nav.scrolled {
     0 8px 28px rgba(0,0,0,.28);
 }
 
-/* Library night shelf — featured campaign spine ---------------------------- */
+/* Library featured shelf --------------------------------------------------- */
 .lib-shelf {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  overflow: visible;
   margin: 0 0 36px;
-  border-radius: var(--bezel-r, 2px);
-  background: #0c0e12;
+  border-radius: 0;
+  background: none;
   color: #fff;
-  border: 1px solid rgba(200,214,230,.18);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.1),
-    0 22px 48px rgba(0,0,0,.35);
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  box-shadow: none;
+  padding-bottom: 32px;
 }
-.lib-shelf__ambient {
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
-  pointer-events: none;
-  background-size: cover;
-  background-position: center;
-  filter: blur(40px) saturate(1.1) brightness(.5) contrast(1.06);
-  transform: scale(1.25);
-  opacity: .85;
-}
-.lib-shelf__ambient::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 70% at 30% 50%, rgba(0,0,0,.15), rgba(0,0,0,.72) 70%),
-    linear-gradient(90deg, rgba(8,9,12,.2) 0%, rgba(8,9,12,.75) 100%);
-}
+.lib-shelf__ambient { display: none; }
 .lib-shelf__grid {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
-  gap: clamp(24px, 4vw, 48px);
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 40px);
   align-items: center;
-  padding: clamp(22px, 3vw, 36px);
+  padding: 0;
 }
 @media (max-width: 799px) {
   .lib-shelf__grid {
     grid-template-columns: 1fr;
-    text-align: center;
-    padding: 22px 18px 28px;
+    text-align: left;
+    padding: 0;
   }
 }
 .lib-shelf__art {
   margin: 0;
   aspect-ratio: 1;
-  max-width: min(280px, 100%);
-  border-radius: var(--bezel-r, 2px);
+  max-width: min(220px, 100%);
+  border-radius: 2px;
   overflow: hidden;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.2),
-    0 0 0 1px rgba(200,214,230,.32),
-    0 24px 48px rgba(0,0,0,.5);
+  box-shadow: none;
 }
 @media (max-width: 799px) {
-  .lib-shelf__art { margin: 0 auto; max-width: min(220px, 70vw); }
+  .lib-shelf__art { margin: 0; max-width: min(180px, 56vw); }
 }
 .lib-shelf__art img {
   width: 100%;
@@ -205,9 +183,9 @@ body.surface-night.has-station-bumper .nav.scrolled {
   font-family: var(--callsign);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: .2em;
+  letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgba(200,214,230,.5);
+  color: rgba(200,214,230,.48);
   margin: 0 0 10px;
 }
 .lib-shelf__title {
@@ -224,8 +202,8 @@ body.surface-night.has-station-bumper .nav.scrolled {
   .lib-shelf__title a:hover { opacity: .78; }
 }
 .lib-shelf__meta {
-  font-size: 14px;
-  color: rgba(255,255,255,.58);
+  font-size: 15px;
+  color: rgba(255,255,255,.55);
   margin: 0 0 20px;
   letter-spacing: -.01em;
 }
@@ -233,9 +211,6 @@ body.surface-night.has-station-bumper .nav.scrolled {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-}
-@media (max-width: 799px) {
-  .lib-shelf__actions { justify-content: center; }
 }
 
 /* Clear filter link on night ----------------------------------------------- */
@@ -250,20 +225,18 @@ body.surface-night .lib-clear {
   }
 }
 body.surface-night .lib-view {
-  background: rgba(255,255,255,.06);
-  border-color: rgba(255,255,255,.16);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  background: none;
+  border: 0;
+  box-shadow: none;
 }
 body.surface-night .lib-view-btn + .lib-view-btn {
-  border-left-color: rgba(255,255,255,.12);
+  border-left-color: rgba(255,255,255,.16);
 }
 body.surface-night .lib-select-wrap::after {
   border-color: rgba(255,255,255,.45);
 }
 body.surface-night .lib-select.has-value {
-  background: rgba(12,14,18,.88);
-  border-color: rgba(200,214,230,.4);
-  box-shadow:
-    inset 0 -2px 0 rgba(200,214,230,.55),
-    inset 0 1px 0 rgba(255,255,255,.1);
+  background: transparent;
+  border-color: rgba(255,255,255,.5);
+  box-shadow: none;
 }
