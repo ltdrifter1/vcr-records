@@ -34,23 +34,35 @@
     return [item.sku, item.colour || '', item.size || ''].join('::');
   }
 
+  function lineRetail(item) {
+    var r = item && (item.retail != null ? item.retail : item.price);
+    return Number(r);
+  }
+
+  function priced(retail, sku) {
+    var v = Number(retail);
+    if (!isFinite(v)) return v;
+    if (
+      global.ClubMember &&
+      ClubMember.musicUnitPrice &&
+      ClubMember.isMusicSku &&
+      ClubMember.isMusicSku(sku)
+    ) {
+      return ClubMember.musicUnitPrice(v, sku);
+    }
+    return v;
+  }
+
   function add(item) {
     var items = load();
     var id = item.id || lineId(item);
     var existing = items.find(function (i) { return i.id === id; });
-    var price = Number(item.price);
     var sku = String(item.sku || '');
-    if (
-      global.ClubMember &&
-      ClubMember.hasMemberPricing() &&
-      sku.indexOf('dg-') === 0
-    ) {
-      // Prefer retail→member mapping; ignore if line is already member-priced
-      var memberPrice = ClubMember.memberDigitalPrice(price);
-      if (memberPrice != null) price = memberPrice;
-    }
+    var retail = Number(item.retail != null ? item.retail : item.price);
+    var price = priced(retail, sku);
     if (existing) {
       existing.qty += item.qty || 1;
+      existing.retail = retail;
       if (Number.isFinite(price)) existing.price = price;
     } else {
       items.push({
@@ -59,6 +71,7 @@
         name: item.name,
         colour: item.colour || null,
         size: item.size || null,
+        retail: retail,
         price: price,
         image: item.image,
         stripe: item.stripe,
@@ -67,6 +80,19 @@
     }
     save(items);
     return items;
+  }
+
+  function reprice() {
+    var items = load();
+    var changed = false;
+    var next = items.map(function (i) {
+      var retail = lineRetail(i);
+      var price = priced(retail, i.sku);
+      if (i.retail !== retail || i.price !== price) changed = true;
+      return Object.assign({}, i, { retail: retail, price: price });
+    });
+    if (changed) save(next);
+    return next;
   }
 
   function setQty(id, qty) {
@@ -112,11 +138,18 @@
     subtotal: subtotal,
     money: money,
     updateBadges: updateBadges,
+    reprice: reprice,
     lineId: lineId
   };
 
-  document.addEventListener('DOMContentLoaded', updateBadges);
+  document.addEventListener('DOMContentLoaded', function () {
+    reprice();
+    updateBadges();
+  });
   global.addEventListener('vcr:cart', updateBadges);
+  global.addEventListener('club:member', function () {
+    reprice();
+  });
   global.addEventListener('storage', function (e) {
     if (e.key === CART_KEY) updateBadges();
   });

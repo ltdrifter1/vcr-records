@@ -159,8 +159,8 @@ const PRODUCTS = {
 
   // Membership — Club Copy record club
   // Free — release alerts + catalog (no SKU)
-  // Club — $5/yr digital record club
-  // Premium — $10+ /yr (pay what you want) → 2.5×–5.0× Club Credit
+  // Club — $5/yr · 30% off all music
+  // Premium — $10+ /yr · 50% off all music + Club Credit
   "club-level": {
     name: "Club Copy Record Club — Club",
     unitAmount: 500,
@@ -222,23 +222,33 @@ function priceIdFromEnv(sku) {
   return process.env[key] || null;
 }
 
-/** Club / Premium digital member price (cents). Retail $8→$6, $3→$2, $1.99→$1.50. */
-function memberDigitalUnitAmount(unitAmount) {
-  const n = Math.floor(Number(unitAmount) || 0);
-  if (n === 150 || n === 200 || n === 600) return n;
-  if (n >= 800) return 600;
-  if (n === 300) return 200;
-  if (n === 199) return 150;
-  return null;
+/** Music formats take Club / Premium % off. Merch, bundles, membership do not. */
+const MUSIC_FORMATS = new Set(["digital", "cassette", "vinyl"]);
+const MUSIC_DISCOUNT = { club: 0.3, premium: 0.5 };
+
+function isMusicProduct(product) {
+  return !!(product && MUSIC_FORMATS.has(product.format));
+}
+
+function musicDiscountRate(level) {
+  return MUSIC_DISCOUNT[level] || 0;
+}
+
+/** Club 30% / Premium 50% off music, in cents. */
+function musicMemberUnitAmount(unitAmount, level) {
+  const n = Math.round(Number(unitAmount) || 0);
+  const rate = musicDiscountRate(level);
+  if (!rate || n <= 0) return n;
+  return Math.max(1, Math.round(n * (1 - rate)));
+}
+
+/** @deprecated use musicMemberUnitAmount(unitAmount, level) */
+function memberDigitalUnitAmount(unitAmount, level) {
+  return musicMemberUnitAmount(unitAmount, level || "club");
 }
 
 function isMemberPricedDigital(product) {
-  return !!(
-    product &&
-    product.digital &&
-    product.format === "digital" &&
-    memberDigitalUnitAmount(product.unitAmount) != null
-  );
+  return isMusicProduct(product);
 }
 
 module.exports = {
@@ -247,6 +257,11 @@ module.exports = {
   MERCH_PAGE_SKUS,
   SHIPPING,
   priceIdFromEnv,
+  MUSIC_FORMATS,
+  MUSIC_DISCOUNT,
+  isMusicProduct,
+  musicDiscountRate,
+  musicMemberUnitAmount,
   memberDigitalUnitAmount,
   isMemberPricedDigital,
   MEMBERSHIP: {
@@ -262,8 +277,7 @@ module.exports = {
       sku: "club-level",
       label: "Club",
       priceLabel: "$5/yr",
-      blurb:
-        "Digital releases at member price, early access, exclusives.",
+      blurb: "30% off all music — digital, cassette, vinyl.",
       layer: "digital",
     },
     premium: {
@@ -272,7 +286,7 @@ module.exports = {
       label: "Premium",
       priceLabel: "From $10/yr",
       blurb:
-        "Get credit for the shelf — pay what you want, spend Club Credit on cassettes you choose, plus everything in Club.",
+        "50% off all music, plus Club Credit toward cassettes you choose.",
       minAmountCents: 1000,
       creditMultMin: 2.5,
       creditMultMax: 5.0,

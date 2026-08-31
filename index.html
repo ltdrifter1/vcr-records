@@ -2062,13 +2062,13 @@
           <header class="club-join-head">
             <p class="eyebrow">Record Club</p>
             <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
-            <p class="club-join-dek">We'll email you when a record comes out. Pay $5 a year if you want the cheaper digital price.</p>
+            <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
           </header>
 
           <div class="join-member-home" id="joinMemberHome" hidden>
             <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
             <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
-            <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member price.</p>
+            <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
             <div class="join-member-actions">
               <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
               <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
@@ -2088,7 +2088,7 @@
               <span class="join-level-dot" aria-hidden="true"></span>
               <span>
                 <span class="join-level-name">Club</span>
-                <span class="join-level-blurb">Digital is $6 instead of $8.</span>
+                <span class="join-level-blurb">30% off all music — digital, cassette, vinyl.</span>
               </span>
               <span class="join-level-price">$5/year</span>
             </button>
@@ -2096,7 +2096,7 @@
               <span class="join-level-dot" aria-hidden="true"></span>
               <span>
                 <span class="join-level-name">Premium</span>
-                <span class="join-level-blurb">Pay what you want. Credit toward cassettes.</span>
+                <span class="join-level-blurb">50% off all music. Credit toward cassettes.</span>
               </span>
               <span class="join-level-price">from $10/year</span>
             </button>
@@ -2332,10 +2332,10 @@
         syncPremiumPreview();
         var d = state.premiumDollars;
         joinBtn.textContent = 'Join for $' + d + ' a year';
-        joinNote.textContent = 'Credit toward cassettes. Nothing ships until you order.';
+        joinNote.textContent = '50% off all music. Credit toward cassettes. Nothing ships until you order.';
       } else {
         joinBtn.textContent = 'Join for $5 a year';
-        joinNote.textContent = 'Digital is $6 instead of $8. Renews once a year.';
+        joinNote.textContent = '30% off all music. Renews once a year.';
       }
     }
 
@@ -2400,9 +2400,9 @@
       }
       if (joinMemberDek) {
         if (profile.level === 'premium') {
-          joinMemberDek.textContent = 'Credit toward cassettes is on this email.';
+          joinMemberDek.textContent = '50% off all music. Credit toward cassettes is on this email.';
         } else if (profile.level === 'club') {
-          joinMemberDek.textContent = 'Digital is $6 instead of $8.';
+          joinMemberDek.textContent = '30% off all music on this email.';
         } else {
           joinMemberDek.textContent = "We'll email you when a record comes out. You can upgrade anytime.";
         }

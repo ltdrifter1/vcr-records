@@ -10,8 +10,8 @@
  *   origin?: string
  * }
  *
- * Club: $5/year subscription
- * Premium: annual contribution ($10+) → 2.5×–5.0× Club Credit
+ * Club: $5/year subscription — 30% off all music
+ * Premium: annual contribution ($10+) — 50% off all music + 2.5×–5.0× Club Credit
  */
 const { PRODUCTS, MEMBERSHIP, priceIdFromEnv } = require("./catalog");
 const {
@@ -279,7 +279,7 @@ module.exports = async function handler(req, res) {
       "line_items[0][price_data][unit_amount]": amountCents,
       "line_items[0][price_data][product_data][name]":
         "Club Copy Record Club — Premium (annual)",
-      "line_items[0][price_data][product_data][description]": `$${(
+      "line_items[0][price_data][product_data][description]": `50% off all music, plus $${(
         creditCents / 100
       ).toFixed(2)} Club Credit (${mult.toFixed(1)}×) toward physical releases`,
       "line_items[0][price_data][product_data][metadata][sku]": sku,

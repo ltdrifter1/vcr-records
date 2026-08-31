@@ -18,12 +18,11 @@ const {
   PRODUCTS,
   SHIPPING,
   priceIdFromEnv,
-  memberDigitalUnitAmount,
-  isMemberPricedDigital,
+  musicMemberUnitAmount,
+  isMusicProduct,
 } = require("./catalog");
 const {
   getBalance,
-  creditEligibleCents,
   maxApplicableCredit,
   createCreditCoupon,
   normalizeEmail,
@@ -134,7 +133,7 @@ module.exports = async function handler(req, res) {
     ? normalizeEmail(body.email)
     : "";
 
-  /** Club / Premium digital pricing — verified from Stripe Customer metadata. */
+  /** Club 30% / Premium 50% off music — verified from Stripe Customer metadata. */
   let memberPricing = false;
   let memberLevel = "";
   if (buyerEmail) {
@@ -160,6 +159,7 @@ module.exports = async function handler(req, res) {
   let hasPhysical = false;
   const skusOrdered = [];
   let memberPricedLines = 0;
+  let creditEligible = 0;
 
   for (const raw of items) {
     const sku = String(raw.sku || "").toLowerCase();
@@ -193,13 +193,14 @@ module.exports = async function handler(req, res) {
 
     let unitAmount = product.unitAmount;
     let usedMemberPrice = false;
-    if (memberPricing && isMemberPricedDigital(product)) {
-      const memberAmount = memberDigitalUnitAmount(product.unitAmount);
-      if (memberAmount != null) {
+    if (memberPricing && isMusicProduct(product)) {
+      const memberAmount = musicMemberUnitAmount(product.unitAmount, memberLevel);
+      if (memberAmount !== product.unitAmount) {
         unitAmount = memberAmount;
         usedMemberPrice = true;
         memberPricedLines += 1;
-        name = `${name} — Member price`;
+        const pct = memberLevel === "premium" ? "50%" : "30%";
+        name = `${name} — ${memberLevel === "premium" ? "Premium" : "Club"} ${pct} off`;
       }
     }
 
@@ -254,6 +255,7 @@ module.exports = async function handler(req, res) {
     }
 
     skusOrdered.push(sku);
+    if (!MEMBERSHIP_SKUS.has(sku)) creditEligible += unitAmount * qty;
     lineIndex += 1;
   }
 
@@ -267,7 +269,7 @@ module.exports = async function handler(req, res) {
   if (body.applyCredit && buyerEmail && !membershipOnly) {
     try {
       const bal = await getBalance(buyerEmail);
-      const eligible = creditEligibleCents(items, PRODUCTS);
+      const eligible = creditEligible;
       creditAppliedCents = maxApplicableCredit(bal.balanceCents, eligible);
       if (creditAppliedCents > 0) {
         const couponRef = `cart:${buyerEmail}:${creditAppliedCents}:${skusOrdered.join(",")}:${Date.now()}`;

@@ -70,23 +70,45 @@
     return !!(p && p.level === 'premium');
   }
 
-  function memberDigitalPrice(retail) {
-    var v = Number(retail);
-    if (!isFinite(v)) return null;
-    // Already at member price
-    if (v === 6 || v === 2 || v === 1.5) return v;
-    if (v >= 8) return 6;
-    if (Math.abs(v - 3) < 0.001) return 2;
-    if (Math.abs(v - 1.99) < 0.001) return 1.5;
-    return null;
+  function isMusicSku(sku) {
+    var s = String(sku || '').toLowerCase();
+    if (!s) return false;
+    if (s.indexOf('dg-') === 0) return true;
+    if (s.indexOf('cassette') !== -1) return true;
+    if (s.indexOf('vinyl') !== -1 || s.indexOf('vn-') === 0) return true;
+    return false;
   }
 
-  function displayPrice(retail) {
-    if (hasMemberPricing()) {
-      var m = memberDigitalPrice(retail);
-      if (m != null) return m;
+  function musicDiscountRate(profile) {
+    var p = profile || readProfile();
+    if (!p) return 0;
+    if (p.level === 'premium') return 0.5;
+    if (p.level === 'club') return 0.3;
+    return 0;
+  }
+
+  /** Dollars, rounded to cents. Optional profile overrides the signed-in member. */
+  function musicUnitPrice(retail, sku, profile) {
+    var v = Number(retail);
+    if (!isFinite(v)) return v;
+    if (sku && !isMusicSku(sku)) return v;
+    var rate = 0;
+    if (profile && typeof profile === 'object') {
+      if (profile.level === 'premium') rate = 0.5;
+      else if (profile.level === 'club') rate = 0.3;
+    } else {
+      rate = musicDiscountRate(profile);
     }
-    return Number(retail);
+    if (!rate) return v;
+    return Math.round(v * (1 - rate) * 100) / 100;
+  }
+
+  function memberDigitalPrice(retail) {
+    return musicUnitPrice(retail, 'dg-release');
+  }
+
+  function displayPrice(retail, sku) {
+    return musicUnitPrice(retail, sku || 'dg-release');
   }
 
   function levelLabel(level) {
@@ -151,15 +173,17 @@
     var paid = hasMemberPricing(profile);
     document.querySelectorAll('.price-member').forEach(function (el) {
       if (!el.dataset.baseText) el.dataset.baseText = el.textContent;
-      el.textContent = paid ? 'Your price' : el.dataset.baseText;
+      el.textContent = paid
+        ? (isPremium(profile) ? 'Your price · 50% off' : 'Your price · 30% off')
+        : el.dataset.baseText;
       el.classList.toggle('is-yours', paid);
     });
     document.querySelectorAll('.ra-club-cue').forEach(function (el) {
       if (!el.dataset.baseHtml) el.dataset.baseHtml = el.innerHTML;
       if (paid) {
         el.innerHTML = isPremium(profile)
-          ? 'Member ' + profile.memberNumber + ' — digital at your price; Club Credit applies to cassettes.'
-          : 'Member ' + profile.memberNumber + ' — this digital copy is at your club price.';
+          ? 'Member ' + profile.memberNumber + ' — 50% off all music. Club Credit still applies to cassettes.'
+          : 'Member ' + profile.memberNumber + ' — 30% off all music on this email.';
       } else {
         el.innerHTML = el.dataset.baseHtml;
       }
@@ -183,6 +207,9 @@
     clearProfile: clearProfile,
     hasMemberPricing: hasMemberPricing,
     isPremium: isPremium,
+    isMusicSku: isMusicSku,
+    musicDiscountRate: musicDiscountRate,
+    musicUnitPrice: musicUnitPrice,
     memberDigitalPrice: memberDigitalPrice,
     displayPrice: displayPrice,
     levelLabel: levelLabel,

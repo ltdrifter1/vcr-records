@@ -556,7 +556,11 @@
           '<div>' +
             '<div class="cart-name">' + esc(item.name) + '</div>' +
             (variantLabel(item) ? '<div class="cart-meta">' + esc(variantLabel(item)) + '</div>' : '') +
-            '<div class="cart-price">' + VCRCart.money(item.price) + ' · each</div>' +
+            '<div class="cart-price">' +
+              (Number(item.retail) > Number(item.price) + 0.001
+                ? '<s>' + VCRCart.money(item.retail) + '</s> ' + VCRCart.money(item.price) + ' · each'
+                : VCRCart.money(item.price) + ' · each') +
+            '</div>' +
             '<p class="ship-hint">' + (isDigital(item) ? (String(item.sku || '').indexOf('club-') === 0 ? 'Membership' : 'Digital — link emailed after checkout') : 'Ships in 2–4 business days') + '</p>' +
           '</div>' +
           '<div class="cart-line-side">' +
@@ -650,6 +654,10 @@
     if (note) note.textContent = 'Checkout canceled — your cart is still here.';
   }
   window.addEventListener('vcr:cart', render);
+  window.addEventListener('club:member', function () {
+    if (window.VCRCart && VCRCart.reprice) VCRCart.reprice();
+  });
+  if (window.VCRCart && VCRCart.reprice) VCRCart.reprice();
   render();
 })();
 </script>

@@ -17,7 +17,7 @@ Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 ## Commerce
 
 - **Format prices (CAD):** Digital **$8** · Cassette **$20** · Vinyl **$45**
-- **Membership (Record Club):** **Free** (alerts + catalog) · **Club** **$5/yr** (digital record club — member pricing, exclusives, card) · **Premium** **from $10/yr** (pay what you want → **2.5×–5.0× Club Credit** toward physical editions; $10→$25, $100+→5×)
+- **Membership (Record Club):** **Free** (alerts + catalog) · **Club** **$5/yr** (**30% off all music** — digital, cassette, vinyl) · **Premium** **from $10/yr** (**50% off all music**, plus pay-what-you-want → **2.5×–5.0× Club Credit** toward physical editions; $10→$25, $100+→5×)
 - **Club Credit ledger:** email-keyed balance. Premium webhook grants **$25**; cart can apply credit at Checkout via one-time Stripe coupon; webhook debits on success. Storage: Upstash/Vercel KV if configured, else Stripe Customer metadata + balance transactions.
 - **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
 - **Digital**: sold on-site (email delivery after Checkout).
