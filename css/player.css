@@ -74,6 +74,26 @@ body.is-air .vcr-player {
     linear-gradient(180deg, rgba(18,18,20,.92), rgba(10,10,12,.88));
 }
 
+/* Record color continues past the listening booth ------------------------- */
+body.hero-top,
+body.surface-night {
+  background-color: #08090c;
+}
+body.vcr-chroma.hero-top,
+body.vcr-chroma.surface-night {
+  background:
+    radial-gradient(880px 520px at 12% -8%, rgba(var(--room-a), .16), transparent 58%),
+    radial-gradient(720px 460px at 92% 18%, rgba(var(--room-b), .1), transparent 52%),
+    linear-gradient(180deg, #0a0a0c 0%, #07080a 55%, #050506 100%);
+}
+body.is-air.vcr-chroma.hero-top,
+body.is-air.vcr-chroma.surface-night {
+  background:
+    radial-gradient(920px 560px at 14% -6%, rgba(var(--room-a), calc(0.2 + var(--room-energy) * 0.16)), transparent 60%),
+    radial-gradient(760px 500px at 90% 22%, rgba(var(--room-b), .14), transparent 54%),
+    linear-gradient(180deg, #0a0a0c 0%, #07080a 55%, #050506 100%);
+}
+
 .vcr-player.is-visible {
   transform: none;
   opacity: 1;
