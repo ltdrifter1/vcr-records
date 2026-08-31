@@ -155,9 +155,9 @@
     };
     var thirdH = (primary.h + 0.18) % 1;
     return {
-      a: lift(primary, 1.18, 1.05),
-      b: lift(secondary, 1.1, 0.92),
-      c: hslToRgb(thirdH, Math.min(0.7, primary.s * 0.85 + 0.2), 0.52),
+      a: lift(primary, 1.38, 1.12),
+      b: lift(secondary, 1.28, 1.0),
+      c: hslToRgb(thirdH, Math.min(0.74, primary.s * 0.9 + 0.24), 0.56),
     };
   }
 
