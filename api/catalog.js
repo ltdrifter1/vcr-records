@@ -12,6 +12,7 @@ const FORMAT = {
 
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
+  "dg-any-jungle",
   "dg-the-mystic-jade-touch",
   "dg-lookout",
   "dg-bridget-in-my-room",
@@ -123,6 +124,12 @@ const PRODUCTS = {
   "dg-lunar-eclipse-part-3": {
     name: "Lunar (Eclipse Part 3) — Digital (Single)",
     unitAmount: 199,
+    digital: true,
+    format: "digital",
+  },
+  "dg-any-jungle": {
+    name: "any jungle — Digital (Single)",
+    unitAmount: 150,
     digital: true,
     format: "digital",
   },

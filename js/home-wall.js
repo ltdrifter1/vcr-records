@@ -4,7 +4,7 @@
   if (!grid) return;
 
   /* Even rack under the hero — current album + support releases */
-  var HOME_SPINE = ['lookout', 'ep-6', 'need-you', 'champion-sound'];
+  var HOME_SPINE = ['any-jungle', 'lookout', 'ep-6', 'need-you'];
 
   function esc(s) {
     return String(s == null ? '' : s)
