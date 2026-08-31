@@ -119,19 +119,23 @@
     return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.00$/, '');
   }
 
-  /** Map retail digital → club member price (CAD). Always returns a number when retail is valid. */
-  function digitalMemberPrice(retail) {
+  /** Club 30% / Premium 50% off music. Guests see the Club teaser. */
+  function musicMemberPrice(retail, sku) {
     var v = Number(retail);
     if (!isFinite(v)) return null;
-    if (window.ClubMember && typeof ClubMember.memberDigitalPrice === 'function') {
-      var mapped = ClubMember.memberDigitalPrice(v);
-      if (mapped != null && isFinite(Number(mapped))) return Number(mapped);
+    var skuKey = sku || 'dg-release';
+    if (window.ClubMember && typeof ClubMember.musicUnitPrice === 'function') {
+      var profile = ClubMember.readProfile && ClubMember.readProfile();
+      if (profile && ClubMember.hasMemberPricing(profile)) {
+        return ClubMember.musicUnitPrice(v, skuKey, profile);
+      }
+      return ClubMember.musicUnitPrice(v, skuKey, { level: 'club' });
     }
-    if (v === 6 || v === 2 || v === 1.5) return v;
-    if (v >= 8) return 6;
-    if (Math.abs(v - 3) < 0.001) return 2;
-    if (Math.abs(v - 1.99) < 0.001) return 1.5;
-    return v;
+    return Math.round(v * 0.7 * 100) / 100;
+  }
+
+  function digitalMemberPrice(retail) {
+    return musicMemberPrice(retail, 'dg-release');
   }
 
   function isMemberShopper() {
@@ -162,7 +166,12 @@
       var mem = digitalMemberPrice(retail);
       if (mem == null) mem = retail;
       var showClub = isFinite(mem) && Math.abs(mem - retail) > 0.001;
-      var clubLabel = yours ? 'yours' : 'club';
+      var clubLabel = 'club';
+      if (yours) {
+        clubLabel = (window.ClubMember && ClubMember.isPremium && ClubMember.isPremium())
+          ? 'premium'
+          : 'yours';
+      }
       board =
         '<div class="cat-price' + (yours ? ' is-yours' : '') + '">' +
           '<p class="cat-price-line" aria-label="' +
@@ -323,11 +332,13 @@
     if (!bits.length) {
       var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
       if (profile && ClubMember.hasMemberPricing(profile)) {
-        leadEl.innerHTML = "You're in. Digital is the club price on this email. <a href=\"/#join\">Your club</a>";
+        leadEl.innerHTML = ClubMember.isPremium(profile)
+          ? "You're in. 50% off all music on this email. <a href=\"/#join\">Your club</a>"
+          : "You're in. 30% off all music on this email. <a href=\"/#join\">Your club</a>";
       } else if (profile) {
-        leadEl.innerHTML = "You're on the list. <a href=\"/#join\">Join the club</a> for the cheaper digital price.";
+        leadEl.innerHTML = "You're on the list. <a href=\"/#join\">Join the club</a> for 30% off music.";
       } else {
-        leadEl.innerHTML = 'Every Club Copy release. Digital is cheaper if you <a href="/#join">join the club</a>.';
+        leadEl.innerHTML = 'Every Club Copy release. Club is 30% off music. Premium is 50%. <a href="/#join">Join</a>.';
       }
       return;
     }

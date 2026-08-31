@@ -12,7 +12,8 @@
  *
  * Premium credit: pay $10+ annually year → 2.5×–5.0× Club Credit
  *   $10 → 2.5× ($25) … $100+ → 5.0×
- * Club: $5 / year digital record club
+ * Club: $5 / year — 30% off all music
+ * Premium: pay $10+ annually → 50% off all music + 2.5×–5.0× Club Credit
  */
 
 const JOIN_SKU = "club-join"; // legacy
