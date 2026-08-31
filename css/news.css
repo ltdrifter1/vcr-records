@@ -251,6 +251,26 @@ a.news-card.news-card--essay .news-card-art {
   .news-grid { grid-template-columns: repeat(3, 1fr); gap: 44px 32px; }
 }
 
+.news-year {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  padding: 28px 0 0;
+  font-family: var(--callsign);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(200,214,230,.45);
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.news-year:first-child,
+.news-year[hidden] + .news-year {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+.news-year[hidden] { display: none !important; }
+
 .news-card--featured {
   grid-column: 1 / -1;
 }

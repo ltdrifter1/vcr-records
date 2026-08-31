@@ -67,6 +67,19 @@
     syncNav();
   }
 
+  /* Homepage news rail — newest first, then native scrollbar (desktop) + swipe (touch).
+     No wheel remapping: vertical mouse wheel must keep scrolling the page.
+     Desktop also skips touch-action:pan-x / scroll-snap so the PC scrollbar
+     stays draggable (see css/news.css). */
+  var newsTrack = document.querySelector('.news-rail-track');
+  if (newsTrack) {
+    var newsCards = Array.prototype.slice.call(newsTrack.querySelectorAll('.news-card'));
+    newsCards.sort(function (a, b) {
+      return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
+    });
+    newsCards.forEach(function (card) { newsTrack.appendChild(card); });
+  }
+
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -80,11 +93,6 @@
   } else {
     document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
   }
-
-  /* Homepage news rail — native scrollbar (desktop) + swipe (touch).
-     No wheel remapping: vertical mouse wheel must keep scrolling the page.
-     Desktop also skips touch-action:pan-x / scroll-snap so the PC scrollbar
-     stays draggable (see css/news.css). */
 
   window.ClubCopy = window.ClubCopy || {};
   window.ClubCopy.closeDrawer = closeDrawer;
