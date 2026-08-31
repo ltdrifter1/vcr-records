@@ -23,7 +23,7 @@
     return bits.join(' · ');
   }
 
-  function card(rel) {
+  function card(rel, i) {
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
@@ -52,6 +52,7 @@
             playBtn +
           '</div>' +
           '<div class="wall-meta">' +
+            '<p class="wall-num">' + String(i + 1).padStart(2, '0') + '</p>' +
             (meta ? '<p class="wall-cat">' + esc(meta) + '</p>' : '') +
             '<h3 class="wall-title"><a href="' + esc(href) + '">' + esc(rel.title) + '</a></h3>' +
             (rel.artist ? '<p class="wall-artist">' + esc(rel.artist) + '</p>' : '') +
@@ -151,7 +152,7 @@
     })
     .then(function (data) {
       var releases = pickSpine(data.releases || []);
-      grid.innerHTML = releases.map(function (rel) { return card(rel); }).join('');
+      grid.innerHTML = releases.map(function (rel, i) { return card(rel, i); }).join('');
       grid.removeAttribute('aria-busy');
       bindPlayButtons();
       observeReveal();
