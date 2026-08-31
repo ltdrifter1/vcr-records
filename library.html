@@ -586,14 +586,7 @@
     .cat-priceboard::after { display: none; }
     .cat-priceboard-kicker,
     .cat-price-kicker {
-      margin: 0 0 4px;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .02em;
-      text-transform: none;
-      font-family: var(--sans);
-      color: rgba(255,255,255,.42);
-      line-height: 1;
+      display: none;
     }
     .cat-price-panel,
     .cat-price-line {
@@ -694,6 +687,9 @@
       stroke: currentColor;
       fill: none;
       stroke-width: 1.7;
+    }
+    @media (max-width: 859px) {
+      .cat-go { display: none; }
     }
     @media (hover:hover) {
       .cat-row:hover .cat-go { color: #fff; background: none; border: 0; }
