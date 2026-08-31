@@ -150,23 +150,6 @@
     return other;
   }
 
-  function priceTileHtml(label, amount, opts) {
-    var o = opts || {};
-    var classes = ['cat-price-tile'];
-    if (o.member) classes.push('cat-price-tile--member');
-    if (o.active) classes.push('is-active');
-    if (o.yours) classes.push('is-yours');
-    return (
-      '<div class="' + classes.join(' ') + '">' +
-        '<span class="cat-price-tile-label">' + esc(label) + '</span>' +
-        '<span class="cat-price-tile-amt">' +
-          '<span class="cat-price-tile-currency" aria-hidden="true">$</span>' +
-          esc(money(amount)) +
-        '</span>' +
-      '</div>'
-    );
-  }
-
   function pricePanelHtml(rel) {
     var f = rel.formats || {};
     var hasDigital = !!(f.digital && f.digital.price != null);
@@ -178,43 +161,30 @@
       var retail = Number(f.digital.price);
       var mem = digitalMemberPrice(retail);
       if (mem == null) mem = retail;
+      var showClub = isFinite(mem) && Math.abs(mem - retail) > 0.001;
+      var clubLabel = yours ? 'yours' : 'club';
       board =
-        '<div class="cat-priceboard">' +
-          '<p class="cat-priceboard-kicker">Digital</p>' +
-          '<div class="cat-price-panel" role="group" aria-label="' +
-            esc((rel.title || 'Release') + ' digital pricing') +
+        '<div class="cat-price' + (yours ? ' is-yours' : '') + '">' +
+          '<p class="cat-price-line" aria-label="' +
+            esc((rel.title || 'Release') + ' digital price') +
           '">' +
-            priceTileHtml('Regular', retail, { active: !yours }) +
-            priceTileHtml('Member', mem, {
-              member: true,
-              active: yours,
-              yours: yours
-            }) +
-          '</div>' +
+            '<span class="cat-price-amt">$' + esc(money(retail)) + '</span>' +
+            (showClub
+              ? '<span class="cat-price-club">$' + esc(money(mem)) + ' ' + clubLabel + '</span>'
+              : '') +
+          '</p>' +
         '</div>';
     }
 
     var note = '';
     if (other.length) {
-      note =
-        '<p class="cat-format-note">' +
-          '<span class="cat-format-note-mark" aria-hidden="true"></span>' +
-          '<span>' + esc(other.join(' · ') + ' available') + '</span>' +
-        '</p>';
+      note = '<p class="cat-format-note">' + esc(other.join(' · ') + ' available') + '</p>';
     } else if (!hasDigital) {
-      note =
-        '<p class="cat-format-note">' +
-          '<span class="cat-format-note-mark" aria-hidden="true"></span>' +
-          '<span>' + esc(formatSide(rel)) + '</span>' +
-        '</p>';
+      note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
     }
 
     if (!board && !note) {
-      note =
-        '<p class="cat-format-note">' +
-          '<span class="cat-format-note-mark" aria-hidden="true"></span>' +
-          '<span>' + esc(formatSide(rel)) + '</span>' +
-        '</p>';
+      note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
     }
 
     return '<div class="cat-side-pricing">' + board + note + '</div>';
@@ -353,11 +323,11 @@
     if (!bits.length) {
       var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
       if (profile && ClubMember.hasMemberPricing(profile)) {
-        leadEl.innerHTML = 'Club edition — Member ' + esc(profile.memberNumber) + '. Digital copies at your price. <a href="/#join">Your club</a>';
+        leadEl.innerHTML = "You're in. Digital is the club price on this email. <a href=\"/#join\">Your club</a>";
       } else if (profile) {
-        leadEl.innerHTML = 'Member ' + esc(profile.memberNumber) + ' · on the list. <a href="/#join">Accept Club</a> for member pricing.';
+        leadEl.innerHTML = "You're on the list. <a href=\"/#join\">Join the club</a> for the cheaper digital price.";
       } else {
-        leadEl.innerHTML = 'Every Club Copy release by catalogue number. <a href="/#join">Record Club</a>';
+        leadEl.innerHTML = 'Every Club Copy release. Digital is cheaper if you <a href="/#join">join the club</a>.';
       }
       return;
     }
