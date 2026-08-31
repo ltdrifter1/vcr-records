@@ -19,9 +19,223 @@
   var bumperTimer = null;
   var bumperOpen = false;
   var BUMPER_MS = 1200;
+  var chromaCache = {};
+  var chromaSrc = "";
+  var audioCtx = null;
+  var analyser = null;
+  var analyserBins = null;
+  var energyRaf = 0;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
+  }
+
+  function reduceMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function clampByte(n) {
+    return Math.max(0, Math.min(255, Math.round(n)));
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    var max = Math.max(r, g, b);
+    var min = Math.min(r, g, b);
+    var h = 0;
+    var s = 0;
+    var l = (max + min) / 2;
+    if (max !== min) {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+      else if (max === g) h = (b - r) / d + 2;
+      else h = (r - g) / d + 4;
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+
+  function hslToRgb(h, s, l) {
+    var r;
+    var g;
+    var b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      var hue2rgb = function (p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return [clampByte(r * 255), clampByte(g * 255), clampByte(b * 255)];
+  }
+
+  function rgbStr(rgb) {
+    return rgb[0] + ", " + rgb[1] + ", " + rgb[2];
+  }
+
+  function applyChroma(palette) {
+    if (!palette) return;
+    var root = document.documentElement;
+    root.style.setProperty("--room-a", rgbStr(palette.a));
+    root.style.setProperty("--room-b", rgbStr(palette.b));
+    root.style.setProperty("--room-c", rgbStr(palette.c));
+    document.body.classList.add("vcr-chroma");
+  }
+
+  function pickPalette(data) {
+    var buckets = {};
+    var i;
+    for (i = 0; i < data.length; i += 4) {
+      var r = data[i];
+      var g = data[i + 1];
+      var b = data[i + 2];
+      var a = data[i + 3];
+      if (a < 140) continue;
+      var hsl = rgbToHsl(r, g, b);
+      if (hsl[2] < 0.08 || hsl[2] > 0.88) continue;
+      if (hsl[1] < 0.12) continue;
+      var key = String(Math.round(hsl[0] * 18));
+      if (!buckets[key]) buckets[key] = { h: 0, s: 0, l: 0, w: 0, r: 0, g: 0, b: 0 };
+      var w = hsl[1] * (1 - Math.abs(hsl[2] - 0.42) * 1.4) + 0.08;
+      buckets[key].h += hsl[0] * w;
+      buckets[key].s += hsl[1] * w;
+      buckets[key].l += hsl[2] * w;
+      buckets[key].r += r * w;
+      buckets[key].g += g * w;
+      buckets[key].b += b * w;
+      buckets[key].w += w;
+    }
+    var ranked = Object.keys(buckets)
+      .map(function (k) {
+        var x = buckets[k];
+        return {
+          key: k,
+          w: x.w,
+          h: x.h / x.w,
+          s: x.s / x.w,
+          l: x.l / x.w,
+          rgb: [clampByte(x.r / x.w), clampByte(x.g / x.w), clampByte(x.b / x.w)],
+        };
+      })
+      .sort(function (p, q) {
+        return q.w - p.w;
+      });
+    if (!ranked.length) {
+      return {
+        a: [168, 92, 128],
+        b: [36, 72, 118],
+        c: [196, 168, 132],
+      };
+    }
+    var primary = ranked[0];
+    var secondary = ranked[0];
+    for (i = 1; i < ranked.length; i++) {
+      var dh = Math.abs(ranked[i].h - primary.h);
+      if (dh > 0.5) dh = 1 - dh;
+      if (dh > 0.12) {
+        secondary = ranked[i];
+        break;
+      }
+    }
+    var lift = function (swatch, sat, lit) {
+      return hslToRgb(swatch.h, Math.min(0.78, swatch.s * sat), Math.max(0.22, Math.min(0.62, swatch.l * lit)));
+    };
+    var thirdH = (primary.h + 0.18) % 1;
+    return {
+      a: lift(primary, 1.38, 1.12),
+      b: lift(secondary, 1.28, 1.0),
+      c: hslToRgb(thirdH, Math.min(0.74, primary.s * 0.9 + 0.24), 0.56),
+    };
+  }
+
+  function sampleCover(src) {
+    if (!src) return;
+    var key = String(src).split("?")[0];
+    if (chromaSrc === key) return;
+    if (chromaCache[key]) {
+      chromaSrc = key;
+      applyChroma(chromaCache[key]);
+      return;
+    }
+    var img = new Image();
+    img.decoding = "async";
+    img.onload = function () {
+      try {
+        var canvas = document.createElement("canvas");
+        canvas.width = 28;
+        canvas.height = 28;
+        var ctx = canvas.getContext("2d", { willReadFrequently: true });
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0, 28, 28);
+        var palette = pickPalette(ctx.getImageData(0, 0, 28, 28).data);
+        chromaCache[key] = palette;
+        chromaSrc = key;
+        applyChroma(palette);
+      } catch (err) {}
+    };
+    img.src = key;
+  }
+
+  function setAirState(playing) {
+    document.body.classList.toggle("is-air", !!playing);
+    if (!playing) {
+      document.documentElement.style.setProperty("--room-energy", "0.18");
+    }
+  }
+
+  function pumpEnergy() {
+    if (!analyser || !analyserBins) return;
+    analyser.getByteFrequencyData(analyserBins);
+    var sum = 0;
+    var i;
+    for (i = 2; i < analyserBins.length; i++) sum += analyserBins[i];
+    var avg = sum / Math.max(1, analyserBins.length - 2) / 255;
+    var energy = Math.max(0.08, Math.min(1, Math.pow(avg, 0.72) * 1.15));
+    document.documentElement.style.setProperty("--room-energy", energy.toFixed(3));
+    if (audio && !audio.paused && !reduceMotion()) {
+      energyRaf = requestAnimationFrame(pumpEnergy);
+    } else {
+      energyRaf = 0;
+    }
+  }
+
+  function attachAnalyser() {
+    if (analyser || !audio || reduceMotion()) return;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try {
+      audioCtx = audioCtx || new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      var src = audioCtx.createMediaElementSource(audio);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      analyser.smoothingTimeConstant = 0.84;
+      src.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      analyserBins = new Uint8Array(analyser.frequencyBinCount);
+    } catch (err) {
+      analyser = null;
+    }
+  }
+
+  function startEnergy() {
+    if (reduceMotion()) return;
+    attachAnalyser();
+    if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    if (!energyRaf && analyser) energyRaf = requestAnimationFrame(pumpEnergy);
   }
 
   function loadCatalog() {
@@ -164,6 +378,8 @@
 
   function unlockAudioFromGesture() {
     ensureAudio();
+    attachAnalyser();
+    if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
     if (audioUnlocked) return;
     audioUnlocked = true;
     try {
@@ -295,7 +511,10 @@
       '<div class="vcr-stage__bg" aria-hidden="true"></div>' +
       '<button type="button" class="vcr-stage__close" data-act="stage-close" aria-label="Close stage">&times;</button>' +
       '<div class="vcr-stage__content">' +
+      '<div class="vcr-stage__platter">' +
+      '<div class="vcr-stage__vinyl" aria-hidden="true"></div>' +
       '<img class="vcr-stage__art" alt="" />' +
+      "</div>" +
       '<p class="vcr-stage__kicker"><span class="vcr-stage__bug">CC</span> Now</p>' +
       '<h2 class="vcr-stage__title"></h2>' +
       '<p class="vcr-stage__artist"></p>' +
@@ -483,7 +702,10 @@
     var toggleBtn = room.querySelector('[data-act="toggle"]');
 
     if (art && track) art.src = track.cover;
+    var label = room.querySelector("[data-room-label]");
+    if (label && track) label.src = track.cover;
     if (bg && track) bg.style.backgroundImage = 'url("' + track.cover + '")';
+    if (track && track.cover) sampleCover(track.cover);
     if (title && track) title.textContent = track.title;
     if (artist && track) artist.textContent = track.artist;
     if (album && track) album.textContent = track.releaseTitle;
@@ -558,6 +780,7 @@
       dock.classList.remove("is-visible");
       document.body.classList.remove("has-vcr-player");
       document.body.classList.remove("vcr-dock-away");
+      setAirState(false);
       closeStage();
       closeRoom();
       renderRoom(null, false);
@@ -567,6 +790,9 @@
     dock.classList.add("is-visible");
     document.body.classList.add("has-vcr-player");
     dock.classList.toggle("is-playing", !!playing);
+    setAirState(playing);
+    if (playing) startEnergy();
+    if (track && track.cover) sampleCover(track.cover);
     syncDockAway();
 
     var bug = dock.querySelector(".vcr-player__bug");
@@ -667,6 +893,8 @@
 
     setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing);
     setTogglePlaying(stage.querySelector('[data-act="toggle"]'), playing);
+    var stagePlatter = stage.querySelector(".vcr-stage__platter");
+    if (stagePlatter) stagePlatter.classList.toggle("is-playing", !!playing);
 
     renderRoom(track, playing);
     updateMediaSession(track, playing);
@@ -1164,6 +1392,8 @@
     // Prefetch catalog so the first tap can start playback in-gesture on iOS.
     loadCatalog().catch(function () {});
     hydrateFromURL();
+    var featured = document.querySelector("[data-room-art]");
+    if (featured && featured.getAttribute("src")) sampleCover(featured.getAttribute("src"));
   }
 
   window.VCRPlayer = {
