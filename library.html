@@ -389,10 +389,10 @@
       position: relative;
       isolation: auto;
       display: grid;
-      grid-template-columns: 88px minmax(0, 1fr) auto;
+      grid-template-columns: 88px minmax(0, 1fr);
       grid-template-areas:
-        "cover main go"
-        "cover side side";
+        "cover main"
+        "cover side";
       gap: 12px 16px;
       align-items: center;
       padding: 18px 0;
@@ -410,20 +410,10 @@
     .cat-cover { grid-area: cover; }
     .cat-main { grid-area: main; min-width: 0; }
     .cat-side { grid-area: side; min-width: 0; }
-    .cat-go { grid-area: go; }
-    @media (max-width: 859px) {
-      .cat-go { display: none; }
-      .cat-row {
-        grid-template-columns: 88px minmax(0, 1fr);
-        grid-template-areas:
-          "cover main"
-          "cover side";
-      }
-    }
     @media (min-width: 860px) {
       .cat-row {
-        grid-template-columns: 96px minmax(0, 1.6fr) minmax(140px, .7fr) auto;
-        grid-template-areas: "cover main side go";
+        grid-template-columns: 96px minmax(0, 1.6fr) minmax(168px, .85fr);
+        grid-template-areas: "cover main side";
         gap: 20px 24px;
         padding: 20px 0;
       }
@@ -692,31 +682,31 @@
     }
     .cat-format-note-mark { display: none; }
 
-    .cat-go {
+    .cat-add {
+      appearance: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 36px;
-      min-height: 36px;
-      border-radius: 0;
-      color: rgba(255,255,255,.35);
-      text-decoration: none;
-      background: none;
+      width: fit-content;
+      min-height: 34px;
+      margin-top: 8px;
+      padding: 0 12px;
       border: 0;
+      border-radius: 4px;
+      background: #fff;
+      color: #111;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
       box-shadow: none;
     }
-    .cat-go svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.7;
-    }
-    @media (max-width: 859px) {
-      .cat-go { display: none; }
-    }
+    .cat-add.is-added { background: #eceff2; }
     @media (hover:hover) {
-      .cat-row:hover .cat-go { color: #fff; background: none; border: 0; }
+      .cat-add:hover { background: #eceff2; }
       .cat-row:hover .cat-priceboard,
       .cat-row:hover .cat-price-panel,
       .cat-row:hover .cat-format-note {
@@ -725,6 +715,10 @@
         box-shadow: none;
         color: inherit;
       }
+    }
+    .cat-add:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
     }
 
     .cat-row.is-now-playing {
@@ -769,8 +763,8 @@
       height: auto;
       aspect-ratio: 1;
     }
-    .cat-list.is-covers .cat-go { display: none; }
     .cat-list.is-covers .cat-side { display: block; }
+    .cat-list.is-covers .cat-add { margin-top: 10px; }
     .cat-list.is-covers .cat-side-pricing { max-width: none; }
     .cat-list.is-covers .cat-priceboard,
     .cat-list.is-covers .cat-price { padding: 0; border-radius: 0; }
@@ -849,7 +843,7 @@
       <h1 class="station-bumper__title">Library</h1>
       <p class="station-bumper__lede" id="libLead">Every Club Copy release. Digital is cheaper if you join the club.</p>
       <div class="station-bumper__ctas">
-        '<a class="btn btn-chrome-on-dark" href="/#join">Join the club</a>'
+        <a class="btn btn-chrome-on-dark" href="/#join">Join the club</a>
       </div>
     </div>
   </section>
@@ -866,7 +860,8 @@
           <h2 class="lib-shelf__title"><a href="/any-jungle">any jungle</a></h2>
           <p class="lib-shelf__meta">L.T. Drifta · Single · $1.50 · Club 30% off</p>
           <div class="lib-shelf__actions">
-            <a class="btn btn-chrome-on-dark" href="/any-jungle">Open</a>
+            <button type="button" class="btn btn-chrome-on-dark" data-add-release="any-jungle" data-sku="dg-any-jungle" data-name="any jungle — Digital" data-price="1.5" data-image="any-jungle-cover.webp">Add to cart</button>
+            <a class="btn btn-ghost-on-dark" href="/any-jungle">Open</a>
           </div>
         </div>
       </div>

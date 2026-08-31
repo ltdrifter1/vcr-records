@@ -199,6 +199,74 @@
     return '<div class="cat-side-pricing">' + board + note + '</div>';
   }
 
+  function digitalOffer(rel) {
+    var d = rel && rel.formats && rel.formats.digital;
+    if (!d || !d.sku || d.price == null) return null;
+    return d;
+  }
+
+  function addBtnHtml(rel) {
+    var d = digitalOffer(rel);
+    if (!d) {
+      return '<a class="cat-add cat-add--link" href="' + esc(rel.page || '#') + '">View release</a>';
+    }
+    return (
+      '<button type="button" class="cat-add" data-add-release="' + esc(rel.id) + '"' +
+        ' data-sku="' + esc(d.sku) + '"' +
+        ' data-name="' + esc(rel.title + ' — Digital') + '"' +
+        ' data-price="' + esc(d.price) + '"' +
+        ' data-image="' + esc(rel.cover || rel.coverThumb || '') + '"' +
+        ' aria-label="Add ' + esc(rel.title) + ' to cart">' +
+        'Add to cart' +
+      '</button>'
+    );
+  }
+
+  function flashAddBtn(btn) {
+    if (!btn) return;
+    var orig = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', orig);
+    btn.textContent = 'Added ✓';
+    btn.classList.add('is-added');
+    clearTimeout(btn._addFlash);
+    btn._addFlash = setTimeout(function () {
+      btn.textContent = orig;
+      btn.classList.remove('is-added');
+    }, 1800);
+  }
+
+  function addFromButton(btn) {
+    if (!btn || !window.VCRCart) return false;
+    var id = btn.getAttribute('data-add-release');
+    var rel = null;
+    for (var i = 0; i < allReleases.length; i++) {
+      if (allReleases[i].id === id) {
+        rel = allReleases[i];
+        break;
+      }
+    }
+    var offer = digitalOffer(rel);
+    var sku = offer ? offer.sku : btn.getAttribute('data-sku');
+    var name = offer
+      ? (rel.title + ' — Digital')
+      : btn.getAttribute('data-name');
+    var price = offer ? offer.price : Number(btn.getAttribute('data-price'));
+    var image = offer
+      ? (rel.cover || rel.coverThumb || '')
+      : btn.getAttribute('data-image');
+    if (!sku || !isFinite(Number(price))) return false;
+    VCRCart.add({
+      sku: sku,
+      name: name || sku,
+      price: Number(price),
+      image: image || '',
+      qty: 1,
+      id: sku
+    });
+    flashAddBtn(btn);
+    return true;
+  }
+
   function coverSrc(rel) {
     return rel.coverThumb || rel.cover || '';
   }
@@ -247,10 +315,8 @@
         '</div>' +
         '<div class="cat-side">' +
           pricePanelHtml(rel) +
+          addBtnHtml(rel) +
         '</div>' +
-        '<a class="cat-go" href="' + esc(href) + '" aria-label="Open ' + esc(rel.title) + '">' +
-          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
-        '</a>' +
       '</article>'
     );
   }
@@ -401,6 +467,18 @@
     });
   }
 
+  function bindAddButtons() {
+    document.querySelectorAll('[data-add-release]').forEach(function (el) {
+      if (el.getAttribute('data-bound-add') === '1') return;
+      el.setAttribute('data-bound-add', '1');
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        addFromButton(el);
+      });
+    });
+  }
+
   function observeReveals() {
     if (window.ClubCopy && typeof window.ClubCopy.observeReveals === 'function') {
       window.ClubCopy.observeReveals(list);
@@ -444,6 +522,7 @@
 
     list.innerHTML = releases.map(row).join('');
     bindPlayButtons();
+    bindAddButtons();
     observeReveals();
 
     if (window.VCRPlayer && typeof VCRPlayer.getState === 'function') {
@@ -485,6 +564,7 @@
   });
 
   readFiltersFromUrl();
+  bindAddButtons();
 
   fetch('/data/catalog.json')
     .then(function (r) {
@@ -509,6 +589,7 @@
       /* Keep statically embedded rows so release URLs stay crawlable. */
       if (list.querySelector('.cat-row')) {
         bindPlayButtons();
+        bindAddButtons();
         observeReveals();
         if (countEl && !filters.genre && !filters.artist) {
           var n = list.querySelectorAll('.cat-row').length;
