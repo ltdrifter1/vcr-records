@@ -375,16 +375,35 @@
     .hero-ctas {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px 18px;
+      align-items: center;
       justify-content: flex-start;
     }
-    .hero .btn-chrome-on-dark,
-    .hero .btn-ghost-on-dark {
+    .hero .btn-chrome-on-dark {
       min-width: 132px;
       height: 48px;
       border-radius: 12px;
     }
     .hero-ctas .btn::before { animation: none; }
+    .hero-sleeve-link {
+      display: inline-flex;
+      align-items: center;
+      height: 48px;
+      padding: 0 2px;
+      font-family: var(--callsign);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.72);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.32);
+      border-radius: 0;
+    }
+    @media (hover:hover) {
+      .hero-sleeve-link:hover { color: #fff; border-bottom-color: rgba(255,255,255,.8); }
+    }
+    .hero-sleeve-link:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
     /* Live console — occupies the copy column ------------------------------ */
     .hero-console {
@@ -1768,7 +1787,7 @@
     @media (max-width: 860px) {
       .hero-stage {
         grid-template-columns: 1fr;
-        width: min(100% - 32px, 520px);
+        width: min(100% - 40px, 560px);
         justify-items: start;
         align-content: center;
         gap: 20px;
@@ -1801,8 +1820,8 @@
         gap: 16px;
       }
       .hero:not(.is-live) .hero-platter { width: min(78vw, 320px); }
-      .hero-ctas { width: 100%; }
-      .hero-ctas .btn { flex: 1 1 auto; min-width: 132px; }
+      .hero-ctas { width: auto; }
+      .hero-ctas .btn { flex: 0 0 auto; min-width: 132px; }
 
       .hero.is-live .hero-stage {
         min-height: 100svh;
@@ -1875,6 +1894,7 @@
       .hero-idle-actions { margin-top: 12px; }
       .hero-ctas { gap: 8px; }
       .hero-ctas .btn { height: 44px; }
+      .hero-sleeve-link { height: 44px; }
       .hero.is-live .hero-platter { width: min(30vw, 112px); }
       .hero.is-live .hero-stage { gap: 8px; padding-top: calc(var(--nav-h) + var(--safe-t) + 4px); }
       .hero-meta-value[data-room-title] { font-size: 15px; }
@@ -2009,7 +2029,7 @@
         <div class="hero-idle-actions" data-room-idle>
           <div class="hero-ctas">
             <button type="button" class="btn btn-chrome-on-dark" id="heroPlayBtn">Listen</button>
-            <a class="btn btn-ghost-on-dark" href="/bridget-in-my-room">Sleeve</a>
+            <a class="hero-sleeve-link" href="/bridget-in-my-room">Sleeve</a>
           </div>
           <p class="hero-idle-note">B-side <em>Follow You</em> · Digital $8</p>
         </div>
