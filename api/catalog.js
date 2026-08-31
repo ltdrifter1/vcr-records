@@ -85,7 +85,7 @@ const PRODUCTS = {
     format: "digital",
   },
   "dg-lookout": {
-    name: "Lookout — Digital (Album) — Pre-order",
+    name: "Lookout — Digital (Album)",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",

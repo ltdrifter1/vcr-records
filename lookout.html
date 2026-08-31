@@ -38,12 +38,12 @@
   </script>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="Lookout — album by Inlet Knight. House on Club Copy (CC010). Digital pre-order, $8 CAD."/>
+  <meta name="description" content="Lookout — album by Inlet Knight. House on Club Copy (CC010). Digital, $8 CAD."/>
   <meta name="theme-color" content="#050505"/>
   <link rel="canonical" href="https://www.clubcopy.ca/lookout"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:title" content="Inlet Knight — Lookout"/>
-  <meta property="og:description" content="Lookout — album by Inlet Knight on Club Copy. Digital pre-order, $8 CAD."/>
+  <meta property="og:description" content="Lookout — album by Inlet Knight on Club Copy. Digital, $8 CAD."/>
   <meta property="og:type" content="music.album"/>
   <meta property="og:url" content="https://www.clubcopy.ca/lookout"/>
   <meta property="og:image" content="https://www.clubcopy.ca/lookout-cover.webp"/>
@@ -92,7 +92,7 @@
     "url": "https://www.clubcopy.ca/lookout#acquire",
     "priceCurrency": "CAD",
     "price": "8",
-    "availability": "https://schema.org/PreOrder",
+    "availability": "https://schema.org/InStock",
     "seller": {
       "@type": "RecordLabel",
       "name": "Club Copy"
@@ -174,7 +174,6 @@
         <div class="ra-stage-shadow" aria-hidden="true"></div>
         <div class="ra-cover" id="releaseDisc">
           <img src="lookout-cover.webp" alt="Glass facade reflecting a high-rise under blue sky — Lookout" width="1200" height="1200" fetchpriority="high"/>
-          <span class="release-pill release-pill--preorder">Pre-order</span>
         </div>
         <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
           <span class="glyph" aria-hidden="true">
@@ -195,14 +194,14 @@
         <h1 class="ra-hero-title">Lookout</h1>
         <div class="ra-hero-facts">
           Album<br/>
-          Digital Pre-order<br/>
-          <span class="scarce scarce--preorder">Pre-order</span>
+          Digital Only<br/>
+          <span class="scarce">Available</span>
         </div>
         <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <meta itemprop="priceCurrency" content="CAD"/>
           <meta itemprop="price" content="8.00"/>
-          <link itemprop="availability" href="https://schema.org/PreOrder"/>
-          <a class="btn btn-light" href="#acquire">Pre-order Digital — $8 CAD</a>
+          <link itemprop="availability" href="https://schema.org/InStock"/>
+          <a class="btn btn-light" href="#acquire">Buy Digital — $8 CAD</a>
         </div>
       </div>
     </div>
@@ -281,7 +280,7 @@
             <span class="track-dur">4:00</span>
             <button class="track-play-btn" type="button" aria-label="Play Lookout" tabindex="-1"></button>
           </div>
-          <p class="ra-tracks-note">Preview · full album when it drops</p>
+          <p class="ra-tracks-note">90s preview · full files after checkout</p>
         </div>
       </div>
     </div>
@@ -299,9 +298,9 @@
               <span class="price">$8 CAD<span class="price-member">Members $6</span></span>
             </button>
           </div>
-          <button type="button" class="btn btn-fill ra-collect-btn" id="buyBtn">Pre-order Digital</button>
+          <button type="button" class="btn btn-fill ra-collect-btn" id="buyBtn">Add to Collection</button>
           <p class="ra-purchase-fine">
-            <span>Pre-order · files emailed when the album drops · no shipping</span>
+            <span>Secure checkout · no shipping</span>
           </p>
           <p class="ra-club-cue"><a href="/#join">Club members</a> pay member pricing on digital. Free tier keeps you on every drop.</p>
         </div>
@@ -320,12 +319,12 @@
       </header>
       <div class="ra-about-grid">
         <div class="ra-notes ra-reveal">
-          <p>House from Cumberland. Lookout is the next Inlet Knight album on Club Copy — digital pre-order now, files when it lands. Produced for Club Copy and Copy House Publishing.</p>
+          <p>House from Cumberland. Lookout is Inlet Knight’s album on Club Copy — digital, files after checkout. Produced for Club Copy and Copy House Publishing.</p>
         </div>
         <dl class="ra-specs ra-reveal">
           <div><dt>Catalogue</dt><dd>CC010</dd></div>
           <div><dt>Artist</dt><dd><a href="/artists/inlet-knight">Inlet Knight</a></dd></div>
-          <div><dt>Format</dt><dd>Digital Album · Pre-order</dd></div>
+          <div><dt>Format</dt><dd>Digital Album</dd></div>
           <div><dt>Year</dt><dd>2026</dd></div>
           <div><dt>Produced by</dt><dd>CJ Archer</dd></div>
           <div><dt>Published</dt><dd>Club Copy · Copy House Publishing</dd></div>
@@ -386,7 +385,7 @@ VCRReleaseBind({
 
 (function() {
   const FORMATS = {
-    digital: { sku: 'dg-lookout', name: "Lookout — Digital (Album) — Pre-order", price: 8 }
+    digital: { sku: 'dg-lookout', name: "Lookout — Digital (Album)", price: 8 }
   };
   const opts = document.querySelectorAll('.ra-format-opt');
   const buyBtn = $('buyBtn');
@@ -405,7 +404,7 @@ VCRReleaseBind({
     if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'lookout-cover.webp', qty: 1, id: f.sku });
     buyBtn.textContent = 'Added to Collection \u2713';
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => { buyBtn.textContent = 'Pre-order Digital'; }, 2200);
+    resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
   });
 })();
 

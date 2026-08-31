@@ -3,7 +3,7 @@
   var grid = document.getElementById('wallGrid');
   if (!grid) return;
 
-  /* Also-out strip (hero owns current single) — Lookout + support releases */
+  /* Even rack under the hero — current album + support releases */
   var HOME_SPINE = ['lookout', 'ep-6', 'need-you', 'champion-sound'];
 
   function esc(s) {
@@ -23,11 +23,10 @@
     return bits.join(' · ');
   }
 
-  function card(rel, index) {
+  function card(rel) {
     var thumb = rel.coverThumb || rel.cover;
     var full = rel.cover || thumb;
     var href = rel.page || '#';
-    var featured = index === 0;
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && t.preview);
     });
@@ -42,22 +41,15 @@
         )
       : '';
     var meta = formatRackMeta(rel);
-    var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
-    var pill = preorder
-      ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
-      : '';
-    var sizes = featured
-      ? '(max-width:520px) 90vw, (max-width:980px) 55vw, 420px'
-      : '(max-width:520px) 90vw, (max-width:980px) 45vw, 280px';
+    var sizes = '(max-width:520px) 90vw, (max-width:980px) 45vw, 260px';
     return (
-      '<article class="wall-item' + (featured ? ' wall-item--featured' : '') + ' rv" data-release="' + esc(rel.id) + '">' +
+      '<article class="wall-item rv" data-release="' + esc(rel.id) + '">' +
         '<div class="wall-card">' +
           '<div class="wall-art media-bezel fx-spec">' +
             '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
               '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="' + sizes + '" alt="' + esc(rel.title) + ' — artwork" loading="lazy" width="1200" height="1200"/>' +
             '</a>' +
             playBtn +
-            pill +
           '</div>' +
           '<div class="wall-meta">' +
             (meta ? '<p class="wall-cat">' + esc(meta) + '</p>' : '') +
@@ -159,7 +151,7 @@
     })
     .then(function (data) {
       var releases = pickSpine(data.releases || []);
-      grid.innerHTML = releases.map(function (rel, i) { return card(rel, i); }).join('');
+      grid.innerHTML = releases.map(function (rel) { return card(rel); }).join('');
       grid.removeAttribute('aria-busy');
       bindPlayButtons();
       observeReveal();
