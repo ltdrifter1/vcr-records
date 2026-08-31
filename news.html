@@ -578,12 +578,15 @@
       var show = filter === 'all' || type === filter;
       card.hidden = !show;
     });
+    var lead = true;
     years.forEach(function (year) {
       var y = year.getAttribute('data-year');
       var visible = cards.some(function (card) {
         return !card.hidden && card.getAttribute('data-year') === y;
       });
       year.hidden = !visible;
+      year.classList.toggle('is-lead', visible && lead);
+      if (visible) lead = false;
     });
     buttons.forEach(function (btn) {
       var on = btn.getAttribute('data-filter') === filter;
@@ -596,6 +599,7 @@
     if (!btn) return;
     apply(btn.getAttribute('data-filter'));
   });
+  apply('all');
 })();
 </script>
 <script src="js/site.js"></script>
