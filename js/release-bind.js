@@ -70,7 +70,7 @@
       activeIdx = idx;
       var title = TRACKS[idx].title || "";
       if (trackName) trackName.textContent = title;
-      /* Track title lives on the cassette acetate label */
+      /* Track title lives on the VFD */
       var stampTitle = document.getElementById("ipStampTitle");
       if (stampTitle) stampTitle.textContent = title;
       var stampSide = document.getElementById("ipStampSide");
@@ -166,11 +166,17 @@
     }
 
     if (volEl && !displayOnly) {
+      function syncVolDial() {
+        var dial = volEl.closest(".ra-stereo-vol") && volEl.closest(".ra-stereo-vol").querySelector(".ra-stereo-vol-dial");
+        if (dial) dial.style.setProperty("--rot", ((+volEl.value || 0) * 240 - 120) + "deg");
+      }
       try {
         volEl.value = String(VCRPlayer.getVolume());
       } catch (e) {}
+      syncVolDial();
       volEl.addEventListener("input", function () {
         VCRPlayer.setVolume(+volEl.value || 0);
+        syncVolDial();
       });
     }
 
@@ -214,6 +220,8 @@
         if (volEl) {
           try {
             volEl.value = String(VCRPlayer.getVolume());
+            var dial = volEl.closest(".ra-stereo-vol") && volEl.closest(".ra-stereo-vol").querySelector(".ra-stereo-vol-dial");
+            if (dial) dial.style.setProperty("--rot", ((+volEl.value || 0) * 240 - 120) + "deg");
           } catch (e) {}
         }
         if (seekEl && d.duration) {

@@ -108,7 +108,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Share+Tech+Mono&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <link rel="stylesheet" href="css/release-archive.css"/>
@@ -220,12 +220,40 @@
       </header>
       <div class="ra-player-grid">
 
-        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Tracklist cassette">
-          <div class="ra-deck-head">
-            <span>CC Tape Deck</span>
-            <span class="live" id="ipTrackIndex">01 / 01</span>
-          </div>
-          <div class="ra-deck-cassette" aria-hidden="true">
+        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Mini hi-fi">
+          <div class="ra-stereo">
+            <div class="ra-stereo-speaker" aria-hidden="true">
+              <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
+              <span class="ra-stereo-driver ra-stereo-driver--lo"></span>
+            </div>
+            <div class="ra-stereo-unit">
+              <div class="ra-stereo-brand">
+                <span>CLUB COPY</span>
+                <span>CC-GX00</span>
+              </div>
+              <div class="ra-stereo-dash">
+                <div class="ra-vfd">
+                  <div class="ra-vfd-scan" aria-hidden="true"></div>
+                  <div class="ra-vfd-top">
+                    <span class="ra-vfd-mode">TAPE</span>
+                    <span class="live" id="ipTrackIndex">01 / 01</span>
+                    <span id="ipStampSide">Side A</span>
+                  </div>
+                  <div class="ra-vfd-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <p class="ra-vfd-title" id="ipStampTitle">Champion Sound</p>
+                  <p class="name" id="ipTrackName">Champion Sound</p>
+                  <p class="ra-vfd-sub"><span id="ipArtist">L.T. Drifta</span> — <span id="ipRelease">Champion Sound</span></p>
+                  <div class="ra-vfd-times ra-vfd-times--idle">
+                    <span>TAPE</span>
+                    <span>STOP</span>
+                  </div>
+                </div>
+                <div class="ra-stereo-vol" aria-hidden="true">
+                  <span class="ra-stereo-vol-dial"></span>
+                  <span class="ra-stereo-vol-cap">VOL</span>
+                </div>
+              </div>
+              <div class="ra-deck-cassette" aria-hidden="true">
             <div class="ra-deck-shell">
               <span class="ra-deck-pancake ra-deck-pancake--l"></span>
               <span class="ra-deck-pancake ra-deck-pancake--r"></span>
@@ -238,9 +266,9 @@
                 <div class="ra-deck-stamp">
                   <div class="ra-deck-stamp-meta">
                     <span class="ra-deck-stamp-label">Club Copy</span>
-                    <span class="ra-deck-stamp-side" id="ipStampSide">Side A</span>
+                    <span class="ra-deck-stamp-side">Side A</span>
                   </div>
-                  <p class="ra-deck-stamp-title" id="ipStampTitle">Champion Sound</p>
+                  <p class="ra-deck-stamp-title">Champion Sound</p>
                 </div>
                 <div class="ra-deck-window">
                   <div class="ra-reel"><span class="ra-reel-hub"></span></div>
@@ -258,10 +286,11 @@
               </div>
             </div>
           </div>
-          <div class="ra-deck-now">
-            <div class="idx">Now Cueing</div>
-            <p class="name" id="ipTrackName">Champion Sound</p>
-            <p class="sub"><span id="ipArtist">L.T. Drifta</span> — <span id="ipRelease">Champion Sound</span></p>
+            </div>
+            <div class="ra-stereo-speaker ra-stereo-speaker--r" aria-hidden="true">
+              <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
+              <span class="ra-stereo-driver ra-stereo-driver--lo"></span>
+            </div>
           </div>
           <div class="p-msg" id="pMsg" aria-live="polite"></div>
         </div>
