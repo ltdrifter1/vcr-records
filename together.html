@@ -210,18 +210,30 @@
       <div class="ra-stage" id="artworkWrap">
         <div class="ra-stage-shadow" aria-hidden="true"></div>
         <div class="ra-cassette" id="releaseDisc" aria-hidden="true">
-          <div class="ra-cassette-label ra-cassette-label--blank">
-            <div class="ra-dymo">INLET&nbsp;KNIGHT&nbsp;-&nbsp;TOGETHER</div>
-            <div class="ra-label-lines">
-              <span></span><span></span>
-            </div>
-            <div class="side">A</div>
+          <span class="ra-tape-pancake ra-tape-pancake--l"></span>
+          <span class="ra-tape-pancake ra-tape-pancake--r"></span>
+          <span class="ra-tape-screw ra-tape-screw--tl"></span>
+          <span class="ra-tape-screw ra-tape-screw--tr"></span>
+          <span class="ra-tape-screw ra-tape-screw--bl"></span>
+          <span class="ra-tape-screw ra-tape-screw--br"></span>
+          <span class="ra-tape-screw ra-tape-screw--c"></span>
+          <div class="ra-cassette-film">
+            <span class="ra-cassette-film-brand">Club Copy</span>
+            <span class="ra-cassette-film-title">Together</span>
+            <span class="ra-cassette-film-side">A</span>
           </div>
           <div class="ra-cassette-window">
-            <div class="ra-reel"></div>
-            <div class="ra-reel ra-reel--b"></div>
+            <div class="ra-reel ra-reel--supply"><span class="ra-reel-hub"></span></div>
+            <div class="ra-reel ra-reel--takeup"><span class="ra-reel-hub"></span></div>
           </div>
-          <div class="ra-cassette-foot"></div>
+          <div class="ra-cassette-guides">
+            <span class="ra-roller"></span>
+            <span class="ra-pad"></span>
+            <span class="ra-roller"></span>
+          </div>
+          <div class="ra-cassette-mouth">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
         </div>
         <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
           <span class="glyph" aria-hidden="true">
@@ -276,10 +288,13 @@
           </div>
           <div class="ra-deck-cassette" aria-hidden="true">
             <div class="ra-deck-shell">
+              <span class="ra-deck-pancake ra-deck-pancake--l"></span>
+              <span class="ra-deck-pancake ra-deck-pancake--r"></span>
               <span class="ra-deck-screw ra-deck-screw--tl"></span>
               <span class="ra-deck-screw ra-deck-screw--tr"></span>
               <span class="ra-deck-screw ra-deck-screw--bl"></span>
               <span class="ra-deck-screw ra-deck-screw--br"></span>
+              <span class="ra-deck-screw ra-deck-screw--c"></span>
               <div class="ra-deck-face">
                 <div class="ra-deck-stamp">
                   <div class="ra-deck-stamp-meta">
@@ -293,6 +308,11 @@
                   <div class="ra-deck-tape"><span></span></div>
                   <div class="ra-reel ra-reel--b"><span class="ra-reel-hub"></span></div>
                 </div>
+              </div>
+              <div class="ra-deck-guides" aria-hidden="true">
+                <span class="ra-roller"></span>
+                <span class="ra-pad"></span>
+                <span class="ra-roller"></span>
               </div>
               <div class="ra-deck-bay" aria-hidden="true">
                 <span></span><span></span><span></span><span></span><span></span>

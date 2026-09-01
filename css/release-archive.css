@@ -17,6 +17,9 @@ body.archive-release {
   --ra-green: #97AC92;
   --ra-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --ra-ease: cubic-bezier(.22, 1, .36, 1);
+  --tape-oxide: #a05a22;
+  --tape-oxide-deep: #3a1c08;
+  --tape-oxide-lit: #d49248;
 
   background: var(--ra-bg);
   color: var(--ra-ink);
@@ -167,7 +170,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   .ra-hero-grid { grid-template-columns: 1.05fr 1fr; gap: 72px; }
 }
 
-/* Cassette object ---------------------------------------------------------- */
+/* Cassette object — Type I clear compact cassette ------------------------- */
 .ra-stage {
   position: relative;
   display: grid;
@@ -175,227 +178,337 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   padding: 4vh 0 3vh;
   perspective: 1200px;
 }
-.ra-cassette {
+.ra-cassette,
+.ra-deck-shell {
   position: relative;
   container-type: inline-size;
-  width: min(500px, 86vw);
-  aspect-ratio: 100 / 63;
-  /* Smoked 90s acetate — translucent grey-green plastic */
-  background:
-    linear-gradient(125deg, rgba(255, 255, 255, .26) 0%, transparent 16%, transparent 74%, rgba(255, 255, 255, .07) 100%),
-    radial-gradient(120% 80% at 18% 12%, rgba(210, 230, 220, .28), transparent 42%),
-    radial-gradient(90% 70% at 82% 88%, rgba(10, 16, 12, .45), transparent 50%),
-    repeating-linear-gradient(
-      118deg,
-      rgba(255, 255, 255, .03) 0 1px,
-      transparent 1px 4px
-    ),
-    linear-gradient(172deg,
-      rgba(78, 88, 82, .94) 0%,
-      rgba(40, 46, 42, .96) 36%,
-      rgba(16, 18, 17, .98) 68%,
-      rgba(32, 36, 34, .95) 100%);
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, .55);
+  aspect-ratio: 100.4 / 63.8;
+  border-radius: 5px;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: transparent;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, .28) 0 1.4%, transparent 12%);
+  border: 0;
   box-shadow:
-    0 1px 0 rgba(220, 235, 225, .22) inset,
-    0 -2px 0 rgba(0, 0, 0, .55) inset,
-    0 0 0 1px rgba(180, 200, 190, .08) inset,
-    0 34px 70px -18px rgba(0, 0, 0, .82),
-    0 8px 18px rgba(0, 0, 0, .45);
+    inset 0 1px 0 rgba(255, 255, 255, .78),
+    inset 0 -1px 0 rgba(0, 0, 0, .28),
+    inset 1px 0 0 rgba(255, 255, 255, .16),
+    inset -1px 0 0 rgba(0, 0, 0, .18),
+    0 0 0 1px rgba(0, 0, 0, .45),
+    1px 2px 0 rgba(220, 236, 228, .22),
+    4px 6px 0 -0.5px rgba(22, 28, 26, .42),
+    0 28px 56px -18px rgba(0, 0, 0, .78);
   transform-style: preserve-3d;
+}
+.ra-cassette {
+  width: min(500px, 86vw);
   transition: transform .8s var(--ra-ease), box-shadow .8s var(--ra-ease);
   will-change: transform;
 }
 .ra-stage:hover .ra-cassette {
-  transform: rotateX(4deg) rotateY(-5deg) translateY(-6px);
+  transform: rotateX(5deg) rotateY(-6deg) translateY(-8px);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .18) inset,
-    0 -2px 0 rgba(0, 0, 0, .55) inset,
-    0 42px 80px -16px rgba(0, 0, 0, .88),
-    0 12px 24px rgba(0, 0, 0, .5);
+    inset 0 1px 0 rgba(255, 255, 255, .84),
+    inset 0 -1px 0 rgba(0, 0, 0, .28),
+    inset 1px 0 0 rgba(255, 255, 255, .18),
+    inset -1px 0 0 rgba(0, 0, 0, .18),
+    0 0 0 1px rgba(0, 0, 0, .45),
+    2px 3px 0 rgba(220, 236, 228, .2),
+    6px 8px 0 -0.5px rgba(22, 28, 26, .38),
+    0 40px 72px -16px rgba(0, 0, 0, .82);
 }
-/* plastic scuffs + edge bevel */
+/* molded clear shell drawn over the oxide packs */
 .ra-cassette::before,
-.ra-cassette::after {
-  content: "";
-  position: absolute;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 28%, #6a6a62, #2c2c28 42%, #080807 72%);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, .65),
-    0 1px 0 rgba(255, 255, 255, .18) inset;
-  top: 9px;
-  z-index: 2;
-}
-.ra-cassette::before {
-  left: 11px;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, .65),
-    0 1px 0 rgba(255, 255, 255, .18) inset,
-    0 calc(100% + 380%) 0 0 #121210,
-    0 calc(100% + 380%) 0 1px rgba(0, 0, 0, .6);
-}
-.ra-cassette::after { right: 11px; }
-
-.ra-cassette-label {
-  position: absolute;
-  inset: 7% 6% 34% 6%;
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, .55),
-    0 1px 2px rgba(0, 0, 0, .35) inset,
-    0 2px 6px rgba(0, 0, 0, .25);
-}
-/* Blank generic label: aged paper, ruled lines, dymo strip */
-.ra-cassette-label--blank {
-  background:
-    radial-gradient(ellipse at 20% 15%, rgba(255, 248, 220, .55), transparent 45%),
-    radial-gradient(ellipse at 85% 70%, rgba(140, 110, 60, .12), transparent 40%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(80, 60, 30, .03) 0 1px,
-      transparent 1px 2px
-    ),
-    linear-gradient(160deg, #F4EED8 0%, #E8DFC4 48%, #D9CEB0 100%);
-  display: block;
-}
-.ra-cassette-label--blank::before {
+.ra-deck-shell::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, .18) 48%, transparent 56%),
-    radial-gradient(circle at 70% 30%, rgba(0, 0, 0, .04), transparent 30%);
+  border-radius: inherit;
+  background: url("../img/cassette-shell.svg") center / 100% 100% no-repeat;
   pointer-events: none;
-  mix-blend-mode: soft-light;
+  z-index: 6;
+  opacity: 1;
+  mix-blend-mode: normal;
 }
-.ra-cassette-label--blank .side {
-  position: absolute;
-  right: 5.5%;
-  bottom: 12%;
-  font-family: var(--ra-mono);
-  font-size: clamp(8px, 2.4cqw, 13px);
-  border: 1px solid rgba(40, 34, 22, .85);
-  color: #2a2418;
-  background: rgba(255, 250, 235, .35);
-  padding: 1px 7px;
-  line-height: 1.5;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .35) inset;
-}
-.ra-label-lines {
-  position: absolute;
-  left: 7%; right: 22%;
-  bottom: 14%;
-  display: grid;
-  gap: clamp(8px, 2vw, 14px);
-}
-.ra-label-lines span {
-  display: block;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(60, 48, 28, .38), rgba(60, 48, 28, .18));
-}
-/* Label-maker (embossed tape) strip — 90s Dymo feel */
-.ra-dymo {
-  position: absolute;
-  left: 7%;
-  top: 18%;
-  max-width: 78%;
-  transform: rotate(-0.8deg);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .08), transparent 35%),
-    linear-gradient(180deg, #2a2a24 0%, #0c0c09 46%, #1a1a14 100%);
-  color: #EDE8D8;
-  font-family: var(--ra-mono);
-  font-weight: 500;
-  font-size: clamp(11px, 3.4cqw, 18px);
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  padding: .5em .95em .42em;
-  border-radius: 1px;
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, .35),
-    0 -1px 1px rgba(0, 0, 0, .95),
-    1px 0 0 rgba(0, 0, 0, .35);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, .2) inset,
-    0 -1px 0 rgba(0, 0, 0, .7) inset,
-    0 0 0 1px rgba(0, 0, 0, .55),
-    0 2px 4px rgba(0, 0, 0, .4),
-    1px 2px 0 rgba(0, 0, 0, .12);
-  filter: contrast(1.05);
-}
+.ra-cassette::after,
+.ra-deck-shell::after { display: none; }
+.ra-tape-screw,
+.ra-deck-screw,
+.ra-cassette-mouth,
+.ra-cassette-foot,
+.ra-deck-bay { visibility: hidden; }
+.ra-cassette-guides,
+.ra-deck-guides { z-index: 7; }
 
-/* tape window + reels */
-.ra-cassette-window {
+.ra-tape-pancake,
+.ra-deck-pancake {
   position: absolute;
-  left: 22%; right: 22%;
-  top: 42%; height: 26%;
+  border-radius: 50%;
+  z-index: 1;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, .06), transparent 28%),
-    linear-gradient(180deg, #080808, #141412 55%, #0a0a09);
-  border-radius: 999px;
+    radial-gradient(circle, #161210 0 19%, transparent 20.5%),
+    radial-gradient(circle, transparent 62%, rgba(20, 8, 0, .42) 100%),
+    repeating-radial-gradient(circle at 50% 50%,
+      rgba(210, 150, 80, .22) 0 0.8px,
+      transparent 0.8px 2.2px),
+    radial-gradient(circle at 42% 36%,
+      var(--tape-oxide-lit) 0%,
+      var(--tape-oxide) 46%,
+      var(--tape-oxide-deep) 100%);
   box-shadow:
-    0 0 0 2px #3a3a36,
-    0 0 0 4px #1c1c1a,
-    0 3px 8px rgba(0, 0, 0, .85) inset,
-    0 1px 0 rgba(255, 255, 255, .08);
+    0 0 0 1px rgba(28, 12, 4, .7),
+    inset 0 1px 0 rgba(230, 180, 110, .22),
+    inset 0 -10px 18px rgba(16, 6, 0, .42),
+    0 6px 14px rgba(0, 0, 0, .32);
+  animation: ra-reel-spin 3.2s linear infinite;
+  animation-play-state: paused;
+}
+.ra-tape-pancake--l {
+  width: 42%;
+  aspect-ratio: 1;
+  left: 10%;
+  top: 32%;
+}
+.ra-tape-pancake--r {
+  width: 22%;
+  aspect-ratio: 1;
+  right: 15%;
+  top: 44%;
+  animation-duration: 2.4s;
+}
+.is-spinning .ra-tape-pancake { animation-play-state: running; }
+
+.ra-tape-screw,
+.ra-deck-screw {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 26%, #f4f2ea, #9c9a92 42%, #3c3a36 80%);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, .28),
+    0 0 0 5px rgba(210, 226, 218, .16),
+    0 0 0 6px rgba(0, 0, 0, .2),
+    inset 0 1px 0 rgba(255, 255, 255, .7),
+    0 1px 2px rgba(0, 0, 0, .45);
+  z-index: 7;
+}
+.ra-tape-screw::after,
+.ra-deck-screw::after {
+  content: "";
+  position: absolute;
+  inset: 1.8px;
+  background:
+    linear-gradient(#1a1a16, #1a1a16) center / 100% 1.4px no-repeat,
+    linear-gradient(#1a1a16, #1a1a16) center / 1.4px 100% no-repeat;
+  opacity: .8;
+}
+.ra-tape-screw--tl { top: 9px; left: 11px; }
+.ra-tape-screw--tr { top: 9px; right: 11px; }
+.ra-tape-screw--bl { bottom: 9px; left: 11px; }
+.ra-tape-screw--br { bottom: 9px; right: 11px; }
+.ra-tape-screw--c { bottom: 9px; left: 50%; margin-left: -4px; }
+
+.ra-cassette-film {
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  top: 9.5%;
+  height: 15%;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 7%;
+  gap: 8px;
+  padding: 0 3%;
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #f3efe4, #e4dcc8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .7),
+    inset 0 -1px 0 rgba(70, 60, 40, .12),
+    0 0 0 1px rgba(40, 32, 20, .22);
+  color: #2a261c;
   overflow: hidden;
+}
+.ra-cassette-film-brand,
+.ra-cassette-film-side {
+  font-family: var(--ra-mono);
+  font-size: clamp(7px, 2cqw, 10px);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(20, 24, 20, .62);
+  flex-shrink: 0;
+}
+.ra-cassette-film-title {
+  min-width: 0;
+  font-family: var(--ra-mono);
+  font-size: clamp(10px, 3cqw, 15px);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ra-cassette-window {
+  position: absolute;
+  left: 19%;
+  right: 19%;
+  top: 34%;
+  height: 32%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 .ra-cassette-window::before {
   content: "";
   position: absolute;
   left: 28%;
   right: 28%;
-  top: 42%;
-  height: 28%;
-  background:
-    linear-gradient(180deg, #6b4a28, #3d2a16 55%, #2a1c0e);
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .5) inset;
-  opacity: .9;
+  top: 46%;
+  height: 10%;
+  border-radius: 1px;
+  background: linear-gradient(180deg, var(--tape-oxide-lit), var(--tape-oxide-deep));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 220, 160, .25),
+    0 1px 2px rgba(0, 0, 0, .4);
   z-index: 0;
 }
 .ra-reel {
   position: relative;
   z-index: 1;
-  width: 30%;
+  width: 27%;
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle, #0a0a0a 0 28%, transparent 29%),
-    radial-gradient(circle at 40% 35%, rgba(255, 255, 255, .12), transparent 45%),
-    repeating-conic-gradient(#E8E2D0 0 12deg, #1a1a18 12deg 55deg);
+    radial-gradient(circle, #070706 0 13%, transparent 14%),
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, .14), transparent 40%),
+    repeating-conic-gradient(
+      from 8deg,
+      #2a2a26 0 22deg,
+      #121210 22deg 28deg,
+      #6a6860 28deg 42deg,
+      #121210 42deg 48deg,
+      #2a2a26 48deg 60deg);
   box-shadow:
-    0 0 0 2px #E8E2D0,
-    0 0 0 5px #2a2a26,
-    0 2px 4px rgba(0, 0, 0, .55) inset;
+    0 0 0 1.5px #1c1c18,
+    0 0 0 2.5px rgba(200, 214, 206, .22),
+    inset 0 2px 4px rgba(0, 0, 0, .45);
   animation: ra-reel-spin 3.2s linear infinite;
   animation-play-state: paused;
 }
-.ra-reel--b { animation-duration: 2.4s; }
+.ra-reel--b,
+.ra-reel--takeup { animation-duration: 2.4s; }
 @keyframes ra-reel-spin { to { transform: rotate(360deg); } }
 .is-spinning .ra-reel { animation-play-state: running; }
 
-.ra-cassette-foot {
+.ra-reel-hub {
   position: absolute;
-  left: 26%; right: 26%; bottom: 5%;
-  height: 15%;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .05), transparent 30%),
-    linear-gradient(180deg, #181816, #070706);
-  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+  inset: 30%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #3e3e38, #0c0c0a 74%);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .07) inset,
-    0 -1px 0 rgba(0, 0, 0, .5) inset;
+    0 0 0 1px rgba(210, 210, 200, .28),
+    inset 0 1px 3px rgba(0, 0, 0, .7);
+  z-index: 2;
+}
+
+.ra-cassette-guides {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 17%;
+  height: 9%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.ra-cassette-guides::before,
+.ra-cassette-guides::after,
+.ra-deck-guides::before,
+.ra-deck-guides::after {
+  content: "";
+  position: absolute;
+  width: 5.5%;
+  aspect-ratio: 1;
+  bottom: -18%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #2a2a28, #050504 70%);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, .8),
+    0 0 0 1px rgba(200, 214, 206, .18);
+}
+.ra-cassette-guides::before,
+.ra-deck-guides::before { left: 8%; }
+.ra-cassette-guides::after,
+.ra-deck-guides::after { right: 8%; }
+.ra-roller {
+  position: relative;
+  width: 6.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #fff, #c4c0b4 52%, #7a766c 100%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .4),
+    inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+.ra-roller::after {
+  content: "";
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: #2a2824;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .6);
+}
+.ra-pad {
+  flex: 0 0 18%;
+  height: 48%;
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(90deg, #c4a078 0 2px, #8a6840 2px 3px);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35);
+}
+
+.ra-cassette-foot,
+.ra-cassette-mouth {
+  position: absolute;
+  left: 21%;
+  right: 21%;
+  bottom: 3.5%;
+  height: 13%;
+  z-index: 4;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 2.4%;
+  padding: 1.5% 2% 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(170, 196, 184, .06) 40%, transparent);
+  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    0 -1px 0 rgba(0, 0, 0, .2);
+}
+.ra-cassette-mouth span,
+.ra-cassette-foot span {
+  flex: 1;
+  background: #050505;
+  clip-path: polygon(16% 0, 84% 0, 100% 100%, 0 100%);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .7);
 }
 
 .ra-stage-shadow {
@@ -421,7 +534,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   -webkit-tap-highlight-color: transparent;
 }
 .ra-stage-hit .glyph {
-  width: clamp(56px, 14%, 72px);
+  width: clamp(44px, 10%, 56px);
   aspect-ratio: 1;
   border-radius: 50%;
   display: grid;
@@ -430,8 +543,8 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
     linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.92) 42%, rgba(176,190,208,.86) 100%);
   color: #111;
   border: 1px solid rgba(255,255,255,.58);
-  opacity: .9;
-  transform: scale(1);
+  opacity: 0;
+  transform: scale(.94);
   transition: opacity .35s var(--ra-ease), transform .35s var(--ra-ease), filter .35s var(--ra-ease), box-shadow .35s var(--ra-ease);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.95),
@@ -439,10 +552,10 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
     0 0 0 1px rgba(0,0,0,.28),
     0 12px 28px rgba(0,0,0,.45);
 }
-.ra-stage-hit:hover .glyph,
+.ra-stage:hover .ra-stage-hit .glyph,
 .ra-stage-hit:focus-visible .glyph {
-  opacity: 1;
-  transform: scale(1.06);
+  opacity: .9;
+  transform: scale(1);
   filter: brightness(1.05);
   box-shadow:
     inset 0 1px 0 #fff,
@@ -450,14 +563,16 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
     0 14px 32px rgba(0,0,0,.48),
     0 0 28px rgba(210,226,244,.26);
 }
+.ra-stage-hit.on .glyph { opacity: 0; }
 .ra-stage-hit svg { width: 38%; height: 38%; fill: currentColor; margin-left: 6%; }
 .ra-stage-hit .i-pause { display: none; margin-left: 0; }
 .ra-stage-hit.on .i-pause { display: block; margin-left: 0; }
 .ra-stage-hit.on .i-play { display: none; }
-.ra-stage-hit.on .glyph { opacity: 1; transform: scale(1); }
+.ra-stage:hover .ra-stage-hit.on .glyph,
+.ra-stage-hit.on:focus-visible .glyph { opacity: .9; }
 .ra-stage.is-playing .ra-stage-hit .glyph { opacity: 0; }
 @media (hover:hover) {
-  .ra-stage.is-playing .ra-stage-hit:hover .glyph { opacity: .94; }
+  .ra-stage.is-playing .ra-stage-hit:hover .glyph { opacity: .9; }
 }
 
 /* Vinyl object (album releases) --------------------------------------------- */
@@ -567,7 +682,6 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   display: block;
 }
 .ra-stage:hover .ra-cover { transform: none; }
-.ra-stage:hover .ra-cassette { transform: none; }
 .ra-stage:hover .ra-vinyl { transform: none; }
 .ra-cover.is-spinning {
   box-shadow:
@@ -743,7 +857,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-variant-numeric: tabular-nums;
 }
 
-/* Premium mini-cassette in the deck --------------------------------------- */
+/* Premium mini-cassette in the deck — same clear shell -------------------- */
 .ra-deck-cassette {
   position: relative;
   margin: 0 0 18px;
@@ -759,137 +873,90 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   perspective: 1200px;
 }
 .ra-deck-shell {
-  position: relative;
-  container-type: inline-size;
   width: 100%;
-  aspect-ratio: 100 / 62;
-  border-radius: 10px;
-  /* Smoked 90s acetate shell — clear plastic with grey-green tint */
-  background:
-    linear-gradient(125deg, rgba(255, 255, 255, .28) 0%, transparent 18%, transparent 72%, rgba(255, 255, 255, .08) 100%),
-    radial-gradient(110% 90% at 16% 4%, rgba(220, 235, 225, .35), transparent 38%),
-    radial-gradient(80% 70% at 88% 96%, rgba(20, 28, 24, .55), transparent 48%),
-    repeating-linear-gradient(
-      118deg,
-      rgba(255, 255, 255, .04) 0 1px,
-      transparent 1px 4px
-    ),
-    linear-gradient(168deg,
-      rgba(92, 102, 96, .92) 0%,
-      rgba(48, 54, 50, .94) 22%,
-      rgba(28, 32, 30, .96) 48%,
-      rgba(18, 20, 19, .98) 72%,
-      rgba(36, 40, 38, .95) 100%);
-  border: 1px solid rgba(0, 0, 0, .78);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, .42) inset,
-    0 -3px 0 rgba(0, 0, 0, .5) inset,
-    0 0 0 1px rgba(180, 200, 190, .12) inset,
-    0 18px 28px -8px rgba(0, 0, 0, .95),
-    0 4px 10px rgba(0, 0, 0, .55),
-    0 0 0 1px rgba(0, 0, 0, .55);
-  overflow: hidden;
   transform: rotateX(6deg) rotateY(-3deg) translateZ(0);
-  transform-style: preserve-3d;
   transition: transform .7s var(--ra-ease), box-shadow .7s var(--ra-ease);
 }
 .ra-deck:hover .ra-deck-shell,
 .release-console.is-live .ra-deck-shell {
   transform: rotateX(2deg) rotateY(0deg) translateY(-4px);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .36) inset,
-    0 -4px 0 rgba(0, 0, 0, .55) inset,
-    0 0 0 1px rgba(255, 255, 255, .08) inset,
-    0 24px 36px -8px rgba(0, 0, 0, .98),
-    0 0 42px -10px rgba(151, 172, 146, .45),
-    0 0 0 1px rgba(0, 0, 0, .6);
+    inset 0 1px 0 rgba(255, 255, 255, .84),
+    inset 0 -1px 0 rgba(0, 0, 0, .28),
+    inset 1px 0 0 rgba(255, 255, 255, .18),
+    inset -1px 0 0 rgba(0, 0, 0, .18),
+    0 0 0 1px rgba(0, 0, 0, .45),
+    2px 3px 0 rgba(220, 236, 228, .2),
+    5px 7px 0 -0.5px rgba(22, 28, 26, .4),
+    0 22px 32px -8px rgba(0, 0, 0, .9),
+    0 0 36px -12px rgba(151, 172, 146, .22);
 }
-.ra-deck-shell::before {
-  content: "";
+.ra-deck-shell::before { animation: none; }
+.ra-deck-screw--tl { top: 8px; left: 10px; }
+.ra-deck-screw--tr { top: 8px; right: 10px; }
+.ra-deck-screw--bl { bottom: 8px; left: 10px; }
+.ra-deck-screw--br { bottom: 8px; right: 10px; }
+.ra-deck-screw--c { bottom: 8px; left: 50%; margin-left: -4px; }
+
+.ra-deck-pancake--l {
+  width: 40%;
+  aspect-ratio: 1;
+  left: 11%;
+  top: 34%;
+}
+.ra-deck-pancake--r {
+  width: 21%;
+  aspect-ratio: 1;
+  right: 16%;
+  top: 46%;
+  animation-duration: 2.4s;
+}
+.release-console.is-live .ra-deck-pancake { animation-play-state: running; }
+
+.ra-deck-guides {
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(108deg, transparent 34%, rgba(255, 255, 255, .16) 48%, transparent 62%);
-  pointer-events: none;
-  opacity: .55;
-  mix-blend-mode: soft-light;
-  animation: ra-deck-sheen 6.5s var(--ra-ease) infinite;
-  z-index: 4;
-}
-@keyframes ra-deck-sheen {
-  0%, 100% { transform: translateX(-24%); opacity: .3; }
-  50% { transform: translateX(24%); opacity: .8; }
-}
-.ra-deck-shell::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border-radius: 7px;
-  border: 1px solid rgba(255, 255, 255, .05);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, .4) inset;
-  pointer-events: none;
-  z-index: 1;
-}
-.ra-deck-screw {
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 24%, #d0d0c6, #6a6a60 38%, #1a1a16 76%);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, .8),
-    0 1px 0 rgba(255, 255, 255, .4) inset,
-    0 2px 4px rgba(0, 0, 0, .65);
+  left: 22%;
+  right: 22%;
+  bottom: 16%;
+  height: 9%;
   z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
 }
-.ra-deck-screw::after {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  background:
-    linear-gradient(#0a0a08, #0a0a08) center / 100% 2px no-repeat,
-    linear-gradient(#0a0a08, #0a0a08) center / 2px 100% no-repeat;
-  opacity: .9;
-  border-radius: 1px;
+.ra-deck-guides .ra-roller { width: 6.5%; }
+.ra-deck-guides .ra-pad {
+  flex: 0 0 18%;
+  height: 48%;
 }
-.ra-deck-screw--tl { top: 10px; left: 12px; }
-.ra-deck-screw--tr { top: 10px; right: 12px; }
-.ra-deck-screw--bl { bottom: 10px; left: 12px; }
-.ra-deck-screw--br { bottom: 10px; right: 12px; }
 
 .ra-deck-face {
   position: absolute;
-  inset: 12% 9% 17% 9%;
+  inset: 10% 10% 18% 10%;
   display: flex;
   flex-direction: column;
-  gap: 5%;
-  z-index: 2;
+  gap: 6%;
+  z-index: 4;
 }
-/* Aged paper acetate label — track title lives here */
+/* Paper label in the molded recess — track title */
 .ra-deck-stamp {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
-  flex: 0 0 34%;
+  gap: 3px;
+  flex: 0 0 24%;
   min-height: 0;
-  padding: 5px 3.5% 6px;
+  padding: 4px 3.2% 5px;
   border-radius: 1px;
   background:
-    radial-gradient(ellipse at 14% 18%, rgba(255, 252, 235, .75), transparent 48%),
-    radial-gradient(ellipse at 90% 82%, rgba(130, 100, 55, .16), transparent 44%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(70, 55, 25, .055) 0 1px,
-      transparent 1px 3px
-    ),
-    linear-gradient(162deg, #F8F1DC 0%, #E9DDBA 48%, #D2C090 100%);
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #f3efe4, #e4dcc8);
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, .6),
-    0 1px 2px rgba(0, 0, 0, .4) inset,
-    0 2px 4px rgba(0, 0, 0, .2);
-  color: #241e14;
+    inset 0 1px 0 rgba(255, 255, 255, .7),
+    inset 0 -1px 0 rgba(70, 60, 40, .12),
+    0 0 0 1px rgba(40, 32, 20, .22);
+  color: #2a261c;
   overflow: hidden;
 }
 .ra-deck-stamp-meta {
@@ -903,7 +970,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-weight: 500;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(36, 30, 20, .72);
+  color: rgba(20, 24, 20, .62);
   line-height: 1.2;
 }
 .ra-deck-stamp-label {
@@ -914,17 +981,14 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 }
 .ra-deck-stamp-side {
   flex-shrink: 0;
-  border: 1px solid rgba(40, 34, 22, .85);
+  border: 1px solid rgba(20, 24, 20, .35);
   padding: 1px 6px;
   line-height: 1.35;
-  background: rgba(255, 250, 235, .5);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, .45) inset,
-    0 1px 1px rgba(0, 0, 0, .12);
+  background: rgba(255, 255, 255, .28);
   font-size: inherit;
   letter-spacing: .12em;
 }
-/* Track title on the tinted label — must fit, never spill */
+/* Track title on the film — must fit, never spill */
 .ra-deck-stamp-title {
   margin: 0;
   min-width: 0;
@@ -932,14 +996,13 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-family: var(--ra-mono);
   font-size: clamp(10px, 3.1cqw, 15px);
   font-weight: 500;
-  letter-spacing: .04em;
+  letter-spacing: .06em;
   line-height: 1.2;
-  color: #1a1610;
+  color: #141814;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 .ra-deck-window {
@@ -948,94 +1011,52 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 6.5%;
-  border-radius: 999px;
-  /* Tinted acetate window — smoky green-grey plastic */
-  background:
-    linear-gradient(180deg, rgba(200, 220, 210, .14), transparent 28%),
-    linear-gradient(180deg, #050806, #121814 50%, #030403);
-  box-shadow:
-    0 0 0 2px #6a746c,
-    0 0 0 5px #1e2420,
-    0 6px 14px rgba(0, 0, 0, .92) inset,
-    0 1px 0 rgba(220, 235, 225, .18);
-  overflow: hidden;
+  padding: 0 5%;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 .ra-deck-window::before {
   content: "";
   position: absolute;
-  left: 22%;
-  right: 22%;
-  top: 34%;
-  height: 38%;
-  border-radius: 2px;
-  background:
-    linear-gradient(180deg, #b07840, #6a4018 48%, #30180a);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, .65) inset,
-    0 0 10px rgba(176, 120, 64, .3);
-  opacity: .96;
+  left: 30%;
+  right: 30%;
+  top: 42%;
+  height: 18%;
+  border-radius: 1px;
+  background: linear-gradient(180deg, var(--tape-oxide-lit), var(--tape-oxide-deep));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .4) inset;
   z-index: 0;
 }
 .ra-deck-window::after {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .16), transparent 30%),
-    radial-gradient(ellipse at 50% 120%, rgba(255, 220, 160, .1), transparent 55%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .16), transparent 32%);
   pointer-events: none;
   z-index: 3;
 }
 .ra-deck-window .ra-reel {
-  width: 32%;
-  min-width: 44px;
-  max-width: 72px;
-  background:
-    radial-gradient(circle, #050505 0 14%, transparent 15%),
-    radial-gradient(circle, #1a1a16 0 22%, transparent 23%),
-    radial-gradient(circle,
-      transparent 0 24%,
-      #3a2814 25% 30%,
-      #5a3c1c 31% 36%,
-      #2e1e0e 37% 42%,
-      #6a4820 43% 48%,
-      #24180c 49% 54%,
-      #7a5428 55% 60%,
-      transparent 61%),
-    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, .2), transparent 40%),
-    repeating-conic-gradient(#F4EEDC 0 9deg, #1a1a16 9deg 45deg);
-  box-shadow:
-    0 0 0 2px #F4EEDC,
-    0 0 0 5px #2e2e2a,
-    0 2px 6px rgba(0, 0, 0, .7) inset,
-    0 0 12px rgba(0, 0, 0, .5);
+  width: 28%;
+  min-width: 40px;
+  max-width: 68px;
 }
-.ra-reel-hub {
-  position: absolute;
-  inset: 24%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 36% 30%, #5a5a52, #121210 70%);
-  box-shadow:
-    0 0 0 1px rgba(244, 238, 220, .55),
-    0 1px 3px rgba(0, 0, 0, .75) inset;
-  z-index: 2;
+.ra-deck-window .ra-reel-hub {
+  inset: 30%;
 }
 .ra-deck-tape {
   position: relative;
   z-index: 1;
   flex: 1;
-  height: 12px;
+  height: 8px;
   margin: 0 6%;
-  border-radius: 2px;
+  border-radius: 1px;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, #c08448, #6e4218 40%, #2a1608);
+  background: linear-gradient(180deg, var(--tape-oxide-lit), var(--tape-oxide-deep));
   box-shadow:
-    0 1px 0 rgba(255, 235, 180, .28) inset,
-    0 0 0 1px rgba(0, 0, 0, .55),
-    0 0 12px rgba(192, 132, 72, .28);
+    inset 0 1px 0 rgba(255, 220, 160, .25),
+    0 1px 2px rgba(0, 0, 0, .4);
 }
 .ra-deck-tape > span {
   position: absolute;
@@ -1060,34 +1081,28 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 
 .ra-deck-bay {
   position: absolute;
-  left: 20%;
-  right: 20%;
-  bottom: 4%;
-  height: 12%;
+  left: 21%;
+  right: 21%;
+  bottom: 3.5%;
+  height: 13%;
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: 2.5%;
-  padding: 0 2%;
+  gap: 2.4%;
+  padding: 1.5% 2% 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, .08), transparent 35%),
-    linear-gradient(180deg, #22221e, #050504);
-  clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, .16), rgba(170, 196, 184, .06) 40%, transparent);
+  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, .1) inset,
-    0 -1px 0 rgba(0, 0, 0, .6) inset,
-    0 4px 8px rgba(0, 0, 0, .5) inset;
-  z-index: 2;
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    0 -1px 0 rgba(0, 0, 0, .2);
+  z-index: 4;
 }
 .ra-deck-bay span {
   flex: 1;
-  background:
-    linear-gradient(180deg, #050504, #1a1a16 60%, #0c0c0a);
+  background: #050505;
   clip-path: polygon(16% 0, 84% 0, 100% 100%, 0 100%);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, .06) inset,
-    0 0 0 1px rgba(0, 0, 0, .35) inset;
-  opacity: .95;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .7);
 }
 
 .ra-deck-now {
@@ -1306,10 +1321,14 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 
 @media (prefers-reduced-motion: reduce) {
   .ra-deck-shell::before,
-  .release-console.is-live .ra-deck-tape > span { animation: none; }
+  .release-console.is-live .ra-deck-tape > span,
+  .ra-reel,
+  .ra-tape-pancake,
+  .ra-deck-pancake { animation: none; }
   .ra-deck-shell,
   .ra-deck:hover .ra-deck-shell,
-  .release-console.is-live .ra-deck-shell { transform: none; }
+  .release-console.is-live .ra-deck-shell,
+  .ra-stage:hover .ra-cassette { transform: none; }
 }
 
 /* ==========================================================================
