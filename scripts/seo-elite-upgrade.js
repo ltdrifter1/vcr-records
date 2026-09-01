@@ -30,7 +30,7 @@ const PAGE_MAP = {
   'together.html': '/together',
   'letters-from-another-era.html': '/letters-from-another-era',
   'inlet-knight.html': '/inlet-knight',
-  'artists/inlet-knight.html': '/artists/inlet-knight',
+  'artists/rosco.html': '/artists/rosco',
   'news/j-adore.html': '/news/j-adore',
   'news/lookout.html': '/news/lookout',
   'news/bridget-in-my-room.html': '/news/bridget-in-my-room',
@@ -242,7 +242,7 @@ const MERCH_PRODUCTS = [
     fit: 'Regular fit · heavyweight cotton',
     ships: 'Tee packed in BC · digital files emailed after checkout',
     description:
-      'Micro Tee plus Together by Inlet Knight as digital files. Soft mark, long listen.',
+      'Micro Tee plus Together by Rosco as digital files. Soft mark, long listen.',
     includes: ['Micro Tee', 'Together (digital)'],
     related: { label: 'Hear the release', href: '/together', text: 'Together' },
   },
@@ -934,7 +934,7 @@ function patchIndex() {
           "https://planetmp3.net"
         ],
         "member": [
-          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/inlet-knight", "name": "Inlet Knight", "url": "https://www.clubcopy.ca/artists/inlet-knight" },
+          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/rosco", "name": "Rosco", "url": "https://www.clubcopy.ca/artists/rosco" },
           { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/lt-drifta", "name": "L.T. Drifta", "url": "https://www.clubcopy.ca/artists/lt-drifta" }
         ]
       }`
@@ -943,7 +943,7 @@ function patchIndex() {
   // Fix empty news alts + place image
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-night.webp', 'Halftone face in negative — Welcome, Inlet Knight'],
+    ['news-night.webp', 'Halftone face in negative — Welcome, Rosco'],
   ];
   for (const [src, alt] of altMap) {
     html = html.replace(
@@ -952,8 +952,8 @@ function patchIndex() {
     );
   }
   html = html.replace(
-    /(<img class="place-img" src="artists\/inlet-knight\.webp" )alt=""/,
-    '$1alt="Inlet Knight — Club Copy artist"'
+    /(<img class="place-img" src="artists\/rosco\.webp" )alt=""/,
+    '$1alt="Rosco — Club Copy artist"'
   );
 
   // Twitter cards on homepage
@@ -977,7 +977,7 @@ function patchNewsIndex() {
   let html = fs.readFileSync(file, 'utf8');
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-night.webp', 'Halftone face in negative — Welcome, Inlet Knight'],
+    ['news-night.webp', 'Halftone face in negative — Welcome, Rosco'],
   ];
   for (const [src, alt] of altMap) {
     html = html.replace(
@@ -993,7 +993,7 @@ function patchNewsIndex() {
       { name: 'Bridget In My Room', url: ORIGIN + '/news/bridget-in-my-room' },
       { name: 'Lookout', url: ORIGIN + '/news/lookout' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
-      { name: 'Welcome, Inlet Knight', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
+      { name: 'Welcome, Rosco', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
     ];
     const ld = {
       '@context': 'https://schema.org',
@@ -1094,7 +1094,7 @@ function patchArtists() {
   let html = fs.readFileSync(file, 'utf8');
   if (!html.includes('ItemList')) {
     const items = [
-      { name: 'Inlet Knight', url: ORIGIN + '/artists/inlet-knight' },
+      { name: 'Rosco', url: ORIGIN + '/artists/rosco' },
       { name: 'L.T. Drifta', url: ORIGIN + '/artists/lt-drifta' },
     ];
     const ld = {
@@ -1135,12 +1135,12 @@ function patchArtists() {
 function patchArtistPages() {
   const pages = [
     {
-      file: 'artists/inlet-knight.html',
-      name: 'Inlet Knight',
+      file: 'artists/rosco.html',
+      name: 'Rosco',
       crumbs: [
         { name: 'Home', url: ORIGIN + '/' },
         { name: 'Artists', url: ORIGIN + '/artists' },
-        { name: 'Inlet Knight', url: ORIGIN + '/artists/inlet-knight' },
+        { name: 'Rosco', url: ORIGIN + '/artists/rosco' },
       ],
       alts: [
         ['j-adore-cover.webp', "j'adore — artwork"],
@@ -1180,10 +1180,10 @@ function patchArtistPages() {
 
 function patchReleaseBreadcrumbs() {
   const releases = [
-    { file: 'j-adore.html', name: "j'adore", artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/j-adore' },
-    { file: 'together.html', name: 'Together', artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/together' },
-    { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/letters-from-another-era' },
-    { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Inlet Knight', artistUrl: '/artists/inlet-knight', url: '/inlet-knight' },
+    { file: 'j-adore.html', name: "j'adore", artist: 'Rosco', artistUrl: '/artists/rosco', url: '/j-adore' },
+    { file: 'together.html', name: 'Together', artist: 'Rosco', artistUrl: '/artists/rosco', url: '/together' },
+    { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Rosco', artistUrl: '/artists/rosco', url: '/letters-from-another-era' },
+    { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Rosco', artistUrl: '/artists/rosco', url: '/inlet-knight' },
   ];
   for (const r of releases) {
     const file = path.join(ROOT, r.file);
@@ -1227,7 +1227,7 @@ function patchNewsArticles() {
     { file: 'news/bridget-in-my-room.html', name: 'Bridget In My Room', url: '/news/bridget-in-my-room' },
     { file: 'news/lookout.html', name: 'Lookout', url: '/news/lookout' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
-    { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Inlet Knight', url: '/news/inlet-knight-on-club-copy' },
+    { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Rosco', url: '/news/inlet-knight-on-club-copy' },
   ];
   for (const a of articles) {
     const file = path.join(ROOT, a.file);
@@ -1299,7 +1299,7 @@ function writeSitemap() {
     ['/', 1.0, 'weekly'],
     ['/library', 0.9, 'weekly'],
     ['/artists', 0.8, 'monthly'],
-    ['/artists/inlet-knight', 0.85, 'monthly'],
+    ['/artists/rosco', 0.85, 'monthly'],
     ['/merch', 0.85, 'weekly'],
     ...MERCH_PRODUCTS.map((p) => [`/merch/${p.slug}`, 0.7, 'weekly']),
     ['/news', 0.8, 'weekly'],
