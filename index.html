@@ -2256,8 +2256,13 @@
         <a class="head-link" href="/news">All news</a>
       </header>
     </div>
-    <div class="news-rail" tabindex="0" role="region" aria-label="News. Scroll sideways">
-      <div class="news-rail-track">
+    <div class="news-flow" data-coverflow role="region" aria-roledescription="carousel" aria-label="News">
+      <div class="news-flow-chrome">
+        <button type="button" class="news-flow-nav news-flow-nav--prev" data-coverflow-prev aria-label="Previous story">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5.6 8.8 12l6.6 6.4-1.5 1.5L5.8 12l8.1-7.9z"/></svg>
+        </button>
+        <div class="news-flow-stage" data-coverflow-stage>
+          <div class="news-flow-track news-rail-track" data-coverflow-track>
         <a class="news-card rv" href="/news/any-jungle" data-type="release" data-date="2026-08-30">
           <div class="news-card-art media-bezel">
             <img src="news-any-jungle.webp" alt="White vinyl on black with melting Club Copy lettering. any jungle" width="1400" height="1400" loading="lazy"/>
@@ -2357,6 +2362,17 @@
             <p class="news-card-dek">Where it started, the Pacific Northwest, making records, and running Club Copy.</p>
           </div>
         </a>
+          </div>
+        </div>
+        <button type="button" class="news-flow-nav news-flow-nav--next" data-coverflow-next aria-label="Next story">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 5.6 15.2 12l-6.6 6.4 1.5 1.5 8.1-7.9-8.1-7.9z"/></svg>
+        </button>
+      </div>
+      <div class="news-flow-caption" data-coverflow-caption aria-live="polite">
+        <p class="news-flow-date"></p>
+        <span class="news-flow-type"></span>
+        <h3 class="news-flow-title"></h3>
+        <p class="news-flow-dek"></p>
       </div>
     </div>
   </section>
@@ -2478,6 +2494,7 @@
 </footer>
 
 <script src="js/site.js"></script>
+<script src="js/cover-flow.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
