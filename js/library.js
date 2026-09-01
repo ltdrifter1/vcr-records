@@ -385,6 +385,7 @@
     var isCovers = viewMode === 'covers';
     list.classList.toggle('is-covers', isCovers);
     list.hidden = isCovers && !!(flowRoot && flowTrack);
+    list.setAttribute('aria-hidden', isCovers ? 'true' : 'false');
     if (flowRoot) flowRoot.hidden = !isCovers;
     document.body.classList.toggle('lib-covers-on', isCovers);
     if (viewListBtn) {
