@@ -21,9 +21,28 @@
     revealObs.observe(el);
   });
 
-  /* ---- Cassette parallax tilt --------------------------------------------- */
-  var stage = document.querySelector("[data-tilt-stage]");
+  /* ---- iTunes jewel tilt + wet-floor reflection --------------------------- */
+  var stage = document.querySelector(".ra-stage, [data-tilt-stage]");
   var cassette = stage && stage.querySelector(".ra-cassette, .ra-vinyl, .ra-cover");
+  if (stage && cassette) {
+    stage.classList.add("has-jewel");
+    if (!stage.querySelector(".ra-reflect")) {
+      var reflect = document.createElement("div");
+      reflect.className = "ra-reflect";
+      reflect.setAttribute("aria-hidden", "true");
+      var srcImg = cassette.querySelector("img");
+      if (srcImg) {
+        var clone = srcImg.cloneNode(true);
+        clone.removeAttribute("alt");
+        clone.setAttribute("alt", "");
+        clone.removeAttribute("fetchpriority");
+        reflect.appendChild(clone);
+      } else {
+        reflect.classList.add("ra-reflect--object");
+      }
+      stage.appendChild(reflect);
+    }
+  }
   if (stage && cassette && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
     var raf = null;
     stage.addEventListener("pointermove", function (e) {
@@ -34,9 +53,9 @@
         var x = (e.clientX - r.left) / r.width - 0.5;
         var y = (e.clientY - r.top) / r.height - 0.5;
         cassette.style.transform =
-          "rotateX(" + (-y * 9).toFixed(2) + "deg)" +
-          " rotateY(" + (x * 11).toFixed(2) + "deg)" +
-          " translateY(-6px)";
+          "rotateX(" + (-y * 8).toFixed(2) + "deg)" +
+          " rotateY(" + (x * 12).toFixed(2) + "deg)" +
+          " translateY(-8px)";
       });
     });
     stage.addEventListener("pointerleave", function () {

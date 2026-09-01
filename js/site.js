@@ -67,11 +67,9 @@
     syncNav();
   }
 
-  /* Homepage news rail — newest first, then native scrollbar (desktop) + swipe (touch).
-     No wheel remapping: vertical mouse wheel must keep scrolling the page.
-     Desktop also skips touch-action:pan-x / scroll-snap so the PC scrollbar
-     stays draggable (see css/news.css). */
-  var newsTrack = document.querySelector('.news-rail-track');
+  /* Homepage news — newest first. Cover Flow (js/cover-flow.js) takes the
+     3D rack from here; vertical mouse wheel still scrolls the page. */
+  var newsTrack = document.querySelector('.news-rail-track, [data-coverflow-track]');
   if (newsTrack) {
     var newsCards = Array.prototype.slice.call(newsTrack.querySelectorAll('.news-card'));
     newsCards.sort(function (a, b) {
