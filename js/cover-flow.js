@@ -371,7 +371,7 @@
         if (cur && cur.releaseId === id && (!trackId || cur.id === trackId)) {
           VCRPlayer.toggle();
         } else {
-          VCRPlayer.playRelease(id, trackId || null, { autoplay: true, stage: true });
+          VCRPlayer.playRelease(id, trackId || null, { autoplay: true });
         }
       });
     });

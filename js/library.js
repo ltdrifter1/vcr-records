@@ -386,6 +386,7 @@
     list.classList.toggle('is-covers', isCovers);
     list.hidden = isCovers && !!(flowRoot && flowTrack);
     if (flowRoot) flowRoot.hidden = !isCovers;
+    document.body.classList.toggle('lib-covers-on', isCovers);
     if (viewListBtn) {
       viewListBtn.classList.toggle('is-active', !isCovers);
       viewListBtn.setAttribute('aria-pressed', !isCovers ? 'true' : 'false');

@@ -788,12 +788,15 @@
       bottom: 10px;
     }
 
+    body.lib-covers-on .lib-shelf { display: none; }
+    body.lib-covers-on .coverflow-stage { height: calc(var(--flow-cover) * 1.38); }
+
     @media (prefers-reduced-motion: reduce) {
       .cat-row, .cat-cover img, .cat-play, .lib-select { transition: none !important; }
     }
   </style>
 </head>
-<body id="top" class="surface-night has-station-bumper">
+<body id="top" class="surface-night has-station-bumper lib-covers-on">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -913,7 +916,7 @@
         <p class="coverflow-kicker"></p>
         <h3 class="coverflow-title"></h3>
         <p class="coverflow-artist"></p>
-        <p class="coverflow-hint">← → to flip · Space to play</p>
+        <p class="coverflow-hint">Drag to flip · Space to play</p>
       </div>
       <div class="album-inspect" data-album-inspect hidden></div>
     </div>
