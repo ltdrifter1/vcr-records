@@ -129,11 +129,12 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/surface-night.css"/>
   <link rel="stylesheet" href="css/station-bumper.css"/>
   <link rel="stylesheet" href="css/listen-object.css"/>
+  <link rel="stylesheet" href="css/cover-flow.css"/>
   <link rel="stylesheet" href="css/station.css"/>
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
@@ -890,11 +891,32 @@
         <p class="lib-count" id="libCount" aria-live="polite">5 releases</p>
         <div class="lib-view" role="group" aria-label="Library view">
           <button type="button" class="lib-view-btn is-active" id="libViewList" data-view="list" aria-pressed="true">List</button>
-          <button type="button" class="lib-view-btn" id="libViewCovers" data-view="covers" aria-pressed="false">Covers</button>
+          <button type="button" class="lib-view-btn" id="libViewCovers" data-view="covers" aria-pressed="false">Cover Flow</button>
         </div>
         <button type="button" class="lib-clear" id="libFilterReset" hidden>Clear</button>
       </div>
     </section>
+
+    <div class="album-flow" id="libFlow" data-coverflow data-coverflow-kind="albums" data-coverflow-size="lg" hidden>
+      <div class="coverflow-chrome">
+        <button type="button" class="coverflow-nav" data-coverflow-prev aria-label="Previous release">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5.6 8.8 12l6.6 6.4-1.5 1.5L5.8 12l8.1-7.9z"/></svg>
+        </button>
+        <div class="coverflow-stage" data-coverflow-stage>
+          <div class="coverflow-track" data-coverflow-track id="libFlowTrack"></div>
+        </div>
+        <button type="button" class="coverflow-nav" data-coverflow-next aria-label="Next release">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 5.6 15.2 12l-6.6 6.4 1.5 1.5L18.2 12 10.1 4.1z"/></svg>
+        </button>
+      </div>
+      <div class="coverflow-caption" data-coverflow-caption>
+        <p class="coverflow-kicker"></p>
+        <h3 class="coverflow-title"></h3>
+        <p class="coverflow-artist"></p>
+        <p class="coverflow-hint">← → to flip · Space to play</p>
+      </div>
+      <div class="album-inspect" data-album-inspect hidden></div>
+    </div>
 
     <div class="cat-list" id="catList" aria-live="polite">
 <article class="cat-row cat-row--featured rv" style="--cover:url('any-jungle-cover.webp')" data-release="any-jungle" data-artist-id="lt-drifta" data-genre="jungle"><div class="cat-cover media-bezel"><a href="/any-jungle" tabindex="-1" aria-hidden="true"><img src="any-jungle-cover-480.webp" srcset="any-jungle-cover-480.webp 480w, any-jungle-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="any jungle — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">CC019</span></div><div class="cat-main"><a class="cat-title" href="/any-jungle">any jungle</a><span class="cat-artist">L.T. Drifta</span><span class="cat-meta">Single · 1 track · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="any jungle digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Club</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.05</span></div></div></div></div></div></article>
@@ -947,6 +969,7 @@
 </footer>
 
 <script src="js/site.js"></script>
+<script src="js/cover-flow.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
