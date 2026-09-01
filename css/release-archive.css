@@ -1813,10 +1813,11 @@ body.archive-release .footer-form button {
 }
 
 /* ==========================================================================
-   Y2K / modern — three upgrades (jewel, Aqua store, iPod cue sheet)
+   iTunes / iOS Aqua — one material system for release pages
+   Metal player · white tables · real Aqua gel. No fake HUD labels.
    ========================================================================== */
 
-/* 1. Hero sleeve as an iTunes jewel — 3D tilt, specular, wet-floor reflect */
+/* Keep Cover Flow reflection from the jewel stage -------------------------- */
 .ra-stage {
   perspective: 1400px;
   padding-bottom: 16%;
@@ -1849,11 +1850,9 @@ body.archive-release .footer-form button {
 }
 .ra-cover {
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.28),
-    0 0 0 1px rgba(200, 214, 230, .32),
-    0 0 0 8px rgba(255,255,255,.03),
-    0 34px 70px -18px rgba(0, 0, 0, .85),
-    0 8px 18px rgba(0, 0, 0, .4);
+    inset 0 1px 0 rgba(255,255,255,.35),
+    0 0 0 1px rgba(0,0,0,.45),
+    0 18px 40px -12px rgba(0, 0, 0, .72);
 }
 .ra-reflect {
   position: absolute;
@@ -1898,157 +1897,318 @@ body.archive-release .footer-form button {
   .ra-reflect { display: none; }
 }
 
-/* 2. Purchase as an Aqua / iTunes Store terminal -------------------------- */
+/* Hero — iTunes album header, not a glass HUD ------------------------------ */
+.ra-hero-info {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+  overflow: visible;
+  max-width: 560px;
+}
+.ra-hero-info::before,
+.ra-hero-info::after { display: none; }
+.ra-hero-callsign {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.48);
+}
+.ra-hero-callsign::before { display: none; }
+.ra-hero-meta {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  text-transform: none;
+  gap: 0;
+  color: rgba(255,255,255,.62);
+}
+.ra-hero-meta span {
+  display: inline;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+.ra-hero-meta span + span::before {
+  content: " · ";
+  color: rgba(255,255,255,.32);
+}
+.ra-hero-meta .artist { color: #fff; border: 0; background: none; }
+.ra-hero .crumbs {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,.4);
+}
+.ra-hero-title {
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  filter: none;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .ra-hero-title {
+    background-image: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+  }
+}
+.ra-hero-facts {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -.011em;
+  text-transform: none;
+  line-height: 1.45;
+  color: rgba(255,255,255,.62);
+  margin: 0 0 26px;
+  padding: 0;
+  border: 0;
+}
+.ra-hero-ctas .btn-light {
+  background:
+    linear-gradient(180deg, #eaf6ff 0%, #86cdf7 16%, #3a94e0 48%, #1868c4 78%, #0d4e9a 100%);
+  color: #fff;
+  border: 1px solid #0a478c;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: 0 -1px 0 rgba(0, 40, 80, .35);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    inset 0 -1px 0 rgba(0, 40, 90, .18),
+    0 2px 4px rgba(0,0,0,.28);
+}
+.ra-hero-ctas .btn-light:hover {
+  filter: brightness(1.06);
+  border-color: #1663b8;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.88),
+    0 3px 8px rgba(0,0,0,.32);
+}
+
+/* Section heads — iTunes window titles ------------------------------------- */
+.ra-head .eyebrow,
+.ra-more .eyebrow {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.42);
+}
+
+/* Listen: metal player + white iTunes track table -------------------------- */
+.ra-stereo-brand {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  letter-spacing: .1em;
+}
+.ra-tracks {
+  background: #fbfbfd;
+  color: #1d1d1f;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 8px;
+  padding: 4px 0 8px;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 10px 28px -14px rgba(0,0,0,.55);
+}
+.ra-tracks::before { content: none !important; display: none !important; }
+.ra-side-label {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: #6e6e73;
+  padding: 10px 14px 4px;
+}
+.ra-tracks .track-row {
+  border-radius: 0;
+  border-top: 1px solid #ececec;
+  padding: 11px 14px;
+}
+.ra-tracks .track-row:hover { background: #eef3fb; }
+.ra-tracks .track-no,
+.ra-tracks .track-dur {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  letter-spacing: 0;
+  color: #6e6e73;
+  text-shadow: none;
+}
+.ra-tracks .track-title {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  color: #1d1d1f;
+  letter-spacing: -.015em;
+}
+.ra-tracks .track-row.is-active {
+  background: linear-gradient(180deg, #7eb6f5 0%, #3b7dd8 48%, #1f5cb8 100%);
+  box-shadow: none;
+  border-top-color: #5aa0ef;
+}
+.ra-tracks .track-row.is-active .track-no,
+.ra-tracks .track-row.is-active .track-title,
+.ra-tracks .track-row.is-active .track-dur {
+  color: #fff;
+  text-shadow: none;
+}
+.ra-tracks .track-row.is-playing::before {
+  background: #fff;
+  box-shadow: none;
+  width: 3px;
+  top: 8px;
+  bottom: 8px;
+}
+.ra-tracks-note {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  letter-spacing: 0;
+  text-transform: none;
+  color: #6e6e73;
+  padding: 8px 14px 4px;
+  border-top: 1px solid #ececec;
+}
+
+/* Purchase — iTunes Store pane, not a fake terminal ------------------------ */
 .ra-format,
 .ra-redeem {
   position: relative;
   isolation: isolate;
+  overflow: hidden;
   background:
-    linear-gradient(180deg, #f4f5f8 0%, #c8ccd4 14%, #9aa1ac 52%, #b8bcc6 86%, #d8dae0 100%);
-  border: 1px solid rgba(255,255,255,.55);
-  color: #1a1c20;
+    linear-gradient(180deg, #ffffff 0%, #f3f4f7 100%);
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 10px;
+  color: #1d1d1f;
   box-shadow:
     inset 0 1px 0 #fff,
-    inset 0 -3px 0 rgba(40, 44, 52, .22),
-    0 28px 50px -18px rgba(0, 0, 0, .72);
-  overflow: hidden;
+    0 14px 32px -16px rgba(0,0,0,.5);
 }
 .ra-format::before,
 .ra-redeem::before {
-  content: "CLUB COPY  ·  STORE";
-  display: block;
-  font-family: var(--callsign, "Oswald", sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: #3a3e46;
-  text-shadow: 0 1px 0 rgba(255,255,255,.7);
-  padding: 0 4px 14px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid rgba(40, 44, 52, .16);
-  box-shadow: 0 1px 0 rgba(255,255,255,.45);
+  content: none !important;
+  display: none !important;
 }
-.ra-redeem::before { content: "DELIVERY"; }
 .ra-format-opt {
-  border-bottom-color: rgba(40, 44, 52, .14);
-  color: #1a1c20;
+  border-bottom-color: #e5e5ea;
+  color: #1d1d1f;
+  border-radius: 8px;
 }
-.ra-format-opt:first-of-type { border-top-color: rgba(40, 44, 52, .14); }
-.ra-format-opt:hover { background: rgba(255,255,255,.35); }
+.ra-format-opt:first-of-type { border-top-color: #e5e5ea; }
+.ra-format-opt:hover { background: #eef3fb; }
+.ra-format-opt[aria-checked="true"],
+.ra-format-opt[aria-checked="true"]:hover {
+  background: linear-gradient(180deg, #7eb6f5 0%, #3b7dd8 52%, #1f5cb8 100%);
+  box-shadow: none;
+}
 .ra-format-opt .dot {
-  border-color: #1a1c20;
-  background: #f6f7f9;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.18);
+  border: 2px solid #c7c7cc;
+  background: #fff;
+  box-shadow: none;
 }
 .ra-format-opt[aria-checked="true"] .dot {
+  border-color: #fff;
   background:
-    radial-gradient(circle at 50% 50%, #7ef6ff 0 34%, #1a1c20 38% 100%);
-  box-shadow:
-    0 0 0 3px #c8ccd4 inset,
-    0 0 10px rgba(126, 246, 255, .45);
+    radial-gradient(circle at 50% 50%, #fff 0 36%, #0b5ed7 40% 100%);
+  box-shadow: none;
 }
-.ra-format-opt .fmt { color: #1a1c20; }
-.ra-format-opt .fmt small { color: #4a5058; }
-.ra-format-opt .price { color: #1a1c20; }
-.ra-format-opt .price .price-member { color: #4a5058; }
-.ra-collect-btn {
+.ra-format-opt .fmt { color: #1d1d1f; }
+.ra-format-opt .fmt small { color: #6e6e73; }
+.ra-format-opt .price {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: #1d1d1f;
+  text-shadow: none;
+}
+.ra-format-opt .price .price-member {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  color: #6e6e73;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.ra-format-opt[aria-checked="true"] .fmt,
+.ra-format-opt[aria-checked="true"] .fmt small,
+.ra-format-opt[aria-checked="true"] .price,
+.ra-format-opt[aria-checked="true"] .price .price-member {
+  color: #fff;
+}
+.ra-collect-btn,
+body.archive-release .btn-fill.ra-collect-btn,
+body.archive-release .ra-collect-btn.btn-fill {
   background:
-    linear-gradient(180deg, #7fd4ff 0%, #3aa0e6 46%, #1d6fbf 100%) !important;
-  color: #062038 !important;
-  border: 1px solid rgba(255,255,255,.7) !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,.35);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.75),
-    0 8px 18px rgba(20, 70, 120, .35) !important;
+    linear-gradient(180deg, #eaf6ff 0%, #86cdf7 16%, #3a94e0 48%, #1868c4 78%, #0d4e9a 100%) !important;
+  color: #fff !important;
+  border: 1px solid #0a478c !important;
+  text-shadow: 0 -1px 0 rgba(0, 40, 80, .35);
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    0 2px 4px rgba(0,0,0,.22) !important;
 }
 body.archive-release .ra-collect-btn.btn-fill:hover,
 body.archive-release .btn-fill.ra-collect-btn:hover {
-  filter: brightness(1.08);
-  border-color: #fff !important;
+  filter: brightness(1.06);
+  border-color: #1663b8 !important;
 }
 .ra-purchase-fine,
-.ra-club-cue { color: #3a3e46; }
-.ra-club-cue a { color: #14202c; }
-.ra-redeem h3 { color: #1a1c20; }
-.ra-redeem .hint { color: #3a3e46; }
+.ra-club-cue { color: #6e6e73; }
+.ra-club-cue a { color: #1473e6; }
+.ra-redeem h3 { color: #1d1d1f; }
+.ra-redeem .hint { color: #6e6e73; }
 .ra-redeem input {
-  border-bottom-color: rgba(40, 44, 52, .28);
-  color: #1a1c20;
+  border-bottom-color: #d2d2d7;
+  color: #1d1d1f;
 }
-.ra-redeem input:focus { border-bottom-color: #1d6fbf; }
+.ra-redeem input:focus { border-bottom-color: #1473e6; }
 
-/* 3. Tracklist as an iPod / MiniDisc cue sheet ----------------------------- */
-.ra-tracks {
-  background:
-    linear-gradient(180deg, #1c1e22 0%, #0e1014 40%, #08090c 100%);
-  border: 1px solid rgba(200, 214, 230, .22);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 28px 56px -22px rgba(0, 0, 0, .75);
+/* About — iOS grouped table ------------------------------------------------ */
+.ra-specs {
+  background: #fbfbfd;
+  color: #1d1d1f;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 10px;
+  padding: 2px 0;
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  box-shadow: inset 0 1px 0 #fff;
 }
-.ra-tracks::before {
-  content: "PLAYLIST";
-  display: block;
-  font-family: "Share Tech Mono", var(--ra-mono);
-  font-size: 11px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: rgba(126, 246, 255, .55);
-  text-shadow: 0 0 8px rgba(126, 246, 255, .28);
-  padding: 2px 8px 10px;
+.ra-specs > div {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e5ea;
 }
-.ra-tracks .track-no {
-  font-family: "Share Tech Mono", var(--ra-mono);
-  letter-spacing: .08em;
+.ra-specs dt {
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #6e6e73;
 }
-.ra-tracks .track-dur {
-  font-family: "Share Tech Mono", var(--ra-mono);
-  letter-spacing: .08em;
+.ra-specs dd {
+  font-size: 14px;
+  letter-spacing: -.01em;
+  color: #1d1d1f;
 }
-.ra-tracks .track-row.is-active {
-  background: linear-gradient(90deg, rgba(126, 246, 255, .12), rgba(126, 246, 255, .03));
-  box-shadow: inset 3px 0 0 #7ef6ff;
-}
-.ra-tracks .track-row.is-active .track-no {
-  color: #7ef6ff;
-  text-shadow: 0 0 8px rgba(126, 246, 255, .45);
-}
-.ra-tracks .track-row.is-active .track-title {
-  color: #e8ffff;
-}
-.ra-tracks .track-row.is-playing::before {
-  background: #7ef6ff;
-  box-shadow: 0 0 12px rgba(126, 246, 255, .7);
-}
-.ra-tracks-note {
-  font-family: "Share Tech Mono", var(--ra-mono);
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: rgba(126, 246, 255, .42);
-}
+.ra-specs a { color: #1473e6; }
 
-@media (prefers-reduced-motion: reduce) {
-  .ra-cover::before { animation: none; }
-}
-
-/* Section rhythm ------------------------------------------------------------ */
-.ra-section { padding-bottom: 24px; }
-
-/* ==========================================================================
-   5. Also spinning — jewel-case catalogue rail
-   ========================================================================== */
+/* Also spinning — iTunes album grid ---------------------------------------- */
 .ra-more { padding-top: 12px; padding-bottom: 8px; }
 .ra-more .ra-head a.head-note,
 .ra-more a.head-note {
-  font-family: var(--callsign, 'Oswald', sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--ra-dim);
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,.48);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
@@ -2056,8 +2216,8 @@ body.archive-release .btn-fill.ra-collect-btn:hover {
 }
 @media (hover: hover) {
   .ra-more a.head-note:hover {
-    color: var(--ra-ink);
-    border-bottom-color: var(--ra-chrome);
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,.4);
   }
 }
 .ra-more-rail {
@@ -2084,7 +2244,7 @@ body.archive-release .btn-fill.ra-collect-btn:hover {
 .ra-more-item {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
   scroll-snap-align: start;
   text-decoration: none;
@@ -2095,81 +2255,79 @@ body.archive-release .btn-fill.ra-collect-btn:hover {
   position: relative;
   display: block;
   aspect-ratio: 1;
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
   background: #0B0B0B;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .28),
-    0 0 0 1px rgba(210, 222, 236, .38),
-    5px 0 0 -1px rgba(198, 210, 224, .42),
-    6px 0 0 0 rgba(12, 14, 18, .95),
-    0 18px 36px -12px rgba(0, 0, 0, .7);
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 1px 0 rgba(0,0,0,.4),
+    0 12px 24px -10px rgba(0, 0, 0, .6);
   transition: box-shadow .35s var(--ra-ease);
 }
-.ra-more-case::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(118deg, rgba(255,255,255,.16) 0%, transparent 36%, transparent 70%, rgba(180,198,220,.1) 100%);
-  mix-blend-mode: soft-light;
-}
+.ra-more-case::after { display: none; }
 .ra-more-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.ra-more-cc {
-  font-family: var(--callsign, 'Oswald', sans-serif);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--ra-dim);
-}
+.ra-more-cc,
 .ra-more-artist {
-  font-family: var(--callsign, 'Oswald', sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--ra-muted);
-  margin-top: -6px;
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,.45);
 }
+.ra-more-artist { margin-top: -4px; }
 .ra-more-title {
-  font-family: var(--display, 'Space Grotesk', sans-serif);
+  font-family: var(--sans, 'Space Grotesk', sans-serif);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -.015em;
-  color: var(--ra-ink);
+  color: #fff;
   line-height: 1.25;
 }
 @media (hover: hover) {
-  .ra-more-item:hover { transform: translateY(-4px); }
+  .ra-more-item:hover { transform: translateY(-3px); }
   .ra-more-item:hover .ra-more-case {
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, .4),
-      0 0 0 1px rgba(230, 238, 246, .55),
-      5px 0 0 -1px rgba(210, 222, 236, .55),
-      6px 0 0 0 rgba(12, 14, 18, .95),
-      0 24px 44px -12px rgba(0, 0, 0, .78),
-      0 0 24px rgba(186, 214, 255, .12);
+      inset 0 1px 0 rgba(255,255,255,.4),
+      0 16px 32px -10px rgba(0, 0, 0, .7);
   }
-  .ra-more-item:hover .ra-more-title { color: #fff; }
 }
 
-/* Mobile refinements --------------------------------------------------------- */
+/* Modal — iOS sheet -------------------------------------------------------- */
+body.archive-release .modal {
+  background: rgba(248, 248, 250, .96);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 14px;
+  color: #1d1d1f;
+  box-shadow: 0 24px 60px rgba(0,0,0,.4);
+}
+body.archive-release .modal h2 { color: #1d1d1f; }
+body.archive-release .modal p { color: #6e6e73; }
+body.archive-release .modal-close { color: #8e8e93; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ra-cover::before { animation: none; }
+}
+
+/* Section rhythm ------------------------------------------------------------ */
+.ra-section { padding-bottom: 24px; }
+
+/* Mobile ------------------------------------------------------------------- */
 @media (max-width: 959px) {
   .ra-hero { min-height: 0; padding-top: calc(var(--nav-h, 64px) + 16px); }
-  .ra-hero-info { padding: 20px 18px 18px; }
+  .ra-hero-info { padding: 0; }
   .ra-hero-title { font-size: clamp(36px, 11vw, 56px); }
   .ra-hero-ctas .btn { flex: 1 1 100%; }
   .ra-deck { padding: 12px 10px 10px; }
   .ra-stereo { grid-template-columns: 1fr; }
   .ra-stereo-speaker { display: none; }
   .ra-stereo-dash { grid-template-columns: 1fr 64px; }
-  .ra-tracks { padding: 16px 12px 14px; }
+  .ra-tracks { padding: 4px 0 8px; }
   .ra-format { padding: 18px 16px 16px; }
   .ra-head { padding-top: 44px; margin-bottom: 22px; }
   #listen .ra-head { padding-top: 40px; margin-bottom: 18px; }
