@@ -39,7 +39,7 @@
 
     this.items.forEach(function (item, i) {
       item.setAttribute("data-flow-i", String(i));
-      item.classList.add("flow-item");
+      item.classList.add("flow-item", "in");
       ensureReflection(item);
     });
 
@@ -52,7 +52,7 @@
 
   CoverFlow.prototype.measure = function () {
     var w = this.stage.clientWidth || this.root.clientWidth || 720;
-    this.cover = clamp(Math.round(w * 0.34), 168, 320);
+    this.cover = clamp(Math.round(w * (w < 700 ? 0.46 : 0.32)), 148, 300);
     this.stage.style.setProperty("--flow-cover", this.cover + "px");
     this.layout();
   };
@@ -163,17 +163,21 @@
       self.dragStartX = e.clientX;
       self.dragStartIndex = self.index;
       self.pointerId = e.pointerId;
-      self.root.classList.add("is-dragging");
-      try { self.stage.setPointerCapture(e.pointerId); } catch (err) {}
     });
 
     this.stage.addEventListener("pointermove", function (e) {
       if (!self.dragging) return;
       var dx = e.clientX - self.dragStartX;
-      if (Math.abs(dx) > 8) self.didDrag = true;
-      var steps = Math.round(-dx / (self.cover * 0.42));
-      var next = clamp(self.dragStartIndex + steps, 0, self.items.length - 1);
-      if (next !== self.index) self.go(next);
+      if (Math.abs(dx) > 10) {
+        if (!self.didDrag) {
+          self.didDrag = true;
+          self.root.classList.add("is-dragging");
+          try { self.stage.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+        var steps = Math.round(-dx / (self.cover * 0.42));
+        var next = clamp(self.dragStartIndex + steps, 0, self.items.length - 1);
+        if (next !== self.index) self.go(next);
+      }
     });
 
     function endDrag(e) {
