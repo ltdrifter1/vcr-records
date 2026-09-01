@@ -1,6 +1,6 @@
 /**
  * Club Copy — release archive interactions.
- * Waveform canvas, cassette parallax, scroll reveals.
+ * Waveform canvas, cassette parallax, scroll reveals, catalogue rail.
  * Playback itself stays on the shared VCRPlayer engine.
  */
 (function () {
@@ -20,6 +20,87 @@
   document.querySelectorAll(".ra-reveal").forEach(function (el) {
     revealObs.observe(el);
   });
+
+  /* ---- Also spinning — jewel-case catalogue rail -------------------------- */
+  (function mountCatalogueRail() {
+    var main = document.getElementById("main");
+    if (!main || main.querySelector(".ra-more")) return;
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function currentId() {
+      var canvas = document.getElementById("raWave");
+      var fromWave = canvas && canvas.getAttribute("data-release");
+      if (fromWave) return fromWave;
+      var path = (location.pathname || "").replace(/\/+$/, "");
+      return path.split("/").pop() || "";
+    }
+
+    function pickRelated(releases, id) {
+      var current = null;
+      var i;
+      for (i = 0; i < releases.length; i++) {
+        if (releases[i].id === id) { current = releases[i]; break; }
+      }
+      var rest = releases.filter(function (r) { return r.id !== id; });
+      var same = [];
+      var other = [];
+      rest.forEach(function (r) {
+        if (current && r.artistId && r.artistId === current.artistId) same.push(r);
+        else other.push(r);
+      });
+      function byCat(a, b) {
+        return String(b.catalogue || "").localeCompare(String(a.catalogue || ""));
+      }
+      same.sort(byCat);
+      other.sort(byCat);
+      return same.concat(other).slice(0, 5);
+    }
+
+    function card(rel) {
+      var img = rel.coverThumb || rel.cover || "";
+      var href = rel.page || ("/" + rel.id);
+      var alt = esc((rel.artist ? rel.artist + " — " : "") + (rel.title || ""));
+      return (
+        '<a class="ra-more-item" href="' + esc(href) + '">' +
+          '<span class="ra-more-case">' +
+            '<img src="' + esc(img) + '" alt="' + alt + '" width="480" height="480" loading="lazy"/>' +
+          '</span>' +
+          '<span class="ra-more-cc">' + esc(rel.catalogue || "") + '</span>' +
+          '<span class="ra-more-artist">' + esc(rel.artist || "") + '</span>' +
+          '<span class="ra-more-title">' + esc(rel.title || "") + '</span>' +
+        '</a>'
+      );
+    }
+
+    fetch("/data/catalog.json")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.releases || !data.releases.length) return;
+        var related = pickRelated(data.releases, currentId());
+        if (related.length < 2) return;
+        var section = document.createElement("section");
+        section.className = "ra-section ra-more";
+        section.setAttribute("aria-label", "Also spinning");
+        section.innerHTML =
+          '<div class="ra-wrap">' +
+            '<header class="ra-head ra-reveal">' +
+              '<div><p class="eyebrow">Catalogue</p><h2>Also spinning</h2></div>' +
+              '<a class="head-note" href="/library">Full library</a>' +
+            '</header>' +
+            '<div class="ra-more-rail">' + related.map(card).join("") + '</div>' +
+          '</div>';
+        main.appendChild(section);
+        var head = section.querySelector(".ra-reveal");
+        if (head) revealObs.observe(head);
+      })
+      .catch(function () {});
+  })();
 
   /* ---- iTunes jewel tilt + wet-floor reflection --------------------------- */
   var stage = document.querySelector(".ra-stage, [data-tilt-stage]");

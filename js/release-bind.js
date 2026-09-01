@@ -60,6 +60,8 @@
       if (art) art.classList.toggle("is-playing", on);
       var consoleEl = document.querySelector(".release-console");
       if (consoleEl) consoleEl.classList.toggle("is-live", on);
+      var hero = document.querySelector(".ra-hero");
+      if (hero) hero.classList.toggle("is-live", on);
       trackRows.forEach(function (r, i) {
         r.classList.toggle("is-playing", !!(on && i === activeIdx));
       });
