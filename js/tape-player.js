@@ -97,8 +97,8 @@
       }
       var bh = Math.max(2, amp * (h - 6));
       ctx.fillStyle = frac <= progress
-        ? "rgba(243, 240, 232, 0.95)"
-        : "rgba(233, 229, 216, 0.28)";
+        ? "rgba(126, 246, 255, 0.95)"
+        : "rgba(126, 246, 255, 0.22)";
       ctx.fillRect(i * (bw + gap), mid - bh / 2, bw, bh);
     }
   }
