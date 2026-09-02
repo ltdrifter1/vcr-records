@@ -1,8 +1,8 @@
 /* Shared Continuity Deck + Ambient Stage */
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&display=swap");
 
 :root {
-  --vcr-player-h: 84px;
+  --vcr-player-h: 96px;
   --room-a: 168, 92, 128;
   --room-b: 36, 72, 118;
   --room-c: 196, 168, 132;
@@ -22,11 +22,11 @@ body.has-vcr-player {
   max-width: 920px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 48px minmax(0, 1.1fr) auto minmax(120px, 1.2fr) auto auto;
+  grid-template-columns: 56px minmax(0, 1.6fr) auto auto auto;
   gap: 10px;
   align-items: center;
   padding: 10px 12px;
-  border-radius: 14px;
+  border-radius: 12px;
   background:
     linear-gradient(135deg, rgba(200,214,230,.12), transparent 42%),
     linear-gradient(180deg, rgba(18,18,20,.92), rgba(10,10,12,.88));
@@ -121,25 +121,7 @@ body.vcr-stage-open.has-vcr-player {
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.42);
-}
-
-.vcr-player__title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #fff;
-}
-
-.vcr-player__sub {
-  font-size: 12px;
-  color: rgba(255,255,255,.48);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: rgba(184, 224, 200, .48);
 }
 
 .vcr-player__upnext {
@@ -169,31 +151,113 @@ body.vcr-stage-open.has-vcr-player {
   z-index: 1;
 }
 
-.vcr-player__art {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  object-fit: cover;
+.vcr-player__jewel {
+  width: 56px;
+  height: 56px;
+  border-radius: 2px;
+  overflow: hidden;
   background: #12141a;
   box-shadow:
     0 0 0 1px rgba(200,214,230,.28),
     inset 0 1px 0 rgba(255,255,255,.12);
 }
+.vcr-player__art {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  object-fit: cover;
+  display: block;
+  background: #12141a;
+}
+
+.vcr-player__lcd {
+  position: relative;
+  min-width: 0;
+  padding: 8px 12px 7px;
+  border-radius: 3px;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 0%, rgba(40,72,52,.35), transparent 58%),
+    linear-gradient(180deg, #0c1612 0%, #050908 100%);
+  border: 1px solid rgba(0,0,0,.65);
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(200,230,210,.16),
+    0 0 0 1px rgba(255,255,255,.05);
+  overflow: hidden;
+}
+.vcr-player__lcd::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,.025) 2px,
+    rgba(255,255,255,.025) 3px
+  );
+  mix-blend-mode: screen;
+}
+.vcr-player__lcd::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(210,236,220,.08), transparent 42%);
+}
 
 .vcr-player__meta { min-width: 0; }
 
+.vcr-player__eq {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  z-index: 2;
+}
+.vcr-player.is-playing .vcr-player__eq { display: flex; }
+.vcr-player__eq i {
+  width: 2px;
+  height: 30%;
+  border-radius: 1px;
+  background: #b8e0c8;
+  box-shadow: 0 0 6px rgba(184,224,200,.45);
+  animation: lcdEq 1s ease-in-out infinite;
+}
+.vcr-player__eq i:nth-child(2) { animation-delay: .12s; }
+.vcr-player__eq i:nth-child(3) { animation-delay: .24s; }
+.vcr-player__eq i:nth-child(4) { animation-delay: .08s; }
+.vcr-player__eq i:nth-child(5) { animation-delay: .32s; }
+@keyframes lcdEq {
+  0%, 100% { height: 28%; }
+  40% { height: calc(40% + var(--room-energy, 0.18) * 60%); }
+  70% { height: 55%; }
+}
+
 .vcr-player__title {
-  font-size: 14px;
+  position: relative;
+  z-index: 1;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: .01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #d4f0dc;
+  text-shadow: 0 0 10px rgba(180, 230, 196, .28);
 }
 
 .vcr-player__sub {
-  font-size: 12px;
-  color: #6e6e73;
+  position: relative;
+  z-index: 1;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: rgba(184, 224, 200, .62);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -271,8 +335,9 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__times {
   display: flex;
   justify-content: space-between;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: 10px;
-  color: #86868b;
+  color: rgba(184, 224, 200, .5);
   font-variant-numeric: tabular-nums;
   margin-top: 2px;
 }
@@ -464,23 +529,22 @@ body.vcr-bumper-open { overflow: hidden; }
 }
 
 @media (max-width: 760px) {
-  :root { --vcr-player-h: 112px; }
+  :root { --vcr-player-h: 128px; }
   .vcr-player {
     left: max(10px, env(safe-area-inset-left, 0px));
     right: max(10px, env(safe-area-inset-right, 0px));
     bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-    grid-template-columns: 44px minmax(0, 1fr) auto auto;
+    grid-template-columns: 48px minmax(0, 1fr) auto auto;
     grid-template-areas:
-      "art meta controls close"
-      "buy buy progress progress";
+      "art lcd controls close"
+      "buy buy buy buy";
     gap: 8px 10px;
     padding: 10px 12px 12px;
-    border-radius: 20px;
+    border-radius: 16px;
   }
-  .vcr-player__art { grid-area: art; width: 44px; height: 44px; border-radius: 10px; }
-  .vcr-player__meta { grid-area: meta; }
+  .vcr-player__jewel { grid-area: art; width: 48px; height: 48px; }
+  .vcr-player__lcd { grid-area: lcd; }
   .vcr-player__controls { grid-area: controls; gap: 6px; }
-  .vcr-player__progress-wrap { grid-area: progress; }
   .vcr-player__close { grid-area: close; }
   .vcr-player__buy {
     grid-area: buy;

@@ -10,6 +10,9 @@
   var leadEl = document.getElementById('libLead');
   var viewListBtn = document.getElementById('libViewList');
   var viewCoversBtn = document.getElementById('libViewCovers');
+  var flowRoot = document.getElementById('libFlow');
+  var flowTrack = document.getElementById('libFlowTrack');
+  var inspect = document.querySelector('#libFlow [data-album-inspect]');
 
   var allReleases = [];
   var viewMode = 'list';
@@ -42,6 +45,9 @@
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
     if (view === 'covers' || view === 'list') viewMode = view;
+    else if (window.matchMedia && window.matchMedia('(min-width: 720px)').matches) {
+      viewMode = 'covers';
+    }
     filters = { genre: genre, artist: artist };
   }
 
@@ -299,7 +305,7 @@
 
     return (
       '<article class="cat-row rv" style="--cover:' + cssUrl(full || thumb) + '" data-release="' + esc(rel.id) + '" data-artist-id="' + esc(rel.artistId || '') + '" data-genre="' + esc(slugify(rel.genre)) + '">' +
-        '<div class="cat-cover media-bezel fx-spec">' +
+        '<div class="cat-cover media-bezel fx-spec jewel">' +
           '<a href="' + esc(href) + '" tabindex="-1" aria-hidden="true">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(min-width:860px) 108px, 88px" alt="' + alt + '" width="1200" height="1200" loading="lazy"/>' +
           '</a>' +
@@ -378,6 +384,10 @@
   function syncViewButtons() {
     var isCovers = viewMode === 'covers';
     list.classList.toggle('is-covers', isCovers);
+    list.hidden = isCovers && !!(flowRoot && flowTrack);
+    list.setAttribute('aria-hidden', isCovers ? 'true' : 'false');
+    if (flowRoot) flowRoot.hidden = !isCovers;
+    document.body.classList.toggle('lib-covers-on', isCovers);
     if (viewListBtn) {
       viewListBtn.classList.toggle('is-active', !isCovers);
       viewListBtn.setAttribute('aria-pressed', !isCovers ? 'true' : 'false');
@@ -501,6 +511,76 @@
     }
   }
 
+  function fmtDur(sec) {
+    var s = Math.max(0, Math.round(Number(sec) || 0));
+    if (!s) return '';
+    return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  }
+
+  function findRelease(id) {
+    for (var i = 0; i < allReleases.length; i++) {
+      if (allReleases[i].id === id) return allReleases[i];
+    }
+    return null;
+  }
+
+  function renderInspect(rel) {
+    if (!inspect || !rel) return;
+    var thumb = coverSrc(rel);
+    var full = rel.cover || thumb;
+    var kicker = [rel.catalogue, rel.kind, rel.year].filter(Boolean).join(' · ');
+    var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
+    var hasPrev = tracks.some(function (t) { return !!(t && t.preview); });
+    var play = hasPrev
+      ? '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' + esc(rel.id) + '">Play</button>'
+      : '';
+    var trackHtml = tracks.length
+      ? tracks.map(function (t, i) {
+          var dur = fmtDur(t.duration);
+          return (
+            '<button type="button" class="inspect-track" data-play-release="' + esc(rel.id) + '"' +
+              (t.id ? ' data-play-track="' + esc(t.id) + '"' : '') +
+              ' aria-label="Play ' + esc(t.title || rel.title) + '">' +
+              '<span class="inspect-track-n">' + String(i + 1).padStart(2, '0') + '</span>' +
+              '<span class="inspect-track-t">' + esc(t.title || 'Track') + '</span>' +
+              '<span class="inspect-track-d">' + esc(dur) + '</span>' +
+            '</button>'
+          );
+        }).join('')
+      : '<p class="inspect-empty">Open the sleeve for the full listing.</p>';
+
+    inspect.hidden = false;
+    inspect.innerHTML =
+      '<figure class="album-inspect__art jewel">' +
+        '<img src="' + esc(thumb) + '" alt="" width="400" height="400"/>' +
+      '</figure>' +
+      '<div class="album-inspect__copy">' +
+        (kicker ? '<p class="album-inspect__cat">' + esc(kicker) + '</p>' : '') +
+        '<h3 class="album-inspect__title"><a href="' + esc(rel.page || '#') + '">' + esc(rel.title) + '</a></h3>' +
+        '<p class="album-inspect__artist">' + esc(rel.artist || '') + '</p>' +
+        '<div class="album-inspect__actions">' +
+          play +
+          addBtnHtml(rel) +
+          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || '#') + '">Sleeve</a>' +
+        '</div>' +
+      '</div>' +
+      '<div class="album-inspect__tracks">' + trackHtml + '</div>';
+    bindAddButtons();
+    if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(inspect);
+  }
+
+  function mountLibFlow() {
+    if (!flowRoot) return;
+    if (flowRoot._coverFlow) flowRoot._coverFlow.refresh();
+    else if (window.ClubCopy && typeof ClubCopy.initCoverFlow === 'function') {
+      ClubCopy.initCoverFlow();
+    }
+    if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(flowRoot);
+    if (window.VCRPlayer && VCRPlayer.getState && window.ClubCopy && ClubCopy.syncFlowAir) {
+      ClubCopy.syncFlowAir(flowRoot, VCRPlayer.getState());
+    }
+  }
+
   function render() {
     writeUrl();
     syncSelectState(genreSelect, filters.genre);
@@ -516,12 +596,25 @@
     setCount(releases.length);
 
     if (!releases.length) {
+      list.hidden = false;
+      if (flowRoot) flowRoot.hidden = true;
       list.innerHTML = (filters.genre || filters.artist)
         ? '<p class="page-lead">No releases match these filters. <a href="/library">View full library</a></p>'
         : '<p class="page-lead">No releases yet.</p>';
       return;
     }
 
+    if (viewMode === 'covers' && flowRoot && flowTrack && window.ClubCopy && ClubCopy.flowSleeveHtml) {
+      list.hidden = true;
+      flowRoot.hidden = false;
+      flowTrack.innerHTML = releases.map(ClubCopy.flowSleeveHtml).join('');
+      mountLibFlow();
+      renderInspect(releases[0]);
+      return;
+    }
+
+    list.hidden = false;
+    if (flowRoot) flowRoot.hidden = true;
     list.innerHTML = releases.map(row).join('');
     bindPlayButtons();
     bindAddButtons();
@@ -550,6 +643,13 @@
   if (viewListBtn) viewListBtn.addEventListener('click', function () { setView('list'); });
   if (viewCoversBtn) viewCoversBtn.addEventListener('click', function () { setView('covers'); });
 
+  if (flowRoot) {
+    flowRoot.addEventListener('coverflow:change', function (e) {
+      var rel = findRelease(e.detail && e.detail.id);
+      if (rel) renderInspect(rel);
+    });
+  }
+
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       filters = { genre: '', artist: '' };
@@ -559,6 +659,13 @@
 
   window.addEventListener('vcr:player', function (e) {
     syncAir(e.detail);
+    var d = e.detail || {};
+    var trackId = d.track ? d.track.id : null;
+    if (inspect) {
+      inspect.querySelectorAll('.inspect-track').forEach(function (rowEl) {
+        rowEl.classList.toggle('is-now', !!(trackId && rowEl.getAttribute('data-play-track') === trackId));
+      });
+    }
   });
 
   window.addEventListener('club:member', function () {

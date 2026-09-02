@@ -467,21 +467,24 @@
     dock.setAttribute("aria-label", "Now playing");
     dock.innerHTML =
       '<button type="button" class="vcr-player__stage-hit" aria-label="Open listening room"></button>' +
-      '<img class="vcr-player__art" alt="" width="48" height="48" />' +
-      '<div class="vcr-player__meta">' +
+      '<div class="vcr-player__jewel jewel">' +
+      '<img class="vcr-player__art" alt="" width="56" height="56" />' +
+      "</div>" +
+      '<div class="vcr-player__lcd">' +
       '<p class="vcr-player__bug">CC · Standby</p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
+      '<div class="vcr-player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
+      '<div class="vcr-player__progress-wrap">' +
+      '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
+      '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
+      "</div>" +
       "</div>" +
       '<div class="vcr-player__controls">' +
       '<button type="button" class="vcr-player__btn" data-act="prev" aria-label="Previous"><svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg></button>' +
       '<button type="button" class="vcr-player__btn vcr-player__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
       '<button type="button" class="vcr-player__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
-      "</div>" +
-      '<div class="vcr-player__progress-wrap">' +
-      '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
-      '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
       "</div>" +
       '<button type="button" class="vcr-player__buy" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
       '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player">&times;</button>';
@@ -974,7 +977,7 @@
       handleAct(btn.getAttribute("data-act"), btn);
       return;
     }
-    if (e.target.closest(".vcr-player__stage-hit") || e.target.closest(".vcr-player__art") || e.target.closest(".vcr-player__meta")) {
+    if (e.target.closest(".vcr-player__stage-hit") || e.target.closest(".vcr-player__art") || e.target.closest(".vcr-player__jewel") || e.target.closest(".vcr-player__lcd") || e.target.closest(".vcr-player__meta")) {
       if (getRoom()) openRoom({ scroll: true });
       else openStage();
     }
