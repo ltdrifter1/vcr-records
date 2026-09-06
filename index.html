@@ -156,24 +156,16 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background-size: cover;
-      background-position: 18% 46%;
-      filter: saturate(.72) brightness(.34) contrast(1.08);
-      opacity: .34;
-      mask-image: radial-gradient(ellipse 62% 78% at 22% 50%, #000 12%, transparent 72%);
-      -webkit-mask-image: radial-gradient(ellipse 62% 78% at 22% 50%, #000 12%, transparent 72%);
-      transition: opacity .6s var(--ease), filter .6s var(--ease);
-    }
-    .hero.is-live .hero-ambient {
-      filter: saturate(.5) brightness(.24) contrast(1.04);
-      opacity: .2;
+      /* Color field only — never the cover, or the label type reads as a second title. */
+      background-image: none !important;
+      background:
+        radial-gradient(ellipse 54% 48% at 50% 42%, rgba(210, 222, 236, .07), transparent 68%),
+        radial-gradient(ellipse 38% 34% at 18% 72%, rgba(72, 58, 88, .22), transparent 70%),
+        radial-gradient(ellipse 30% 28% at 82% 28%, rgba(40, 70, 110, .16), transparent 68%);
+      opacity: 1;
     }
     .hero-ambient::after {
-      content: "";
-      position: absolute; inset: 0;
-      background:
-        linear-gradient(90deg, rgba(8,9,12,.2) 0%, rgba(8,9,12,.08) 40%, rgba(8,9,12,.72) 100%),
-        linear-gradient(180deg, rgba(8,9,12,.55) 0%, transparent 28%, rgba(8,9,12,.82) 100%);
+      content: none;
     }
     .hero::after {
       content: "";
@@ -200,11 +192,25 @@
       width: min(1120px, calc(100% - 56px));
       min-height: 100%;
       padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 44px));
-      display: grid;
-      grid-template-columns: minmax(0, 1.06fr) minmax(260px, .92fr);
+      display: flex;
       align-items: center;
-      gap: clamp(28px, 5.5vw, 72px);
+      justify-content: center;
       text-align: left;
+    }
+    .hero-booth {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 26px;
+      width: min(440px, 100%);
+      padding: 8px 4px 8px 16px;
+    }
+    .hero.is-live .hero-booth {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: min(1000px, 100%);
+      gap: clamp(24px, 5vw, 64px);
     }
 
     /* Station bar — NTS / lot-radio chrome at the fold -------------------- */
@@ -341,8 +347,6 @@
         transform: translateY(-4px);
       }
     }
-    /* Legacy vinyl-record graphic — retired in favor of a flat artwork tile. */
-    .hero-vinyl { display: none; }
     .hero-sleeve {
       position: absolute;
       inset: 0;
@@ -425,11 +429,15 @@
       }
     }
     .hero-disc-hit:active .disc-glyph { transform: scale(.96); }
-    .hero.is-playing .hero-disc-hit .disc-glyph { opacity: 0; }
-    .hero.is-playing .hero-disc-hit .glyph-play { display: none; }
-    .hero.is-playing .hero-disc-hit .glyph-pause { display: block; }
+    .hero.is-playing .hero-disc-hit .disc-glyph,
+    .hero.is-bandcamp .hero-disc-hit .disc-glyph { opacity: 0; }
+    .hero.is-playing .hero-disc-hit .glyph-play,
+    .hero.is-bandcamp .hero-disc-hit .glyph-play { display: none; }
+    .hero.is-playing .hero-disc-hit .glyph-pause,
+    .hero.is-bandcamp .hero-disc-hit .glyph-pause { display: block; }
     @media (hover:hover) {
-      .hero.is-playing .hero-disc-hit:hover .disc-glyph { opacity: .92; }
+      .hero.is-playing .hero-disc-hit:hover .disc-glyph,
+      .hero.is-bandcamp .hero-disc-hit:hover .disc-glyph { opacity: .92; }
     }
     .hero-disc-hit:focus-visible {
       outline: 2px solid #fff;
@@ -453,11 +461,16 @@
     .hero-copy {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
       min-width: 0;
+      width: 100%;
       max-width: 34em;
       position: relative;
+    }
+    .hero.is-live .hero-copy {
+      align-items: flex-start;
+      flex: 1 1 auto;
     }
     .hero-idle {
       display: flex;
@@ -469,10 +482,28 @@
     .hero-idle-actions {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       width: 100%;
-      margin-top: 22px;
+      margin-top: 0;
     }
+    .hero-bandcamp {
+      width: min(360px, 100%);
+      margin-top: 4px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        0 12px 28px rgba(0,0,0,.4);
+    }
+    .hero-bandcamp[hidden] { display: none !important; }
+    .hero-bandcamp iframe {
+      display: block;
+      width: 100%;
+      height: 42px;
+      border: 0;
+    }
+    .hero.is-live .hero-bandcamp { display: none !important; }
     .hero.is-live .hero-idle,
     .hero.is-live .hero-idle-actions {
       position: absolute;
@@ -488,40 +519,6 @@
       margin: 0 0 14px;
     }
     .hero.is-live .hero-station { display: inline-flex; }
-    .hero-idle-cat {
-      margin: 0 0 14px;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(200,214,230,.58);
-    }
-    .hero-idle-by {
-      margin: 0 0 8px;
-      font-family: var(--callsign);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.62);
-    }
-    .hero-idle-title {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(36px, 5.4vw, 64px);
-      font-weight: 600;
-      letter-spacing: -.045em;
-      line-height: 0.98;
-      color: #fff;
-      max-width: 9.5em;
-    }
-    .hero-idle-note {
-      margin: 14px 0 0;
-      font-size: 13px;
-      color: rgba(255,255,255,.42);
-    }
-    .hero-idle-note em { font-style: italic; color: rgba(255,255,255,.62); }
     .visually-hidden {
       position: absolute;
       width: 1px; height: 1px;
@@ -544,25 +541,88 @@
       border-radius: 12px;
     }
     .hero-ctas .btn::before { animation: none; }
-    .hero-sleeve-link {
+
+    /* Y2K transport dock — icon play/pause + details pill, no copy needed --- */
+    .hero-ctas--y2k {
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 8px 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.16),
+        0 18px 40px rgba(0,0,0,.4);
+      backdrop-filter: blur(18px) saturate(1.3);
+      -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    }
+    .hero-y2k-play {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.6);
+      background: linear-gradient(180deg, rgba(255,255,255,.94) 0%, rgba(225,232,240,.92) 42%, rgba(182,196,214,.88) 100%);
+      color: #12141a;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow:
+        inset 0 1px 0 #fff,
+        inset 0 -1px 0 rgba(80,90,110,.18),
+        0 10px 24px rgba(0,0,0,.4);
+      transition: transform .25s var(--ease), filter .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .hero-y2k-play svg { width: 20px; height: 20px; fill: currentColor; }
+    .hero-y2k-play .i-play { margin-left: 2px; }
+    .hero-y2k-play .i-pause { display: none; }
+    .hero.is-playing .hero-y2k-play .i-play,
+    .hero.is-bandcamp .hero-y2k-play .i-play { display: none; }
+    .hero.is-playing .hero-y2k-play .i-pause,
+    .hero.is-bandcamp .hero-y2k-play .i-pause { display: block; }
+    @media (hover:hover) {
+      .hero-y2k-play:hover {
+        transform: scale(1.06);
+        filter: brightness(1.05);
+        box-shadow:
+          inset 0 1px 0 #fff,
+          0 12px 28px rgba(0,0,0,.45),
+          0 0 26px rgba(var(--room-a), .32);
+      }
+    }
+    .hero-y2k-play:active { transform: scale(.94); }
+    .hero-y2k-details {
       display: inline-flex;
       align-items: center;
-      height: 48px;
-      padding: 0 2px;
+      gap: 6px;
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 999px;
       font-family: var(--callsign);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.72);
+      color: rgba(255,255,255,.86);
       text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,.32);
-      border-radius: 0;
+      border: 1px solid rgba(255,255,255,.26);
+      background: rgba(255,255,255,.05);
+      transition: background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
     }
+    .hero-y2k-details svg { width: 11px; height: 11px; flex-shrink: 0; }
     @media (hover:hover) {
-      .hero-sleeve-link:hover { color: #fff; border-bottom-color: rgba(255,255,255,.8); }
+      .hero-y2k-details:hover {
+        background: rgba(255,255,255,.14);
+        border-color: rgba(255,255,255,.55);
+        color: #fff;
+      }
     }
-    .hero-sleeve-link:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+    .hero-y2k-play:focus-visible,
+    .hero-y2k-details:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
 
     /* Live console — occupies the copy column ------------------------------ */
     .hero-console {
@@ -830,7 +890,7 @@
     .hero-console-link[hidden] { display: none !important; }
 
     @media (prefers-reduced-motion: reduce) {
-      .hero-platter, .hero-idle-title, .hero-ctas, .hero-console,
+      .hero-platter, .hero-ctas, .hero-console,
       .hero-pulse, .hero-ambient, .hero-station, .wall-eq i,
       .hero-ticker-track, .hero-chroma,
       .wall-item.is-now-playing.is-audible .wall-art::before {
@@ -1922,29 +1982,27 @@
     .place-dek,
     .place-link { display: none; }
 
-    /* Tablet / phone : stack the booth, keep type left-aligned ------------- */
+    /* Tablet / phone : keep the jewel case centered ------------------------ */
     @media (max-width: 860px) {
       .hero-stage {
-        grid-template-columns: 1fr;
-        width: min(100% - 40px, 560px);
-        justify-items: start;
-        align-content: center;
-        gap: 20px;
-          padding: calc(var(--nav-h) + var(--safe-t) + 18px) 0 calc(20px + var(--ticker-h, 44px) + var(--safe-b));
+        width: min(100% - 40px, 440px);
+        padding: calc(var(--nav-h) + var(--safe-t) + 18px) 0 calc(20px + var(--ticker-h, 44px) + var(--safe-b));
+      }
+      .hero-booth { width: min(360px, 100%); gap: 20px; }
+      .hero.is-live .hero-booth {
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
       }
       .hero-platter,
       .hero.is-live .hero-platter {
-        justify-self: start;
         width: min(72vw, 360px);
       }
+      .hero.is-live .hero-copy { align-items: center; }
       .hero-copy { max-width: none; }
       .hero-ambient {
-        background-position: 50% 22%;
-        mask-image: radial-gradient(ellipse 90% 55% at 50% 12%, #000 8%, transparent 72%);
-        -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 12%, #000 8%, transparent 72%);
+        background-position: center;
       }
-      .hero-idle-title { font-size: clamp(32px, 9vw, 48px); }
-      .hero-idle-actions { margin-top: 18px; }
       .hero {
         --ticker-h: 40px;
       }
@@ -1961,10 +2019,10 @@
         min-height: 100dvh;
       }
       .hero-stage {
-        width: min(100% - 28px, 520px);
+        width: min(100% - 28px, 420px);
         padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(16px + var(--ticker-h, 40px) + var(--safe-b));
-        gap: 16px;
       }
+      .hero-booth { gap: 16px; }
       .hero:not(.is-live) .hero-platter { width: min(78vw, 320px); }
       .hero-ctas { width: auto; }
       .hero-ctas .btn { flex: 0 0 auto; min-width: 132px; }
@@ -2022,18 +2080,17 @@
       .hero-stage {
         padding-top: calc(var(--nav-h) + var(--safe-t) + 10px);
         padding-bottom: calc(10px + var(--ticker-h, 36px) + var(--safe-b));
-        gap: 10px;
       }
+      .hero-booth { gap: 12px; }
       .hero:not(.is-live) .hero-platter { width: min(58vw, 240px); }
       .hero.is-live .hero-station { display: none; }
-      .hero-idle-title { font-size: clamp(26px, 7vw, 34px); }
-      .hero-idle-note { display: none; }
-      .hero-idle-actions { margin-top: 12px; }
       .hero { --ticker-h: 36px; }
       .hero-ticker-now { display: none; }
       .hero-ctas { gap: 8px; }
       .hero-ctas .btn { height: 44px; }
-      .hero-sleeve-link { height: 44px; }
+      .hero-ctas--y2k { padding: 6px 8px 6px 6px; }
+      .hero-y2k-play { width: 46px; height: 46px; }
+      .hero-y2k-details { height: 34px; padding: 0 14px; }
       .hero.is-live .hero-platter { width: min(34vw, 128px); }
       .hero.is-live .hero-stage { gap: 8px; padding-top: calc(var(--nav-h) + var(--safe-t) + 4px); }
       .hero-meta-value[data-room-title] { font-size: 15px; }
@@ -2048,20 +2105,20 @@
         min-height: 100dvh;
       }
       .hero-stage {
-        grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
-        align-items: center;
-        gap: 20px 28px;
         padding: calc(12px + var(--safe-t)) 20px calc(12px + var(--ticker-h, 36px) + var(--safe-b));
         width: min(100% - 24px, 900px);
+      }
+      .hero-booth,
+      .hero.is-live .hero-booth {
+        flex-direction: row;
+        width: 100%;
+        gap: 20px 28px;
       }
       .hero-platter,
       .hero.is-live .hero-platter {
         width: min(34vh, 160px);
-        justify-self: start;
       }
-      .hero-copy { max-width: none; }
-      .hero-idle-title { font-size: clamp(22px, 4vw, 32px); }
-      .hero-idle-actions { margin-top: 10px; }
+      .hero-copy { max-width: none; align-items: flex-start; }
       .hero-console {
         max-width: 360px;
         gap: 8px;
@@ -2137,20 +2194,20 @@
   <!-- Featured release -->
   <section class="hero" id="room" data-listening-room aria-label="The Process">
     <div class="hero-chroma" aria-hidden="true"></div>
-    <div class="hero-ambient" data-room-bg style="background-image:url('the-process-cover.webp')" aria-hidden="true"></div>
+    <div class="hero-ambient" data-room-bg aria-hidden="true"></div>
     <div class="hero-scan" aria-hidden="true"></div>
     <div class="hero-stage">
+      <div class="hero-booth">
       <div class="hero-platter">
         <span class="hero-pulse" aria-hidden="true"></span>
         <div class="hero-vinyl-rig" data-room-disc>
-          <div class="hero-vinyl" aria-hidden="true"></div>
           <div class="hero-sleeve">
             <div class="hero-disc">
-              <img data-room-art src="the-process-cover.webp" alt="The Process — Molly Haze" width="1200" height="1200" fetchpriority="high"/>
+              <img data-room-art src="the-process-cover.webp?v=re" alt="The Process — Molly Haze" width="1200" height="1200" fetchpriority="high"/>
             </div>
           </div>
         </div>
-        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Listen to The Process">
+        <button type="button" class="hero-disc-hit" id="discHit" aria-label="Play The Process">
           <span class="disc-glyph" aria-hidden="true">
             <svg class="glyph-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <svg class="glyph-pause" viewBox="0 0 24 24"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
@@ -2163,17 +2220,21 @@
           <span class="status-chip status-chip--air">On air</span>
         </div>
         <div class="hero-idle" data-room-idle>
-          <p class="hero-idle-cat">CC020 · House · Out now</p>
-          <p class="hero-idle-by">Molly Haze</p>
-          <h1 class="hero-idle-title">The Process</h1>
+          <h1 class="visually-hidden">The Process — Molly Haze, CC020, out now on Club Copy</h1>
         </div>
         <div class="hero-idle-actions" data-room-idle>
-          <div class="hero-ctas">
-            <button type="button" class="btn btn-chrome-on-dark" id="heroPlayBtn">Listen</button>
-            <a class="hero-sleeve-link" href="/the-process">Details</a>
+          <div class="hero-ctas hero-ctas--y2k">
+            <button type="button" class="hero-y2k-play" id="heroPlayBtn" aria-label="Play The Process">
+              <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg>
+            </button>
+            <a class="hero-y2k-details" href="/the-process">
+              <span>Details</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </div>
-          <p class="hero-idle-note">Radio Edit included · Digital $1.50</p>
         </div>
+        <div class="hero-bandcamp" id="heroBandcamp" hidden></div>
 
         <div class="hero-console" data-room-console>
           <button type="button" class="hero-console-close" data-act="room-close" aria-label="Minimize listening room">&times;</button>
@@ -2221,6 +2282,7 @@
             <button type="button" class="hero-format-back" data-act="close-formats">Back</button>
           </div>
         </div>
+      </div>
       </div>
     </div>
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: The Process, any jungle, Bridget In My Room, Need U, EP-6.</p>
@@ -2523,7 +2585,40 @@
             <p class="news-card-dek">Door's on the latch.</p>
           </div>
         </a>
-                        <a class="news-card rv news-card--essay" href="/news/last-emperor" data-type="listening" data-date="2026-01-28">
+        <a class="news-card rv" href="/news/j-adore" data-type="release" data-date="2026-08-10">
+          <div class="news-card-art media-bezel">
+            <img src="news-jadore.webp" alt="Fisheye photo of a blue car at dusk. j'adore" width="1200" height="1200" loading="lazy"/>
+          </div>
+          <div class="news-card-body">
+            <p class="news-card-date">Aug 10, 2026</p>
+            <span class="news-type">Release</span>
+            <h3 class="news-card-title">j'adore</h3>
+            <p class="news-card-dek">A car ride that doesn’t end when the song does.</p>
+          </div>
+        </a>
+        <a class="news-card rv" href="/news/need-you" data-type="release" data-date="2026-07-29">
+          <div class="news-card-art media-bezel">
+            <img src="news-need-you.webp" alt="Neon blue line-art face on black. Need U" width="1400" height="1400" loading="lazy"/>
+          </div>
+          <div class="news-card-body">
+            <p class="news-card-date">Jul 29, 2026</p>
+            <span class="news-type">Release</span>
+            <h3 class="news-card-title">Need U</h3>
+            <p class="news-card-dek">We’ve had this one on repeat.</p>
+          </div>
+        </a>
+        <a class="news-card rv" href="/news/inlet-knight" data-type="release" data-date="2026-02-20">
+          <div class="news-card-art media-bezel">
+            <img src="news-inlet-knight.webp" alt="Inlet Knight boat on the water. self-titled album artwork" width="1400" height="1400" loading="lazy"/>
+          </div>
+          <div class="news-card-body">
+            <p class="news-card-date">Feb 20, 2026</p>
+            <span class="news-type">Release</span>
+            <h3 class="news-card-title">Inlet Knight</h3>
+            <p class="news-card-dek">Eleven tracks. Dubbed to cassette.</p>
+          </div>
+        </a>
+        <a class="news-card rv news-card--essay" href="/news/last-emperor" data-type="listening" data-date="2026-01-28">
           <div class="news-card-art media-bezel">
             <img src="news-last-emperor.webp" alt="The Last Emperor soundtrack cover. child emperor and bowing figure under a yellow banner" width="1400" height="1400" loading="lazy"/>
           </div>
@@ -2534,48 +2629,15 @@
             <p class="news-card-dek">Big history that somehow feels private.</p>
           </div>
         </a>
-        <a class="news-card rv news-card--essay" href="/news/donuts" data-type="listening" data-date="2025-07-08">
+        <a class="news-card rv" href="/news/inlet-knight-on-club-copy" data-type="artist" data-date="2026-01-04">
           <div class="news-card-art media-bezel">
-            <img src="news-donuts.webp" alt="J Dilla Donuts album cover. smiling portrait in a Detroit D cap" width="1400" height="1400" loading="lazy"/>
+            <img src="artists/rosco.webp" alt="Rosco" width="800" height="1000" loading="lazy"/>
           </div>
           <div class="news-card-body">
-            <p class="news-card-date">Jul 8, 2025</p>
-            <span class="news-type">Listening</span>
-            <h3 class="news-card-title">Essential Listening: Donuts</h3>
-            <p class="news-card-dek">Put this on when your loops feel too clean.</p>
-          </div>
-        </a>
-        <a class="news-card rv news-card--essay" href="/news/buried-treasure" data-type="label" data-date="2024-09-03">
-          <div class="news-card-art media-bezel">
-            <img src="news-buried.webp" alt="Cyclist on a lime bike past a cream building with a red door. Buried Treasure" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Sep 3, 2024</p>
-            <span class="news-type">Label note</span>
-            <h3 class="news-card-title">Buried Treasure</h3>
-            <p class="news-card-dek">Flip until something holds.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/lt-drifta-on-club-copy" data-type="artist" data-date="2024-04-18">
-          <div class="news-card-art media-bezel">
-            <img src="news-drifta-intro.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" loading="lazy" draggable="false"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Apr 18, 2024</p>
+            <p class="news-card-date">Jan 4, 2026</p>
             <span class="news-type">Artist</span>
-            <h3 class="news-card-title">L.T. Drifta on Club Copy</h3>
-            <p class="news-card-dek">Brb gonna go dig through some crates…</p>
-          </div>
-        </a>
-        <a class="news-card rv news-card--essay" href="/news/cj-archer-interview" data-type="interview" data-date="2022-10-27">
-          <div class="news-card-art media-bezel">
-            <img src="news-interview.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Oct 27, 2022</p>
-            <span class="news-type">Interview</span>
-            <h3 class="news-card-title">CJ Archer: A Short Conversation</h3>
-            <p class="news-card-dek">Where it started, the Pacific Northwest, making records, and running Club Copy.</p>
+            <h3 class="news-card-title">Welcome, Rosco</h3>
+            <p class="news-card-dek">Vancouver. We knew immediately.</p>
           </div>
         </a>
           </div>
@@ -2665,21 +2727,34 @@
   });
   syncActiveFromURL();
 
-  // Sleeve is the play control. Listen opens the room; tap again to pause.
+  // Featured single has no site preview — play opens Bandcamp inline.
+  var hero = document.getElementById('room');
+  var heroBandcamp = document.getElementById('heroBandcamp');
+  var BANDCAMP_SRC = 'https://bandcamp.com/EmbeddedPlayer/track=574430890/size=small/bgcol=ffffff/linkcol=333333/tracklist=false/transparent=true/';
+
+  function setHeroBandcamp(on) {
+    if (!hero || !heroBandcamp) return;
+    if (on) {
+      if (!heroBandcamp.querySelector('iframe')) {
+        heroBandcamp.innerHTML = '<iframe title="The Process on Bandcamp" style="border:0;width:100%;height:42px;" src="' + BANDCAMP_SRC + '" seamless allow="autoplay; encrypted-media" loading="lazy"></iframe>';
+      }
+      heroBandcamp.hidden = false;
+      hero.classList.add('is-bandcamp');
+    } else {
+      heroBandcamp.hidden = true;
+      hero.classList.remove('is-bandcamp');
+    }
+    var open = !heroBandcamp.hidden;
+    if (discHit) discHit.setAttribute('aria-label', open ? 'Hide Bandcamp player' : 'Play The Process');
+    if (heroPlayBtn) heroPlayBtn.setAttribute('aria-label', open ? 'Hide Bandcamp player' : 'Play The Process');
+  }
+
   function playFeaturedRelease() {
-    if (!window.VCRPlayer) return;
-    var cur = VCRPlayer.current && VCRPlayer.current();
-    var state = VCRPlayer.getState && VCRPlayer.getState();
-    if (cur && cur.releaseId === 'the-process') {
-      var roomLive = document.body.classList.contains('listening-room-live');
-      if (!roomLive && VCRPlayer.openRoom) VCRPlayer.openRoom({ scroll: true });
-      if (roomLive) VCRPlayer.toggle();
-      else if (state && !state.playing && VCRPlayer.play) VCRPlayer.play();
+    if (!heroBandcamp) {
+      window.location.href = '/the-process#listen';
       return;
     }
-    VCRPlayer.playRelease('the-process', null, { autoplay: true, stage: true }).catch(function () {
-      window.location.href = '/the-process';
-    });
+    setHeroBandcamp(heroBandcamp.hidden);
   }
   var discHit = document.getElementById('discHit');
   if (discHit) {
@@ -2695,11 +2770,12 @@
     var d = e.detail || {};
     var playing = !!d.playing;
     var title = d.track ? d.track.releaseTitle : 'The Process';
-    if (discHit) {
-      discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Listen to ') + title);
+    if (playing && heroBandcamp && !heroBandcamp.hidden) setHeroBandcamp(false);
+    if (discHit && heroBandcamp && heroBandcamp.hidden) {
+      discHit.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
     }
-    if (heroPlayBtn) {
-      heroPlayBtn.textContent = playing && d.track && d.track.releaseId === 'the-process' ? 'Pause' : 'Listen';
+    if (heroPlayBtn && heroBandcamp && heroBandcamp.hidden) {
+      heroPlayBtn.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + title);
     }
 
     var chip = document.querySelector('[data-ticker-chip]');
