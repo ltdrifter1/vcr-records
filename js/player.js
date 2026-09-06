@@ -769,6 +769,9 @@
     if (disc) disc.classList.toggle("is-spinning", !!playing);
     room.classList.toggle("is-playing", !!playing);
     room.classList.toggle("is-live", roomOpen);
+    room.classList.toggle("is-now-playing", roomOpen);
+    var ipodHeader = room.querySelector("[data-ipod-header]");
+    if (ipodHeader) ipodHeader.textContent = roomOpen ? "Now Playing" : "Club Copy";
     room.setAttribute("aria-live", roomOpen ? "polite" : "off");
   }
 
@@ -1213,7 +1216,11 @@
   }
 
   function toggle() {
-    if (!audio || !current()) return;
+    if (!current()) {
+      playRelease("the-process", null, { autoplay: true, stage: true });
+      return;
+    }
+    if (!audio) return;
     if (audio.paused) play();
     else pause();
   }
