@@ -90,7 +90,7 @@
         section.innerHTML =
           '<div class="ra-wrap">' +
             '<header class="ra-head ra-reveal">' +
-              '<div><p class="eyebrow">Catalogue</p><h2>Also spinning</h2></div>' +
+              '<div><h2>Also spinning</h2></div>' +
               '<a class="head-note" href="/library">Full library</a>' +
             '</header>' +
             '<div class="ra-more-rail">' + related.map(card).join("") + '</div>' +
