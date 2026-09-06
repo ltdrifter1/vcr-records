@@ -69,13 +69,22 @@
 
   /* Homepage news — newest first. Cover Flow (js/cover-flow.js) takes the
      3D rack from here; vertical mouse wheel still scrolls the page. */
-  var newsTrack = document.querySelector('.news-rail-track, [data-coverflow-track]');
+  var newsTrack = document.querySelector('.news-rail-track, .newsprint-grid, [data-coverflow-track]');
   if (newsTrack) {
     var newsCards = Array.prototype.slice.call(newsTrack.querySelectorAll('.news-card'));
     newsCards.sort(function (a, b) {
       return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
     });
     newsCards.forEach(function (card) { newsTrack.appendChild(card); });
+  }
+
+  var newsprintDate = document.querySelector('[data-newsprint-date]');
+  if (newsprintDate) {
+    try {
+      newsprintDate.textContent = new Date().toLocaleDateString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+    } catch (e) {}
   }
 
   if ('IntersectionObserver' in window) {
