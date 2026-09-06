@@ -12,6 +12,7 @@ const FORMAT = {
 
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
+  "dg-the-process",
   "dg-any-jungle",
   "dg-escape-from-industria",
   "dg-she-spells-doom",
@@ -127,6 +128,12 @@ const PRODUCTS = {
   "dg-lunar-eclipse-part-3": {
     name: "Lunar (Eclipse Part 3) — Digital (Single)",
     unitAmount: 199,
+    digital: true,
+    format: "digital",
+  },
+  "dg-the-process": {
+    name: "The Process — Digital (Single)",
+    unitAmount: 150,
     digital: true,
     format: "digital",
   },
