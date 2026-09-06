@@ -3,7 +3,7 @@
  * Removes the need for a second local Audio engine.
  *
  * Usage:
- *   VCRReleaseBind({ releaseId: 'together', tracks: [{ id, title }, ...] });
+ *   VCRReleaseBind({ releaseId: 'the-process', tracks: [{ id, title }, ...] });
  *   VCRReleaseBind({ releaseId: 'need-you', tracks: [...], displayOnly: true });
  */
 (function () {

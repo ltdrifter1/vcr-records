@@ -64,7 +64,7 @@
   "url": "https://www.clubcopy.ca/the-process",
   "image": "https://www.clubcopy.ca/the-process-cover.webp",
   "genre": "House",
-  "numTracks": 1,
+  "numTracks": 2,
   "datePublished": "2026-09-06",
   "catalogNumber": "CC020",
   "albumProductionType": "StudioAlbum",
@@ -82,9 +82,20 @@
   "track": [
     {
       "@type": "MusicRecording",
-      "name": "The Process",
+      "name": "Original Mix",
       "position": 1,
-      "duration": "PT3M50S",
+      "duration": "PT5M34S",
+      "byArtist": {
+        "@type": "MusicGroup",
+        "name": "Molly Haze",
+        "@id": "https://www.clubcopy.ca/artists/molly-haze#artist"
+      }
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Radio Edit",
+      "position": 2,
+      "duration": "PT3M45S",
       "byArtist": {
         "@type": "MusicGroup",
         "name": "Molly Haze",
@@ -195,7 +206,7 @@
         <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/library">Library</a><span>/</span>The Process</nav>
         <h1 class="ra-hero-title">The Process</h1>
         <div class="ra-hero-facts">
-          1 Track Single<br/>
+          2 Track Single<br/>
           Digital Only<br/>
           <span class="scarce">Available</span>
         </div>
@@ -236,12 +247,12 @@
                   <div class="ra-vfd-scan" aria-hidden="true"></div>
                   <div class="ra-vfd-top">
                     <span class="ra-vfd-mode">TAPE</span>
-                    <span class="live" id="ipTrackIndex">01 / 01</span>
+                    <span class="live" id="ipTrackIndex">01 / 02</span>
                     <span id="ipStampSide">Side A</span>
                   </div>
                   <div class="ra-vfd-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
                   <p class="ra-vfd-title" id="ipStampTitle">The Process</p>
-                  <p class="name" id="ipTrackName">The Process</p>
+                  <p class="name" id="ipTrackName">Original Mix</p>
                   <p class="ra-vfd-sub"><span id="ipArtist">Molly Haze</span> — <span id="ipRelease">The Process</span></p>
                   <div class="ra-vfd-times ra-vfd-times--idle">
                     <span>TAPE</span>
@@ -265,11 +276,17 @@
         <div class="ra-tracks ra-reveal">
           <div class="track-row is-active" data-index="0">
             <span class="track-no">01</span>
-            <span class="track-title">The Process</span>
-            <span class="track-dur">3:50</span>
-            <button class="track-play-btn" type="button" aria-label="Select The Process" tabindex="-1"></button>
+            <span class="track-title">Original Mix</span>
+            <span class="track-dur">5:34</span>
+            <button class="track-play-btn" type="button" aria-label="Select Original Mix" tabindex="-1"></button>
           </div>
-          <p class="ra-tracks-note">Total running time 3:50 · files after checkout</p>
+          <div class="track-row" data-index="1">
+            <span class="track-no">02</span>
+            <span class="track-title">Radio Edit</span>
+            <span class="track-dur">3:45</span>
+            <button class="track-play-btn" type="button" aria-label="Select Radio Edit" tabindex="-1"></button>
+          </div>
+          <p class="ra-tracks-note">Total running time 9:19 · files after checkout</p>
         </div>
       </div>
     </div>
@@ -308,12 +325,12 @@
       </header>
       <div class="ra-about-grid">
         <div class="ra-notes ra-reveal">
-          <p>k-i-s-s-i-n-g. White vinyl promo label on black. House, tech house, UK garage — the kind that stays in the pocket. Released September 6, 2026. Written, composed, and produced by CJ Archer for Club Copy. Published by Copy House LLC.</p>
+          <p>k-i-s-s-i-n-g. White vinyl promo label on black. House, tech house, UK garage — the kind that stays in the pocket. Original Mix and Radio Edit. Released September 6, 2026. Written, composed, and produced by CJ Archer for Club Copy. Published by Copy House LLC.</p>
         </div>
         <dl class="ra-specs ra-reveal">
           <div><dt>Catalogue</dt><dd>CC020</dd></div>
           <div><dt>Artist</dt><dd><a href="/artists/molly-haze">Molly Haze</a></dd></div>
-          <div><dt>Format</dt><dd>Digital Single · 1 track</dd></div>
+          <div><dt>Format</dt><dd>Digital Single · 2 tracks</dd></div>
           <div><dt>Released</dt><dd>September 6, 2026</dd></div>
           <div><dt>Published</dt><dd>Club Copy · Copy House Publishing</dd></div>
         </dl>
@@ -369,7 +386,8 @@ VCRReleaseBind({
   displayOnly: true,
   displayMessage: "Full track after checkout.",
   tracks: [
-  { id: 'tp-01', title: "The Process" }
+  { id: 'tp-01', title: "Original Mix" },
+  { id: 'tp-02', title: "Radio Edit" }
 ]
 });
 

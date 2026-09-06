@@ -1847,6 +1847,166 @@
     .club-join-status.is-error { color: #f0a8a2; }
     .club-join-status[hidden] { display: none; }
 
+    /* Home artists — roster before footer ---------------------------------- */
+    .home-artists {
+      position: relative;
+      padding: 8px 0 56px;
+      color: #f4f6f8;
+      background:
+        radial-gradient(720px 360px at 88% 100%, rgba(186,204,224,.08), transparent 55%),
+        linear-gradient(180deg, #08090c 0%, #050506 100%);
+    }
+    @media (min-width: 800px) {
+      .home-artists { padding-bottom: 72px; }
+    }
+    .home-artists .section-head {
+      border-bottom: none;
+      box-shadow: none;
+      padding-top: 28px;
+      padding-bottom: 0;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 800px) {
+      .home-artists .section-head {
+        padding-top: 36px;
+        margin-bottom: 24px;
+      }
+    }
+    .home-artists .eyebrow { color: rgba(255,255,255,.42); }
+    .home-artists h2 { color: #fff; }
+    .home-artists .head-link { color: rgba(244,246,248,.55); }
+    @media (hover:hover) {
+      .home-artists .head-link:hover {
+        color: #fff;
+        border-bottom-color: rgba(200,214,230,.45);
+      }
+    }
+
+    .home-roster {
+      display: grid;
+      gap: 14px;
+    }
+    @media (min-width: 800px) {
+      .home-roster {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+    }
+    .home-artist {
+      position: relative;
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      align-items: stretch;
+      min-height: 0;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 2px;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(180deg, rgba(22,26,34,.94), rgba(8,10,14,.97)) padding-box,
+        linear-gradient(135deg,
+          rgba(255,255,255,.72) 0%,
+          rgba(168,184,204,.46) 36%,
+          rgba(255,255,255,.24) 58%,
+          rgba(92,108,128,.58) 100%) border-box;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -1px 0 rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.45),
+        0 10px 24px rgba(0,0,0,.32);
+      transition: box-shadow .25s var(--ease);
+    }
+    @media (min-width: 800px) {
+      .home-artist { grid-template-columns: 1fr; }
+    }
+    @media (hover:hover) {
+      .home-artist:hover {
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,.32),
+          inset 0 -1px 0 rgba(0,0,0,.5),
+          0 0 0 1px rgba(0,0,0,.45),
+          0 0 0 1px rgba(200,220,240,.22),
+          0 14px 28px rgba(0,0,0,.4);
+      }
+      .home-artist:hover .home-artist-photo img {
+        transform: scale(1.035);
+        filter: brightness(1.06);
+      }
+      .home-artist:hover .home-artist-go { color: #fff; }
+    }
+    .home-artist-photo {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      min-height: 100%;
+      box-shadow: inset -1px 0 0 rgba(0,0,0,.4);
+    }
+    @media (min-width: 800px) {
+      .home-artist-photo { box-shadow: inset 0 -1px 0 rgba(0,0,0,.4); }
+    }
+    .home-artist-photo img {
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+      aspect-ratio: 4 / 5;
+      transition: transform .85s var(--ease), filter .85s var(--ease);
+    }
+    @media (min-width: 800px) {
+      .home-artist-photo img {
+        aspect-ratio: 16 / 10;
+        height: auto;
+        min-height: 0;
+      }
+    }
+    .home-artist-photo img.is-wide { object-position: 58% 38%; }
+    .home-artist-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+      padding: 16px 18px 16px 20px;
+      min-width: 0;
+    }
+    .home-artist-role {
+      margin: 0;
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(200,214,230,.5);
+    }
+    .home-artist-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(20px, 2.4vw, 26px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.08;
+      color: #fff;
+    }
+    .home-artist-dek {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+      color: rgba(244,246,248,.55);
+      max-width: 28em;
+    }
+    .home-artist-go {
+      margin-top: 6px;
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(200,214,230,.58);
+      transition: color .25s var(--ease);
+    }
+
     /* Legacy place styles kept unused (image frame removed) ---------------- */
     .place,
     .place-frame,
@@ -2035,7 +2195,7 @@
         <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Listen</a>
       <a href="/library">Library</a>
-      <a href="/artists">Artists</a>
+      <a href="#artists">Artists</a>
       <a href="/news">News</a>
       <a href="/merch">Shop</a>
       <a href="#join">Join</a>
@@ -2060,7 +2220,7 @@
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="#listen">Listen</a>
   <a href="/library">Library</a>
-  <a href="/artists">Artists</a>
+  <a href="#artists">Artists</a>
   <a href="/news">News</a>
   <a href="/merch">Shop</a>
   <a href="#join">Join</a>
@@ -2159,7 +2319,7 @@
         </div>
       </div>
     </div>
-    <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: The Process, any jungle, Bridget In My Room, Lookout, Need U, EP-6.</p>
+    <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: The Process, any jungle, Bridget In My Room, Need U, EP-6.</p>
     <div class="hero-ticker" data-hero-ticker>
       <div class="hero-ticker-bug" aria-live="polite">
         <span class="status-chip status-chip--standby" data-ticker-chip>Stand by</span>
@@ -2174,7 +2334,7 @@
             <span class="hero-ticker-dot"></span>
             <a href="/bridget-in-my-room">CC011 Bridget In My Room</a>
             <span class="hero-ticker-dot"></span>
-            <a href="/lookout">CC010 Lookout</a>
+            <a href="/j-adore">CC007 j'adore</a>
             <span class="hero-ticker-dot"></span>
             <span>House · Jungle · Instrumental hip-hop</span>
             <span class="hero-ticker-dot"></span>
@@ -2186,7 +2346,7 @@
             <span class="hero-ticker-dot"></span>
             <a href="/champion-sound">Champion Sound</a>
             <span class="hero-ticker-dot"></span>
-            <a href="/escape-from-industria">CC018 Escape From Industria</a>
+            <a href="/the-mystic-jade-touch">CC016 The Mystic / Jade Touch</a>
             <span class="hero-ticker-dot"></span>
             <a href="/she-spells-doom">CC014 She Spells Doom</a>
             <span class="hero-ticker-dot"></span>
@@ -2206,7 +2366,7 @@
             <span class="hero-ticker-dot"></span>
             <a href="/bridget-in-my-room" tabindex="-1">CC011 Bridget In My Room</a>
             <span class="hero-ticker-dot"></span>
-            <a href="/lookout" tabindex="-1">CC010 Lookout</a>
+            <a href="/j-adore" tabindex="-1">CC007 j'adore</a>
             <span class="hero-ticker-dot"></span>
             <span>House · Jungle · Instrumental hip-hop</span>
             <span class="hero-ticker-dot"></span>
@@ -2218,7 +2378,7 @@
             <span class="hero-ticker-dot"></span>
             <a href="/champion-sound" tabindex="-1">Champion Sound</a>
             <span class="hero-ticker-dot"></span>
-            <a href="/escape-from-industria" tabindex="-1">CC018 Escape From Industria</a>
+            <a href="/the-mystic-jade-touch" tabindex="-1">CC016 The Mystic / Jade Touch</a>
             <span class="hero-ticker-dot"></span>
             <a href="/she-spells-doom" tabindex="-1">CC014 She Spells Doom</a>
             <span class="hero-ticker-dot"></span>
@@ -2273,7 +2433,7 @@
       <div class="wall-grid wall-grid--fallback" aria-hidden="true">
 <article class="wall-item rv" data-release="the-process"><div class="wall-card"><div class="wall-art media-bezel"><a href="/the-process" aria-label="The Process — view release"><img src="the-process-cover-480.webp" srcset="the-process-cover-480.webp 480w, the-process-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 260px" alt="The Process — artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">01</p><p class="wall-cat">CC020 · Single · 2026</p><h3 class="wall-title"><a href="/the-process">The Process</a></h3><p class="wall-artist">Molly Haze</p></div></div></article>
 <article class="wall-item rv" data-release="any-jungle"><div class="wall-card"><div class="wall-art media-bezel"><a href="/any-jungle" aria-label="any jungle — view release"><img src="any-jungle-cover-480.webp" srcset="any-jungle-cover-480.webp 480w, any-jungle-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 260px" alt="any jungle — artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">02</p><p class="wall-cat">CC019 · Single · 2026</p><h3 class="wall-title"><a href="/any-jungle">any jungle</a></h3><p class="wall-artist">L.T. Drifta</p></div></div></article>
-<article class="wall-item rv" data-release="lookout"><div class="wall-card"><div class="wall-art media-bezel"><a href="/lookout" aria-label="Lookout — view release"><img src="lookout-cover-480.webp" srcset="lookout-cover-480.webp 480w, lookout-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 260px" alt="Lookout — artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">03</p><p class="wall-cat">CC010 · Album · 2026</p><h3 class="wall-title"><a href="/lookout">Lookout</a></h3><p class="wall-artist">Rosco</p></div></div></article>
+<article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel"><a href="/bridget-in-my-room" aria-label="Bridget In My Room — view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 260px" alt="Bridget In My Room — artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">03</p><p class="wall-cat">CC011 · Single · 2026</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Rosco</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">04</p><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Rosco</p></div></div></article>
       </div>
     </div>
@@ -2367,7 +2527,53 @@
     </div>
   </section>
 
-
+  <!-- Artists -->
+  <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
+    <div class="band">
+      <header class="section-head home-artists-head rv">
+        <div>
+          <p class="eyebrow">Roster</p>
+          <h2 id="home-artists-title">Artists</h2>
+        </div>
+        <a class="head-link" href="/artists">View all</a>
+      </header>
+      <div class="home-roster">
+        <a class="home-artist rv" href="/artists/molly-haze">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/molly-haze.webp" alt="Molly Haze" width="1254" height="1254" loading="lazy"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Artist</p>
+            <h3 class="home-artist-name">Molly Haze</h3>
+            <p class="home-artist-dek">House, tech house, UK garage. Cumberland, BC.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+        <a class="home-artist rv" href="/artists/rosco">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/rosco.webp" alt="Rosco" width="800" height="1000" loading="lazy"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Artist</p>
+            <h3 class="home-artist-name">Rosco</h3>
+            <p class="home-artist-dek">House from Vancouver, BC.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+        <a class="home-artist rv" href="/artists/lt-drifta">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/lt-drifta.webp" alt="L.T. Drifta" width="1672" height="941" loading="lazy" class="is-wide"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Producer</p>
+            <h3 class="home-artist-name">L.T. Drifta</h3>
+            <p class="home-artist-dek">Soulful electronic breakbeats. Cumberland, BC.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- Transmissions — editorial pulse. CSS already in news.css -->
   <section class="news" aria-labelledby="news-title">
@@ -2421,29 +2627,7 @@
             <p class="news-card-dek">Feels like somebody stayed.</p>
           </div>
         </a>
-        <a class="news-card rv" href="/news/sun-and-moon-eclipse" data-type="release" data-date="2026-08-12">
-          <div class="news-card-art media-bezel">
-            <img src="news-eclipse.webp" alt="Sun & Moon, Solar, and Lunar vinyl labels. Eclipse Parts 1-3" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 12, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">Sun & Moon (Eclipse Parts 1-3)</h3>
-            <p class="news-card-dek">The sun and moon once loved each other. So the universe made the eclipse.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/lookout" data-type="release" data-date="2026-03-20">
-          <div class="news-card-art media-bezel">
-            <img src="news-lookout.webp" alt="Glass facade reflecting a high-rise under blue sky. Lookout" width="1400" height="933" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Mar 20, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">Lookout</h3>
-            <p class="news-card-dek">This one made sense immediately.</p>
-          </div>
-        </a>
-        <a class="news-card rv news-card--essay" href="/news/last-emperor" data-type="listening" data-date="2026-01-28">
+                        <a class="news-card rv news-card--essay" href="/news/last-emperor" data-type="listening" data-date="2026-01-28">
           <div class="news-card-art media-bezel">
             <img src="news-last-emperor.webp" alt="The Last Emperor soundtrack cover. child emperor and bowing figure under a yellow banner" width="1400" height="1400" loading="lazy"/>
           </div>
