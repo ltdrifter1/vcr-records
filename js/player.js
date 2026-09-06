@@ -336,6 +336,18 @@
       });
       return true;
     }
+    if (format === "digital") {
+      if (!track.digitalSku) return false;
+      window.VCRCart.add({
+        sku: track.digitalSku,
+        name: track.releaseTitle + " — Digital",
+        price: track.digitalPrice,
+        image: track.cover,
+        qty: 1,
+        id: track.digitalSku,
+      });
+      return true;
+    }
     return false;
   }
 
@@ -767,11 +779,13 @@
       }
     }
     if (disc) disc.classList.toggle("is-spinning", !!playing);
-    room.classList.toggle("is-playing", !!playing);
     room.classList.toggle("is-live", roomOpen);
-    room.classList.toggle("is-now-playing", roomOpen);
-    var ipodHeader = room.querySelector("[data-ipod-header]");
-    if (ipodHeader) ipodHeader.textContent = roomOpen ? "Now Playing" : "Club Copy";
+    if (!room.hasAttribute("data-ipod")) {
+      room.classList.toggle("is-playing", !!playing);
+      room.classList.toggle("is-now-playing", roomOpen);
+      var ipodHeader = room.querySelector("[data-ipod-header]");
+      if (ipodHeader) ipodHeader.textContent = roomOpen ? "Now Playing" : "Club Copy";
+    }
     room.setAttribute("aria-live", roomOpen ? "polite" : "off");
   }
 
@@ -1024,10 +1038,13 @@
       var format = el ? el.getAttribute("data-format") : null;
       if (!fmtTrack || !format) return;
       if (format === "digital") {
-        if (fmtTrack.page) {
+        if (addFormatToBag(fmtTrack, "digital")) {
+          setRoomFormatsOpen(false);
+          var digitalCartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"], [data-ipod-buy]');
+          flashBuyLabel(digitalCartBtn, true);
+        } else if (fmtTrack.page) {
           window.location.href = fmtTrack.page;
         }
-        setRoomFormatsOpen(false);
         return;
       }
       if (format === "cassette" && !fmtTrack.cassetteSku) {

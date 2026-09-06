@@ -485,7 +485,30 @@
     }
     .ipod-menu-item.is-selected::after { color: #fff; opacity: .85; }
     .ipod-menu-item--play::after { content: none; }
+    .ipod-menu-item[data-price]::after {
+      content: attr(data-price);
+      font-size: 11px;
+      font-weight: 600;
+      opacity: .7;
+    }
+    .ipod-menu-item.is-selected[data-price]::after { color: #fff; opacity: .92; }
     .hero-disc-hit { display: none; }
+    .ipod-alert {
+      position: absolute;
+      inset: 22px 0 0;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ipod-lcd);
+      font-family: var(--ipod-ui);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ipod-lcd-ink);
+      text-align: center;
+      padding: 12px;
+    }
+    .ipod-alert[hidden] { display: none !important; }
 
     /* Tap-anywhere backlight glow while playing --------------------------- */
     .hero-pulse {
@@ -503,21 +526,24 @@
 
     .hero-bandcamp {
       position: absolute;
-      width: 1px; height: 1px;
+      left: 12px;
+      bottom: 12px;
+      width: 42px;
+      height: 42px;
       overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+      opacity: 0;
       pointer-events: none;
     }
     .hero-bandcamp iframe {
       display: block;
-      width: 1px;
-      height: 1px;
+      width: 42px;
+      height: 42px;
       border: 0;
     }
     .hero.is-live .hero-idle,
-    .hero.is-now-playing .hero-idle {
+    .hero.is-now-playing .hero-idle,
+    .hero[data-ipod-view="now"] .hero-idle,
+    .hero[data-ipod-view="alert"] .hero-idle {
       position: absolute;
       width: 1px; height: 1px;
       overflow: hidden;
@@ -525,6 +551,16 @@
       opacity: 0;
       pointer-events: none;
     }
+    .hero[data-ipod-view="menu"] .hero-idle {
+      position: relative;
+      width: auto; height: auto;
+      overflow: visible;
+      clip: auto;
+      opacity: 1;
+      pointer-events: auto;
+      display: flex;
+    }
+    .hero[data-ipod-view="menu"] .hero-console { display: none !important; }
     .visually-hidden {
       position: absolute;
       width: 1px; height: 1px;
@@ -580,7 +616,8 @@
       padding: 8px 10px 8px;
     }
     .hero.is-live .hero-console,
-    .hero.is-now-playing .hero-console { display: flex; }
+    .hero.is-now-playing .hero-console,
+    .hero[data-ipod-view="now"] .hero-console { display: flex; }
     .hero-meta {
       width: 100%;
       display: flex;
@@ -642,9 +679,18 @@
       font-size: 10px; font-variant-numeric: tabular-nums;
       color: rgba(28,36,48,.55);
     }
-    .hero-console-actions { margin-top: 6px; width: 100%; }
+    .hero-console-actions { margin-top: auto; width: 100%; }
     .hero-console.is-formats .hero-console-actions { display: none; }
     .hero.is-bandcamp .hero-progress { display: none; }
+    .hero-console-link.ipod-menu-item {
+      background: transparent;
+      color: var(--ipod-lcd-ink);
+    }
+    .hero-console-link.ipod-menu-item.is-selected,
+    .hero-console-link.ipod-menu-item--primary {
+      background: var(--ipod-sel);
+      color: #fff;
+    }
 
     /* "Menu" screen — Add to cart / choose format, styled like a click-wheel
        list menu (dark selected row, chevrons), swapped in over the artwork. */
@@ -756,11 +802,23 @@
       aspect-ratio: 1;
       margin: 22px auto 4px;
       border-radius: 50%;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
       background: radial-gradient(circle at 34% 30%, #d8d8d8 0%, #c4c4c4 42%, #b0b0b0 100%);
       box-shadow:
         inset 0 2px 3px rgba(255,255,255,.55),
         inset 0 -3px 6px rgba(80,80,80,.22),
         0 8px 16px rgba(0,0,0,.22);
+    }
+    .ipod-wheel:focus { outline: none; }
+    .ipod-wheel:focus-visible {
+      box-shadow:
+        inset 0 2px 3px rgba(255,255,255,.55),
+        inset 0 -3px 6px rgba(80,80,80,.22),
+        0 8px 16px rgba(0,0,0,.22),
+        0 0 0 2px rgba(42, 61, 104, .45);
     }
     .ipod-hub {
       position: absolute;
@@ -810,12 +868,6 @@
     .ipod-key--playpause .vcr-ico--pause { display: none; }
     @media (hover:hover) {
       .ipod-key:hover { opacity: .88; }
-    }
-    /* Prev / next / menu wait for a queued track. Play is always live. */
-    .hero:not(.is-live):not(.is-now-playing) .hero-console-close.ipod-key--menu,
-    .hero:not(.is-live):not(.is-now-playing) .ipod-key--prev,
-    .hero:not(.is-live):not(.is-now-playing) .ipod-key--next {
-      pointer-events: none;
     }
     .ipod-key:focus-visible {
       outline: none;
@@ -2071,7 +2123,7 @@
 <main id="main">
 
   <!-- Featured release -->
-  <section class="hero" id="room" data-listening-room aria-label="The Process">
+  <section class="hero" id="room" data-listening-room data-ipod data-ipod-view="menu" aria-label="The Process">
     <div class="hero-chroma" aria-hidden="true"></div>
     <div class="hero-ambient" data-room-bg aria-hidden="true"></div>
     <div class="hero-scan" aria-hidden="true"></div>
@@ -2101,13 +2153,10 @@
 
               <h1 class="visually-hidden">The Process — Molly Haze, CC020, out now on Club Copy</h1>
               <div class="hero-idle" data-room-idle>
-                <div class="ipod-menu" role="menu" aria-label="Club Copy">
-                  <a class="ipod-menu-item" role="menuitem" href="/#listen">Music</a>
-                  <a class="ipod-menu-item" role="menuitem" href="/library">Library</a>
-                  <a class="ipod-menu-item" role="menuitem" href="/merch">Shop</a>
-                  <button type="button" class="ipod-menu-item ipod-menu-item--play is-selected" role="menuitem" id="ipodPlayRow">The Process</button>
-                  <a class="ipod-menu-item" role="menuitem" href="/#join">Record Club</a>
-                </div>
+                <div class="ipod-menu" role="listbox" aria-label="iPod" data-ipod-list></div>
+              </div>
+              <div class="ipod-alert" data-ipod-alert hidden>
+                <p data-ipod-alert-msg>Added to Cart</p>
               </div>
 
               <div class="hero-console" data-room-console>
@@ -2122,41 +2171,32 @@
                   <div class="hero-times"><span data-room-cur>0:00</span><span data-room-dur>0:00</span></div>
                 </div>
                 <div class="hero-console-actions">
-                  <button type="button" class="hero-console-link hero-console-link--primary" data-act="open-formats" data-label="Add to cart">Add to cart</button>
-                </div>
-                <div class="hero-format-panel" data-room-formats aria-label="Choose format">
-                  <p class="hero-format-label">Choose format</p>
-                  <div class="hero-format-options">
-                    <button type="button" class="hero-console-link" data-act="buy-format" data-format="cassette" hidden>Cassette</button>
-                    <button type="button" class="hero-console-link" data-act="buy-format" data-format="vinyl" hidden>Vinyl</button>
-                    <button type="button" class="hero-console-link" data-act="buy-format" data-format="digital">Digital</button>
-                  </div>
-                  <button type="button" class="hero-format-back" data-act="close-formats">Back</button>
+                  <button type="button" class="hero-console-link hero-console-link--primary ipod-menu-item ipod-menu-item--play" data-ipod-buy data-label="Buy Now · $1.50" data-price="$1.50">Buy Now</button>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="ipod-wheel">
-            <button type="button" class="ipod-hub" id="ipodSelect" aria-label="Play The Process"></button>
-            <button type="button" class="hero-console-close ipod-key ipod-key--menu" data-act="room-close" aria-label="Menu">MENU</button>
-            <button type="button" class="ipod-key ipod-key--prev" data-act="prev" aria-label="Previous">
+          <div class="ipod-wheel" data-ipod-wheel tabindex="0">
+            <button type="button" class="ipod-hub" id="ipodSelect" data-act="ipod-select" aria-label="Select"></button>
+            <button type="button" class="hero-console-close ipod-key ipod-key--menu" data-act="ipod-menu" aria-label="Menu">MENU</button>
+            <button type="button" class="ipod-key ipod-key--prev" data-act="ipod-prev" aria-label="Previous">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h2.4v12H5zm3.6 6 10 6.4V5.6z"/></svg>
             </button>
-            <button type="button" class="ipod-key ipod-key--next" data-act="next" aria-label="Next">
+            <button type="button" class="ipod-key ipod-key--next" data-act="ipod-next" aria-label="Next">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 6H19v12h-2.4zM13 12 3 5.6v12.8z"/></svg>
             </button>
             <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" aria-label="Play The Process">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 7.1v9.8L12 12zm10.8 0h1.7v9.8h-1.7zm3.1 0h1.7v9.8h-1.7z"/></svg>
             </button>
           </div>
+          <div class="hero-bandcamp" id="heroBandcamp" hidden></div>
         </div>
 
         <a class="hero-y2k-details" href="/the-process">
           <span>Details</span>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <div class="hero-bandcamp" id="heroBandcamp" hidden></div>
       </div>
     </div>
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: The Process, any jungle, Bridget In My Room, Need U, EP-6.</p>
@@ -2527,6 +2567,7 @@
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
+<script src="js/ipod.js"></script>
 <script src="js/home-wall.js"></script>
 <script>
 (function () {
@@ -2568,154 +2609,27 @@
   });
   syncActiveFromURL();
 
-  // Featured single has no site MP3 — play starts Bandcamp audio from this click
-  // (autoplay=true on the embed, iframe stays visually hidden so there's no
-  // second "press play" on a widget). Site player is tried first if a preview lands.
-  var hero = document.getElementById('room');
-  var heroBandcamp = document.getElementById('heroBandcamp');
-  var heroPlayBtn = document.getElementById('heroPlayBtn');
-  var ipodPlayRow = document.getElementById('ipodPlayRow');
-  var ipodHeader = document.querySelector('[data-ipod-header]');
-  var BANDCAMP_SRC = 'https://bandcamp.com/EmbeddedPlayer/track=574430890/size=small/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=none/transparent=true/autoplay=true/';
-  var bcPlaying = false;
-
-  function setIpodHeader(text) {
-    if (ipodHeader) ipodHeader.textContent = text;
-  }
-
-  function syncHeroPlaying(playing) {
-    if (!hero) return;
-    hero.classList.toggle('is-playing', !!playing);
-    hero.classList.toggle('is-now-playing', !!playing || hero.classList.contains('is-live'));
-    if (playing || hero.classList.contains('is-live')) setIpodHeader('Now Playing');
-    else setIpodHeader('Club Copy');
-    if (heroPlayBtn) {
-      heroPlayBtn.setAttribute('aria-label', playing ? 'Pause The Process' : 'Play The Process');
-    }
+  // Ticker chip / now-playing line. Click-wheel play + buy live in js/ipod.js.
+  window.addEventListener('vcr:player', function (e) {
+    var d = e.detail || {};
+    var playing = !!d.playing;
     var chip = document.querySelector('[data-ticker-chip]');
     var nowEl = document.querySelector('[data-ticker-now]');
-    if (chip) {
+    if (chip && d.track) {
       chip.textContent = playing ? 'On air' : 'Stand by';
       chip.classList.toggle('status-chip--air', playing);
       chip.classList.toggle('status-chip--standby', !playing);
     }
     if (nowEl) {
-      if (playing) {
-        nowEl.textContent = 'Molly Haze — The Process';
+      if (d.track && (d.track.title || d.track.releaseTitle)) {
+        var line = d.track.artist ? d.track.artist + ' — ' : '';
+        line += d.track.title || d.track.releaseTitle;
+        nowEl.textContent = line;
         nowEl.hidden = false;
-      } else if (!nowEl.dataset.locked) {
+      } else if (!document.getElementById('room') || !document.getElementById('room').classList.contains('is-bandcamp')) {
         nowEl.textContent = '';
         nowEl.hidden = true;
       }
-    }
-  }
-
-  function bcFrame() {
-    return heroBandcamp && heroBandcamp.querySelector('iframe');
-  }
-
-  function bcCommand(cmd) {
-    var frame = bcFrame();
-    if (!frame || !frame.contentWindow) return;
-    try {
-      frame.contentWindow.postMessage(JSON.stringify({ command: cmd }), 'https://bandcamp.com');
-      frame.contentWindow.postMessage({ command: cmd }, 'https://bandcamp.com');
-    } catch (e) {}
-  }
-
-  function ensureBandcampPlayer() {
-    if (!heroBandcamp) return null;
-    var frame = bcFrame();
-    if (!frame) {
-      frame = document.createElement('iframe');
-      frame.title = 'The Process';
-      frame.setAttribute('allow', 'autoplay; encrypted-media');
-      frame.setAttribute('seamless', '');
-      frame.src = BANDCAMP_SRC;
-      heroBandcamp.appendChild(frame);
-      frame.addEventListener('load', function () {
-        if (bcPlaying) bcCommand('play');
-      });
-    }
-    heroBandcamp.hidden = false;
-    hero.classList.add('is-bandcamp');
-    return frame;
-  }
-
-  function pauseBandcamp() {
-    bcCommand('pause');
-    bcPlaying = false;
-    if (!hero.classList.contains('is-live')) {
-      hero.classList.remove('is-now-playing', 'is-playing', 'is-bandcamp');
-      setIpodHeader('Club Copy');
-    }
-    syncHeroPlaying(false);
-  }
-
-  function startBandcamp() {
-    ensureBandcampPlayer();
-    bcPlaying = true;
-    hero.classList.add('is-now-playing', 'is-playing', 'is-bandcamp');
-    setIpodHeader('Now Playing');
-    bcCommand('play');
-    syncHeroPlaying(true);
-  }
-
-  function playFeaturedRelease() {
-    var state = window.VCRPlayer && VCRPlayer.getState && VCRPlayer.getState();
-    if (state && state.track) {
-      VCRPlayer.toggle();
-      return;
-    }
-    if (bcPlaying) {
-      pauseBandcamp();
-      return;
-    }
-    if (window.VCRPlayer && VCRPlayer.playRelease) {
-      Promise.resolve(
-        VCRPlayer.playRelease('the-process', null, { autoplay: true, stage: true })
-      ).then(function (track) {
-        if (track) {
-          syncHeroPlaying(true);
-          return;
-        }
-        startBandcamp();
-      }).catch(function () {
-        startBandcamp();
-      });
-      return;
-    }
-    startBandcamp();
-  }
-
-  if (heroPlayBtn) heroPlayBtn.addEventListener('click', playFeaturedRelease);
-  if (ipodPlayRow) ipodPlayRow.addEventListener('click', playFeaturedRelease);
-  var ipodSelect = document.getElementById('ipodSelect');
-  if (ipodSelect) ipodSelect.addEventListener('click', playFeaturedRelease);
-
-  var menuKey = hero && hero.querySelector('.ipod-key--menu');
-  if (menuKey) {
-    menuKey.addEventListener('click', function () {
-      if (hero.classList.contains('is-now-playing') && !hero.classList.contains('is-live')) {
-        pauseBandcamp();
-      }
-    });
-  }
-
-  // Wall NOW / UP NEXT sync lives in js/home-wall.js.
-  window.addEventListener('vcr:player', function (e) {
-    var d = e.detail || {};
-    var playing = !!d.playing;
-    if (playing && bcPlaying) pauseBandcamp();
-    if (d.track) syncHeroPlaying(playing);
-    else if (!bcPlaying) syncHeroPlaying(false);
-
-    var nowEl = document.querySelector('[data-ticker-now]');
-    if (nowEl && d.track && (d.track.title || d.track.releaseTitle)) {
-      var line = d.track.artist ? d.track.artist + ' — ' : '';
-      line += d.track.title || d.track.releaseTitle;
-      nowEl.textContent = line;
-      nowEl.hidden = false;
     }
   });
 
