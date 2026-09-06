@@ -99,7 +99,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,500&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/listen-object.css"/>
   <link rel="stylesheet" href="css/cover-flow.css"/>
@@ -2445,125 +2445,109 @@
     </div>
   </section>
 
-  <!-- Transmissions — editorial pulse. CSS already in news.css -->
-  <section class="news" aria-labelledby="news-title">
+  <!-- Transmissions — the front page. CSS already in news.css -->
+  <section class="news newsprint" aria-labelledby="news-title">
     <div class="news-bridge" aria-hidden="true"></div>
+
     <div class="band">
-      <header class="section-head" id="news">
-        <div>
-          <h2 id="news-title"><a class="news-title-link" href="/news">News</a></h2>
+      <div class="newsprint-masthead" id="news">
+        <div class="newsprint-rule newsprint-rule--hair"></div>
+        <div class="newsprint-mast-row">
+          <p class="newsprint-eyebrow">Pacific Northwest Edition · Vol. III</p>
+          <h2 class="newsprint-title" id="news-title"><a href="/news">Club Copy Transmissions</a></h2>
+          <p class="newsprint-dateline">
+            <span data-newsprint-date>Sunday, September 6, 2026</span>
+            <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
+            <span>No. 020</span>
+            <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
+            <a class="head-link" href="/news">All issues →</a>
+          </p>
         </div>
-        <a class="head-link" href="/news">All news</a>
-      </header>
+        <div class="newsprint-rule newsprint-rule--thick"></div>
+        <div class="newsprint-rule newsprint-rule--hair"></div>
+      </div>
     </div>
-    <div class="news-flow" data-coverflow role="region" aria-roledescription="carousel" aria-label="News">
-      <div class="news-flow-chrome">
-        <button type="button" class="news-flow-nav news-flow-nav--prev" data-coverflow-prev aria-label="Previous story">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5.6 8.8 12l6.6 6.4-1.5 1.5L5.8 12l8.1-7.9z"/></svg>
-        </button>
-        <div class="news-flow-stage" data-coverflow-stage>
-          <div class="news-flow-track news-rail-track" data-coverflow-track>
-        <a class="news-card rv" href="/news/drill-lyrics-on-trial" data-type="label" data-date="2026-09-02">
-          <div class="news-card-art media-bezel">
+
+    <div class="band">
+      <div class="newsprint-page">
+        <a class="news-card rv newsprint-lead" href="/news/drill-lyrics-on-trial" data-date="2026-09-02">
+          <div class="newsprint-lead-art">
             <img src="news-beat-tape.webp" alt="Club Copy oval logo with star on textured gray" width="1254" height="1254" loading="lazy"/>
           </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Sep 2, 2026</p>
-            <span class="news-type">Label note</span>
-            <h3 class="news-card-title">Bars On Trial</h3>
-            <p class="news-card-dek">The Met says drill lyrics prove crimes. Not everyone agrees.</p>
+          <div class="newsprint-lead-body">
+            <p class="newsprint-kicker">Label note</p>
+            <h3 class="newsprint-headline">Bars On Trial</h3>
+            <p class="newsprint-dek">The Met says drill lyrics prove crimes. Not everyone agrees.</p>
+            <p class="newsprint-byline">By the Label Desk <span aria-hidden="true">—</span> Sep 2, 2026</p>
           </div>
         </a>
-        <a class="news-card rv" href="/news/any-jungle" data-type="release" data-date="2026-08-30">
-          <div class="news-card-art media-bezel">
-            <img src="news-any-jungle.webp" alt="White vinyl on black with melting Club Copy lettering. any jungle" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 30, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">any jungle</h3>
-            <p class="news-card-dek">Nine minutes. Doesn’t hurry.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/bridget-in-my-room" data-type="release" data-date="2026-08-27">
-          <div class="news-card-art media-bezel">
-            <img src="news-bridget-in-my-room.webp" alt="Circular photo of two silhouettes on rippled water at dusk. Bridget In My Room" width="1254" height="1254" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 27, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">Bridget In My Room</h3>
-            <p class="news-card-dek">Door's on the latch.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/j-adore" data-type="release" data-date="2026-08-10">
-          <div class="news-card-art media-bezel">
-            <img src="news-jadore.webp" alt="Fisheye photo of a blue car at dusk. j'adore" width="1200" height="1200" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Aug 10, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">j'adore</h3>
-            <p class="news-card-dek">A car ride that doesn’t end when the song does.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/need-you" data-type="release" data-date="2026-07-29">
-          <div class="news-card-art media-bezel">
-            <img src="news-need-you.webp" alt="Neon blue line-art face on black. Need U" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jul 29, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">Need U</h3>
-            <p class="news-card-dek">We’ve had this one on repeat.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/inlet-knight" data-type="release" data-date="2026-02-20">
-          <div class="news-card-art media-bezel">
-            <img src="news-inlet-knight.webp" alt="Inlet Knight boat on the water. self-titled album artwork" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Feb 20, 2026</p>
-            <span class="news-type">Release</span>
-            <h3 class="news-card-title">Inlet Knight</h3>
-            <p class="news-card-dek">Eleven tracks. Dubbed to cassette.</p>
-          </div>
-        </a>
-        <a class="news-card rv news-card--essay" href="/news/last-emperor" data-type="listening" data-date="2026-01-28">
-          <div class="news-card-art media-bezel">
-            <img src="news-last-emperor.webp" alt="The Last Emperor soundtrack cover. child emperor and bowing figure under a yellow banner" width="1400" height="1400" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jan 28, 2026</p>
-            <span class="news-type">Listening</span>
-            <h3 class="news-card-title">Essential Listening: The Last Emperor</h3>
-            <p class="news-card-dek">Big history that somehow feels private.</p>
-          </div>
-        </a>
-        <a class="news-card rv" href="/news/inlet-knight-on-club-copy" data-type="artist" data-date="2026-01-04">
-          <div class="news-card-art media-bezel">
-            <img src="artists/rosco.webp" alt="Rosco" width="800" height="1000" loading="lazy"/>
-          </div>
-          <div class="news-card-body">
-            <p class="news-card-date">Jan 4, 2026</p>
-            <span class="news-type">Artist</span>
-            <h3 class="news-card-title">Welcome, Rosco</h3>
-            <p class="news-card-dek">Vancouver. We knew immediately.</p>
-          </div>
-        </a>
-          </div>
+
+        <div class="newsprint-columns newsprint-grid">
+          <a class="news-card rv newsprint-story" href="/news/any-jungle" data-date="2026-08-30">
+            <div class="newsprint-story-art">
+              <img src="news-any-jungle.webp" alt="White vinyl on black with melting Club Copy lettering. any jungle" width="1400" height="1400" loading="lazy"/>
+            </div>
+            <p class="newsprint-kicker">Release</p>
+            <h3 class="newsprint-story-title">any jungle</h3>
+            <p class="newsprint-story-dek">Nine minutes. Doesn’t hurry.</p>
+            <p class="newsprint-story-meta">Aug 30, 2026</p>
+          </a>
+          <a class="news-card rv newsprint-story" href="/news/bridget-in-my-room" data-date="2026-08-27">
+            <div class="newsprint-story-art">
+              <img src="news-bridget-in-my-room.webp" alt="Circular photo of two silhouettes on rippled water at dusk. Bridget In My Room" width="1254" height="1254" loading="lazy"/>
+            </div>
+            <p class="newsprint-kicker">Release</p>
+            <h3 class="newsprint-story-title">Bridget In My Room</h3>
+            <p class="newsprint-story-dek">Door's on the latch.</p>
+            <p class="newsprint-story-meta">Aug 27, 2026</p>
+          </a>
+          <a class="news-card rv newsprint-story" href="/news/j-adore" data-date="2026-08-10">
+            <div class="newsprint-story-art">
+              <img src="news-jadore.webp" alt="Fisheye photo of a blue car at dusk. j'adore" width="1200" height="1200" loading="lazy"/>
+            </div>
+            <p class="newsprint-kicker">Release</p>
+            <h3 class="newsprint-story-title">j'adore</h3>
+            <p class="newsprint-story-dek">A car ride that doesn’t end when the song does.</p>
+            <p class="newsprint-story-meta">Aug 10, 2026</p>
+          </a>
+          <a class="news-card rv newsprint-story newsprint-story--brief" href="/news/need-you" data-date="2026-07-29">
+            <p class="newsprint-kicker">Release</p>
+            <h3 class="newsprint-story-title">Need U</h3>
+            <p class="newsprint-story-dek">We’ve had this one on repeat.</p>
+            <p class="newsprint-story-meta">Jul 29, 2026</p>
+          </a>
+          <a class="news-card rv newsprint-story newsprint-story--brief" href="/news/inlet-knight" data-date="2026-02-20">
+            <p class="newsprint-kicker">Release</p>
+            <h3 class="newsprint-story-title">Inlet Knight</h3>
+            <p class="newsprint-story-dek">Eleven tracks. Dubbed to cassette.</p>
+            <p class="newsprint-story-meta">Feb 20, 2026</p>
+          </a>
+          <a class="news-card rv newsprint-story" href="/news/last-emperor" data-date="2026-01-28">
+            <div class="newsprint-story-art">
+              <img src="news-last-emperor.webp" alt="The Last Emperor soundtrack cover. child emperor and bowing figure under a yellow banner" width="1400" height="1400" loading="lazy"/>
+            </div>
+            <p class="newsprint-kicker">Listening</p>
+            <h3 class="newsprint-story-title">Essential Listening: The Last Emperor</h3>
+            <p class="newsprint-story-dek">Big history that somehow feels private.</p>
+            <p class="newsprint-story-meta">Jan 28, 2026</p>
+          </a>
+          <a class="news-card rv newsprint-story" href="/news/inlet-knight-on-club-copy" data-date="2026-01-04">
+            <div class="newsprint-story-art">
+              <img src="artists/rosco.webp" alt="Rosco" width="800" height="1000" loading="lazy"/>
+            </div>
+            <p class="newsprint-kicker">Artist</p>
+            <h3 class="newsprint-story-title">Welcome, Rosco</h3>
+            <p class="newsprint-story-dek">Vancouver. We knew immediately.</p>
+            <p class="newsprint-story-meta">Jan 4, 2026</p>
+          </a>
         </div>
-        <button type="button" class="news-flow-nav news-flow-nav--next" data-coverflow-next aria-label="Next story">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 5.6 15.2 12l-6.6 6.4 1.5 1.5 8.1-7.9-8.1-7.9z"/></svg>
-        </button>
-      </div>
-      <div class="news-flow-caption" data-coverflow-caption aria-live="polite">
-        <p class="news-flow-date"></p>
-        <span class="news-flow-type"></span>
-        <h3 class="news-flow-title"></h3>
-        <p class="news-flow-dek"></p>
+
+        <div class="newsprint-rule newsprint-rule--hair newsprint-rule--foot"></div>
+        <p class="newsprint-footline">Club Copy Transmissions is printed on nothing and read everywhere. <a href="/news">Read the full archive →</a></p>
       </div>
     </div>
+
+    <div class="news-bridge news-bridge--out" aria-hidden="true"></div>
   </section>
 
 </main>
