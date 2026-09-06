@@ -76,7 +76,7 @@
         '<div class="album-inspect__actions">' +
           play +
           add +
-          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || "#") + '">Sleeve</a>' +
+          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || "#") + '">Details</a>' +
         "</div>" +
       "</div>";
     if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(inspect);
