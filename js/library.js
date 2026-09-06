@@ -416,7 +416,7 @@
       } else if (profile) {
         leadEl.innerHTML = "You're on the list. <a href=\"/#join\">Join the club</a> for 30% off music.";
       } else {
-        leadEl.innerHTML = 'Every Club Copy release. Club is 30% off music. Premium is 50%. <a href="/#join">Join</a>.';
+        leadEl.innerHTML = 'Club members get 30% off, premium members get 50% off all music. <a href="/#join">Join</a>.';
       }
       return;
     }
