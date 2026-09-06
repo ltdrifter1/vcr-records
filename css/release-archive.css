@@ -1286,6 +1286,24 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 }
 .ra-deck--display .ra-transport { margin-top: 2px; }
 
+/* Inline Bandcamp "pill" : real playback, no tab, no page leaves ---------- */
+.ra-bandcamp-embed {
+  margin: 10px 8px 2px;
+  max-width: 360px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(26, 28, 32, .22);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 6px 16px rgba(20, 22, 26, .28);
+}
+.ra-bandcamp-embed iframe {
+  display: block;
+  width: 100%;
+  height: 42px;
+  border: 0;
+}
+
 /* Track list — MiniDisc cue sheet ------------------------------------------- */
 .ra-tracks {
   font-family: var(--sans, 'Space Grotesk', sans-serif);

@@ -266,7 +266,7 @@
                 <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
                 </button>
-                <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Listen on Bandcamp">
+                <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play on Bandcamp">
                   <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
@@ -392,8 +392,9 @@ const $ = id => document.getElementById(id);
 VCRReleaseBind({
   releaseId: 'the-process',
   displayOnly: true,
-  displayMessage: "Full track after checkout.",
+  displayMessage: "Tap play to stream on Bandcamp, right here.",
   bandcampUrl: 'https://mollyhaze.bandcamp.com/track/the-process',
+  bandcampTrackId: '574430890',
   tracks: [
   { id: 'tp-01', title: "Original Mix" },
   { id: 'tp-02', title: "Radio Edit" }

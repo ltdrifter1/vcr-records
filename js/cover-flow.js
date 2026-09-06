@@ -187,6 +187,30 @@
     this.go(this.index + dir);
   };
 
+  /**
+   * Resolve which sleeve/card sits under a viewport point by its actual
+   * rendered (post-3D-transform) box. Some browsers mis-attribute the
+   * native click target to the track container instead of a rotated,
+   * translateZ'd side card, so `e.target.closest(...)` can silently miss —
+   * this geometry-based fallback makes clicking a side card reliable.
+   */
+  CoverFlow.prototype.hitTest = function (x, y) {
+    var hit = null;
+    var hitAbs = Infinity;
+    for (var i = 0; i < this.items.length; i++) {
+      var item = this.items[i];
+      var r = item.getBoundingClientRect();
+      if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+        var abs = Math.abs(i - this.index);
+        if (abs < hitAbs) {
+          hit = item;
+          hitAbs = abs;
+        }
+      }
+    }
+    return hit;
+  };
+
   CoverFlow.prototype.bind = function () {
     if (this.bound) return;
     this.bound = true;
@@ -207,16 +231,19 @@
 
     this.track.addEventListener("click", function (e) {
       if (e.target.closest("button, input, [data-act]")) return;
-      var item = e.target.closest("[data-coverflow-item], .news-card");
-      if (!item || self.items.indexOf(item) < 0) return;
-      var i = self.items.indexOf(item);
       if (self.didDrag) {
         e.preventDefault();
         return;
       }
-      if (i === self.index) return;
+      var item = e.target.closest("[data-coverflow-item], .news-card") || self.hitTest(e.clientX, e.clientY);
+      if (!item || self.items.indexOf(item) < 0) return;
+      var i = self.items.indexOf(item);
       e.preventDefault();
-      self.go(i);
+      if (i !== self.index) {
+        self.go(i);
+        return;
+      }
+      if (item.href) window.location.href = item.href;
     });
 
     this.stage.addEventListener("pointerdown", function (e) {
