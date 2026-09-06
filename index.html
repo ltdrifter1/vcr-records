@@ -2327,6 +2327,7 @@
             <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
             <div class="join-member-actions">
               <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
+              <a class="btn btn-ghost-on-dark" href="/account">View profile</a>
               <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
             </div>
           </div>
@@ -2935,13 +2936,30 @@
         }
       } catch (e) {}
 
+      // Server is the source of truth (card number, member-since, welcome
+      // email for Free). If this fails we still let Club/Premium continue
+      // to Stripe Checkout below — create-membership-session repeats this
+      // write server-side — but Free has no other path, so surface the error.
+      var memberSaved = false;
       try {
-        await fetch('/api/club-member', {
+        var mres = await fetch('/api/club-member', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+        var mdata = await mres.json().catch(function () { return null; });
+        if (mres.ok && mdata && window.ClubMember) {
+          ClubMember.writeProfile(mdata);
+        }
+        memberSaved = mres.ok;
       } catch (e) {}
+
+      if (state.level === 'free' && !memberSaved) {
+        showStatus("Couldn't save your card right now. Try again.", true);
+        joinBtn.disabled = false;
+        syncJoin();
+        return;
+      }
 
       if (state.level === 'free') {
         try {

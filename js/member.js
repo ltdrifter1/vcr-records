@@ -159,10 +159,11 @@
       existing.className = 'nav-member';
       end.insertBefore(existing, end.firstChild);
     }
-    existing.href = joinHref;
+    // Members get a real profile page; guests land on the join anchor.
+    existing.href = '/account';
     existing.setAttribute(
       'aria-label',
-      'Member ' + profile.memberNumber + ', ' + levelLabel(profile.level)
+      'Member ' + profile.memberNumber + ', ' + levelLabel(profile.level) + ' — view account'
     );
     existing.innerHTML =
       '<span class="nav-member-level">' + levelLabel(profile.level) + '</span>' +

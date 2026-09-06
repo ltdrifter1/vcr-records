@@ -116,6 +116,7 @@
     <div class="links">
       <a href="/#listen">Listen</a>
       <a href="/#join">Record Club</a>
+      <a href="/library">Library</a>
       <a href="/merch">Shop</a>
       <a href="/artists">Artists</a>
       <a href="/contact">Contact</a>
@@ -145,8 +146,8 @@
         level === 'premium'
           ? 'Browse the library, then apply Club Credit at checkout with the same email.'
           : 'Renews yearly. Browse the library whenever you are ready — 30% off music.';
-      document.getElementById('tyPrimary').href = '/library';
-      document.getElementById('tyPrimary').textContent = 'Browse the library';
+      document.getElementById('tyPrimary').href = '/account';
+      document.getElementById('tyPrimary').textContent = 'View your account';
 
       var profile = window.ClubMember ? ClubMember.readProfile() : null;
       if (!profile) {

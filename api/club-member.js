@@ -12,6 +12,7 @@ const {
   findOrCreateCustomer,
   redisConfig,
 } = require("./lib/credit-ledger");
+const { sendMail, welcomeEmail } = require("./lib/mailer");
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -200,8 +201,10 @@ module.exports = async function handler(req, res) {
       const memberNumber = memberNumberFromEmail(email);
 
       let customer = null;
+      let isNewMember = true;
       if (secret) {
         customer = await findOrCreateCustomer(secret, email);
+        isNewMember = !(customer.metadata && customer.metadata.club_member_since);
         const meta = {
           "metadata[club_level]": level,
           "metadata[club_display_name]": displayName,
@@ -209,7 +212,7 @@ module.exports = async function handler(req, res) {
           "metadata[club_member]": "1",
           "metadata[club_layer]": layerForLevel(level),
         };
-        if (!(customer.metadata && customer.metadata.club_member_since)) {
+        if (isNewMember) {
           meta["metadata[club_member_since]"] = new Date().toISOString();
         }
         customer = await stripeRequest(
@@ -232,6 +235,21 @@ module.exports = async function handler(req, res) {
         email
       );
       await redisGetSet(email, profile);
+
+      // Free tier has no Stripe Checkout step, so send the welcome email
+      // here. Club / Premium get theirs from the webhook once payment
+      // actually clears (see api/stripe-webhook.js).
+      if (isNewMember && level === "free") {
+        const mail = welcomeEmail({
+          email,
+          displayName,
+          level,
+          memberNumber,
+          creditCents: 0,
+        });
+        sendMail({ to: email, ...mail }).catch(() => {});
+      }
+
       return json(res, 200, profile);
     }
 
