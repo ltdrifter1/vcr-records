@@ -411,16 +411,15 @@
     .ipod-statusbar {
       position: relative;
       z-index: 2;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      display: flex;
       align-items: center;
+      justify-content: center;
       min-height: 22px;
       padding: 3px 6px 2px;
       border-bottom: 1px solid rgba(28,36,48,.28);
       color: var(--ipod-lcd-ink);
     }
     .ipod-statusbar-word {
-      grid-column: 2;
       font-family: var(--ipod-ui);
       font-size: 12px;
       font-weight: 700;
@@ -428,10 +427,11 @@
       text-align: center;
     }
     .ipod-batt {
-      grid-column: 3;
-      justify-self: end;
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
       width: 22px; height: 10px;
-      flex-shrink: 0;
     }
     .hero-station { display: none !important; }
 
@@ -818,8 +818,8 @@
       pointer-events: none;
     }
     .ipod-key:focus-visible {
-      outline: 2px solid #2a3d68;
-      outline-offset: 2px;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(42, 61, 104, .45);
     }
 
     @media (prefers-reduced-motion: reduce) {
