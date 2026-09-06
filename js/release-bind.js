@@ -39,6 +39,7 @@
     var releaseEl = $("ipRelease");
     var pMsg = $("pMsg");
     var trackRows = Array.prototype.slice.call(document.querySelectorAll(".track-row"));
+    var bandcampEmbed = null;
 
     function pad2(n) {
       return String(n).padStart(2, "0");
@@ -96,10 +97,36 @@
       return TRACKS[idx] && TRACKS[idx].id ? TRACKS[idx].id : null;
     }
 
+    /* Bandcamp stays inline: a small "pill" embed appears on the page
+       itself instead of sending listeners away in a new tab. */
+    function showBandcampEmbed() {
+      var host = document.querySelector(".ra-deck--display, .release-console") || (pMsg && pMsg.parentElement);
+      if (!host) return null;
+      if (bandcampEmbed) {
+        bandcampEmbed.hidden = false;
+        return bandcampEmbed;
+      }
+      var wrap = document.createElement("div");
+      wrap.className = "ra-bandcamp-embed";
+      var src = "https://bandcamp.com/EmbeddedPlayer/track=" + encodeURIComponent(opts.bandcampTrackId) +
+        "/size=small/bgcol=ffffff/linkcol=333333/tracklist=false/transparent=true/";
+      wrap.innerHTML =
+        '<iframe title="Bandcamp player" style="border:0;width:100%;height:42px;" src="' + src + '" seamless ' +
+        'allow="autoplay; encrypted-media" loading="lazy"></iframe>';
+      host.appendChild(wrap);
+      bandcampEmbed = wrap;
+      return wrap;
+    }
+
     function playAt(idx) {
       if (!TRACKS[idx] || TRACKS[idx].locked) return;
       setActive(idx);
       if (displayOnly) {
+        if (opts.bandcampTrackId) {
+          showBandcampEmbed();
+          setMsg("Play it right here \u2193");
+          return;
+        }
         if (opts.bandcampUrl) {
           window.open(opts.bandcampUrl, "_blank", "noopener");
           setMsg("Opened on Bandcamp \u2197");
