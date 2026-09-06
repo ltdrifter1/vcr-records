@@ -51,6 +51,8 @@ Merch apparel/essentials keep individual SKU prices (phase 2 sync).
    - `STRIPE_SECRET_KEY` (or `STRIPE_RESTRICTED_KEY`)
    - `STRIPE_WEBHOOK_SECRET` (after webhook endpoint exists)
    - Optional: `STRIPE_CURRENCY=cad`
+   - Optional (membership welcome emails — see `docs/club-membership-audit.md`):
+     `RESEND_API_KEY`, `MAIL_FROM`
 4. Enable desired payment methods in Dashboard (cards, Link, etc.) — no code change needed.
 
 ### 2. Provision Products / Prices

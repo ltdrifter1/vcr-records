@@ -22,6 +22,16 @@ const {
   premiumCreditCents,
   PREMIUM_MIN_CENTS,
 } = require("./lib/credit-ledger");
+const { sendMail, welcomeEmail } = require("./lib/mailer");
+
+function memberNumberFromEmail(email) {
+  let hash = 0;
+  const s = normalizeEmail(email);
+  for (let i = 0; i < s.length; i++) {
+    hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
+  }
+  return String((hash % 9000) + 1000).padStart(4, "0");
+}
 
 function timingSafeEqual(a, b) {
   const bufA = Buffer.from(a);
@@ -191,6 +201,25 @@ module.exports = async function handler(req, res) {
         // Retry webhook so credit is not silently dropped
         res.statusCode = 500;
         return res.end("Club Credit ledger error");
+      }
+
+      // Confirmed Club / Premium membership → send the welcome email now
+      // that payment has actually cleared.
+      const clubLevel = session.metadata && session.metadata.club_level;
+      if ((clubLevel === "club" || clubLevel === "premium")) {
+        const email = sessionEmail(session);
+        if (isValidEmail(email)) {
+          const mail = welcomeEmail({
+            email,
+            displayName: (session.metadata && session.metadata.club_display_name) || "",
+            level: clubLevel,
+            memberNumber: memberNumberFromEmail(email),
+            creditCents: credit && credit.grant ? credit.grant.balanceCents : 0,
+          });
+          sendMail({ to: email, ...mail }).catch((e) => {
+            console.warn("welcome email failed", e && e.message);
+          });
+        }
       }
 
       // Fulfillment hook: replace with email provider / packing queue.
