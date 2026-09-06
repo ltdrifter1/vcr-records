@@ -318,144 +318,51 @@
     }
     .hero.is-live .hero-stage { align-items: center; }
 
+    /* Album tile — modern iTunes-style artwork card (flat, no case/disc gimmick) */
     .hero-platter {
       position: relative;
       display: block;
-      width: min(520px, 100%);
+      width: min(440px, 100%);
       aspect-ratio: 1;
       justify-self: end;
-      perspective: 1400px;
       overflow: visible;
       background: transparent;
-      transition: width .55s var(--ease);
+      transition: width .55s var(--ease), transform .55s var(--ease);
     }
     .hero.is-live .hero-platter {
-      width: min(480px, 100%);
+      width: min(300px, 100%);
     }
     .hero-vinyl-rig {
       position: absolute;
       inset: 0;
-      transform-style: preserve-3d;
-      transition: transform .7s var(--ease);
     }
     @media (hover:hover) {
-      .hero:not(.is-live) .hero-platter:hover .hero-vinyl-rig {
-        transform: rotateY(-11deg) rotateX(5deg) translateY(-6px);
+      .hero:not(.is-live) .hero-platter:hover {
+        transform: translateY(-4px);
       }
     }
-    .hero.is-playing .hero-vinyl-rig {
-      animation: heroVinylSpin 3.8s linear infinite;
-    }
-    @keyframes heroVinylSpin {
-      to { transform: rotate(360deg); }
-    }
-    .hero-vinyl {
-      position: absolute;
-      inset: 1.5%;
-      border-radius: 50%;
-      opacity: 0;
-      transform: scale(.9);
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 31% 27%, rgba(255,255,255,.14), transparent 40%),
-        radial-gradient(circle at 70% 72%, rgba(var(--room-a), .16), transparent 38%),
-        repeating-radial-gradient(circle at 50% 50%, #08080a 0 1.4px, #141418 1.4px 3.1px);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.1),
-        inset 0 0 0 12px rgba(255,255,255,.02),
-        0 0 0 1px rgba(var(--room-a), .28),
-        0 0 48px rgba(var(--room-a), calc(0.08 + var(--room-energy) * 0.28)),
-        0 28px 64px rgba(0,0,0,.55);
-      transition: opacity .75s var(--ease), transform .75s var(--ease), box-shadow .6s var(--ease);
-    }
-    .hero-vinyl::before {
-      content: "";
-      position: absolute;
-      inset: 3%;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.05);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.03) inset,
-        0 0 0 18px rgba(255,255,255,.015) inset;
-    }
-    .hero-vinyl::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: linear-gradient(118deg,
-        transparent 36%,
-        rgba(255,255,255,.16) 47%,
-        rgba(var(--room-c), .18) 51%,
-        transparent 62%);
-      mix-blend-mode: screen;
-      opacity: .55;
-    }
-    .hero.is-live .hero-vinyl,
-    .hero.is-playing .hero-vinyl {
-      opacity: 1;
-      transform: scale(1);
-    }
+    /* Legacy vinyl-record graphic — retired in favor of a flat artwork tile. */
+    .hero-vinyl { display: none; }
     .hero-sleeve {
       position: absolute;
       inset: 0;
-      border-radius: 2px;
+      border-radius: 18px;
       overflow: hidden;
       background: #050506;
       transform-origin: center;
-      transition:
-        transform .85s var(--ease),
-        border-radius .85s var(--ease),
-        box-shadow .55s var(--ease);
+      transition: box-shadow .4s var(--ease);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.22),
-        -6px 0 0 rgba(168,180,196,.3),
-        0 0 0 1px rgba(200,214,230,.22),
-        0 0 0 8px rgba(168,180,196,.06),
-        0 36px 80px rgba(0,0,0,.55);
+        inset 0 1px 0 rgba(255,255,255,.14),
+        0 0 0 1px rgba(255,255,255,.1),
+        0 24px 56px rgba(0,0,0,.48);
     }
-    .hero-sleeve::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: linear-gradient(105deg,
-        transparent 38%,
-        rgba(255,255,255,.22) 48%,
-        rgba(200,220,240,.12) 52%,
-        transparent 64%);
-      mix-blend-mode: soft-light;
-      animation: sleeveSweep 7.5s ease-in-out infinite;
-    }
-    @keyframes sleeveSweep {
-      0%, 100% { transform: translateX(-18%); opacity: .35; }
-      50% { transform: translateX(18%); opacity: .7; }
-    }
-    .hero.is-live .hero-sleeve,
     .hero.is-playing .hero-sleeve {
-      transform: scale(.36);
-      border-radius: 50%;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.4),
-        0 0 0 1px rgba(0,0,0,.5),
-        0 8px 22px rgba(0,0,0,.4);
+        inset 0 1px 0 rgba(255,255,255,.16),
+        0 0 0 1px rgba(var(--room-a), .32),
+        0 8px 24px rgba(0,0,0,.4),
+        0 0 44px rgba(var(--room-a), calc(0.1 + var(--room-energy) * 0.22));
     }
-    .hero.is-live .hero-sleeve::before {
-      content: "";
-      position: absolute;
-      left: 50%; top: 50%;
-      width: 9%; height: 9%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      z-index: 2;
-      background:
-        radial-gradient(circle at 38% 32%, #3a3a40, #050506 68%);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.22),
-        inset 0 1px 1px rgba(255,255,255,.28);
-    }
-    .hero.is-live .hero-sleeve::after { animation: none; opacity: .25; }
     .hero-disc {
       width: 100%; height: 100%;
       overflow: hidden;
@@ -478,6 +385,7 @@
       touch-action: manipulation;
       border: 0;
       background: transparent;
+      border-radius: inherit;
     }
     .hero-disc-hit .disc-glyph {
       width: 56px;
@@ -496,6 +404,7 @@
         0 12px 28px rgba(0,0,0,.42);
       opacity: .94;
       transform: scale(1);
+      backdrop-filter: blur(6px);
       transition: opacity .3s var(--ease), transform .3s var(--ease), filter .3s var(--ease), box-shadow .3s var(--ease);
     }
     .hero-disc-hit svg {
@@ -527,24 +436,19 @@
       outline-offset: 4px;
     }
     .hero-disc-hit:focus-visible .disc-glyph { opacity: .92; }
+    /* Soft ambient glow behind the tile while a track is playing. */
     .hero-pulse {
       position: absolute;
-      inset: -7%;
-      border-radius: 50%;
-      border: 1px solid rgba(var(--room-a), .42);
-      box-shadow: 0 0 28px rgba(var(--room-a), .18);
+      inset: 6%;
+      border-radius: 18px;
+      background: rgba(var(--room-a), .28);
+      filter: blur(36px);
       opacity: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: -1;
+      transition: opacity .5s var(--ease);
     }
-    .hero.is-playing .hero-pulse {
-      animation: roomPulse 2.6s var(--ease) infinite;
-    }
-    @keyframes roomPulse {
-      0% { transform: scale(.96); opacity: .38; }
-      70% { transform: scale(1.06); opacity: 0; }
-      100% { transform: scale(1.06); opacity: 0; }
-    }
+    .hero.is-playing .hero-pulse { opacity: .5; }
 
     .hero-copy {
       display: flex;
@@ -928,11 +832,11 @@
     @media (prefers-reduced-motion: reduce) {
       .hero-platter, .hero-idle-title, .hero-ctas, .hero-console,
       .hero-pulse, .hero-ambient, .hero-station, .wall-eq i,
-      .hero-ticker-track, .hero-vinyl-rig, .hero-chroma, .hero-sleeve::after,
+      .hero-ticker-track, .hero-chroma,
       .wall-item.is-now-playing.is-audible .wall-art::before {
         animation: none !important;
       }
-      .hero-ambient, .hero-idle, .hero-platter, .hero-sleeve, .hero-vinyl { transition: none; }
+      .hero-ambient, .hero-idle, .hero-platter, .hero-sleeve { transition: none; }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
       .place-img { transform: none !important; }
       .hero-ticker-track { transform: none; }

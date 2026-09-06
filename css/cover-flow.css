@@ -145,18 +145,18 @@
   aspect-ratio: 1;
   overflow: visible;
   background: #0a0a0c;
-  border-radius: 2px;
+  border-radius: 14px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.28),
-    0 0 0 1px rgba(200,214,230,.22),
-    0 22px 48px rgba(0,0,0,.5);
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 0 0 1px rgba(255,255,255,.1),
+    0 20px 44px rgba(0,0,0,.48);
 }
 .album-flow.is-ready .flow-sleeve.is-center .flow-art {
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.5),
-    0 0 0 1px rgba(220,230,242,.4),
-    0 28px 64px rgba(0,0,0,.58),
-    0 0 36px rgba(186,204,224,.16);
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 0 0 1px rgba(220,230,242,.28),
+    0 26px 56px rgba(0,0,0,.56),
+    0 0 34px rgba(186,204,224,.14);
 }
 .flow-art img {
   width: 100%;
@@ -433,45 +433,13 @@
   .coverflow-stage { height: calc(var(--flow-cover) * 1.08); background: none; }
 }
 
-/* Jewel case — physical plastic sleeve ------------------------------------ */
+/* Album art tile — modern iTunes-style artwork card.
+   (Formerly a "jewel case" sleeve effect; kept the class name for markup
+   compatibility, but the plastic-case spine/gloss has been retired for a
+   clean, flat, rounded tile with a soft shadow.) */
 .jewel {
   position: relative;
   isolation: isolate;
-}
-.jewel::before {
-  content: "";
-  position: absolute;
-  left: -5px;
-  top: 5%;
-  bottom: 5%;
-  width: 6px;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: 1px 0 0 1px;
-  background:
-    linear-gradient(90deg,
-      rgba(20,22,28,.55) 0%,
-      rgba(210,220,232,.42) 38%,
-      rgba(255,255,255,.18) 52%,
-      rgba(12,14,18,.35) 100%);
-  box-shadow: 1px 0 0 rgba(255,255,255,.12);
-}
-.jewel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(118deg,
-    rgba(255,255,255,.26) 0%,
-    transparent 26%,
-    transparent 58%,
-    rgba(255,255,255,.08) 100%);
-  mix-blend-mode: soft-light;
-}
-@media (max-width: 560px) {
-  .jewel::before { display: none; }
 }
 
 .album-flow.is-ready + .band .wall-grid--fallback {
@@ -480,5 +448,4 @@
 
 .cat-cover.jewel {
   overflow: visible;
-  margin-left: 6px;
 }
