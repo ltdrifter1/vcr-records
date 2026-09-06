@@ -14,25 +14,18 @@ const FORMAT = {
 const MERCH_PAGE_SKUS = [
   "dg-the-process",
   "dg-any-jungle",
-  "dg-escape-from-industria",
   "dg-she-spells-doom",
   "dg-classic-jazz",
   "dg-the-mystic-jade-touch",
-  "dg-lookout",
   "dg-bridget-in-my-room",
   "dg-need-you",
-  "dg-solar-eclipse-part-2",
-  "dg-lunar-eclipse-part-3",
-  "dg-sun-and-moon-eclipse",
   "dg-champion-sound",
   "dg-summer-madness",
   "dg-ep1",
   "dg-ep-6",
   "dg-j-adore",
-  "dg-together",
   "dg-letters-from-another-era",
   "sm-cassette-inlet-knight",
-  "bn-tee-together",
   "bn-tee-inlet-cass",
   "sm-slipmat",
   "sm-poly-outer",
@@ -71,12 +64,6 @@ const PRODUCTS = {
     stock: 36,
     format: "cassette",
   },
-  "dg-together": {
-    name: "Together — Digital (EP)",
-    unitAmount: FORMAT.digital.unitAmount,
-    digital: true,
-    format: "digital",
-  },
   "dg-inlet-knight": {
     name: "Inlet Knight — Digital (Album)",
     unitAmount: FORMAT.digital.unitAmount,
@@ -85,12 +72,6 @@ const PRODUCTS = {
   },
   "dg-letters-from-another-era": {
     name: "Letters From Another Era — Digital (EP)",
-    unitAmount: FORMAT.digital.unitAmount,
-    digital: true,
-    format: "digital",
-  },
-  "dg-lookout": {
-    name: "Lookout — Digital (Album)",
     unitAmount: FORMAT.digital.unitAmount,
     digital: true,
     format: "digital",
@@ -113,24 +94,6 @@ const PRODUCTS = {
     digital: true,
     format: "digital",
   },
-  "dg-sun-and-moon-eclipse": {
-    name: "Sun & Moon (Eclipse Part 1) — Digital (Single)",
-    unitAmount: 199,
-    digital: true,
-    format: "digital",
-  },
-  "dg-solar-eclipse-part-2": {
-    name: "Solar (Eclipse Part 2) — Digital (Single)",
-    unitAmount: 199,
-    digital: true,
-    format: "digital",
-  },
-  "dg-lunar-eclipse-part-3": {
-    name: "Lunar (Eclipse Part 3) — Digital (Single)",
-    unitAmount: 199,
-    digital: true,
-    format: "digital",
-  },
   "dg-the-process": {
     name: "The Process — Digital (Single)",
     unitAmount: 150,
@@ -139,12 +102,6 @@ const PRODUCTS = {
   },
   "dg-any-jungle": {
     name: "any jungle — Digital (Single)",
-    unitAmount: 150,
-    digital: true,
-    format: "digital",
-  },
-  "dg-escape-from-industria": {
-    name: "Escape From Industria — Digital (Single)",
     unitAmount: 150,
     digital: true,
     format: "digital",
@@ -225,14 +182,7 @@ const PRODUCTS = {
     minAmountCents: 1000,
   },
 
-  // Bundles — tee + release (tee $40 + digital $8 / cassette $20)
-  "bn-tee-together": {
-    name: "Bundle: Micro Tee + Together Digital",
-    unitAmount: 4800,
-    stock: 80,
-    bundle: true,
-    format: "bundle",
-  },
+  // Bundles — tee + release (tee $40 + cassette $20)
   "bn-tee-inlet-cass": {
     name: "Bundle: Micro Tee + Inlet Knight Cassette",
     unitAmount: 6000,

@@ -27,12 +27,10 @@ const PAGE_MAP = {
   'thank-you.html': '/thank-you',
   '404.html': '/404',
   'j-adore.html': '/j-adore',
-  'together.html': '/together',
   'letters-from-another-era.html': '/letters-from-another-era',
   'inlet-knight.html': '/inlet-knight',
   'artists/rosco.html': '/artists/rosco',
   'news/j-adore.html': '/news/j-adore',
-  'news/lookout.html': '/news/lookout',
   'news/bridget-in-my-room.html': '/news/bridget-in-my-room',
   'news/need-you.html': '/news/need-you',
   'news/inlet-knight-on-club-copy.html': '/news/inlet-knight-on-club-copy',
@@ -219,32 +217,6 @@ const MERCH_PRODUCTS = [
     description:
       'Clear protective outer for records and sleeves. Keep the archive clean.',
     related: { label: 'Keep listening', href: '/library', text: 'Browse the library' },
-  },
-  {
-    slug: 'bundle-tee-together',
-    sku: 'bn-tee-together',
-    name: 'Bundle: Micro Tee + Together Digital',
-    price: 48,
-    type: 'bundles',
-    category: 'Bundle',
-    image: '/merch/club-copy/bundle-tee-together-black.webp',
-    images: {
-      Black: '/merch/club-copy/bundle-tee-together-black.webp',
-      White: '/merch/club-copy/bundle-tee-together-white.webp',
-    },
-    gallery: [
-      { src: '/merch/club-copy/bundle-tee-together-black.webp', alt: 'Bundle tee black with Together', colour: 'Black' },
-      { src: '/merch/club-copy/bundle-tee-together-white.webp', alt: 'Bundle tee white with Together', colour: 'White' },
-      { src: '/together-cover.webp', alt: 'Together cover', cover: true },
-    ],
-    colours: ['Black', 'White'],
-    sizes: ['S', 'M', 'L', 'XL'],
-    fit: 'Regular fit · heavyweight cotton',
-    ships: 'Tee packed in BC · digital files emailed after checkout',
-    description:
-      'Micro Tee plus Together by Rosco as digital files. Soft mark, long listen.',
-    includes: ['Micro Tee', 'Together (digital)'],
-    related: { label: 'Hear the release', href: '/together', text: 'Together' },
   },
   {
     slug: 'bundle-tee-inlet-cassette',
@@ -797,7 +769,6 @@ function updateMerchShop() {
     const musicItems = [
       { name: "j'adore", url: ORIGIN + '/j-adore' },
       { name: 'Letters From Another Era', url: ORIGIN + '/letters-from-another-era' },
-      { name: 'Together', url: ORIGIN + '/together' },
       { name: 'Inlet Knight', url: ORIGIN + '/inlet-knight' },
     ];
     const merchItems = MERCH_PRODUCTS.map((p) => ({
@@ -991,7 +962,6 @@ function patchNewsIndex() {
     const items = [
       { name: 'Need U', url: ORIGIN + '/news/need-you' },
       { name: 'Bridget In My Room', url: ORIGIN + '/news/bridget-in-my-room' },
-      { name: 'Lookout', url: ORIGIN + '/news/lookout' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
       { name: 'Welcome, Rosco', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
     ];
@@ -1051,7 +1021,6 @@ function patchLibrary() {
     const items = [
       { name: "j'adore", url: ORIGIN + '/j-adore' },
       { name: 'Letters From Another Era', url: ORIGIN + '/letters-from-another-era' },
-      { name: 'Together', url: ORIGIN + '/together' },
       { name: 'Inlet Knight', url: ORIGIN + '/inlet-knight' },
     ];
     const ld = {
@@ -1144,7 +1113,6 @@ function patchArtistPages() {
       ],
       alts: [
         ['j-adore-cover.webp', "j'adore — artwork"],
-        ['together-cover.webp', 'Together — artwork'],
         ['inlet-knight-cover.webp', 'Inlet Knight — artwork'],
         ['letters-from-another-era-cover.webp', 'Letters From Another Era — artwork'],
       ],
@@ -1181,7 +1149,6 @@ function patchArtistPages() {
 function patchReleaseBreadcrumbs() {
   const releases = [
     { file: 'j-adore.html', name: "j'adore", artist: 'Rosco', artistUrl: '/artists/rosco', url: '/j-adore' },
-    { file: 'together.html', name: 'Together', artist: 'Rosco', artistUrl: '/artists/rosco', url: '/together' },
     { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Rosco', artistUrl: '/artists/rosco', url: '/letters-from-another-era' },
     { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Rosco', artistUrl: '/artists/rosco', url: '/inlet-knight' },
   ];
@@ -1225,7 +1192,6 @@ function patchNewsArticles() {
   const articles = [
     { file: 'news/need-you.html', name: 'Need U', url: '/news/need-you' },
     { file: 'news/bridget-in-my-room.html', name: 'Bridget In My Room', url: '/news/bridget-in-my-room' },
-    { file: 'news/lookout.html', name: 'Lookout', url: '/news/lookout' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
     { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Rosco', url: '/news/inlet-knight-on-club-copy' },
   ];
@@ -1288,7 +1254,7 @@ function patchShippingOg() {
     html = html.replace(
       /<meta property="og:url"[^>]*>/,
       `<meta property="og:url" content="https://www.clubcopy.ca/shipping"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/together-cover.webp"/>`
+  <meta property="og:image" content="https://www.clubcopy.ca/the-process-cover.webp"/>`
     );
   }
   fs.writeFileSync(file, html);
@@ -1305,11 +1271,9 @@ function writeSitemap() {
     ['/news', 0.8, 'weekly'],
     ['/news/need-you', 0.7, 'monthly'],
     ['/news/bridget-in-my-room', 0.7, 'monthly'],
-    ['/news/lookout', 0.7, 'monthly'],
     ['/news/j-adore', 0.7, 'monthly'],
     ['/news/inlet-knight-on-club-copy', 0.65, 'monthly'],
     ['/j-adore', 0.9, 'monthly'],
-    ['/together', 0.9, 'monthly'],
     ['/letters-from-another-era', 0.9, 'monthly'],
     ['/inlet-knight', 0.9, 'monthly'],
     ['/about', 0.5, 'yearly'],
