@@ -100,6 +100,11 @@
       if (!TRACKS[idx] || TRACKS[idx].locked) return;
       setActive(idx);
       if (displayOnly) {
+        if (opts.bandcampUrl) {
+          window.open(opts.bandcampUrl, "_blank", "noopener");
+          setMsg("Opened on Bandcamp \u2197");
+          return;
+        }
         setMsg(opts.displayMessage || "Full track after checkout.");
         return;
       }
@@ -130,7 +135,7 @@
     if (prev) {
       prev.addEventListener("click", function () {
         if (displayOnly) {
-          playAt(Math.max(0, activeIdx - 1));
+          setActive(Math.max(0, activeIdx - 1));
           return;
         }
         var cur = VCRPlayer.current && VCRPlayer.current();
@@ -143,7 +148,7 @@
     if (next) {
       next.addEventListener("click", function () {
         if (displayOnly) {
-          if (activeIdx < TRACKS.length - 1) playAt(activeIdx + 1);
+          if (activeIdx < TRACKS.length - 1) setActive(activeIdx + 1);
           return;
         }
         var cur = VCRPlayer.current && VCRPlayer.current();
