@@ -150,7 +150,7 @@
   var canvas = document.getElementById("raWave");
   if (!canvas) return;
   var ctx = canvas.getContext("2d");
-  var RELEASE_ID = canvas.getAttribute("data-release") || "together";
+  var RELEASE_ID = canvas.getAttribute("data-release") || "the-process";
   var BARS = 96;
   var seedIdx = 0;
   var bars = buildBars(seedIdx);
