@@ -547,7 +547,7 @@
             '</button>'
           );
         }).join('')
-      : '<p class="inspect-empty">Open the sleeve for the full listing.</p>';
+      : '<p class="inspect-empty">Open the release page for the full listing.</p>';
 
     inspect.hidden = false;
     inspect.innerHTML =
@@ -561,7 +561,7 @@
         '<div class="album-inspect__actions">' +
           play +
           addBtnHtml(rel) +
-          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || '#') + '">Sleeve</a>' +
+          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || '#') + '">Details</a>' +
         '</div>' +
       '</div>' +
       '<div class="album-inspect__tracks">' + trackHtml + '</div>';
