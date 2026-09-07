@@ -49,7 +49,10 @@
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var price = digitalPrice(rel);
-    var kicker = [rel.catalogue, rel.kind, rel.year].filter(Boolean).join(" · ");
+    var catHtml = rel.catalogue
+      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.catalogue) + "</span></p>"
+      : "";
+    var meta = [rel.kind, rel.year].filter(Boolean).join(" · ");
     var play = hasPreview(rel)
       ? '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' + esc(rel.id) + '">Play</button>'
       : "";
@@ -70,7 +73,8 @@
         '<img src="' + esc(thumb) + '" alt="" width="400" height="400"/>' +
       "</figure>" +
       '<div class="album-inspect__copy">' +
-        (kicker ? '<p class="album-inspect__cat">' + esc(kicker) + "</p>" : "") +
+        (catHtml) +
+        (meta ? '<p class="album-inspect__meta">' + esc(meta) + "</p>" : "") +
         '<h3 class="album-inspect__title"><a href="' + esc(rel.page || "#") + '">' + esc(rel.title) + "</a></h3>" +
         '<p class="album-inspect__artist">' + esc(rel.artist || "") + "</p>" +
         '<div class="album-inspect__actions">' +

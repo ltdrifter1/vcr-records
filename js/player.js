@@ -293,6 +293,11 @@
           artist: release.artist,
           cover: release.cover,
           page: release.page,
+          catalogue: release.catalogue || "",
+          year: release.year || "",
+          kind: release.kind || "",
+          genre: release.genre || "",
+          tracksCount: release.tracksCount || (release.tracks && release.tracks.length) || 0,
           vinylSku: vinyl && vinyl.sku ? vinyl.sku : null,
           vinylPrice: vinyl && vinyl.price != null ? Number(vinyl.price) : null,
           vinylNote: vinyl && vinyl.note ? vinyl.note : null,
@@ -486,7 +491,7 @@
     dock.setAttribute("role", "region");
     dock.setAttribute("aria-label", "Now playing");
     dock.innerHTML =
-      '<button type="button" class="vcr-player__stage-hit" aria-label="Open listening room"></button>' +
+      '<button type="button" class="vcr-player__stage-hit" aria-label="Open Now Playing"></button>' +
       '<div class="vcr-player__jewel jewel">' +
       '<img class="vcr-player__art" alt="" width="56" height="56" />' +
       "</div>" +
@@ -530,29 +535,35 @@
     stage.className = "vcr-stage";
     stage.id = "vcr-stage";
     stage.hidden = true;
+    stage.setAttribute("role", "dialog");
+    stage.setAttribute("aria-modal", "true");
+    stage.setAttribute("aria-labelledby", "vcr-stage-title");
     stage.innerHTML =
       '<div class="vcr-stage__bg" aria-hidden="true"></div>' +
-      '<button type="button" class="vcr-stage__close" data-act="stage-close" aria-label="Close stage">&times;</button>' +
-      '<div class="vcr-stage__content">' +
+      '<div class="vcr-stage__sheet">' +
+      '<button type="button" class="vcr-stage__close" data-act="stage-close" aria-label="Close Now Playing">' +
+      '<span class="vcr-stage__handle" aria-hidden="true"></span>' +
+      "</button>" +
       '<div class="vcr-stage__platter">' +
-      '<div class="vcr-stage__vinyl" aria-hidden="true"></div>' +
       '<img class="vcr-stage__art" alt="" />' +
+      '<span class="chip-acetate vcr-stage__cat" data-stage-cat hidden></span>' +
       "</div>" +
-      '<p class="vcr-stage__kicker"><span class="vcr-stage__bug">CC</span> Now</p>' +
-      '<h2 class="vcr-stage__title"></h2>' +
+      '<div class="vcr-stage__copy">' +
+      '<p class="vcr-stage__led"><span class="status-chip status-chip--standby" data-stage-led>Stand by</span></p>' +
+      '<h2 class="vcr-stage__title" id="vcr-stage-title"></h2>' +
       '<p class="vcr-stage__artist"></p>' +
+      '<p class="vcr-stage__credits" data-stage-credits></p>' +
       '<p class="vcr-stage__upnext" data-stage-upnext hidden></p>' +
+      "</div>" +
       '<div class="vcr-stage__controls">' +
       '<button type="button" class="vcr-stage__btn" data-act="prev" aria-label="Previous"><svg class="vcr-ico vcr-ico--prev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg></button>' +
       '<button type="button" class="vcr-stage__btn vcr-stage__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
       '<button type="button" class="vcr-stage__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
       '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
-      '<div class="vcr-stage__actions">' +
-      '<a class="vcr-stage__link" data-page href="#">Album</a>' +
-      '<button type="button" class="vcr-stage__link" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
-      "</div>" +
-      '<p class="vcr-stage__hint">90s preview · bumper at end · Esc close</p>' +
+      '<div class="vcr-stage__times"><span data-stage-cur>0:00</span><span data-stage-dur>0:00</span></div>' +
+      '<div class="vcr-stage__formats" data-stage-formats></div>' +
+      '<a class="vcr-stage__notes" data-page href="#">Sleeve notes</a>' +
       "</div>";
 
     document.body.appendChild(dock);
@@ -883,45 +894,42 @@
     }
 
     stage.querySelector(".vcr-stage__art").src = track.cover;
+    stage.querySelector(".vcr-stage__art").alt = track.releaseTitle + " — " + track.artist;
     stage.querySelector(".vcr-stage__bg").style.backgroundImage =
       'url("' + track.cover + '")';
-    stage.querySelector(".vcr-stage__title").textContent = track.title;
-    stage.querySelector(".vcr-stage__artist").textContent =
-      (track.isPreview ? "Preview · " : "") +
-      track.artist +
-      " · " +
-      track.releaseTitle;
-    stage.querySelector("[data-page]").href = track.page || "/";
-    var stageVinyl = stage.querySelector('[data-act="buy-vinyl"]');
-    if (stageVinyl) {
-      if (track.cassetteSku) {
-        stageVinyl.hidden = false;
-        stageVinyl.setAttribute("data-act", "buy-cassette");
-        if (stageVinyl.textContent.indexOf("Added") < 0) {
-          stageVinyl.textContent = track.cassettePrice != null
-            ? "Add cassette · $" + track.cassettePrice
-            : "Add cassette";
-          stageVinyl.setAttribute("data-label", stageVinyl.textContent);
-        }
-      } else if (track.vinylSku) {
-        stageVinyl.hidden = false;
-        stageVinyl.setAttribute("data-act", "buy-vinyl");
-        if (stageVinyl.textContent.indexOf("Added") < 0) {
-          stageVinyl.textContent = track.vinylPrice != null
-            ? "Add vinyl · $" + track.vinylPrice
-            : "Add vinyl";
-          stageVinyl.setAttribute("data-label", stageVinyl.textContent);
-        }
+    stage.querySelector(".vcr-stage__title").textContent = track.releaseTitle || track.title;
+    stage.querySelector(".vcr-stage__artist").textContent = track.artist || "";
+    var catEl = stage.querySelector("[data-stage-cat]");
+    if (catEl) {
+      if (track.catalogue) {
+        catEl.hidden = false;
+        catEl.textContent = track.catalogue;
       } else {
-        stageVinyl.hidden = true;
+        catEl.hidden = true;
       }
     }
-    var hint = stage.querySelector(".vcr-stage__hint");
-    if (hint) {
-      hint.textContent = track.isPreview
-        ? "90s preview · bumper at end · Esc close"
-        : "Space play/pause · ← → seek · Esc close";
+    var credits = stage.querySelector("[data-stage-credits]");
+    if (credits) {
+      var cred = [];
+      if (track.kind) cred.push(track.kind);
+      if (track.year) cred.push(String(track.year));
+      if (track.genre) cred.push(track.genre);
+      if (track.tracksCount) cred.push(track.tracksCount === 1 ? "1 track" : track.tracksCount + " tracks");
+      if (track.title && track.title !== track.releaseTitle) cred.push(track.title);
+      credits.textContent = cred.join(" · ");
     }
+    var led = stage.querySelector("[data-stage-led]");
+    if (led) {
+      led.textContent = playing ? "On air" : "Stand by";
+      led.classList.toggle("status-chip--air", !!playing);
+      led.classList.toggle("status-chip--standby", !playing);
+    }
+    var pageLink = stage.querySelector("[data-page]");
+    if (pageLink) {
+      pageLink.href = track.page || "/library";
+      pageLink.hidden = !track.page;
+    }
+    renderStageFormats(track);
     var stageUp = stage.querySelector("[data-stage-upnext]");
     if (stageUp) {
       var n2 = peekNext();
@@ -936,8 +944,6 @@
 
     setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing);
     setTogglePlaying(stage.querySelector('[data-act="toggle"]'), playing);
-    var stagePlatter = stage.querySelector(".vcr-stage__platter");
-    if (stagePlatter) stagePlatter.classList.toggle("is-playing", !!playing);
 
     renderRoom(track, playing);
     updateMediaSession(track, playing);
@@ -952,6 +958,10 @@
     ui.stage.querySelector(".vcr-stage__scrub").value = String(ratio);
     ui.dock.querySelector("[data-cur]").textContent = fmt(cur);
     ui.dock.querySelector("[data-dur]").textContent = fmt(dur);
+    var stageCur = ui.stage.querySelector("[data-stage-cur]");
+    var stageDur = ui.stage.querySelector("[data-stage-dur]");
+    if (stageCur) stageCur.textContent = fmt(cur);
+    if (stageDur) stageDur.textContent = fmt(dur);
     var room = getRoom();
     if (room && !room.hasAttribute("data-ipod")) {
       var roomScrub = room.querySelector("[data-room-scrub]");
@@ -1017,13 +1027,15 @@
       handleAct(btn.getAttribute("data-act"), btn);
       return;
     }
-    if (e.target.closest(".vcr-player__stage-hit") || e.target.closest(".vcr-player__art") || e.target.closest(".vcr-player__jewel") || e.target.closest(".vcr-player__lcd") || e.target.closest(".vcr-player__meta")) {
-      if (getRoom()) openRoom({ scroll: true });
-      else openStage();
-    }
+    if (e.target.closest(".vcr-player__scrub")) return;
+    openStage();
   }
 
   function onStageClick(e) {
+    if (e.target === e.currentTarget || e.target.classList.contains("vcr-stage__bg")) {
+      closeStage();
+      return;
+    }
     var btn = e.target.closest("[data-act]");
     if (btn) handleAct(btn.getAttribute("data-act"), btn);
   }
@@ -1063,8 +1075,9 @@
       if (format === "digital") {
         if (addFormatToBag(fmtTrack, "digital")) {
           setRoomFormatsOpen(false);
+          flashBuyLabel(el, true);
           var digitalCartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"], [data-ipod-buy]');
-          flashBuyLabel(digitalCartBtn, true);
+          if (digitalCartBtn && digitalCartBtn !== el) flashBuyLabel(digitalCartBtn, true);
         } else if (fmtTrack.page) {
           window.location.href = fmtTrack.page;
         }
@@ -1087,8 +1100,9 @@
       }
       if (addFormatToBag(fmtTrack, format)) {
         setRoomFormatsOpen(false);
+        flashBuyLabel(el, true);
         var cartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"]');
-        flashBuyLabel(cartBtn, true);
+        if (cartBtn && cartBtn !== el) flashBuyLabel(cartBtn, true);
       } else if (fmtTrack.page) {
         window.location.href = fmtTrack.page;
       }
@@ -1305,12 +1319,43 @@
     render();
   }
 
+  function formatPrice(n, sku) {
+    if (n == null || !isFinite(Number(n))) return "";
+    var v = Number(n);
+    if (window.ClubMember && typeof window.ClubMember.displayPrice === "function") {
+      v = window.ClubMember.displayPrice(v, sku);
+    }
+    return " · $" + v;
+  }
+
+  function renderStageFormats(track) {
+    if (!ui || !ui.stage || !track) return;
+    var wrap = ui.stage.querySelector("[data-stage-formats]");
+    if (!wrap) return;
+    var html = "";
+    if (track.digitalSku) {
+      html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="digital">Digital' +
+        formatPrice(track.digitalPrice, track.digitalSku) + "</button>";
+    }
+    if (track.cassetteSku) {
+      var cassOut = track.cassetteStock != null && track.cassetteStock <= 0;
+      html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="cassette"' +
+        (cassOut ? " disabled" : "") + ">" +
+        (cassOut ? "Cassette · Sold out" : "Cassette" + formatPrice(track.cassettePrice, track.cassetteSku)) +
+        "</button>";
+    }
+    if (track.vinylSku) {
+      var vynOut = track.vinylStock != null && track.vinylStock <= 0;
+      html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="vinyl"' +
+        (vynOut ? " disabled" : "") + ">" +
+        (vynOut ? "Vinyl · Sold out" : "Vinyl" + formatPrice(track.vinylPrice, track.vinylSku)) +
+        "</button>";
+    }
+    wrap.innerHTML = html;
+  }
+
   function openStage() {
     if (!current()) return;
-    if (getRoom()) {
-      openRoom({ scroll: true });
-      return;
-    }
     ensureUI();
     closeRoom();
     stageOpen = true;
