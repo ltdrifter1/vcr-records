@@ -19,23 +19,25 @@ body.surface-night {
   color-scheme: dark;
 }
 body.surface-night .nav {
-  background: rgba(8,8,10,.55);
+  background: rgba(8,8,10,.42);
   border-bottom-color: transparent;
+  backdrop-filter: saturate(200%) blur(40px);
+  -webkit-backdrop-filter: saturate(200%) blur(40px);
 }
 body.surface-night .nav.scrolled {
-  background: rgba(8,8,10,.82);
+  background: rgba(8,8,10,.72);
   border-bottom-color: rgba(255,255,255,.08);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 1px 0 rgba(255,255,255,.08),
     0 8px 28px rgba(0,0,0,.28);
-  backdrop-filter: saturate(160%) blur(18px);
-  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  backdrop-filter: saturate(200%) blur(40px);
+  -webkit-backdrop-filter: saturate(200%) blur(40px);
 }
 body.surface-night .nav-links a { color: rgba(255,255,255,.7); }
 body.surface-night .nav-links a:hover,
 body.surface-night .nav-links a[aria-current="page"] {
   color: #fff;
-  background: rgba(255,255,255,.1);
+  background: rgba(255,255,255,.12);
 }
 body.surface-night .nav-cart { color: #fff; }
 body.surface-night .nav-ham span { background: #fff; }
@@ -166,7 +168,7 @@ body.surface-night.has-station-bumper .nav.scrolled {
   margin: 0;
   aspect-ratio: 1;
   max-width: min(220px, 100%);
-  border-radius: 2px;
+  border-radius: 14px;
   overflow: hidden;
   box-shadow: none;
 }

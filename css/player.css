@@ -26,18 +26,18 @@ body.has-vcr-player {
   gap: 10px;
   align-items: center;
   padding: 10px 14px;
-  border-radius: 22px;
+  border-radius: 26px;
   background:
-    linear-gradient(135deg, rgba(200,214,230,.12), transparent 42%),
-    linear-gradient(180deg, rgba(18,18,20,.92), rgba(10,10,12,.88));
-  border: 1px solid rgba(200, 214, 230, 0.22);
+    linear-gradient(135deg, rgba(220,230,244,.16), transparent 42%),
+    linear-gradient(180deg, rgba(28,28,32,.78), rgba(12,12,16,.7));
+  border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.12) inset,
+    0 1px 0 rgba(255,255,255,.22) inset,
     0 0 0 1px rgba(180,198,220,.08) inset,
-    0 2px 6px rgba(0, 0, 0, 0.2),
-    0 22px 48px rgba(0, 0, 0, 0.35);
-  backdrop-filter: saturate(140%) blur(22px);
-  -webkit-backdrop-filter: saturate(140%) blur(22px);
+    0 8px 28px rgba(0, 0, 0, 0.38),
+    0 24px 56px rgba(0, 0, 0, 0.28);
+  backdrop-filter: saturate(200%) blur(40px);
+  -webkit-backdrop-filter: saturate(200%) blur(40px);
   color: #fff;
   transform: translateY(140%);
   opacity: 0;
@@ -154,7 +154,7 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__jewel {
   width: 56px;
   height: 56px;
-  border-radius: 2px;
+  border-radius: 12px;
   overflow: hidden;
   background: #12141a;
   box-shadow:
@@ -173,39 +173,15 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__lcd {
   position: relative;
   min-width: 0;
-  padding: 8px 12px 7px;
-  border-radius: 3px;
-  background:
-    radial-gradient(ellipse 80% 70% at 50% 0%, rgba(40,72,52,.35), transparent 58%),
-    linear-gradient(180deg, #0c1612 0%, #050908 100%);
-  border: 1px solid rgba(0,0,0,.65);
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,.55),
-    inset 0 1px 0 rgba(200,230,210,.16),
-    0 0 0 1px rgba(255,255,255,.05);
+  padding: 4px 8px 4px 2px;
+  border-radius: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
   overflow: hidden;
 }
-.vcr-player__lcd::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(255,255,255,.025) 2px,
-    rgba(255,255,255,.025) 3px
-  );
-  mix-blend-mode: screen;
-}
-.vcr-player__lcd::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(210,236,220,.08), transparent 42%);
-}
+.vcr-player__lcd::before,
+.vcr-player__lcd::after { display: none; }
 
 .vcr-player__meta { min-width: 0; }
 
@@ -224,8 +200,8 @@ body.vcr-stage-open.has-vcr-player {
   width: 2px;
   height: 30%;
   border-radius: 1px;
-  background: #b8e0c8;
-  box-shadow: 0 0 6px rgba(184,224,200,.45);
+  background: #fff;
+  box-shadow: 0 0 6px rgba(255,255,255,.35);
   animation: lcdEq 1s ease-in-out infinite;
 }
 .vcr-player__eq i:nth-child(2) { animation-delay: .12s; }
@@ -241,23 +217,26 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__title {
   position: relative;
   z-index: 1;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .01em;
+  font-family: var(--sans, -apple-system, BlinkMacSystemFont, Inter, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.02em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #d4f0dc;
-  text-shadow: 0 0 10px rgba(180, 230, 196, .28);
+  color: #fff;
+  text-shadow: none;
 }
 
 .vcr-player__sub {
   position: relative;
   z-index: 1;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
-  color: rgba(184, 224, 200, .62);
+  font-family: var(--sans, -apple-system, BlinkMacSystemFont, Inter, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -.01em;
+  font-style: italic;
+  color: rgba(255,255,255,.58);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -273,15 +252,15 @@ body.vcr-stage-open.has-vcr-player {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(17,17,17,.08);
-  background: rgba(255,255,255,.72);
-  color: #111111;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #fff;
   cursor: pointer;
   font-family: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 6px 16px rgba(17,17,17,.06);
+  box-shadow: none;
   transition: transform .2s cubic-bezier(.22,1,.36,1), background .2s ease, box-shadow .2s ease, border-color .2s ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -300,25 +279,25 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__btn--play {
   width: 46px;
   height: 46px;
-  background: #111111;
-  color: #fff;
-  border-color: #111;
+  background: #fff;
+  color: #111;
+  border-color: transparent;
   box-shadow:
-    0 1px 0 rgba(255,255,255,.18) inset,
-    0 10px 24px rgba(17,17,17,.28);
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 8px 20px rgba(0,0,0,.28);
 }
 .vcr-player__btn--play svg { width: 15px; height: 15px; }
 .vcr-player__btn--play .vcr-ico--play { margin-left: 1px; }
 
 @media (hover:hover) {
   .vcr-player__btn:hover {
-    transform: translateY(-1px);
-    background: #fff;
-    border-color: rgba(17,17,17,.14);
+    transform: scale(1.06);
+    background: rgba(255,255,255,.1);
   }
   .vcr-player__btn--play:hover {
-    background: #1a1a1a;
-    border-color: #1a1a1a;
+    background: #f4f4f6;
+    border-color: transparent;
+    transform: scale(1.06);
   }
 }
 .vcr-player__btn:active { transform: scale(.96); }
@@ -335,9 +314,9 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__times {
   display: flex;
   justify-content: space-between;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
-  color: rgba(184, 224, 200, .5);
+  font-family: var(--sans, -apple-system, BlinkMacSystemFont, Inter, sans-serif);
+  font-size: 11px;
+  color: rgba(255,255,255,.42);
   font-variant-numeric: tabular-nums;
   margin-top: 2px;
 }
@@ -360,9 +339,8 @@ body.vcr-stage-open.has-vcr-player {
   white-space: nowrap;
 }
 
-.vcr-player__btn {
-  color: #fff;
-}
+.vcr-player__btn { color: #fff; }
+.vcr-player__btn--play { color: #111; }
 
 .vcr-player__times {
   color: rgba(255,255,255,.45);
