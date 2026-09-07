@@ -1,28 +1,21 @@
-/* Club Copy — Sony CD Walkman on the Y2K chrome desk still-life. */
+/* Club Copy — Walkman + Rio on the Y2K chrome desk still-life. */
 (function () {
   "use strict";
 
   var desk = document.querySelector("[data-desk]");
   if (!desk) return;
 
-  var RELEASE = desk.getAttribute("data-play-release") || "bridget-in-my-room";
-  var playBtn = desk.querySelector("[data-desk-play]");
-  var prevBtn = desk.querySelector("[data-desk-prev]");
-  var nextBtn = desk.querySelector("[data-desk-next]");
-  var stopBtn = desk.querySelector("[data-desk-stop]");
-  var volDown = desk.querySelector("[data-desk-vol-down]");
-  var volUp = desk.querySelector("[data-desk-vol-up]");
-  var lcdMode = desk.querySelector("[data-desk-lcd-mode]");
-  var lcdTitle = desk.querySelector("[data-desk-lcd-title]");
-  var lcdTrack = desk.querySelector("[data-desk-lcd-track]");
-  var lcdTime = desk.querySelector("[data-desk-lcd-time]");
+  var options = desk.querySelectorAll("[data-desk-option]");
+  if (!options.length) return;
+
+  var sleeveLink = desk.querySelector("[data-desk-sleeve-link]");
+  var sleeveImg = desk.querySelector("[data-desk-sleeve-img]");
+  var cardCat = desk.querySelector("[data-desk-card-cat]");
+  var cardLink = desk.querySelector("[data-desk-card-link]");
+  var cardSub = desk.querySelector("[data-desk-card-sub]");
 
   function state() {
     return window.VCRPlayer && VCRPlayer.getState ? VCRPlayer.getState() : null;
-  }
-
-  function isThis(track) {
-    return !!(track && track.releaseId === RELEASE);
   }
 
   function pad3(n) {
@@ -45,30 +38,98 @@
     return m + ":" + (r < 10 ? "0" : "") + r;
   }
 
-  function sync(detail) {
+  function releaseOf(opt) {
+    return opt.getAttribute("data-play-release") || "";
+  }
+
+  function titleOf(opt) {
+    return opt.getAttribute("data-title") || "";
+  }
+
+  function lcdLabel(opt) {
+    return opt.getAttribute("data-lcd-title") || titleOf(opt).toUpperCase().slice(0, 10);
+  }
+
+  function isThis(opt, track) {
+    return !!(track && track.releaseId === releaseOf(opt));
+  }
+
+  function activeOption() {
+    return desk.querySelector("[data-desk-option].is-active") || options[0];
+  }
+
+  function showOption(opt) {
+    if (!opt) return;
+    for (var i = 0; i < options.length; i++) {
+      options[i].classList.toggle("is-active", options[i] === opt);
+    }
+    var page = opt.getAttribute("data-page") || "#";
+    var cover = opt.getAttribute("data-cover") || "";
+    var title = titleOf(opt);
+    var artist = opt.getAttribute("data-artist") || "";
+    if (sleeveLink) sleeveLink.setAttribute("href", page);
+    if (sleeveImg) {
+      sleeveImg.setAttribute("src", cover);
+      sleeveImg.setAttribute("alt", title + " — " + artist);
+    }
+    if (cardCat) cardCat.textContent = opt.getAttribute("data-cat") || "";
+    if (cardLink) {
+      cardLink.setAttribute("href", page);
+      cardLink.textContent = title;
+    }
+    if (cardSub) cardSub.textContent = opt.getAttribute("data-sub") || "";
+  }
+
+  function syncOption(opt, detail) {
     var d = detail || state() || {};
     var track = d.track;
-    var mine = isThis(track);
+    var mine = isThis(opt, track);
     var playing = !!(mine && d.playing);
-    desk.classList.toggle("is-playing", playing);
+    var title = titleOf(opt);
+    opt.classList.toggle("is-playing", playing);
+    var playBtn = opt.querySelector("[data-desk-play]");
     if (playBtn) {
       playBtn.classList.toggle("is-on", playing);
-      playBtn.setAttribute("aria-label", playing ? "Pause Bridget In My Room" : "Play Bridget In My Room");
+      playBtn.setAttribute("aria-label", playing ? "Pause " + title : "Play " + title);
     }
+    var lcdMode = opt.querySelector("[data-desk-lcd-mode]");
+    var lcdTitle = opt.querySelector("[data-desk-lcd-title]");
+    var lcdTrack = opt.querySelector("[data-desk-lcd-track]");
+    var lcdTime = opt.querySelector("[data-desk-lcd-time]");
     if (lcdMode) lcdMode.textContent = playing ? "▶" : "";
-    if (lcdTitle) lcdTitle.textContent = "BRIDGET";
+    if (lcdTitle) lcdTitle.textContent = lcdLabel(opt);
     if (lcdTrack) lcdTrack.textContent = mine ? trackNo(track) : "001";
     if (lcdTime) lcdTime.textContent = mine ? fmtTime(d.currentTime) : "0:00";
   }
 
-  function play() {
-    if (!window.VCRPlayer) return;
+  function sync(detail) {
+    var d = detail || state() || {};
+    var anyPlaying = false;
+    for (var i = 0; i < options.length; i++) {
+      syncOption(options[i], d);
+      if (options[i].classList.contains("is-playing")) anyPlaying = true;
+    }
+    desk.classList.toggle("is-playing", anyPlaying);
+    if (d.playing && d.track) {
+      for (var j = 0; j < options.length; j++) {
+        if (isThis(options[j], d.track)) {
+          showOption(options[j]);
+          break;
+        }
+      }
+    }
+  }
+
+  function play(opt) {
+    if (!window.VCRPlayer || !opt) return;
+    showOption(opt);
+    var release = releaseOf(opt);
     var s = state();
-    if (s && isThis(s.track)) {
+    if (s && isThis(opt, s.track)) {
       VCRPlayer.toggle();
       return;
     }
-    VCRPlayer.playRelease(RELEASE, null, { autoplay: true, stage: false });
+    VCRPlayer.playRelease(release, null, { autoplay: true, stage: false });
   }
 
   function nudgeVol(delta) {
@@ -76,50 +137,69 @@
     VCRPlayer.setVolume(VCRPlayer.getVolume() + delta);
   }
 
-  if (playBtn) {
-    playBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      play();
+  function bindOption(opt) {
+    var playBtn = opt.querySelector("[data-desk-play]");
+    var prevBtn = opt.querySelector("[data-desk-prev]");
+    var nextBtn = opt.querySelector("[data-desk-next]");
+    var stopBtn = opt.querySelector("[data-desk-stop]");
+    var volDown = opt.querySelector("[data-desk-vol-down]");
+    var volUp = opt.querySelector("[data-desk-vol-up]");
+
+    opt.addEventListener("click", function (e) {
+      if (e.target.closest("a, button")) return;
+      showOption(opt);
     });
+
+    if (playBtn) {
+      playBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        play(opt);
+      });
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var s = state();
+        if (s && isThis(opt, s.track) && window.VCRPlayer) VCRPlayer.prev();
+        else play(opt);
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var s = state();
+        if (s && isThis(opt, s.track) && window.VCRPlayer) VCRPlayer.next();
+        else play(opt);
+      });
+    }
+    if (stopBtn) {
+      stopBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var s = state();
+        if (s && isThis(opt, s.track) && window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
+      });
+    }
+    if (volDown) {
+      volDown.addEventListener("click", function (e) {
+        e.preventDefault();
+        showOption(opt);
+        nudgeVol(-0.1);
+      });
+    }
+    if (volUp) {
+      volUp.addEventListener("click", function (e) {
+        e.preventDefault();
+        showOption(opt);
+        nudgeVol(0.1);
+      });
+    }
   }
-  if (prevBtn) {
-    prevBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      var s = state();
-      if (s && isThis(s.track) && window.VCRPlayer) VCRPlayer.prev();
-      else play();
-    });
-  }
-  if (nextBtn) {
-    nextBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      var s = state();
-      if (s && isThis(s.track) && window.VCRPlayer) VCRPlayer.next();
-      else play();
-    });
-  }
-  if (stopBtn) {
-    stopBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      var s = state();
-      if (s && isThis(s.track) && window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
-    });
-  }
-  if (volDown) {
-    volDown.addEventListener("click", function (e) {
-      e.preventDefault();
-      nudgeVol(-0.1);
-    });
-  }
-  if (volUp) {
-    volUp.addEventListener("click", function (e) {
-      e.preventDefault();
-      nudgeVol(0.1);
-    });
-  }
+
+  for (var i = 0; i < options.length; i++) bindOption(options[i]);
 
   window.addEventListener("vcr:player", function (e) {
     sync(e.detail);
   });
+  showOption(activeOption());
   sync();
 })();
