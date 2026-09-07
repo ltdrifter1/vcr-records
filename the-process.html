@@ -203,6 +203,7 @@
           <meta itemprop="price" content="1.50"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
           <a class="btn btn-light" href="#acquire">Buy Digital — $1.50 CAD</a>
+          <button type="button" class="btn btn-ghost" id="heroListen">Play preview</button>
         </div>
       </div>
     </div>
@@ -218,7 +219,7 @@
       </header>
       <div class="ra-player-grid">
 
-        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Mini hi-fi">
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Mini hi-fi">
           <div class="ra-stereo">
             <div class="ra-stereo-speaker" aria-hidden="true">
               <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
@@ -401,6 +402,15 @@ VCRReleaseBind({
     buyBtn.textContent = 'Added to Collection \u2713';
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
+  });
+})();
+
+(function() {
+  const listen = $('heroListen');
+  if (!listen) return;
+  listen.addEventListener('click', () => {
+    document.getElementById('listen')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('ipPlayConsole')?.click();
   });
 })();
 
