@@ -2563,9 +2563,20 @@
   <section class="desk" data-desk aria-label="Listen on a Sony CD Walkman or Diamond Rio">
     <div class="desk-band">
       <div class="desk-still">
-        <a class="desk-sleeve" data-desk-sleeve-link href="/bridget-in-my-room">
-          <img data-desk-sleeve-img src="bridget-in-my-room-cover.webp" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/>
-        </a>
+        <div class="desk-cases" aria-label="Jewel cases on the desk">
+          <a class="desk-case desk-case--a" href="/any-jungle">
+            <span class="desk-case-spine" aria-hidden="true"></span>
+            <img src="any-jungle-cover.webp" alt="any jungle — L.T. Drifta" width="1200" height="1200" loading="lazy"/>
+          </a>
+          <a class="desk-case desk-case--live" data-desk-sleeve-link href="/bridget-in-my-room">
+            <span class="desk-case-spine" aria-hidden="true"></span>
+            <img data-desk-sleeve-img src="bridget-in-my-room-cover.webp" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/>
+          </a>
+          <a class="desk-case desk-case--b" href="/the-process">
+            <span class="desk-case-spine" aria-hidden="true"></span>
+            <img src="the-process-cover.webp" alt="The Process — Molly Haze" width="1200" height="1200" loading="lazy"/>
+          </a>
+        </div>
         <div class="desk-players">
           <div
             class="desk-option desk-option--walkman is-active"
@@ -2604,12 +2615,12 @@
             data-cover="any-jungle-cover.webp"
             data-title="any jungle"
             data-artist="L.T. Drifta"
-            data-lcd-title="ANY JUNG"
+            data-lcd-title="any jungle"
           >
             <div class="hw hw--rio">
               <img class="hw-photo" src="img/desk-rio.webp" alt="Diamond Rio PMP300" width="392" height="534" loading="lazy"/>
               <div class="hw-lcd" aria-hidden="true">
-                <span class="hw-lcd-title" data-desk-lcd-title>ANY JUNG</span>
+                <span class="hw-lcd-title" data-desk-lcd-title>any jungle</span>
                 <span class="hw-lcd-time" data-desk-lcd-time>0:00</span>
               </div>
               <button type="button" class="hw-hit hw-hit--play" data-desk-play aria-label="Play any jungle"></button>
@@ -2677,18 +2688,12 @@
     <div class="newsprint-sheet">
       <header class="newsprint-masthead">
         <div class="newsprint-rule newsprint-rule--hair"></div>
-        <div class="newsprint-mast-row">
-          <p class="newsprint-eyebrow">Pacific Northwest · Label Desk</p>
-          <h2 class="newsprint-title" id="news-title"><a href="/news">Club Copy News</a></h2>
-          <p class="newsprint-dateline">
-            <span data-newsprint-date>Monday, September 7, 2026</span>
-            <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
-            <span>British Columbia</span>
-            <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
-            <span>Vol. III No. 20</span>
-            <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
-            <a class="head-link" href="/news">Archive</a>
-          </p>
+        <p class="newsprint-eyebrow">The Pacific Northwest Label Desk</p>
+        <h2 class="newsprint-title" id="news-title"><a href="/news">Club Copy News</a></h2>
+        <div class="newsprint-folio">
+          <span>Vol. III · No. 20</span>
+          <span class="newsprint-folio-mid">Vancouver · British Columbia</span>
+          <span data-newsprint-date>Monday, September 7, 2026</span>
         </div>
         <div class="newsprint-rule newsprint-rule--thick"></div>
         <div class="newsprint-rule newsprint-rule--hair"></div>
@@ -2696,10 +2701,10 @@
 
       <div class="newsprint-page">
         <article class="newsprint-lead rv">
-          <p class="newsprint-kicker">Label note</p>
+          <p class="newsprint-kicker">Label note · London / Vancouver</p>
           <h3 class="newsprint-headline"><a href="/news/drill-lyrics-on-trial">Bars On Trial</a></h3>
           <p class="newsprint-dek">The Met says drill lyrics prove crimes. Not everyone agrees.</p>
-          <p class="newsprint-byline">By CJ Archer <span aria-hidden="true">·</span> September 2, 2026 <span aria-hidden="true">·</span> London / Vancouver</p>
+          <p class="newsprint-byline">By CJ Archer <span aria-hidden="true">·</span> September 2, 2026</p>
           <div class="newsprint-copy">
             <p>London’s Metropolitan Police came out this week defending the practice of using drill videos and lyrics as evidence in murder trials, after a campaign group called Art Not Evidence pushed for a change in the law. A recent report found lyrics had been used as evidence against 252 defendants over a three-year stretch. That’s not a rare exception. That’s a pattern.</p>
             <p>The police argument is straightforward: if someone puts real information about a real crime into a song, that’s fair game. A detective who testifies in these cases said young people sometimes reveal true things in music to build status, and that the force isn’t trying to demonise a genre, just use what’s already there. A mother whose son was killed, and whose case involved drill lyrics as evidence, agreed — if it’s fine to write about someone’s death, she said, it should be fine to use that writing to help get justice.</p>
@@ -2711,66 +2716,84 @@
 
         <figure class="newsprint-photo rv">
           <img src="news-rosco-bw.webp" alt="A Vancouver alley beside a brick rooming house, in black and white." width="360" height="480" loading="lazy"/>
-          <figcaption>Rosco’s city. Vancouver, 2026.</figcaption>
+          <figcaption><span class="newsprint-credit">Staff photo</span> The city this paper still prints from. Vancouver, 2026.</figcaption>
         </figure>
 
-        <aside class="newsprint-rail" aria-label="Advertisement">
-          <a class="newsprint-ad" href="/about">
-            <p class="newsprint-ad-kicker">Advertisement</p>
-            <img class="newsprint-ad-logo" src="copy-house-publishing-logo.webp" alt="Copy House Publishing" width="1448" height="399"/>
-            <p class="newsprint-ad-line">The house that publishes the records. Books, liner notes, and the imprint behind Club Copy.</p>
-            <span class="newsprint-ad-cta">About Copy House</span>
-          </a>
+        <aside class="newsprint-rail" aria-label="Inside this edition">
+          <div class="newsprint-index">
+            <p class="newsprint-rail-kicker">Inside</p>
+            <ol>
+              <li><a href="/news/any-jungle"><span>A1</span> any jungle</a></li>
+              <li><a href="/news/bridget-in-my-room"><span>A2</span> Bridget In My Room</a></li>
+              <li><a href="/news/j-adore"><span>A3</span> j'adore</a></li>
+              <li><a href="/news/need-you"><span>B1</span> Need U</a></li>
+              <li><a href="/news/inlet-knight"><span>B2</span> Inlet Knight</a></li>
+              <li><a href="/news/last-emperor"><span>C1</span> The Last Emperor</a></li>
+            </ol>
+          </div>
+
+          <div class="newsprint-classifieds">
+            <p class="newsprint-rail-kicker">Classifieds</p>
+            <a class="newsprint-class" href="/#join">
+              <strong>Record Club</strong>
+              <span>We’ll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</span>
+              <em>Join from $0</em>
+            </a>
+            <a class="newsprint-class" href="/library">
+              <strong>Now on the desk</strong>
+              <span>The Process — Molly Haze. any jungle — L.T. Drifta. Bridget In My Room — Rosco.</span>
+              <em>Browse the library</em>
+            </a>
+            <a class="newsprint-class" href="/planet">
+              <strong>Planet MP3</strong>
+              <span>Music that follows the time of day. Speed it up, slow it down, or mix for any length of time.</span>
+              <em>Listen</em>
+            </a>
+          </div>
         </aside>
 
         <div class="newsprint-digest newsprint-grid">
           <a class="news-card rv newsprint-story" href="/news/any-jungle" data-date="2026-08-30">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">any jungle</h3>
-            <p class="newsprint-story-dek">Nine minutes. Doesn’t hurry.</p>
+            <p class="newsprint-story-dek">Nine minutes of jungle from L.T. Drifta. Doesn’t hurry. Out now on Club Copy.</p>
             <p class="newsprint-story-meta">Aug 30, 2026</p>
           </a>
           <a class="news-card rv newsprint-story" href="/news/bridget-in-my-room" data-date="2026-08-27">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">Bridget In My Room</h3>
-            <p class="newsprint-story-dek">Door's on the latch.</p>
+            <p class="newsprint-story-dek">Rosco leaves the door on the latch. House music from a Vancouver room.</p>
             <p class="newsprint-story-meta">Aug 27, 2026</p>
           </a>
           <a class="news-card rv newsprint-story" href="/news/j-adore" data-date="2026-08-10">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">j'adore</h3>
-            <p class="newsprint-story-dek">A car ride that doesn’t end when the song does.</p>
+            <p class="newsprint-story-dek">A car ride that doesn’t end when the song does. Molly Haze, late summer.</p>
             <p class="newsprint-story-meta">Aug 10, 2026</p>
           </a>
           <a class="news-card rv newsprint-story" href="/news/need-you" data-date="2026-07-29">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">Need U</h3>
-            <p class="newsprint-story-dek">We’ve had this one on repeat.</p>
+            <p class="newsprint-story-dek">We’ve had this one on repeat. The one that doesn’t leave the player.</p>
             <p class="newsprint-story-meta">Jul 29, 2026</p>
           </a>
           <a class="news-card rv newsprint-story" href="/news/inlet-knight" data-date="2026-02-20">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">Inlet Knight</h3>
-            <p class="newsprint-story-dek">Eleven tracks. Dubbed to cassette.</p>
+            <p class="newsprint-story-dek">Eleven tracks. Dubbed to cassette. Rosco’s first full statement on the label.</p>
             <p class="newsprint-story-meta">Feb 20, 2026</p>
           </a>
           <a class="news-card rv newsprint-story" href="/news/last-emperor" data-date="2026-01-28">
             <p class="newsprint-kicker">Listening</p>
             <h3 class="newsprint-story-title">The Last Emperor</h3>
-            <p class="newsprint-story-dek">Big history that somehow feels private.</p>
+            <p class="newsprint-story-dek">Big history that somehow feels private. Essential listening from the desk.</p>
             <p class="newsprint-story-meta">Jan 28, 2026</p>
-          </a>
-          <a class="news-card rv newsprint-story" href="/news/inlet-knight-on-club-copy" data-date="2026-01-04">
-            <p class="newsprint-kicker">Artist</p>
-            <h3 class="newsprint-story-title">Welcome, Rosco</h3>
-            <p class="newsprint-story-dek">Vancouver. We knew immediately.</p>
-            <p class="newsprint-story-meta">Jan 4, 2026</p>
           </a>
         </div>
       </div>
 
       <div class="newsprint-rule newsprint-rule--hair newsprint-rule--foot"></div>
-      <p class="newsprint-footline">Club Copy News · Pacific Northwest. <a href="/news">Full archive</a></p>
+      <p class="newsprint-footline">Club Copy News · Pacific Northwest edition · <a href="/news">Archive</a></p>
     </div>
 
     <div class="news-bridge news-bridge--out" aria-hidden="true"></div>

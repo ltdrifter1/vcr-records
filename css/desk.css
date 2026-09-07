@@ -22,11 +22,11 @@
 .desk-still {
   position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.4fr);
   align-items: center;
-  gap: clamp(28px, 5vw, 72px);
+  gap: clamp(16px, 3.5vw, 48px);
   min-height: 0;
-  padding: 64px max(5vw, 32px) 80px;
+  padding: 72px max(4vw, 24px) 88px;
   overflow: hidden;
   background:
     radial-gradient(ellipse 70% 55% at 68% 42%, rgba(48, 62, 78, .45), transparent 62%),
@@ -56,27 +56,97 @@
   filter: blur(12px);
 }
 
-.desk-sleeve,
+.desk-cases,
 .desk-players {
   position: relative;
   z-index: 2;
 }
 
-.desk-sleeve {
-  width: min(220px, 22vw);
-  margin: 0 0 18px 4%;
-  transform: rotate(-8deg);
-  transform-origin: 50% 100%;
-  filter: drop-shadow(0 28px 36px rgba(0, 0, 0, .55));
+/* Pile of CD jewel cases — live sleeve on top, two extras filling the table */
+.desk-cases {
+  width: min(320px, 34vw);
+  height: min(300px, 32vw);
+  margin: 0 auto;
 }
 
-.desk-sleeve img {
+.desk-case {
+  position: absolute;
+  display: block;
+  background:
+    linear-gradient(90deg,
+      #8d939a 0 5px,
+      #d7dbe0 5px 8px,
+      #f3f5f7 8px);
+  padding: 6px 6px 6px 12px;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .55),
+    inset 0 0 0 1px rgba(255, 255, 255, .18),
+    0 18px 28px rgba(0, 0, 0, .48);
+  transform-origin: 50% 80%;
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1), filter .4s ease;
+}
+
+.desk-case-spine {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 8px;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, .28), rgba(255, 255, 255, .12) 40%, rgba(0, 0, 0, .12));
+  pointer-events: none;
+}
+
+.desk-case img {
   width: 100%;
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
   display: block;
-  border-radius: 1px;
+  background: #111;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .22);
+}
+
+.desk-case--a {
+  z-index: 1;
+  width: 58%;
+  left: 0;
+  top: 18%;
+  transform: rotate(-19deg);
+  filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .4));
+}
+
+.desk-case--live {
+  z-index: 3;
+  width: 68%;
+  left: 18%;
+  top: 4%;
+  transform: rotate(-7deg);
+  filter: drop-shadow(0 26px 32px rgba(0, 0, 0, .55));
+}
+
+.desk-case--b {
+  z-index: 2;
+  width: 56%;
+  left: 42%;
+  top: 36%;
+  transform: rotate(12deg);
+  filter: drop-shadow(0 18px 20px rgba(0, 0, 0, .42));
+}
+
+@media (hover: hover) {
+  .desk-case:hover,
+  .desk-case:focus-visible {
+    z-index: 4;
+    filter: drop-shadow(0 28px 30px rgba(0, 0, 0, .6));
+  }
+  .desk-case--a:hover,
+  .desk-case--a:focus-visible { transform: rotate(-19deg) translateY(-8px); }
+  .desk-case--live:hover,
+  .desk-case--live:focus-visible { transform: rotate(-7deg) translateY(-8px); }
+  .desk-case--b:hover,
+  .desk-case--b:focus-visible { transform: rotate(12deg) translateY(-8px); }
 }
 
 .desk-players {
@@ -167,12 +237,12 @@
 }
 
 .hw--walkman .hw-lcd {
-  top: 23.2%;
-  left: 16.4%;
-  width: 28.4%;
-  height: 14.2%;
-  padding: 5px 7px 4px;
-  border-radius: 1px;
+  top: 21.5%;
+  left: 18.4%;
+  width: 25.8%;
+  height: 11.6%;
+  padding: 4px 6px 3px;
+  border-radius: 2px;
   color: #1b2316;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, .1), transparent 42%),
@@ -180,27 +250,28 @@
   box-shadow:
     inset 0 1px 2px rgba(20, 28, 18, .45),
     0 0 0 1px rgba(40, 48, 44, .35);
-  transform: rotate(-3.5deg);
-  transform-origin: 20% 50%;
+  /* Match the in-photo glass tilt only — parent .hw already poses the device */
+  transform: rotate(-4.2deg);
+  transform-origin: 50% 50%;
 }
 
 .hw--rio .hw-lcd {
-  top: 15.1%;
-  left: 24.2%;
-  width: 51%;
-  height: 9.6%;
-  padding: 0 7px;
-  border-radius: 1px;
+  top: 17.2%;
+  left: 26.0%;
+  width: 48.4%;
+  height: 13.2%;
+  padding: 0 8px;
+  border-radius: 2px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: 6px;
   color: #1c2418;
   background:
     linear-gradient(180deg, #9aa88c 0%, #7e8c70 100%);
   box-shadow:
     inset 0 1px 2px rgba(12, 16, 10, .5),
-    0 0 0 2px #1a1c20;
+    0 0 0 1px #14161a;
   font-size: 10px;
 }
 
@@ -210,8 +281,8 @@
   gap: .35em;
 }
 
-.hw--walkman .hw-lcd-row { font-size: 11px; }
-.hw--rio .hw-lcd-row { font-size: 10px; }
+.hw--walkman .hw-lcd-row { font-size: 10px; }
+.hw--rio .hw-lcd-row { font-size: 9px; }
 
 .hw-lcd-mode {
   min-width: .9em;
@@ -232,9 +303,12 @@
 
 .hw--rio .hw-lcd-title {
   margin: 0;
-  font-size: 10px;
-  letter-spacing: .06em;
+  font-size: 9px;
+  letter-spacing: .04em;
+  text-transform: none;
   opacity: 1;
+  flex: 1;
+  min-width: 0;
 }
 
 .desk-option.is-playing .hw--walkman .hw-lcd {
@@ -282,7 +356,8 @@
 @media (prefers-reduced-motion: reduce) {
   .hw,
   .desk-option--walkman .hw,
-  .desk-option--rio .hw {
+  .desk-option--rio .hw,
+  .desk-case {
     transition: none;
     transform: none;
   }
@@ -297,9 +372,9 @@
     padding: 48px 22px 72px;
     gap: 36px;
   }
-  .desk-sleeve {
-    width: min(168px, 46%);
-    margin: 0;
+  .desk-cases {
+    width: min(260px, 78vw);
+    height: min(240px, 62vw);
   }
   .desk-players {
     flex-direction: column;
