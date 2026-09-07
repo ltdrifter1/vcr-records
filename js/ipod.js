@@ -22,7 +22,7 @@
 
   var SCREENS = {
     main: {
-      title: "iPod",
+      title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
         { id: "process", label: "The Process", kind: "play" },
@@ -155,8 +155,8 @@
     hero.classList.toggle("is-now-playing", next === "now");
     hero.classList.toggle("is-playing", isAudible());
     if (next === "now") setHeader("Now Playing");
-    else if (next === "alert") setHeader(currentScreen().title || "iPod");
-    else setHeader(currentScreen().title || "iPod");
+    else if (next === "alert") setHeader(currentScreen().title || "Club Copy");
+    else setHeader(currentScreen().title || "Club Copy");
   }
 
   function tickSound() {
@@ -306,18 +306,39 @@
     }
   }
 
+  var playLock = false;
+
   function playLoaded() {
     if (!window.VCRPlayer) return;
+    if (playLock) return;
+    playLock = true;
+    setTimeout(function () {
+      playLock = false;
+    }, 350);
+
     if (VCRPlayer.getAudio) VCRPlayer.getAudio();
-    var track = siteTrack();
+
+    var state = VCRPlayer.getState ? VCRPlayer.getState() : null;
+    var track = state && state.track;
+    var playing = !!(state && state.playing);
     var featured = !!(track && track.releaseId === FEATURED.releaseId);
 
-    if (featured) {
-      VCRPlayer.toggle();
-      showNowPlaying();
+    if (featured && playing) {
+      if (VCRPlayer.pause) VCRPlayer.pause();
+      syncPlayUi();
       return;
     }
-    if (track && VCRPlayer.pause) VCRPlayer.pause();
+    if (featured && VCRPlayer.play) {
+      VCRPlayer.play();
+      showNowPlaying();
+      syncPlayUi();
+      return;
+    }
+
+    if (track && track.releaseId !== FEATURED.releaseId && VCRPlayer.pause) {
+      VCRPlayer.pause();
+    }
+
     Promise.resolve(
       VCRPlayer.playRelease(FEATURED.releaseId, null, { autoplay: true, stage: false })
     ).then(function (queued) {
@@ -625,14 +646,6 @@
   hero.addEventListener("click", onHeroClick, true);
   document.addEventListener("keydown", onKey);
 
-  if (playBtn) {
-    playBtn.addEventListener("click", function (e) {
-      if (suppressClick) return;
-      e.preventDefault();
-      e.stopPropagation();
-      playLoaded();
-    });
-  }
   if (hub) {
     hub.setAttribute("data-act", "ipod-select");
     hub.setAttribute("aria-label", "Select");
