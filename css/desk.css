@@ -307,7 +307,7 @@
 
 .desk-option:hover .desk-option-stage,
 .desk-option:focus-within .desk-option-stage {
-  animation: deskGiggle .7s ease-in-out;
+  animation: deskGiggle .85s cubic-bezier(.22, 1.4, .36, 1);
 }
 
 .desk-option-tag {
@@ -325,13 +325,13 @@
 }
 
 @keyframes deskGiggle {
-  0% { transform: rotate(var(--tilt)) translate3d(0, 0, 0); }
-  12% { transform: rotate(calc(var(--tilt) + 5deg)) translate3d(0, -7px, 0); }
-  24% { transform: rotate(calc(var(--tilt) - 4deg)) translate3d(0, -2px, 0); }
-  38% { transform: rotate(calc(var(--tilt) + 3.5deg)) translate3d(0, -6px, 0); }
-  54% { transform: rotate(calc(var(--tilt) - 2deg)) translate3d(0, -1px, 0); }
-  70% { transform: rotate(calc(var(--tilt) + 1.5deg)) translate3d(0, -3px, 0); }
-  100% { transform: rotate(var(--tilt)) translate3d(0, 0, 0); }
+  0% { transform: rotate(var(--tilt)) translate3d(0, 0, 0) scale(1); }
+  10% { transform: rotate(calc(var(--tilt) + 8deg)) translate3d(5px, -12px, 0) scale(1.045); }
+  22% { transform: rotate(calc(var(--tilt) - 7deg)) translate3d(-4px, -2px, 0) scale(1.02); }
+  36% { transform: rotate(calc(var(--tilt) + 6deg)) translate3d(4px, -9px, 0) scale(1.05); }
+  52% { transform: rotate(calc(var(--tilt) - 4deg)) translate3d(-3px, 0, 0) scale(1.02); }
+  70% { transform: rotate(calc(var(--tilt) + 2.5deg)) translate3d(2px, -5px, 0) scale(1.015); }
+  100% { transform: rotate(var(--tilt)) translate3d(0, 0, 0) scale(1); }
 }
 
 .desk-option:not(.is-active) .desk-headphones {
@@ -730,8 +730,8 @@
   border-radius: 18px;
   overflow: hidden;
   background:
-    linear-gradient(155deg, rgba(210, 255, 255, .38) 0%, rgba(40, 170, 180, .22) 36%, rgba(12, 90, 100, .28) 100%),
-    rgba(18, 158, 168, .72);
+    linear-gradient(155deg, rgba(230, 255, 255, .34) 0%, rgba(40, 180, 190, .16) 42%, rgba(8, 80, 90, .2) 100%),
+    rgba(16, 168, 178, .48);
   box-shadow:
     inset 0 2px 10px rgba(255, 255, 255, .5),
     inset 0 -10px 18px rgba(0, 40, 50, .28),
@@ -751,21 +751,33 @@
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(90deg, transparent 0 9px, rgba(90, 220, 120, .16) 9px 10px),
-    repeating-linear-gradient(0deg, transparent 0 7px, rgba(40, 160, 80, .14) 7px 8px),
-    radial-gradient(circle at 20% 80%, rgba(40, 180, 70, .35), transparent 42%),
-    #0a3d24;
-  opacity: .7;
+    repeating-linear-gradient(90deg, transparent 0 9px, rgba(90, 220, 120, .28) 9px 10px),
+    repeating-linear-gradient(0deg, transparent 0 7px, rgba(40, 160, 80, .22) 7px 8px),
+    radial-gradient(circle at 22% 78%, rgba(60, 200, 90, .55), transparent 42%),
+    #062816;
+  opacity: .92;
+}
+
+.rio-pcb::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  bottom: 14%;
+  width: 28%;
+  height: 18%;
+  border-radius: 3px;
+  background: #1a1a1a;
+  box-shadow: 0 0 0 1px rgba(180, 220, 160, .35);
 }
 
 .rio-cells {
   position: absolute;
-  right: 6%;
-  top: 12%;
-  bottom: 18%;
-  width: 30%;
+  right: 5%;
+  top: 10%;
+  bottom: 16%;
+  width: 34%;
   display: flex;
-  gap: 7px;
+  gap: 6px;
 }
 
 .rio-cell {
