@@ -58,8 +58,12 @@
       if (disc) disc.classList.toggle("is-spinning", on);
       var art = $("artworkWrap");
       if (art) art.classList.toggle("is-playing", on);
-      var consoleEl = document.querySelector(".release-console");
-      if (consoleEl) consoleEl.classList.toggle("is-live", on);
+      var times = document.querySelector(".ra-vfd-times");
+      if (times) {
+        times.innerHTML = on
+          ? "<span>TAPE</span><span>PLAY</span>"
+          : "<span>TAPE</span><span>STOP</span>";
+      }
       var hero = document.querySelector(".ra-hero");
       if (hero) hero.classList.toggle("is-live", on);
       trackRows.forEach(function (r, i) {
