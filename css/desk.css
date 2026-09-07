@@ -45,15 +45,15 @@
 .desk-board {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(240px, 1fr) minmax(300px, 440px);
+  grid-template-columns: minmax(200px, 280px) minmax(420px, 1fr);
   grid-template-areas:
-    "sleeve discman"
-    "card   discman";
+    "sleeve players"
+    "card   players";
   align-items: end;
-  column-gap: clamp(28px, 6vw, 80px);
+  column-gap: clamp(20px, 4vw, 56px);
   row-gap: 18px;
-  min-height: 640px;
-  padding: 52px max(6vw, 40px) 150px;
+  min-height: 680px;
+  padding: 52px max(4vw, 28px) 150px;
   overflow: visible;
   background:
     radial-gradient(ellipse 80% 60% at 82% 38%, rgba(200, 230, 255, .55), transparent 58%),
@@ -174,14 +174,14 @@
 
 .desk-sleeve,
 .desk-card,
-.desk-discman-wrap {
+.desk-players {
   position: relative;
   z-index: 3;
 }
 
 .desk-sleeve {
   grid-area: sleeve;
-  width: min(300px, 32vw);
+  width: min(260px, 28vw);
   justify-self: start;
   align-self: end;
   margin: 0 0 8px 2%;
@@ -245,21 +245,111 @@
   color: rgba(26, 30, 38, .6);
 }
 
+.desk-players {
+  grid-area: players;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: clamp(16px, 3vw, 40px);
+  width: 100%;
+  min-height: 420px;
+  overflow: visible;
+}
+
+.desk-option {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.desk-option--walkman {
+  --tilt: -4deg;
+  flex: 1 1 280px;
+  max-width: 360px;
+}
+
+.desk-option--rio {
+  --tilt: 5deg;
+  flex: 0 1 210px;
+  width: min(210px, 32vw);
+}
+
+.desk-option-stage {
+  position: relative;
+  width: 100%;
+  transform: rotate(var(--tilt));
+  transform-origin: 50% 80%;
+  transition: filter .28s var(--ease, ease), opacity .28s var(--ease, ease);
+  filter: drop-shadow(0 22px 28px rgba(18, 28, 42, .36));
+}
+
+.desk-option:not(.is-active) {
+  z-index: 2;
+}
+
+.desk-option:not(.is-active) .desk-option-stage {
+  opacity: .78;
+  filter: drop-shadow(0 14px 18px rgba(18, 28, 42, .22));
+}
+
+.desk-option.is-active {
+  z-index: 4;
+}
+
+.desk-option.is-active .desk-option-stage {
+  opacity: 1;
+}
+
+.desk-option:hover .desk-option-stage,
+.desk-option:focus-within .desk-option-stage {
+  animation: deskGiggle .7s ease-in-out;
+}
+
+.desk-option-tag {
+  margin: 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(26, 30, 38, .48);
+}
+
+.desk-option.is-active .desk-option-tag {
+  color: rgba(26, 30, 38, .78);
+}
+
+@keyframes deskGiggle {
+  0% { transform: rotate(var(--tilt)) translate3d(0, 0, 0); }
+  12% { transform: rotate(calc(var(--tilt) + 5deg)) translate3d(0, -7px, 0); }
+  24% { transform: rotate(calc(var(--tilt) - 4deg)) translate3d(0, -2px, 0); }
+  38% { transform: rotate(calc(var(--tilt) + 3.5deg)) translate3d(0, -6px, 0); }
+  54% { transform: rotate(calc(var(--tilt) - 2deg)) translate3d(0, -1px, 0); }
+  70% { transform: rotate(calc(var(--tilt) + 1.5deg)) translate3d(0, -3px, 0); }
+  100% { transform: rotate(var(--tilt)) translate3d(0, 0, 0); }
+}
+
+.desk-option:not(.is-active) .desk-headphones {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .desk-discman-wrap {
-  grid-area: discman;
-  width: min(400px, 100%);
-  justify-self: end;
-  align-self: center;
-  margin: 0 8% 24px 0;
+  width: 100%;
+  margin: 0;
   overflow: visible;
 }
 
 .walkman {
   position: relative;
-  width: 88%;
+  width: 100%;
   aspect-ratio: 1;
-  transform: rotate(-3deg);
-  filter: drop-shadow(0 30px 38px rgba(18, 28, 42, .44));
+  filter: none;
 }
 
 .walkman-shell {
@@ -628,18 +718,363 @@
   filter: drop-shadow(0 1px 1px rgba(20, 28, 38, .2));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .walkman { transform: none; }
+.rio {
+  position: relative;
+  width: 100%;
 }
 
-@media (max-width: 980px) {
-  .desk-board {
-    grid-template-columns: minmax(180px, 1fr) minmax(260px, 360px);
-    padding: 40px 5vw 80px;
-    min-height: 520px;
+.rio-body {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.7;
+  border-radius: 18px;
+  overflow: hidden;
+  background:
+    linear-gradient(155deg, rgba(210, 255, 255, .38) 0%, rgba(40, 170, 180, .22) 36%, rgba(12, 90, 100, .28) 100%),
+    rgba(18, 158, 168, .72);
+  box-shadow:
+    inset 0 2px 10px rgba(255, 255, 255, .5),
+    inset 0 -10px 18px rgba(0, 40, 50, .28),
+    0 1px 0 rgba(255, 255, 255, .28);
+  border: 1px solid rgba(180, 240, 240, .35);
+}
+
+.rio-guts {
+  position: absolute;
+  inset: 7% 8% 10% 8%;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.rio-pcb {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 9px, rgba(90, 220, 120, .16) 9px 10px),
+    repeating-linear-gradient(0deg, transparent 0 7px, rgba(40, 160, 80, .14) 7px 8px),
+    radial-gradient(circle at 20% 80%, rgba(40, 180, 70, .35), transparent 42%),
+    #0a3d24;
+  opacity: .7;
+}
+
+.rio-cells {
+  position: absolute;
+  right: 6%;
+  top: 12%;
+  bottom: 18%;
+  width: 30%;
+  display: flex;
+  gap: 7px;
+}
+
+.rio-cell {
+  flex: 1 1 0;
+  border-radius: 5px;
+  background:
+    linear-gradient(90deg, #8a8e94 0%, #3e4248 38%, #5c6168 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, .28),
+    0 0 0 1px rgba(255, 255, 255, .12);
+}
+
+.rio-cell::before,
+.rio-cell::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  height: 9px;
+  border-radius: 1px 1px 3px 3px;
+  background: linear-gradient(180deg, #d8dce0, #9aa0a6);
+}
+
+.rio-cell { position: relative; }
+.rio-cell::before { top: 4px; }
+.rio-cell::after {
+  bottom: 4px;
+  height: 11px;
+  border-radius: 3px 3px 1px 1px;
+  background: linear-gradient(180deg, #6a3a28, #3a1c12);
+}
+
+.rio-top {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 10px;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 6px;
+  padding-right: 8%;
+}
+
+.rio-jack {
+  position: absolute;
+  left: 8%;
+  top: 0;
+  width: 12px;
+  height: 10px;
+  border-radius: 0 0 3px 3px;
+  background:
+    radial-gradient(circle at 50% 40%, #1a1408 36%, #e0c056 42%, #a88420 100%);
+  box-shadow: 0 0 0 1px rgba(40, 30, 10, .35);
+}
+
+.rio-topbtn {
+  width: 16px;
+  height: 7px;
+  border-radius: 1px 1px 2px 2px;
+  background: linear-gradient(180deg, #e8eef2, #9aa4ae);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+}
+
+.rio-diamond {
+  position: absolute;
+  top: 16%;
+  left: 4%;
+  z-index: 3;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--callsign, "Oswald", sans-serif);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  color: #e24a28;
+  text-shadow: 0 1px 0 rgba(80, 10, 0, .25);
+}
+
+.rio-digital {
+  position: absolute;
+  top: 8.5%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  text-align: center;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .28em;
+  color: rgba(255, 255, 255, .88);
+}
+
+.rio-led {
+  position: absolute;
+  top: 14%;
+  right: 14%;
+  z-index: 4;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5a1210;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .4);
+}
+
+.desk-option--rio.is-playing .rio-led {
+  background: #ff3b2f;
+  box-shadow: 0 0 8px rgba(255, 60, 40, .8);
+}
+
+.rio-lcd {
+  position: absolute;
+  top: 12.5%;
+  left: 18%;
+  width: 58%;
+  z-index: 3;
+  padding: 7px 8px 6px;
+  border-radius: 2px;
+  background: #8a9480;
+  box-shadow:
+    0 0 0 4px #14181c,
+    inset 0 1px 2px rgba(20, 28, 18, .4);
+  color: #1a2216;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.rio-random,
+.rio-repeat,
+.rio-stereo,
+.rio-vol-mark,
+.rio-ab {
+  position: absolute;
+  z-index: 3;
+  font-size: 5.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .82);
+}
+
+.rio-random {
+  top: 38%;
+  left: 5%;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.rio-repeat {
+  top: 72%;
+  left: 5%;
+  letter-spacing: .08em;
+}
+
+.rio-stereo {
+  top: 42%;
+  right: 4%;
+  writing-mode: vertical-rl;
+  letter-spacing: .1em;
+}
+
+.rio-wheel {
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  top: 38%;
+  bottom: 14%;
+  z-index: 4;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%, #eef2f6 0%, #c5ced6 48%, #8b959e 100%);
+  box-shadow:
+    inset 0 2px 6px rgba(255, 255, 255, .55),
+    0 4px 8px rgba(0, 20, 30, .28),
+    0 0 0 1px rgba(255, 255, 255, .25);
+}
+
+.rio-vol-mark {
+  top: -12%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, .88);
+}
+
+.rio-ab {
+  bottom: -11%;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.rio-kidney {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  border: 0;
+  padding: 0;
+  border-radius: 40% 40% 48% 48%;
+  background: linear-gradient(180deg, rgba(90, 210, 215, .95), rgba(12, 120, 130, .95));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .35),
+    0 1px 1px rgba(0, 20, 30, .28);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rio-kidney--nw { top: 10%; left: 12%; transform: rotate(-40deg); }
+.rio-kidney--ne { top: 10%; right: 12%; transform: rotate(40deg); }
+.rio-kidney--sw { bottom: 10%; left: 12%; transform: rotate(40deg); }
+.rio-kidney--se { bottom: 10%; right: 12%; transform: rotate(-40deg); }
+
+.rio-hub {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 30%, #f7f9fb 0%, #c8d0d8 58%, #9aa4ae 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 2px 4px rgba(0, 20, 30, .28);
+}
+
+.rio-hub-btn {
+  position: absolute;
+  width: 32%;
+  height: 32%;
+  border: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: #3a444c;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rio-hub-btn svg {
+  width: 70%;
+  height: 70%;
+  fill: currentColor;
+}
+
+.rio-hub-btn--play { top: 2%; left: 34%; }
+.rio-hub-btn--stop { bottom: 2%; left: 34%; }
+.rio-hub-btn--prev { left: 2%; top: 34%; }
+.rio-hub-btn--next { right: 2%; top: 34%; }
+
+.rio-hub-btn--play .walkman-ico-pause { display: none; }
+.rio-hub-btn--play.is-on .walkman-ico-play { display: none; }
+.rio-hub-btn--play.is-on .walkman-ico-pause { display: block; }
+
+.rio-hub-btn:active,
+.rio-kidney:active { transform: translateY(1px); }
+
+.rio-logo {
+  position: absolute;
+  left: 10%;
+  bottom: 4.5%;
+  z-index: 3;
+  font-family: var(--display, "Space Grotesk", sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  color: rgba(255, 255, 255, .92);
+  font-style: italic;
+}
+
+.rio-model {
+  position: absolute;
+  left: 32%;
+  bottom: 5.2%;
+  z-index: 3;
+  padding: 1px 5px 0;
+  border: 1px solid rgba(255, 255, 255, .7);
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: rgba(255, 255, 255, .88);
+}
+
+.rio-headphones {
+  left: 2%;
+  top: -6%;
+  width: 88%;
+  z-index: 6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walkman { transform: none; }
+  .desk-option-stage {
+    animation: none !important;
+    transform: none;
   }
-  .desk-sleeve { width: min(240px, 38vw); }
-  .desk-headphones { width: 54%; left: 82%; top: 72%; }
+  .desk-option--walkman,
+  .desk-option--rio { --tilt: 0deg; }
+}
+
+@media (max-width: 1100px) {
+  .desk-board {
+    grid-template-columns: minmax(160px, 220px) 1fr;
+    padding: 40px 4vw 120px;
+  }
+  .desk-option--rio { width: min(180px, 30vw); }
 }
 
 @media (max-width: 800px) {
@@ -659,18 +1094,37 @@
     margin: 0 0 28px;
     transform: rotate(-2deg);
   }
+  .desk-players {
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    min-height: 0;
+    width: 100%;
+  }
+  .desk-option--walkman,
+  .desk-option--rio {
+    width: min(280px, 88%);
+    max-width: 320px;
+    flex: none;
+    --tilt: 0deg;
+  }
+  .desk-option-stage { transform: none; }
   .desk-discman-wrap {
-    width: min(340px, 92%);
+    width: 100%;
     margin: 0 auto 8px;
   }
   .walkman {
-    width: 88%;
+    width: 100%;
     margin: 0 auto;
-    transform: none;
   }
   .desk-headphones {
     left: 80%;
     top: 72%;
     width: 56%;
+  }
+  .rio-headphones {
+    left: 8%;
+    top: -4%;
+    width: 80%;
   }
 }
