@@ -2602,12 +2602,17 @@
     </div>
   </section>
 
-  <!-- Bedroom desk — Bridget In My Room on a Discman -->
-  <section class="desk" data-desk data-play-release="bridget-in-my-room" aria-label="Bridget In My Room on Discman">
+  <!-- Bedroom desk — Bridget In My Room on a Sony CD Walkman -->
+  <section class="desk" data-desk data-play-release="bridget-in-my-room" aria-label="Bridget In My Room on a Sony CD Walkman">
     <div class="desk-room" aria-hidden="true"></div>
     <div class="desk-window" aria-hidden="true"></div>
     <div class="desk-band">
       <div class="desk-board">
+        <div class="desk-fx" aria-hidden="true">
+          <div class="desk-grid"></div>
+          <div class="desk-sheen"></div>
+          <div class="desk-blob"></div>
+        </div>
         <a class="desk-sleeve" href="/bridget-in-my-room">
           <img src="bridget-in-my-room-cover.webp" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/>
         </a>
@@ -2617,47 +2622,78 @@
           <p class="desk-card-sub">Rosco · Digital · $8 CAD</p>
         </div>
         <div class="desk-discman-wrap">
-          <div class="discman" data-discman>
-            <div class="discman-shell">
-              <span class="discman-brand">Discman</span>
-              <span class="discman-hinge" aria-hidden="true"></span>
-              <div class="discman-lid">
-                <div class="discman-window">
-                  <div class="discman-disc" aria-hidden="true">
-                    <img src="bridget-in-my-room-cover.webp" alt="" width="1200" height="1200" loading="lazy"/>
+          <div class="walkman" data-discman>
+            <div class="walkman-shell">
+              <div class="walkman-face">
+                <span class="walkman-sony">SONY</span>
+                <span class="walkman-mp3">MP3</span>
+                <div class="walkman-lcd" aria-hidden="true">
+                  <div class="walkman-lcd-row">
+                    <span class="walkman-lcd-mode" data-desk-lcd-mode></span>
+                    <span class="walkman-lcd-track" data-desk-lcd-track>001</span>
+                    <span class="walkman-lcd-time" data-desk-lcd-time>0:00</span>
                   </div>
+                  <span class="walkman-lcd-title" data-desk-lcd-title>BRIDGET</span>
                 </div>
+                <div class="walkman-funcs" aria-hidden="true">
+                  <span class="walkman-pill"><b>GROUP</b></span>
+                  <span class="walkman-pill"><b>P MODE</b></span>
+                  <span class="walkman-pill"><b>SOUND / AVLS</b></span>
+                </div>
+                <button type="button" class="walkman-stop" data-desk-stop aria-label="Stop">
+                  <span>STOP</span>
+                </button>
+                <div class="walkman-pad">
+                  <button type="button" class="walkman-skip walkman-skip--prev" data-desk-prev aria-label="Previous track">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.2 6.2 8 12l7.2 5.8V6.2zM6.4 6h2v12h-2z"/></svg>
+                  </button>
+                  <button type="button" class="walkman-play" data-desk-play aria-label="Play Bridget In My Room">
+                    <svg class="walkman-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.4v13.2L19.2 12z"/></svg>
+                    <svg class="walkman-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 5.4h3.4v13.2H6.6zm7.4 0h3.4v13.2H14z"/></svg>
+                  </button>
+                  <button type="button" class="walkman-skip walkman-skip--next" data-desk-next aria-label="Next track">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.8 6.2v11.6L16 12 8.8 6.2zM15.6 6h2v12h-2z"/></svg>
+                  </button>
+                </div>
+                <div class="walkman-vol">
+                  <button type="button" class="walkman-vol-btn" data-desk-vol-down aria-label="Volume down">−</button>
+                  <span class="walkman-vol-mark">VOL</span>
+                  <button type="button" class="walkman-vol-btn" data-desk-vol-up aria-label="Volume up">+</button>
+                </div>
+                <span class="walkman-model">CD WALKMAN D-NE241</span>
+                <span class="walkman-w" aria-hidden="true">
+                  <svg viewBox="0 0 72 36" fill="none">
+                    <path d="M4 6h11l7.2 18.4L29.6 6H42L31.2 32H20.4L4 6z" fill="currentColor"/>
+                    <path d="M40 6h12.2L62 32H50.4L40 6z" fill="currentColor" opacity=".92"/>
+                    <circle cx="66.4" cy="29.2" r="4.2" fill="#f2a13a"/>
+                  </svg>
+                </span>
               </div>
-              <div class="discman-chin">
-                <div class="discman-lcd" aria-hidden="true">
-                  <span data-desk-lcd-mode>STOP</span>
-                  <span data-desk-lcd-title>BRIDGET</span>
-                </div>
-                <div class="discman-keys">
-                  <button type="button" class="discman-key" data-desk-prev aria-label="Previous track">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h2.4v12H5zm3.6 6 10 6.4V5.6z"/></svg>
-                  </button>
-                  <button type="button" class="discman-key discman-key--play" data-desk-play aria-label="Play Bridget In My Room">
-                    <svg class="discman-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                    <svg class="discman-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
-                  </button>
-                  <button type="button" class="discman-key" data-desk-next aria-label="Next track">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 6H19v12h-2.4zM13 12 3 5.6v12.8z"/></svg>
-                  </button>
-                </div>
-              </div>
+              <span class="walkman-jack" aria-hidden="true"></span>
+              <svg class="desk-headphones" viewBox="0 0 280 220" aria-hidden="true">
+                <path class="desk-cable-lead" d="M10 14c42 8 58 62 102 78 28 10 48 8 72 28"/>
+                <path class="desk-cable-split" d="M184 120c22 14 38 12 62-8"/>
+                <path class="desk-cable-split" d="M184 120c14 26 36 40 64 38"/>
+                <g class="desk-plug">
+                  <rect x="0" y="9" width="12" height="10" rx="1.2" fill="#c8ccd2"/>
+                  <rect x="10" y="7" width="12" height="14" rx="2" fill="#f7f8fa"/>
+                  <rect x="20" y="10.5" width="8" height="7" rx="1" fill="#dde1e6"/>
+                </g>
+                <g class="desk-earbud" transform="translate(252 100) rotate(32)">
+                  <rect x="-4.5" y="8" width="9" height="18" rx="3" fill="#f8f8f9" stroke="#d2d4d8" stroke-width=".8"/>
+                  <ellipse cx="0" cy="0" rx="13" ry="14" fill="#fcfcfd" stroke="#d0d2d6" stroke-width="1"/>
+                  <ellipse cx="0" cy="-0.8" rx="7.2" ry="7.4" fill="#c2c4c8"/>
+                  <ellipse cx="0" cy="-0.8" rx="4.1" ry="4.2" fill="#8e9096"/>
+                </g>
+                <g class="desk-earbud" transform="translate(254 158) rotate(-22)">
+                  <rect x="-4.5" y="8" width="9" height="18" rx="3" fill="#f8f8f9" stroke="#d2d4d8" stroke-width=".8"/>
+                  <ellipse cx="0" cy="0" rx="13" ry="14" fill="#fcfcfd" stroke="#d0d2d6" stroke-width="1"/>
+                  <ellipse cx="0" cy="-0.8" rx="7.2" ry="7.4" fill="#c2c4c8"/>
+                  <ellipse cx="0" cy="-0.8" rx="4.1" ry="4.2" fill="#8e9096"/>
+                </g>
+              </svg>
             </div>
-            <span class="discman-jack" aria-hidden="true"></span>
-            <span class="discman-wheel" aria-hidden="true"></span>
           </div>
-          <svg class="desk-cable" viewBox="0 0 200 130" aria-hidden="true">
-            <path class="desk-cable-lead" d="M4 18c36 8 48 52 96 62 36 8 62-10 96 22"/>
-            <path class="desk-cable-glint" d="M4 16c36 8 48 52 96 62"/>
-            <g class="desk-buds">
-              <ellipse cx="186" cy="108" rx="6.5" ry="10"/>
-              <ellipse cx="170" cy="118" rx="6.5" ry="10"/>
-            </g>
-          </svg>
         </div>
       </div>
     </div>
