@@ -392,21 +392,7 @@
     ensureAudio();
     attachAnalyser();
     if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-    if (audioUnlocked) return;
     audioUnlocked = true;
-    try {
-      var silent = audio.play();
-      if (silent && typeof silent.then === "function") {
-        silent
-          .then(function () {
-            if (!queue.length) {
-              audio.pause();
-              try { audio.currentTime = 0; } catch (e) {}
-            }
-          })
-          .catch(function () {});
-      }
-    } catch (e) {}
   }
 
   function bindGestureUnlock() {
@@ -456,11 +442,33 @@
   function safePlay() {
     ensureAudio();
     if (!current()) return Promise.resolve();
-    return audio.play().then(function () {
-      hidePlayGate();
-    }).catch(function (err) {
+    var attempt = function () {
+      return audio.play().then(function () {
+        hidePlayGate();
+      });
+    };
+    return attempt().catch(function (err) {
       var name = err && err.name;
-      if (name === "NotAllowedError" || name === "AbortError") showPlayGate();
+      if (name === "AbortError") {
+        if (audio.readyState >= 2) {
+          return attempt().catch(function (err2) {
+            if (err2 && err2.name === "NotAllowedError") showPlayGate();
+          });
+        }
+        return new Promise(function (resolve) {
+          var timer = 0;
+          var done = function () {
+            audio.removeEventListener("canplay", done);
+            clearTimeout(timer);
+            resolve(attempt().catch(function (err2) {
+              if (err2 && err2.name === "NotAllowedError") showPlayGate();
+            }));
+          };
+          timer = setTimeout(done, 1200);
+          audio.addEventListener("canplay", done);
+        });
+      }
+      if (name === "NotAllowedError") showPlayGate();
     });
   }
 
@@ -857,6 +865,14 @@
             : physicalLabel;
           buy.setAttribute("data-label", buy.textContent);
         }
+      } else if (track.digitalSku) {
+        buy.removeAttribute("data-act");
+        buy.setAttribute("data-act", "buy-digital");
+        var digitalLabel = track.digitalPrice != null ? "Buy · $" + track.digitalPrice : "Buy";
+        if (buy.textContent.indexOf("Added") < 0) {
+          buy.textContent = digitalLabel;
+          buy.setAttribute("data-label", digitalLabel);
+        }
       } else {
         buy.removeAttribute("data-act");
         buy.setAttribute("data-act", "buy-page");
@@ -1093,6 +1109,10 @@
       }
       if (addFormatToBag(cassTrack, "cassette")) flashBuyLabel(el, true);
       else if (cassTrack && cassTrack.page) window.location.href = cassTrack.page;
+    } else if (act === "buy-digital") {
+      var digTrack = current();
+      if (addFormatToBag(digTrack, "digital")) flashBuyLabel(el, true);
+      else if (digTrack && digTrack.page) window.location.href = digTrack.page;
     } else if (act === "buy-page") {
       var t = current();
       if (t && t.page) window.location.href = t.page;

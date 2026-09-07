@@ -696,22 +696,6 @@
     }
     .hero.is-playing .hero-pulse { opacity: .55; }
 
-    .hero-bandcamp {
-      position: absolute;
-      left: 12px;
-      bottom: 12px;
-      width: 42px;
-      height: 42px;
-      overflow: hidden;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .hero-bandcamp iframe {
-      display: block;
-      width: 42px;
-      height: 42px;
-      border: 0;
-    }
     .hero.is-live .hero-idle,
     .hero.is-now-playing .hero-idle,
     .hero[data-ipod-view="now"] .hero-idle,
@@ -853,7 +837,6 @@
     }
     .hero-console-actions { margin-top: auto; width: 100%; }
     .hero-console.is-formats .hero-console-actions { display: none; }
-    .hero.is-bandcamp .hero-progress { display: none; }
     .hero-console-link.ipod-menu-item {
       background: transparent;
       color: var(--ipod-lcd-ink);
@@ -2404,7 +2387,6 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 7.1v9.8L12 12zm10.8 0h1.7v9.8h-1.7zm3.1 0h1.7v9.8h-1.7z"/></svg>
             </button>
           </div>
-          <div class="hero-bandcamp" id="heroBandcamp" hidden></div>
         </div>
         </div>
 
@@ -2906,7 +2888,7 @@
         line += d.track.title || d.track.releaseTitle;
         nowEl.textContent = line;
         nowEl.hidden = false;
-      } else if (!document.getElementById('room') || !document.getElementById('room').classList.contains('is-bandcamp')) {
+      } else {
         nowEl.textContent = '';
         nowEl.hidden = true;
       }

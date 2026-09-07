@@ -14,13 +14,7 @@
     sku: "dg-the-process",
     price: 1.5,
     cover: "the-process-cover.webp",
-    bandcampTrackId: "574430890",
   };
-
-  var BANDCAMP_SRC =
-    "https://bandcamp.com/EmbeddedPlayer/track=" +
-    FEATURED.bandcampTrackId +
-    "/size=small/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=none/transparent=true/autoplay=true/";
 
   var TICK = Math.PI / 10;
   var WHEEL_LINE = 36;
@@ -58,14 +52,12 @@
   var wheel = hero.querySelector("[data-ipod-wheel]");
   var hub = document.getElementById("ipodSelect");
   var playBtn = document.getElementById("heroPlayBtn");
-  var bandcamp = document.getElementById("heroBandcamp");
   var alertEl = hero.querySelector("[data-ipod-alert]");
   var alertMsg = hero.querySelector("[data-ipod-alert-msg]");
 
   var stack = ["main"];
   var cursor = { main: 1, music: 0, shop: 0 };
   var view = "menu";
-  var bcPlaying = false;
   var alertTimer = 0;
   var clickCtx = null;
   var wheelAcc = 0;
@@ -124,7 +116,7 @@
   }
 
   function isAudible() {
-    return bcPlaying || sitePlayingFeatured();
+    return sitePlayingFeatured();
   }
 
   function money(n) {
@@ -285,57 +277,6 @@
     }, ALERT_MS);
   }
 
-  function bcFrame() {
-    return bandcamp && bandcamp.querySelector("iframe");
-  }
-
-  function bcCommand(cmd) {
-    var frame = bcFrame();
-    if (!frame || !frame.contentWindow) return;
-    try {
-      frame.contentWindow.postMessage(JSON.stringify({ command: cmd }), "https://bandcamp.com");
-      frame.contentWindow.postMessage({ command: cmd }, "https://bandcamp.com");
-    } catch (e) {}
-  }
-
-  function ensureBandcampPlayer() {
-    if (!bandcamp) return null;
-    var frame = bcFrame();
-    if (!frame) {
-      frame = document.createElement("iframe");
-      frame.title = FEATURED.title;
-      frame.setAttribute("allow", "autoplay; encrypted-media");
-      frame.setAttribute("seamless", "");
-      frame.src = BANDCAMP_SRC;
-      bandcamp.appendChild(frame);
-      frame.addEventListener("load", function () {
-        if (bcPlaying) bcCommand("play");
-      });
-    }
-    bandcamp.hidden = false;
-    hero.classList.add("is-bandcamp");
-    return frame;
-  }
-
-  function pauseBandcamp() {
-    bcCommand("pause");
-    bcPlaying = false;
-    hero.classList.remove("is-bandcamp");
-    if (!sitePlaying()) hero.classList.remove("is-playing");
-    syncPlayUi();
-  }
-
-  function startBandcamp() {
-    if (window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
-    ensureBandcampPlayer();
-    bcPlaying = true;
-    hero.classList.add("is-bandcamp", "is-playing");
-    bcCommand("play");
-    showNowPlaying();
-    syncPlayUi();
-    syncTicker(true, FEATURED.artist + " — " + FEATURED.title);
-  }
-
   function syncPlayUi() {
     var on = isAudible();
     hero.classList.toggle("is-playing", on);
@@ -366,38 +307,22 @@
   }
 
   function playLoaded() {
+    if (!window.VCRPlayer) return;
     var track = siteTrack();
     var featured = !!(track && track.releaseId === FEATURED.releaseId);
 
-    if (featured && window.VCRPlayer) {
-      if (bcPlaying) pauseBandcamp();
+    if (featured) {
       VCRPlayer.toggle();
       showNowPlaying();
       return;
     }
-    if (bcPlaying) {
-      pauseBandcamp();
-      return;
-    }
-    if (track && window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
-    if (window.VCRPlayer && VCRPlayer.playRelease) {
-      Promise.resolve(
-        VCRPlayer.playRelease(FEATURED.releaseId, null, { autoplay: true, stage: false })
-      )
-        .then(function (queued) {
-          if (queued) {
-            showNowPlaying();
-            syncPlayUi();
-            return;
-          }
-          startBandcamp();
-        })
-        .catch(function () {
-          startBandcamp();
-        });
-      return;
-    }
-    startBandcamp();
+    if (track && VCRPlayer.pause) VCRPlayer.pause();
+    Promise.resolve(
+      VCRPlayer.playRelease(FEATURED.releaseId, null, { autoplay: true, stage: false })
+    ).then(function (queued) {
+      if (queued) showNowPlaying();
+      syncPlayUi();
+    });
   }
 
   function buyNow() {
@@ -471,14 +396,6 @@
     if (track && window.VCRPlayer) {
       if (dir < 0) VCRPlayer.prev();
       else VCRPlayer.next();
-      return;
-    }
-    if (dir < 0 && bcPlaying) {
-      var frame = bcFrame();
-      if (frame) {
-        frame.src = BANDCAMP_SRC;
-        bcCommand("play");
-      }
     }
   }
 
@@ -718,7 +635,6 @@
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
     var foreign = d.track && d.track.releaseId && d.track.releaseId !== FEATURED.releaseId;
-    if (bcPlaying && (d.playing || foreign)) pauseBandcamp();
     if (foreign) {
       if (view === "now") {
         setView("menu");
@@ -732,7 +648,7 @@
       var line = d.track.artist ? d.track.artist + " — " : "";
       line += d.track.title || d.track.releaseTitle;
       if (d.playing) syncTicker(true, line);
-    } else if (!bcPlaying) {
+    } else {
       syncTicker(false);
     }
   });

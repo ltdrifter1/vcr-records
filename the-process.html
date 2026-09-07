@@ -203,6 +203,7 @@
           <meta itemprop="price" content="1.50"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
           <a class="btn btn-light" href="#acquire">Buy Digital — $1.50 CAD</a>
+          <button type="button" class="btn btn-ghost" id="heroListen">Play preview</button>
         </div>
       </div>
     </div>
@@ -218,7 +219,7 @@
       </header>
       <div class="ra-player-grid">
 
-        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Mini hi-fi">
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Mini hi-fi">
           <div class="ra-stereo">
             <div class="ra-stereo-speaker" aria-hidden="true">
               <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
@@ -255,7 +256,7 @@
                 <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
                 </button>
-                <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play on Bandcamp">
+                <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play Radio Edit">
                   <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
@@ -278,7 +279,7 @@
             <span class="track-dur">3:45</span>
             <button class="track-play-btn" type="button" aria-label="Play Radio Edit" tabindex="-1"></button>
           </div>
-          <p class="ra-tracks-note">Total running time 3:45 · listen on Bandcamp · files after checkout</p>
+          <p class="ra-tracks-note">Total running time 3:45 · 90s preview on site · files after checkout</p>
         </div>
       </div>
     </div>
@@ -374,10 +375,6 @@
 const $ = id => document.getElementById(id);
 VCRReleaseBind({
   releaseId: 'the-process',
-  displayOnly: true,
-  displayMessage: "Tap play to stream on Bandcamp, right here.",
-  bandcampUrl: 'https://mollyhaze.bandcamp.com/track/the-process',
-  bandcampTrackId: '574430890',
   tracks: [
   { id: 'tp-01', title: "Radio Edit" }
 ]
@@ -405,6 +402,15 @@ VCRReleaseBind({
     buyBtn.textContent = 'Added to Collection \u2713';
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
+  });
+})();
+
+(function() {
+  const listen = $('heroListen');
+  if (!listen) return;
+  listen.addEventListener('click', () => {
+    document.getElementById('listen')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('ipPlayConsole')?.click();
   });
 })();
 
