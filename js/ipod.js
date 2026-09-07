@@ -474,29 +474,53 @@
     }
   }
 
+  function angleFromEvent(e) {
+    var rect = wheel.getBoundingClientRect();
+    return Math.atan2(
+      e.clientY - (rect.top + rect.height / 2),
+      e.clientX - (rect.left + rect.width / 2)
+    );
+  }
+
+  function sectorAct(e) {
+    if (!wheel) return;
+    var rect = wheel.getBoundingClientRect();
+    var dx = e.clientX - (rect.left + rect.width / 2);
+    var dy = e.clientY - (rect.top + rect.height / 2);
+    var r = Math.sqrt(dx * dx + dy * dy);
+    var maxR = rect.width / 2;
+    if (r < maxR * 0.31) {
+      selectCurrent();
+      return;
+    }
+    var a = Math.atan2(dy, dx);
+    if (a >= -Math.PI * 0.75 && a < -Math.PI * 0.25) goMenu();
+    else if (a >= -Math.PI * 0.25 && a < Math.PI * 0.25) skip(1);
+    else if (a >= Math.PI * 0.25 && a < Math.PI * 0.75) playLoaded();
+    else skip(-1);
+  }
+
+  var pointerActive = false;
+
   function onWheelPointerDown(e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
+    pointerActive = true;
     pointerId = e.pointerId;
     dragging = false;
     suppressClick = false;
     wheelAcc = 0;
     startX = e.clientX;
     startY = e.clientY;
-    var rect = wheel.getBoundingClientRect();
-    lastAngle = Math.atan2(e.clientY - (rect.top + rect.height / 2), e.clientX - (rect.left + rect.width / 2));
-    try {
-      wheel.setPointerCapture(e.pointerId);
-    } catch (err) {}
+    lastAngle = angleFromEvent(e);
   }
 
-  function onWheelPointerMove(e) {
-    if (pointerId == null || e.pointerId !== pointerId) return;
+  function onWindowPointerMove(e) {
+    if (!pointerActive || e.pointerId !== pointerId) return;
     var dx = e.clientX - startX;
     var dy = e.clientY - startY;
-    if (!dragging && dx * dx + dy * dy > 36) dragging = true;
+    if (!dragging && dx * dx + dy * dy > 64) dragging = true;
     if (!dragging) return;
-    var rect = wheel.getBoundingClientRect();
-    var angle = Math.atan2(e.clientY - (rect.top + rect.height / 2), e.clientX - (rect.left + rect.width / 2));
+    var angle = angleFromEvent(e);
     var delta = angle - lastAngle;
     if (delta > Math.PI) delta -= Math.PI * 2;
     if (delta < -Math.PI) delta += Math.PI * 2;
@@ -512,20 +536,31 @@
     }
   }
 
-  function onWheelPointerUp(e) {
-    if (pointerId == null || e.pointerId !== pointerId) return;
-    if (dragging) suppressClick = true;
+  function onWindowPointerUp(e) {
+    if (!pointerActive || e.pointerId !== pointerId) return;
+    pointerActive = false;
     pointerId = null;
+    if (dragging) {
+      suppressClick = true;
+      dragging = false;
+      setTimeout(function () {
+        suppressClick = false;
+      }, 80);
+      return;
+    }
     dragging = false;
-    setTimeout(function () {
-      suppressClick = false;
-    }, 0);
   }
 
   function onWheelClickCapture(e) {
-    if (!suppressClick) return;
+    if (suppressClick) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    if (e.target && e.target.closest("button")) return;
     e.preventDefault();
     e.stopPropagation();
+    sectorAct(e);
   }
 
   function onWheelScroll(e) {
@@ -650,10 +685,10 @@
   }
 
   if (wheel) {
-    wheel.addEventListener("pointerdown", onWheelPointerDown, true);
-    wheel.addEventListener("pointermove", onWheelPointerMove);
-    wheel.addEventListener("pointerup", onWheelPointerUp);
-    wheel.addEventListener("pointercancel", onWheelPointerUp);
+    wheel.addEventListener("pointerdown", onWheelPointerDown);
+    window.addEventListener("pointermove", onWindowPointerMove);
+    window.addEventListener("pointerup", onWindowPointerUp);
+    window.addEventListener("pointercancel", onWindowPointerUp);
     wheel.addEventListener("click", onWheelClickCapture, true);
     wheel.addEventListener("wheel", onWheelScroll, { passive: false });
   }
