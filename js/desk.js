@@ -30,7 +30,7 @@
       playBtn.classList.toggle("is-on", playing);
       playBtn.setAttribute("aria-label", playing ? "Pause Bridget In My Room" : "Play Bridget In My Room");
     }
-    if (lcdMode) lcdMode.textContent = playing ? "PLAY" : mine ? "PAUSE" : "STOP";
+    if (lcdMode) lcdMode.textContent = playing ? "PLAY" : "STOP";
     if (lcdTitle) {
       lcdTitle.textContent = mine && track && track.title ? track.title : "BRIDGET";
     }

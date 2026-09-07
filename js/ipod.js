@@ -118,8 +118,13 @@
     return state && state.track ? state.track : null;
   }
 
+  function sitePlayingFeatured() {
+    var track = siteTrack();
+    return !!(sitePlaying() && track && track.releaseId === FEATURED.releaseId);
+  }
+
   function isAudible() {
-    return bcPlaying || sitePlaying();
+    return bcPlaying || sitePlayingFeatured();
   }
 
   function money(n) {
@@ -709,7 +714,8 @@
 
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
-    if (d.playing && bcPlaying) pauseBandcamp();
+    var foreign = d.track && d.track.releaseId && d.track.releaseId !== FEATURED.releaseId;
+    if (bcPlaying && (d.playing || foreign)) pauseBandcamp();
     if (d.track && d.playing && view !== "menu") showNowPlaying();
     syncPlayUi();
     if (d.track && (d.track.title || d.track.releaseTitle)) {
