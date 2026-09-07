@@ -21,12 +21,12 @@
 
 .desk-still {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.4fr);
+  display: flex;
   align-items: center;
-  gap: clamp(16px, 3.5vw, 48px);
+  justify-content: center;
+  gap: clamp(8px, 2vw, 28px);
   min-height: 0;
-  padding: 72px max(4vw, 24px) 88px;
+  padding: 72px max(3vw, 20px) 88px;
   overflow: hidden;
   background:
     radial-gradient(ellipse 70% 55% at 68% 42%, rgba(48, 62, 78, .45), transparent 62%),
@@ -64,9 +64,10 @@
 
 /* Pile of CD jewel cases — live sleeve on top, two extras filling the table */
 .desk-cases {
-  width: min(320px, 34vw);
-  height: min(300px, 32vw);
-  margin: 0 auto;
+  flex: 0 0 auto;
+  width: min(280px, 26vw);
+  height: min(260px, 28vw);
+  margin: 0;
 }
 
 .desk-case {
@@ -126,12 +127,17 @@
   filter: drop-shadow(0 26px 32px rgba(0, 0, 0, .55));
 }
 
-.desk-case--b {
+.desk-case--b,
+.desk-case--mid {
+  position: relative;
   z-index: 2;
-  width: 56%;
-  left: 42%;
-  top: 36%;
-  transform: rotate(12deg);
+  flex: 0 0 auto;
+  width: min(148px, 14vw);
+  left: auto;
+  top: auto;
+  align-self: flex-end;
+  margin-bottom: 6%;
+  transform: rotate(9deg);
   filter: drop-shadow(0 18px 20px rgba(0, 0, 0, .42));
 }
 
@@ -146,15 +152,19 @@
   .desk-case--live:hover,
   .desk-case--live:focus-visible { transform: rotate(-7deg) translateY(-8px); }
   .desk-case--b:hover,
-  .desk-case--b:focus-visible { transform: rotate(12deg) translateY(-8px); }
+  .desk-case--b:focus-visible,
+  .desk-case--mid:hover,
+  .desk-case--mid:focus-visible { transform: rotate(9deg) translateY(-8px); }
 }
 
 .desk-players {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(28px, 5vw, 80px);
-  width: 100%;
+  gap: clamp(16px, 3vw, 48px);
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
   min-height: 0;
 }
 
@@ -185,8 +195,8 @@
   filter: drop-shadow(0 26px 32px rgba(0, 0, 0, .55));
 }
 
-.desk-option--walkman .hw { transform: rotate(-3.5deg); }
-.desk-option--rio .hw { transform: rotate(4deg); }
+.desk-option--walkman .hw { transform: none; }
+.desk-option--rio .hw { transform: none; }
 
 .desk-option:not(.is-active) .hw {
   opacity: .58;
@@ -204,12 +214,10 @@
     filter: drop-shadow(0 30px 36px rgba(0, 0, 0, .6));
   }
   .desk-option--walkman:hover .hw,
-  .desk-option--walkman:focus-within .hw {
-    transform: rotate(-3.5deg) translateY(-6px);
-  }
+  .desk-option--walkman:focus-within .hw,
   .desk-option--rio:hover .hw,
   .desk-option--rio:focus-within .hw {
-    transform: rotate(4deg) translateY(-6px);
+    transform: translateY(-6px);
   }
 }
 
@@ -237,29 +245,29 @@
 }
 
 .hw--walkman .hw-lcd {
-  top: 21.5%;
-  left: 18.4%;
-  width: 25.8%;
-  height: 11.6%;
-  padding: 4px 6px 3px;
+  top: 25.8%;
+  left: 25.0%;
+  width: 16.8%;
+  height: 8.8%;
+  padding: 3px 5px 2px 6px;
   border-radius: 2px;
+  overflow: hidden;
   color: #1b2316;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, .1), transparent 42%),
-    linear-gradient(180deg, #8f9c82 0%, #73806a 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, .12), transparent 40%),
+    linear-gradient(180deg, #8b987e 0%, #6f7c66 100%);
   box-shadow:
-    inset 0 1px 2px rgba(20, 28, 18, .45),
-    0 0 0 1px rgba(40, 48, 44, .35);
-  /* Match the in-photo glass tilt only — parent .hw already poses the device */
-  transform: rotate(-4.2deg);
+    inset 0 1px 1px rgba(20, 28, 18, .4),
+    0 0 0 1px rgba(40, 48, 44, .28);
+  transform: rotate(-4deg);
   transform-origin: 50% 50%;
 }
 
 .hw--rio .hw-lcd {
-  top: 17.2%;
-  left: 26.0%;
-  width: 48.4%;
-  height: 13.2%;
+  top: 19.5%;
+  left: 28.4%;
+  width: 45.6%;
+  height: 10.2%;
   padding: 0 8px;
   border-radius: 2px;
   flex-direction: row;
@@ -281,7 +289,7 @@
   gap: .35em;
 }
 
-.hw--walkman .hw-lcd-row { font-size: 10px; }
+.hw--walkman .hw-lcd-row { font-size: 9px; }
 .hw--rio .hw-lcd-row { font-size: 9px; }
 
 .hw-lcd-mode {
@@ -293,9 +301,9 @@
 
 .hw-lcd-title {
   display: block;
-  margin-top: 3px;
-  font-size: 8px;
-  letter-spacing: .12em;
+  margin-top: 2px;
+  font-size: 7px;
+  letter-spacing: .1em;
   opacity: .82;
   white-space: nowrap;
   overflow: hidden;
@@ -375,6 +383,11 @@
   .desk-cases {
     width: min(260px, 78vw);
     height: min(240px, 62vw);
+  }
+  .desk-case--mid {
+    width: min(148px, 42vw);
+    margin: 0;
+    align-self: center;
   }
   .desk-players {
     flex-direction: column;
