@@ -85,10 +85,18 @@
 .artist-world-photo img.is-wide {
   object-position: 58% 38%;
 }
+.roster-photo img.is-field,
+.artist-world-photo img.is-field {
+  object-position: center 42%;
+  filter: none;
+}
 @media (hover:hover) {
   .roster-artist:hover .roster-photo img {
     transform: scale(1.04);
     filter: saturate(1) contrast(1.06) brightness(1.04);
+  }
+  .roster-artist:hover .roster-photo img.is-field {
+    filter: none;
   }
 }
 .roster-photo::after {
