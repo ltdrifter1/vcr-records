@@ -143,6 +143,22 @@
       syncTabs();
     });
 
+    bar.querySelector('[data-tab="club"]').addEventListener('click', function (e) {
+      var href = this.getAttribute('href') || '';
+      if (href.indexOf('#join') === -1) return;
+      if (!isHome) return;
+      e.preventDefault();
+      closeDrawer();
+      var join = document.getElementById('join');
+      if (join) {
+        try { join.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        catch (err) { join.scrollIntoView(true); }
+      }
+      try { history.replaceState({}, '', '#join'); }
+      catch (err) { location.hash = 'join'; }
+      syncTabs();
+    });
+
     window.addEventListener('hashchange', syncTabs);
     syncTabs();
 

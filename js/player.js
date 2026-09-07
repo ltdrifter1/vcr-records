@@ -375,6 +375,15 @@
     el._buyFlash = setTimeout(function () {
       el.textContent = orig;
     }, 1800);
+    var format = el.getAttribute("data-format");
+    if (ok && format) {
+      formatFlash = format;
+      clearTimeout(formatFlashTimer);
+      formatFlashTimer = setTimeout(function () {
+        formatFlash = null;
+        if (current()) renderStageFormats(current());
+      }, 1800);
+    }
   }
 
   function ensureAudio() {
@@ -1078,8 +1087,6 @@
           flashBuyLabel(el, true);
           var digitalCartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"], [data-ipod-buy]');
           if (digitalCartBtn && digitalCartBtn !== el) flashBuyLabel(digitalCartBtn, true);
-        } else if (fmtTrack.page) {
-          window.location.href = fmtTrack.page;
         }
         return;
       }
@@ -1103,8 +1110,6 @@
         flashBuyLabel(el, true);
         var cartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"]');
         if (cartBtn && cartBtn !== el) flashBuyLabel(cartBtn, true);
-      } else if (fmtTrack.page) {
-        window.location.href = fmtTrack.page;
       }
     } else if (act === "buy-vinyl") {
       var track = current();
@@ -1319,13 +1324,16 @@
     render();
   }
 
+  var formatFlash = null;
+  var formatFlashTimer = 0;
+
   function formatPrice(n, sku) {
     if (n == null || !isFinite(Number(n))) return "";
     var v = Number(n);
     if (window.ClubMember && typeof window.ClubMember.displayPrice === "function") {
       v = window.ClubMember.displayPrice(v, sku);
     }
-    return " · $" + v;
+    return " · $" + Number(v).toFixed(2);
   }
 
   function renderStageFormats(track) {
@@ -1333,22 +1341,26 @@
     var wrap = ui.stage.querySelector("[data-stage-formats]");
     if (!wrap) return;
     var html = "";
+    function label(format, base) {
+      if (formatFlash === format) return "Added ✓";
+      return base;
+    }
     if (track.digitalSku) {
-      html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="digital">Digital' +
-        formatPrice(track.digitalPrice, track.digitalSku) + "</button>";
+      html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="digital">' +
+        label("digital", "Digital" + formatPrice(track.digitalPrice, track.digitalSku)) + "</button>";
     }
     if (track.cassetteSku) {
       var cassOut = track.cassetteStock != null && track.cassetteStock <= 0;
       html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="cassette"' +
         (cassOut ? " disabled" : "") + ">" +
-        (cassOut ? "Cassette · Sold out" : "Cassette" + formatPrice(track.cassettePrice, track.cassetteSku)) +
+        label("cassette", cassOut ? "Cassette · Sold out" : "Cassette" + formatPrice(track.cassettePrice, track.cassetteSku)) +
         "</button>";
     }
     if (track.vinylSku) {
       var vynOut = track.vinylStock != null && track.vinylStock <= 0;
       html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="vinyl"' +
         (vynOut ? " disabled" : "") + ">" +
-        (vynOut ? "Vinyl · Sold out" : "Vinyl" + formatPrice(track.vinylPrice, track.vinylSku)) +
+        label("vinyl", vynOut ? "Vinyl · Sold out" : "Vinyl" + formatPrice(track.vinylPrice, track.vinylSku)) +
         "</button>";
     }
     wrap.innerHTML = html;

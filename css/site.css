@@ -456,7 +456,21 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #1c2430; }
     line-height: 1.1;
   }
   .tabbar a.is-current { color: #fff; }
-  .nav-drawer a.tabbar-dup { display: none; }
+  .nav-drawer a[href="/"],
+  .nav-drawer a[href="/index.html"],
+  .nav-drawer a[href="#listen"],
+  .nav-drawer a[href="/#listen"],
+  .nav-drawer a[href="/library"],
+  .nav-drawer a[href="/merch"],
+  .nav-drawer a[href="#join"],
+  .nav-drawer a[href="/#join"],
+  .nav-drawer a[href="/account"],
+  .nav-drawer a.tabbar-dup {
+    display: none !important;
+  }
+}
+body.vcr-stage-open .tabbar {
+  display: none !important;
 }
 
 /* Buttons — frosted glass, specular sheen --------------------------------- */
@@ -1250,13 +1264,13 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #1c2430; }
   color: #1a2230;
   background:
     linear-gradient(118deg,
-      #f7fbff 0%,
-      #c5d8ee 18%,
-      #f3c6e0 38%,
+      #9fd4ff 0%,
+      #f4b4dc 22%,
+      #fff1a8 40%,
       #ffffff 52%,
-      #b8efe4 70%,
-      #c9d7ea 88%,
-      #f4f7fb 100%);
+      #7aefd4 70%,
+      #c4b8ff 86%,
+      #dcecff 100%);
   background-size: 220% 220%;
   border: 1px solid rgba(255,255,255,.7);
   box-shadow:
@@ -1286,6 +1300,7 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #1c2430; }
   z-index: 3;
   pointer-events: none;
 }
+.cat-cc:empty { display: none !important; }
 .cat-cover .cat-cc { left: 6px; bottom: 6px; }
 .flow-art .cat-cc { left: 10px; bottom: 10px; }
 
