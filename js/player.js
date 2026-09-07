@@ -18,6 +18,8 @@
   var playGateTimer = null;
   var bumperTimer = null;
   var bumperOpen = false;
+  var formatFlash = null;
+  var formatFlashTimer = 0;
   var BUMPER_MS = 1200;
   var chromaCache = {};
   var chromaSrc = "";
@@ -366,6 +368,17 @@
     if (consoleEl) consoleEl.classList.toggle("is-formats", !!open);
   }
 
+  function markFormatAdded(format) {
+    if (!format) return;
+    formatFlash = format;
+    clearTimeout(formatFlashTimer);
+    if (current()) renderStageFormats(current());
+    formatFlashTimer = setTimeout(function () {
+      formatFlash = null;
+      if (current()) renderStageFormats(current());
+    }, 1800);
+  }
+
   function flashBuyLabel(el, ok) {
     if (!el) return;
     var orig = el.getAttribute("data-label") || el.textContent;
@@ -375,15 +388,6 @@
     el._buyFlash = setTimeout(function () {
       el.textContent = orig;
     }, 1800);
-    var format = el.getAttribute("data-format");
-    if (ok && format) {
-      formatFlash = format;
-      clearTimeout(formatFlashTimer);
-      formatFlashTimer = setTimeout(function () {
-        formatFlash = null;
-        if (current()) renderStageFormats(current());
-      }, 1800);
-    }
   }
 
   function ensureAudio() {
@@ -587,6 +591,13 @@
     });
     dock.querySelector(".vcr-player__scrub").addEventListener("input", onScrub);
     stage.querySelector(".vcr-stage__scrub").addEventListener("input", onScrub);
+    stage.querySelector("[data-stage-formats]").addEventListener("click", function (e) {
+      var fmt = e.target.closest("[data-act=\"buy-format\"]");
+      if (!fmt) return;
+      e.preventDefault();
+      e.stopPropagation();
+      handleAct("buy-format", fmt);
+    });
     document.addEventListener("keydown", onKey);
 
     ui = { dock: dock, stage: stage, bumper: bumper };
@@ -1084,6 +1095,7 @@
       if (format === "digital") {
         if (addFormatToBag(fmtTrack, "digital")) {
           setRoomFormatsOpen(false);
+          markFormatAdded("digital");
           flashBuyLabel(el, true);
           var digitalCartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"], [data-ipod-buy]');
           if (digitalCartBtn && digitalCartBtn !== el) flashBuyLabel(digitalCartBtn, true);
@@ -1107,6 +1119,7 @@
       }
       if (addFormatToBag(fmtTrack, format)) {
         setRoomFormatsOpen(false);
+        markFormatAdded(format);
         flashBuyLabel(el, true);
         var cartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"]');
         if (cartBtn && cartBtn !== el) flashBuyLabel(cartBtn, true);
@@ -1323,9 +1336,6 @@
     }
     render();
   }
-
-  var formatFlash = null;
-  var formatFlashTimer = 0;
 
   function formatPrice(n, sku) {
     if (n == null || !isFinite(Number(n))) return "";
