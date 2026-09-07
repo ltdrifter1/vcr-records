@@ -47,7 +47,9 @@
   }
 
   function lcdLabel(opt) {
-    return opt.getAttribute("data-lcd-title") || titleOf(opt).toUpperCase().slice(0, 10);
+    var custom = opt.getAttribute("data-lcd-title");
+    if (custom) return custom;
+    return titleOf(opt).toUpperCase().slice(0, 10);
   }
 
   function isThis(opt, track) {
