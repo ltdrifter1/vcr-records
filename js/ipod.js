@@ -308,6 +308,7 @@
 
   function playLoaded() {
     if (!window.VCRPlayer) return;
+    if (VCRPlayer.getAudio) VCRPlayer.getAudio();
     var track = siteTrack();
     var featured = !!(track && track.releaseId === FEATURED.releaseId);
 
@@ -429,6 +430,7 @@
 
   function onWheelPointerDown(e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (e.target && e.target.closest("button")) return;
     pointerActive = true;
     pointerId = e.pointerId;
     dragging = false;
@@ -538,6 +540,10 @@
       e.preventDefault();
       e.stopPropagation();
       selectCurrent();
+    } else if (act === "ipod-play") {
+      e.preventDefault();
+      e.stopPropagation();
+      playLoaded();
     }
   }
 
