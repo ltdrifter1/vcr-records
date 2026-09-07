@@ -39,7 +39,7 @@
   }
 
   function releaseOf(opt) {
-    return opt.getAttribute("data-play-release") || "";
+    return opt.getAttribute("data-desk-release") || opt.getAttribute("data-play-release") || "";
   }
 
   function titleOf(opt) {

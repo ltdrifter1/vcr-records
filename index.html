@@ -1540,31 +1540,43 @@
       .wall-item.is-now-playing.is-audible .wall-art::before { animation: none; }
     }
 
-    /* Record Club — chrome membership console in the same night ------------ */
+    /* Record Club — late-90s aqua-steel, distinct from the black releases wall */
     .club-join {
-      /* Fixed steel/chrome accents — never tied to the currently-playing
-         track's colour, so this section always reads clean and never drifts
-         into purple. */
-      --room-a: 168, 178, 194;
-      --room-b: 138, 148, 166;
-      --room-c: 206, 214, 226;
+      --room-a: 90, 190, 210;
+      --room-b: 150, 130, 210;
+      --room-c: 210, 230, 240;
       --join-ink: #f4f6f8;
-      --join-muted: rgba(244,246,248,.62);
-      --join-dim: rgba(200,214,230,.45);
+      --join-muted: rgba(244,246,248,.68);
+      --join-dim: rgba(180, 220, 230, .55);
       position: relative;
       isolation: isolate;
       color: var(--join-ink);
       padding: 64px 0 88px;
-      border-top: 1px solid rgba(255,255,255,.1);
+      border-top: 1px solid rgba(140, 210, 220, .16);
       background:
-        radial-gradient(ellipse 50% 48% at 82% 12%, rgba(var(--room-a), .12), transparent 58%),
-        radial-gradient(ellipse 40% 36% at 8% 88%, rgba(var(--room-b), .08), transparent 52%),
-        #080808;
+        radial-gradient(ellipse 72% 52% at 92% 0%, rgba(70, 190, 210, .28), transparent 58%),
+        radial-gradient(ellipse 48% 42% at 6% 100%, rgba(150, 120, 210, .18), transparent 54%),
+        linear-gradient(180deg, #102028 0%, #163038 38%, #0c1820 100%);
+    }
+    .club-join::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .28;
+      background-image:
+        linear-gradient(rgba(140, 210, 230, .18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(140, 210, 230, .1) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
     }
     body.hero-top .wall + .club-join {
-      border-top-color: rgba(255,255,255,.08);
+      border-top-color: rgba(120, 200, 210, .14);
     }
     .club-join-inner {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
       gap: 0;
@@ -2383,7 +2395,7 @@
             <button type="button" class="ipod-key ipod-key--next" data-act="ipod-next" aria-label="Next">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 6H19v12h-2.4zM13 12 3 5.6v12.8z"/></svg>
             </button>
-            <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" aria-label="Play The Process">
+            <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" data-act="ipod-play" aria-label="Play The Process">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 7.1v9.8L12 12zm10.8 0h1.7v9.8h-1.7zm3.1 0h1.7v9.8h-1.7z"/></svg>
             </button>
           </div>
@@ -2625,7 +2637,7 @@
         <div
           class="desk-option desk-option--walkman is-active"
           data-desk-option
-          data-play-release="bridget-in-my-room"
+          data-desk-release="bridget-in-my-room"
           data-page="/bridget-in-my-room"
           data-cover="bridget-in-my-room-cover.webp"
           data-title="Bridget In My Room"
@@ -2639,7 +2651,6 @@
           <div class="walkman" data-discman>
             <div class="walkman-shell">
               <div class="walkman-face">
-                <span class="walkman-sony">SONY</span>
                 <span class="walkman-mp3">MP3</span>
                 <div class="walkman-lcd" aria-hidden="true">
                   <div class="walkman-lcd-row">
@@ -2684,26 +2695,26 @@
                 </span>
               </div>
               <span class="walkman-jack" aria-hidden="true"></span>
-              <svg class="desk-headphones" viewBox="0 0 200 210" aria-hidden="true">
-                <path class="desk-cable-lead" d="M12 16c18 28 16 70 8 104 4 18 22 36 48 44"/>
-                <path class="desk-cable-split" d="M68 164c22 10 40 8 62-2"/>
-                <path class="desk-cable-split" d="M68 164c12 22 28 36 58 40"/>
+              <svg class="desk-headphones" viewBox="0 0 220 200" aria-hidden="true">
+                <path class="desk-cable-lead" d="M10 18c22 10 28 48 22 78 8 28 36 48 72 52"/>
+                <path class="desk-cable-split" d="M104 148c28 6 48 2 70-18"/>
+                <path class="desk-cable-split" d="M104 148c16 24 40 38 72 36"/>
                 <g class="desk-plug">
-                  <rect x="0" y="11" width="12" height="10" rx="1.2" fill="#c8ccd2"/>
-                  <rect x="10" y="9" width="12" height="14" rx="2" fill="#f7f8fa"/>
-                  <rect x="20" y="12.5" width="8" height="7" rx="1" fill="#dde1e6"/>
+                  <rect x="0" y="13" width="11" height="10" rx="1" fill="#c8ccd0"/>
+                  <rect x="9" y="11" width="12" height="14" rx="2" fill="#f6f7f8"/>
+                  <rect x="19" y="14" width="8" height="8" rx="1" fill="#dfe2e6"/>
                 </g>
-                <g class="desk-earbud" transform="translate(136 154) rotate(18)">
-                  <rect x="-4.5" y="8" width="9" height="18" rx="3" fill="#f8f8f9" stroke="#d2d4d8" stroke-width=".8"/>
-                  <ellipse cx="0" cy="0" rx="13" ry="14" fill="#fcfcfd" stroke="#d0d2d6" stroke-width="1"/>
-                  <ellipse cx="0" cy="-0.8" rx="7.2" ry="7.4" fill="#c2c4c8"/>
-                  <ellipse cx="0" cy="-0.8" rx="4.1" ry="4.2" fill="#8e9096"/>
+                <g class="desk-earbud" transform="translate(178 118) rotate(22)">
+                  <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
+                  <circle class="bud-shell" r="12"/>
+                  <circle class="bud-mesh" cy="-0.6" r="6"/>
+                  <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
                 </g>
-                <g class="desk-earbud" transform="translate(132 204) rotate(-28)">
-                  <rect x="-4.5" y="8" width="9" height="18" rx="3" fill="#f8f8f9" stroke="#d2d4d8" stroke-width=".8"/>
-                  <ellipse cx="0" cy="0" rx="13" ry="14" fill="#fcfcfd" stroke="#d0d2d6" stroke-width="1"/>
-                  <ellipse cx="0" cy="-0.8" rx="7.2" ry="7.4" fill="#c2c4c8"/>
-                  <ellipse cx="0" cy="-0.8" rx="4.1" ry="4.2" fill="#8e9096"/>
+                <g class="desk-earbud" transform="translate(180 184) rotate(-32)">
+                  <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
+                  <circle class="bud-shell" r="12"/>
+                  <circle class="bud-mesh" cy="-0.6" r="6"/>
+                  <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
                 </g>
               </svg>
             </div>
@@ -2716,7 +2727,7 @@
         <div
           class="desk-option desk-option--rio"
           data-desk-option
-          data-play-release="any-jungle"
+          data-desk-release="any-jungle"
           data-page="/any-jungle"
           data-cover="any-jungle-cover.webp"
           data-title="any jungle"
@@ -2778,24 +2789,24 @@
               <span class="rio-model">PMP300</span>
             </div>
             <svg class="rio-headphones desk-headphones" viewBox="0 0 180 200" aria-hidden="true">
-              <path class="desk-cable-lead" d="M18 10c8-18 40-18 52 8 10 22 6 48-10 70-12 16-8 36 18 48"/>
-              <path class="desk-cable-split" d="M78 136c20 8 36 6 54-8"/>
-              <path class="desk-cable-split" d="M78 136c10 20 26 34 52 36"/>
+              <path class="desk-cable-lead" d="M18 12c10-14 36-16 48 10 12 24 4 52-8 74-8 16-2 36 22 46"/>
+              <path class="desk-cable-split" d="M80 142c22 8 40 4 58-14"/>
+              <path class="desk-cable-split" d="M80 142c12 22 30 36 56 34"/>
               <g class="desk-plug">
-                <rect x="8" y="6" width="10" height="8" rx="1" fill="#c9a227"/>
-                <rect x="16" y="4" width="10" height="12" rx="1.6" fill="#e0c056"/>
+                <rect x="10" y="7" width="10" height="9" rx="1" fill="#c8ccd0"/>
+                <rect x="18" y="5" width="11" height="13" rx="2" fill="#f6f7f8"/>
               </g>
-              <g class="desk-earbud" transform="translate(138 118) rotate(24)">
-                <rect x="-4.5" y="8" width="9" height="18" rx="3" fill="#f8f8f9" stroke="#d2d4d8" stroke-width=".8"/>
-                <ellipse cx="0" cy="0" rx="13" ry="14" fill="#fcfcfd" stroke="#d0d2d6" stroke-width="1"/>
-                <ellipse cx="0" cy="-0.8" rx="7.2" ry="7.4" fill="#c2c4c8"/>
-                <ellipse cx="0" cy="-0.8" rx="4.1" ry="4.2" fill="#8e9096"/>
+              <g class="desk-earbud" transform="translate(142 118) rotate(18)">
+                <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
+                <circle class="bud-shell" r="12"/>
+                <circle class="bud-mesh" cy="-0.6" r="6"/>
+                <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
               </g>
-              <g class="desk-earbud" transform="translate(136 172) rotate(-26)">
-                <rect x="-4.5" y="8" width="9" height="18" rx="3" fill="#f8f8f9" stroke="#d2d4d8" stroke-width=".8"/>
-                <ellipse cx="0" cy="0" rx="13" ry="14" fill="#fcfcfd" stroke="#d0d2d6" stroke-width="1"/>
-                <ellipse cx="0" cy="-0.8" rx="7.2" ry="7.4" fill="#c2c4c8"/>
-                <ellipse cx="0" cy="-0.8" rx="4.1" ry="4.2" fill="#8e9096"/>
+              <g class="desk-earbud" transform="translate(140 176) rotate(-28)">
+                <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
+                <circle class="bud-shell" r="12"/>
+                <circle class="bud-mesh" cy="-0.6" r="6"/>
+                <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
               </g>
             </svg>
           </div>
