@@ -826,7 +826,8 @@
     dock.classList.toggle("is-playing", !!playing);
     setAirState(playing);
     if (playing) startEnergy();
-    if (track && track.cover) sampleCover(track.cover);
+    var roomNow = getRoom();
+    if (track && track.cover && !(roomNow && roomNow.hasAttribute("data-ipod"))) sampleCover(track.cover);
     syncDockAway();
 
     var bug = dock.querySelector(".vcr-player__bug");
@@ -1446,8 +1447,11 @@
     // Prefetch catalog so the first tap can start playback in-gesture on iOS.
     loadCatalog().catch(function () {});
     hydrateFromURL();
-    var featured = document.querySelector("[data-room-art]");
-    if (featured && featured.getAttribute("src")) sampleCover(featured.getAttribute("src"));
+    var room = document.getElementById("room");
+    if (!room || !room.hasAttribute("data-ipod")) {
+      var featured = document.querySelector("[data-room-art]");
+      if (featured && featured.getAttribute("src")) sampleCover(featured.getAttribute("src"));
+    }
   }
 
   window.VCRPlayer = {
@@ -1472,7 +1476,7 @@
       return audio ? audio.volume : 0.8;
     },
     getAudio: function () {
-      return audio;
+      return ensureAudio();
     },
     current: current,
     getState: getState,
