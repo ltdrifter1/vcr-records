@@ -99,7 +99,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/listen-object.css"/>
   <link rel="stylesheet" href="css/cover-flow.css"/>
@@ -2865,41 +2865,59 @@
     </div>
   </section>
 
-  <!-- Transmissions — the front page. CSS already in news.css -->
-  <section class="news newsprint" aria-labelledby="news-title">
+  <!-- Club Copy News — editorial front. CSS in news.css -->
+  <section class="news newsprint" id="news" aria-labelledby="news-title">
     <div class="news-bridge" aria-hidden="true"></div>
 
     <div class="band">
-      <div class="newsprint-masthead" id="news">
+      <header class="newsprint-masthead">
         <div class="newsprint-rule newsprint-rule--hair"></div>
         <div class="newsprint-mast-row">
-          <p class="newsprint-eyebrow">Pacific Northwest Edition · Vol. III</p>
-          <h2 class="newsprint-title" id="news-title"><a href="/news">Club Copy Transmissions</a></h2>
+          <p class="newsprint-eyebrow">Pacific Northwest · Label Desk</p>
+          <h2 class="newsprint-title" id="news-title"><a href="/news">Club Copy News</a></h2>
           <p class="newsprint-dateline">
-            <span data-newsprint-date>Sunday, September 6, 2026</span>
+            <span data-newsprint-date>Monday, September 7, 2026</span>
             <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
-            <span>No. 020</span>
+            <span>British Columbia</span>
             <span class="newsprint-dateline-dot" aria-hidden="true">·</span>
-            <a class="head-link" href="/news">All issues →</a>
+            <a class="head-link" href="/news">Archive</a>
           </p>
         </div>
         <div class="newsprint-rule newsprint-rule--thick"></div>
         <div class="newsprint-rule newsprint-rule--hair"></div>
-      </div>
-    </div>
+      </header>
 
-    <div class="band">
       <div class="newsprint-page">
-        <a class="news-card rv newsprint-lead" href="/news/drill-lyrics-on-trial" data-date="2026-09-02">
-          <div class="newsprint-lead-body">
+        <div class="newsprint-spread">
+          <article class="newsprint-lead rv">
             <p class="newsprint-kicker">Label note</p>
-            <h3 class="newsprint-headline">Bars On Trial</h3>
+            <h3 class="newsprint-headline"><a href="/news/drill-lyrics-on-trial">Bars On Trial</a></h3>
             <p class="newsprint-dek">The Met says drill lyrics prove crimes. Not everyone agrees.</p>
-            <p class="newsprint-byline">By the Label Desk <span aria-hidden="true">—</span> Sep 2, 2026</p>
-          </div>
-        </a>
+            <p class="newsprint-byline">By CJ Archer <span aria-hidden="true">·</span> September 2, 2026</p>
+            <div class="newsprint-copy">
+              <p>London’s Metropolitan Police came out this week defending the practice of using drill videos and lyrics as evidence in murder trials, after a campaign group called Art Not Evidence pushed for a change in the law. A recent report found lyrics had been used as evidence against 252 defendants over a three-year stretch. That’s not a rare exception. That’s a pattern.</p>
+              <figure class="newsprint-photo">
+                <img src="news-rosco-bw.webp" alt="A Vancouver alley beside a brick rooming house, in black and white." width="360" height="480" loading="lazy"/>
+                <figcaption>Rosco’s city. Vancouver, 2026.</figcaption>
+              </figure>
+              <p>The police argument is straightforward: if someone puts real information about a real crime into a song, that’s fair game. Art Not Evidence sees it differently. Courts keep treating “gang aesthetics” — a look, a slang term, a beat — as if it’s a confession, when it’s usually just genre convention.</p>
+              <p>This isn’t just a UK problem or just a drill problem. Rap lyrics have been read as literal testimony in courtrooms on both sides of the Atlantic for decades. Worth remembering next time a verse gets treated as a police report instead of a record.</p>
+            </div>
+            <p class="newsprint-continue"><a href="/news/drill-lyrics-on-trial">Continue reading</a></p>
+          </article>
 
-        <div class="newsprint-columns newsprint-grid">
+          <aside class="newsprint-rail" aria-label="Advertisement">
+            <a class="newsprint-ad" href="/about">
+              <p class="newsprint-ad-kicker">Advertisement</p>
+              <img class="newsprint-ad-logo" src="copy-house-publishing-logo.webp" alt="Copy House Publishing" width="1448" height="399"/>
+              <p class="newsprint-ad-line">The house that publishes the records. Books, liner notes, and the imprint behind Club Copy.</p>
+              <span class="newsprint-ad-cta">About Copy House</span>
+            </a>
+          </aside>
+        </div>
+
+        <h3 class="newsprint-digest-label">Also in this edition</h3>
+        <div class="newsprint-digest newsprint-grid">
           <a class="news-card rv newsprint-story" href="/news/any-jungle" data-date="2026-08-30">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">any jungle</h3>
@@ -2918,13 +2936,13 @@
             <p class="newsprint-story-dek">A car ride that doesn’t end when the song does.</p>
             <p class="newsprint-story-meta">Aug 10, 2026</p>
           </a>
-          <a class="news-card rv newsprint-story newsprint-story--brief" href="/news/need-you" data-date="2026-07-29">
+          <a class="news-card rv newsprint-story" href="/news/need-you" data-date="2026-07-29">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">Need U</h3>
             <p class="newsprint-story-dek">We’ve had this one on repeat.</p>
             <p class="newsprint-story-meta">Jul 29, 2026</p>
           </a>
-          <a class="news-card rv newsprint-story newsprint-story--brief" href="/news/inlet-knight" data-date="2026-02-20">
+          <a class="news-card rv newsprint-story" href="/news/inlet-knight" data-date="2026-02-20">
             <p class="newsprint-kicker">Release</p>
             <h3 class="newsprint-story-title">Inlet Knight</h3>
             <p class="newsprint-story-dek">Eleven tracks. Dubbed to cassette.</p>
@@ -2945,7 +2963,7 @@
         </div>
 
         <div class="newsprint-rule newsprint-rule--hair newsprint-rule--foot"></div>
-        <p class="newsprint-footline">Club Copy Transmissions is printed on nothing and read everywhere. <a href="/news">Read the full archive →</a></p>
+        <p class="newsprint-footline">Club Copy News is the label desk. <a href="/news">Read the full archive</a></p>
       </div>
     </div>
 
