@@ -285,7 +285,7 @@
         return {
           id: t.id,
           title: t.title,
-          src: t.preview,
+          src: t.preview.charAt(0) === "/" ? t.preview : "/" + t.preview,
           isPreview: true,
           previewDuration: t.previewDuration || 90,
           releaseId: release.id,
@@ -1378,6 +1378,7 @@
     if (listenBound && root === document) return;
     if (root === document) listenBound = true;
     root.querySelectorAll("[data-play-release]").forEach(function (el) {
+      if (el.hasAttribute("data-desk-option") || el.closest("[data-desk-option]")) return;
       el.addEventListener("click", function (e) {
         e.preventDefault();
         unlockAudioFromGesture();

@@ -385,7 +385,7 @@
   }
 
   function bindPlayButtons(root) {
-    (root || document).querySelectorAll("[data-play-release]").forEach(function (el) {
+    (root || document).querySelectorAll(".flow-play[data-play-release]").forEach(function (el) {
       if (el.getAttribute("data-bound-play") === "1") return;
       el.setAttribute("data-bound-play", "1");
       el.addEventListener("click", function (e) {
