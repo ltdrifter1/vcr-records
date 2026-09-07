@@ -693,6 +693,7 @@
   function bindRoom(room) {
     if (!room || roomBound) return;
     roomBound = true;
+    if (room.hasAttribute("data-ipod")) return;
     room.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-act]");
       if (!btn || !room.contains(btn)) return;
@@ -706,6 +707,11 @@
     var room = getRoom();
     if (!room) return;
     bindRoom(room);
+    if (room.hasAttribute("data-ipod")) {
+      room.classList.toggle("is-live", roomOpen);
+      room.setAttribute("aria-live", roomOpen ? "polite" : "off");
+      return;
+    }
 
     var art = room.querySelector("[data-room-art]");
     var bg = room.querySelector("[data-room-bg]");
@@ -930,7 +936,7 @@
     ui.dock.querySelector("[data-cur]").textContent = fmt(cur);
     ui.dock.querySelector("[data-dur]").textContent = fmt(dur);
     var room = getRoom();
-    if (room) {
+    if (room && !room.hasAttribute("data-ipod")) {
       var roomScrub = room.querySelector("[data-room-scrub]");
       if (roomScrub) roomScrub.value = String(ratio);
       var curEl = room.querySelector("[data-room-cur]");

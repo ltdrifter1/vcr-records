@@ -31,9 +31,7 @@
       playBtn.setAttribute("aria-label", playing ? "Pause Bridget In My Room" : "Play Bridget In My Room");
     }
     if (lcdMode) lcdMode.textContent = playing ? "PLAY" : "STOP";
-    if (lcdTitle) {
-      lcdTitle.textContent = mine && track && track.title ? track.title : "BRIDGET";
-    }
+    if (lcdTitle) lcdTitle.textContent = "BRIDGET";
   }
 
   function play() {

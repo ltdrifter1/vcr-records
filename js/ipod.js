@@ -367,7 +367,9 @@
 
   function playLoaded() {
     var track = siteTrack();
-    if (track && window.VCRPlayer) {
+    var featured = !!(track && track.releaseId === FEATURED.releaseId);
+
+    if (featured && window.VCRPlayer) {
       if (bcPlaying) pauseBandcamp();
       VCRPlayer.toggle();
       showNowPlaying();
@@ -377,6 +379,7 @@
       pauseBandcamp();
       return;
     }
+    if (track && window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
     if (window.VCRPlayer && VCRPlayer.playRelease) {
       Promise.resolve(
         VCRPlayer.playRelease(FEATURED.releaseId, null, { autoplay: true, stage: false })
@@ -716,7 +719,14 @@
     var d = e.detail || {};
     var foreign = d.track && d.track.releaseId && d.track.releaseId !== FEATURED.releaseId;
     if (bcPlaying && (d.playing || foreign)) pauseBandcamp();
-    if (d.track && d.playing && view !== "menu") showNowPlaying();
+    if (foreign) {
+      if (view === "now") {
+        setView("menu");
+        renderList();
+      }
+    } else if (d.playing && view !== "menu") {
+      showNowPlaying();
+    }
     syncPlayUi();
     if (d.track && (d.track.title || d.track.releaseTitle)) {
       var line = d.track.artist ? d.track.artist + " — " : "";
