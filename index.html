@@ -106,6 +106,7 @@
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <link rel="stylesheet" href="css/news.css"/>
+  <link rel="stylesheet" href="css/desk.css"/>
   <style>
     /* Listening booth hero : sleeve + copy, no logo stack ------------------- */
     .hero {
@@ -189,7 +190,7 @@
 
     .hero-stage {
       position: relative; z-index: 1;
-      width: min(1120px, calc(100% - 56px));
+      width: min(1180px, calc(100% - 48px));
       min-height: 100%;
       padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 44px));
       display: flex;
@@ -197,13 +198,184 @@
       justify-content: center;
       text-align: left;
     }
+    .hero-post {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 28px 44px;
+      width: 100%;
+    }
     .hero-booth {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
-      width: min(320px, 100%);
-      padding: 8px 4px;
+      width: max-content;
+      max-width: 100%;
+      padding: 0;
+      justify-self: center;
+    }
+
+    /* Listening Post — editorial column ----------------------------------- */
+    .hero-copy {
+      justify-self: start;
+      max-width: 34rem;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .hero-cat {
+      margin: 0 0 14px;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(200, 214, 230, .7);
+    }
+    .hero-title {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(40px, 5.4vw, 68px);
+      font-weight: 700;
+      letter-spacing: -.045em;
+      line-height: .92;
+      color: #fff;
+    }
+    .hero-artist {
+      margin: 12px 0 0;
+      font-size: clamp(16px, 1.6vw, 20px);
+      font-weight: 500;
+      letter-spacing: -.02em;
+      color: rgba(244, 246, 248, .82);
+    }
+    .hero-artist a { color: inherit; }
+    .hero-artist a:hover { color: #fff; }
+    .hero-dek {
+      margin: 16px 0 0;
+      max-width: 22em;
+      font-size: 15px;
+      line-height: 1.45;
+      color: rgba(200, 214, 230, .62);
+    }
+    .hero-price {
+      margin: 22px 0 0;
+      font-family: var(--callsign);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .hero-copy-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      margin-top: 22px;
+    }
+    .hero-copy-buy {
+      appearance: none;
+      height: 42px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 999px;
+      background: #fff;
+      color: #111;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hero-copy-buy:hover { background: #eceff2; }
+    .hero-copy-buy:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+    .hero-copy-actions .hero-y2k-details {
+      height: 42px;
+    }
+    .hero-copy-live {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .hero.is-playing .hero-copy-live { display: flex; }
+    .hero-copy-live-title {
+      margin: 0;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.78);
+    }
+
+    /* Listening Post — featured sleeve ------------------------------------ */
+    .hero-release {
+      justify-self: end;
+      width: min(280px, 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+    }
+    .hero-release-art {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #111;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.35),
+        0 18px 48px rgba(0,0,0,.45),
+        0 2px 0 rgba(0,0,0,.2);
+      transform: rotate(2.2deg);
+      transform-origin: 70% 80%;
+      transition: box-shadow .5s var(--ease), transform .5s var(--ease);
+    }
+    .hero.is-playing .hero-release-art {
+      transform: rotate(1.4deg) translateY(-4px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.4),
+        0 0 0 1px rgba(var(--room-a), .35),
+        0 22px 54px rgba(0,0,0,.5),
+        0 0 48px rgba(var(--room-a), calc(0.16 + var(--room-energy) * 0.28));
+    }
+    .hero-release-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-release-stamp {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 8px 4px;
+      background: #fff;
+      color: #111;
+      font-family: var(--callsign);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .hero-release-cap {
+      margin: 0;
+      padding-left: 4px;
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(200, 214, 230, .55);
     }
 
     /* Station bar — NTS / lot-radio chrome at the fold -------------------- */
@@ -1968,13 +2140,33 @@
     .place-dek,
     .place-link { display: none; }
 
-    /* Tablet / phone : keep the device centered ----------------------------- */
+    /* Listening post — collapse sleeve, then stack -------------------------- */
+    @media (max-width: 1080px) {
+      .hero-post {
+        grid-template-columns: minmax(0, 1.05fr) auto;
+        gap: 24px 32px;
+      }
+      .hero-release { display: none; }
+      .hero-copy { max-width: 28rem; }
+    }
+
     @media (max-width: 860px) {
       .hero-stage {
-        width: min(100% - 40px, 440px);
+        width: min(100% - 36px, 640px);
         padding: calc(var(--nav-h) + var(--safe-t) + 18px) 0 calc(20px + var(--ticker-h, 44px) + var(--safe-b));
       }
-      .hero-booth { gap: 16px; }
+      .hero-post {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 22px;
+      }
+      .hero-copy {
+        align-items: center;
+        text-align: center;
+        justify-self: center;
+        max-width: 28rem;
+      }
+      .hero-copy-actions { justify-content: center; }
       .hero-ambient {
         background-position: center;
       }
@@ -1997,7 +2189,9 @@
         width: min(100% - 28px, 420px);
         padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(16px + var(--ticker-h, 40px) + var(--safe-b));
       }
-      .hero-booth { gap: 14px; }
+      .hero-title { font-size: clamp(32px, 11vw, 42px); }
+      .hero-copy-actions { width: 100%; justify-content: center; }
+      .hero-copy-buy { flex: 1 1 auto; max-width: 200px; }
       .hero-platter { --ipod-w: min(260px, 78vw); padding: 14px 14px 20px; }
 
       .hero.is-live .hero-stage {
@@ -2129,7 +2323,27 @@
     <div class="hero-ambient" data-room-bg aria-hidden="true"></div>
     <div class="hero-scan" aria-hidden="true"></div>
     <div class="hero-stage">
-      <div class="hero-booth">
+      <div class="hero-post">
+        <div class="hero-copy">
+          <p class="hero-cat">CC020 · Single · 2026</p>
+          <h1 class="hero-title">The Process</h1>
+          <p class="hero-artist"><a href="/artists/molly-haze">Molly Haze</a></p>
+          <p class="hero-dek">House. Radio edit. Out now on Club Copy.</p>
+          <p class="hero-price">Digital · $1.50 CAD</p>
+          <div class="hero-copy-actions">
+            <button type="button" class="hero-copy-buy" data-ipod-buy data-label="Buy · $1.50">Buy · $1.50</button>
+            <a class="hero-y2k-details" href="/the-process">
+              <span>Details</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="hero-copy-live" aria-live="polite">
+            <span class="status-chip status-chip--air">On air</span>
+            <p class="hero-copy-live-title">Molly Haze — The Process</p>
+          </div>
+        </div>
+
+        <div class="hero-booth">
         <div class="hero-platter">
           <span class="hero-pulse" aria-hidden="true"></span>
 
@@ -2152,7 +2366,6 @@
                 <span class="status-chip status-chip--air">On air</span>
               </div>
 
-              <h1 class="visually-hidden">The Process — Molly Haze, CC020, out now on Club Copy</h1>
               <div class="hero-idle" data-room-idle>
                 <div class="ipod-menu" role="listbox" aria-label="iPod" data-ipod-list></div>
               </div>
@@ -2193,11 +2406,15 @@
           </div>
           <div class="hero-bandcamp" id="heroBandcamp" hidden></div>
         </div>
+        </div>
 
-        <a class="hero-y2k-details" href="/the-process">
-          <span>Details</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <aside class="hero-release" aria-label="The Process sleeve">
+          <div class="hero-release-art media-bezel">
+            <img src="the-process-cover.webp?v=re" alt="The Process — white vinyl Club Copy promo label artwork" width="1200" height="1200"/>
+            <span class="hero-release-stamp">CC020</span>
+          </div>
+          <p class="hero-release-cap">Promo label · Radio edit</p>
+        </aside>
       </div>
     </div>
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: The Process, any jungle, Bridget In My Room, Need U, EP-6.</p>
@@ -2403,6 +2620,66 @@
     </div>
   </section>
 
+  <!-- Bedroom desk — Bridget In My Room on a Discman -->
+  <section class="desk" data-desk data-play-release="bridget-in-my-room" aria-label="Bridget In My Room on Discman">
+    <div class="desk-window" aria-hidden="true"></div>
+    <div class="desk-band">
+      <div class="desk-board">
+        <a class="desk-sleeve" href="/bridget-in-my-room">
+          <img src="bridget-in-my-room-cover.webp" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/>
+        </a>
+        <div class="desk-card">
+          <p class="desk-card-cat">CC011 · House · 2026</p>
+          <p class="desk-card-title"><a href="/bridget-in-my-room">Bridget In My Room</a></p>
+          <p class="desk-card-sub">Rosco · Digital · $8 CAD</p>
+        </div>
+        <div class="desk-discman-wrap">
+          <div class="discman" data-discman>
+            <div class="discman-shell">
+              <span class="discman-brand">Discman</span>
+              <span class="discman-hinge" aria-hidden="true"></span>
+              <div class="discman-lid">
+                <div class="discman-window">
+                  <div class="discman-disc" aria-hidden="true">
+                    <img src="bridget-in-my-room-cover.webp" alt="" width="1200" height="1200" loading="lazy"/>
+                  </div>
+                </div>
+              </div>
+              <div class="discman-chin">
+                <div class="discman-lcd" aria-hidden="true">
+                  <span data-desk-lcd-mode>STOP</span>
+                  <span data-desk-lcd-title>BRIDGET</span>
+                </div>
+                <div class="discman-keys">
+                  <button type="button" class="discman-key" data-desk-prev aria-label="Previous track">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h2.4v12H5zm3.6 6 10 6.4V5.6z"/></svg>
+                  </button>
+                  <button type="button" class="discman-key discman-key--play" data-desk-play aria-label="Play Bridget In My Room">
+                    <svg class="discman-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                    <svg class="discman-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
+                  </button>
+                  <button type="button" class="discman-key" data-desk-next aria-label="Next track">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 6H19v12h-2.4zM13 12 3 5.6v12.8z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <span class="discman-jack" aria-hidden="true"></span>
+            <span class="discman-wheel" aria-hidden="true"></span>
+          </div>
+        </div>
+        <svg class="desk-cable" viewBox="0 0 280 120" aria-hidden="true">
+          <path class="desk-cable-lead" d="M8 18c52 10 78 58 138 64 48 5 86-24 136 10"/>
+          <path class="desk-cable-glint" d="M8 16c52 10 78 58 138 64"/>
+          <g class="desk-buds">
+            <ellipse cx="262" cy="98" rx="7" ry="11"/>
+            <ellipse cx="246" cy="108" rx="7" ry="11"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
   <!-- Artists -->
   <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
     <div class="band">
@@ -2569,6 +2846,7 @@
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
 <script src="js/ipod.js"></script>
+<script src="js/desk.js"></script>
 <script src="js/home-wall.js"></script>
 <script>
 (function () {

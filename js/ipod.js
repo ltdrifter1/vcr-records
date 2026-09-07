@@ -58,7 +58,6 @@
   var wheel = hero.querySelector("[data-ipod-wheel]");
   var hub = document.getElementById("ipodSelect");
   var playBtn = document.getElementById("heroPlayBtn");
-  var buyBtn = hero.querySelector("[data-ipod-buy]");
   var bandcamp = document.getElementById("heroBandcamp");
   var alertEl = hero.querySelector("[data-ipod-alert]");
   var alertMsg = hero.querySelector("[data-ipod-alert-msg]");
@@ -119,8 +118,13 @@
     return state && state.track ? state.track : null;
   }
 
+  function sitePlayingFeatured() {
+    var track = siteTrack();
+    return !!(sitePlaying() && track && track.releaseId === FEATURED.releaseId);
+  }
+
   function isAudible() {
-    return bcPlaying || sitePlaying();
+    return bcPlaying || sitePlayingFeatured();
   }
 
   function money(n) {
@@ -322,6 +326,7 @@
   }
 
   function startBandcamp() {
+    if (window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
     ensureBandcampPlayer();
     bcPlaying = true;
     hero.classList.add("is-bandcamp", "is-playing");
@@ -407,15 +412,15 @@
       id: offer.sku,
     });
     tickSound();
-    if (buyBtn) {
-      var orig = buyBtn.getAttribute("data-label") || buyBtn.textContent;
-      buyBtn.setAttribute("data-label", orig);
-      buyBtn.textContent = "Added ✓";
-      clearTimeout(buyBtn._flash);
-      buyBtn._flash = setTimeout(function () {
-        buyBtn.textContent = orig;
+    hero.querySelectorAll("[data-ipod-buy]").forEach(function (el) {
+      var orig = el.getAttribute("data-label") || el.textContent;
+      el.setAttribute("data-label", orig);
+      el.textContent = "Added ✓";
+      clearTimeout(el._flash);
+      el._flash = setTimeout(function () {
+        el.textContent = orig;
       }, 1800);
-    }
+    });
     showAlert("Added to Cart");
   }
 
@@ -676,11 +681,9 @@
     }
     shopItems.push({ id: "details", label: "Details", kind: "link", href: FEATURED.page });
     SCREENS.shop.items = shopItems;
-    if (buyBtn) {
-      buyBtn.textContent = "Buy Now";
-      buyBtn.setAttribute("data-price", priceLabel);
-      buyBtn.setAttribute("data-label", "Buy Now");
-    }
+    hero.querySelectorAll("[data-ipod-buy][data-price]").forEach(function (el) {
+      el.setAttribute("data-price", priceLabel);
+    });
     if (view === "menu") renderList();
   }
 
@@ -711,7 +714,8 @@
 
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
-    if (d.playing && bcPlaying) pauseBandcamp();
+    var foreign = d.track && d.track.releaseId && d.track.releaseId !== FEATURED.releaseId;
+    if (bcPlaying && (d.playing || foreign)) pauseBandcamp();
     if (d.track && d.playing && view !== "menu") showNowPlaying();
     syncPlayUi();
     if (d.track && (d.track.title || d.track.releaseTitle)) {
