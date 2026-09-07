@@ -99,7 +99,7 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
   <link rel="stylesheet" href="css/listen-object.css"/>
   <link rel="stylesheet" href="css/cover-flow.css"/>
@@ -200,10 +200,12 @@
     }
     .hero-post {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      gap: 28px 44px;
+      gap: 32px 64px;
       width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
     }
     .hero-booth {
       display: flex;
@@ -225,15 +227,6 @@
       align-items: flex-start;
       gap: 0;
     }
-    .hero-cat {
-      margin: 0 0 14px;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: rgba(200, 214, 230, .7);
-    }
     .hero-title {
       margin: 0;
       font-family: var(--display);
@@ -243,37 +236,23 @@
       line-height: .92;
       color: #fff;
     }
+    .hero-title a { color: inherit; text-decoration: none; }
+    .hero-title a:hover { color: #fff; }
     .hero-artist {
-      margin: 12px 0 0;
+      margin: 14px 0 0;
       font-size: clamp(16px, 1.6vw, 20px);
       font-weight: 500;
       letter-spacing: -.02em;
-      color: rgba(244, 246, 248, .82);
+      color: rgba(244, 246, 248, .72);
     }
     .hero-artist a { color: inherit; }
     .hero-artist a:hover { color: #fff; }
-    .hero-dek {
-      margin: 16px 0 0;
-      max-width: 22em;
-      font-size: 15px;
-      line-height: 1.45;
-      color: rgba(200, 214, 230, .62);
-    }
-    .hero-price {
-      margin: 22px 0 0;
-      font-family: var(--callsign);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #fff;
-    }
     .hero-copy-actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 10px 14px;
-      margin-top: 22px;
+      margin-top: 28px;
     }
     .hero-copy-buy {
       appearance: none;
@@ -2137,11 +2116,7 @@
 
     /* Listening post — collapse sleeve, then stack -------------------------- */
     @media (max-width: 1080px) {
-      .hero-post {
-        grid-template-columns: minmax(0, 1.05fr) auto;
-        gap: 24px 32px;
-      }
-      .hero-release { display: none; }
+      .hero-post { gap: 24px 40px; }
       .hero-copy { max-width: 28rem; }
     }
 
@@ -2320,21 +2295,13 @@
     <div class="hero-stage">
       <div class="hero-post">
         <div class="hero-copy">
-          <p class="hero-cat">CC020 · Single · 2026</p>
-          <h1 class="hero-title">The Process</h1>
+          <h1 class="hero-title"><a href="/the-process">The Process</a></h1>
           <p class="hero-artist"><a href="/artists/molly-haze">Molly Haze</a></p>
-          <p class="hero-dek">House. Radio edit. Out now on Club Copy.</p>
-          <p class="hero-price">Digital · $1.50 CAD</p>
           <div class="hero-copy-actions">
-            <button type="button" class="hero-copy-buy" data-ipod-buy data-label="Buy · $1.50">Buy · $1.50</button>
-            <a class="hero-y2k-details" href="/the-process">
-              <span>Details</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
+            <button type="button" class="hero-copy-buy" data-ipod-buy data-label="Buy · $1.50">Buy</button>
           </div>
           <div class="hero-copy-live" aria-live="polite">
             <span class="status-chip status-chip--air">On air</span>
-            <p class="hero-copy-live-title">Molly Haze — The Process</p>
           </div>
         </div>
 
@@ -2401,14 +2368,6 @@
           </div>
         </div>
         </div>
-
-        <aside class="hero-release" aria-label="The Process sleeve">
-          <div class="hero-release-art media-bezel">
-            <img src="the-process-cover.webp?v=re" alt="The Process — white vinyl Club Copy promo label artwork" width="1200" height="1200"/>
-            <span class="hero-release-stamp">CC020</span>
-          </div>
-          <p class="hero-release-cap">Promo label · Radio edit</p>
-        </aside>
       </div>
     </div>
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: The Process, any jungle, Bridget In My Room, Need U, EP-6.</p>
@@ -2614,205 +2573,65 @@
     </div>
   </section>
 
-  <!-- Bedroom desk — Walkman or Rio, two Y2K players -->
-  <section class="desk" data-desk aria-label="Pick a player: Sony CD Walkman or Diamond Rio">
-    <div class="desk-room" aria-hidden="true"></div>
-    <div class="desk-window" aria-hidden="true"></div>
+  <!-- Still life — Sony CD Walkman + Diamond Rio -->
+  <section class="desk" data-desk aria-label="Listen on a Sony CD Walkman or Diamond Rio">
     <div class="desk-band">
-      <div class="desk-board">
-        <div class="desk-fx" aria-hidden="true">
-          <div class="desk-grid"></div>
-          <div class="desk-sheen"></div>
-          <div class="desk-blob"></div>
-        </div>
+      <div class="desk-still">
         <a class="desk-sleeve" data-desk-sleeve-link href="/bridget-in-my-room">
           <img data-desk-sleeve-img src="bridget-in-my-room-cover.webp" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/>
         </a>
-        <div class="desk-card">
-          <p class="desk-card-cat" data-desk-card-cat>CC011 · House · 2026</p>
-          <p class="desk-card-title"><a data-desk-card-link href="/bridget-in-my-room">Bridget In My Room</a></p>
-          <p class="desk-card-sub" data-desk-card-sub>Rosco · Digital · $8 CAD</p>
-        </div>
         <div class="desk-players">
-        <div
-          class="desk-option desk-option--walkman is-active"
-          data-desk-option
-          data-desk-release="bridget-in-my-room"
-          data-page="/bridget-in-my-room"
-          data-cover="bridget-in-my-room-cover.webp"
-          data-title="Bridget In My Room"
-          data-artist="Rosco"
-          data-cat="CC011 · House · 2026"
-          data-sub="Rosco · Digital · $8 CAD"
-          data-lcd-title="BRIDGET"
-        >
-          <div class="desk-option-stage">
-          <div class="desk-discman-wrap">
-          <div class="walkman" data-discman>
-            <div class="walkman-shell">
-              <div class="walkman-face">
-                <span class="walkman-mp3">MP3</span>
-                <div class="walkman-lcd" aria-hidden="true">
-                  <div class="walkman-lcd-row">
-                    <span class="walkman-lcd-mode" data-desk-lcd-mode></span>
-                    <span class="walkman-lcd-track" data-desk-lcd-track>001</span>
-                    <span class="walkman-lcd-time" data-desk-lcd-time>0:00</span>
-                  </div>
-                  <span class="walkman-lcd-title" data-desk-lcd-title>BRIDGET</span>
+          <div
+            class="desk-option desk-option--walkman is-active"
+            data-desk-option
+            data-desk-release="bridget-in-my-room"
+            data-page="/bridget-in-my-room"
+            data-cover="bridget-in-my-room-cover.webp"
+            data-title="Bridget In My Room"
+            data-artist="Rosco"
+            data-lcd-title="BRIDGET"
+          >
+            <div class="hw hw--walkman">
+              <img class="hw-photo" src="img/desk-walkman.webp" alt="Sony CD Walkman D-NE241" width="789" height="701" loading="lazy"/>
+              <div class="hw-lcd" aria-hidden="true">
+                <div class="hw-lcd-row">
+                  <span class="hw-lcd-mode" data-desk-lcd-mode></span>
+                  <span class="hw-lcd-track" data-desk-lcd-track>001</span>
+                  <span class="hw-lcd-time" data-desk-lcd-time>0:00</span>
                 </div>
-                <div class="walkman-funcs" aria-hidden="true">
-                  <span class="walkman-pill"><b>GROUP</b></span>
-                  <span class="walkman-pill"><b>P MODE</b></span>
-                  <span class="walkman-pill"><b>SOUND / AVLS</b></span>
-                </div>
-                <button type="button" class="walkman-stop" data-desk-stop aria-label="Stop">
-                  <span>STOP</span>
-                </button>
-                <div class="walkman-pad">
-                  <button type="button" class="walkman-skip walkman-skip--prev" data-desk-prev aria-label="Previous track">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.2 6.2 8 12l7.2 5.8V6.2zM6.4 6h2v12h-2z"/></svg>
-                  </button>
-                  <button type="button" class="walkman-play" data-desk-play aria-label="Play Bridget In My Room">
-                    <svg class="walkman-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.4v13.2L19.2 12z"/></svg>
-                    <svg class="walkman-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 5.4h3.4v13.2H6.6zm7.4 0h3.4v13.2H14z"/></svg>
-                  </button>
-                  <button type="button" class="walkman-skip walkman-skip--next" data-desk-next aria-label="Next track">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.8 6.2v11.6L16 12 8.8 6.2zM15.6 6h2v12h-2z"/></svg>
-                  </button>
-                </div>
-                <div class="walkman-vol">
-                  <button type="button" class="walkman-vol-btn" data-desk-vol-down aria-label="Volume down">−</button>
-                  <span class="walkman-vol-mark">VOL</span>
-                  <button type="button" class="walkman-vol-btn" data-desk-vol-up aria-label="Volume up">+</button>
-                </div>
-                <span class="walkman-model">CD WALKMAN D-NE241</span>
-                <span class="walkman-w" aria-hidden="true">
-                  <svg viewBox="0 0 72 36" fill="none">
-                    <path d="M4 6h11l7.2 18.4L29.6 6H42L31.2 32H20.4L4 6z" fill="currentColor"/>
-                    <path d="M40 6h12.2L62 32H50.4L40 6z" fill="currentColor" opacity=".92"/>
-                    <circle cx="66.4" cy="29.2" r="4.2" fill="#f2a13a"/>
-                  </svg>
-                </span>
+                <span class="hw-lcd-title" data-desk-lcd-title>BRIDGET</span>
               </div>
-              <span class="walkman-jack" aria-hidden="true"></span>
-              <svg class="desk-headphones" viewBox="0 0 220 200" aria-hidden="true">
-                <path class="desk-cable-lead" d="M10 18c22 10 28 48 22 78 8 28 36 48 72 52"/>
-                <path class="desk-cable-split" d="M104 148c28 6 48 2 70-18"/>
-                <path class="desk-cable-split" d="M104 148c16 24 40 38 72 36"/>
-                <g class="desk-plug">
-                  <rect x="0" y="13" width="11" height="10" rx="1" fill="#c8ccd0"/>
-                  <rect x="9" y="11" width="12" height="14" rx="2" fill="#f6f7f8"/>
-                  <rect x="19" y="14" width="8" height="8" rx="1" fill="#dfe2e6"/>
-                </g>
-                <g class="desk-earbud" transform="translate(178 118) rotate(22)">
-                  <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
-                  <circle class="bud-shell" r="12"/>
-                  <circle class="bud-mesh" cy="-0.6" r="6"/>
-                  <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
-                </g>
-                <g class="desk-earbud" transform="translate(180 184) rotate(-32)">
-                  <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
-                  <circle class="bud-shell" r="12"/>
-                  <circle class="bud-mesh" cy="-0.6" r="6"/>
-                  <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
-                </g>
-              </svg>
+              <button type="button" class="hw-hit hw-hit--play" data-desk-play aria-label="Play Bridget In My Room"></button>
+              <button type="button" class="hw-hit hw-hit--prev" data-desk-prev aria-label="Previous track"></button>
+              <button type="button" class="hw-hit hw-hit--next" data-desk-next aria-label="Next track"></button>
+              <button type="button" class="hw-hit hw-hit--stop" data-desk-stop aria-label="Stop"></button>
+              <button type="button" class="hw-hit hw-hit--vol-down" data-desk-vol-down aria-label="Volume down"></button>
+              <button type="button" class="hw-hit hw-hit--vol-up" data-desk-vol-up aria-label="Volume up"></button>
             </div>
           </div>
-          </div>
-          <p class="desk-option-tag">CD Walkman</p>
-          </div>
-        </div>
 
-        <div
-          class="desk-option desk-option--rio"
-          data-desk-option
-          data-desk-release="any-jungle"
-          data-page="/any-jungle"
-          data-cover="any-jungle-cover.webp"
-          data-title="any jungle"
-          data-artist="L.T. Drifta"
-          data-cat="CC019 · Jungle · 2026"
-          data-sub="L.T. Drifta · Digital · $1.50 CAD"
-          data-lcd-title="ANY JUNG"
-        >
-          <div class="desk-option-stage">
-          <div class="rio" data-rio>
-            <div class="rio-body">
-              <div class="rio-guts" aria-hidden="true">
-                <div class="rio-pcb"></div>
-                <div class="rio-cells">
-                  <span class="rio-cell"></span>
-                  <span class="rio-cell"></span>
-                </div>
+          <div
+            class="desk-option desk-option--rio"
+            data-desk-option
+            data-desk-release="any-jungle"
+            data-page="/any-jungle"
+            data-cover="any-jungle-cover.webp"
+            data-title="any jungle"
+            data-artist="L.T. Drifta"
+            data-lcd-title="ANY JUNG"
+          >
+            <div class="hw hw--rio">
+              <img class="hw-photo" src="img/desk-rio.webp" alt="Diamond Rio PMP300" width="392" height="534" loading="lazy"/>
+              <div class="hw-lcd" aria-hidden="true">
+                <span class="hw-lcd-title" data-desk-lcd-title>ANY JUNG</span>
+                <span class="hw-lcd-time" data-desk-lcd-time>0:00</span>
               </div>
-              <div class="rio-top" aria-hidden="true">
-                <span class="rio-jack"></span>
-                <span class="rio-topbtn"></span>
-                <span class="rio-topbtn"></span>
-                <span class="rio-topbtn"></span>
-              </div>
-              <span class="rio-diamond">DIAMOND</span>
-              <span class="rio-digital">DIGITAL</span>
-              <span class="rio-led" data-desk-led></span>
-              <div class="rio-lcd" aria-hidden="true">
-                <span class="rio-lcd-title" data-desk-lcd-title>ANY JUNG</span>
-                <span class="rio-lcd-time" data-desk-lcd-time>0:00</span>
-              </div>
-              <span class="rio-random">RANDOM</span>
-              <span class="rio-repeat">REPEAT</span>
-              <span class="rio-stereo">DIGITAL STEREO</span>
-              <div class="rio-wheel">
-                <span class="rio-vol-mark">VOL.</span>
-                <button type="button" class="rio-kidney rio-kidney--nw" data-desk-vol-up aria-label="Volume up"></button>
-                <button type="button" class="rio-kidney rio-kidney--ne" tabindex="-1" aria-hidden="true"></button>
-                <button type="button" class="rio-kidney rio-kidney--sw" tabindex="-1" aria-hidden="true"></button>
-                <button type="button" class="rio-kidney rio-kidney--se" data-desk-vol-down aria-label="Volume down"></button>
-                <div class="rio-hub">
-                  <button type="button" class="rio-hub-btn rio-hub-btn--play" data-desk-play aria-label="Play any jungle">
-                    <svg class="walkman-ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.4 12z"/></svg>
-                    <svg class="walkman-ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6h3.2v12H7zm6.8 0H17v12h-3.2z"/></svg>
-                  </button>
-                  <button type="button" class="rio-hub-btn rio-hub-btn--prev" data-desk-prev aria-label="Previous track">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 6.2 8.2 12l7.2 5.8V6.2zM6.4 6h2v12h-2z"/></svg>
-                  </button>
-                  <button type="button" class="rio-hub-btn rio-hub-btn--next" data-desk-next aria-label="Next track">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 6.2v11.6L15.8 12 8.6 6.2zM15.6 6h2v12h-2z"/></svg>
-                  </button>
-                  <button type="button" class="rio-hub-btn rio-hub-btn--stop" data-desk-stop aria-label="Stop">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7z"/></svg>
-                  </button>
-                </div>
-                <span class="rio-ab">A ↔ B</span>
-              </div>
-              <span class="rio-logo">Rio</span>
-              <span class="rio-model">PMP300</span>
+              <button type="button" class="hw-hit hw-hit--play" data-desk-play aria-label="Play any jungle"></button>
+              <button type="button" class="hw-hit hw-hit--stop" data-desk-stop aria-label="Stop"></button>
+              <button type="button" class="hw-hit hw-hit--next" data-desk-next aria-label="Next track"></button>
+              <button type="button" class="hw-hit hw-hit--prev" data-desk-prev aria-label="Previous track"></button>
             </div>
-            <svg class="rio-headphones desk-headphones" viewBox="0 0 180 200" aria-hidden="true">
-              <path class="desk-cable-lead" d="M18 12c10-14 36-16 48 10 12 24 4 52-8 74-8 16-2 36 22 46"/>
-              <path class="desk-cable-split" d="M80 142c22 8 40 4 58-14"/>
-              <path class="desk-cable-split" d="M80 142c12 22 30 36 56 34"/>
-              <g class="desk-plug">
-                <rect x="10" y="7" width="10" height="9" rx="1" fill="#c8ccd0"/>
-                <rect x="18" y="5" width="11" height="13" rx="2" fill="#f6f7f8"/>
-              </g>
-              <g class="desk-earbud" transform="translate(142 118) rotate(18)">
-                <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
-                <circle class="bud-shell" r="12"/>
-                <circle class="bud-mesh" cy="-0.6" r="6"/>
-                <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
-              </g>
-              <g class="desk-earbud" transform="translate(140 176) rotate(-28)">
-                <rect class="bud-stem" x="-3.4" y="9" width="6.8" height="17" rx="3.2"/>
-                <circle class="bud-shell" r="12"/>
-                <circle class="bud-mesh" cy="-0.6" r="6"/>
-                <circle class="bud-mesh-in" cy="-0.6" r="3.2"/>
-              </g>
-            </svg>
           </div>
-          </div>
-          <p class="desk-option-tag">Diamond Rio PMP300</p>
-        </div>
         </div>
       </div>
     </div>
