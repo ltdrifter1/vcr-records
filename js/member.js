@@ -135,6 +135,11 @@
         if (a.dataset.memberHrefBound) a.setAttribute('href', a.dataset.memberHrefBound);
         if (a.dataset.memberLabelBound) a.textContent = a.dataset.memberLabelBound;
       });
+      var clubTabOff = document.querySelector('.tabbar a[data-tab="club"]');
+      if (clubTabOff) {
+        var home = location.pathname === '/' || location.pathname === '/index.html';
+        clubTabOff.setAttribute('href', home ? '#join' : '/#join');
+      }
       return;
     }
 
@@ -166,8 +171,16 @@
       'Member ' + profile.memberNumber + ', ' + levelLabel(profile.level) + ' — view account'
     );
     existing.innerHTML =
-      '<span class="nav-member-level">' + levelLabel(profile.level) + '</span>' +
-      '<span class="nav-member-no">Member ' + profile.memberNumber + '</span>';
+      '<span class="nav-member-lcd">' +
+        '<span class="nav-member-level">' + levelLabel(profile.level) + '</span>' +
+        '<span class="nav-member-no">' + profile.memberNumber + '</span>' +
+      '</span>' +
+      '<span class="nav-member-wheel" aria-hidden="true"></span>';
+
+    var clubTab = document.querySelector('.tabbar a[data-tab="club"]');
+    if (clubTab) {
+      clubTab.setAttribute('href', '/account');
+    }
   }
 
   function decorateReleasePricing(profile) {

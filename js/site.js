@@ -87,6 +87,78 @@
     } catch (e) {}
   }
 
+  function injectTabBar() {
+    if (document.getElementById('tabBar')) return;
+    var path = (location.pathname || '/').replace(/\/index\.html$/, '/');
+    var isHome = path === '/' || path === '';
+    var bar = document.createElement('nav');
+    bar.className = 'tabbar';
+    bar.id = 'tabBar';
+    bar.setAttribute('aria-label', 'App');
+    bar.innerHTML =
+      '<a href="/" data-tab="listen">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.4"/><path d="M12 5.6v2.2M12 16.2v2.2M5.6 12h2.2M16.2 12h2.2" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>' +
+        '<span>Listen</span></a>' +
+      '<a href="/library" data-tab="library">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="4" y="5" width="7" height="7" rx="1.4"/><rect x="13" y="5" width="7" height="7" rx="1.4"/><rect x="4" y="14" width="7" height="7" rx="1.4"/><rect x="13" y="14" width="7" height="7" rx="1.4"/></svg>' +
+        '<span>Library</span></a>' +
+      '<a href="/merch" data-tab="shop">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/><circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>' +
+        '<span>Shop</span></a>' +
+      '<a href="' + (isHome ? '#join' : '/#join') + '" data-tab="club">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="12" r="2.1"/><path d="M13.2 10.4h5.2M13.2 13.6h3.6" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>' +
+        '<span>Club</span></a>';
+    document.body.appendChild(bar);
+
+    function currentTab() {
+      var p = (location.pathname || '/').replace(/\/index\.html$/, '/');
+      var hash = location.hash || '';
+      if (p.indexOf('/library') === 0) return 'library';
+      if (p.indexOf('/merch') === 0 || p.indexOf('/cart') === 0 || p.indexOf('/checkout') === 0) return 'shop';
+      if (p.indexOf('/account') === 0 || hash === '#join') return 'club';
+      if (p === '/' || p === '') return 'listen';
+      return '';
+    }
+
+    function syncTabs() {
+      var cur = currentTab();
+      bar.querySelectorAll('[data-tab]').forEach(function (a) {
+        var on = a.getAttribute('data-tab') === cur;
+        a.classList.toggle('is-current', on);
+        if (on) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      });
+    }
+
+    bar.querySelector('[data-tab="listen"]').addEventListener('click', function (e) {
+      if (!isHome) return;
+      e.preventDefault();
+      closeDrawer();
+      if (location.hash) {
+        try { history.replaceState({}, '', location.pathname + location.search); }
+        catch (err) {}
+      }
+      try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      catch (err) { window.scrollTo(0, 0); }
+      syncTabs();
+    });
+
+    window.addEventListener('hashchange', syncTabs);
+    syncTabs();
+
+    if (drawer) {
+      drawer.querySelectorAll('a').forEach(function (a) {
+        var href = (a.getAttribute('href') || '').split('?')[0];
+        var dup = href === '/' || href === '/index.html' ||
+          href === '#listen' || href === '/#listen' ||
+          href === '/library' || href === '/merch' ||
+          href === '#join' || href === '/#join' || href === '/account';
+        if (dup) a.classList.add('tabbar-dup');
+      });
+    }
+  }
+  injectTabBar();
+
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
