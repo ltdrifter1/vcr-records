@@ -25,7 +25,6 @@
       title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
-        { id: "desire", label: "DESIRE", kind: "play" },
         { id: "buy", label: "Buy Now", kind: "buy", price: "$1.50" },
         { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
         { id: "now", label: "Now Playing", kind: "now" },
@@ -34,7 +33,6 @@
     music: {
       title: "Music",
       items: [
-        { id: "desire-album", label: "DESIRE", kind: "play" },
         { id: "radio", label: "Original Mix", kind: "play" },
       ],
     },
@@ -56,7 +54,7 @@
   var alertMsg = hero.querySelector("[data-ipod-alert-msg]");
 
   var stack = ["main"];
-  var cursor = { main: 1, music: 0, shop: 0 };
+  var cursor = { main: 0, music: 0, shop: 0 };
   var view = "menu";
   var alertTimer = 0;
   var clickCtx = null;
