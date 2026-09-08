@@ -360,7 +360,7 @@
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var href = rel.page || "#";
-    var kicker = [rel.genre, rel.kind, rel.year].filter(Boolean).join(" · ");
+    var kicker = [rel.catalogue, rel.kind, rel.year].filter(Boolean).join(" · ");
     var play = hasPreview(rel)
       ? (
           '<button type="button" class="flow-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '">' +
@@ -370,8 +370,8 @@
           '<span class="flow-air status-chip status-chip--air" aria-hidden="true">On air</span>'
         )
       : "";
-    var cat = rel.genre
-      ? '<span class="cat-cc">' + esc(rel.genre) + "</span>"
+    var cat = rel.catalogue
+      ? '<span class="cat-cc">' + esc(rel.catalogue) + "</span>"
       : "";
     return (
       '<a class="flow-sleeve" href="' + esc(href) + '" data-coverflow-item data-release="' + esc(rel.id) + '"' +

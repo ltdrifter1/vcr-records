@@ -49,8 +49,8 @@
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var price = digitalPrice(rel);
-    var catHtml = rel.genre
-      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.genre) + "</span></p>"
+    var catHtml = rel.catalogue
+      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.catalogue) + "</span></p>"
       : "";
     var meta = [rel.kind, rel.year].filter(Boolean).join(" · ");
     var play = hasPreview(rel)
