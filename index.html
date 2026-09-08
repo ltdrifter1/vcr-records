@@ -1521,8 +1521,8 @@
       --join-paper: var(--zine-paper, #4C5159);
       --join-panel: var(--zine-paper-2, #3A3F47);
       --join-ink: var(--zine-ink, #F4F6F8);
-      --join-muted: var(--zine-muted, #D2D8E0);
-      --join-dim: var(--zine-dim, #B4BCC6);
+      --join-muted: var(--zine-muted, #E6EAEF);
+      --join-dim: var(--zine-dim, #C8D0DA);
       --join-stamp: var(--zine-stamp, #c81e3a);
       --join-rule: var(--zine-rule, rgba(236, 240, 246, .28));
       --join-display: var(--zine-display, "Archivo Black", Impact, sans-serif);
@@ -1785,7 +1785,7 @@
       font-family: var(--join-body);
       font-size: 14px;
       line-height: 1.45;
-      color: var(--join-dim);
+      color: var(--join-muted);
       max-width: 28em;
       margin: 0;
     }
@@ -2304,8 +2304,12 @@
         0 1px 0 rgba(255, 255, 255, .08);
     }
     body.hero-top .footer-manifesto,
-    body.hero-top .footer-copy { color: var(--zine-dim, #B4BCC6); }
-    body.hero-top .footer-links a { color: var(--zine-muted, #D2D8E0); }
+    body.hero-top .footer-copy { color: var(--zine-muted, #E6EAEF); }
+    body.hero-top .footer-links a { color: var(--zine-muted, #E6EAEF); }
+    body.hero-top .footer-logo {
+      filter: invert(1);
+      opacity: .82;
+    }
     @media (hover: hover) {
       body.hero-top .footer-links a:hover {
         background: rgba(255, 255, 255, .1);
