@@ -261,6 +261,10 @@
   left: 15.35%;
   width: 19.4%;
   height: 5.55%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 19.4%;
+  max-height: 5.55%;
   padding: 0.2em 0.5em 0.18em 0.55em;
   border-radius: 2px;
   overflow: hidden;
@@ -304,9 +308,11 @@
 
 .hw--walkman .hw-lcd-row {
   font-size: .62em;
-  letter-spacing: .08em;
+  letter-spacing: .06em;
   width: 100%;
+  min-width: 0;
   opacity: .78;
+  gap: .2em;
 }
 .hw--rio .hw-lcd-row { font-size: 9px; }
 
@@ -334,8 +340,9 @@
 .hw--walkman .hw-lcd-title {
   margin-top: 0;
   max-width: 100%;
-  font-size: .78em;
-  letter-spacing: .14em;
+  min-width: 0;
+  font-size: .72em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   opacity: .92;
   line-height: 1;
