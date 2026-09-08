@@ -94,7 +94,7 @@
   ],
   "offers": {
     "@type": "Offer",
-    "url": "https://www.clubcopy.ca/any-jungle#acquire",
+    "url": "https://www.clubcopy.ca/any-jungle",
     "priceCurrency": "CAD",
     "price": "1.50",
     "availability": "https://schema.org/InStock",
@@ -202,7 +202,7 @@
           <meta itemprop="priceCurrency" content="CAD"/>
           <meta itemprop="price" content="1.50"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
-          <a class="btn btn-light" href="#acquire">Buy Digital — $1.50 CAD</a>
+          <button type="button" class="btn btn-light" id="buyBtn">Buy Digital — $1.50 CAD</button>
         </div>
       </div>
     </div>
@@ -284,28 +284,6 @@
     </div>
   </section>
 
-  <section class="ra-section ra-acquire-flow" id="acquire" aria-label="Acquire this release">
-    <div class="ra-wrap">
-      <div class="ra-purchase-grid ra-purchase-grid--solo">
-
-        <div class="ra-format ra-reveal">
-          <div role="radiogroup" aria-label="Format">
-            <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="true">
-              <span class="dot" aria-hidden="true"></span>
-              <span class="fmt">Digital<small>320kbps MP3 + lossless · email delivery</small></span>
-              <span class="price">$1.50 CAD<span class="price-member">Club 30% off</span></span>
-            </button>
-          </div>
-          <button type="button" class="btn btn-fill ra-collect-btn" id="buyBtn">Add to Collection</button>
-          <p class="ra-purchase-fine">
-            <span>Secure checkout · no shipping</span>
-          </p>
-          <p class="ra-club-cue"><a href="/#join">Club members</a> get 30% off all music. Premium gets 50% off. Free tier keeps you on every drop.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <section class="ra-section" aria-label="About the release">
     <div class="ra-wrap">
@@ -387,6 +365,8 @@ VCRReleaseBind({
   const buyBtn = $('buyBtn');
   let currentFmt = 'digital';
   let resetTimer = null;
+  if (!buyBtn) return;
+  const buyLabel = buyBtn.textContent;
 
   opts.forEach(opt => {
     opt.addEventListener('click', () => {
@@ -397,10 +377,11 @@ VCRReleaseBind({
 
   buyBtn.addEventListener('click', () => {
     const f = FORMATS[currentFmt];
+    if (!f) return;
     if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'any-jungle-cover.webp', qty: 1, id: f.sku });
-    buyBtn.textContent = 'Added to Collection \u2713';
+    buyBtn.textContent = 'Added \u2713';
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
+    resetTimer = setTimeout(() => { buyBtn.textContent = buyLabel; }, 2200);
   });
 })();
 

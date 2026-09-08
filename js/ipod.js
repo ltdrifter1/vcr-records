@@ -350,7 +350,7 @@
   function buyNow() {
     var offer = loadedOffer();
     if (!window.VCRCart) {
-      window.location.href = offer.page + "#acquire";
+      window.location.href = offer.page;
       return;
     }
     VCRCart.add({
