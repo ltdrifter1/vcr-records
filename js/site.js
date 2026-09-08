@@ -67,23 +67,22 @@
     syncNav();
   }
 
-  /* Homepage news — newest first. Cover Flow (js/cover-flow.js) takes the
-     3D rack from here; vertical mouse wheel still scrolls the page. */
-  var newsTrack = document.querySelector('.news-rail-track, .newsprint-grid, [data-coverflow-track]');
+  /* Homepage zine posts — newest first. */
+  var newsTrack = document.querySelector('[data-zine-posts], .news-rail-track, .newsprint-grid');
   if (newsTrack) {
-    var newsCards = Array.prototype.slice.call(newsTrack.querySelectorAll('.news-card'));
+    var newsCards = Array.prototype.slice.call(newsTrack.querySelectorAll('.news-card, .zine-post'));
     newsCards.sort(function (a, b) {
       return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
     });
     newsCards.forEach(function (card) { newsTrack.appendChild(card); });
   }
 
-  var newsprintDate = document.querySelector('[data-newsprint-date]');
-  if (newsprintDate) {
+  var zineDate = document.querySelector('[data-zine-date], [data-newsprint-date]');
+  if (zineDate) {
     try {
-      newsprintDate.textContent = new Date().toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
+      zineDate.textContent = new Date().toLocaleDateString('en-GB', {
+        weekday: 'short', day: '2-digit', month: 'short', year: '2-digit'
+      }).toLowerCase().replace(/,/g, '');
     } catch (e) {}
   }
 
