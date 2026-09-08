@@ -131,11 +131,12 @@
 }
 .zine-title {
   margin: 0;
+  padding-bottom: 0.2em;
   font-family: var(--zine-display);
   font-weight: 400;
   font-size: clamp(42px, 12vw, 92px);
   letter-spacing: -.03em;
-  line-height: .86;
+  line-height: .9;
   text-transform: uppercase;
   color: var(--zine-ink);
 }
@@ -145,6 +146,16 @@
 }
 @media (hover: hover) {
   .zine-title a:hover { color: var(--zine-stamp); }
+}
+.zine-credit {
+  margin: 0;
+  font-family: var(--zine-body);
+  font-size: clamp(13px, 1.6vw, 16px);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  color: var(--zine-dim);
 }
 .zine-hand {
   margin: 8px 0 0;
@@ -544,13 +555,17 @@ a.news-card:focus-visible {
 .news-index .section-head h1,
 .news-index-title {
   font-family: var(--zine-display);
-  font-size: clamp(40px, 8vw, 72px);
+  font-size: clamp(48px, 11vw, 88px);
   font-weight: 400;
   letter-spacing: -.03em;
-  line-height: .88;
+  line-height: .9;
   text-transform: uppercase;
   color: var(--zine-ink);
   margin: 0;
+  padding-bottom: 0.18em;
+}
+.news-index .zine-credit {
+  margin-top: 0;
 }
 .news-index .eyebrow { color: var(--zine-dim); }
 .news-index-lead {
@@ -559,7 +574,7 @@ a.news-card:focus-visible {
   font-weight: 600;
   color: var(--zine-stamp) !important;
   max-width: 22em;
-  margin: 6px 0 28px;
+  margin: 14px 0 28px;
   line-height: 1.25;
   transform: rotate(-.6deg);
 }
