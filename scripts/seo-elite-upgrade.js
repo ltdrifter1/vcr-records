@@ -515,7 +515,7 @@ ${JSON.stringify(crumbs, null, 2)}
       <a href="/#listen">Listen</a>
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
-      <a href="/news">News</a>
+      <a href="/news">Zine</a>
       <a href="/merch" aria-current="page">Shop</a>
       <a href="/contact">Contact</a>
     </nav>
@@ -539,7 +539,7 @@ ${JSON.stringify(crumbs, null, 2)}
   <a href="/#listen">Listen</a>
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
-  <a href="/news">News</a>
+  <a href="/news">Zine</a>
   <a href="/merch">Shop</a>
   <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
@@ -613,7 +613,7 @@ ${JSON.stringify(crumbs, null, 2)}
       <div class="footer-links">
         <a href="/#listen">Listen</a>
         <a href="/library">Library</a>
-        <a href="/news">News</a>
+        <a href="/news">Zine</a>
         <a href="/artists">Artists</a>
         <a href="/merch">Shop</a>
         <a href="/shipping">Shipping</a>
@@ -842,7 +842,7 @@ function ensureNewsInNav(html) {
   html = html.replace(
     /(<nav class="nav-links"[^>]*>[\s\S]*?<a href="[^"]*artists[^"]*"[^>]*>Artists<\/a>\s*)(<a href="[^"]*merch[^"]*"[^>]*>Shop<\/a>)/g,
     (m, a, b) => {
-      if (m.includes('>News<')) return m;
+      if (m.includes('>Zine<')) return m;
       // detect prefix for news href from artists link
       const artistsHref = (a.match(/href="([^"]*artists[^"]*)"/) || [])[1] || '/artists';
       let newsHref = '/news';
@@ -851,7 +851,7 @@ function ensureNewsInNav(html) {
       else newsHref = 'news'; // won't happen after rewrite
       // after clean rewrite artists is /artists
       if (artistsHref === '/artists' || artistsHref.endsWith('/artists')) newsHref = '/news';
-      return `${a}<a href="${newsHref}">News</a>\n      ${b}`;
+      return `${a}<a href="${newsHref}">Zine</a>\n      ${b}`;
     }
   );
 
@@ -859,8 +859,8 @@ function ensureNewsInNav(html) {
   html = html.replace(
     /(<div class="nav-drawer"[^>]*>[\s\S]*?<a href="[^"]*artists[^"]*">Artists<\/a>\s*)(<a href="[^"]*merch[^"]*">Shop<\/a>)/g,
     (m, a, b) => {
-      if (m.includes('>News<')) return m;
-      return `${a}<a href="/news">News</a>\n  ${b}`;
+      if (m.includes('>Zine<')) return m;
+      return `${a}<a href="/news">Zine</a>\n  ${b}`;
     }
   );
 
@@ -868,8 +868,8 @@ function ensureNewsInNav(html) {
   html = html.replace(
     /(<div class="footer-links">[\s\S]*?<a href="[^"]*library[^"]*">Library<\/a>\s*)(<a href="[^"]*artists[^"]*">Artists<\/a>)/g,
     (m, a, b) => {
-      if (m.includes('>News<')) return m;
-      return `${a}<a href="/news">News</a>\n        ${b}`;
+      if (m.includes('>Zine<')) return m;
+      return `${a}<a href="/news">Zine</a>\n        ${b}`;
     }
   );
 
@@ -969,7 +969,7 @@ function patchNewsIndex() {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
       '@id': ORIGIN + '/news#page',
-      name: 'News — Club Copy',
+      name: 'The Xerox',
       url: ORIGIN + '/news',
       mainEntity: {
         '@type': 'ItemList',
@@ -1003,7 +1003,7 @@ function patchNewsIndex() {
       `<main id="main" class="page">
   <div class="band">
     <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span>/</span>News
+      <a href="/">Home</a><span>/</span>Zine
     </nav>
     <header class="section-head">`
     );
@@ -1201,7 +1201,7 @@ function patchNewsArticles() {
     if (!html.includes('BreadcrumbList')) {
       const crumbs = breadcrumbSchema([
         { name: 'Home', url: ORIGIN + '/' },
-        { name: 'News', url: ORIGIN + '/news' },
+        { name: 'Zine', url: ORIGIN + '/news' },
         { name: a.name, url: ORIGIN + a.url },
       ]);
       html = html.replace(
@@ -1212,7 +1212,7 @@ function patchNewsArticles() {
     if (!html.includes('class="crumbs"')) {
       html = html.replace(
         /(<h1>)/,
-        `<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">News</a><span>/</span>${esc(a.name)}</nav>\n      $1`
+        `<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>${esc(a.name)}</nav>\n      $1`
       );
     }
     if (!html.includes('twitter:card')) {
