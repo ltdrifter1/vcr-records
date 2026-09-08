@@ -6,14 +6,14 @@
   if (!hero) return;
 
   var FEATURED = {
-    releaseId: "the-process",
-    title: "The Process",
+    releaseId: "desire",
+    title: "DESIRE",
     artist: "Molly Haze",
-    track: "Radio Edit",
-    page: "/the-process",
-    sku: "dg-the-process",
+    track: "Original Mix",
+    page: "/desire",
+    sku: "dg-desire",
     price: 1.5,
-    cover: "the-process-cover.webp",
+    cover: "desire-cover.webp",
   };
 
   var TICK = Math.PI / 10;
@@ -25,7 +25,7 @@
       title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
-        { id: "process", label: "The Process", kind: "play" },
+        { id: "desire", label: "DESIRE", kind: "play" },
         { id: "buy", label: "Buy Now", kind: "buy", price: "$1.50" },
         { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
         { id: "now", label: "Now Playing", kind: "now" },
@@ -34,8 +34,8 @@
     music: {
       title: "Music",
       items: [
-        { id: "process-album", label: "The Process", kind: "play" },
-        { id: "radio", label: "Radio Edit", kind: "play" },
+        { id: "desire-album", label: "DESIRE", kind: "play" },
+        { id: "radio", label: "Original Mix", kind: "play" },
       ],
     },
     shop: {
