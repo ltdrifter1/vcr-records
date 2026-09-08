@@ -1,34 +1,35 @@
 /* Club Copy : the zine
-   Late-90s house zine / blog — xerox paper, smash type, polaroids. */
+   Late-90s house zine on Apple space-grey aluminum — smash type, polaroids. */
 
 @import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap");
 
 :root {
-  --zine-paper: #16191e;
-  --zine-paper-2: #1c2128;
-  --zine-ink: #e8eef4;
-  --zine-muted: #a8b4c4;
-  --zine-dim: #7a8696;
-  --zine-rule: rgba(200, 214, 230, .22);
+  /* MacBook / iPod space grey — anodized aluminum, not void black */
+  --zine-paper: #4C5159;
+  --zine-paper-2: #3A3F47;
+  --zine-ink: #F4F6F8;
+  --zine-muted: #E6EAEF;
+  --zine-dim: #C8D0DA;
+  --zine-rule: rgba(236, 240, 246, .28);
   --zine-stamp: #9eb8cc;
-  --zine-hi: #8aa0b8;
+  --zine-hi: #9EC4E8;
   --zine-cyan: #7ec8d8;
-  --zine-tape: rgba(168, 180, 196, .42);
+  --zine-tape: rgba(210, 218, 228, .5);
   --zine-display: "Archivo Black", Impact, "Arial Black", sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-hand: "Caveat", "Segoe Script", cursive;
   --zine-body: "Source Serif 4", "Iowan Old Style", Palatino, Georgia, serif;
 }
 
-/* Soft exit from the night continuum into photocopied paper ---------------- */
+/* Soft exit from ice catalog into space-grey aluminum -------------------- */
 .news-bridge {
   height: 48px;
   margin-top: -1px;
-  background: linear-gradient(180deg, #12151a 0%, var(--zine-paper) 100%);
+  background: linear-gradient(180deg, #E6EAEF 0%, var(--zine-paper) 100%);
   pointer-events: none;
 }
 .news-bridge--out {
-  background: linear-gradient(180deg, var(--zine-paper) 0%, #08090c 100%);
+  background: linear-gradient(180deg, var(--zine-paper) 0%, #3A3F47 100%);
   margin-top: -1px;
 }
 @media (max-width: 699px) {
@@ -57,15 +58,21 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: .55;
+  opacity: .7;
   background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .035) 0 1px,
+      transparent 1px 3px
+    ),
     repeating-linear-gradient(
       0deg,
       transparent 0 3px,
-      rgba(255, 255, 255, .025) 3px 4px
+      rgba(255, 255, 255, .03) 3px 4px
     ),
-    radial-gradient(ellipse 80% 50% at 12% 0%, rgba(168, 186, 204, .1), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 92% 18%, rgba(36, 72, 118, .12), transparent 48%);
+    linear-gradient(180deg, rgba(255,255,255,.12) 0%, transparent 22%, rgba(0,0,0,.12) 100%),
+    radial-gradient(ellipse 80% 50% at 12% 0%, rgba(186, 204, 224, .18), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 92% 18%, rgba(90, 140, 190, .12), transparent 48%);
 }
 
 .zine-sheet {
@@ -183,11 +190,11 @@
   margin: 0 auto;
   width: min(300px, 86%);
   padding: 10px 10px 22px;
-  background: #2a3038;
+  background: #F3EEE6;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 0 0 1px rgba(200, 214, 230, .2),
-    0 18px 36px rgba(0, 0, 0, .45);
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(0, 0, 0, .08),
+    0 18px 36px rgba(20, 24, 32, .28);
   transform: none;
 }
 .zine-polaroid img {
@@ -215,7 +222,7 @@
   font-family: var(--zine-hand);
   font-size: 18px;
   font-weight: 600;
-  color: var(--zine-muted);
+  color: #3A3E46;
   text-align: center;
 }
 .zine-tape {
@@ -393,11 +400,13 @@ a.zine-post:nth-child(3n) .zine-post-art { transform: none; }
   padding: 14px 14px 12px;
   color: inherit;
   text-decoration: none;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
+    var(--zine-paper-2);
   border: 1px solid var(--zine-rule);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.1),
-    0 12px 24px rgba(0, 0, 0, .28);
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 12px 24px rgba(20, 24, 32, .22);
   transform: none;
 }
 .zine-flyer:nth-child(2) { transform: none; }
@@ -759,7 +768,7 @@ body.surface-acetate.has-station-bumper {
 }
 .news-page .station-bumper--acetate .station-bumper__ambient::after {
   background:
-    linear-gradient(180deg, rgba(16,18,22,.2) 0%, var(--zine-paper) 78%);
+    linear-gradient(180deg, rgba(58,63,71,.18) 0%, var(--zine-paper) 78%);
 }
 .news-page .station-bumper__brand { display: none; }
 .news-page .station-bumper__crumbs {
@@ -800,13 +809,13 @@ body.surface-acetate.has-station-bumper {
   aspect-ratio: auto;
   overflow: visible;
   border-radius: 0;
-  background: #2a3038;
+  background: #F3EEE6;
   border: 0;
   padding: 10px 10px 22px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.16),
-    0 0 0 1px rgba(200, 214, 230, .18),
-    0 18px 36px rgba(0, 0, 0, .4);
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(0, 0, 0, .08),
+    0 18px 36px rgba(20, 24, 32, .28);
   transform: none;
 }
 .news-article--essay .news-article-hero {
@@ -1139,7 +1148,7 @@ body.surface-acetate.has-station-bumper {
   .news-article--essay .news-article-hero { aspect-ratio: auto; }
 }
 
-/* Dark chrome nav on the space-grey zine -------------------------------- */
+/* Chrome nav on the space-grey zine ------------------------------------- */
 body.news-listing,
 body.surface-acetate.has-station-bumper:has(.news-page) {
   background: var(--zine-paper);
@@ -1154,9 +1163,9 @@ body.surface-acetate.has-station-bumper:has(.news-page) .nav {
 }
 body.news-listing .nav.scrolled,
 body.surface-acetate.has-station-bumper:has(.news-page) .nav.scrolled {
-  background: rgba(16, 18, 22, .88);
-  border-bottom-color: rgba(200, 214, 230, .12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+  background: rgba(58, 63, 71, .88);
+  border-bottom-color: rgba(200, 214, 230, .18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
   backdrop-filter: saturate(140%) blur(18px);
   -webkit-backdrop-filter: saturate(140%) blur(18px);
 }
@@ -1187,17 +1196,33 @@ body.surface-acetate.has-station-bumper:has(.news-page) .nav-ham span { backgrou
 body.news-listing .nav-cart-count,
 body.surface-acetate.has-station-bumper:has(.news-page) .nav-cart-count {
   background: #e8eef4;
-  color: #16191e;
+  color: var(--zine-paper-2);
 }
 body.news-listing .nav-drawer,
 body.surface-acetate.has-station-bumper:has(.news-page) .nav-drawer {
-  background: rgba(16, 18, 22, .96);
-  border-bottom-color: rgba(200, 214, 230, .16);
+  background: rgba(58, 63, 71, .96);
+  border-bottom-color: rgba(200, 214, 230, .18);
 }
 body.news-listing .nav-drawer a,
 body.surface-acetate.has-station-bumper:has(.news-page) .nav-drawer a {
   color: #e8eef4;
   border-bottom-color: rgba(200, 214, 230, .12);
+}
+body.news-listing .footer-logo,
+body.surface-acetate.has-station-bumper:has(.news-page) .footer-logo {
+  filter: invert(1);
+  opacity: .82;
+}
+body.news-listing .footer,
+body.surface-acetate.has-station-bumper:has(.news-page) .footer {
+  color: var(--zine-muted);
+}
+body.news-listing .footer-copy,
+body.news-listing .footer-links a,
+body.surface-acetate.has-station-bumper:has(.news-page) .footer-copy,
+body.surface-acetate.has-station-bumper:has(.news-page) .footer-links a,
+body.surface-acetate.has-station-bumper:has(.news-page) .footer-manifesto {
+  color: var(--zine-muted);
 }
 .news-index .crumbs,
 .news-index .crumbs a {
