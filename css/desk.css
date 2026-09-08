@@ -112,9 +112,9 @@
 .desk-case--a {
   z-index: 1;
   width: 58%;
-  left: 0;
-  top: 18%;
-  transform: rotate(-19deg);
+  left: -8%;
+  top: 22%;
+  transform: rotate(-22deg);
   filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .4));
 }
 
@@ -148,7 +148,7 @@
     filter: drop-shadow(0 28px 30px rgba(0, 0, 0, .6));
   }
   .desk-case--a:hover,
-  .desk-case--a:focus-visible { transform: rotate(-19deg) translateY(-8px); }
+  .desk-case--a:focus-visible { transform: rotate(-22deg) translateY(-8px); }
   .desk-case--live:hover,
   .desk-case--live:focus-visible { transform: rotate(-7deg) translateY(-8px); }
   .desk-case--b:hover,
@@ -245,12 +245,13 @@
 }
 
 .hw--walkman .hw-lcd {
-  top: 25.8%;
-  left: 25.0%;
-  width: 16.8%;
-  height: 8.8%;
-  padding: 3px 5px 2px 6px;
-  border-radius: 2px;
+  /* Seat the overlay in the recessed glass of desk-walkman.webp */
+  top: 26.1%;
+  left: 24.1%;
+  width: 14.8%;
+  height: 8.9%;
+  padding: 3px 4px 2px 5px;
+  border-radius: 0;
   overflow: hidden;
   color: #1b2316;
   background:
@@ -259,8 +260,10 @@
   box-shadow:
     inset 0 1px 1px rgba(20, 28, 18, .4),
     0 0 0 1px rgba(40, 48, 44, .28);
-  transform: rotate(-4deg);
+  transform: none;
   transform-origin: 50% 50%;
+  clip-path: polygon(2% 10%, 98% 18%, 96% 94%, 1% 82%);
+  -webkit-clip-path: polygon(2% 10%, 98% 18%, 96% 94%, 1% 82%);
 }
 
 .hw--rio .hw-lcd {
