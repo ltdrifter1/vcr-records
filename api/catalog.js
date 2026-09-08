@@ -12,6 +12,8 @@ const FORMAT = {
 
 /** SKUs sold on merch.html (must stay in sync with the shop page). */
 const MERCH_PAGE_SKUS = [
+  "dg-desire",
+  "dg-still-riding",
   "dg-the-process",
   "dg-any-jungle",
   "dg-she-spells-doom",
@@ -91,6 +93,18 @@ const PRODUCTS = {
   "dg-j-adore": {
     name: "j'adore — Digital (Single)",
     unitAmount: FORMAT.digital.unitAmount,
+    digital: true,
+    format: "digital",
+  },
+  "dg-desire": {
+    name: "DESIRE — Digital (Single)",
+    unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
+  "dg-still-riding": {
+    name: "Still Riding (Molly Haze Edit) — Digital (Single)",
+    unitAmount: 150,
     digital: true,
     format: "digital",
   },
