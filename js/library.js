@@ -285,7 +285,7 @@
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
-    var genre = rel.genre ? '<span class="cat-genre">' + esc(rel.genre) + '</span>' : '';
+    var catNo = rel.catalogue ? '<span class="cat-cue">' + esc(rel.catalogue) + '</span>' : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && t.preview);
     });
@@ -309,7 +309,7 @@
           '<a href="' + esc(href) + '" tabindex="-1" aria-hidden="true">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(min-width:860px) 108px, 88px" alt="' + alt + '" width="1200" height="1200" loading="lazy"/>' +
           '</a>' +
-          '<span class="cat-cc">' + esc(rel.catalogue || '') + '</span>' +
+          '<span class="cat-cc">' + esc(rel.genre || '') + '</span>' +
           playBtn +
           pill +
         '</div>' +
@@ -317,7 +317,7 @@
           '<a class="cat-title" href="' + esc(href) + '">' + esc(rel.title) + '</a>' +
           '<span class="cat-artist">' + esc(rel.artist) + '</span>' +
           '<div class="cat-tags">' +
-            genre +
+            catNo +
             (cue ? '<span class="cat-cue">' + esc(cue) + '</span>' : '') +
           '</div>' +
         '</div>' +
@@ -528,8 +528,8 @@
     if (!inspect || !rel) return;
     var thumb = coverSrc(rel);
     var full = rel.cover || thumb;
-    var catHtml = rel.catalogue
-      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.catalogue) + '</span></p>'
+    var catHtml = rel.genre
+      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.genre) + '</span></p>'
       : '';
     var meta = [rel.kind, rel.year].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];

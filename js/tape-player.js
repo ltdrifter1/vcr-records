@@ -71,7 +71,7 @@
           '<span class="ra-more-case">' +
             '<img src="' + esc(img) + '" alt="' + alt + '" width="480" height="480" loading="lazy"/>' +
           '</span>' +
-          '<span class="ra-more-cc">' + esc(rel.catalogue || "") + '</span>' +
+          '<span class="ra-more-cc">' + esc(rel.genre || rel.catalogue || "") + '</span>' +
           '<span class="ra-more-artist">' + esc(rel.artist || "") + '</span>' +
           '<span class="ra-more-title">' + esc(rel.title || "") + '</span>' +
         '</a>'
