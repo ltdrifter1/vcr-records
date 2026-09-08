@@ -201,7 +201,7 @@
   ],
   "offers": {
     "@type": "AggregateOffer",
-    "url": "https://www.clubcopy.ca/inlet-knight#acquire",
+    "url": "https://www.clubcopy.ca/inlet-knight",
     "priceCurrency": "CAD",
     "lowPrice": "8",
     "highPrice": "20",
@@ -211,7 +211,7 @@
       {
         "@type": "Offer",
         "name": "Cassette",
-        "url": "https://www.clubcopy.ca/inlet-knight#acquire",
+        "url": "https://www.clubcopy.ca/inlet-knight",
         "priceCurrency": "CAD",
         "price": "20",
         "availability": "https://schema.org/InStock",
@@ -221,7 +221,7 @@
       {
         "@type": "Offer",
         "name": "Digital",
-        "url": "https://www.clubcopy.ca/inlet-knight#acquire",
+        "url": "https://www.clubcopy.ca/inlet-knight",
         "priceCurrency": "CAD",
         "price": "8",
         "availability": "https://schema.org/InStock",
@@ -358,7 +358,8 @@
           <meta itemprop="priceCurrency" content="CAD"/>
           <meta itemprop="price" content="20.00"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
-          <a class="btn btn-light" href="#acquire">Buy Cassette — $20 CAD</a>
+          <button type="button" class="btn btn-light" id="buyBtn">Buy Cassette — $20 CAD</button>
+          <button type="button" class="btn btn-ghost" id="buyDigitalBtn">Buy Digital — $8 CAD</button>
         </div>
       </div>
     </div>
@@ -509,54 +510,7 @@
   </section>
 
   <!-- ================================================================
-       3 · PurchaseModule — flows directly under Listen
-       ================================================================ -->
-  <section class="ra-section ra-acquire-flow" id="acquire" aria-label="Acquire this release">
-    <div class="ra-wrap">
-      <div class="ra-purchase-grid">
-
-        <div class="ra-format ra-reveal">
-          <div role="radiogroup" aria-label="Format">
-            <button type="button" class="ra-format-opt" data-format="cassette" role="radio" aria-checked="true">
-              <span class="dot" aria-hidden="true"></span>
-              <span class="fmt">Cassette<small>Includes digital download code</small></span>
-              <span class="price">$20 CAD<span class="price-member">Club 30% off</span></span>
-            </button>
-            <button type="button" class="ra-format-opt" data-format="digital" role="radio" aria-checked="false">
-              <span class="dot" aria-hidden="true"></span>
-              <span class="fmt">Digital<small>320kbps MP3 + lossless</small></span>
-              <span class="price">$8 CAD<span class="price-member">Club 30% off</span></span>
-            </button>
-          </div>
-          <button type="button" class="btn btn-fill ra-collect-btn" id="buyBtn">Add to Collection</button>
-          <p class="ra-purchase-fine">
-            <span>Secure checkout</span>
-            <a href="/shipping">Shipping &amp; returns</a>
-          </p>
-          <p class="ra-club-cue"><a href="/#join">Club members</a> get 30% off all music. Premium gets 50% off, and Club Credit applies to this cassette.</p>
-        </div>
-
-        <div class="ra-redeem ra-reveal">
-          <h3 id="redeemHead">Own the tape? — Download code</h3>
-          <p class="hint">Every cassette ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
-          <form id="redeemForm" novalidate aria-labelledby="redeemHead">
-            <label class="sr-only" for="redeemCode">Download code</label>
-            <input id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
-            <div class="hidden" id="redeemEmailWrap">
-              <label class="sr-only" for="redeemEmail">Email for your download link</label>
-              <input id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
-            </div>
-            <button class="btn btn-ghost" type="submit" id="redeemBtn">Redeem</button>
-            <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================================
-       4 · About — release notes + spec sheet
+       3 · About — release notes + spec sheet
        ================================================================ -->
   <section class="ra-section" aria-label="About the release">
     <div class="ra-wrap">
@@ -582,6 +536,20 @@
           <div><dt>Edition</dt><dd>Limited cassette</dd></div>
           <div><dt>Produced by</dt><dd>CJ Archer · Club Copy</dd></div>
         </dl>
+      </div>
+      <div class="ra-redeem ra-reveal">
+        <h3 id="redeemHead">Own the tape? — Download code</h3>
+        <p class="hint">Every cassette ships with a digital download code printed on the insert. Enter it below to claim your files.</p>
+        <form id="redeemForm" novalidate aria-labelledby="redeemHead">
+          <label class="sr-only" for="redeemCode">Download code</label>
+          <input id="redeemCode" name="code" type="text" placeholder="Enter your code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" required/>
+          <div class="hidden" id="redeemEmailWrap">
+            <label class="sr-only" for="redeemEmail">Email for your download link</label>
+            <input id="redeemEmail" name="email" type="email" placeholder="Email for your download link" autocomplete="email"/>
+          </div>
+          <button class="btn btn-ghost" type="submit" id="redeemBtn">Redeem</button>
+          <p class="redeem-status" id="redeemStatus" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </section>
@@ -647,31 +615,30 @@ VCRReleaseBind({
 ]
 });
 
-/* Purchase module — the single acquisition point (same SKUs and cart flow) */
+/* Purchase — hero CTAs add cassette or digital */
 (function() {
   const FORMATS = {
     cassette: { sku: 'sm-cassette-inlet-knight', name: 'Rosco \u2014 Cassette', price: 20 },
     digital:  { sku: 'dg-inlet-knight', name: 'Rosco \u2014 Digital (Album)', price: 8 }
   };
-  const opts = document.querySelectorAll('.ra-format-opt');
-  const buyBtn = $('buyBtn');
-  let currentFmt = 'cassette';
+  const cover = 'inlet-knight-cover.webp';
   let resetTimer = null;
 
-  opts.forEach(opt => {
-    opt.addEventListener('click', () => {
-      currentFmt = opt.dataset.format;
-      opts.forEach(o => o.setAttribute('aria-checked', o.dataset.format === currentFmt ? 'true' : 'false'));
+  function bindBuy(btn, fmt) {
+    if (!btn) return;
+    const label = btn.textContent;
+    btn.addEventListener('click', () => {
+      const f = FORMATS[fmt];
+      if (!f) return;
+      if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: cover, qty: 1, id: f.sku });
+      btn.textContent = 'Added \u2713';
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { btn.textContent = label; }, 2200);
     });
-  });
+  }
 
-  buyBtn.addEventListener('click', () => {
-    const f = FORMATS[currentFmt];
-    if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'inlet-knight-cover.webp', qty: 1, id: f.sku });
-    buyBtn.textContent = 'Added to Collection \u2713';
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => { buyBtn.textContent = 'Add to Collection'; }, 2200);
-  });
+  bindBuy($('buyBtn'), 'cassette');
+  bindBuy($('buyDigitalBtn'), 'digital');
 })();
 
 /* Hero — Listen: scroll to the deck and start playback */
