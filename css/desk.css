@@ -195,12 +195,19 @@
   filter: drop-shadow(0 26px 32px rgba(0, 0, 0, .55));
 }
 
-.desk-option--walkman .hw { transform: none; }
+.desk-option--walkman .hw {
+  transform: none;
+  container-type: inline-size;
+  filter: drop-shadow(0 20px 16px rgba(0, 0, 0, .42)) drop-shadow(0 4px 8px rgba(0, 0, 0, .22));
+}
 .desk-option--rio .hw { transform: none; }
 
 .desk-option:not(.is-active) .hw {
   opacity: .58;
   filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .35)) saturate(.86);
+}
+.desk-option--walkman:not(.is-active) .hw {
+  filter: drop-shadow(0 14px 12px rgba(0, 0, 0, .3)) saturate(.86);
 }
 
 .desk-option.is-active .hw {
@@ -214,7 +221,10 @@
     filter: drop-shadow(0 30px 36px rgba(0, 0, 0, .6));
   }
   .desk-option--walkman:hover .hw,
-  .desk-option--walkman:focus-within .hw,
+  .desk-option--walkman:focus-within .hw {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 28px 22px rgba(0, 0, 0, .48)) drop-shadow(0 6px 10px rgba(0, 0, 0, .24));
+  }
   .desk-option--rio:hover .hw,
   .desk-option--rio:focus-within .hw {
     transform: translateY(-6px);
@@ -227,6 +237,7 @@
   display: block;
   pointer-events: none;
   user-select: none;
+  background: transparent;
 }
 
 /* LCD glass — covers the native screen, live track data */
@@ -245,23 +256,24 @@
 }
 
 .hw--walkman .hw-lcd {
-  top: 39.8%;
-  left: 23.6%;
-  width: 16.2%;
-  height: 10.4%;
-  padding: 2px 4px 1px 5px;
-  border-radius: 3px;
+  /* Inset ~14% inside the recessed glass so type never kisses the bevel */
+  top: 39.55%;
+  left: 15.35%;
+  width: 19.4%;
+  height: 5.55%;
+  padding: 0.2em 0.5em 0.18em 0.55em;
+  border-radius: 2px;
   overflow: hidden;
-  color: #1b2316;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .12), transparent 40%),
-    linear-gradient(180deg, #8b987e 0%, #6f7c66 100%);
-  box-shadow:
-    inset 0 1px 1px rgba(20, 28, 18, .4),
-    0 0 0 1px rgba(40, 48, 44, .28);
+  justify-content: space-between;
+  color: #141c10;
+  background: transparent;
+  box-shadow: none;
   transform: none;
   transform-origin: 50% 50%;
-  font-size: clamp(10px, 1.5vw, 14px);
+  font-size: 8px;
+  font-size: clamp(6.5px, 2.15cqi, 9px);
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
 }
 
 .hw--rio .hw-lcd {
@@ -290,12 +302,22 @@
   gap: .35em;
 }
 
-.hw--walkman .hw-lcd-row { font-size: .72em; }
+.hw--walkman .hw-lcd-row {
+  font-size: .62em;
+  letter-spacing: .08em;
+  width: 100%;
+  opacity: .78;
+}
 .hw--rio .hw-lcd-row { font-size: 9px; }
 
 .hw-lcd-mode {
   min-width: .9em;
   font-size: .75em;
+}
+.hw--walkman .hw-lcd-mode {
+  min-width: 0;
+  font-size: .7em;
+  opacity: .7;
 }
 
 .hw-lcd-track { margin-right: auto; }
@@ -310,11 +332,13 @@
   overflow: hidden;
 }
 .hw--walkman .hw-lcd-title {
-  margin-top: 1px;
-  font-size: 1em;
-  letter-spacing: .08em;
+  margin-top: 0;
+  max-width: 100%;
+  font-size: .78em;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  opacity: .95;
+  opacity: .92;
+  line-height: 1;
 }
 
 .hw--rio .hw-lcd-title {
@@ -328,10 +352,9 @@
 }
 
 .desk-option.is-playing .hw--walkman .hw-lcd {
-  box-shadow:
-    inset 0 1px 2px rgba(20, 28, 18, .45),
-    0 0 0 1px rgba(40, 48, 44, .35),
-    0 0 12px rgba(170, 210, 120, .16);
+  color: #10180c;
+  box-shadow: none;
+  text-shadow: 0 0 8px rgba(150, 190, 90, .18);
 }
 
 .desk-option.is-playing .hw--rio .hw-lcd {
@@ -357,12 +380,12 @@
   outline-offset: 2px;
 }
 
-.hw--walkman .hw-hit--play { left: 64%; top: 32%; width: 22%; height: 28%; border-radius: 50%; }
-.hw--walkman .hw-hit--prev { left: 56%; top: 38%; width: 10%; height: 14%; }
-.hw--walkman .hw-hit--next { left: 84%; top: 38%; width: 10%; height: 14%; }
-.hw--walkman .hw-hit--stop { left: 50%; top: 32%; width: 12%; height: 14%; border-radius: 50%; }
-.hw--walkman .hw-hit--vol-down { left: 28%; top: 58%; width: 12%; height: 9%; }
-.hw--walkman .hw-hit--vol-up { left: 42%; top: 58%; width: 12%; height: 9%; }
+.hw--walkman .hw-hit--play { left: 59.4%; top: 31.2%; width: 20.8%; height: 22.6%; border-radius: 50%; }
+.hw--walkman .hw-hit--prev { left: 43.5%; top: 35.8%; width: 7.2%; height: 10%; }
+.hw--walkman .hw-hit--next { left: 80.8%; top: 34%; width: 9.4%; height: 16%; }
+.hw--walkman .hw-hit--stop { left: 51.4%; top: 35.6%; width: 7.4%; height: 8.8%; border-radius: 50%; }
+.hw--walkman .hw-hit--vol-down { left: 36.8%; top: 50.2%; width: 11.2%; height: 7.2%; }
+.hw--walkman .hw-hit--vol-up { left: 48%; top: 50.2%; width: 11.2%; height: 7.2%; }
 
 .hw--rio .hw-hit--play { left: 18%; top: 36%; width: 28%; height: 12%; border-radius: 50%; }
 .hw--rio .hw-hit--stop { left: 48%; top: 36%; width: 28%; height: 12%; border-radius: 50%; }
