@@ -5,8 +5,9 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 ## Design
 
 Warm ground + chrome-glass Y2K. Shared tokens in `css/site.css`.
-Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About, News index.
-Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, news articles, merch PDPs.
+Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About.
+The zine (`css/news.css`) is xerox paper on Home news + `/news` — late-90s house blog, not a newspaper.
+Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, merch PDPs. News articles sit on the zine paper.
 Station bumper (`css/station-bumper.css`) is the shared page entrance — brand lockup first.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
