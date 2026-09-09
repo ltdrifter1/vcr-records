@@ -57,10 +57,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -103,20 +101,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="The After Is the Point">
-    <div class="station-bumper__ambient" style="background-image:url('../news-bridget-in-my-room.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>The After Is the Point</nav>
-      <h1 class="station-bumper__title">The After Is the Point</h1>
-      <p class="station-bumper__lede">The club is a rumor. The night that actually happens is the kitchen light.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>The After Is the Point</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-bridget-in-my-room.webp" alt="Two silhouettes on rippled water at dusk" width="1400" height="1400" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Gossip</span><span>Sep 6, 2026</span></p>
+      <h1 class="zine-headline">The After Is the Point</h1>
+      <p class="zine-dek">The club is a rumor. The night that actually happens is the kitchen light.</p>
       <p class="news-byline">posted by cj archer</p>
       <div class="news-body news-body--essay">
         <p>Every photo from the night is a lie with good lighting. The real one starts when the coat hits the chair and somebody puts a record on without asking who wants what.</p>
@@ -154,6 +149,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

@@ -69,10 +69,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -115,21 +113,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="j'adore">
-    <div class="station-bumper__ambient" style="background-image:url('../news-jadore.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>j'adore</nav>
-      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">j'adore</h1>
-      <p class="station-bumper__lede">A car ride that doesn’t end when the song does.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>j'adore</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-jadore.webp" alt="Fisheye photo of a blue car at dusk. j'adore" width="1200" height="1200" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Release</span><span>Aug 10, 2026</span></p>
+      <h1 class="zine-headline">j'adore</h1>
+      <p class="zine-dek">A car ride that doesn’t end when the song does.</p>
       <div class="news-body news-body--essay">
         <p>A car ride that doesn’t end when the song does. You know the one — windows cracked, city going violet, somebody in the passenger seat you haven’t figured out yet.</p>
         <p>Two tracks from Rosco: “don’t cry” and “j'adore.” Soft edges, late light, a fisheye blue car that looks like it still smells like the heater. We’ve had the second one on repeat the way you replay a text you already answered. House, but the private kind. The kind you put on when you’re pretending you’re only driving to the store.</p>
@@ -165,6 +159,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

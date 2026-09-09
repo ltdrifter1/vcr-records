@@ -59,10 +59,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -105,20 +103,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="You Are (Love)">
-    <div class="station-bumper__ambient" style="background-image:url('../you-are-love-cover.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>You Are (Love)</nav>
-      <h1 class="station-bumper__title">You Are (Love)</h1>
-      <p class="station-bumper__lede">Riscape. First Club Copy cassette. Out September 18.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero is-sleeve">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>You Are (Love)</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero is-sleeve">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../you-are-love-cover.webp" alt="You Are (Love) — circular dusk cityscape artwork" width="1254" height="1254" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Release</span><span>Sep 8, 2026</span><span>CC004</span></p>
+      <h1 class="zine-headline">You Are (Love)</h1>
+      <p class="zine-dek">Riscape. First Club Copy cassette. Out September 18.</p>
       <p class="news-byline">posted by earl tie</p>
       <div class="news-body news-body--essay">
         <p>FOR IMMEDIATE RELEASE — Cumberland / Athens — Club Copy will release <em>You Are (Love)</em>, the debut Club Copy cassette from Athens house producer Riscape, on September 18, 2026.</p>
@@ -155,6 +150,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>
