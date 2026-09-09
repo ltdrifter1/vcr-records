@@ -126,6 +126,7 @@
     if (!window.VCRPlayer || !opt) return;
     showOption(opt);
     var release = releaseOf(opt);
+    if (!release) return;
     var s = state();
     if (s && isThis(opt, s.track)) {
       VCRPlayer.toggle();
@@ -147,20 +148,27 @@
     var volDown = opt.querySelector("[data-desk-vol-down]");
     var volUp = opt.querySelector("[data-desk-vol-up]");
 
+    /* A tap on the photo should start the preview. Dedicated hits
+       still handle stop / skip / volume without double-toggling play. */
     opt.addEventListener("click", function (e) {
-      if (e.target.closest("a, button")) return;
-      showOption(opt);
+      if (e.target.closest("a")) return;
+      if (e.target.closest("[data-desk-stop], [data-desk-prev], [data-desk-next], [data-desk-vol-down], [data-desk-vol-up]")) return;
+      if (e.target.closest("[data-desk-play]")) return;
+      e.preventDefault();
+      play(opt);
     });
 
     if (playBtn) {
       playBtn.addEventListener("click", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         play(opt);
       });
     }
     if (prevBtn) {
       prevBtn.addEventListener("click", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var s = state();
         if (s && isThis(opt, s.track) && window.VCRPlayer) VCRPlayer.prev();
         else play(opt);
@@ -169,6 +177,7 @@
     if (nextBtn) {
       nextBtn.addEventListener("click", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var s = state();
         if (s && isThis(opt, s.track) && window.VCRPlayer) VCRPlayer.next();
         else play(opt);
@@ -177,6 +186,7 @@
     if (stopBtn) {
       stopBtn.addEventListener("click", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         var s = state();
         if (s && isThis(opt, s.track) && window.VCRPlayer && VCRPlayer.pause) VCRPlayer.pause();
       });
@@ -184,6 +194,7 @@
     if (volDown) {
       volDown.addEventListener("click", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         showOption(opt);
         nudgeVol(-0.1);
       });
@@ -191,6 +202,7 @@
     if (volUp) {
       volUp.addEventListener("click", function (e) {
         e.preventDefault();
+        e.stopPropagation();
         showOption(opt);
         nudgeVol(0.1);
       });
