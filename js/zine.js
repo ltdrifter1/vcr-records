@@ -150,6 +150,7 @@
     var typeHint = typeEl ? typeEl.textContent.toLowerCase() : "";
     var typeMap = {
       gossip: "gossip",
+      fit: "gossip",
       listening: "listening",
       interview: "interview",
       release: "release",
