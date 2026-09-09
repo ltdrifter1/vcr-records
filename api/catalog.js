@@ -96,6 +96,24 @@ const PRODUCTS = {
     digital: true,
     format: "digital",
   },
+  "dg-gorilla": {
+    name: "Gorilla (Molly’s Hazy Edit) — Digital (Single)",
+    unitAmount: 150,
+    digital: true,
+    format: "digital",
+  },
+  "dg-mixtape": {
+    name: "mixtape (instrumental version) — Digital (Album)",
+    unitAmount: 900,
+    digital: true,
+    format: "digital",
+  },
+  "cs-you-are-love": {
+    name: "You Are (Love) — Cassette",
+    unitAmount: FORMAT.cassette.unitAmount,
+    stock: 50,
+    format: "cassette",
+  },
   "dg-desire": {
     name: "DESIRE — Digital (Single)",
     unitAmount: 150,

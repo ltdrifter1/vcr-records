@@ -191,6 +191,16 @@
               : '') +
           '</p>' +
         '</div>';
+    } else if (f.cassette && f.cassette.price != null) {
+      var cassRetail = Number(f.cassette.price);
+      board =
+        '<div class="cat-price">' +
+          '<p class="cat-price-line" aria-label="' +
+            esc((rel.title || 'Release') + ' cassette price') +
+          '">' +
+            '<span class="cat-price-amt">$' + esc(money(cassRetail)) + '</span>' +
+          '</p>' +
+        '</div>';
     }
 
     var note = '';
@@ -213,19 +223,39 @@
     return d;
   }
 
+  function cassetteOffer(rel) {
+    var c = rel && rel.formats && rel.formats.cassette;
+    if (!c || !c.sku || c.price == null) return null;
+    return c;
+  }
+
+  function cartOffer(rel) {
+    return digitalOffer(rel) || cassetteOffer(rel);
+  }
+
   function addBtnHtml(rel) {
     var d = digitalOffer(rel);
-    if (!d) {
-      return '<a class="cat-add cat-add--link" href="' + esc(rel.page || '#') + '">View release</a>';
+    var c = cassetteOffer(rel);
+    var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
+    var offer = d || c;
+    if (!offer) {
+      return '<a class="cat-add cat-add--link" href="' + esc(rel.page || '#') + '">' +
+        (preorder ? 'Pre-order' : 'View release') +
+        '</a>';
     }
+    var label = preorder && !d ? 'Pre-order' : 'Add to cart';
+    var fmtName = d ? (rel.title + ' — Digital') : (rel.title + ' — Cassette');
+    var image = d
+      ? (rel.cover || rel.coverThumb || '')
+      : (c.image || rel.cover || rel.coverThumb || '');
     return (
       '<button type="button" class="cat-add" data-add-release="' + esc(rel.id) + '"' +
-        ' data-sku="' + esc(d.sku) + '"' +
-        ' data-name="' + esc(rel.title + ' — Digital') + '"' +
-        ' data-price="' + esc(d.price) + '"' +
-        ' data-image="' + esc(rel.cover || rel.coverThumb || '') + '"' +
-        ' aria-label="Add ' + esc(rel.title) + ' to cart">' +
-        'Add to cart' +
+        ' data-sku="' + esc(offer.sku) + '"' +
+        ' data-name="' + esc(fmtName) + '"' +
+        ' data-price="' + esc(offer.price) + '"' +
+        ' data-image="' + esc(image) + '"' +
+        ' aria-label="' + esc(label + ' ' + rel.title) + '">' +
+        label +
       '</button>'
     );
   }
@@ -253,14 +283,14 @@
         break;
       }
     }
-    var offer = digitalOffer(rel);
+    var offer = cartOffer(rel);
     var sku = offer ? offer.sku : btn.getAttribute('data-sku');
     var name = offer
-      ? (rel.title + ' — Digital')
+      ? (digitalOffer(rel) ? (rel.title + ' — Digital') : (rel.title + ' — Cassette'))
       : btn.getAttribute('data-name');
     var price = offer ? offer.price : Number(btn.getAttribute('data-price'));
     var image = offer
-      ? (rel.cover || rel.coverThumb || '')
+      ? (offer.image || rel.cover || rel.coverThumb || '')
       : btn.getAttribute('data-image');
     if (!sku || !isFinite(Number(price))) return false;
     VCRCart.add({
