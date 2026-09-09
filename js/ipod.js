@@ -25,7 +25,6 @@
       title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
-        { id: "desire", label: "DESIRE", kind: "play" },
         { id: "buy", label: "Buy Now", kind: "buy", price: "$1.50" },
         { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
         { id: "now", label: "Now Playing", kind: "now" },
@@ -33,10 +32,7 @@
     },
     music: {
       title: "Music",
-      items: [
-        { id: "desire-album", label: "DESIRE", kind: "play" },
-        { id: "radio", label: "Original Mix", kind: "play" },
-      ],
+      items: [{ id: "rel-desire", label: "DESIRE", kind: "play", releaseId: "desire" }],
     },
     shop: {
       title: "Shop",
@@ -56,7 +52,7 @@
   var alertMsg = hero.querySelector("[data-ipod-alert-msg]");
 
   var stack = ["main"];
-  var cursor = { main: 1, music: 0, shop: 0 };
+  var cursor = { main: 0, music: 0, shop: 0 };
   var view = "menu";
   var alertTimer = 0;
   var clickCtx = null;
@@ -110,13 +106,8 @@
     return state && state.track ? state.track : null;
   }
 
-  function sitePlayingFeatured() {
-    var track = siteTrack();
-    return !!(sitePlaying() && track && track.releaseId === FEATURED.releaseId);
-  }
-
   function isAudible() {
-    return sitePlayingFeatured();
+    return sitePlaying();
   }
 
   function money(n) {
@@ -209,14 +200,17 @@
     });
     listEl.innerHTML = html;
     if (view === "menu") setHeader(screen.title);
-    if (hero.matches(":focus-within")) {
-      var selected = listEl.querySelector(".is-selected");
-      if (selected) {
-        try {
-          selected.focus({ preventScroll: true });
-        } catch (e) {
-          selected.focus();
-        }
+    var selected = listEl.querySelector(".is-selected");
+    if (selected && selected.scrollIntoView) {
+      try {
+        selected.scrollIntoView({ block: "nearest" });
+      } catch (err) {}
+    }
+    if (hero.matches(":focus-within") && selected) {
+      try {
+        selected.focus({ preventScroll: true });
+      } catch (e) {
+        selected.focus();
       }
     }
   }
@@ -279,13 +273,23 @@
 
   function syncPlayUi() {
     var on = isAudible();
+    var track = siteTrack();
+    var label = (track && (track.releaseTitle || track.title)) || FEATURED.title;
     hero.classList.toggle("is-playing", on);
     if (playBtn) {
-      playBtn.setAttribute("aria-label", on ? "Pause " + FEATURED.title : "Play " + FEATURED.title);
+      playBtn.setAttribute("aria-label", on ? "Pause " + label : "Play " + label);
       playBtn.classList.toggle("is-playing", on);
     }
     if (hub && view === "menu") hub.setAttribute("aria-label", "Select");
-    else if (hub) hub.setAttribute("aria-label", on ? "Pause" : "Play " + FEATURED.title);
+    else if (hub) hub.setAttribute("aria-label", on ? "Pause" : "Play " + label);
+  }
+
+  function updateNowPlayingMeta(track) {
+    if (!track) return;
+    var title = hero.querySelector("[data-room-title]");
+    var artist = hero.querySelector("[data-room-artist]");
+    if (title) title.textContent = track.releaseTitle || track.title || "";
+    if (artist) artist.textContent = track.artist || "";
   }
 
   function syncTicker(playing, line) {
@@ -308,7 +312,7 @@
 
   var playLock = false;
 
-  function playLoaded() {
+  function playReleaseId(releaseId) {
     if (!window.VCRPlayer) return;
     if (playLock) return;
     playLock = true;
@@ -318,33 +322,40 @@
 
     if (VCRPlayer.getAudio) VCRPlayer.getAudio();
 
+    var id = releaseId || FEATURED.releaseId;
     var state = VCRPlayer.getState ? VCRPlayer.getState() : null;
     var track = state && state.track;
     var playing = !!(state && state.playing);
-    var featured = !!(track && track.releaseId === FEATURED.releaseId);
+    var same = !!(track && track.releaseId === id);
 
-    if (featured && playing) {
+    if (same && playing) {
       if (VCRPlayer.pause) VCRPlayer.pause();
       syncPlayUi();
       return;
     }
-    if (featured && VCRPlayer.play) {
+    if (same && VCRPlayer.play) {
       VCRPlayer.play();
       showNowPlaying();
       syncPlayUi();
       return;
     }
 
-    if (track && track.releaseId !== FEATURED.releaseId && VCRPlayer.pause) {
-      VCRPlayer.pause();
-    }
-
     Promise.resolve(
-      VCRPlayer.playRelease(FEATURED.releaseId, null, { autoplay: true, stage: false })
+      VCRPlayer.playRelease(id, null, { autoplay: true, stage: false })
     ).then(function (queued) {
-      if (queued) showNowPlaying();
+      if (queued) {
+        updateNowPlayingMeta(queued);
+        showNowPlaying();
+      } else {
+        showAlert("No preview");
+      }
       syncPlayUi();
     });
+  }
+
+  function playLoaded() {
+    var track = siteTrack();
+    playReleaseId(track && track.releaseId ? track.releaseId : FEATURED.releaseId);
   }
 
   function buyNow() {
@@ -381,7 +392,7 @@
       return;
     }
     if (item.kind === "play") {
-      playLoaded();
+      playReleaseId(item.releaseId || FEATURED.releaseId);
       return;
     }
     if (item.kind === "buy") {
@@ -634,6 +645,19 @@
     if (view === "menu") renderList();
   }
 
+  function hydrateMusicFromCatalog(catalog) {
+    var releases = catalog.releases || [];
+    SCREENS.music.items = releases.map(function (r) {
+      return {
+        id: "rel-" + r.id,
+        label: r.title,
+        kind: "play",
+        releaseId: r.id,
+      };
+    });
+    if (view === "menu" && currentScreenId() === "music") renderList();
+  }
+
   if (wheel) {
     wheel.addEventListener("pointerdown", onWheelPointerDown);
     window.addEventListener("pointermove", onWindowPointerMove);
@@ -653,19 +677,11 @@
 
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
-    var foreign = d.track && d.track.releaseId && d.track.releaseId !== FEATURED.releaseId;
-    if (foreign) {
-      if (view === "now") {
-        setView("menu");
-        renderList();
-      }
-    } else if (d.playing && view !== "menu") {
-      showNowPlaying();
-    }
+    if (d.track) updateNowPlayingMeta(d.track);
     syncPlayUi();
     if (d.track && (d.track.title || d.track.releaseTitle)) {
       var line = d.track.artist ? d.track.artist + " — " : "";
-      line += d.track.title || d.track.releaseTitle;
+      line += d.track.releaseTitle || d.track.title;
       if (d.playing) syncTicker(true, line);
     } else {
       syncTicker(false);
@@ -677,7 +693,9 @@
       return r.ok ? r.json() : null;
     })
     .then(function (data) {
-      if (data) hydrateShopFromCatalog(data);
+      if (!data) return;
+      hydrateShopFromCatalog(data);
+      hydrateMusicFromCatalog(data);
     })
     .catch(function () {});
 
