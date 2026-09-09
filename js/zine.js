@@ -32,7 +32,7 @@
     );
   }
 
-  /* Seven nights. The apartment, the rain, the kitchen, the floor. */
+  /* Seven nights. The apartment, the rain, the after, the floor. */
   var TONIGHT = [
     {
       slug: "/news/love-deluxe",
@@ -40,7 +40,7 @@
       title: "Love Deluxe",
       artist: "Sade",
       dek: "The apartment record. Put it on when you want the room to like you back.",
-      image: "news-summer-madness.webp"
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/dummy",
@@ -48,15 +48,15 @@
       title: "Dummy",
       artist: "Portishead",
       dek: "Beth Gibbons. Rain on the window. The other door besides the crate shop.",
-      image: "lookout-cover.webp"
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/the-after-is-the-point",
-      kicker: "tuesday kitchen",
+      kicker: "tuesday after",
       title: "The After Is the Point",
       artist: "the xerox desk",
-      dek: "The club is a rumor. The night that actually happens is the kitchen light.",
-      image: "news-bridget-in-my-room.webp"
+      dek: "The club is a rumor. The night that actually happens is after.",
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/donuts",
@@ -80,7 +80,7 @@
       title: "When a Girl Feels Good",
       artist: "FKA twigs",
       dek: "She coined a word for the floor. The girls who dance already had the feeling.",
-      image: "news-still-riding.webp"
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/she-showed-up",
@@ -88,7 +88,7 @@
       title: "She Showed Up",
       artist: "Lorde",
       dek: "Management wanted the green room. She wanted the floor.",
-      image: "news-rosco-bw.webp"
+      image: "news-placeholder.webp"
     }
   ];
 
@@ -151,6 +151,7 @@
     var typeMap = {
       gossip: "gossip",
       fit: "gossip",
+      cover: "artist",
       listening: "listening",
       interview: "interview",
       release: "release",
@@ -226,7 +227,7 @@
     aside.id = aside.id || "";
     aside.innerHTML =
       '<p class="zine-desk-kicker">write the desk</p>' +
-      "<h2>Kitchen light, send it.</h2>" +
+      "<h2>Write us.</h2>" +
       "<p>Gossip, corrections, what you put on tonight. We read everything. The good letters get xeroxed.</p>" +
       '<form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">' +
       '<input type="hidden" name="_subject" value="Xerox desk letter"/>' +
