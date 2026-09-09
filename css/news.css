@@ -1,7 +1,7 @@
 /* Club Copy : the zine
-   Late-90s house zine on Apple space-grey aluminum — smash type, polaroids. */
+   Late-90s house zine on Apple space-grey aluminum — didone titles, polaroids. */
 
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,800&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap");
 
 :root {
   /* MacBook / iPod space grey — anodized aluminum with Y2K ice */
@@ -17,7 +17,7 @@
   --zine-magenta: #E7B3D0;
   --zine-ice: #D7EEF8;
   --zine-tape: rgba(220, 232, 242, .55);
-  --zine-display: "Archivo Black", Impact, "Arial Black", sans-serif;
+  --zine-display: "Bodoni Moda", Didot, "Bodoni MT", "Times New Roman", serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-hand: "Caveat", "Segoe Script", cursive;
   --zine-body: "Source Serif 4", "Iowan Old Style", Palatino, Georgia, serif;
@@ -122,7 +122,7 @@
   right: 0;
   margin: 0;
   padding: 5px 11px 4px;
-  font-family: var(--zine-display);
+  font-family: "Archivo Black", Impact, "Arial Black", sans-serif;
   font-size: 12px;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -148,10 +148,11 @@
   margin: 0;
   padding-bottom: 0.12em;
   font-family: var(--zine-display);
-  font-weight: 400;
-  font-size: clamp(46px, 13vw, 104px);
-  letter-spacing: -.04em;
-  line-height: .86;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: clamp(44px, 12vw, 96px);
+  letter-spacing: .06em;
+  line-height: .92;
   text-transform: uppercase;
   color: var(--zine-ink);
 }
@@ -319,9 +320,10 @@
 .zine-headline {
   margin: 0 0 8px;
   font-family: var(--zine-display);
-  font-weight: 400;
+  font-optical-sizing: auto;
+  font-weight: 700;
   font-size: clamp(28px, 5vw, 48px);
-  letter-spacing: -.02em;
+  letter-spacing: .02em;
   line-height: .98;
   text-transform: uppercase;
   color: var(--zine-ink);
@@ -459,9 +461,10 @@ a.zine-post:nth-child(3n) .zine-post-art { transform: none; }
 .zine-post-title {
   margin: 0 0 4px;
   font-family: var(--zine-display);
+  font-optical-sizing: auto;
   font-size: clamp(18px, 2.4vw, 26px);
-  font-weight: 400;
-  letter-spacing: -.015em;
+  font-weight: 700;
+  letter-spacing: .02em;
   line-height: 1.05;
   text-transform: uppercase;
   color: var(--zine-ink);
@@ -522,8 +525,8 @@ a.zine-post:nth-child(3n) .zine-post-art { transform: none; }
   margin: 0 0 14px;
   font-family: var(--zine-display);
   font-size: 22px;
-  font-weight: 400;
-  letter-spacing: -.02em;
+  font-weight: 700;
+  letter-spacing: .03em;
   text-transform: uppercase;
   color: var(--zine-ink);
 }
@@ -540,8 +543,8 @@ a.zine-post:nth-child(3n) .zine-post-art { transform: none; }
   margin-bottom: 4px;
   font-family: var(--zine-display);
   font-size: 14px;
-  font-weight: 400;
-  letter-spacing: -.01em;
+  font-weight: 700;
+  letter-spacing: .04em;
   text-transform: uppercase;
 }
 .zine-scene span {
@@ -590,7 +593,8 @@ a.zine-post:nth-child(3n) .zine-post-art { transform: none; }
   margin-bottom: 6px;
   font-family: var(--zine-display);
   font-size: 14px;
-  letter-spacing: .04em;
+  font-weight: 700;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 .zine-flyer span {
@@ -665,9 +669,10 @@ a.news-card:focus-visible {
 .news-card-title {
   margin: 0;
   font-family: var(--zine-display);
+  font-optical-sizing: auto;
   font-size: clamp(18px, 2.2vw, 24px);
-  font-weight: 400;
-  letter-spacing: -.015em;
+  font-weight: 700;
+  letter-spacing: .02em;
   line-height: 1.08;
   text-transform: uppercase;
   color: var(--zine-ink);
@@ -723,10 +728,11 @@ a.news-card:focus-visible {
 .news-index .section-head h1,
 .news-index-title {
   font-family: var(--zine-display);
-  font-size: clamp(48px, 11vw, 88px);
-  font-weight: 400;
-  letter-spacing: -.03em;
-  line-height: .9;
+  font-optical-sizing: auto;
+  font-size: clamp(44px, 10vw, 84px);
+  font-weight: 700;
+  letter-spacing: .05em;
+  line-height: .92;
   text-transform: uppercase;
   color: var(--zine-ink);
   margin: 0;
@@ -805,8 +811,8 @@ a.news-card:focus-visible {
   padding: 28px 0 10px;
   font-family: var(--zine-display);
   font-size: 22px;
-  font-weight: 400;
-  letter-spacing: -.02em;
+  font-weight: 700;
+  letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--zine-ink);
   border-top: 3px solid var(--zine-ink);
@@ -903,7 +909,7 @@ a.news-card.news-card--featured .news-card-dek {
 }
 .news-index .news-card-title {
   font-family: var(--zine-display);
-  font-weight: 400;
+  font-weight: 700;
   color: var(--zine-ink);
 }
 .news-index .news-card-dek { color: var(--zine-muted); }
@@ -964,13 +970,14 @@ body.surface-acetate.has-station-bumper {
 .news-page .station-bumper__crumbs a { color: var(--zine-ink) !important; }
 .news-page .station-bumper__title {
   font-family: var(--zine-display) !important;
-  font-weight: 400 !important;
+  font-optical-sizing: auto;
+  font-weight: 700 !important;
   text-transform: uppercase;
-  letter-spacing: -.02em;
+  letter-spacing: .03em;
   color: var(--zine-ink) !important;
   text-shadow: none !important;
   font-size: clamp(32px, 7vw, 56px) !important;
-  line-height: .92;
+  line-height: .96;
 }
 .news-page .station-bumper__lede {
   font-family: var(--zine-hand) !important;
@@ -1108,9 +1115,9 @@ body.surface-acetate.has-station-bumper {
   margin: 1.55em 0 .45em !important;
   color: var(--zine-ink) !important;
   font-family: var(--zine-display);
-  font-weight: 400;
+  font-weight: 700;
   font-size: 16px !important;
-  letter-spacing: -.01em;
+  letter-spacing: .02em;
   text-transform: uppercase;
   line-height: 1.35 !important;
   max-width: 34em;
@@ -1171,8 +1178,8 @@ body.surface-acetate.has-station-bumper {
 .news-body h2 {
   font-family: var(--zine-display);
   font-size: clamp(20px, 2.6vw, 26px);
-  font-weight: 400;
-  letter-spacing: -.015em;
+  font-weight: 700;
+  letter-spacing: .02em;
   text-transform: uppercase;
   color: var(--zine-ink);
   margin: 1.6em 0 .55em;
@@ -1243,8 +1250,8 @@ body.surface-acetate.has-station-bumper {
 .news-related-list .t {
   font-family: var(--zine-display);
   font-size: 18px;
-  font-weight: 400;
-  letter-spacing: -.015em;
+  font-weight: 700;
+  letter-spacing: .02em;
   text-transform: uppercase;
 }
 .news-related-list .s {
