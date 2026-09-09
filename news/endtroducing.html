@@ -59,10 +59,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -105,21 +103,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Essential Listening: Endtroducing">
-    <div class="station-bumper__ambient" style="background-image:url('../news-endtroducing.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>Essential Listening: Endtroducing</nav>
-      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">Essential Listening: Endtroducing</h1>
-      <p class="station-bumper__lede">Still the door I send people through.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>Essential Listening: Endtroducing</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-endtroducing.webp" alt="DJ Shadow Endtroducing album cover. crate diggers in a record shop" width="1400" height="1400" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Listening</span><span>Feb 12, 2024</span></p>
+      <h1 class="zine-headline">Essential Listening: Endtroducing</h1>
+      <p class="zine-dek">Still the door I send people through.</p>
       <p class="news-byline">CJ Archer</p>
       <div class="news-body news-body--essay">
         <p>Still the door I send people through — the ones who ask, without saying it, how you make a life out of other people’s records without being a tourist in them.</p>
@@ -155,6 +149,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

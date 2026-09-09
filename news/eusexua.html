@@ -57,10 +57,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -103,20 +101,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="When a Girl Feels Good">
-    <div class="station-bumper__ambient" style="background-image:url('../news-still-riding.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>Eusexua</nav>
-      <h1 class="station-bumper__title">When a Girl Feels Good</h1>
-      <p class="station-bumper__lede">FKA twigs coined a word for the floor. The girls who dance already had the feeling.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>Eusexua</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-still-riding.webp" alt="A girl in glitch light. Body as a room. The floor, not the feed." width="1400" height="1400" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Gossip</span><span>Jan 24, 2025</span></p>
+      <h1 class="zine-headline">When a Girl Feels Good</h1>
+      <p class="zine-dek">FKA twigs coined a word for the floor. The girls who dance already had the feeling.</p>
       <p class="news-byline">posted by cj archer</p>
       <div class="news-body news-body--essay">
         <p>She made a word for it. <em>Eusexua</em> — the second before you come back into your body, the Prague bathroom, the techno that doesn’t need Berlin to explain itself. Album three, out today, and the group chat is already arguing about whether “Girl Feels Good” is a hymn or a dare. Both. When a girl feels good it makes the world go round is not a caption. It’s the weather the floor has been trying to name since we were nineteen and somebody finally turned the lights the right colour.</p>
@@ -153,6 +148,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

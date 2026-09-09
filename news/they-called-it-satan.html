@@ -57,10 +57,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -103,20 +101,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="They Called It Satan">
-    <div class="station-bumper__ambient" style="background-image:url('../news-satan.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>They Called It Satan</nav>
-      <h1 class="station-bumper__title">They Called It Satan</h1>
-      <p class="station-bumper__lede">Istanbul pulled the light show. The comments wrote the rest.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>They Called It Satan</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-satan.webp" alt="A ring of white light hanging in a dark empty arena" width="1400" height="1400" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Gossip</span><span>Sep 5, 2026</span></p>
+      <h1 class="zine-headline">They Called It Satan</h1>
+      <p class="zine-dek">Istanbul pulled the light show. The comments wrote the rest.</p>
       <p class="news-byline">posted by cj archer</p>
       <div class="news-body news-body--essay">
         <p>Istanbul pulled Anyma’s ÆDEN date after a pile of posts decided the lights were satanic. That’s the headline. The feeling underneath it is older: a room full of people who came to be changed, and a city that got scared of the pictures.</p>
@@ -153,6 +148,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>
