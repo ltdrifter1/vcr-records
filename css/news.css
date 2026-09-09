@@ -106,7 +106,8 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin: 8px 0 4px;
+  margin: 10px 0 2px;
+  min-height: 22px;
 }
 .zine-issue {
   margin: 0;
@@ -136,14 +137,15 @@
   pointer-events: none;
 }
 .zine-title {
-  margin: 0;
+  margin: 6px 0 0;
+  padding-top: 0.04em;
   padding-bottom: 0.02em;
   font-family: var(--zine-display);
   font-optical-sizing: auto;
   font-weight: 800;
   font-size: clamp(42px, 10.4vw, 88px);
   letter-spacing: -.034em;
-  line-height: .82;
+  line-height: .88;
   text-transform: uppercase;
   font-variation-settings: "opsz" 72;
   color: var(--zine-ink);
@@ -236,7 +238,11 @@
 .zine-bars i:nth-child(odd) { width: 1px; opacity: .55; }
 .zine-bars i:nth-child(3n) { width: 3px; }
 @media (max-width: 560px) {
-  .zine-nameplate { margin: 6px 0 2px; }
+  .zine-nameplate {
+    justify-content: center;
+    gap: 14px;
+    margin: 8px 0 4px;
+  }
   .zine-issue { letter-spacing: .12em; font-size: 10px; }
 }
 
