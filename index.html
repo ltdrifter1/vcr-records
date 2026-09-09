@@ -2820,14 +2820,44 @@
         <p class="zine-credit">by Club Copy</p>
         <p class="zine-tagline">the floor, the fit, the after</p>
         <div class="zine-folio">
-          <span>pacific northwest · free</span>
+          <span class="zine-live" aria-label="Live"><i></i> live</span>
           <span class="zine-barcode" aria-hidden="true">
             <span class="zine-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
             <b>cc-022</b>
           </span>
           <span data-zine-date>wed 09 sep 26</span>
         </div>
+        <nav class="zine-cols" aria-label="Desks">
+          <a href="/news#wire">The Wire</a>
+          <a href="/news#tonight">Tonight’s Record</a>
+          <a href="/news#mic">On the Mic</a>
+          <a href="/news#desk">Write the Desk</a>
+        </nav>
       </header>
+
+      <div class="zine-ticker" aria-label="Just in">
+        <span class="zine-ticker-label">just in</span>
+        <div class="zine-ticker-track">
+          <p>
+            <a href="/news/hello-kitty-pants">the pants stay on</a>
+            &nbsp;·&nbsp; <a href="/news/molly-haze-interview">Molly Haze talks Cumberland</a>
+            &nbsp;·&nbsp; <a href="/news/please">Riscape cassette pre-order — You Are (Love)</a>
+            &nbsp;·&nbsp; <a href="/news/desire">DESIRE is the private mix</a>
+            &nbsp;·&nbsp; <a href="/news/love-deluxe">Love Deluxe is the apartment record</a>
+            &nbsp;·&nbsp; <a href="/news/the-after-is-the-point">the after is the point</a>
+            &nbsp;·&nbsp; <a href="/news/eusexua">when a girl feels good</a>
+            &nbsp;·&nbsp;
+            <a href="/news/hello-kitty-pants">the pants stay on</a>
+            &nbsp;·&nbsp; <a href="/news/molly-haze-interview">Molly Haze talks Cumberland</a>
+            &nbsp;·&nbsp; <a href="/news/please">Riscape cassette pre-order — You Are (Love)</a>
+            &nbsp;·&nbsp; <a href="/news/desire">DESIRE is the private mix</a>
+            &nbsp;·&nbsp; <a href="/news/love-deluxe">Love Deluxe is the apartment record</a>
+            &nbsp;·&nbsp; <a href="/news/the-after-is-the-point">the after is the point</a>
+            &nbsp;·&nbsp; <a href="/news/eusexua">when a girl feels good</a>
+            &nbsp;·&nbsp;
+          </p>
+        </div>
+      </div>
 
       <article class="zine-lead rv">
         <figure class="zine-polaroid">
@@ -2855,7 +2885,7 @@
           <div>
             <p class="zine-post-kicker">Interview</p>
             <h3 class="zine-post-title">Molly Haze: A Short Conversation</h3>
-            <p class="zine-post-dek">Cumberland. Headphones up. The cover girl, in her own words.</p>
+            <p class="zine-post-dek">Cumberland. Headphones up. Own words.</p>
             <p class="zine-post-meta">posted 09 sep 26</p>
           </div>
         </a>
@@ -2933,7 +2963,20 @@
         </a>
       </div>
       <aside class="zine-scene" aria-label="Heard on the floor">
-        <p class="zine-scene-kicker">heard on the floor</p>
+        <div class="zine-tonight" data-tonight>
+          <p class="zine-desk-kicker">tonight’s record</p>
+          <a class="zine-tonight-card" data-tonight-link href="/news/love-deluxe">
+            <img data-tonight-img src="news-summer-madness.webp" alt="Love Deluxe — Sade" width="1400" height="1400" loading="lazy"/>
+            <div>
+              <p class="zine-tonight-night" data-tonight-kicker>sunday recovery</p>
+              <strong data-tonight-title>Love Deluxe</strong>
+              <em data-tonight-artist>Sade</em>
+              <span data-tonight-dek>The apartment record. Put it on when you want the room to like you back.</span>
+              <b>put it on →</b>
+            </div>
+          </a>
+        </div>
+        <p class="zine-scene-kicker" style="margin-top:22px">heard on the floor</p>
         <h3>Floor notes</h3>
         <a href="/news/hello-kitty-pants">
           <strong>The pants stay on</strong>
@@ -2949,6 +2992,21 @@
         </a>
       </aside>
       </div>
+
+      <aside class="zine-letters" id="desk">
+        <p class="zine-desk-kicker">write the desk</p>
+        <h2>Kitchen light, send it.</h2>
+        <p>Gossip, corrections, what you put on tonight. We read everything. The good letters get xeroxed.</p>
+        <form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="hidden" name="_subject" value="Xerox desk letter"/>
+          <label class="sr-only" for="home-letter-email">Email</label>
+          <input id="home-letter-email" type="email" name="email" placeholder="your email" required autocomplete="email"/>
+          <label class="sr-only" for="home-letter-body">Letter</label>
+          <textarea id="home-letter-body" name="letter" rows="3" placeholder="what happened / what you played" required></textarea>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="zine-honeypot"/>
+          <button type="submit">send to the desk</button>
+        </form>
+      </aside>
 
       <div class="zine-fridge" aria-label="On the fridge">
         <a class="zine-flyer" href="/#join">
@@ -2968,7 +3026,7 @@
         </a>
       </div>
 
-      <p class="zine-foot">evening edition · pacific northwest · <a href="/news">back issues</a></p>
+      <p class="zine-foot">evening edition · pacific northwest · <a href="/news">the xerox, live</a></p>
     </div>
 
     <div class="news-bridge news-bridge--out" aria-hidden="true"></div>
@@ -3000,6 +3058,7 @@
   </div>
 </footer>
 
+<script src="js/zine.js"></script>
 <script src="js/site.js"></script>
 <script src="js/cover-flow.js"></script>
 <script src="js/cart.js"></script>

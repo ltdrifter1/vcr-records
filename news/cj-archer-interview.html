@@ -70,10 +70,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -116,21 +114,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="CJ Archer: A Short Conversation">
-    <div class="station-bumper__ambient" style="background-image:url('../news-interview.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>CJ Archer: A Short Conversation</nav>
-      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">CJ Archer: A Short Conversation</h1>
-      <p class="station-bumper__lede">Where it started, the Pacific Northwest, and why the best records don’t ask where they’re supposed to fit.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>CJ Archer: A Short Conversation</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-interview.webp" alt="Club Copy crosshair logo on black" width="1254" height="1254" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Interview</span><span>Oct 27, 2022</span></p>
+      <h1 class="zine-headline">CJ Archer: A Short Conversation</h1>
+      <p class="zine-dek">Where it started, the Pacific Northwest, and why the best records don’t ask where they’re supposed to fit.</p>
       <div class="news-body news-body--essay news-body--interview">
         <p>There’s a certain kind of music that takes a while to find its way out. CJ Archer has spent years around it — records, half-finished projects, old machines, the Pacific Northwest version of an underground that never needed a coastal magazine to exist. We sat down (kitchen light, kettle, no publicist) to talk about Club Copy, the weather, and why a finished record is usually just a feeling somebody refused to throw away.</p>
 
@@ -141,7 +135,7 @@
         <p>Both, if I’m honest. Small editions mean you still know who might hold the thing. Catalogue numbers. A cassette that has to be dubbed. I’m not allergic to a bigger room — I just don’t want the music to start performing for one. The record club is the invite: first listens, a discount if you’re in, nothing shipped unless you choose it. That’s enough infrastructure for me.</p>
 
         <p class="news-q">Molly Haze, Rosco, L.T. Drifta, Riscape — how do you know when someone’s ours?</p>
-        <p>I know when I want to leave it on. Not when I can explain it. Molly’s from Cumberland; she makes house that feels like a private temperature. Rosco’s Vancouver locked-drums, late-car energy. Drifta digs like it’s a practice. Riscape came in from Athens with piano in his hands and peak-time in his chest. None of them asked to match. They just all sound like they were finished by a person, not a moodboard.</p>
+        <p>I know when I want to leave it on. Not when I can explain it. Molly’s from Cumberland — house that feels like a private temperature. Rosco’s Vancouver locked-drums, late-car energy. Drifta digs like it’s a practice. Riscape came in from Athens with piano in his hands and peak-time in his chest. None of them asked to match. They just all sound like they were finished by a person, not a moodboard.</p>
 
         <p class="news-q">What’s the part people get wrong about “underground”?</p>
         <p>That it’s a costume. Or a purity test. Underground is just the work you do when nobody’s coming. Then if people come, you try not to sand off the thing that made you stay. Gossip, rooms, lyrics on trial, a club selling tickets and still saying no at the door — that’s all the same story. Who gets to keep the feeling, and who tries to checkout-button it.</p>
@@ -179,6 +173,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

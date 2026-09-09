@@ -32,7 +32,7 @@
   <meta name="twitter:description" content="Riscape’s debut Club Copy cassette arrives September 18. Cassette pre-order only."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
   <meta property="article:published_time" content="2026-09-08"/>
-  <meta property="article:author" content="Earl Tie"/>
+  <meta property="article:author" content="CJ Archer"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -40,7 +40,7 @@
     "headline": "You Are (Love)",
     "description": "Club Copy will release You Are (Love), Riscape’s debut cassette, on September 18, 2026.",
     "datePublished": "2026-09-08",
-    "author": {"@type": "Person", "name": "Earl Tie"},
+    "author": {"@type": "Person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer"},
     "image": "https://www.clubcopy.ca/you-are-love-cover.webp",
     "mainEntityOfPage": "https://www.clubcopy.ca/news/please",
     "about": {"@type": "MusicAlbum", "name": "You Are (Love)", "catalogNumber": "CC004", "numTracks": 4, "byArtist": {"@type": "MusicGroup", "name": "Riscape", "url": "https://www.clubcopy.ca/artists/riscape"}},
@@ -59,10 +59,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -105,21 +103,18 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="You Are (Love)">
-    <div class="station-bumper__ambient" style="background-image:url('../you-are-love-cover.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>You Are (Love)</nav>
-      <h1 class="station-bumper__title">You Are (Love)</h1>
-      <p class="station-bumper__lede">Riscape. First Club Copy cassette. Out September 18.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero is-sleeve">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>You Are (Love)</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero is-sleeve">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../you-are-love-cover.webp" alt="You Are (Love) — circular dusk cityscape artwork" width="1254" height="1254" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Release</span><span>Sep 8, 2026</span><span>CC004</span></p>
-      <p class="news-byline">posted by earl tie</p>
+      <h1 class="zine-headline">You Are (Love)</h1>
+      <p class="zine-dek">Riscape. First Club Copy cassette. Out September 18.</p>
+      <p class="news-byline">posted by cj archer</p>
       <div class="news-body news-body--essay">
         <p>FOR IMMEDIATE RELEASE — Cumberland / Athens — Club Copy will release <em>You Are (Love)</em>, the debut Club Copy cassette from Athens house producer Riscape, on September 18, 2026.</p>
         <p>The EP is four tracks — You Are (Love), Make it Right, Action, Days Like This — written and produced by Ioannis Rigas. Cassette only. Pre-order is open now. Record Club members will be notified first; tapes ship on street date.</p>
@@ -130,7 +125,7 @@
           <a href="/news/riscape-on-club-copy">Welcome, Riscape</a>
         </div>
       </div>
-      <p class="news-byline news-byline--end">earl tie</p>
+      <p class="news-byline news-byline--end">cj archer</p>
       <nav class="news-nav" aria-label="News navigation">
         <a href="/news/molly-haze-interview">previous: Molly Haze</a>
         <a href="/news">all issues</a>
@@ -155,6 +150,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

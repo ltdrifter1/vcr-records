@@ -59,10 +59,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -105,21 +103,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Essential Listening: The Last Emperor">
-    <div class="station-bumper__ambient" style="background-image:url('../news-last-emperor.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>Essential Listening: The Last Emperor</nav>
-      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">Essential Listening: The Last Emperor</h1>
-      <p class="station-bumper__lede">Big history that somehow feels private.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>Essential Listening: The Last Emperor</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-last-emperor.webp" alt="The Last Emperor soundtrack cover. child emperor and bowing figure under a yellow banner" width="1400" height="1400" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Listening</span><span>Jan 28, 2026</span></p>
+      <h1 class="zine-headline">Essential Listening: The Last Emperor</h1>
+      <p class="zine-dek">Big history that somehow feels private.</p>
       <p class="news-byline">CJ Archer</p>
       <div class="news-body news-body--essay">
         <p>Big history that somehow feels private. That’s the trick of Sakamoto’s music from <em>The Last Emperor</em> — a century of ceremony, and still it sounds like someone thinking in the next room with the door half-open.</p>
@@ -155,6 +149,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

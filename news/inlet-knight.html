@@ -74,10 +74,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -120,21 +118,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Inlet Knight">
-    <div class="station-bumper__ambient" style="background-image:url('../news-inlet-knight.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>Inlet Knight</nav>
-      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">Inlet Knight</h1>
-      <p class="station-bumper__lede">Eleven tracks cut for late nights and long drives.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>Inlet Knight</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-inlet-knight.webp" alt="Inlet Knight boat on the water. self-titled album artwork" width="1400" height="1400" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Release</span><span>Feb 20, 2026</span></p>
+      <h1 class="zine-headline">Inlet Knight</h1>
+      <p class="zine-dek">Eleven tracks cut for late nights and long drives.</p>
       <div class="news-body news-body--essay">
         <p>Eleven tracks cut for late nights and the kind of drive where you miss your exit on purpose.</p>
         <p>Rosco’s self-titled, <em>Inlet Knight</em>, is the first full statement — written and performed by him, produced by CJ Archer, dubbed to a limited cassette because some records still want to be held. The artwork is a boat on actual water, not a moodboard of water. Vancouver does that. You can live here a decade and still not be done looking at it.</p>
@@ -170,6 +164,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

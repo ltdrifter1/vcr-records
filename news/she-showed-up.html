@@ -57,10 +57,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -103,20 +101,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="She Showed Up">
-    <div class="station-bumper__ambient" style="background-image:url('../news-rosco-bw.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>She Showed Up</nav>
-      <h1 class="station-bumper__title">She Showed Up</h1>
-      <p class="station-bumper__lede">Lorde walked into a night thrown in her name. Management wanted the green room. She wanted the floor.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>She Showed Up</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../news-rosco-bw.webp" alt="Night street. Rooms sign. Someone walking in." width="1254" height="1254" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Gossip</span><span>May 26, 2025</span></p>
+      <h1 class="zine-headline">She Showed Up</h1>
+      <p class="zine-dek">Lorde walked into a night thrown in her name. Management wanted the green room. She wanted the floor.</p>
       <p class="news-byline">posted by cj archer</p>
       <div class="news-body news-body--essay">
         <p>Sunday in Sydney. Mary’s Underground throws a Lorde night — <em>What Was That</em>, drag, the drinks named after the era — and then she is actually there. Not a stunt the venue planned. The Kiwi walked in, skipped the green room, stood in the crush, sang along to her own song like a girl who still goes out. When they tried to extract her she came back. That’s the clip. That’s the gossip. Every woman in this province who has ever DJed a dedicated night for a singer she loved felt the floor tilt.</p>
@@ -153,6 +148,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>

@@ -58,10 +58,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/site.css"/>
   <link rel="stylesheet" href="../css/news.css"/>
-  <link rel="stylesheet" href="../css/surface-acetate.css"/>
-  <link rel="stylesheet" href="../css/station-bumper.css"/>
 </head>
-<body id="top" class="surface-acetate has-station-bumper nav-on-dark">
+<body id="top" class="news-listing news-story nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -104,21 +102,17 @@
 </div>
 
 <main id="main" class="news-page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="L.T. Drifta on Club Copy">
-    <div class="station-bumper__ambient" style="background-image:url('../artists/lt-drifta.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Zine</a><span>/</span>L.T. Drifta on Club Copy</nav>
-      <img class="station-bumper__brand" src="../club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">L.T. Drifta on Club Copy</h1>
-      <p class="station-bumper__lede">Cumberland. Crates. Music for when people are still up.</p>
-    </div>
-  </section>
-  <div class="band">
-    <article class="news-article news-article--essay">
-      <div class="news-article-hero">
+  <div class="zine-sheet zine-sheet--story">
+    <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">The Xerox</a><span>/</span>L.T. Drifta on Club Copy</nav>
+
+    <article class="news-article news-article--essay" data-zine-story>
+      <figure class="news-article-hero">
+        <span class="zine-tape" aria-hidden="true"></span>
         <img src="../artists/lt-drifta.webp" alt="L.T. Drifta" width="1672" height="941" fetchpriority="high"/>
-      </div>
+      </figure>
       <p class="news-kicker"><span>Artist</span><span>Apr 18, 2024</span></p>
+      <h1 class="zine-headline">L.T. Drifta on Club Copy</h1>
+      <p class="zine-dek">Cumberland. Crates. Music for when people are still up.</p>
       <div class="news-body news-body--essay">
         <p>We’d been listening for a minute. Then we stopped pretending it was casual.</p>
         <p>L.T. Drifta is with us. Cumberland, Vancouver’s longer shadow, a crate habit that actually shows up in the music: jazz and soul in the flips, jungle when the room can take it, hip-hop that doesn’t need a guest verse to feel finished. He digs like it’s a practice, not a personality. The records come out sounding like 2am with the kettle still on.</p>
@@ -153,6 +147,7 @@
   </div>
 </footer>
 
+<script src="../js/zine.js"></script>
 <script src="../js/site.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/member.js"></script>
