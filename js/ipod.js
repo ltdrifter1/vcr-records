@@ -26,7 +26,7 @@
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
         { id: "artists", label: "Artists", kind: "link", href: "/artists" },
-        { id: "shop", label: "Shop", kind: "link", href: "/merch" },
+        { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
         { id: "zine", label: "Zine", kind: "link", href: "/news" },
         { id: "now", label: "Now Playing", kind: "now" },
       ],
@@ -40,6 +40,7 @@
       items: [
         { id: "buy-digital", label: "Buy Now", kind: "buy", price: "$1.50" },
         { id: "details", label: "Details", kind: "link", href: FEATURED.page },
+        { id: "merch", label: "Merch", kind: "link", href: "/merch" },
       ],
     },
   };
@@ -663,6 +664,7 @@
       });
     }
     shopItems.push({ id: "details", label: "Details", kind: "link", href: FEATURED.page });
+    shopItems.push({ id: "merch", label: "Merch", kind: "link", href: "/merch" });
     SCREENS.shop.items = shopItems;
     hero.querySelectorAll("[data-ipod-buy][data-price]").forEach(function (el) {
       el.setAttribute("data-price", priceLabel);
