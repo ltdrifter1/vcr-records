@@ -151,6 +151,7 @@
     var typeMap = {
       gossip: "gossip",
       fit: "gossip",
+      ritual: "ritual",
       cover: "artist",
       listening: "listening",
       interview: "interview",
@@ -228,13 +229,13 @@
     aside.innerHTML =
       '<p class="zine-desk-kicker">write the desk</p>' +
       "<h2>If it happened after two.</h2>" +
-      "<p>Gossip, corrections, what you played. We read it. The good ones get xeroxed.</p>" +
+      "<p>Gossip, corrections, what you wore, what you played. We read it. The good ones get xeroxed.</p>" +
       '<form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">' +
       '<input type="hidden" name="_subject" value="Xerox desk letter"/>' +
       '<label class="sr-only" for="zine-letter-email">Email</label>' +
       '<input id="zine-letter-email" type="email" name="email" placeholder="your email" required autocomplete="email"/>' +
       '<label class="sr-only" for="zine-letter-body">Letter</label>' +
-      '<textarea id="zine-letter-body" name="letter" rows="3" placeholder="what happened / what you played" required></textarea>' +
+      '<textarea id="zine-letter-body" name="letter" rows="3" placeholder="what happened / what you wore / what you played" required></textarea>' +
       '<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="zine-honeypot"/>' +
       "<button type=\"submit\">send to the desk</button>" +
       "</form>";
