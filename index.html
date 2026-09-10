@@ -653,8 +653,16 @@
       opacity: .55;
       line-height: 1;
     }
+    .ipod-menu-item:link,
+    .ipod-menu-item:visited {
+      color: var(--ipod-lcd-ink);
+    }
     .ipod-menu-item.is-selected {
       background: var(--ipod-sel);
+      color: #fff;
+    }
+    .ipod-menu-item.is-selected:link,
+    .ipod-menu-item.is-selected:visited {
       color: #fff;
     }
     .ipod-menu-item.is-selected::after { color: #fff; opacity: .85; }

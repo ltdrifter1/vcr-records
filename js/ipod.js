@@ -25,8 +25,8 @@
       title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
-        { id: "buy", label: "Buy Now", kind: "buy", price: "$1.50" },
-        { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
+        { id: "artists", label: "Artists", kind: "link", href: "/artists" },
+        { id: "shop", label: "Shop", kind: "link", href: "/merch" },
         { id: "now", label: "Now Playing", kind: "now" },
       ],
     },
@@ -185,11 +185,29 @@
       if (item.kind === "play" || item.kind === "buy") cls += " ipod-menu-item--play";
       if (i === sel) cls += " is-selected";
       var price = item.price ? ' data-price="' + item.price + '"' : "";
+      var selected = i === sel ? "true" : "false";
+      if (item.kind === "link" && item.href) {
+        html +=
+          '<a class="' +
+          cls +
+          '" role="option" aria-selected="' +
+          selected +
+          '" data-ipod-index="' +
+          i +
+          '" href="' +
+          item.href +
+          '"' +
+          price +
+          ">" +
+          item.label +
+          "</a>";
+        return;
+      }
       html +=
         '<button type="button" class="' +
         cls +
         '" role="option" aria-selected="' +
-        (i === sel ? "true" : "false") +
+        selected +
         '" data-ipod-index="' +
         i +
         '"' +
@@ -546,11 +564,17 @@
     }
     var row = e.target.closest("[data-ipod-index]");
     if (row && listEl && listEl.contains(row)) {
+      cursor[currentScreenId()] = Number(row.getAttribute("data-ipod-index")) || 0;
+      var item = selectedItem();
+      var modified =
+        e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;
+      if (item && item.kind === "link" && item.href && row.tagName === "A" && modified) {
+        return;
+      }
       e.preventDefault();
       e.stopPropagation();
-      cursor[currentScreenId()] = Number(row.getAttribute("data-ipod-index")) || 0;
       renderList();
-      activate(selectedItem());
+      activate(item);
       return;
     }
     var btn = e.target.closest("[data-act]");
