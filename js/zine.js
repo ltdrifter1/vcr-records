@@ -39,7 +39,7 @@
       kicker: "sunday recovery",
       title: "Love Deluxe",
       artist: "Sade",
-      dek: "The record you put on when people are still in the apartment.",
+      dek: "Sade, 1992. The record I leave on when people are still in the apartment.",
       image: "news-love-deluxe.webp"
     },
     {
@@ -47,15 +47,15 @@
       kicker: "monday rain",
       title: "Dummy",
       artist: "Portishead",
-      dek: "Beth Gibbons. Rain on the window. The other door besides the crate shop.",
+      dek: "Portishead on a Cumberland afternoon. Rain on the glass. I still start people here.",
       image: "news-dummy.webp"
     },
     {
       slug: "/news/the-after-is-the-point",
       kicker: "tuesday afters",
-      title: "The Afters Are the Point",
+      title: "Nobody Asked What to Put On",
       artist: "The Xerox",
-      dek: "The club is a rumor. The night that actually happens is the afters.",
+      dek: "The photo is a lie with good lighting. The night starts when somebody drops a record without taking a vote.",
       image: "news-afters.webp"
     },
     {
@@ -71,7 +71,7 @@
       kicker: "thursday cinema",
       title: "The Last Emperor",
       artist: "Ryuichi Sakamoto",
-      dek: "Sakamoto. The emperor, the snow, the room after.",
+      dek: "Sakamoto, off the movie. I put it on when the apartment needs a temperature, not a plot.",
       image: "news-last-emperor.webp"
     },
     {
@@ -79,7 +79,7 @@
       kicker: "friday floor",
       title: "Headphones On",
       artist: "Addison Rae",
-      dek: "She made a club record. Charli said go. The girls already had the aux.",
+      dek: "Addison’s debut is out. Twelve tracks, no features. Charli said trust it. I did on the walk home.",
       image: "news-headphones.webp"
     },
     {
@@ -87,7 +87,7 @@
       kicker: "saturday door",
       title: "She Showed Up",
       artist: "Lorde",
-      dek: "Management wanted the green room. She wanted the floor.",
+      dek: "She skipped the green room. Stood in the crush. Sang along.",
       image: "news-showed-up.webp"
     }
   ];
