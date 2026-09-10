@@ -481,6 +481,7 @@ a.zine-post:nth-child(3n) .zine-post-art { transform: none; }
 }
 .zine-post[data-type="gossip"] .zine-post-kicker { color: var(--zine-cyan); }
 .zine-post[data-type="fit"] .zine-post-kicker { color: var(--zine-magenta); }
+.zine-post[data-type="ritual"] .zine-post-kicker { color: var(--zine-ice); }
 .zine-post-title {
   margin: 0 0 4px;
   font-family: var(--zine-display);
@@ -745,6 +746,10 @@ a.news-card:focus-visible {
   color: var(--zine-magenta);
   border-color: var(--zine-magenta);
 }
+.news-card[data-type="ritual"] .news-type {
+  color: var(--zine-ice);
+  border-color: var(--zine-ice);
+}
 
 /* Archive page : back issues of the zine --------------------------------- */
 .news-index {
@@ -957,6 +962,10 @@ a.news-card.news-card--featured .news-card-dek {
 .news-index .news-card[data-type="fit"] .news-type {
   color: var(--zine-magenta);
   border-color: var(--zine-magenta);
+}
+.news-index .news-card[data-type="ritual"] .news-type {
+  color: var(--zine-ice);
+  border-color: var(--zine-ice);
 }
 .news-index .news-card-title {
   font-family: var(--zine-display);
@@ -1608,7 +1617,7 @@ body.surface-acetate.has-station-bumper:has(.news-page) .footer-manifesto {
     linear-gradient(135deg, rgba(231, 179, 208, .12), rgba(126, 212, 226, .1) 55%, rgba(255,255,255,.06)),
     var(--zine-paper-2);
 }
-#wire, #tonight, #mic, #desk, #issues {
+#wire, #tonight, #mic, #desk, #issues, #stars, #bathroom {
   scroll-margin-top: calc(var(--nav-h, 56px) + 18px);
 }
 .zine-desk-kicker,
@@ -1926,6 +1935,109 @@ body.news-story .news-page {
 
 .news-story .zine-letters {
   margin-top: 28px;
+}
+
+/* Stars for the Floor — Nylon-back-page chart on aluminum -------------- */
+.zine-stars {
+  margin: 22px 0 8px;
+  padding: 18px 16px 14px;
+  background:
+    linear-gradient(135deg, rgba(231, 179, 208, .14), rgba(215, 238, 248, .08) 48%, rgba(126, 212, 226, .08)),
+    var(--zine-paper-2);
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 18px 32px rgba(12, 16, 24, .28);
+}
+.zine-stars-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.zine-stars-head h2,
+.zine-stars h2 {
+  margin: 0;
+  font-family: var(--zine-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+.zine-stars-head a {
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--zine-magenta);
+  text-decoration: none;
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .zine-stars-head a:hover { color: var(--zine-ice); }
+}
+.zine-stars-strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px 18px;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .zine-stars-strip { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 960px) {
+  .zine-stars-strip { grid-template-columns: 1fr 1fr 1fr; }
+}
+.zine-stars-strip div,
+.zine-stars-list > div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 6px 0;
+  border-top: 1px dashed var(--zine-rule);
+}
+.zine-stars-strip div:nth-child(-n+3),
+.zine-stars-list > div:first-child { border-top: 0; padding-top: 0; }
+@media (min-width: 640px) {
+  .zine-stars-strip div:nth-child(-n+2) { border-top: 0; padding-top: 0; }
+}
+@media (min-width: 960px) {
+  .zine-stars-strip div:nth-child(-n+3) { border-top: 0; padding-top: 0; }
+}
+.zine-stars-strip dt,
+.zine-stars-list dt {
+  margin: 0;
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-magenta);
+}
+.zine-stars-strip dd,
+.zine-stars-list dd {
+  margin: 0;
+  font-family: var(--zine-body);
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--zine-muted);
+}
+.news-body--essay .zine-stars-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 8px 0 1.4em;
+  max-width: 36em;
+}
+@media (min-width: 700px) {
+  .news-body--essay .zine-stars-list { grid-template-columns: 1fr 1fr; gap: 0 22px; }
+}
+.news-body--essay .zine-stars-list > div {
+  padding: 10px 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

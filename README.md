@@ -6,7 +6,7 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 Warm ground + chrome-glass Y2K. Shared tokens in `css/site.css`.
 Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About.
-The zine (`css/news.css`) is a digital Y2K newspaper on Home news + `/news` — Newsreader broadsheet, Oswald gothic kickers, polaroids. Evening-edition house gossip: the floor, the fit, the afters.
+The zine (`css/news.css`) is a digital Y2K newspaper on Home news + `/news` — Newsreader broadsheet, Oswald gothic kickers, polaroids. Evening-edition house gossip: the floor, the fit, the afters, the ritual.
 `/news` is the live front (cover, the wire, tonight’s record, letters). Stories stay on xerox — no station bumper.
 Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, merch PDPs. News articles sit on the zine paper.
 Station bumper (`css/station-bumper.css`) is the shared page entrance — brand lockup first.
