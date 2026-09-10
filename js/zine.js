@@ -40,7 +40,7 @@
       title: "Love Deluxe",
       artist: "Sade",
       dek: "The record you put on when people are still in the apartment.",
-      image: "news-placeholder.webp"
+      image: "news-love-deluxe.webp"
     },
     {
       slug: "/news/dummy",
@@ -48,7 +48,7 @@
       title: "Dummy",
       artist: "Portishead",
       dek: "Beth Gibbons. Rain on the window. The other door besides the crate shop.",
-      image: "news-placeholder.webp"
+      image: "news-dummy.webp"
     },
     {
       slug: "/news/the-after-is-the-point",
@@ -56,7 +56,7 @@
       title: "The Afters Are the Point",
       artist: "The Xerox",
       dek: "The club is a rumor. The night that actually happens is the afters.",
-      image: "news-placeholder.webp"
+      image: "news-afters.webp"
     },
     {
       slug: "/news/donuts",
@@ -80,7 +80,7 @@
       title: "Headphones On",
       artist: "Addison Rae",
       dek: "She made a club record. Charli said go. The girls already had the aux.",
-      image: "news-jadore.webp"
+      image: "news-headphones.webp"
     },
     {
       slug: "/news/she-showed-up",
@@ -88,7 +88,7 @@
       title: "She Showed Up",
       artist: "Lorde",
       dek: "Management wanted the green room. She wanted the floor.",
-      image: "news-placeholder.webp"
+      image: "news-showed-up.webp"
     }
   ];
 
