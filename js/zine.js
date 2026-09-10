@@ -32,15 +32,15 @@
     );
   }
 
-  /* Seven nights. The apartment, the rain, the kitchen, the floor. */
+  /* Seven nights. The apartment, the rain, the after, the floor. */
   var TONIGHT = [
     {
       slug: "/news/love-deluxe",
       kicker: "sunday recovery",
       title: "Love Deluxe",
       artist: "Sade",
-      dek: "The apartment record. Put it on when you want the room to like you back.",
-      image: "news-summer-madness.webp"
+      dek: "The record you put on when people are still in the apartment.",
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/dummy",
@@ -48,15 +48,15 @@
       title: "Dummy",
       artist: "Portishead",
       dek: "Beth Gibbons. Rain on the window. The other door besides the crate shop.",
-      image: "lookout-cover.webp"
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/the-after-is-the-point",
-      kicker: "tuesday kitchen",
+      kicker: "tuesday after",
       title: "The After Is the Point",
-      artist: "the xerox desk",
-      dek: "The club is a rumor. The night that actually happens is the kitchen light.",
-      image: "news-bridget-in-my-room.webp"
+      artist: "The Xerox",
+      dek: "The club is a rumor. The night that actually happens is after.",
+      image: "news-placeholder.webp"
     },
     {
       slug: "/news/donuts",
@@ -71,7 +71,7 @@
       kicker: "thursday cinema",
       title: "The Last Emperor",
       artist: "Ryuichi Sakamoto",
-      dek: "Big history that somehow feels private.",
+      dek: "Sakamoto. The emperor, the snow, the room after.",
       image: "news-last-emperor.webp"
     },
     {
@@ -88,7 +88,7 @@
       title: "She Showed Up",
       artist: "Lorde",
       dek: "Management wanted the green room. She wanted the floor.",
-      image: "news-rosco-bw.webp"
+      image: "news-placeholder.webp"
     }
   ];
 
@@ -151,6 +151,7 @@
     var typeMap = {
       gossip: "gossip",
       fit: "gossip",
+      cover: "artist",
       listening: "listening",
       interview: "interview",
       release: "release",
@@ -226,8 +227,8 @@
     aside.id = aside.id || "";
     aside.innerHTML =
       '<p class="zine-desk-kicker">write the desk</p>' +
-      "<h2>Kitchen light, send it.</h2>" +
-      "<p>Gossip, corrections, what you put on tonight. We read everything. The good letters get xeroxed.</p>" +
+      "<h2>If it happened after two.</h2>" +
+      "<p>Gossip, corrections, what you played. We read it. The good ones get xeroxed.</p>" +
       '<form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">' +
       '<input type="hidden" name="_subject" value="Xerox desk letter"/>' +
       '<label class="sr-only" for="zine-letter-email">Email</label>' +
