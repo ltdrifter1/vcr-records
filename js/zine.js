@@ -32,7 +32,7 @@
     );
   }
 
-  /* Seven nights. The apartment, the rain, the after, the floor. */
+  /* Seven nights. The apartment, the rain, the afters, the floor. */
   var TONIGHT = [
     {
       slug: "/news/love-deluxe",
@@ -52,10 +52,10 @@
     },
     {
       slug: "/news/the-after-is-the-point",
-      kicker: "tuesday after",
-      title: "The After Is the Point",
+      kicker: "tuesday afters",
+      title: "The Afters Are the Point",
       artist: "The Xerox",
-      dek: "The club is a rumor. The night that actually happens is after.",
+      dek: "The club is a rumor. The night that actually happens is the afters.",
       image: "news-placeholder.webp"
     },
     {
