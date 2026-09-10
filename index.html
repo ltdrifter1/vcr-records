@@ -108,8 +108,9 @@
   <link rel="stylesheet" href="css/news.css"/>
   <link rel="stylesheet" href="css/desk.css"/>
   <style>
-    /* Listening booth hero : space-grey desk, standing sleeve + iPod, no void black -- */
+    /* Listening booth hero : vinyl-black field, 12" on aluminum, iPod as Walkman -- */
     .hero {
+      --ticker-h: 32px;
       position: relative;
       min-height: 100vh;
       min-height: 100svh;
@@ -117,88 +118,26 @@
       display: grid;
       place-items: center;
       overflow: hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08) 0%, transparent 22%, rgba(0,0,0,.12) 100%),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px),
-        #3E434C;
+      background: #09090b;
       color: #fff;
       isolation: isolate;
     }
     .hero::before {
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 58% 70% at 22% 48%, rgba(186, 204, 224, .28), transparent 64%),
-        radial-gradient(ellipse 48% 52% at 78% 72%, rgba(90, 140, 190, .18), transparent 60%);
-      transition: background 1.1s var(--ease);
-    }
-    .hero-chroma {
-      position: absolute;
-      inset: -18%;
-      z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 46% 54% at 26% 46%, rgba(168, 186, 204, .22), transparent 62%),
-        radial-gradient(ellipse 40% 46% at 78% 68%, rgba(36, 72, 118, .28), transparent 60%);
-      filter: blur(12px) saturate(.85);
-      opacity: .42;
-      mix-blend-mode: normal;
-      transform: none;
-      transition: opacity .8s var(--ease);
-    }
-    .hero.is-playing .hero-chroma {
-      opacity: .55;
-      animation: none;
-    }
-    @keyframes chromaBreath {
-      0%, 100% { filter: blur(12px) saturate(1.12); }
-      50% { filter: blur(18px) saturate(1.28); }
-    }
-    .hero-ambient {
-      position: absolute;
-      inset: -22%;
-      z-index: 0;
-      pointer-events: none;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: blur(72px) saturate(1.65) brightness(.72);
-      opacity: 1;
-      transform: scale(1.12);
-    }
-    .hero-ambient::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 52% 46% at 50% 42%, transparent 0%, rgba(62,67,76,.18) 58%, rgba(62,67,76,.42) 100%),
-        linear-gradient(180deg, rgba(62,67,76,.1) 0%, rgba(58,63,71,.28) 100%);
+      background: radial-gradient(ellipse 58% 46% at 22% 16%, rgba(226, 232, 238, .14), transparent 64%);
     }
     .hero::after {
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, transparent 22%, rgba(30,34,40,.16) 100%);
-    }
-    .hero-scan {
-      position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      opacity: .42;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(220, 235, 255, .06), transparent 58%),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(255,255,255,.028) 2px,
-          rgba(255,255,255,.028) 3px
-        );
-      mix-blend-mode: screen;
+      background: radial-gradient(ellipse 90% 80% at 50% 38%, transparent 42%, rgba(0,0,0,.42) 100%);
     }
 
     .hero-stage {
       position: relative; z-index: 1;
-      width: min(1180px, calc(100% - 48px));
+      width: min(1180px, calc(100% - 40px));
       min-height: 100%;
-      padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 44px));
+      padding: calc(var(--nav-h) + var(--safe-t) + 20px) 0 calc(18px + var(--ticker-h, 32px));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -208,38 +147,58 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: 0;
       width: 100%;
-      max-width: 880px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
-    /* Desk still life — standing sleeve behind the iPod, one plane -------- */
+    /* One camera, one lamp, a real ground — record left, iPod right, air between */
     .hero-scene {
-      --jacket: min(468px, 44vw);
+      --disc: min(540px, 58vh, 50vw);
       position: relative;
       display: grid;
-      grid-template-columns: var(--jacket) auto;
+      grid-template-columns: var(--disc) auto;
+      grid-template-areas:
+        "vinyl booth"
+        "folio folio";
       align-items: end;
       justify-content: center;
+      column-gap: clamp(40px, 6vw, 72px);
+      row-gap: 0;
       width: max-content;
       max-width: 100%;
-      padding: 8px 12px 36px;
+      padding: 12px 8px 0;
     }
-    .hero-scene::after {
-      content: "";
+    .hero-ground {
       position: absolute;
-      left: 10%;
-      right: 8%;
-      bottom: 4%;
-      height: 26%;
+      left: 0;
+      right: 0;
+      bottom: var(--ticker-h, 32px);
+      height: 44%;
       z-index: 0;
       pointer-events: none;
-      background: radial-gradient(ellipse 72% 48% at 48% 78%, rgba(12, 14, 18, .55), transparent 72%);
-      filter: blur(18px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.3) 0 1px, transparent 9px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.055) 0 1px, transparent 1px 5px),
+        linear-gradient(180deg, #a4abb3 0%, #7e858d 12%, #616870 40%, #4a5058 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.42),
+        inset 0 -1px 0 rgba(0,0,0,.28);
+    }
+    .hero-ground::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      top: 10%;
+      height: 48%;
+      background: radial-gradient(ellipse 62% 80% at 38% 0%, rgba(8, 8, 10, .4), transparent 72%);
+      filter: blur(16px);
     }
     .hero-booth {
       position: relative;
+      grid-area: booth;
       z-index: 3;
       display: flex;
       flex-direction: column;
@@ -247,205 +206,132 @@
       width: max-content;
       max-width: 100%;
       padding: 0;
-      margin-left: -72px;
+      margin: 0 0 28px;
     }
 
-    .hero-jacket {
+    .hero-vinyl {
       position: relative;
-      z-index: 1;
+      grid-area: vinyl;
+      z-index: 2;
       display: block;
-      width: var(--jacket);
-      margin: 0 -8px 18px 0;
+      width: var(--disc);
+      margin: 0 0 22px;
       color: inherit;
       text-decoration: none;
-      transform:
-        perspective(1600px)
-        rotateY(16deg)
-        rotateX(1.4deg)
-        rotateZ(-3.6deg);
-      transform-origin: 88% 100%;
-      transform-style: preserve-3d;
-      filter: drop-shadow(16px 26px 28px rgba(0, 0, 0, .46));
-      transition: transform .5s var(--ease), filter .45s var(--ease);
+      filter: drop-shadow(0 22px 18px rgba(0, 0, 0, .55));
+      transition: filter .45s var(--ease);
     }
-    .hero-jacket:focus { outline: none; }
-    .hero-jacket:focus-visible {
+    .hero-vinyl:focus { outline: none; }
+    .hero-vinyl:focus-visible {
       outline: 2px solid #fff;
-      outline-offset: 6px;
+      outline-offset: 8px;
+      border-radius: 50%;
     }
     @media (hover:hover) {
-      .hero-jacket:hover {
-        transform:
-          perspective(1600px)
-          rotateY(12deg)
-          rotateX(1deg)
-          rotateZ(-2.8deg)
-          translate3d(0, -8px, 10px);
-        filter: drop-shadow(18px 34px 32px rgba(0, 0, 0, .52));
-      }
+      .hero-vinyl:hover .hero-vinyl-sheen { opacity: .95; }
     }
-    .hero.is-playing .hero-jacket {
-      filter:
-        drop-shadow(16px 26px 28px rgba(0, 0, 0, .46))
-        drop-shadow(0 0 28px rgba(var(--room-a, 186, 204, 224), calc(0.18 + var(--room-energy, .18) * 0.22)));
-    }
-    .hero-jacket-board {
+    .hero-vinyl-board {
       position: relative;
       aspect-ratio: 1;
-      border-radius: 2px;
+      border-radius: 50%;
       overflow: hidden;
-      background: #0a0a0c;
+      background: #050506;
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .28),
+        0 0 0 1px rgba(0, 0, 0, .85),
+        0 0 0 2px rgba(48, 50, 54, .95),
         inset 0 0 0 1px rgba(255, 255, 255, .08);
     }
-    .hero-jacket-board::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 11px;
-      z-index: 3;
-      pointer-events: none;
-      background: linear-gradient(90deg, #6e747c 0 36%, #d5dbe3 36% 72%, #eef1f4 72%);
-      box-shadow: 1px 0 0 rgba(0, 0, 0, .18);
-    }
-    .hero-jacket-board img {
+    .hero-vinyl-board img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      border-radius: 50%;
     }
-    .hero-jacket-poly {
+    .hero-vinyl-grooves {
       position: absolute;
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      background:
-        linear-gradient(125deg,
-          rgba(255, 255, 255, .42) 0%,
-          transparent 16%,
-          transparent 44%,
-          rgba(186, 214, 238, .14) 58%,
-          transparent 72%,
-          rgba(255, 255, 255, .16) 100%);
-      mix-blend-mode: soft-light;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, .05) 0 1px,
+        transparent 1px 3px
+      );
+      mask-image: radial-gradient(circle, transparent 36%, #000 41%, #000 49.2%, transparent 50%);
+      -webkit-mask-image: radial-gradient(circle, transparent 36%, #000 41%, #000 49.2%, transparent 50%);
+      mix-blend-mode: overlay;
+      opacity: .7;
     }
-    .hero-jacket-stamp {
+    .hero-vinyl-sheen {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      inset: -8%;
       z-index: 2;
-      padding: 6px 8px 4px;
-      background: #f3f5f7;
-      color: #111;
-      font-family: var(--callsign);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      transform: rotate(-2.4deg);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 1px rgba(0, 0, 0, .06);
-    }
-    .hero-jacket-reflect {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 100%;
-      height: 34%;
-      overflow: hidden;
       pointer-events: none;
-      transform: scaleY(-1);
-      transform-origin: 50% 0;
-      opacity: .5;
-      mask-image: linear-gradient(to top, rgba(0, 0, 0, .62) 0%, transparent 78%);
-      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, .62) 0%, transparent 78%);
-      filter: blur(.35px) brightness(.72);
+      border-radius: 50%;
+      background:
+        linear-gradient(118deg,
+          transparent 28%,
+          rgba(255, 255, 255, .2) 44%,
+          transparent 51%,
+          transparent 62%,
+          rgba(186, 204, 220, .1) 74%,
+          transparent 82%);
+      mix-blend-mode: overlay;
+      opacity: .72;
+      transform-origin: 50% 50%;
     }
-    .hero-jacket-reflect img {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1;
-      object-fit: cover;
-      display: block;
+    .hero.is-playing .hero-vinyl-sheen {
+      animation: vinylSheen 32s linear infinite;
+    }
+    @keyframes vinylSheen {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    /* Dock caption — catalog sticker language, not a competing poster ---- */
-    .hero-dock {
+    /* Folio — magazine running line on the desk. Label is the title. ------ */
+    .hero-folio {
+      grid-area: folio;
       position: relative;
       z-index: 2;
-      margin: 0;
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
-      justify-content: center;
-      gap: 8px 14px;
-      text-align: center;
-      max-width: 28rem;
-    }
-    .hero-dock-link {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 10px;
-      color: inherit;
-      text-decoration: none;
-    }
-    .hero-dock-cat {
+      gap: 8px 18px;
+      margin: 0;
+      padding: 10px 8px 18px;
       font-family: var(--callsign);
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: .18em;
+      letter-spacing: .2em;
       text-transform: uppercase;
-      color: rgba(200, 214, 230, .58);
+      color: #1a1e26;
     }
-    .hero-dock-title {
-      font-family: var(--sans);
-      font-size: clamp(22px, 3.2vw, 30px);
-      font-weight: 700;
-      letter-spacing: -.04em;
-      line-height: 1;
-      color: #fff;
-    }
-    .hero-dock-link:hover .hero-dock-title { color: #fff; }
-    .hero-dock-link:hover .hero-dock-cat { color: rgba(230, 236, 244, .88); }
-    .hero-dock-link:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 4px;
-    }
-    .hero-dock-artist {
-      font-size: clamp(15px, 1.6vw, 18px);
-      font-weight: 400;
-      font-style: italic;
-      letter-spacing: -.02em;
-      color: rgba(244, 246, 248, .68);
+    .hero-folio a {
+      color: #111;
       text-decoration: none;
+      border-bottom: 1px solid transparent;
     }
-    .hero-dock-artist:hover { color: #fff; }
-    .hero-dock-artist:focus-visible {
-      outline: 2px solid #fff;
+    @media (hover:hover) {
+      .hero-folio a:hover {
+        color: #111;
+        border-bottom-color: rgba(18, 20, 24, .45);
+      }
+    }
+    .hero-folio a:focus-visible {
+      outline: 2px solid #111;
       outline-offset: 3px;
     }
-    .hero-copy-live {
-      display: none;
-      align-items: center;
-      gap: 10px;
-    }
-    .hero.is-playing .hero-copy-live { display: inline-flex; }
-    .hero-copy-live-title {
-      margin: 0;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.78);
+    .hero-folio-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: rgba(18, 20, 24, .45);
+      flex-shrink: 0;
+      align-self: center;
     }
 
-    /* Station bar — NTS / lot-radio chrome at the fold -------------------- */
-    .hero {
-      --ticker-h: 44px;
-    }
+    /* Station bar — inlaid aluminum edge, not a glass sandwich ------------- */
     .hero-ticker {
       position: absolute;
       left: 0; right: 0; bottom: 0;
@@ -454,14 +340,12 @@
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       align-items: stretch;
-      border-top: 1px solid rgba(220, 228, 236, .28);
+      border-top: 1px solid rgba(255, 255, 255, .22);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.04)),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
-        rgba(90, 96, 106, .9);
-      backdrop-filter: blur(18px) saturate(1.4);
-      -webkit-backdrop-filter: blur(18px) saturate(1.4);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.03)),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 4px),
+        #4a5058;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
       transition: border-color .5s var(--ease), box-shadow .5s var(--ease);
     }
     .hero.is-playing .hero-ticker {
@@ -575,10 +459,9 @@
         inset 0 1px 0 #fff,
         inset 0 -2px 3px rgba(180,180,180,.35),
         0 1px 0 rgba(255,255,255,.85),
-        0 28px 64px rgba(0,0,0,.48),
-        0 2px 0 rgba(190,190,190,.55),
-        0 0 80px rgba(186,204,224,.12);
-      transition: width .55s var(--ease), transform .55s var(--ease), box-shadow .4s var(--ease);
+        0 18px 22px rgba(0,0,0,.42),
+        0 2px 0 rgba(190,190,190,.55);
+      transition: width .55s var(--ease), box-shadow .4s var(--ease);
     }
     .hero-platter::before {
       content: "";
@@ -598,11 +481,8 @@
         inset 0 1px 0 #fff,
         inset 0 -2px 3px rgba(180,180,180,.35),
         0 1px 0 rgba(255,255,255,.7),
-        0 22px 48px rgba(0,0,0,.38),
+        0 16px 20px rgba(0,0,0,.4),
         0 2px 0 rgba(190,190,190,.55);
-    }
-    @media (hover:hover) {
-      .hero-platter:hover { transform: translateY(-3px); }
     }
 
     /* Screen — 4th-gen monochrome LCD ------------------------------------ */
@@ -1106,14 +986,13 @@
 
     @media (prefers-reduced-motion: reduce) {
       .hero-platter, .hero-ctas, .hero-console,
-      .hero-pulse, .hero-ambient, .hero-station, .wall-eq i,
-      .hero-ticker-track, .hero-chroma,
+      .hero-pulse, .hero-station, .wall-eq i,
+      .hero-ticker-track, .hero-vinyl-sheen,
       .wall-item.is-now-playing.is-audible .wall-art::before {
         animation: none !important;
       }
-      .hero-ambient, .hero-idle, .hero-platter, .hero-sleeve, .hero-jacket { transition: none; }
-      .hero-jacket { transform: none; filter: drop-shadow(12px 18px 20px rgba(0,0,0,.4)); }
-      .hero-jacket-reflect { display: none; }
+      .hero-idle, .hero-platter, .hero-sleeve, .hero-vinyl { transition: none; }
+      .hero-vinyl { filter: drop-shadow(0 16px 14px rgba(0,0,0,.5)); }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
       .place-img { transform: none !important; }
       .hero-ticker-track { transform: none; }
@@ -1127,7 +1006,7 @@
 
     /* Chrome nav over space-grey hero, frosted aluminum after scroll -------- */
     body.hero-top .nav {
-      background: linear-gradient(180deg, rgba(62,67,76,.42) 0%, rgba(62,67,76,.08) 100%);
+      background: linear-gradient(180deg, rgba(9,9,11,.55) 0%, rgba(9,9,11,.08) 100%);
       border-bottom-color: transparent;
       box-shadow: none;
       backdrop-filter: saturate(180%) blur(20px);
@@ -1199,7 +1078,7 @@
     }
     .wall-bridge {
       height: 40px;
-      background: linear-gradient(180deg, #3E434C 0%, transparent 100%);
+      background: linear-gradient(180deg, #4a5058 0%, transparent 100%);
       pointer-events: none;
     }
     /* Album campaign spine — Lookout owns this beat between hero and wall */
@@ -1212,7 +1091,7 @@
     }
     .campaign-bridge {
       height: 48px;
-      background: linear-gradient(180deg, #3E434C 0%, #E6EAEF 100%);
+      background: linear-gradient(180deg, #4a5058 0%, #E6EAEF 100%);
       pointer-events: none;
     }
     .campaign-inner {
@@ -2261,52 +2140,45 @@
     .place-dek,
     .place-link { display: none; }
 
-    /* Desk still life — sleeve becomes a halo behind the iPod ------------ */
+    /* High-angle still life — stack on small screens, never overlap -------- */
     @media (max-width: 1080px) {
-      .hero-scene { --jacket: min(400px, 48vw); }
-      .hero-booth { margin-left: -56px; }
+      .hero-scene { --disc: min(460px, 52vh, 46vw); }
     }
 
     @media (max-width: 860px) {
+      .hero-scene { --disc: min(440px, 42vh, 52vw); }
+      .hero-stage { width: min(100% - 32px, 1000px); }
+    }
+
+    @media (max-width: 720px) {
       .hero-stage {
-        width: min(100% - 36px, 640px);
-        padding: calc(var(--nav-h) + var(--safe-t) + 18px) 0 calc(20px + var(--ticker-h, 44px) + var(--safe-b));
+        width: min(100% - 32px, 640px);
+        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h) + var(--tabbar-h) + var(--safe-b));
       }
-      .hero-post { gap: 14px; }
       .hero-scene {
-        --jacket: min(360px, 78vw);
+        --disc: min(240px, 30vh, 70vw);
         grid-template-columns: 1fr;
+        grid-template-areas:
+          "vinyl"
+          "booth"
+          "folio";
         justify-items: center;
-        padding: 4px 0 12px;
+        column-gap: 0;
+        padding: 4px 0 0;
       }
-      .hero-jacket {
-        grid-area: 1 / 1;
-        margin: 0;
-        justify-self: center;
-        transform: rotate(-3deg);
-        transform-origin: 50% 80%;
-      }
-      .hero-jacket-reflect { display: none; }
-      .hero-booth {
-        grid-area: 1 / 1;
-        margin: 56px 0 0;
-        justify-self: center;
-      }
-      .hero-ambient {
-        background-position: center;
-      }
-      .hero {
-        --ticker-h: 40px;
-      }
+      .hero-vinyl { margin: 0 0 4px; }
+      .hero-booth { margin: 6px 0 10px; }
+      .hero-folio { justify-content: center; padding-bottom: 12px; }
+      .hero { --ticker-h: 30px; }
+      .hero-ticker { bottom: var(--tabbar-h); }
+      .hero-ground { bottom: calc(var(--ticker-h) + var(--tabbar-h)); }
       .hero-ticker-bug { padding: 0 10px 0 12px; }
       .hero-ticker-now { max-width: 34vw; }
       .hero-ticker-copy a,
       .hero-ticker-copy span { padding: 0 16px; font-size: 10px; }
-      @media (hover:hover) {
-        .hero-jacket:hover {
-          transform: rotate(-3deg) translateY(-6px);
-          filter: drop-shadow(14px 22px 22px rgba(0,0,0,.5));
-        }
+      body.hero-top .tabbar {
+        background: rgba(76, 81, 89, .88);
+        border-top-color: rgba(236, 240, 246, .18);
       }
     }
 
@@ -2318,17 +2190,17 @@
       }
       .hero-stage {
         width: min(100% - 28px, 420px);
-        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(16px + var(--ticker-h, 40px) + var(--safe-b));
+        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
-      .hero-scene { --jacket: min(340px, 88vw); }
-      .hero-platter { --ipod-w: min(248px, 66vw); padding: 14px 14px 20px; }
-      .hero-booth { margin-top: 48px; }
+      .hero-scene { --disc: min(220px, 28vh, 68vw); }
+      .hero-platter { --ipod-w: min(212px, 58vw); padding: 12px 12px 18px; }
+      .hero-booth { margin: 4px 0 10px; }
 
       .hero.is-live .hero-stage {
         min-height: 100svh;
         min-height: 100dvh;
         padding-top: calc(var(--nav-h) + var(--safe-t) + 8px);
-        padding-bottom: calc(12px + var(--ticker-h, 40px) + var(--safe-b));
+        padding-bottom: calc(10px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
       .hero-progress input[type="range"] {
         height: 28px;
@@ -2358,10 +2230,10 @@
     @media (max-width: 700px) and (max-height: 740px) {
       .hero-stage {
         padding-top: calc(var(--nav-h) + var(--safe-t) + 10px);
-        padding-bottom: calc(10px + var(--ticker-h, 36px) + var(--safe-b));
+        padding-bottom: calc(8px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
-      .hero-booth { gap: 10px; margin-top: 36px; }
-      .hero-scene { --jacket: min(280px, 72vw); }
+      .hero-booth { gap: 8px; margin: 0 0 8px; }
+      .hero-scene { --disc: min(190px, 24vh, 62vw); }
       .hero-platter { --ipod-w: min(230px, 62vw); padding: 12px 12px 18px; }
       .hero.is-live .hero-station { display: none; }
       .hero { --ticker-h: 36px; }
@@ -2379,7 +2251,8 @@
         padding: calc(12px + var(--safe-t)) 20px calc(12px + var(--ticker-h, 36px) + var(--safe-b));
         width: min(100% - 24px, 900px);
       }
-      .hero-platter { --ipod-w: min(220px, 34vh); }
+      .hero-platter { --ipod-w: min(200px, 32vh); }
+      .hero-scene { --disc: min(280px, 46vh, 38vw); }
     }
 
     /* Dark dock over the dark homepage ------------------------------------- */
@@ -2401,13 +2274,6 @@
 
     body.hero-top {
       overscroll-behavior-y: none;
-    }
-
-    @media (max-width: 720px) {
-      body.hero-top .tabbar {
-        background: rgba(76, 81, 89, .88);
-        border-top-color: rgba(236, 240, 246, .18);
-      }
     }
 
     /* Footer over space-grey zine — matching aluminum */
@@ -2482,20 +2348,16 @@
 
   <!-- Featured release -->
   <section class="hero" id="room" data-listening-room data-ipod data-ipod-view="menu" aria-label="DESIRE">
-    <div class="hero-chroma" aria-hidden="true"></div>
-    <div class="hero-ambient" data-room-bg style="background-image:url('desire-cover.webp?v=re')" aria-hidden="true"></div>
-    <div class="hero-scan" aria-hidden="true"></div>
+    <div class="hero-ground" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-post">
+        <h1 class="visually-hidden">DESIRE — Molly Haze</h1>
         <div class="hero-scene">
-          <a class="hero-jacket" href="/desire" aria-label="DESIRE — Molly Haze">
-            <span class="hero-jacket-board">
-              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 860px) 78vw, 468px" alt="" width="1200" height="1200" fetchpriority="high"/>
-              <span class="hero-jacket-poly" aria-hidden="true"></span>
-              <span class="hero-jacket-stamp">CC021</span>
-            </span>
-            <span class="hero-jacket-reflect" aria-hidden="true">
-              <img src="desire-cover.webp?v=re" alt="" width="1200" height="1200"/>
+          <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
+            <span class="hero-vinyl-board">
+              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 860px) 78vw, 540px" alt="" width="1200" height="1200" fetchpriority="high"/>
+              <span class="hero-vinyl-grooves" aria-hidden="true"></span>
+              <span class="hero-vinyl-sheen" aria-hidden="true"></span>
             </span>
           </a>
         <div class="hero-booth">
@@ -2538,9 +2400,6 @@
                   <input type="range" data-room-scrub min="0" max="1000" value="0" aria-label="Seek"/>
                   <div class="hero-times"><span data-room-cur>0:00</span><span data-room-dur>0:00</span></div>
                 </div>
-                <div class="hero-console-actions">
-                  <button type="button" class="hero-console-link hero-console-link--primary ipod-menu-item ipod-menu-item--play" data-ipod-buy data-label="Buy Now · $1.50" data-price="$1.50">Buy Now</button>
-                </div>
               </div>
             </div>
           </div>
@@ -2554,23 +2413,20 @@
             <button type="button" class="ipod-key ipod-key--next" data-act="ipod-next" aria-label="Next">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 6H19v12h-2.4zM13 12 3 5.6v12.8z"/></svg>
             </button>
-            <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" data-act="ipod-play" aria-label="Play The Process">
+            <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" data-act="ipod-play" aria-label="Play DESIRE">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 7.1v9.8L12 12zm10.8 0h1.7v9.8h-1.7zm3.1 0h1.7v9.8h-1.7z"/></svg>
             </button>
           </div>
         </div>
         </div>
+          <p class="hero-folio">
+            <span>Out now</span>
+            <span class="hero-folio-dot" aria-hidden="true"></span>
+            <a href="/artists/molly-haze">Molly Haze</a>
+            <span class="hero-folio-dot" aria-hidden="true"></span>
+            <span>Pacific Northwest</span>
+          </p>
         </div>
-        <h1 class="hero-dock">
-          <a class="hero-dock-link" href="/desire">
-            <span class="hero-dock-cat">CC021</span>
-            <span class="hero-dock-title">DESIRE</span>
-          </a>
-          <a class="hero-dock-artist" href="/artists/molly-haze">Molly Haze</a>
-          <span class="hero-copy-live" aria-live="polite">
-            <span class="status-chip status-chip--air">On air</span>
-          </span>
-        </h1>
       </div>
     </div>
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: Gorilla (Molly’s Hazy Edit), mixtape (instrumental version), DESIRE, Still Riding (Molly Haze Edit), The Process.</p>
