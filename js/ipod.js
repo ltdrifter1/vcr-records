@@ -27,6 +27,7 @@
         { id: "music", label: "Music", kind: "drill", screen: "music" },
         { id: "artists", label: "Artists", kind: "link", href: "/artists" },
         { id: "shop", label: "Shop", kind: "link", href: "/merch" },
+        { id: "zine", label: "Zine", kind: "link", href: "/news" },
         { id: "now", label: "Now Playing", kind: "now" },
       ],
     },
