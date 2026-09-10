@@ -172,29 +172,29 @@
     }
     .hero-ground {
       position: absolute;
-      left: -10%;
-      right: -14%;
-      bottom: 0;
+      left: 0;
+      right: 0;
+      bottom: var(--ticker-h, 32px);
       height: 44%;
       z-index: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.28) 0 1px, transparent 8px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 5px),
-        linear-gradient(180deg, #9aa1aa 0%, #7a8189 14%, #5f656d 42%, #4a5058 100%);
+        linear-gradient(180deg, rgba(255,255,255,.3) 0 1px, transparent 9px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.055) 0 1px, transparent 1px 5px),
+        linear-gradient(180deg, #a4abb3 0%, #7e858d 12%, #616870 40%, #4a5058 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.38),
+        inset 0 1px 0 rgba(255,255,255,.42),
         inset 0 -1px 0 rgba(0,0,0,.28);
     }
     .hero-ground::after {
       content: "";
       position: absolute;
-      left: 8%;
-      right: 10%;
-      top: 18%;
-      height: 42%;
-      background: radial-gradient(ellipse 70% 80% at 42% 0%, rgba(8, 8, 10, .38), transparent 70%);
-      filter: blur(12px);
+      left: 18%;
+      right: 18%;
+      top: 10%;
+      height: 48%;
+      background: radial-gradient(ellipse 62% 80% at 38% 0%, rgba(8, 8, 10, .4), transparent 72%);
+      filter: blur(16px);
     }
     .hero-booth {
       position: relative;
@@ -302,21 +302,21 @@
       margin: 0;
       padding: 10px 8px 18px;
       font-family: var(--callsign);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: .22em;
+      letter-spacing: .2em;
       text-transform: uppercase;
-      color: rgba(18, 20, 24, .62);
+      color: #1a1e26;
     }
     .hero-folio a {
-      color: rgba(18, 20, 24, .82);
+      color: #111;
       text-decoration: none;
       border-bottom: 1px solid transparent;
     }
     @media (hover:hover) {
       .hero-folio a:hover {
         color: #111;
-        border-bottom-color: rgba(18, 20, 24, .35);
+        border-bottom-color: rgba(18, 20, 24, .45);
       }
     }
     .hero-folio a:focus-visible {
@@ -326,7 +326,7 @@
     .hero-folio-dot {
       width: 3px; height: 3px;
       border-radius: 50%;
-      background: rgba(18, 20, 24, .32);
+      background: rgba(18, 20, 24, .45);
       flex-shrink: 0;
       align-self: center;
     }
@@ -2146,12 +2146,17 @@
     }
 
     @media (max-width: 860px) {
+      .hero-scene { --disc: min(440px, 42vh, 52vw); }
+      .hero-stage { width: min(100% - 32px, 1000px); }
+    }
+
+    @media (max-width: 720px) {
       .hero-stage {
         width: min(100% - 32px, 640px);
-        padding: calc(var(--nav-h) + var(--safe-t) + 16px) 0 calc(16px + var(--ticker-h, 30px) + var(--safe-b));
+        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h) + var(--tabbar-h) + var(--safe-b));
       }
       .hero-scene {
-        --disc: min(340px, 46vh, 78vw);
+        --disc: min(240px, 30vh, 70vw);
         grid-template-columns: 1fr;
         grid-template-areas:
           "vinyl"
@@ -2161,15 +2166,20 @@
         column-gap: 0;
         padding: 4px 0 0;
       }
-      .hero-vinyl { margin: 0 0 6px; }
-      .hero-booth { margin: 12px 0 18px; }
-      .hero-ground { height: 56%; }
-      .hero-folio { justify-content: center; padding-bottom: 14px; }
+      .hero-vinyl { margin: 0 0 4px; }
+      .hero-booth { margin: 6px 0 10px; }
+      .hero-folio { justify-content: center; padding-bottom: 12px; }
       .hero { --ticker-h: 30px; }
+      .hero-ticker { bottom: var(--tabbar-h); }
+      .hero-ground { bottom: calc(var(--ticker-h) + var(--tabbar-h)); }
       .hero-ticker-bug { padding: 0 10px 0 12px; }
       .hero-ticker-now { max-width: 34vw; }
       .hero-ticker-copy a,
       .hero-ticker-copy span { padding: 0 16px; font-size: 10px; }
+      body.hero-top .tabbar {
+        background: rgba(76, 81, 89, .88);
+        border-top-color: rgba(236, 240, 246, .18);
+      }
     }
 
     @media (max-width: 700px) {
@@ -2180,17 +2190,17 @@
       }
       .hero-stage {
         width: min(100% - 28px, 420px);
-        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(16px + var(--ticker-h, 30px) + var(--safe-b));
+        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
-      .hero-scene { --disc: min(300px, 42vh, 82vw); }
-      .hero-platter { --ipod-w: min(232px, 64vw); padding: 14px 14px 20px; }
-      .hero-booth { margin: 8px 0 16px; }
+      .hero-scene { --disc: min(220px, 28vh, 68vw); }
+      .hero-platter { --ipod-w: min(212px, 58vw); padding: 12px 12px 18px; }
+      .hero-booth { margin: 4px 0 10px; }
 
       .hero.is-live .hero-stage {
         min-height: 100svh;
         min-height: 100dvh;
         padding-top: calc(var(--nav-h) + var(--safe-t) + 8px);
-        padding-bottom: calc(12px + var(--ticker-h, 30px) + var(--safe-b));
+        padding-bottom: calc(10px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
       .hero-progress input[type="range"] {
         height: 28px;
@@ -2220,10 +2230,10 @@
     @media (max-width: 700px) and (max-height: 740px) {
       .hero-stage {
         padding-top: calc(var(--nav-h) + var(--safe-t) + 10px);
-        padding-bottom: calc(10px + var(--ticker-h, 36px) + var(--safe-b));
+        padding-bottom: calc(8px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
-      .hero-booth { gap: 10px; margin: 4px 0 12px; }
-      .hero-scene { --disc: min(240px, 36vh, 70vw); }
+      .hero-booth { gap: 8px; margin: 0 0 8px; }
+      .hero-scene { --disc: min(190px, 24vh, 62vw); }
       .hero-platter { --ipod-w: min(230px, 62vw); padding: 12px 12px 18px; }
       .hero.is-live .hero-station { display: none; }
       .hero { --ticker-h: 36px; }
@@ -2264,13 +2274,6 @@
 
     body.hero-top {
       overscroll-behavior-y: none;
-    }
-
-    @media (max-width: 720px) {
-      body.hero-top .tabbar {
-        background: rgba(76, 81, 89, .88);
-        border-top-color: rgba(236, 240, 246, .18);
-      }
     }
 
     /* Footer over space-grey zine — matching aluminum */
@@ -2345,11 +2348,11 @@
 
   <!-- Featured release -->
   <section class="hero" id="room" data-listening-room data-ipod data-ipod-view="menu" aria-label="DESIRE">
+    <div class="hero-ground" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-post">
         <h1 class="visually-hidden">DESIRE — Molly Haze</h1>
         <div class="hero-scene">
-          <div class="hero-ground" aria-hidden="true"></div>
           <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
             <span class="hero-vinyl-board">
               <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 860px) 78vw, 540px" alt="" width="1200" height="1200" fetchpriority="high"/>
