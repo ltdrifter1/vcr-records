@@ -2015,14 +2015,19 @@
       .club-join-btn.btn:hover { transform: none; }
     }
 
-    /* Home artists — ice roster before the space-grey zine --------------- */
+    /* Home artists — ice roster, same click-wheel type as Join ------------ */
     .home-artists {
       position: relative;
-      padding: 8px 0 56px;
+      padding: 0 0 56px;
       color: #1A1E26;
       background:
         radial-gradient(720px 360px at 88% 100%, rgba(186,204,224,.22), transparent 55%),
         linear-gradient(180deg, #EEF1F4 0%, #E6EAEF 100%);
+    }
+    .home-artists-bridge {
+      height: 48px;
+      background: linear-gradient(180deg, #444950 0%, transparent 100%);
+      pointer-events: none;
     }
     @media (min-width: 800px) {
       .home-artists { padding-bottom: 72px; }
@@ -2030,18 +2035,23 @@
     .home-artists .section-head {
       border-bottom: none;
       box-shadow: none;
-      padding-top: 28px;
+      padding-top: 12px;
       padding-bottom: 0;
       margin-bottom: 20px;
     }
     @media (min-width: 800px) {
       .home-artists .section-head {
-        padding-top: 36px;
+        padding-top: 16px;
         margin-bottom: 24px;
       }
     }
     .home-artists .eyebrow { color: rgba(26,30,38,.45); }
-    .home-artists h2 { color: #1A1E26; }
+    .home-artists h2 {
+      font-family: var(--display);
+      font-weight: 700;
+      letter-spacing: -.038em;
+      color: #1A1E26;
+    }
     .home-artists .head-link { color: rgba(26,30,38,.55); }
     @media (hover:hover) {
       .home-artists .head-link:hover {
@@ -2052,7 +2062,7 @@
 
     .home-roster {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
     @media (min-width: 800px) {
       .home-roster {
@@ -2069,33 +2079,33 @@
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      border-radius: 2px;
+      border-radius: var(--radius-lg);
       border: 1px solid transparent;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.94), rgba(236,240,244,.97)) padding-box,
+        linear-gradient(165deg, rgba(255,255,255,.96), rgba(236,240,244,.88)) padding-box,
         linear-gradient(135deg,
-          rgba(255,255,255,.92) 0%,
+          rgba(255,255,255,.95) 0%,
           rgba(168,184,204,.55) 36%,
-          rgba(255,255,255,.4) 58%,
+          rgba(255,255,255,.42) 58%,
           rgba(120,132,148,.5) 100%) border-box;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.85),
-        inset 0 -1px 0 rgba(90,100,120,.08),
-        0 0 0 1px rgba(90,100,120,.12),
-        0 10px 24px rgba(30,34,40,.1);
-      transition: box-shadow .25s var(--ease);
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -1px 0 rgba(90,100,120,.06),
+        0 0 0 1px rgba(90,100,120,.1),
+        0 14px 32px rgba(30,34,40,.1);
+      transition: box-shadow .25s var(--ease), transform .25s var(--ease);
     }
     @media (min-width: 800px) {
       .home-artist { grid-template-columns: 1fr; }
     }
     @media (hover:hover) {
       .home-artist:hover {
+        transform: translateY(-2px);
         box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.95),
-          inset 0 -1px 0 rgba(90,100,120,.08),
-          0 0 0 1px rgba(90,100,120,.16),
-          0 0 0 1px rgba(200,220,240,.35),
-          0 14px 28px rgba(30,34,40,.14);
+          inset 0 1px 0 rgba(255,255,255,.98),
+          0 0 0 1px rgba(90,100,120,.14),
+          0 0 0 1px rgba(var(--aurora-a), .16),
+          0 18px 36px rgba(30,34,40,.14);
       }
       .home-artist:hover .home-artist-photo img {
         transform: scale(1.035);
@@ -2108,10 +2118,6 @@
       overflow: hidden;
       background: #111;
       min-height: 100%;
-      box-shadow: inset -1px 0 0 rgba(0,0,0,.4);
-    }
-    @media (min-width: 800px) {
-      .home-artist-photo { box-shadow: inset 0 -1px 0 rgba(0,0,0,.4); }
     }
     .home-artist-photo img {
       width: 100%;
@@ -2136,33 +2142,35 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 7px;
-      padding: 16px 18px 16px 20px;
+      gap: 8px;
+      padding: 16px 18px 18px 20px;
       min-width: 0;
     }
     .home-artist-role {
       margin: 0;
-      font-family: var(--zine-mono, var(--callsign));
-      font-size: 10px;
-      font-weight: 500;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(58,63,71,.55);
+      color: rgba(58,63,71,.52);
     }
     .home-artist-name {
       margin: 0;
-      font-family: var(--zine-display, var(--display));
-      font-size: clamp(20px, 2.4vw, 26px);
-      font-weight: 400;
-      letter-spacing: -.032em;
+      font-family: var(--display);
+      font-size: clamp(22px, 2.4vw, 28px);
+      font-weight: 700;
+      letter-spacing: -.038em;
       line-height: 1.08;
-      text-transform: uppercase;
+      text-transform: none;
       color: #1A1E26;
     }
     .home-artist-dek {
       margin: 0;
-      font-size: 14px;
+      font-family: var(--sans);
+      font-size: 15px;
       line-height: 1.45;
+      letter-spacing: -.018em;
       color: rgba(26,30,38,.58);
       max-width: 28em;
     }
@@ -2170,14 +2178,19 @@
       margin: 2px 0 0;
     }
     .home-artist-go {
-      margin-top: 6px;
-      font-family: var(--zine-mono, var(--callsign));
-      font-size: 10px;
-      font-weight: 500;
+      margin-top: 4px;
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: rgba(58,63,71,.58);
+      color: rgba(58,63,71,.52);
       transition: color .25s var(--ease);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .home-artist,
+      .home-artist-photo img { transition: none; }
+      .home-artist:hover { transform: none; }
     }
 
     /* Legacy place styles kept unused (image frame removed) ---------------- */
@@ -2784,9 +2797,11 @@
 
   <!-- Artists -->
   <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
+    <div class="home-artists-bridge" aria-hidden="true"></div>
     <div class="band">
       <header class="section-head home-artists-head rv">
         <div>
+          <p class="eyebrow">Roster · Vancouver</p>
           <h2 id="home-artists-title">Artists</h2>
         </div>
         <a class="head-link" href="/artists">View all</a>
