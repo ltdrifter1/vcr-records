@@ -108,7 +108,7 @@
   <link rel="stylesheet" href="css/news.css"/>
   <link rel="stylesheet" href="css/desk.css"/>
   <style>
-    /* Listening booth hero : space-grey aluminum, iPod dock, no void black -- */
+    /* Listening booth hero : space-grey desk, standing sleeve + iPod, no void black -- */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -205,93 +205,233 @@
       text-align: left;
     }
     .hero-post {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 32px 64px;
+      gap: 18px;
       width: 100%;
-      max-width: 920px;
+      max-width: 880px;
       margin: 0 auto;
     }
+
+    /* Desk still life — standing sleeve behind the iPod, one plane -------- */
+    .hero-scene {
+      --jacket: min(468px, 44vw);
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--jacket) auto;
+      align-items: end;
+      justify-content: center;
+      width: max-content;
+      max-width: 100%;
+      padding: 8px 12px 36px;
+    }
+    .hero-scene::after {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 8%;
+      bottom: 4%;
+      height: 26%;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 72% 48% at 48% 78%, rgba(12, 14, 18, .55), transparent 72%);
+      filter: blur(18px);
+    }
     .hero-booth {
+      position: relative;
+      z-index: 3;
       display: flex;
       flex-direction: column;
       align-items: center;
       width: max-content;
       max-width: 100%;
       padding: 0;
-      justify-self: center;
+      margin-left: -72px;
     }
 
-    /* Listening Post — editorial column ----------------------------------- */
-    .hero-copy {
-      justify-self: start;
-      max-width: 34rem;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
+    .hero-jacket {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: var(--jacket);
+      margin: 0 -8px 18px 0;
+      color: inherit;
+      text-decoration: none;
+      transform:
+        perspective(1600px)
+        rotateY(16deg)
+        rotateX(1.4deg)
+        rotateZ(-3.6deg);
+      transform-origin: 88% 100%;
+      transform-style: preserve-3d;
+      filter: drop-shadow(16px 26px 28px rgba(0, 0, 0, .46));
+      transition: transform .5s var(--ease), filter .45s var(--ease);
     }
-    .hero-title {
+    .hero-jacket:focus { outline: none; }
+    .hero-jacket:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 6px;
+    }
+    @media (hover:hover) {
+      .hero-jacket:hover {
+        transform:
+          perspective(1600px)
+          rotateY(12deg)
+          rotateX(1deg)
+          rotateZ(-2.8deg)
+          translate3d(0, -8px, 10px);
+        filter: drop-shadow(18px 34px 32px rgba(0, 0, 0, .52));
+      }
+    }
+    .hero.is-playing .hero-jacket {
+      filter:
+        drop-shadow(16px 26px 28px rgba(0, 0, 0, .46))
+        drop-shadow(0 0 28px rgba(var(--room-a, 186, 204, 224), calc(0.18 + var(--room-energy, .18) * 0.22)));
+    }
+    .hero-jacket-board {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 2px;
+      overflow: hidden;
+      background: #0a0a0c;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .28),
+        inset 0 0 0 1px rgba(255, 255, 255, .08);
+    }
+    .hero-jacket-board::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 11px;
+      z-index: 3;
+      pointer-events: none;
+      background: linear-gradient(90deg, #6e747c 0 36%, #d5dbe3 36% 72%, #eef1f4 72%);
+      box-shadow: 1px 0 0 rgba(0, 0, 0, .18);
+    }
+    .hero-jacket-board img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-jacket-poly {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(125deg,
+          rgba(255, 255, 255, .42) 0%,
+          transparent 16%,
+          transparent 44%,
+          rgba(186, 214, 238, .14) 58%,
+          transparent 72%,
+          rgba(255, 255, 255, .16) 100%);
+      mix-blend-mode: soft-light;
+    }
+    .hero-jacket-stamp {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      padding: 6px 8px 4px;
+      background: #f3f5f7;
+      color: #111;
+      font-family: var(--callsign);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      transform: rotate(-2.4deg);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .28), 0 0 0 1px rgba(0, 0, 0, .06);
+    }
+    .hero-jacket-reflect {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 34%;
+      overflow: hidden;
+      pointer-events: none;
+      transform: scaleY(-1);
+      transform-origin: 50% 0;
+      opacity: .5;
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, .62) 0%, transparent 78%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, .62) 0%, transparent 78%);
+      filter: blur(.35px) brightness(.72);
+    }
+    .hero-jacket-reflect img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Dock caption — catalog sticker language, not a competing poster ---- */
+    .hero-dock {
+      position: relative;
+      z-index: 2;
       margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px 14px;
+      text-align: center;
+      max-width: 28rem;
+    }
+    .hero-dock-link {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      color: inherit;
+      text-decoration: none;
+    }
+    .hero-dock-cat {
+      font-family: var(--callsign);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(200, 214, 230, .58);
+    }
+    .hero-dock-title {
       font-family: var(--sans);
-      font-size: clamp(42px, 6vw, 72px);
+      font-size: clamp(22px, 3.2vw, 30px);
       font-weight: 700;
-      letter-spacing: -.048em;
-      line-height: .92;
+      letter-spacing: -.04em;
+      line-height: 1;
       color: #fff;
     }
-    .hero-title a { color: inherit; text-decoration: none; }
-    .hero-title a:hover { color: #fff; }
-    .hero-artist {
-      margin: 12px 0 0;
-      font-size: clamp(17px, 1.8vw, 22px);
+    .hero-dock-link:hover .hero-dock-title { color: #fff; }
+    .hero-dock-link:hover .hero-dock-cat { color: rgba(230, 236, 244, .88); }
+    .hero-dock-link:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 4px;
+    }
+    .hero-dock-artist {
+      font-size: clamp(15px, 1.6vw, 18px);
       font-weight: 400;
       font-style: italic;
       letter-spacing: -.02em;
       color: rgba(244, 246, 248, .68);
+      text-decoration: none;
     }
-    .hero-artist a { color: inherit; }
-    .hero-artist a:hover { color: #fff; }
-    .hero-copy-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 14px;
-      margin-top: 28px;
-    }
-    .hero-copy-buy {
-      appearance: none;
-      height: 42px;
-      padding: 0 22px;
-      border: 0;
-      border-radius: 999px;
-      background: #fff;
-      color: #111;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .hero-copy-buy:hover { background: #eceff2; }
-    .hero-copy-buy:focus-visible {
+    .hero-dock-artist:hover { color: #fff; }
+    .hero-dock-artist:focus-visible {
       outline: 2px solid #fff;
       outline-offset: 3px;
-    }
-    .hero-copy-actions .hero-y2k-details {
-      height: 42px;
     }
     .hero-copy-live {
       display: none;
       align-items: center;
       gap: 10px;
-      margin-top: 18px;
     }
-    .hero.is-playing .hero-copy-live { display: flex; }
+    .hero.is-playing .hero-copy-live { display: inline-flex; }
     .hero-copy-live-title {
       margin: 0;
       font-family: var(--callsign);
@@ -300,68 +440,6 @@
       letter-spacing: .14em;
       text-transform: uppercase;
       color: rgba(255,255,255,.78);
-    }
-
-    /* Listening Post — featured sleeve ------------------------------------ */
-    .hero-release {
-      justify-self: end;
-      width: min(280px, 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 14px;
-    }
-    .hero-release-art {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #111;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.35),
-        0 18px 48px rgba(0,0,0,.45),
-        0 2px 0 rgba(0,0,0,.2);
-      transform: rotate(2.2deg);
-      transform-origin: 70% 80%;
-      transition: box-shadow .5s var(--ease), transform .5s var(--ease);
-    }
-    .hero.is-playing .hero-release-art {
-      transform: rotate(1.4deg) translateY(-4px);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.4),
-        0 0 0 1px rgba(var(--room-a), .35),
-        0 22px 54px rgba(0,0,0,.5),
-        0 0 48px rgba(var(--room-a), calc(0.16 + var(--room-energy) * 0.28));
-    }
-    .hero-release-art img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .hero-release-stamp {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 5px 8px 4px;
-      background: #fff;
-      color: #111;
-      font-family: var(--callsign);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0,0,0,.25);
-    }
-    .hero-release-cap {
-      margin: 0;
-      padding-left: 4px;
-      font-family: var(--callsign);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: rgba(200, 214, 230, .55);
     }
 
     /* Station bar — NTS / lot-radio chrome at the fold -------------------- */
@@ -1033,7 +1111,9 @@
       .wall-item.is-now-playing.is-audible .wall-art::before {
         animation: none !important;
       }
-      .hero-ambient, .hero-idle, .hero-platter, .hero-sleeve { transition: none; }
+      .hero-ambient, .hero-idle, .hero-platter, .hero-sleeve, .hero-jacket { transition: none; }
+      .hero-jacket { transform: none; filter: drop-shadow(12px 18px 20px rgba(0,0,0,.4)); }
+      .hero-jacket-reflect { display: none; }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
       .place-img { transform: none !important; }
       .hero-ticker-track { transform: none; }
@@ -2181,10 +2261,10 @@
     .place-dek,
     .place-link { display: none; }
 
-    /* Listening post — collapse sleeve, then stack -------------------------- */
+    /* Desk still life — sleeve becomes a halo behind the iPod ------------ */
     @media (max-width: 1080px) {
-      .hero-post { gap: 24px 40px; }
-      .hero-copy { max-width: 28rem; }
+      .hero-scene { --jacket: min(400px, 48vw); }
+      .hero-booth { margin-left: -56px; }
     }
 
     @media (max-width: 860px) {
@@ -2192,18 +2272,26 @@
         width: min(100% - 36px, 640px);
         padding: calc(var(--nav-h) + var(--safe-t) + 18px) 0 calc(20px + var(--ticker-h, 44px) + var(--safe-b));
       }
-      .hero-post {
+      .hero-post { gap: 14px; }
+      .hero-scene {
+        --jacket: min(360px, 78vw);
         grid-template-columns: 1fr;
         justify-items: center;
-        gap: 22px;
+        padding: 4px 0 12px;
       }
-      .hero-copy {
-        align-items: center;
-        text-align: center;
+      .hero-jacket {
+        grid-area: 1 / 1;
+        margin: 0;
         justify-self: center;
-        max-width: 28rem;
+        transform: rotate(-3deg);
+        transform-origin: 50% 80%;
       }
-      .hero-copy-actions { justify-content: center; }
+      .hero-jacket-reflect { display: none; }
+      .hero-booth {
+        grid-area: 1 / 1;
+        margin: 56px 0 0;
+        justify-self: center;
+      }
       .hero-ambient {
         background-position: center;
       }
@@ -2214,6 +2302,12 @@
       .hero-ticker-now { max-width: 34vw; }
       .hero-ticker-copy a,
       .hero-ticker-copy span { padding: 0 16px; font-size: 10px; }
+      @media (hover:hover) {
+        .hero-jacket:hover {
+          transform: rotate(-3deg) translateY(-6px);
+          filter: drop-shadow(14px 22px 22px rgba(0,0,0,.5));
+        }
+      }
     }
 
     @media (max-width: 700px) {
@@ -2226,10 +2320,9 @@
         width: min(100% - 28px, 420px);
         padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(16px + var(--ticker-h, 40px) + var(--safe-b));
       }
-      .hero-title { font-size: clamp(32px, 11vw, 42px); }
-      .hero-copy-actions { width: 100%; justify-content: center; }
-      .hero-copy-buy { flex: 1 1 auto; max-width: 200px; }
-      .hero-platter { --ipod-w: min(260px, 78vw); padding: 14px 14px 20px; }
+      .hero-scene { --jacket: min(340px, 88vw); }
+      .hero-platter { --ipod-w: min(248px, 66vw); padding: 14px 14px 20px; }
+      .hero-booth { margin-top: 48px; }
 
       .hero.is-live .hero-stage {
         min-height: 100svh;
@@ -2267,8 +2360,9 @@
         padding-top: calc(var(--nav-h) + var(--safe-t) + 10px);
         padding-bottom: calc(10px + var(--ticker-h, 36px) + var(--safe-b));
       }
-      .hero-booth { gap: 10px; }
-      .hero-platter { --ipod-w: min(230px, 68vw); padding: 12px 12px 18px; }
+      .hero-booth { gap: 10px; margin-top: 36px; }
+      .hero-scene { --jacket: min(280px, 72vw); }
+      .hero-platter { --ipod-w: min(230px, 62vw); padding: 12px 12px 18px; }
       .hero.is-live .hero-station { display: none; }
       .hero { --ticker-h: 36px; }
       .hero-ticker-now { display: none; }
@@ -2393,17 +2487,17 @@
     <div class="hero-scan" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-post">
-        <div class="hero-copy">
-          <h1 class="hero-title"><a href="/desire">DESIRE</a></h1>
-          <p class="hero-artist"><a href="/artists/molly-haze">Molly Haze</a></p>
-          <div class="hero-copy-actions">
-            <button type="button" class="hero-copy-buy" data-ipod-buy data-label="Buy · $1.50">Buy</button>
-          </div>
-          <div class="hero-copy-live" aria-live="polite">
-            <span class="status-chip status-chip--air">On air</span>
-          </div>
-        </div>
-
+        <div class="hero-scene">
+          <a class="hero-jacket" href="/desire" aria-label="DESIRE — Molly Haze">
+            <span class="hero-jacket-board">
+              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 860px) 78vw, 468px" alt="" width="1200" height="1200" fetchpriority="high"/>
+              <span class="hero-jacket-poly" aria-hidden="true"></span>
+              <span class="hero-jacket-stamp">CC021</span>
+            </span>
+            <span class="hero-jacket-reflect" aria-hidden="true">
+              <img src="desire-cover.webp?v=re" alt="" width="1200" height="1200"/>
+            </span>
+          </a>
         <div class="hero-booth">
         <div class="hero-platter">
           <span class="hero-pulse" aria-hidden="true"></span>
@@ -2411,7 +2505,7 @@
           <div class="hero-vinyl-rig" data-room-disc>
             <div class="hero-sleeve">
               <div class="hero-disc">
-                <img data-room-art src="desire-cover.webp?v=re" alt="DESIRE — Molly Haze" width="1200" height="1200" fetchpriority="high"/>
+                <img data-room-art src="desire-cover.webp?v=re" alt="DESIRE — Molly Haze" width="1200" height="1200"/>
               </div>
 
               <div class="ipod-statusbar" aria-hidden="true">
@@ -2466,6 +2560,17 @@
           </div>
         </div>
         </div>
+        </div>
+        <h1 class="hero-dock">
+          <a class="hero-dock-link" href="/desire">
+            <span class="hero-dock-cat">CC021</span>
+            <span class="hero-dock-title">DESIRE</span>
+          </a>
+          <a class="hero-dock-artist" href="/artists/molly-haze">Molly Haze</a>
+          <span class="hero-copy-live" aria-live="polite">
+            <span class="status-chip status-chip--air">On air</span>
+          </span>
+        </h1>
       </div>
     </div>
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: Gorilla (Molly’s Hazy Edit), mixtape (instrumental version), DESIRE, Still Riding (Molly Haze Edit), The Process.</p>
