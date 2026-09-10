@@ -75,12 +75,12 @@
       image: "news-last-emperor.webp"
     },
     {
-      slug: "/news/eusexua",
+      slug: "/news/headphones-on",
       kicker: "friday floor",
-      title: "When a Girl Feels Good",
-      artist: "FKA twigs",
-      dek: "She coined a word for the floor. The girls who dance already had the feeling.",
-      image: "news-placeholder.webp"
+      title: "Headphones On",
+      artist: "Addison Rae",
+      dek: "She made a club record. Charli said go. The girls already had the aux.",
+      image: "news-jadore.webp"
     },
     {
       slug: "/news/she-showed-up",
