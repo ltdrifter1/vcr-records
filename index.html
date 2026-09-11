@@ -1539,513 +1539,7 @@
       .wall-item.is-now-playing.is-audible .wall-art::before { animation: none; }
     }
 
-    /* Record Club — click-wheel dock on the aluminum desk ------------------ */
-    .club-join {
-      --join-ink: #F4F6F8;
-      --join-muted: rgba(244,246,248,.72);
-      --join-dim: rgba(200,214,230,.55);
-      position: relative;
-      isolation: isolate;
-      color: var(--join-ink);
-      padding: 0 0 80px;
-      background:
-        radial-gradient(ellipse 62% 48% at 88% 8%, rgba(186, 204, 224, .2), transparent 58%),
-        radial-gradient(ellipse 46% 40% at 8% 92%, rgba(120, 140, 255, .08), transparent 54%),
-        linear-gradient(180deg, rgba(255,255,255,.1) 0%, transparent 22%, rgba(0,0,0,.12) 100%),
-        linear-gradient(180deg, #5A6068 0%, #4C5159 42%, #3E434C 100%);
-    }
-    .club-join-bridge {
-      height: 48px;
-      background: linear-gradient(180deg, #F7F5F1 0%, transparent 100%);
-      pointer-events: none;
-    }
-    .club-join::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: .7;
-      background:
-        repeating-linear-gradient(90deg, rgba(255,255,255,.028) 0 1px, transparent 1px 3px);
-    }
-    .club-join::after {
-      content: "";
-      position: absolute;
-      inset: auto 12% -8% 12%;
-      height: 42%;
-      pointer-events: none;
-      background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(186,214,238,.14), transparent 72%);
-      filter: blur(18px);
-    }
-    .club-join-inner {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
-      gap: clamp(28px, 4.5vw, 56px);
-      align-items: start;
-      padding: 8px 0 0;
-    }
-    .club-join-copy { min-width: 0; }
-    @media (max-width: 820px) {
-      .club-join-inner {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-    }
-    .club-join-head {
-      text-align: left;
-      max-width: 22em;
-      margin: 0 0 22px;
-    }
-    .club-join-title {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(34px, 5vw, 44px);
-      font-weight: 700;
-      letter-spacing: -.038em;
-      line-height: 1.05;
-      text-transform: none;
-      color: var(--join-ink);
-    }
-    .club-join-dek {
-      margin: 14px 0 0;
-      font-family: var(--sans);
-      font-size: 17px;
-      line-height: 1.47;
-      letter-spacing: -.022em;
-      color: var(--join-muted);
-    }
-    .join-member-home {
-      text-align: left;
-      max-width: 28em;
-      margin: 0;
-      padding: 22px 22px 20px;
-      border-radius: var(--radius-lg);
-      background:
-        var(--iridescent),
-        linear-gradient(165deg, rgba(255,255,255,.16), rgba(255,255,255,.05)),
-        rgba(18,20,26,.28);
-      border: 1px solid rgba(255,255,255,.22);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.4),
-        0 18px 44px rgba(0,0,0,.22);
-      backdrop-filter: saturate(180%) blur(28px);
-      -webkit-backdrop-filter: saturate(180%) blur(28px);
-    }
-    .join-member-home[hidden] { display: none; }
-    .join-member-kicker {
-      margin: 0 0 8px;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(186,214,238,.85);
-    }
-    .join-member-title {
-      margin: 0 0 12px;
-      font-family: var(--display);
-      font-size: clamp(26px, 3.8vw, 36px);
-      font-weight: 700;
-      letter-spacing: -.038em;
-      line-height: 1.08;
-      text-transform: none;
-      color: var(--join-ink);
-    }
-    .join-member-dek {
-      margin: 0 0 22px;
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.47;
-      color: var(--join-muted);
-    }
-    .join-member-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: flex-start;
-      padding: 0;
-    }
-    .club-join .join-member-actions .btn {
-      min-height: 44px;
-      border-radius: var(--pill);
-    }
-    .club-join.is-member-home .club-join-inner {
-      grid-template-columns: minmax(0, 36em);
-    }
-    .club-join.is-member-home .club-join-dek,
-    .club-join.is-member-home .join-levels,
-    .club-join.is-member-home .join-collectors,
-    .club-join.is-member-home .join-panel,
-    .club-join.is-member-home .join-stage { display: none; }
-    .club-join.is-member-home .club-join-head { margin-bottom: 20px; }
-    .join-levels {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 0;
-      text-align: left;
-      max-width: none;
-    }
-    .join-level {
-      display: grid;
-      grid-template-columns: 18px minmax(0, 1fr) auto;
-      gap: 12px 14px;
-      align-items: start;
-      width: 100%;
-      padding: 14px 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
-        rgba(18,20,26,.18);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
-      backdrop-filter: blur(18px) saturate(1.4);
-      -webkit-backdrop-filter: blur(18px) saturate(1.4);
-      color: var(--join-ink);
-      text-align: left;
-      cursor: pointer;
-      overflow: hidden;
-      transition: border-color .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease);
-    }
-    @media (hover:hover) {
-      .join-level:hover {
-        border-color: rgba(255,255,255,.32);
-        transform: translateY(-1px);
-      }
-    }
-    .join-level:focus-visible {
-      outline: none;
-      box-shadow:
-        0 0 0 4px rgba(var(--aurora-a), .35),
-        0 0 0 5px rgba(255,255,255,.4);
-    }
-    .join-level[aria-checked="true"] {
-      background:
-        var(--iridescent),
-        linear-gradient(165deg, rgba(255,255,255,.18), rgba(255,255,255,.05)),
-        rgba(18,20,26,.32);
-      border-color: rgba(255,255,255,.42);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.5),
-        0 0 0 1px rgba(var(--aurora-b), .18),
-        0 12px 32px rgba(0,0,0,.18);
-    }
-    .join-level-dot {
-      width: 14px; height: 14px;
-      margin-top: 4px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,.45);
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,.55), transparent 46%),
-        rgba(255,255,255,.06);
-      box-shadow: inset 0 0 0 3px rgba(18,20,26,.35);
-      flex-shrink: 0;
-    }
-    .join-level[aria-checked="true"] .join-level-dot {
-      border-color: rgba(255,255,255,.85);
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), transparent 42%),
-        var(--aurora-line);
-      box-shadow:
-        0 0 0 3px rgba(18,20,26,.35),
-        0 0 16px rgba(var(--aurora-b), .45);
-    }
-    .join-level-price {
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      color: var(--join-dim);
-      padding: 4px 0 0;
-    }
-    .join-level[aria-checked="true"] .join-level-price {
-      color: rgba(210,226,244,.92);
-    }
-    .join-level-name {
-      display: block;
-      font-family: var(--display);
-      font-size: 16px;
-      font-weight: 650;
-      letter-spacing: -.028em;
-      text-transform: none;
-      margin: 0 0 4px;
-      color: var(--join-ink);
-    }
-    .join-level-blurb {
-      display: block;
-      font-family: var(--sans);
-      font-size: 14px;
-      line-height: 1.45;
-      letter-spacing: -.016em;
-      color: var(--join-muted);
-      max-width: 28em;
-      margin: 0;
-    }
-    .join-stage {
-      display: flex;
-      align-items: flex-start;
-      max-width: none;
-      margin: 0;
-      min-width: 0;
-    }
-    @media (min-width: 821px) {
-      .join-stage {
-        position: sticky;
-        top: calc(var(--nav-h, 64px) + 24px);
-        width: 100%;
-      }
-    }
-    .join-panel {
-      position: relative;
-      width: 100%;
-      margin: 0;
-      text-align: left;
-      padding: 22px 22px 20px;
-      border-radius: var(--radius-lg);
-      background:
-        var(--iridescent),
-        linear-gradient(165deg, rgba(255,255,255,.2), rgba(255,255,255,.06)),
-        rgba(18,20,26,.42);
-      border: 1px solid transparent;
-      background-clip: padding-box;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.48),
-        inset 0 -1px 0 rgba(255,255,255,.08),
-        inset 0 0 0 1px rgba(170,182,200,.22),
-        0 24px 56px rgba(0,0,0,.28);
-      backdrop-filter: saturate(190%) blur(36px);
-      -webkit-backdrop-filter: saturate(190%) blur(36px);
-      overflow: hidden;
-    }
-    .join-panel::before {
-      content: "";
-      position: absolute;
-      inset: -40% -30% auto -30%;
-      height: 70%;
-      pointer-events: none;
-      background: linear-gradient(118deg,
-        rgba(186,214,238,.2) 0%,
-        rgba(255,196,224,.1) 32%,
-        rgba(255,255,255,.18) 50%,
-        rgba(120,228,232,.1) 100%);
-      filter: blur(8px);
-      opacity: .7;
-    }
-    .join-panel-top {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 18px;
-    }
-    .join-wheel {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(18,20,26,.55) 0 28%, transparent 29%),
-        conic-gradient(from 210deg,
-          rgba(186,214,238,.95),
-          rgba(255,196,224,.7),
-          rgba(255,255,255,.95),
-          rgba(176,236,228,.75),
-          rgba(176,196,220,.9),
-          rgba(186,214,238,.95));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.7),
-        0 0 0 1px rgba(255,255,255,.28),
-        0 6px 14px rgba(0,0,0,.28);
-    }
-    .join-panel-label {
-      display: block;
-      margin: 0;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: rgba(186,214,238,.85);
-    }
-    .join-fields,
-    .join-premium-amount,
-    .join-field,
-    .club-join-btn,
-    .club-join-note,
-    .club-join-status { position: relative; z-index: 1; }
-    .join-field { margin-bottom: 14px; }
-    .join-field label {
-      display: block;
-      font-size: 11px;
-      font-family: var(--callsign);
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--join-dim);
-      margin-bottom: 8px;
-    }
-    .join-field input[type="email"],
-    .join-field input[type="text"],
-    #premiumAmount {
-      width: 100%;
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.2);
-      padding: 0 14px;
-      background: rgba(8,10,14,.38);
-      color: var(--join-ink);
-      font-family: var(--sans);
-      font-size: 15px;
-      letter-spacing: -.02em;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.1),
-        inset 0 0 0 1px rgba(0,0,0,.12);
-      transition: border-color .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
-    }
-    .join-field input::placeholder,
-    #premiumAmount::placeholder { color: rgba(200,214,230,.42); }
-    .join-field input:focus,
-    #premiumAmount:focus {
-      outline: none;
-      border-color: rgba(var(--aurora-a), .55);
-      background: rgba(8,10,14,.52);
-      box-shadow:
-        0 0 0 4px rgba(var(--aurora-a), .28),
-        inset 0 1px 0 rgba(255,255,255,.16);
-    }
-    .join-fields {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (min-width: 560px) {
-      .join-fields { grid-template-columns: 1.2fr .8fr; }
-      .join-fields .join-field { margin-bottom: 0; }
-    }
-    .join-premium-amount {
-      margin: 0 0 16px;
-      padding: 0;
-      border: 0;
-      background: none;
-      box-shadow: none;
-    }
-    .join-premium-amount[hidden] { display: none; }
-    .join-premium-amount .join-field { margin-bottom: 0; }
-    .premium-presets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .premium-preset {
-      height: 34px;
-      min-width: 52px;
-      padding: 0 14px;
-      border-radius: var(--pill);
-      border: 1px solid rgba(255,255,255,.22);
-      background: rgba(255,255,255,.06);
-      color: var(--join-muted);
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: -.016em;
-      cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
-      transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
-    }
-    .premium-preset:hover {
-      border-color: rgba(255,255,255,.45);
-      color: #fff;
-    }
-    .premium-preset[aria-pressed="true"] {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.78), rgba(230,236,244,.92));
-      color: #111;
-      border-color: rgba(255,255,255,.7);
-      box-shadow:
-        inset 0 1px 0 #fff,
-        0 8px 18px rgba(0,0,0,.2);
-    }
-    .premium-credit-preview {
-      margin: 12px 0 0;
-      font-family: var(--sans);
-      font-size: 14px;
-      line-height: 1.45;
-      color: var(--join-dim);
-    }
-    .premium-credit-preview strong {
-      color: var(--join-ink);
-      font-weight: 650;
-    }
-    .premium-credit-preview span {
-      color: var(--join-dim);
-    }
-    .club-join-btn.btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 48px;
-      min-height: 48px;
-      margin: 4px 0 0;
-      border-radius: var(--pill);
-      font-family: var(--callsign);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: #111;
-      border: 1px solid rgba(255,255,255,.7);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(230,236,244,.88) 46%, rgba(176,190,208,.82) 100%);
-      box-shadow:
-        inset 0 1px 0 #fff,
-        inset 0 -1px 0 rgba(80,90,110,.16),
-        0 12px 28px rgba(0,0,0,.28);
-      backdrop-filter: blur(16px) saturate(1.4);
-      -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    }
-    .club-join-btn.btn:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-    }
-    .club-join-btn.btn:disabled {
-      opacity: .45;
-      cursor: wait;
-      transform: none;
-      filter: none;
-    }
-    .club-join-note {
-      margin: 14px 0 0;
-      font-family: var(--sans);
-      font-size: 13px;
-      letter-spacing: -.016em;
-      line-height: 1.45;
-      color: var(--join-dim);
-      text-align: left;
-    }
-    .club-join-status {
-      margin: 12px 0 0;
-      font-family: var(--sans);
-      font-size: 13px;
-      color: var(--join-ink);
-      text-align: left;
-    }
-    .club-join-status.is-error { color: var(--join-ink); }
-    .club-join-status[hidden] { display: none; }
-    @media (prefers-reduced-motion: reduce) {
-      .join-level,
-      .club-join-btn.btn { transition: none; }
-      .join-level:hover,
-      .club-join-btn.btn:hover { transform: none; }
-    }
-
-    /* Home artists — ice roster, same click-wheel type as Join ------------ */
+    /* Home artists — ice roster after the aluminum desk -------------------- */
     .home-artists {
       position: relative;
       padding: 0 0 56px;
@@ -2056,7 +1550,7 @@
     }
     .home-artists-bridge {
       height: 48px;
-      background: linear-gradient(180deg, #444950 0%, transparent 100%);
+      background: linear-gradient(180deg, #3E434C 0%, transparent 100%);
       pointer-events: none;
     }
     @media (min-width: 800px) {
@@ -2325,7 +1819,6 @@
         touch-action: manipulation;
       }
       .wall-title { font-size: 16px; }
-      .club-join { padding-bottom: 64px; }
     }
 
     @media (max-width: 700px) and (max-height: 740px) {
@@ -2665,7 +2158,7 @@
     </div>
   </section>
 
-  <!-- The Tapes — Night Shift crate, above Record Club -->
+  <!-- The Tapes — Night Shift crate -->
   <section class="news zine tapes-zine" id="tapes" aria-labelledby="tapes-title">
     <div class="news-bridge" aria-hidden="true"></div>
     <div class="zine-sheet">
@@ -2740,100 +2233,9 @@
     </div>
   </section>
 
-  <!-- Record club invitation -->
-  <section class="club-join" id="join" aria-labelledby="join-title">
-    <div class="club-join-bridge" aria-hidden="true"></div>
-    <div class="band">
-      <div class="club-join-inner rv">
-        <div class="club-join-copy">
-          <header class="club-join-head">
-            <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
-            <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
-          </header>
-
-          <div class="join-member-home" id="joinMemberHome" hidden>
-            <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
-            <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
-            <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
-            <div class="join-member-actions">
-              <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
-              <a class="btn btn-ghost-on-dark" href="/account">View profile</a>
-              <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
-            </div>
-          </div>
-
-          <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
-            <button type="button" class="join-level" data-level="free" role="radio" aria-checked="true">
-              <span class="join-level-dot" aria-hidden="true"></span>
-              <span>
-                <span class="join-level-name">Free</span>
-                <span class="join-level-blurb">Emails when we release something. Listen on the site.</span>
-              </span>
-              <span class="join-level-price">$0</span>
-            </button>
-            <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
-              <span class="join-level-dot" aria-hidden="true"></span>
-              <span>
-                <span class="join-level-name">Club</span>
-                <span class="join-level-blurb">30% off all music — digital, cassette, vinyl.</span>
-              </span>
-              <span class="join-level-price">$5/year</span>
-            </button>
-            <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
-              <span class="join-level-dot" aria-hidden="true"></span>
-              <span>
-                <span class="join-level-name">Premium</span>
-                <span class="join-level-blurb">50% off all music. Credit toward cassettes.</span>
-              </span>
-              <span class="join-level-price">from $10/year</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="join-stage">
-          <div class="join-panel" id="joinPanel">
-            <div class="join-panel-top">
-              <span class="join-wheel" aria-hidden="true"></span>
-              <p class="join-panel-label">Membership</p>
-            </div>
-            <div class="join-fields">
-              <div class="join-field">
-                <label for="joinEmail">Email</label>
-                <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
-              </div>
-              <div class="join-field">
-                <label for="joinName">Name</label>
-                <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
-              </div>
-            </div>
-
-            <div class="join-premium-amount" id="premiumAmountBox" hidden>
-              <div class="join-field">
-                <label for="premiumAmount">Yearly amount (CAD)</label>
-                <div class="premium-presets" id="premiumPresets">
-                  <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
-                  <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
-                  <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
-                  <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
-                </div>
-                <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
-              </div>
-              <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
-                That's <strong>$25.00</strong> toward cassettes.
-              </p>
-            </div>
-
-            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join free</button>
-            <p class="club-join-note" id="joinNote">We'll email you. You can upgrade later.</p>
-            <p class="club-join-status" id="joinStatus" role="status" hidden></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Still life — silver discman + Diamond Rio -->
   <section class="desk" id="desk" data-desk aria-label="Listen on a portable CD player or Diamond Rio">
+    <div class="desk-bridge" aria-hidden="true"></div>
     <div class="desk-band">
       <div class="desk-still">
         <div class="desk-cases" aria-label="Jewel cases on the desk">
@@ -3193,7 +2595,7 @@
       </aside>
 
       <div class="zine-fridge" aria-label="On the fridge">
-        <a class="zine-flyer" href="/#join">
+        <a class="zine-flyer" href="#join">
           <strong>Record Club</strong>
           <span>We’ll text the inbox when a record lands. Club is 30% off. Premium is 50% off, plus credit toward the physical stuff.</span>
           <em>join from $0</em>
@@ -3209,6 +2611,95 @@
           <em>put it on</em>
         </a>
       </div>
+
+      <section class="zine-club club-join" id="join" aria-labelledby="join-title">
+        <p class="zine-desk-kicker">record club</p>
+        <div class="club-join-inner rv">
+          <div class="club-join-copy">
+            <header class="club-join-head">
+              <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
+              <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
+            </header>
+
+            <div class="join-member-home" id="joinMemberHome" hidden>
+              <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
+              <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
+              <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
+              <div class="join-member-actions">
+                <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
+                <a class="btn btn-ghost-on-dark" href="/account">View profile</a>
+                <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
+              </div>
+            </div>
+
+            <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
+              <button type="button" class="join-level" data-level="free" role="radio" aria-checked="true">
+                <span class="join-level-dot" aria-hidden="true"></span>
+                <span>
+                  <span class="join-level-name">Free</span>
+                  <span class="join-level-blurb">Emails when we release something. Listen on the site.</span>
+                </span>
+                <span class="join-level-price">$0</span>
+              </button>
+              <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
+                <span class="join-level-dot" aria-hidden="true"></span>
+                <span>
+                  <span class="join-level-name">Club</span>
+                  <span class="join-level-blurb">30% off all music — digital, cassette, vinyl.</span>
+                </span>
+                <span class="join-level-price">$5/year</span>
+              </button>
+              <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
+                <span class="join-level-dot" aria-hidden="true"></span>
+                <span>
+                  <span class="join-level-name">Premium</span>
+                  <span class="join-level-blurb">50% off all music. Credit toward cassettes.</span>
+                </span>
+                <span class="join-level-price">from $10/year</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="join-stage">
+            <div class="join-panel" id="joinPanel">
+              <div class="join-panel-top">
+                <span class="join-wheel" aria-hidden="true"></span>
+                <p class="join-panel-label">cut this coupon</p>
+              </div>
+              <div class="join-fields">
+                <div class="join-field">
+                  <label for="joinEmail">Email</label>
+                  <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
+                </div>
+                <div class="join-field">
+                  <label for="joinName">Name</label>
+                  <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
+                </div>
+              </div>
+
+              <div class="join-premium-amount" id="premiumAmountBox" hidden>
+                <div class="join-field">
+                  <label for="premiumAmount">Yearly amount (CAD)</label>
+                  <div class="premium-presets" id="premiumPresets">
+                    <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
+                    <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
+                    <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
+                    <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
+                  </div>
+                  <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
+                </div>
+                <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
+                  That's <strong>$25.00</strong> toward cassettes.
+                </p>
+              </div>
+
+              <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join free</button>
+              <p class="club-join-note" id="joinNote">We'll email you. You can upgrade later.</p>
+              <p class="club-join-status" id="joinStatus" role="status" hidden></p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <p class="zine-foot">evening edition · pacific northwest · <a href="/news">night shift, live</a></p>
     </div>
