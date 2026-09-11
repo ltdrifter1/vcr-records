@@ -874,6 +874,44 @@ body.home-zine :focus-visible {
   box-shadow: 0 0 0 5px var(--zine-stamp);
 }
 
+/* Mobile tab strip — magazine footer, not iOS Music ---------------------- */
+@media (max-width: 720px) {
+  body.home-zine .tabbar,
+  body.home-zine.hero-top .tabbar {
+    background: var(--zine-paper);
+    border-top: 1px solid var(--zine-ink);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  body.home-zine .tabbar a {
+    color: var(--zine-ink);
+    gap: 3px;
+  }
+  body.home-zine .tabbar a span {
+    font-family: var(--zine-gothic);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  body.home-zine .tabbar a.is-current {
+    color: var(--zine-ink);
+    background: var(--zine-stamp);
+  }
+  body.home-zine .hero-ticker {
+    bottom: var(--tabbar-h, 56px);
+  }
+}
+
+body.home-zine #listen,
+body.home-zine #join,
+body.home-zine #artists,
+body.home-zine #desk,
+body.home-zine #news {
+  scroll-margin-top: calc(var(--nav-h) + 10px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   body.home-zine .hero-ticker-track,
   body.home-zine .home-artist-photo img { animation: none; transition: none; }
