@@ -6,14 +6,14 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 Warm ground + chrome-glass Y2K. Shared tokens in `css/site.css`.
 Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About.
-The zine (`css/news.css`) is Night Shift: a contemporary underground electronic magazine on dirty newsprint — Barlow Condensed display, Archivo body, fluorescent lime + dirty red. Evening-edition house gossip: the floor, the fit, the afters, the ritual.
+The zine (`css/news.css`) is Night Shift: a contemporary underground electronic magazine on site paper — Barlow Condensed display, Archivo body, fluorescent lime. Evening-edition house gossip: the floor, the fit, the afters, the ritual.
 `/news` is the live front (cover, the wire, tonight’s record, letters). Stories stay on Night Shift paper — no station bumper.
 Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, merch PDPs. News articles sit on the zine paper.
 Station bumper (`css/station-bumper.css`) is the shared page entrance — brand lockup first.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
 - Site: Background `#F7F5F1` · Ink `#111111` · Night ground `#0a0a0c`
-- Night Shift paper `#F7F5F1` · ink `#111111` · acid lime `#C6FF1A` · dirty red `#E11D48`
+- Night Shift paper `#F7F5F1` · ink `#111111` · acid lime `#C6FF1A`
 - Type: Space Grotesk + Oswald callsigns on the shop; Barlow Condensed + Archivo on Night Shift
 
 ## Commerce

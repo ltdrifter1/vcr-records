@@ -1556,7 +1556,7 @@
     }
     .club-join-bridge {
       height: 48px;
-      background: linear-gradient(180deg, #E6EAEF 0%, transparent 100%);
+      background: linear-gradient(180deg, #F7F5F1 0%, transparent 100%);
       pointer-events: none;
     }
     .club-join::before {
@@ -2036,7 +2036,7 @@
       color: var(--join-ink);
       text-align: left;
     }
-    .club-join-status.is-error { color: #e07070; }
+    .club-join-status.is-error { color: var(--join-ink); }
     .club-join-status[hidden] { display: none; }
     @media (prefers-reduced-motion: reduce) {
       .join-level,
@@ -2419,6 +2419,7 @@
       <a href="/library">Library</a>
       <a href="#artists">Artists</a>
       <a href="/news">Zine</a>
+      <a href="/tapes">Tapes</a>
       <a href="/merch">Shop</a>
       <a href="#join">Join</a>
       <a href="/contact">Contact</a>
@@ -2444,6 +2445,7 @@
   <a href="/library">Library</a>
   <a href="#artists">Artists</a>
   <a href="/news">Zine</a>
+  <a href="/tapes">Tapes</a>
   <a href="/merch">Shop</a>
   <a href="#join">Join</a>
   <a href="/contact">Contact</a>
@@ -2660,6 +2662,81 @@
 <article class="wall-item rv" data-release="bridget-in-my-room"><div class="wall-card"><div class="wall-art media-bezel"><a href="/bridget-in-my-room" aria-label="Bridget In My Room — view release"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 260px" alt="Bridget In My Room — artwork" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">03</p><p class="wall-cat">CC011 · Single · 2026</p><h3 class="wall-title"><a href="/bridget-in-my-room">Bridget In My Room</a></h3><p class="wall-artist">Rosco</p></div></div></article>
 <article class="wall-item rv" data-release="need-you"><div class="wall-card"><div class="wall-art media-bezel"><a href="/need-you" aria-label="Need U. view release"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(max-width:520px) 90vw, (max-width:980px) 45vw, 280px" alt="Neon blue line-art face on black. Need U" loading="lazy" width="1200" height="1200"/></a></div><div class="wall-meta"><p class="wall-num">04</p><p class="wall-cat">CC013 · Album · 2026 · Available</p><h3 class="wall-title"><a href="/need-you">Need U</a></h3><p class="wall-artist">Rosco</p></div></div></article>
       </div>
+    </div>
+  </section>
+
+  <!-- The Tapes — Night Shift crate, above Record Club -->
+  <section class="news zine tapes-zine" id="tapes" aria-labelledby="tapes-title">
+    <div class="news-bridge" aria-hidden="true"></div>
+    <div class="zine-sheet">
+      <header class="zine-masthead">
+        <div class="zine-nameplate">
+          <p class="zine-issue">vol. xxii · vancouver</p>
+          <p class="zine-stamp">c90</p>
+        </div>
+        <h2 class="zine-title" id="tapes-title">
+          <a class="zine-logo" href="/tapes"><span class="zine-logo-night">The</span><span class="zine-logo-shift">Tapes</span></a>
+        </h2>
+        <p class="zine-credit">club copy</p>
+        <p class="zine-tagline">c90s for the ride home. upload a mix to /tapes and the desk plays it.</p>
+        <p class="tapes-now" data-tapes-now hidden></p>
+      </header>
+      <div class="tapes-grid" data-tapes-grid>
+        <article class="tape" data-tape="01">
+          <div class="tape-sleeve"><img src="mixtape-cover.webp" alt="mixtape (instrumental version) — L.T. Drifta" width="1400" height="1400" loading="lazy"/></div>
+          <div>
+            <p class="tape-kicker">CC024 · vol. 01</p>
+            <h3 class="tape-title">mixtape (instrumental version)</h3>
+            <em class="tape-dj">L.T. Drifta</em>
+            <p class="tape-spec zine-spec"><span>2026</span><span>48:00</span><span>CC024</span></p>
+            <p class="tape-dek">Fifteen instrumentals. The house after they think they’re done.</p>
+            <div class="tape-actions">
+              <button type="button" class="tape-play" data-tape-play="tapes/01/mix.mp3" data-tape-id="01" data-tape-title="mixtape (instrumental version)" data-tape-dj="L.T. Drifta">play</button>
+              <a class="tape-link" href="/mixtape">sleeve →</a>
+            </div>
+          </div>
+        </article>
+        <article class="tape" data-tape="02">
+          <div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">02</div>
+          <div>
+            <p class="tape-kicker">TAPE 02 · vol. 02</p>
+            <h3 class="tape-title">Side A — forthcoming</h3>
+            <em class="tape-dj">Club Copy</em>
+            <p class="tape-spec zine-spec"><span>2026</span><span>—</span><span>TAPE 02</span></p>
+            <p class="tape-dek">Upload cover.webp and mix.mp3 to tapes/02/. The desk plays whatever you put there.</p>
+            <div class="tape-actions">
+              <button type="button" class="tape-play" data-tape-play="tapes/02/mix.mp3" data-tape-id="02" data-tape-title="Side A — forthcoming" data-tape-dj="Club Copy">play</button>
+            </div>
+          </div>
+        </article>
+        <article class="tape" data-tape="03">
+          <div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">03</div>
+          <div>
+            <p class="tape-kicker">TAPE 03 · vol. 03</p>
+            <h3 class="tape-title">Side B — forthcoming</h3>
+            <em class="tape-dj">Club Copy</em>
+            <p class="tape-spec zine-spec"><span>2026</span><span>—</span><span>TAPE 03</span></p>
+            <p class="tape-dek">Same crate. Different night. Leave the runtime blank until the file lands.</p>
+            <div class="tape-actions">
+              <button type="button" class="tape-play" data-tape-play="tapes/03/mix.mp3" data-tape-id="03" data-tape-title="Side B — forthcoming" data-tape-dj="Club Copy">play</button>
+            </div>
+          </div>
+        </article>
+        <article class="tape" data-tape="04">
+          <div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">04</div>
+          <div>
+            <p class="tape-kicker">TAPE 04 · vol. 04</p>
+            <h3 class="tape-title">Afters — forthcoming</h3>
+            <em class="tape-dj">Club Copy</em>
+            <p class="tape-spec zine-spec"><span>2026</span><span>—</span><span>TAPE 04</span></p>
+            <p class="tape-dek">Kitchen aux. No vote. File goes in tapes/04/.</p>
+            <div class="tape-actions">
+              <button type="button" class="tape-play" data-tape-play="tapes/04/mix.mp3" data-tape-id="04" data-tape-title="Afters — forthcoming" data-tape-dj="Club Copy">play</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="tapes-note">put <code>cover.webp</code> + <code>mix.mp3</code> in <code>tapes/01</code> … <code>tapes/04</code> · <a href="/tapes">full crate</a></p>
     </div>
   </section>
 
@@ -3126,10 +3203,10 @@
           <span>Fits, floors, afters, ritual. Back issues for the girls who stay.</span>
           <em>read the paper</em>
         </a>
-        <a class="zine-flyer" href="/planet">
-          <strong>Planet MP3</strong>
-          <span>A station that follows the time of day. Speed it, slow it, mix until the window goes blue.</span>
-          <em>listen</em>
+        <a class="zine-flyer" href="/tapes">
+          <strong>The Tapes</strong>
+          <span>C90s for the ride home. Drop a mix in the crate. We play whatever you put there.</span>
+          <em>put it on</em>
         </a>
       </div>
 
@@ -3166,6 +3243,7 @@
 </footer>
 
 <script src="js/zine.js"></script>
+<script src="js/tapes.js"></script>
 <script src="js/site.js"></script>
 <script src="js/cover-flow.js"></script>
 <script src="js/cart.js"></script>
@@ -3185,7 +3263,9 @@
     /* Home ice cove : dark-on-light nav through the catalogue */
     document.body.classList.toggle('nav-light', true);
     var xerox = document.getElementById('news');
-    var onPaper = !!(xerox && xerox.getBoundingClientRect().top <= 64);
+    var tapes = document.getElementById('tapes');
+    var onPaper = !!(xerox && xerox.getBoundingClientRect().top <= 64) ||
+      !!(tapes && tapes.getBoundingClientRect().top <= 64 && tapes.getBoundingClientRect().bottom > 80);
     document.body.classList.toggle('xerox-under-nav', onPaper);
     ticking = false;
   }
