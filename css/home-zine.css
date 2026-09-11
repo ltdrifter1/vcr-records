@@ -492,7 +492,7 @@ body.home-zine .wall-play {
 }
 
 /* Record club — subscription coupon -------------------------------------- */
-body.home-zine .club-join {
+body.home-zine .club-join:not(.zine-club) {
   --join-ink: var(--zine-ink);
   --join-muted: var(--zine-muted);
   --join-dim: var(--zine-dim);
@@ -504,13 +504,13 @@ body.home-zine .club-join-bridge {
   height: 0;
   background: none;
 }
-body.home-zine .club-join::before,
-body.home-zine .club-join::after { display: none; }
-body.home-zine .club-join-inner {
+body.home-zine .club-join:not(.zine-club)::before,
+body.home-zine .club-join:not(.zine-club)::after { display: none; }
+body.home-zine .club-join:not(.zine-club) .club-join-inner {
   padding-top: 8px;
   border-top: 4px solid var(--zine-ink);
 }
-body.home-zine .club-join-title {
+body.home-zine .club-join:not(.zine-club) .club-join-title {
   font-family: var(--zine-display);
   font-weight: 800;
   letter-spacing: -.04em;
@@ -519,15 +519,15 @@ body.home-zine .club-join-title {
   line-height: .86;
   color: var(--zine-ink);
 }
-body.home-zine .club-join-dek {
+body.home-zine .club-join:not(.zine-club) .club-join-dek {
   font-family: var(--zine-body);
   font-stretch: 75%;
   font-style: italic;
   max-width: 28em;
   color: var(--zine-muted);
 }
-body.home-zine .join-member-home,
-body.home-zine .join-panel {
+body.home-zine .club-join:not(.zine-club) .join-member-home,
+body.home-zine .club-join:not(.zine-club) .join-panel {
   border-radius: 0;
   background: var(--zine-paper);
   border: 1px solid var(--zine-ink);
@@ -535,21 +535,21 @@ body.home-zine .join-panel {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-body.home-zine .join-panel::before { display: none; }
-body.home-zine .join-member-kicker,
-body.home-zine .join-panel-label {
+body.home-zine .club-join:not(.zine-club) .join-panel::before { display: none; }
+body.home-zine .club-join:not(.zine-club) .join-member-kicker,
+body.home-zine .club-join:not(.zine-club) .join-panel-label {
   font-family: var(--zine-mono);
   color: var(--zine-magenta);
 }
-body.home-zine .join-member-title {
+body.home-zine .club-join:not(.zine-club) .join-member-title {
   font-family: var(--zine-display);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -.03em;
   color: var(--zine-ink);
 }
-body.home-zine .join-wheel { display: none; }
-body.home-zine .join-level {
+body.home-zine .club-join:not(.zine-club) .join-wheel { display: none; }
+body.home-zine .club-join:not(.zine-club) .join-level {
   border-radius: 0;
   border: 1px solid var(--zine-ink);
   background: transparent;
@@ -559,48 +559,48 @@ body.home-zine .join-level {
   color: var(--zine-ink);
 }
 @media (hover: hover) {
-  body.home-zine .join-level:hover {
+  body.home-zine .club-join:not(.zine-club) .join-level:hover {
     border-color: var(--zine-ink);
     background: rgba(17, 17, 17, .03);
     transform: none;
   }
 }
-body.home-zine .join-level[aria-checked="true"] {
+body.home-zine .club-join:not(.zine-club) .join-level[aria-checked="true"] {
   background: var(--zine-paper);
   border-color: var(--zine-ink);
   box-shadow: inset 4px 0 0 var(--zine-stamp);
 }
-body.home-zine .join-level-dot {
+body.home-zine .club-join:not(.zine-club) .join-level-dot {
   border-radius: 0;
   border: 1px solid var(--zine-ink);
   background: transparent;
   box-shadow: none;
 }
-body.home-zine .join-level[aria-checked="true"] .join-level-dot {
+body.home-zine .club-join:not(.zine-club) .join-level[aria-checked="true"] .join-level-dot {
   background: var(--zine-stamp);
   border-color: var(--zine-ink);
   box-shadow: none;
 }
-body.home-zine .join-level-name {
+body.home-zine .club-join:not(.zine-club) .join-level-name {
   font-family: var(--zine-display);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -.02em;
   color: var(--zine-ink);
 }
-body.home-zine .join-level-blurb { color: var(--zine-muted); }
-body.home-zine .join-level-price,
-body.home-zine .join-level[aria-checked="true"] .join-level-price {
+body.home-zine .club-join:not(.zine-club) .join-level-blurb { color: var(--zine-muted); }
+body.home-zine .club-join:not(.zine-club) .join-level-price,
+body.home-zine .club-join:not(.zine-club) .join-level[aria-checked="true"] .join-level-price {
   font-family: var(--zine-mono);
   color: var(--zine-ink);
 }
-body.home-zine .join-field label {
+body.home-zine .club-join:not(.zine-club) .join-field label {
   font-family: var(--zine-mono);
   color: var(--zine-ink);
 }
-body.home-zine .join-field input[type="email"],
-body.home-zine .join-field input[type="text"],
-body.home-zine #premiumAmount {
+body.home-zine .club-join:not(.zine-club) .join-field input[type="email"],
+body.home-zine .club-join:not(.zine-club) .join-field input[type="text"],
+body.home-zine .club-join:not(.zine-club) #premiumAmount {
   height: 44px;
   border-radius: 0;
   border: 1px solid var(--zine-ink);
@@ -609,17 +609,17 @@ body.home-zine #premiumAmount {
   box-shadow: none;
   font-family: var(--zine-body);
 }
-body.home-zine .join-field input:focus,
-body.home-zine #premiumAmount:focus {
+body.home-zine .club-join:not(.zine-club) .join-field input:focus,
+body.home-zine .club-join:not(.zine-club) #premiumAmount:focus {
   border-color: var(--zine-ink);
   background: #fff;
   box-shadow: 0 0 0 3px var(--zine-stamp);
 }
-body.home-zine .join-field input::placeholder,
-body.home-zine #premiumAmount::placeholder {
+body.home-zine .club-join:not(.zine-club) .join-field input::placeholder,
+body.home-zine .club-join:not(.zine-club) #premiumAmount::placeholder {
   color: var(--zine-dim);
 }
-body.home-zine .premium-preset {
+body.home-zine .club-join:not(.zine-club) .premium-preset {
   border-radius: 0;
   border: 1px solid var(--zine-ink);
   background: transparent;
@@ -629,21 +629,21 @@ body.home-zine .premium-preset {
   font-size: 11px;
   letter-spacing: .08em;
 }
-body.home-zine .premium-preset[aria-pressed="true"],
-body.home-zine .premium-preset:hover {
+body.home-zine .club-join:not(.zine-club) .premium-preset[aria-pressed="true"],
+body.home-zine .club-join:not(.zine-club) .premium-preset:hover {
   background: var(--zine-stamp);
   color: var(--zine-ink);
   border-color: var(--zine-ink);
   box-shadow: none;
 }
-body.home-zine .premium-credit-preview,
-body.home-zine .premium-credit-preview strong,
-body.home-zine .club-join-note,
-body.home-zine .club-join-status {
+body.home-zine .club-join:not(.zine-club) .premium-credit-preview,
+body.home-zine .club-join:not(.zine-club) .premium-credit-preview strong,
+body.home-zine .club-join:not(.zine-club) .club-join-note,
+body.home-zine .club-join:not(.zine-club) .club-join-status {
   color: var(--zine-muted);
 }
-body.home-zine .club-join-btn.btn,
-body.home-zine .club-join .join-member-actions .btn,
+body.home-zine .club-join:not(.zine-club) .club-join-btn.btn,
+body.home-zine .club-join:not(.zine-club) .join-member-actions .btn,
 body.home-zine .btn-chrome-on-dark,
 body.home-zine .btn-ghost-on-dark {
   border-radius: 0;
@@ -663,8 +663,8 @@ body.home-zine .btn-ghost-on-dark {
 body.home-zine .btn-ghost-on-dark {
   background: transparent;
 }
-body.home-zine .club-join-btn.btn:hover,
-body.home-zine .club-join .join-member-actions .btn:hover {
+body.home-zine .club-join:not(.zine-club) .club-join-btn.btn:hover,
+body.home-zine .club-join:not(.zine-club) .join-member-actions .btn:hover {
   filter: none;
   transform: none;
   background: #111;
@@ -905,6 +905,7 @@ body.home-zine :focus-visible {
 }
 
 body.home-zine #listen,
+body.home-zine #tapes,
 body.home-zine #join,
 body.home-zine #artists,
 body.home-zine #desk,
