@@ -164,9 +164,10 @@
                 t.dj +
                 '">play</button>'
               : '<button type="button" class="tape-play is-pending" disabled>file pending</button>';
-            var link = t.page
-              ? '<a class="tape-link" href="' + t.page + '">sleeve →</a>'
-              : "";
+            var link =
+              t.page && t.page !== "/tapes"
+                ? '<a class="tape-link" href="' + t.page + '">sleeve →</a>'
+                : "";
             return (
               '<article class="tape" data-tape="' +
               t.id +
