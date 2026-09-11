@@ -156,23 +156,41 @@
 }
 .zine-title a,
 .zine-logo {
-  display: inline-block;
+  display: inline-flex;
+  align-items: stretch;
   width: auto;
   max-width: 100%;
   box-sizing: border-box;
-  background: #111;
-  color: #F7F5F1;
+  background: transparent;
+  color: inherit;
   font-family: Anton, Impact, "Arial Narrow", sans-serif;
   font-weight: 400;
   font-size: clamp(34px, 8.6vw, 80px);
   letter-spacing: .04em;
   line-height: .88;
-  padding: .14em .18em .1em .16em;
+  padding: 0;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
-  transition: filter 180ms ease;
+  outline: 3px solid #111;
+  outline-offset: 0;
+}
+.zine-logo-night,
+.zine-logo-shift {
+  display: block;
+  padding: .14em .12em .1em .14em;
+}
+.zine-logo-night {
+  background: #111;
+  color: #F7F5F1;
+  padding-right: .1em;
+}
+.zine-logo-shift {
+  background: #fff;
+  color: #111;
+  padding-left: .08em;
+  padding-right: .16em;
 }
 img.zine-logo {
   display: none;
@@ -182,7 +200,7 @@ img.zine-logo {
   .zine-title a:hover img {
     transform: none;
     filter: none;
-    color: #fff;
+    color: inherit;
   }
 }
 .zine-masthead::after { display: none; }
