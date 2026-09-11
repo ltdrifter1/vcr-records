@@ -6,15 +6,15 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 Warm ground + chrome-glass Y2K. Shared tokens in `css/site.css`.
 Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About.
-The zine (`css/news.css`) is a digital Y2K newspaper on Home news + `/news` — Newsreader broadsheet, Oswald gothic kickers, polaroids. Evening-edition house gossip: the floor, the fit, the afters, the ritual.
+The zine (`css/news.css`) is The Xerox: a contemporary underground electronic magazine on dirty newsprint — Barlow Condensed display, Archivo body, fluorescent lime + dirty red. Evening-edition house gossip: the floor, the fit, the afters, the ritual.
 `/news` is the live front (cover, the wire, tonight’s record, letters). Stories stay on xerox — no station bumper.
 Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, merch PDPs. News articles sit on the zine paper.
 Station bumper (`css/station-bumper.css`) is the shared page entrance — brand lockup first.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
-- Background `#F7F5F1` · Ink `#111111` · Night ground `#0a0a0c`
-- Type: Space Grotesk + Oswald callsigns
-- Chrome steel accents — not costume neon
+- Site: Background `#F7F5F1` · Ink `#111111` · Night ground `#0a0a0c`
+- Xerox paper `#EDE6D6` · ink `#12110E` · acid lime `#C6FF1A` · dirty red `#E11D48`
+- Type: Space Grotesk + Oswald callsigns on the shop; Barlow Condensed + Archivo on The Xerox
 
 ## Commerce
 
