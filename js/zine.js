@@ -40,7 +40,8 @@
       title: "Love Deluxe",
       artist: "Sade",
       dek: "Sade, 1992. The record I leave on when people are still in the apartment.",
-      image: "news-love-deluxe.webp"
+      image: "news-love-deluxe.webp",
+      spec: ["1992", "epic", "lp"]
     },
     {
       slug: "/news/dummy",
@@ -48,7 +49,8 @@
       title: "Dummy",
       artist: "Portishead",
       dek: "Portishead on a Cumberland afternoon. Rain on the glass. I still start people here.",
-      image: "news-dummy.webp"
+      image: "news-dummy.webp",
+      spec: ["1994", "go! beat", "lp"]
     },
     {
       slug: "/news/the-after-is-the-point",
@@ -56,7 +58,8 @@
       title: "Nobody Asked What to Put On",
       artist: "Night Shift",
       dek: "The photo is a lie with good lighting. The night starts when somebody drops a record without taking a vote.",
-      image: "news-afters.webp"
+      image: "news-afters.webp",
+      spec: ["afters", "no vote"]
     },
     {
       slug: "/news/donuts",
@@ -64,7 +67,8 @@
       title: "Donuts",
       artist: "J Dilla",
       dek: "Put this on when your loops feel too clean.",
-      image: "news-donuts.webp"
+      image: "news-donuts.webp",
+      spec: ["2006", "stones throw", "lp"]
     },
     {
       slug: "/news/last-emperor",
@@ -72,7 +76,8 @@
       title: "The Last Emperor",
       artist: "Ryuichi Sakamoto",
       dek: "Sakamoto, off the movie. I put it on when the apartment needs a temperature, not a plot.",
-      image: "news-last-emperor.webp"
+      image: "news-last-emperor.webp",
+      spec: ["1987", "virgin", "ost"]
     },
     {
       slug: "/news/headphones-on",
@@ -80,7 +85,8 @@
       title: "Headphones On",
       artist: "Addison Rae",
       dek: "Addison’s debut is out. Twelve tracks, no features. Charli said trust it. I did on the walk home.",
-      image: "news-headphones.webp"
+      image: "news-headphones.webp",
+      spec: ["2025", "columbia", "lp"]
     },
     {
       slug: "/news/she-showed-up",
@@ -88,7 +94,8 @@
       title: "She Showed Up",
       artist: "Lorde",
       dek: "She skipped the green room. Stood in the crush. Sang along.",
-      image: "news-showed-up.webp"
+      image: "news-showed-up.webp",
+      spec: ["live", "no green room"]
     }
   ];
 
@@ -102,18 +109,25 @@
     for (var i = 0; i < nodes.length; i++) nodes[i].textContent = label;
   }
 
+  function specMarkup(bits) {
+    if (!bits || !bits.length) return "";
+    return bits.map(function (bit) {
+      return "<span>" + bit + "</span>";
+    }).join("");
+  }
+
   function fillTonight(root) {
     var pick = tonightPick();
     var nodes = (root || document).querySelectorAll("[data-tonight]");
     for (var i = 0; i < nodes.length; i++) {
       var el = nodes[i];
-      var href = el.getAttribute("href") || el.querySelector("a[data-tonight-link]");
       var link = el.tagName === "A" ? el : el.querySelector("[data-tonight-link]");
       var img = el.querySelector("[data-tonight-img]");
       var kicker = el.querySelector("[data-tonight-kicker]");
       var title = el.querySelector("[data-tonight-title]");
       var artist = el.querySelector("[data-tonight-artist]");
       var dek = el.querySelector("[data-tonight-dek]");
+      var spec = el.querySelector("[data-tonight-spec]");
       if (link) link.setAttribute("href", pick.slug);
       if (el.tagName === "A") el.setAttribute("href", pick.slug);
       if (img) {
@@ -124,7 +138,27 @@
       if (title) title.textContent = pick.title;
       if (artist) artist.textContent = pick.artist;
       if (dek) dek.textContent = pick.dek;
+      if (spec) {
+        spec.innerHTML = specMarkup(pick.spec);
+        spec.hidden = !pick.spec || !pick.spec.length;
+      }
     }
+  }
+
+  function ensureStoryFolio() {
+    if (!document.body.classList.contains("news-story")) return;
+    if (document.querySelector(".zine-story-folio")) return;
+    var crumbs = document.querySelector(".zine-story-crumbs");
+    if (!crumbs) return;
+    var kicker = document.querySelector(".news-kicker span");
+    var desk = kicker ? kicker.textContent.trim() : "evening";
+    var p = document.createElement("p");
+    p.className = "zine-story-folio";
+    p.innerHTML =
+      "<span>vol. xxii · vancouver</span>" +
+      "<span data-zine-date></span>" +
+      "<span>" + desk + "</span>";
+    crumbs.after(p);
   }
 
   function storySlug() {
@@ -203,6 +237,9 @@
       '<em data-tonight-artist>' +
       pick.artist +
       "</em>" +
+      '<p class="zine-spec" data-tonight-spec>' +
+      specMarkup(pick.spec) +
+      "</p>" +
       '<span data-tonight-dek>' +
       pick.dek +
       "</span>" +
@@ -267,6 +304,7 @@
       });
   }
 
+  ensureStoryFolio();
   stampDates();
   fillTonight();
   ensureLettersOnIndex();
