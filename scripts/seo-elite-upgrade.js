@@ -969,7 +969,7 @@ function patchNewsIndex() {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
       '@id': ORIGIN + '/news#page',
-      name: 'The Xerox',
+      name: 'Night Shift',
       url: ORIGIN + '/news',
       mainEntity: {
         '@type': 'ItemList',

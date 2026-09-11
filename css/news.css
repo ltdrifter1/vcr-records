@@ -1,5 +1,5 @@
 /* ==========================================================================
-   The Xerox — Club Copy zine
+   Night Shift — Club Copy zine
    1997–99 underground electronic magazine, rebuilt for 2026.
    Dirty newsprint, condensed grotesk, one fluorescent ink. Not Y2K chrome.
    ========================================================================== */
@@ -90,7 +90,7 @@
   padding: 6px 0 0;
 }
 @media (min-width: 721px) {
-  .zine-masthead { padding-left: 22px; }
+  .zine-masthead { padding-left: 0; }
 }
 .zine-masthead::before {
   content: "CC · CAT 022 · PNW";
@@ -110,6 +110,7 @@
 @media (max-width: 720px) {
   .zine-masthead::before { display: none; }
 }
+.zine-masthead::before { display: none; }
 .zine-nameplate {
   display: flex;
   justify-content: space-between;
@@ -147,51 +148,36 @@
 }
 .zine-title {
   position: relative;
-  margin: 0;
-  padding: .02em 0 0;
-  font-family: var(--zine-display);
-  font-weight: 900;
-  font-size: clamp(64px, 16vw, 168px);
-  letter-spacing: -.045em;
-  line-height: .78;
-  text-transform: uppercase;
+  margin: 10px 0 2px;
+  padding: 0;
+  line-height: 0;
+  font-size: 0;
   color: var(--zine-ink);
 }
-.zine-title a {
-  color: var(--zine-ink);
+.zine-title a,
+.zine-logo {
+  color: inherit;
   text-decoration: none;
-  display: inline-block;
-  transition: transform 220ms cubic-bezier(.22,1,.36,1), color 220ms ease;
+  display: block;
+  width: min(100%, 1080px);
+  transition: filter 220ms ease, transform 220ms cubic-bezier(.22,1,.36,1);
+}
+.zine-title img,
+.zine-logo img,
+img.zine-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: contrast(1.06);
 }
 @media (hover: hover) {
-  .zine-title a:hover {
-    color: var(--zine-ink);
-    transform: translateX(6px);
+  .zine-title a:hover,
+  .zine-title a:hover img {
+    transform: none;
+    filter: contrast(1.12);
   }
 }
-.zine-masthead::after {
-  content: "022";
-  position: absolute;
-  right: 0;
-  top: 28px;
-  font-family: var(--zine-display);
-  font-weight: 900;
-  font-size: clamp(72px, 14vw, 140px);
-  line-height: .7;
-  letter-spacing: -.06em;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--zine-ink);
-  opacity: .28;
-  pointer-events: none;
-  z-index: 0;
-}
-@media (max-width: 700px) {
-  .zine-masthead::after { display: none; }
-  .zine-title {
-    font-size: clamp(58px, 20vw, 92px);
-    max-width: 100%;
-  }
-}
+.zine-masthead::after { display: none; }
 .zine-credit {
   margin: 2px 0 0;
   font-family: var(--zine-gothic);
@@ -2188,7 +2174,7 @@ body.news-listing :focus-visible,
   .zine-ticker-track p { animation: none; }
 }
 
-/* Home: when the Xerox paper is under the masthead, drop glass nav ------- */
+/* Home: when the Night Shift paper is under the masthead, drop glass nav ------- */
 body.hero-top.xerox-under-nav .nav,
 body.hero-top.xerox-under-nav .nav.scrolled {
   background: var(--zine-paper);
