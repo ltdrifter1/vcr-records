@@ -159,23 +159,25 @@
     .hero-post {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       gap: clamp(10px, 1.6vh, 22px);
-      width: 100%;
-      max-width: 1100px;
+      width: max-content;
+      max-width: 100%;
       margin: 0 auto;
     }
 
-    /* Billboard lockup — identity lives above the still life --------------- */
+    /* Billboard lockup — sits over the iPod column ------------------------- */
     .hero-lockup {
       position: relative;
       z-index: 2;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 0;
       margin: 0;
-      text-align: center;
+      width: var(--ipod-w);
+      max-width: 100%;
+      text-align: left;
     }
     .hero-lockup-kicker {
       margin: 0 0 8px;
@@ -198,14 +200,14 @@
       font-family: Oswald, var(--sans);
       font-weight: 600;
       font-size: clamp(22px, 3.4vw, 42px);
-      letter-spacing: .18em;
+      letter-spacing: .1em;
     }
     .hero-lockup-title {
       margin: 0;
       font-family: Oswald, var(--sans);
       font-weight: 700;
       font-size: clamp(44px, 7.2vw, 88px);
-      letter-spacing: .06em;
+      letter-spacing: .02em;
     }
     .hero-lockup-title a {
       font: inherit;
@@ -274,18 +276,7 @@
         transparent 72%);
       filter: blur(22px);
     }
-    .hero-ipod-mirror {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 100%;
-      height: 18%;
-      z-index: 0;
-      pointer-events: none;
-      border-radius: 50%;
-      background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(26, 30, 38, .22), transparent 70%);
-      filter: blur(10px);
-    }
+    .hero-ipod-mirror { display: none; }
 
     .hero-vinyl {
       position: relative;
@@ -506,21 +497,7 @@
         transparent 68%,
         rgba(255,255,255,.22) 100%);
     }
-    .hero-platter::after {
-      content: "";
-      position: absolute;
-      top: 7px;
-      left: 46%;
-      z-index: 5;
-      width: 11px;
-      height: 7px;
-      border-radius: 3px;
-      background: radial-gradient(circle at 50% 40%, #2a2a2a, #0a0a0a 70%);
-      box-shadow:
-        inset 0 1px 2px #000,
-        0 .5px 0 rgba(255,255,255,.55);
-      pointer-events: none;
-    }
+    .hero-platter::after { content: none; display: none; }
     .hero-pulse { display: none; }
     .hero.is-playing .hero-platter {
       box-shadow:
@@ -1748,6 +1725,12 @@
       .hero-stage {
         width: min(100% - 32px, 640px);
         padding: calc(var(--nav-h) + var(--safe-t) + 8px) 0 calc(12px + var(--ticker-h) + var(--tabbar-h) + var(--safe-b));
+      }
+      .hero-post { width: 100%; align-items: center; }
+      .hero-lockup {
+        align-items: center;
+        text-align: center;
+        width: 100%;
       }
       .hero-scene {
         grid-template-columns: 1fr;
