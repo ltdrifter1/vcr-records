@@ -262,7 +262,7 @@
     .hero-booth {
       position: relative;
       grid-area: booth;
-      z-index: 3;
+      z-index: 5;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -273,20 +273,18 @@
     }
     .hero-ipod-mirror {
       position: absolute;
-      left: 7%;
-      right: 7%;
-      top: 99%;
-      height: 30%;
+      left: 8%;
+      right: 8%;
+      top: 100%;
+      height: 26%;
       z-index: 0;
       pointer-events: none;
-      border-radius: 0 0 30px 30px;
-      background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,.04) 55%, transparent);
-      transform: scaleY(-1);
-      transform-origin: top;
-      filter: blur(5px);
-      opacity: .42;
-      mask-image: linear-gradient(to top, #000 10%, transparent 78%);
-      -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 78%);
+      border-radius: 0 0 28px 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.04) 46%, transparent);
+      filter: blur(6px);
+      opacity: .5;
+      mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 8%, transparent 78%);
     }
 
     .hero-vinyl {
@@ -316,9 +314,8 @@
       overflow: hidden;
       background: #050506;
       box-shadow:
-        0 0 0 1px rgba(255,255,255,.16),
-        0 28px 36px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.2);
+        0 18px 36px rgba(0,0,0,.5),
+        0 0 0 1px rgba(255,255,255,.28);
     }
     .hero-vinyl-board img {
       width: 100%;
@@ -326,6 +323,7 @@
       object-fit: cover;
       display: block;
       border-radius: 50%;
+      transform: scale(1.08);
     }
     .hero-vinyl-sheen {
       position: absolute;
@@ -335,11 +333,11 @@
       border-radius: 50%;
       background:
         linear-gradient(122deg,
-          transparent 32%,
-          rgba(255,255,255,.55) 41%,
-          transparent 47%);
-      mix-blend-mode: screen;
-      opacity: .58;
+          rgba(255,255,255,0) 32%,
+          rgba(255,255,255,.5) 41%,
+          rgba(255,255,255,0) 47%);
+      mix-blend-mode: normal;
+      opacity: .7;
       transform-origin: 50% 50%;
     }
     .hero.is-playing .hero-vinyl-sheen {
@@ -351,32 +349,22 @@
     }
     .hero-vinyl-mirror {
       position: absolute;
-      left: 5%;
-      width: 90%;
-      top: 99%;
-      aspect-ratio: 1;
+      left: 10%;
+      width: 80%;
+      top: 100%;
+      height: 32%;
       z-index: 0;
       pointer-events: none;
-      transform: scaleY(-1);
-      transform-origin: top;
-      opacity: .22;
-      filter: blur(2.5px) brightness(.65);
-      mask-image: linear-gradient(to top, #000 0%, transparent 46%);
-      -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 46%);
-    }
-    .hero-vinyl-mirror img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      display: block;
+      background: radial-gradient(ellipse 72% 70% at 50% 0%, rgba(255,255,255,.28), transparent 68%);
+      filter: blur(8px);
+      opacity: .55;
     }
 
     /* White earbuds — the connecting object -------------------------------- */
     .hero-phones {
       position: absolute;
-      inset: 0 0 40px;
-      z-index: 4;
+      inset: 0 0 36px;
+      z-index: 3;
       pointer-events: none;
     }
     .hero-cord {
@@ -413,8 +401,8 @@
     }
     .hero-buds {
       position: absolute;
-      left: 31%;
-      bottom: 14%;
+      left: 38%;
+      bottom: 12%;
       display: flex;
       align-items: flex-end;
       gap: 11px;
@@ -2356,8 +2344,8 @@
           "booth";
         justify-items: center;
         column-gap: 0;
-        row-gap: 18px;
-        padding: 4px 0 56px;
+        row-gap: 44px;
+        padding: 4px 0 48px;
       }
       .hero-vinyl { margin: 0; }
       .hero-booth { margin: 0; }
@@ -2365,8 +2353,9 @@
       .hero-cord--phone { display: block; }
       .hero-buds {
         left: 50%;
-        bottom: 46%;
-        transform: translateX(-58%) rotate(-28deg) scale(.88);
+        top: 26%;
+        bottom: auto;
+        transform: translateX(-48%) rotate(-18deg) scale(.92);
       }
       .hero { --ticker-h: 30px; }
       .hero-ticker { bottom: var(--tabbar-h); }
@@ -2569,9 +2558,7 @@
               <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
               <span class="hero-vinyl-sheen" aria-hidden="true"></span>
             </span>
-            <span class="hero-vinyl-mirror" aria-hidden="true">
-              <img src="desire-cover.webp?v=re" alt="" width="1200" height="1200"/>
-            </span>
+            <span class="hero-vinyl-mirror" aria-hidden="true"></span>
           </a>
           <div class="hero-phones" aria-hidden="true">
             <svg class="hero-cord hero-cord--desk" viewBox="0 0 800 520" preserveAspectRatio="none">
@@ -2582,11 +2569,11 @@
                   <stop offset="1" stop-color="#d8d8d8"/>
                 </linearGradient>
               </defs>
-              <path class="hero-cord-shadow" d="M 612 18 C 520 -8 470 90 430 210 C 402 292 360 360 250 438 C 232 452 248 470 268 472"/>
-              <path class="hero-cord-body" d="M 608 14 C 518 -10 468 86 428 206 C 400 288 358 356 248 434"/>
-              <path class="hero-cord-body" d="M 248 434 C 228 448 244 466 264 468"/>
-              <path class="hero-cord-body" d="M 248 434 C 268 456 292 470 308 474"/>
-              <path class="hero-cord-glint" d="M 608 14 C 518 -10 468 86 428 206 C 400 288 358 356 248 434"/>
+              <path class="hero-cord-shadow" d="M 568 10 C 430 -36 390 80 372 170 C 356 250 340 330 292 430 C 276 452 262 462 248 466"/>
+              <path class="hero-cord-body" d="M 564 8 C 428 -38 388 78 370 168 C 354 248 338 328 290 428"/>
+              <path class="hero-cord-body" d="M 290 428 C 272 450 258 460 244 464"/>
+              <path class="hero-cord-body" d="M 290 428 C 312 450 328 462 342 466"/>
+              <path class="hero-cord-glint" d="M 564 8 C 428 -38 388 78 370 168 C 354 248 338 328 290 428"/>
             </svg>
             <svg class="hero-cord hero-cord--phone" viewBox="0 0 400 520" preserveAspectRatio="none">
               <defs>
@@ -2596,11 +2583,11 @@
                   <stop offset="1" stop-color="#d8d8d8"/>
                 </linearGradient>
               </defs>
-              <path class="hero-cord-shadow" d="M 208 268 C 120 230 90 160 168 118 C 210 94 150 70 118 92"/>
-              <path class="hero-cord-body" d="M 204 264 C 118 226 92 158 170 116 C 206 94 158 74 132 88" stroke="url(#heroCordShinePhone)"/>
-              <path class="hero-cord-body" d="M 132 88 C 108 102 96 118 88 132" stroke="url(#heroCordShinePhone)"/>
-              <path class="hero-cord-body" d="M 132 88 C 148 108 158 118 176 124" stroke="url(#heroCordShinePhone)"/>
-              <path class="hero-cord-glint" d="M 204 264 C 118 226 92 158 170 116"/>
+              <path class="hero-cord-shadow" d="M 118 252 C 96 220 120 188 168 172 C 188 162 150 154 128 162"/>
+              <path class="hero-cord-body" d="M 116 250 C 94 218 122 186 170 170 C 186 162 154 154 132 160" stroke="url(#heroCordShinePhone)"/>
+              <path class="hero-cord-body" d="M 132 160 C 112 170 100 180 90 190" stroke="url(#heroCordShinePhone)"/>
+              <path class="hero-cord-body" d="M 132 160 C 152 172 170 178 184 180" stroke="url(#heroCordShinePhone)"/>
+              <path class="hero-cord-glint" d="M 116 250 C 94 218 122 186 170 170"/>
             </svg>
             <div class="hero-buds">
               <span class="hero-bud"></span>
