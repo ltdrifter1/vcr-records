@@ -2121,6 +2121,43 @@ body.archive-release .footer-form button {
   border-top: 1px solid #ececec;
 }
 
+/* Album liner — deck as object, sides as two J-cards (mixtape / long albums) */
+.ra-player-grid--liner {
+  display: grid;
+  gap: 14px;
+}
+.ra-player-grid--liner > .ra-tracks-note {
+  margin: 0;
+  padding: 2px 8px 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--ra-dim);
+}
+.ra-player-grid--liner .ra-tracks--side {
+  min-height: 0;
+}
+.ra-player-grid--liner .ra-side-label {
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+@media (min-width: 960px) {
+  .ra-player-grid--liner {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+    align-items: stretch;
+  }
+  .ra-player-grid--liner > .ra-deck {
+    grid-column: 1 / -1;
+    width: min(100%, 760px);
+    margin: 0 auto;
+  }
+  .ra-player-grid--liner > .ra-tracks-note {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Purchase — iTunes Store pane, not a fake terminal ------------------------ */
 .ra-format,
 .ra-redeem {
