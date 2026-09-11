@@ -108,9 +108,11 @@
   <link rel="stylesheet" href="css/news.css"/>
   <link rel="stylesheet" href="css/desk.css"/>
   <style>
-    /* Listening booth hero : vinyl-black field, 12" on aluminum, iPod as Walkman -- */
+    /* Listening booth hero : Y2K studio still life, iPod as product -------- */
     .hero {
       --ticker-h: 32px;
+      --disc: min(320px, 28vw, calc((100svh - var(--nav-h) - 210px) * .42));
+      --ipod-w: min(380px, 34vw, calc((100svh - var(--nav-h) - 210px) * .52));
       position: relative;
       min-height: 100vh;
       min-height: 100svh;
@@ -118,26 +120,28 @@
       display: grid;
       place-items: center;
       overflow: hidden;
-      background: #09090b;
+      background: #050506;
       color: #fff;
       isolation: isolate;
     }
     .hero::before {
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(ellipse 58% 46% at 22% 16%, rgba(226, 232, 238, .14), transparent 64%);
+      background:
+        radial-gradient(ellipse 48% 38% at 36% 22%, rgba(255,255,255,.16), transparent 70%),
+        radial-gradient(ellipse 28% 22% at 72% 30%, rgba(210, 224, 240, .08), transparent 68%);
     }
     .hero::after {
       content: "";
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(ellipse 90% 80% at 50% 38%, transparent 42%, rgba(0,0,0,.42) 100%);
+      background: radial-gradient(ellipse 92% 78% at 50% 40%, transparent 38%, rgba(0,0,0,.55) 100%);
     }
 
     .hero-stage {
       position: relative; z-index: 1;
       width: min(1180px, calc(100% - 40px));
       min-height: 100%;
-      padding: calc(var(--nav-h) + var(--safe-t) + 20px) 0 calc(18px + var(--ticker-h, 32px));
+      padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h, 32px));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -147,54 +151,113 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
+      gap: clamp(10px, 1.6vh, 22px);
       width: 100%;
       max-width: 1100px;
       margin: 0 auto;
     }
 
-    /* One camera, one lamp, a real ground — record left, iPod right, air between */
+    /* Billboard lockup — identity lives above the still life --------------- */
+    .hero-lockup {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin: 0;
+      text-align: center;
+    }
+    .hero-lockup-kicker {
+      margin: 0 0 8px;
+      font-family: var(--callsign);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.52);
+    }
+    .hero-lockup-artist,
+    .hero-lockup-title,
+    .hero-lockup-title a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      line-height: .9;
+    }
+    .hero-lockup-artist {
+      font-family: Oswald, var(--sans);
+      font-weight: 600;
+      font-size: clamp(22px, 3.4vw, 42px);
+      letter-spacing: .18em;
+    }
+    .hero-lockup-title {
+      margin: 0;
+      font-family: Oswald, var(--sans);
+      font-weight: 700;
+      font-size: clamp(44px, 7.2vw, 88px);
+      letter-spacing: .06em;
+      text-shadow: 0 20px 48px rgba(0,0,0,.45);
+    }
+    .hero-lockup-title a {
+      font: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      text-shadow: inherit;
+    }
+    @media (hover:hover) {
+      .hero-lockup-artist:hover,
+      .hero-lockup-title a:hover { color: #fff; opacity: .86; }
+    }
+    .hero-lockup-artist:focus-visible,
+    .hero-lockup-title a:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 6px;
+    }
+
+    /* One camera, one lamp — vinyl supporting, iPod hero, shared baseline */
     .hero-scene {
-      --disc: min(540px, 58vh, 50vw);
       position: relative;
       display: grid;
-      grid-template-columns: var(--disc) auto;
-      grid-template-areas:
-        "vinyl booth"
-        "folio folio";
+      grid-template-columns: var(--disc) var(--ipod-w);
+      grid-template-areas: "vinyl booth";
       align-items: end;
       justify-content: center;
-      column-gap: clamp(40px, 6vw, 72px);
-      row-gap: 0;
+      column-gap: clamp(28px, 3.4vw, 40px);
       width: max-content;
       max-width: 100%;
-      padding: 12px 8px 0;
+      padding: 8px 4px 88px;
     }
     .hero-ground {
       position: absolute;
       left: 0;
       right: 0;
       bottom: var(--ticker-h, 32px);
-      height: 44%;
+      height: 42%;
       z-index: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.3) 0 1px, transparent 9px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.055) 0 1px, transparent 1px 5px),
-        linear-gradient(180deg, #a4abb3 0%, #7e858d 12%, #616870 40%, #4a5058 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.42),
-        inset 0 -1px 0 rgba(0,0,0,.28);
+        linear-gradient(180deg, rgba(255,255,255,.09) 0, transparent 1px),
+        linear-gradient(180deg, rgba(18,18,20,.0) 0%, rgba(12,12,14,.55) 22%, #070708 100%);
+    }
+    .hero-ground::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
     }
     .hero-ground::after {
       content: "";
       position: absolute;
-      left: 18%;
-      right: 18%;
-      top: 10%;
-      height: 48%;
-      background: radial-gradient(ellipse 62% 80% at 38% 0%, rgba(8, 8, 10, .4), transparent 72%);
-      filter: blur(16px);
+      left: 10%;
+      right: 10%;
+      top: 0;
+      height: 42%;
+      background: radial-gradient(ellipse 70% 90% at 58% 0%, rgba(255,255,255,.07), transparent 72%);
+      filter: blur(10px);
     }
     .hero-booth {
       position: relative;
@@ -206,7 +269,24 @@
       width: max-content;
       max-width: 100%;
       padding: 0;
-      margin: 0 0 28px;
+      margin: 0;
+    }
+    .hero-ipod-mirror {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 99%;
+      height: 30%;
+      z-index: 0;
+      pointer-events: none;
+      border-radius: 0 0 30px 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,.04) 55%, transparent);
+      transform: scaleY(-1);
+      transform-origin: top;
+      filter: blur(5px);
+      opacity: .42;
+      mask-image: linear-gradient(to top, #000 10%, transparent 78%);
+      -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 78%);
     }
 
     .hero-vinyl {
@@ -215,11 +295,9 @@
       z-index: 2;
       display: block;
       width: var(--disc);
-      margin: 0 0 22px;
+      margin: 0;
       color: inherit;
       text-decoration: none;
-      filter: drop-shadow(0 22px 18px rgba(0, 0, 0, .55));
-      transition: filter .45s var(--ease);
     }
     .hero-vinyl:focus { outline: none; }
     .hero-vinyl:focus-visible {
@@ -232,14 +310,15 @@
     }
     .hero-vinyl-board {
       position: relative;
+      z-index: 1;
       aspect-ratio: 1;
       border-radius: 50%;
       overflow: hidden;
       background: #050506;
       box-shadow:
-        0 0 0 1px rgba(0, 0, 0, .85),
-        0 0 0 2px rgba(48, 50, 54, .95),
-        inset 0 0 0 1px rgba(255, 255, 255, .08);
+        0 0 0 1px rgba(255,255,255,.16),
+        0 28px 36px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.2);
     }
     .hero-vinyl-board img {
       width: 100%;
@@ -248,22 +327,6 @@
       display: block;
       border-radius: 50%;
     }
-    .hero-vinyl-grooves {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      border-radius: 50%;
-      background: repeating-radial-gradient(
-        circle at 50% 50%,
-        rgba(255, 255, 255, .05) 0 1px,
-        transparent 1px 3px
-      );
-      mask-image: radial-gradient(circle, transparent 36%, #000 41%, #000 49.2%, transparent 50%);
-      -webkit-mask-image: radial-gradient(circle, transparent 36%, #000 41%, #000 49.2%, transparent 50%);
-      mix-blend-mode: overlay;
-      opacity: .7;
-    }
     .hero-vinyl-sheen {
       position: absolute;
       inset: -8%;
@@ -271,15 +334,12 @@
       pointer-events: none;
       border-radius: 50%;
       background:
-        linear-gradient(118deg,
-          transparent 28%,
-          rgba(255, 255, 255, .2) 44%,
-          transparent 51%,
-          transparent 62%,
-          rgba(186, 204, 220, .1) 74%,
-          transparent 82%);
-      mix-blend-mode: overlay;
-      opacity: .72;
+        linear-gradient(122deg,
+          transparent 32%,
+          rgba(255,255,255,.55) 41%,
+          transparent 47%);
+      mix-blend-mode: screen;
+      opacity: .58;
       transform-origin: 50% 50%;
     }
     .hero.is-playing .hero-vinyl-sheen {
@@ -289,47 +349,112 @@
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
-
-    /* Folio — magazine running line on the desk. Label is the title. ------ */
-    .hero-folio {
-      grid-area: folio;
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 8px 18px;
-      margin: 0;
-      padding: 10px 8px 18px;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: #1a1e26;
+    .hero-vinyl-mirror {
+      position: absolute;
+      left: 5%;
+      width: 90%;
+      top: 99%;
+      aspect-ratio: 1;
+      z-index: 0;
+      pointer-events: none;
+      transform: scaleY(-1);
+      transform-origin: top;
+      opacity: .22;
+      filter: blur(2.5px) brightness(.65);
+      mask-image: linear-gradient(to top, #000 0%, transparent 46%);
+      -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 46%);
     }
-    .hero-folio a {
-      color: #111;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-    }
-    @media (hover:hover) {
-      .hero-folio a:hover {
-        color: #111;
-        border-bottom-color: rgba(18, 20, 24, .45);
-      }
-    }
-    .hero-folio a:focus-visible {
-      outline: 2px solid #111;
-      outline-offset: 3px;
-    }
-    .hero-folio-dot {
-      width: 3px; height: 3px;
+    .hero-vinyl-mirror img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       border-radius: 50%;
-      background: rgba(18, 20, 24, .45);
-      flex-shrink: 0;
-      align-self: center;
+      display: block;
     }
+
+    /* White earbuds — the connecting object -------------------------------- */
+    .hero-phones {
+      position: absolute;
+      inset: 0 0 40px;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .hero-cord {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .hero-cord--phone { display: none; }
+    .hero-cord-shadow {
+      fill: none;
+      stroke: rgba(0,0,0,.45);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    .hero-cord-body {
+      fill: none;
+      stroke: url(#heroCordShine);
+      stroke-width: 3.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    .hero-cord-glint {
+      fill: none;
+      stroke: rgba(255,255,255,.72);
+      stroke-width: 1.05;
+      stroke-linecap: round;
+      opacity: .85;
+      vector-effect: non-scaling-stroke;
+    }
+    .hero-buds {
+      position: absolute;
+      left: 31%;
+      bottom: 14%;
+      display: flex;
+      align-items: flex-end;
+      gap: 11px;
+      transform: rotate(-18deg);
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,.45));
+    }
+    .hero-bud {
+      position: relative;
+      width: 15px;
+      height: 24px;
+    }
+    .hero-bud::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 5px;
+      height: 13px;
+      margin-left: -2.5px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #cfcfcf, #fff 42%, #d8d8d8);
+      box-shadow: inset 0 0 0 .5px rgba(255,255,255,.6);
+    }
+    .hero-bud::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 15px;
+      height: 15px;
+      margin-left: -7.5px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 58%, #8d939a 0 28%, transparent 30%),
+        radial-gradient(circle at 34% 30%, #fff, #ececec 52%, #c8c8c8 100%);
+      box-shadow:
+        inset 0 1px 0 #fff,
+        0 2px 4px rgba(0,0,0,.35);
+    }
+    .hero-bud--r { transform: scaleX(-1) rotate(12deg); }
 
     /* Station bar — inlaid aluminum edge, not a glass sandwich ------------- */
     .hero-ticker {
@@ -340,12 +465,11 @@
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       align-items: stretch;
-      border-top: 1px solid rgba(255, 255, 255, .22);
+      border-top: 1px solid rgba(255, 255, 255, .12);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.03)),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 4px),
-        #4a5058;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+        linear-gradient(180deg, rgba(255,255,255,.08), transparent 55%),
+        #0c0c0e;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
       transition: border-color .5s var(--ease), box-shadow .5s var(--ease);
     }
     .hero.is-playing .hero-ticker {
@@ -440,7 +564,6 @@
 
     /* 4th-gen Click Wheel iPod — glossy white, monochrome LCD -------------- */
     .hero-platter {
-      --ipod-w: min(248px, 72vw);
       --ipod-lcd: #c5d2dc;
       --ipod-lcd-ink: #1c2430;
       --ipod-sel: #2a3d68;
@@ -451,29 +574,46 @@
       align-items: stretch;
       isolation: isolate;
       width: var(--ipod-w);
-      padding: 18px 18px 26px;
-      border-radius: 32px;
+      padding: 22px 20px 28px;
+      border-radius: 36px;
       background:
-        linear-gradient(180deg, #ffffff 0%, #f7f7f7 42%, #efefef 78%, #e6e6e6 100%);
+        linear-gradient(165deg, #ffffff 0%, #f6f6f6 36%, #ececec 72%, #dcdcdc 100%);
       box-shadow:
         inset 0 1px 0 #fff,
-        inset 0 -2px 3px rgba(180,180,180,.35),
-        0 1px 0 rgba(255,255,255,.85),
-        0 18px 22px rgba(0,0,0,.42),
-        0 2px 0 rgba(190,190,190,.55);
+        inset 0 -10px 18px rgba(0,0,0,.06),
+        inset 0 -2px 3px rgba(160,160,160,.28),
+        0 1px 0 rgba(255,255,255,.9),
+        0 36px 48px rgba(0,0,0,.5),
+        0 2px 0 rgba(170,170,170,.45);
       transition: width .55s var(--ease), box-shadow .4s var(--ease);
     }
     .hero-platter::before {
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 1;
       border-radius: inherit;
       pointer-events: none;
       background: linear-gradient(125deg,
-        rgba(255,255,255,.85) 0%,
-        transparent 18%,
-        transparent 72%,
-        rgba(255,255,255,.28) 100%);
+        rgba(255,255,255,.95) 0%,
+        transparent 16%,
+        transparent 68%,
+        rgba(255,255,255,.22) 100%);
+    }
+    .hero-platter::after {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 46%;
+      z-index: 5;
+      width: 11px;
+      height: 7px;
+      border-radius: 3px;
+      background: radial-gradient(circle at 50% 40%, #2a2a2a, #0a0a0a 70%);
+      box-shadow:
+        inset 0 1px 2px #000,
+        0 .5px 0 rgba(255,255,255,.55);
+      pointer-events: none;
     }
     .hero-pulse { display: none; }
     .hero.is-playing .hero-platter {
@@ -488,6 +628,7 @@
     /* Screen — 4th-gen monochrome LCD ------------------------------------ */
     .hero-vinyl-rig {
       position: relative;
+      z-index: 2;
       border-radius: 6px;
       padding: 3px;
       background: linear-gradient(180deg, #b8b8b8 0%, #8e8e8e 50%, #cfcfcf 100%);
@@ -907,9 +1048,10 @@
     /* Click wheel — light gray ring, white legends, white center button ---- */
     .ipod-wheel {
       position: relative;
-      width: min(168px, 68%);
+      z-index: 2;
+      width: min(252px, 68%);
       aspect-ratio: 1;
-      margin: 22px auto 4px;
+      margin: 26px auto 6px;
       border-radius: 50%;
       cursor: grab;
       touch-action: none;
@@ -992,7 +1134,7 @@
         animation: none !important;
       }
       .hero-idle, .hero-platter, .hero-sleeve, .hero-vinyl { transition: none; }
-      .hero-vinyl { filter: drop-shadow(0 16px 14px rgba(0,0,0,.5)); }
+      .hero-vinyl-board { box-shadow: 0 16px 22px rgba(0,0,0,.5); }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
       .place-img { transform: none !important; }
       .hero-ticker-track { transform: none; }
@@ -1078,7 +1220,7 @@
     }
     .wall-bridge {
       height: 40px;
-      background: linear-gradient(180deg, #4a5058 0%, transparent 100%);
+      background: linear-gradient(180deg, #050506 0%, transparent 100%);
       pointer-events: none;
     }
     /* Album campaign spine — Lookout owns this beat between hero and wall */
@@ -1091,7 +1233,7 @@
     }
     .campaign-bridge {
       height: 48px;
-      background: linear-gradient(180deg, #4a5058 0%, #E6EAEF 100%);
+      background: linear-gradient(180deg, #050506 0%, #E6EAEF 100%);
       pointer-events: none;
     }
     .campaign-inner {
@@ -2185,35 +2327,47 @@
     .place-dek,
     .place-link { display: none; }
 
-    /* High-angle still life — stack on small screens, never overlap -------- */
+    /* Stack the still life on small screens — iPod remains the larger object */
     @media (max-width: 1080px) {
-      .hero-scene { --disc: min(460px, 52vh, 46vw); }
+      .hero {
+        --disc: min(280px, 26vw, calc((100svh - var(--nav-h) - 200px) * .38));
+        --ipod-w: min(340px, 32vw, calc((100svh - var(--nav-h) - 200px) * .48));
+      }
     }
 
     @media (max-width: 860px) {
-      .hero-scene { --disc: min(440px, 42vh, 52vw); }
       .hero-stage { width: min(100% - 32px, 1000px); }
+      .hero-lockup-title { font-size: clamp(40px, 9vw, 64px); }
     }
 
     @media (max-width: 720px) {
+      .hero {
+        --disc: min(168px, 22vh, 46vw);
+        --ipod-w: min(268px, 58vw, 42vh);
+      }
       .hero-stage {
         width: min(100% - 32px, 640px);
-        padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h) + var(--tabbar-h) + var(--safe-b));
+        padding: calc(var(--nav-h) + var(--safe-t) + 8px) 0 calc(12px + var(--ticker-h) + var(--tabbar-h) + var(--safe-b));
       }
       .hero-scene {
-        --disc: min(240px, 30vh, 70vw);
         grid-template-columns: 1fr;
         grid-template-areas:
           "vinyl"
-          "booth"
-          "folio";
+          "booth";
         justify-items: center;
         column-gap: 0;
-        padding: 4px 0 0;
+        row-gap: 18px;
+        padding: 4px 0 56px;
       }
-      .hero-vinyl { margin: 0 0 4px; }
-      .hero-booth { margin: 6px 0 10px; }
-      .hero-folio { justify-content: center; padding-bottom: 12px; }
+      .hero-vinyl { margin: 0; }
+      .hero-booth { margin: 0; }
+      .hero-cord--desk { display: none; }
+      .hero-cord--phone { display: block; }
+      .hero-buds {
+        left: 50%;
+        bottom: 46%;
+        transform: translateX(-58%) rotate(-28deg) scale(.88);
+      }
       .hero { --ticker-h: 30px; }
       .hero-ticker { bottom: var(--tabbar-h); }
       .hero-ground { bottom: calc(var(--ticker-h) + var(--tabbar-h)); }
@@ -2222,8 +2376,8 @@
       .hero-ticker-copy a,
       .hero-ticker-copy span { padding: 0 16px; font-size: 10px; }
       body.hero-top .tabbar {
-        background: rgba(76, 81, 89, .88);
-        border-top-color: rgba(236, 240, 246, .18);
+        background: rgba(8, 8, 10, .88);
+        border-top-color: rgba(255, 255, 255, .12);
       }
     }
 
@@ -2237,9 +2391,12 @@
         width: min(100% - 28px, 420px);
         padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
-      .hero-scene { --disc: min(220px, 28vh, 68vw); }
-      .hero-platter { --ipod-w: min(212px, 58vw); padding: 12px 12px 18px; }
-      .hero-booth { margin: 4px 0 10px; }
+      .hero {
+        --disc: min(150px, 20vh, 42vw);
+        --ipod-w: min(248px, 64vw, 40vh);
+      }
+      .hero-platter { padding: 14px 14px 20px; }
+      .hero-booth { margin: 0; }
 
       .hero.is-live .hero-stage {
         min-height: 100svh;
@@ -2277,9 +2434,12 @@
         padding-top: calc(var(--nav-h) + var(--safe-t) + 10px);
         padding-bottom: calc(8px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
-      .hero-booth { gap: 8px; margin: 0 0 8px; }
-      .hero-scene { --disc: min(190px, 24vh, 62vw); }
-      .hero-platter { --ipod-w: min(230px, 62vw); padding: 12px 12px 18px; }
+      .hero-booth { gap: 8px; margin: 0; }
+      .hero {
+        --disc: min(132px, 18vh, 40vw);
+        --ipod-w: min(220px, 58vw, 36vh);
+      }
+      .hero-platter { padding: 12px 12px 18px; }
       .hero.is-live .hero-station { display: none; }
       .hero { --ticker-h: 36px; }
       .hero-ticker-now { display: none; }
@@ -2296,8 +2456,10 @@
         padding: calc(12px + var(--safe-t)) 20px calc(12px + var(--ticker-h, 36px) + var(--safe-b));
         width: min(100% - 24px, 900px);
       }
-      .hero-platter { --ipod-w: min(200px, 32vh); }
-      .hero-scene { --disc: min(280px, 46vh, 38vw); }
+      .hero {
+        --ipod-w: min(220px, 32vh);
+        --disc: min(160px, 28vh, 22vw);
+      }
     }
 
     /* Dark dock over the dark homepage ------------------------------------- */
@@ -2396,15 +2558,55 @@
     <div class="hero-ground" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-post">
-        <h1 class="visually-hidden">DESIRE — Molly Haze</h1>
+        <header class="hero-lockup">
+          <p class="hero-lockup-kicker">Out now · Pacific Northwest</p>
+          <a class="hero-lockup-artist" href="/artists/molly-haze">Molly Haze</a>
+          <h1 class="hero-lockup-title"><a href="/desire">Desire</a></h1>
+        </header>
         <div class="hero-scene">
           <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
             <span class="hero-vinyl-board">
-              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 860px) 78vw, 540px" alt="" width="1200" height="1200" fetchpriority="high"/>
-              <span class="hero-vinyl-grooves" aria-hidden="true"></span>
+              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
               <span class="hero-vinyl-sheen" aria-hidden="true"></span>
             </span>
+            <span class="hero-vinyl-mirror" aria-hidden="true">
+              <img src="desire-cover.webp?v=re" alt="" width="1200" height="1200"/>
+            </span>
           </a>
+          <div class="hero-phones" aria-hidden="true">
+            <svg class="hero-cord hero-cord--desk" viewBox="0 0 800 520" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="heroCordShine" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f4f4f4"/>
+                  <stop offset=".45" stop-color="#ffffff"/>
+                  <stop offset="1" stop-color="#d8d8d8"/>
+                </linearGradient>
+              </defs>
+              <path class="hero-cord-shadow" d="M 612 18 C 520 -8 470 90 430 210 C 402 292 360 360 250 438 C 232 452 248 470 268 472"/>
+              <path class="hero-cord-body" d="M 608 14 C 518 -10 468 86 428 206 C 400 288 358 356 248 434"/>
+              <path class="hero-cord-body" d="M 248 434 C 228 448 244 466 264 468"/>
+              <path class="hero-cord-body" d="M 248 434 C 268 456 292 470 308 474"/>
+              <path class="hero-cord-glint" d="M 608 14 C 518 -10 468 86 428 206 C 400 288 358 356 248 434"/>
+            </svg>
+            <svg class="hero-cord hero-cord--phone" viewBox="0 0 400 520" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="heroCordShinePhone" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f4f4f4"/>
+                  <stop offset=".45" stop-color="#ffffff"/>
+                  <stop offset="1" stop-color="#d8d8d8"/>
+                </linearGradient>
+              </defs>
+              <path class="hero-cord-shadow" d="M 208 268 C 120 230 90 160 168 118 C 210 94 150 70 118 92"/>
+              <path class="hero-cord-body" d="M 204 264 C 118 226 92 158 170 116 C 206 94 158 74 132 88" stroke="url(#heroCordShinePhone)"/>
+              <path class="hero-cord-body" d="M 132 88 C 108 102 96 118 88 132" stroke="url(#heroCordShinePhone)"/>
+              <path class="hero-cord-body" d="M 132 88 C 148 108 158 118 176 124" stroke="url(#heroCordShinePhone)"/>
+              <path class="hero-cord-glint" d="M 204 264 C 118 226 92 158 170 116"/>
+            </svg>
+            <div class="hero-buds">
+              <span class="hero-bud"></span>
+              <span class="hero-bud hero-bud--r"></span>
+            </div>
+          </div>
         <div class="hero-booth">
         <div class="hero-platter">
           <span class="hero-pulse" aria-hidden="true"></span>
@@ -2463,14 +2665,8 @@
             </button>
           </div>
         </div>
+        <span class="hero-ipod-mirror" aria-hidden="true"></span>
         </div>
-          <p class="hero-folio">
-            <span>Out now</span>
-            <span class="hero-folio-dot" aria-hidden="true"></span>
-            <a href="/artists/molly-haze">Molly Haze</a>
-            <span class="hero-folio-dot" aria-hidden="true"></span>
-            <span>Pacific Northwest</span>
-          </p>
         </div>
       </div>
     </div>
