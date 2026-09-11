@@ -1,4 +1,4 @@
-/* The Xerox — magazine chrome.
+/* Night Shift — magazine chrome.
    Tonight's record, the wire, letters, live date. Stay in the zine. */
 (function () {
   "use strict";
@@ -54,7 +54,7 @@
       slug: "/news/the-after-is-the-point",
       kicker: "tuesday afters",
       title: "Nobody Asked What to Put On",
-      artist: "The Xerox",
+      artist: "Night Shift",
       dek: "The photo is a lie with good lighting. The night starts when somebody drops a record without taking a vote.",
       image: "news-afters.webp"
     },
@@ -231,7 +231,7 @@
       "<h2>If it happened after two.</h2>" +
       "<p>Gossip, corrections, what you wore, what you played. We read it. The good ones get xeroxed.</p>" +
       '<form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">' +
-      '<input type="hidden" name="_subject" value="Xerox desk letter"/>' +
+      '<input type="hidden" name="_subject" value="Night Shift desk letter"/>' +
       '<label class="sr-only" for="zine-letter-email">Email</label>' +
       '<input id="zine-letter-email" type="email" name="email" placeholder="your email" required autocomplete="email"/>' +
       '<label class="sr-only" for="zine-letter-body">Letter</label>' +
