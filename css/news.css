@@ -89,6 +89,9 @@
   text-align: left;
   padding: 6px 0 0;
 }
+@media (min-width: 721px) {
+  .zine-masthead { padding-left: 22px; }
+}
 .zine-masthead::before {
   content: "CC · CAT 022 · PNW";
   position: absolute;
@@ -182,8 +185,12 @@
   pointer-events: none;
   z-index: 0;
 }
-@media (max-width: 560px) {
-  .zine-masthead::after { top: 36px; font-size: 72px; }
+@media (max-width: 700px) {
+  .zine-masthead::after { display: none; }
+  .zine-title {
+    font-size: clamp(58px, 20vw, 92px);
+    max-width: 100%;
+  }
 }
 .zine-credit {
   margin: 2px 0 0;
@@ -404,16 +411,31 @@
   color: var(--zine-ink);
   max-width: 34em;
 }
+.zine-copy {
+  isolation: isolate;
+  overflow: visible;
+}
 .zine-copy p:first-of-type::first-letter {
   float: left;
   font-family: var(--zine-display);
+  font-stretch: 100%;
   font-weight: 900;
   font-size: 3.6em;
   line-height: .72;
-  padding: .04em .08em 0 0;
+  padding: .12em .1em 0 0;
   color: var(--zine-magenta);
 }
 .zine-copy p:last-of-type { margin-bottom: 0; }
+@media (max-width: 699px) {
+  .zine-copy p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    padding: 0;
+    color: inherit;
+  }
+}
 .zine-copy a {
   color: inherit;
   font-weight: 600;
@@ -1223,6 +1245,16 @@ body.surface-acetate.has-station-bumper {
   padding: .04em .08em 0 0;
   color: var(--zine-magenta);
 }
+@media (max-width: 699px) {
+  .news-body--essay p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    padding: 0;
+    color: inherit;
+  }
+}
 .news-body--interview p:first-of-type {
   font-size: inherit;
   color: inherit;
@@ -1637,8 +1669,8 @@ body.surface-acetate.has-station-bumper:has(.news-page) .footer-manifesto {
   overflow: hidden;
   flex: 1;
   min-width: 0;
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  padding: 8px 0;
+  mask-image: linear-gradient(90deg, #000 0%, #000 88%, transparent);
+  padding: 8px 0 8px 10px;
 }
 .zine-ticker-track p {
   display: inline-block;
@@ -1968,7 +2000,7 @@ body.news-story .news-page {
   .news-story .news-body {
     grid-column: 2;
   }
-  .news-story .news-byline--end,
+  .news-story .news-byline--end { grid-column: 2; }
   .news-story .news-nav,
   .news-story .zine-story-desk,
   .news-story .news-related {
