@@ -135,9 +135,9 @@
         esc(t.dj) +
         '" width="1400" height="1400" loading="lazy"/></div>'
       : '<div class="tape-sleeve tape-sleeve--blank" aria-hidden="true"></div>';
-    var play = t._hasAudio
+    var play = t.audio
       ? '<button type="button" class="tape-play" data-tape-play="' +
-        esc(t._audio) +
+        esc(t._audio || asset(t.audio)) +
         '" data-tape-id="' +
         esc(t.id) +
         '" data-tape-title="' +
