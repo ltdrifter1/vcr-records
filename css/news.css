@@ -16,7 +16,7 @@
   --zine-stamp: #C6FF1A;
   --zine-hi: #C6FF1A;
   --zine-cyan: #C6FF1A;
-  --zine-magenta: #E11D48;
+  --zine-magenta: var(--zine-stamp);
   --zine-ice: #C6FF1A;
   --zine-tape: rgba(198, 255, 26, .42);
   --zine-display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
@@ -2412,3 +2412,175 @@ body.hero-top.xerox-under-nav .nav-drawer {
 body.hero-top.xerox-under-nav .nav-drawer a {
   color: var(--zine-ink);
 }
+
+/* The Tapes — same paper as Night Shift, a crate not a playlist app ------ */
+.tapes-zine .zine-tagline { max-width: 28em; }
+.tapes-now {
+  margin: 12px 0 0;
+  padding: 8px 0;
+  border-top: 1px solid var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+.tapes-now[hidden] { display: none; }
+.tapes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 8px 0 4px;
+  border-top: 4px solid var(--zine-ink);
+  counter-reset: tape-vol;
+}
+@media (min-width: 860px) {
+  .tapes-grid { grid-template-columns: 1.15fr .85fr; }
+}
+.tape {
+  display: grid;
+  grid-template-columns: 2.4em 108px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--zine-rule);
+  color: inherit;
+  counter-increment: tape-vol;
+}
+.tape::before {
+  content: counter(tape-vol, decimal-leading-zero);
+  font-family: var(--zine-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1;
+  color: var(--zine-dim);
+  padding-top: 2px;
+}
+@media (min-width: 860px) {
+  .tape:nth-child(odd) { border-right: 1px solid var(--zine-ink); padding-right: 18px; }
+  .tape:nth-child(even) { padding-left: 18px; }
+  .tape:first-child {
+    grid-column: 1 / -1;
+    grid-template-columns: 2.6em minmax(0, 220px) minmax(0, 1fr);
+    padding: 18px 0 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--zine-ink);
+  }
+  .tape:first-child::before { font-size: 28px; }
+}
+.tape-sleeve {
+  width: 108px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #111;
+  border: 1px solid var(--zine-ink);
+}
+.tape:first-child .tape-sleeve {
+  width: 100%;
+  max-width: 220px;
+}
+.tape-sleeve img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.12) saturate(.72) grayscale(.1);
+}
+.tape-sleeve--blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--zine-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: var(--zine-paper);
+  background: var(--zine-ink);
+}
+.tape-kicker {
+  margin: 0 0 4px;
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+.tape-title {
+  margin: 0 0 4px;
+  font-family: var(--zine-display);
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: .9;
+  text-transform: uppercase;
+}
+.tape:first-child .tape-title { font-size: clamp(36px, 6vw, 64px); }
+.tape-dj {
+  display: block;
+  margin: 0 0 8px;
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-style: normal;
+}
+.tape-dek {
+  margin: 0 0 10px;
+  font-family: var(--zine-body);
+  font-size: 13.5px;
+  line-height: 1.32;
+  color: var(--zine-muted);
+  max-width: 34em;
+}
+.tape-spec {
+  margin: 0 0 10px;
+}
+.tape-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.tape-play,
+.tape-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--zine-ink);
+  background: transparent;
+  border: 1px solid var(--zine-ink);
+  border-radius: 0;
+}
+.tape-play { background: var(--zine-stamp); border-right-width: 0; }
+.tape-play[disabled],
+.tape-play.is-pending {
+  background: transparent;
+  opacity: .55;
+  cursor: not-allowed;
+}
+.tape-play.is-live { background: var(--zine-ink); color: var(--zine-paper); }
+@media (hover: hover) {
+  .tape-play:not([disabled]):hover,
+  .tape-link:hover {
+    background: var(--zine-ink);
+    color: var(--zine-paper);
+    border-color: var(--zine-ink);
+  }
+}
+.tapes-note {
+  margin: 14px 0 0;
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--zine-dim);
+}
+.tapes-note a { color: var(--zine-ink); }

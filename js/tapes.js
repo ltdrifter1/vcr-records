@@ -1,0 +1,210 @@
+/* The Tapes — Night Shift crate. Play files from /tapes when they exist. */
+(function () {
+  "use strict";
+
+  var audio = null;
+  var currentId = "";
+  var nowEl = null;
+
+  function $(sel, root) {
+    return (root || document).querySelector(sel);
+  }
+
+  function asset(src) {
+    if (!src) return src;
+    if (/^https?:\/\//.test(src) || src.charAt(0) === "/") return src;
+    return /\/news\/[^/]+/.test(location.pathname) ? "../" + src : src;
+  }
+
+  function loadList(cb) {
+    fetch(asset("data/mixtapes.json"), { credentials: "same-origin" })
+      .then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+      .then(function (data) {
+        cb(data && data.tapes ? data.tapes : []);
+      })
+      .catch(function () {
+        cb([]);
+      });
+  }
+
+  function probe(url) {
+    return fetch(url, {
+      method: "GET",
+      headers: { Range: "bytes=0-0" },
+      credentials: "same-origin"
+    }).then(function (r) {
+      return r.ok || r.status === 206;
+    }).catch(function () {
+      return false;
+    });
+  }
+
+  function ensureAudio() {
+    if (audio) return audio;
+    audio = new Audio();
+    audio.addEventListener("ended", function () {
+      currentId = "";
+      syncButtons();
+      if (nowEl) nowEl.hidden = true;
+    });
+    audio.addEventListener("error", function () {
+      markPending(currentId);
+      currentId = "";
+      syncButtons();
+    });
+    return audio;
+  }
+
+  function markPending(id) {
+    document.querySelectorAll('.tape-play[data-tape-id="' + id + '"]').forEach(function (btn) {
+      btn.classList.add("is-pending");
+      btn.disabled = true;
+      btn.textContent = "file pending";
+    });
+  }
+
+  function syncButtons() {
+    document.querySelectorAll("[data-tape-play]").forEach(function (btn) {
+      var live = btn.getAttribute("data-tape-id") === currentId && audio && !audio.paused;
+      btn.classList.toggle("is-live", !!live);
+      if (!btn.disabled) btn.textContent = live ? "pause" : "play";
+    });
+  }
+
+  function stampNow(title, dj) {
+    if (!nowEl) return;
+    nowEl.hidden = false;
+    nowEl.textContent = "now playing · " + title + " · " + dj;
+  }
+
+  function playTape(btn) {
+    var src = btn.getAttribute("data-tape-play");
+    var id = btn.getAttribute("data-tape-id");
+    var title = btn.getAttribute("data-tape-title") || "";
+    var dj = btn.getAttribute("data-tape-dj") || "";
+    if (!src || btn.disabled) return;
+    var a = ensureAudio();
+    if (currentId === id && !a.paused) {
+      a.pause();
+      currentId = "";
+      syncButtons();
+      if (nowEl) nowEl.hidden = true;
+      return;
+    }
+    currentId = id;
+    a.src = src;
+    a.play()
+      .then(function () {
+        stampNow(title, dj);
+        syncButtons();
+      })
+      .catch(function () {
+        markPending(id);
+        currentId = "";
+        syncButtons();
+      });
+  }
+
+  function bind(root) {
+    (root || document).querySelectorAll("[data-tape-play]").forEach(function (btn) {
+      if (btn.getAttribute("data-tape-bound")) return;
+      btn.setAttribute("data-tape-bound", "1");
+      btn.addEventListener("click", function () {
+        playTape(btn);
+      });
+    });
+  }
+
+  function hydrate() {
+    nowEl = $("[data-tapes-now]");
+    var grid = $("[data-tapes-grid]");
+    if (!grid) {
+      bind();
+      return;
+    }
+    loadList(function (tapes) {
+      if (!tapes.length) {
+        bind();
+        return;
+      }
+      Promise.all(
+        tapes.map(function (t) {
+          var cover = asset(t.cover);
+          var audioSrc = asset(t.audio);
+          return Promise.all([probe(cover), probe(audioSrc)]).then(function (flags) {
+            t._hasCover = flags[0];
+            t._hasAudio = flags[1];
+            t._cover = cover;
+            t._audio = audioSrc;
+            return t;
+          });
+        })
+      ).then(function (ready) {
+        grid.innerHTML = ready
+          .map(function (t) {
+            var sleeve = t._hasCover
+              ? '<div class="tape-sleeve"><img src="' +
+                t._cover +
+                '" alt="' +
+                t.title +
+                '" width="1400" height="1400" loading="lazy"/></div>'
+              : '<div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">' +
+                t.vol +
+                "</div>";
+            var play = t._hasAudio
+              ? '<button type="button" class="tape-play" data-tape-play="' +
+                t._audio +
+                '" data-tape-id="' +
+                t.id +
+                '" data-tape-title="' +
+                t.title +
+                '" data-tape-dj="' +
+                t.dj +
+                '">play</button>'
+              : '<button type="button" class="tape-play is-pending" disabled>file pending</button>';
+            var link = t.page
+              ? '<a class="tape-link" href="' + t.page + '">sleeve →</a>'
+              : "";
+            return (
+              '<article class="tape" data-tape="' +
+              t.id +
+              '">' +
+              sleeve +
+              "<div>" +
+              '<p class="tape-kicker">' +
+              t.cat +
+              " · vol. " +
+              t.vol +
+              "</p>" +
+              '<h3 class="tape-title">' +
+              t.title +
+              "</h3>" +
+              '<em class="tape-dj">' +
+              t.dj +
+              "</em>" +
+              '<p class="tape-spec zine-spec"><span>' +
+              t.year +
+              "</span><span>" +
+              t.runtime +
+              "</span><span>" +
+              t.cat +
+              "</span></p>" +
+              '<p class="tape-dek">' +
+              t.dek +
+              "</p>" +
+              '<div class="tape-actions">' +
+              play +
+              link +
+              "</div></div></article>"
+            );
+          })
+          .join("");
+        bind(grid);
+      });
+    });
+  }
+
+  hydrate();
+})();
