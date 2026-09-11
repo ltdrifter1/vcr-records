@@ -4,15 +4,15 @@
    Dirty newsprint, condensed grotesk, one fluorescent ink. Not Y2K chrome.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,75,500;0,75,600;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400;1,100,500&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wdth,wght@0,75,400;0,75,500;0,75,600;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400;1,100,500&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap");
 
 :root {
-  --zine-paper: #EDE6D6;
-  --zine-paper-2: #E4DCC8;
-  --zine-ink: #12110E;
-  --zine-muted: #3F3C36;
-  --zine-dim: #6A655C;
-  --zine-rule: rgba(18, 17, 14, .22);
+  --zine-paper: #F7F5F1;
+  --zine-paper-2: #EEECE7;
+  --zine-ink: #111111;
+  --zine-muted: #5F636B;
+  --zine-dim: #727780;
+  --zine-rule: rgba(17, 17, 17, .18);
   --zine-stamp: #C6FF1A;
   --zine-hi: #C6FF1A;
   --zine-cyan: #C6FF1A;
@@ -36,7 +36,7 @@
   pointer-events: none;
 }
 .news-bridge--out {
-  background: linear-gradient(180deg, var(--zine-paper) 0%, #E8E2D4 100%);
+  background: linear-gradient(180deg, var(--zine-paper) 0%, #F7F5F1 100%);
   margin-top: -1px;
 }
 @media (max-width: 699px) {
@@ -67,7 +67,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: .22;
+  opacity: .08;
   mix-blend-mode: multiply;
   background-image: var(--zine-grain);
   background-size: 180px 180px;
@@ -148,33 +148,41 @@
 }
 .zine-title {
   position: relative;
-  margin: 10px 0 2px;
+  margin: 10px 0 8px;
   padding: 0;
-  line-height: 0;
-  font-size: 0;
+  line-height: 1;
+  font-size: inherit;
   color: var(--zine-ink);
 }
 .zine-title a,
 .zine-logo {
-  color: inherit;
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: #111;
+  color: #F7F5F1;
+  font-family: Anton, Impact, "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: clamp(34px, 8.6vw, 80px);
+  letter-spacing: .04em;
+  line-height: .88;
+  padding: .14em .18em .1em .16em;
+  text-transform: uppercase;
   text-decoration: none;
-  display: block;
-  width: min(100%, 1080px);
-  transition: filter 220ms ease, transform 220ms cubic-bezier(.22,1,.36,1);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: filter 180ms ease;
 }
-.zine-title img,
-.zine-logo img,
 img.zine-logo {
-  display: block;
-  width: 100%;
-  height: auto;
-  filter: contrast(1.06);
+  display: none;
 }
 @media (hover: hover) {
   .zine-title a:hover,
   .zine-title a:hover img {
     transform: none;
-    filter: contrast(1.12);
+    filter: none;
+    color: #fff;
   }
 }
 .zine-masthead::after { display: none; }
@@ -1063,7 +1071,7 @@ body.surface-acetate.has-station-bumper {
   opacity: .2;
 }
 .news-page .station-bumper--acetate .station-bumper__ambient::after {
-  background: linear-gradient(180deg, rgba(237,230,214,.18) 0%, var(--zine-paper) 78%);
+  background: linear-gradient(180deg, rgba(247,245,241,.18) 0%, var(--zine-paper) 78%);
 }
 .news-page .station-bumper__brand { display: none; }
 .news-page .station-bumper__crumbs {
