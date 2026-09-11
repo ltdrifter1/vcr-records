@@ -13,7 +13,7 @@ Station bumper (`css/station-bumper.css`) is the shared page entrance — brand 
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
 - Site: Background `#F7F5F1` · Ink `#111111` · Night ground `#0a0a0c`
-- Xerox paper `#EDE6D6` · ink `#12110E` · acid lime `#C6FF1A` · dirty red `#E11D48`
+- Night Shift paper `#F7F5F1` · ink `#111111` · acid lime `#C6FF1A` · dirty red `#E11D48`
 - Type: Space Grotesk + Oswald callsigns on the shop; Barlow Condensed + Archivo on Night Shift
 
 ## Commerce
