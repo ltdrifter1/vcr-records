@@ -122,8 +122,8 @@
       place-items: center;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 56% 42% at 64% 46%, rgba(255,255,255,.92), transparent 62%),
-        radial-gradient(ellipse 80% 55% at 28% 8%, rgba(232, 240, 248, .9), transparent 58%),
+        radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
+        radial-gradient(ellipse 80% 55% at 72% 8%, rgba(232, 240, 248, .9), transparent 58%),
         linear-gradient(180deg, #eef3f7 0%, #d5e0ea 38%, #c5d2dc 72%, #b4c2d0 100%);
       color: var(--hero-ink);
       isolation: isolate;
@@ -227,8 +227,8 @@
     .hero-scene {
       position: relative;
       display: grid;
-      grid-template-columns: var(--disc) var(--ipod-w);
-      grid-template-areas: "vinyl booth";
+      grid-template-columns: var(--ipod-w) var(--disc);
+      grid-template-areas: "booth vinyl";
       align-items: end;
       justify-content: center;
       column-gap: clamp(28px, 3.4vw, 40px);
@@ -1752,8 +1752,8 @@
       .hero-scene {
         grid-template-columns: 1fr;
         grid-template-areas:
-          "vinyl"
-          "booth";
+          "booth"
+          "vinyl";
         justify-items: center;
         column-gap: 0;
         row-gap: 20px;
@@ -1958,13 +1958,6 @@
           <h1 class="hero-lockup-title"><a href="/desire">Desire</a></h1>
         </header>
         <div class="hero-scene">
-          <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
-            <span class="hero-vinyl-board">
-              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
-              <span class="hero-vinyl-sheen" aria-hidden="true"></span>
-            </span>
-            <span class="hero-vinyl-mirror" aria-hidden="true"></span>
-          </a>
         <div class="hero-booth">
           <span class="hero-lcd-bloom" aria-hidden="true"></span>
         <div class="hero-platter">
@@ -2026,6 +2019,13 @@
         </div>
         <span class="hero-ipod-mirror" aria-hidden="true"></span>
         </div>
+          <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
+            <span class="hero-vinyl-board">
+              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
+              <span class="hero-vinyl-sheen" aria-hidden="true"></span>
+            </span>
+            <span class="hero-vinyl-mirror" aria-hidden="true"></span>
+          </a>
         </div>
       </div>
     </div>
