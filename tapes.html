@@ -3,28 +3,25 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>The Tapes — Club Copy</title>
-  <meta name="description" content="The Tapes: Club Copy mixtapes. Browse and listen. Drop a file in /tapes and the desk plays it."/>
-  <meta name="theme-color" content="#F7F5F1"/>
+  <title>Mixtapes — Club Copy</title>
+  <meta name="description" content="Club Copy mixtapes. L.T. Drifta — mixtape (instrumental version), CC024."/>
+  <meta name="theme-color" content="#d4dee8"/>
   <link rel="canonical" href="https://www.clubcopy.ca/tapes"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Club Copy"/>
-  <meta property="og:title" content="The Tapes — Club Copy"/>
-  <meta property="og:description" content="C90s for the ride home. Browse and listen."/>
+  <meta property="og:title" content="Mixtapes — Club Copy"/>
+  <meta property="og:description" content="L.T. Drifta — mixtape (instrumental version). CC024."/>
   <meta property="og:url" content="https://www.clubcopy.ca/tapes"/>
   <meta property="og:image" content="https://www.clubcopy.ca/mixtape-cover.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,600;0,100,700;1,100,400&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css"/>
-  <link rel="stylesheet" href="css/news.css"/>
-  <style>
-    body.news-listing { background: #F7F5F1; }
-  </style>
+  <link rel="stylesheet" href="css/mixtapes.css"/>
 </head>
-<body id="top" class="news-listing nav-on-dark">
+<body id="top" class="mixtapes-page nav-on-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -35,7 +32,7 @@
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/news">Zine</a>
-      <a href="/tapes" aria-current="page">Tapes</a>
+      <a href="/tapes" aria-current="page">Mixtapes</a>
       <a href="/merch">Shop</a>
       <a href="/#join">Join</a>
       <a href="/contact">Contact</a>
@@ -61,48 +58,41 @@
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/news">Zine</a>
-  <a href="/tapes">Tapes</a>
+  <a href="/tapes">Mixtapes</a>
   <a href="/merch">Shop</a>
   <a href="/#join">Join</a>
   <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>
 
-<main id="main" class="news-index">
-  <div class="zine-sheet">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a><span>/</span>The Tapes
-    </nav>
-    <header class="zine-masthead">
-      <div class="zine-nameplate">
-        <p class="zine-issue">vol. xxii · vancouver</p>
-        <p class="zine-stamp">c90</p>
-      </div>
-      <h1 class="zine-title" id="tapes-title">
-        <span class="zine-logo"><span class="zine-logo-night">The</span><span class="zine-logo-shift">Tapes</span></span>
-      </h1>
-      <p class="zine-credit">club copy</p>
-      <p class="zine-tagline">c90s for the ride home. drop mix.mp3 and cover.webp in /tapes/01–04.</p>
+<main id="main">
+  <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
+    <div class="mixtapes-band">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span>Mixtapes
+      </nav>
+      <header class="mixtapes-head">
+        <h1 id="mixtapes-title">Mixtapes</h1>
+      </header>
       <p class="tapes-now" data-tapes-now hidden></p>
-    </header>
-    <div class="tapes-grid" data-tapes-grid>
-      <article class="tape" data-tape="01">
-        <div class="tape-sleeve"><img src="mixtape-cover.webp" alt="mixtape (instrumental version) — L.T. Drifta" width="1400" height="1400"/></div>
-        <div>
-          <p class="tape-kicker">CC024 · vol. 01</p>
-          <h2 class="tape-title">mixtape (instrumental version)</h2>
-          <em class="tape-dj">L.T. Drifta</em>
-          <p class="tape-spec zine-spec"><span>2026</span><span>48:00</span><span>CC024</span></p>
-          <p class="tape-dek">Fifteen instrumentals. The house after they think they’re done.</p>
-          <div class="tape-actions">
-            <button type="button" class="tape-play" data-tape-play="tapes/01/mix.mp3" data-tape-id="01" data-tape-title="mixtape (instrumental version)" data-tape-dj="L.T. Drifta">play</button>
-            <a class="tape-link" href="/mixtape">sleeve →</a>
+      <div class="tapes-grid" data-tapes-grid>
+        <article class="mix-card tape" data-tape="01">
+          <div class="tape-sleeve mix-sleeve"><img src="mixtape-cover.webp" alt="mixtape (instrumental version) — L.T. Drifta" width="1400" height="1400"/></div>
+          <div class="mix-body">
+            <p class="mix-lcd">CC024</p>
+            <h2 class="tape-title mix-title">mixtape (instrumental version)</h2>
+            <em class="tape-dj">L.T. Drifta</em>
+            <p class="tape-spec"><span>2026</span><span>48:00</span></p>
+            <p class="tape-dek">15 tracks. Instrumental hip-hop. Digital, $9 CAD.</p>
+            <div class="tape-actions">
+              <button type="button" class="tape-play" data-tape-play="tapes/01/mix.mp3" data-tape-id="01" data-tape-title="mixtape (instrumental version)" data-tape-dj="L.T. Drifta">play</button>
+              <a class="tape-link" href="/mixtape">release</a>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </div>
-    <p class="tapes-note">placeholders until the files land · <a href="/news">night shift</a> · <a href="/#join">record club</a></p>
-  </div>
+  </section>
 </main>
 
 <footer class="footer">
@@ -113,7 +103,7 @@
         <a href="/#listen">Listen</a>
         <a href="/library">Library</a>
         <a href="/news">Zine</a>
-        <a href="/tapes">Tapes</a>
+        <a href="/tapes">Mixtapes</a>
         <a href="/merch">Shop</a>
         <a href="/contact">Contact</a>
       </div>

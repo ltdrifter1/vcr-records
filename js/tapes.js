@@ -1,4 +1,4 @@
-/* The Tapes — Night Shift crate. Play files from /tapes when they exist. */
+/* Mixtapes — play files from /tapes when they exist. */
 (function () {
   "use strict";
 
@@ -14,6 +14,14 @@
     if (!src) return src;
     if (/^https?:\/\//.test(src) || src.charAt(0) === "/") return src;
     return /\/news\/[^/]+/.test(location.pathname) ? "../" + src : src;
+  }
+
+  function esc(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function loadList(cb) {
@@ -61,7 +69,7 @@
     document.querySelectorAll('.tape-play[data-tape-id="' + id + '"]').forEach(function (btn) {
       btn.classList.add("is-pending");
       btn.disabled = true;
-      btn.textContent = "file pending";
+      btn.textContent = "unavailable";
     });
   }
 
@@ -76,7 +84,7 @@
   function stampNow(title, dj) {
     if (!nowEl) return;
     nowEl.hidden = false;
-    nowEl.textContent = "now playing · " + title + " · " + dj;
+    nowEl.textContent = title + " — " + dj;
   }
 
   function playTape(btn) {
@@ -117,6 +125,58 @@
     });
   }
 
+  function cardHtml(t) {
+    var sleeve = t._hasCover
+      ? '<div class="tape-sleeve mix-sleeve"><img src="' +
+        esc(t._cover) +
+        '" alt="' +
+        esc(t.title) +
+        " — " +
+        esc(t.dj) +
+        '" width="1400" height="1400" loading="lazy"/></div>'
+      : '<div class="tape-sleeve tape-sleeve--blank" aria-hidden="true"></div>';
+    var play = t._hasAudio
+      ? '<button type="button" class="tape-play" data-tape-play="' +
+        esc(t._audio) +
+        '" data-tape-id="' +
+        esc(t.id) +
+        '" data-tape-title="' +
+        esc(t.title) +
+        '" data-tape-dj="' +
+        esc(t.dj) +
+        '">play</button>'
+      : "";
+    var link = t.page
+      ? '<a class="tape-link" href="' + esc(t.page) + '">release</a>'
+      : "";
+    return (
+      '<article class="mix-card tape" data-tape="' +
+      esc(t.id) +
+      '">' +
+      sleeve +
+      '<div class="mix-body">' +
+      '<p class="mix-lcd">' +
+      esc(t.cat) +
+      "</p>" +
+      '<h3 class="tape-title mix-title">' +
+      esc(t.title) +
+      "</h3>" +
+      '<em class="tape-dj">' +
+      esc(t.dj) +
+      "</em>" +
+      '<p class="tape-spec"><span>' +
+      esc(t.year) +
+      "</span><span>" +
+      esc(t.runtime) +
+      "</span></p>" +
+      (t.dek ? '<p class="tape-dek">' + esc(t.dek) + "</p>" : "") +
+      '<div class="tape-actions">' +
+      play +
+      link +
+      "</div></div></article>"
+    );
+  }
+
   function hydrate() {
     nowEl = $("[data-tapes-now]");
     var grid = $("[data-tapes-grid]");
@@ -142,66 +202,14 @@
           });
         })
       ).then(function (ready) {
-        grid.innerHTML = ready
-          .map(function (t) {
-            var sleeve = t._hasCover
-              ? '<div class="tape-sleeve"><img src="' +
-                t._cover +
-                '" alt="' +
-                t.title +
-                '" width="1400" height="1400" loading="lazy"/></div>'
-              : '<div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">' +
-                t.vol +
-                "</div>";
-            var play = t._hasAudio
-              ? '<button type="button" class="tape-play" data-tape-play="' +
-                t._audio +
-                '" data-tape-id="' +
-                t.id +
-                '" data-tape-title="' +
-                t.title +
-                '" data-tape-dj="' +
-                t.dj +
-                '">play</button>'
-              : '<button type="button" class="tape-play is-pending" disabled>file pending</button>';
-            var link =
-              t.page && t.page !== "/tapes"
-                ? '<a class="tape-link" href="' + t.page + '">sleeve →</a>'
-                : "";
-            return (
-              '<article class="tape" data-tape="' +
-              t.id +
-              '">' +
-              sleeve +
-              "<div>" +
-              '<p class="tape-kicker">' +
-              t.cat +
-              " · vol. " +
-              t.vol +
-              "</p>" +
-              '<h3 class="tape-title">' +
-              t.title +
-              "</h3>" +
-              '<em class="tape-dj">' +
-              t.dj +
-              "</em>" +
-              '<p class="tape-spec zine-spec"><span>' +
-              t.year +
-              "</span><span>" +
-              t.runtime +
-              "</span><span>" +
-              t.cat +
-              "</span></p>" +
-              '<p class="tape-dek">' +
-              t.dek +
-              "</p>" +
-              '<div class="tape-actions">' +
-              play +
-              link +
-              "</div></div></article>"
-            );
-          })
-          .join("");
+        var live = ready.filter(function (t) {
+          return t._hasCover || t._hasAudio || t.page === "/mixtape";
+        });
+        if (!live.length) {
+          bind();
+          return;
+        }
+        grid.innerHTML = live.map(cardHtml).join("");
         bind(grid);
       });
     });
