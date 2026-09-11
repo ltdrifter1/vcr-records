@@ -2403,10 +2403,21 @@ body.archive-release .modal-close { color: #8e8e93; }
 
 /* Mobile ------------------------------------------------------------------- */
 @media (max-width: 959px) {
-  .ra-hero { min-height: 0; padding-top: calc(var(--nav-h, 64px) + 16px); }
+  .ra-hero { min-height: 0; padding-top: calc(var(--nav-h, 64px) + 16px); padding-bottom: 28px; }
   .ra-hero-info { padding: 0; }
   .ra-hero-title { font-size: clamp(36px, 11vw, 56px); }
+  .ra-hero-ctas { margin-bottom: 12px; }
   .ra-hero-ctas .btn { flex: 1 1 100%; }
+  .ra-cover { width: min(480px, 74vw); }
+  .ra-stage { padding-bottom: 6%; }
+  .ra-reflect { height: 16%; opacity: .26; }
+  @supports (-webkit-box-reflect: below) {
+    .ra-cover,
+    .ra-cassette,
+    .ra-vinyl {
+      -webkit-box-reflect: below 6px linear-gradient(to bottom, transparent 58%, rgba(255,255,255,.22));
+    }
+  }
   .ra-deck { padding: 12px 10px 10px; }
   .ra-stereo { grid-template-columns: 1fr; }
   .ra-stereo-speaker { display: none; }
