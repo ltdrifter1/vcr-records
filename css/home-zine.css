@@ -708,21 +708,31 @@ body.home-zine .desk-folio-meta {
   color: rgba(247, 245, 241, .55);
 }
 
-/* Artists — contact sheet ------------------------------------------------ */
+/* Artists — closing contact sheet ---------------------------------------- */
 body.home-zine .home-artists {
   background: var(--zine-paper);
   color: var(--zine-ink);
+  border-top: 4px solid var(--zine-ink);
+  padding-bottom: 64px;
 }
 body.home-zine .home-artists-bridge {
-  height: 28px;
-  background: linear-gradient(180deg, #111 0%, var(--zine-paper) 100%);
+  height: 0;
+  background: none;
 }
 body.home-zine .home-roster {
   gap: 0;
   border-top: 1px solid var(--zine-ink);
 }
 @media (min-width: 800px) {
-  body.home-zine .home-roster { gap: 0; }
+  body.home-zine .home-roster {
+    gap: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  body.home-zine .home-roster {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 body.home-zine .home-artist {
   border-radius: 0;
@@ -735,6 +745,10 @@ body.home-zine .home-artist {
   body.home-zine .home-artist {
     border-right: 1px solid var(--zine-ink);
   }
+  body.home-zine .home-artist:nth-child(2n) { border-right: 0; }
+}
+@media (min-width: 1100px) {
+  body.home-zine .home-artist:nth-child(2n) { border-right: 1px solid var(--zine-ink); }
   body.home-zine .home-artist:last-child { border-right: 0; }
 }
 @media (hover: hover) {
@@ -813,6 +827,80 @@ body.home-zine .news-bridge {
 }
 body.home-zine .news.zine {
   border-top: 4px solid var(--zine-ink);
+}
+
+/* Mixtapes — same paper as the rest of the issue ------------------------- */
+body.home-zine .mixtapes {
+  --mix-ink: var(--zine-ink);
+  --mix-muted: var(--zine-muted);
+  --mix-lcd: var(--zine-magenta);
+  --mix-lcd-ink: var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  border-top: 1px solid var(--zine-ink);
+  padding-bottom: 40px;
+}
+body.home-zine .mixtapes::before { display: none; }
+body.home-zine .mixtapes-bridge { height: 0; background: none; }
+body.home-zine .mixtapes-head {
+  border-bottom: 1px solid var(--zine-ink);
+  padding-bottom: 12px;
+}
+body.home-zine .mixtapes-head h2,
+body.home-zine #mixtapes-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  font-size: clamp(40px, 7vw, 72px);
+  line-height: .88;
+  color: var(--zine-ink);
+}
+body.home-zine .mixtapes-head-link {
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+  border-radius: 0;
+}
+body.home-zine .mix-card,
+body.home-zine .mixtapes .tape {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  box-shadow: none;
+}
+body.home-zine .mix-lcd,
+body.home-zine .tape-kicker {
+  font-family: var(--zine-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-magenta);
+  background: none;
+}
+body.home-zine .mix-title,
+body.home-zine .tape-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.03em;
+  color: var(--zine-ink);
+}
+body.home-zine .tape-play,
+body.home-zine .tape-link {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  font-family: var(--zine-gothic);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+body.home-zine .tape-link {
+  background: transparent;
 }
 
 /* Footer on paper -------------------------------------------------------- */
