@@ -2451,7 +2451,7 @@
           <div class="club-join-copy">
             <header class="club-join-head">
               <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
-              <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
+              <p class="club-join-dek">Three levels, same form. Free drops emails. Club is $5/year and 30% off. Premium is from $10/year — 50% off plus cassette credit.</p>
             </header>
 
             <div class="join-member-home" id="joinMemberHome" hidden>
@@ -2466,19 +2466,19 @@
             </div>
 
             <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
-              <button type="button" class="join-level" data-level="free" role="radio" aria-checked="true">
+              <button type="button" class="join-level" data-level="free" role="radio" aria-checked="false">
                 <span class="join-level-dot" aria-hidden="true"></span>
                 <span>
                   <span class="join-level-name">Free</span>
-                  <span class="join-level-blurb">Emails when we release something. Listen on the site.</span>
+                  <span class="join-level-blurb">Drop emails</span>
                 </span>
                 <span class="join-level-price">$0</span>
               </button>
-              <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
+              <button type="button" class="join-level is-recommended" data-level="club" role="radio" aria-checked="true">
                 <span class="join-level-dot" aria-hidden="true"></span>
                 <span>
-                  <span class="join-level-name">Club</span>
-                  <span class="join-level-blurb">30% off all music — digital, cassette, vinyl.</span>
+                  <span class="join-level-name">Club <em class="join-level-rec">recommended</em></span>
+                  <span class="join-level-blurb">$5/yr · 30% off</span>
                 </span>
                 <span class="join-level-price">$5/year</span>
               </button>
@@ -2486,7 +2486,7 @@
                 <span class="join-level-dot" aria-hidden="true"></span>
                 <span>
                   <span class="join-level-name">Premium</span>
-                  <span class="join-level-blurb">50% off all music. Credit toward cassettes.</span>
+                  <span class="join-level-blurb">from $10/yr · 50% off + cassette credit</span>
                 </span>
                 <span class="join-level-price">from $10/year</span>
               </button>
@@ -2526,8 +2526,8 @@
                 </p>
               </div>
 
-              <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join free</button>
-              <p class="club-join-note" id="joinNote">We'll email you. You can upgrade later.</p>
+              <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join for $5 a year</button>
+              <p class="club-join-note" id="joinNote">30% off all music. Renews once a year.</p>
               <p class="club-join-status" id="joinStatus" role="status" hidden></p>
             </div>
           </div>
@@ -2747,8 +2747,20 @@
     var premiumPresets = document.querySelectorAll('.premium-preset');
     if (!joinBtn || !levelBtns.length) return;
 
-    var state = { level: 'free', premiumDollars: 10 };
+    var state = { level: 'club', premiumDollars: 10 };
     var collectors = document.getElementById('joinCollectors');
+
+    function planFromLocation() {
+      try {
+        var raw = (new URLSearchParams(location.search).get('plan') ||
+          new URLSearchParams(location.search).get('level') || '').toLowerCase();
+        if (raw === 'free' || raw === 'club' || raw === 'premium') return raw;
+      } catch (e) {}
+      return '';
+    }
+
+    var urlPlan = planFromLocation();
+    if (urlPlan) state.level = urlPlan;
 
     function memberNumber(email) {
       var s = String(email || 'guest').trim().toLowerCase();
@@ -2911,10 +2923,27 @@
       });
     }
 
+    function applyLevel(level) {
+      if (!level) return;
+      state.level = level;
+      levelBtns.forEach(function (b) {
+        b.setAttribute('aria-checked', b.getAttribute('data-level') === level ? 'true' : 'false');
+      });
+      syncJoin();
+    }
+
     window.addEventListener('club:member', function () {
       if (!managing) syncMemberView();
     });
     syncMemberView();
+
+    if (urlPlan) {
+      var urlProfile = window.ClubMember && ClubMember.readProfile();
+      if (!urlProfile || urlProfile.level === 'free') {
+        if (urlProfile && urlProfile.level === 'free') showJoinIntake(urlProfile);
+        applyLevel(urlPlan);
+      }
+    }
 
     function showStatus(msg, isError) {
       joinStatus.hidden = false;

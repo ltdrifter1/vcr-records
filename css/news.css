@@ -953,6 +953,9 @@ a.zine-post:first-child .zine-post-title {
   outline-offset: 2px;
   box-shadow: none;
 }
+.zine-club .join-level.is-recommended {
+  box-shadow: inset 3px 0 0 var(--zine-stamp);
+}
 .zine-club .join-level[aria-checked="true"] {
   background: var(--zine-ink);
   color: var(--zine-paper);
@@ -960,6 +963,9 @@ a.zine-post:first-child .zine-post-title {
   box-shadow: none;
   padding-left: 10px;
   padding-right: 10px;
+}
+.zine-club .join-level.is-recommended[aria-checked="true"] {
+  box-shadow: inset 3px 0 0 var(--zine-stamp);
 }
 .zine-club .join-level-dot {
   width: 10px;
@@ -990,7 +996,10 @@ a.zine-post:first-child .zine-post-title {
   color: var(--zine-stamp);
 }
 .zine-club .join-level-name {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
   font-family: var(--zine-display);
   font-size: 18px;
   font-weight: 800;
@@ -998,6 +1007,23 @@ a.zine-post:first-child .zine-post-title {
   text-transform: uppercase;
   margin: 0 0 2px;
   color: inherit;
+}
+.zine-club .join-level-rec {
+  display: inline-block;
+  font-family: var(--zine-mono);
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-transform: uppercase;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  padding: 3px 5px 2px;
+}
+.zine-club .join-level[aria-checked="true"] .join-level-rec {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
 }
 .zine-club .join-level-blurb {
   display: block;
