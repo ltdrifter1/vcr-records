@@ -4,17 +4,12 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 ## Design
 
-Warm ground + chrome-glass Y2K. Shared tokens in `css/site.css`.
-Night continuum (`css/surface-night.css`) for music path: Home, Library, Artists, About.
-The zine (`css/news.css`) is Night Shift: a contemporary underground electronic magazine on site paper — Barlow Condensed display, Archivo body, fluorescent lime. Evening-edition house gossip: the floor, the fit, the afters, the ritual.
-`/news` is the live front (cover, the wire, tonight’s record, letters). Stories stay on Night Shift paper — no station bumper.
-Acetate continuum (`css/surface-acetate.css`) for utility/read: Contact, Shipping, Cart, merch PDPs. News articles sit on the zine paper.
-Station bumper (`css/station-bumper.css`) is the shared page entrance — brand lockup first.
+Night Shift paper across the site. Homepage art direction in `css/home-zine.css`; every interior page loads `css/zine-pages.css` (`body.zine-surface`) so Library, Artists, Shop, releases, About, and utility pages share the same issue: paper, condensed display, hard rules, lime stamps.
+The zine (`css/news.css`) is the evening paper — Barlow Condensed display, Archivo body, fluorescent lime. `/news` is the live front.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
-- Site: Background `#F7F5F1` · Ink `#111111` · Night ground `#0a0a0c`
-- Night Shift paper `#F7F5F1` · ink `#111111` · acid lime `#C6FF1A`
-- Type: Space Grotesk + Oswald callsigns on the shop; Barlow Condensed + Archivo on Night Shift
+- Paper `#F7F5F1` · Ink `#111111` · Acid lime `#C6FF1A` · Magenta kickers `#E11D48`
+- Type: Barlow Condensed display · Archivo body · IBM Plex Mono specs · Oswald gothic nav
 
 ## Commerce
 
