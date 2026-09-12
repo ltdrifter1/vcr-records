@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="description" content="Club Copy — DESIRE and Still Riding (Molly Haze Edit) out now. Pacific Northwest house, jungle, and instrumental hip-hop. Small library. Long shelf life. Listen, collect, join the Record Club."/>
-  <meta name="theme-color" content="#4C5159"/>
+  <meta name="theme-color" content="#F7F5F1"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="format-detection" content="telephone=no"/>
@@ -1516,18 +1516,15 @@
       .wall-item.is-now-playing.is-audible .wall-art::before { animation: none; }
     }
 
-    /* Home artists — ice roster after mixtapes ---------------------------- */
+    /* Home artists — closing contact sheet -------------------------------- */
     .home-artists {
       position: relative;
       padding: 0 0 56px;
-      color: #1A1E26;
-      background:
-        radial-gradient(720px 360px at 88% 100%, rgba(186,204,224,.22), transparent 55%),
-        linear-gradient(180deg, #eef3f7 0%, #E6EAEF 100%);
+      color: #111111;
+      background: #F7F5F1;
     }
     .home-artists-bridge {
-      height: 36px;
-      background: linear-gradient(180deg, #eef3f7 0%, transparent 100%);
+      height: 0;
       pointer-events: none;
     }
     @media (min-width: 800px) {
@@ -1566,8 +1563,13 @@
     }
     @media (min-width: 800px) {
       .home-roster {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+      }
+    }
+    @media (min-width: 1100px) {
+      .home-roster {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
     .home-artist {
@@ -1884,8 +1886,9 @@
     }
   </style>
   <link rel="stylesheet" href="css/home-zine.css"/>
+  <link rel="stylesheet" href="css/zine-pages.css"/>
 </head>
-<body id="top" class="hero-top nav-light home-zine">
+<body id="top" class="hero-top nav-light home-zine zine-surface">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -2143,57 +2146,6 @@
     </div>
   </section>
 
-  <!-- Artists -->
-  <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
-    <div class="home-artists-bridge" aria-hidden="true"></div>
-    <div class="band">
-      <header class="section-head home-artists-head rv">
-        <div>
-          <h2 id="home-artists-title">Artists</h2>
-        </div>
-        <a class="head-link" href="/artists">View all</a>
-      </header>
-      <div class="home-roster">
-        <a class="home-artist rv" href="/artists/riscape">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/riscape.webp" alt="Riscape" width="1086" height="1448" loading="lazy" class="is-field"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Artist</p>
-            <h3 class="home-artist-name">Riscape</h3>
-            <span class="genre-tag">House</span>
-            <p class="home-artist-dek">You Are (Love). Cassette pre-order only.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
-        <a class="home-artist rv" href="/artists/molly-haze">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/molly-haze.webp" alt="Molly Haze" width="1254" height="1254" loading="lazy"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Artist</p>
-            <h3 class="home-artist-name">Molly Haze</h3>
-            <span class="genre-tag">House</span>
-            <p class="home-artist-dek">Gorilla (Molly’s Hazy Edit). Out now.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
-        <a class="home-artist rv" href="/artists/lt-drifta">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/lt-drifta.webp" alt="L.T. Drifta" width="1672" height="941" loading="lazy" class="is-wide"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Producer</p>
-            <h3 class="home-artist-name">L.T. Drifta</h3>
-            <span class="genre-tag">Jungle</span>
-            <p class="home-artist-dek">mixtape (instrumental version). Out now.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- Night Shift — Club Copy zine. Late-90s underground magazine on newsprint. CSS in news.css -->
   <section class="news zine" id="news" aria-labelledby="news-title">
     <div class="news-bridge" aria-hidden="true"></div>
@@ -2249,12 +2201,12 @@
         <figure class="zine-polaroid">
           <span class="zine-tape" aria-hidden="true"></span>
           <img src="artists/riscape.webp" alt="Riscape" width="1086" height="1448" loading="lazy"/>
-          <figcaption>Athens. Conservatory piano, then the rooms that empty at 7am.</figcaption>
+          <figcaption>The new sound of the greek underground.</figcaption>
         </figure>
         <div>
           <p class="zine-kicker">cover · from athens · artist</p>
           <h3 class="zine-headline"><a href="/news/riscape-on-club-copy">Riscape</a></h3>
-          <p class="zine-dek">Athens house. Conservatory piano, then the rooms that empty at 7am.</p>
+          <p class="zine-dek">The new sound of the greek underground.</p>
           <p class="zine-byline">posted by cj archer · 04 aug 26</p>
           <p class="zine-spec"><span>athens</span><span>house</span><span>signed 26</span></p>
           <p class="zine-pull">The records are for late rooms, not a postcard of Athens.</p>
@@ -2566,6 +2518,70 @@
     </div>
 
     <div class="news-bridge news-bridge--out" aria-hidden="true"></div>
+  </section>
+
+  <!-- Artists — closing folio -->
+  <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
+    <div class="home-artists-bridge" aria-hidden="true"></div>
+    <div class="band">
+      <header class="section-head home-artists-head rv">
+        <div>
+          <p class="eyebrow">roster</p>
+          <h2 id="home-artists-title">Artists</h2>
+        </div>
+        <a class="head-link" href="/artists">View all</a>
+      </header>
+      <div class="home-roster">
+        <a class="home-artist rv" href="/artists/molly-haze">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/molly-haze.webp" alt="Molly Haze" width="1254" height="1254" loading="lazy"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Artist</p>
+            <h3 class="home-artist-name">Molly Haze</h3>
+            <span class="genre-tag">House</span>
+            <p class="home-artist-dek">Gorilla (Molly’s Hazy Edit). Out now.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+        <a class="home-artist rv" href="/artists/rosco">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/rosco.webp" alt="Rosco" width="800" height="1000" loading="lazy"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Artist</p>
+            <h3 class="home-artist-name">Rosco</h3>
+            <span class="genre-tag">House</span>
+            <p class="home-artist-dek">Bridget In My Room. Out now.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+        <a class="home-artist rv" href="/artists/lt-drifta">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/lt-drifta.webp" alt="L.T. Drifta" width="1672" height="941" loading="lazy" class="is-wide"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Producer</p>
+            <h3 class="home-artist-name">L.T. Drifta</h3>
+            <span class="genre-tag">Jungle</span>
+            <p class="home-artist-dek">mixtape (instrumental version). Out now.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+        <a class="home-artist rv" href="/artists/riscape">
+          <div class="home-artist-photo fx-spec">
+            <img src="artists/riscape.webp" alt="Riscape" width="1086" height="1448" loading="lazy" class="is-field"/>
+          </div>
+          <div class="home-artist-meta">
+            <p class="home-artist-role">Artist</p>
+            <h3 class="home-artist-name">Riscape</h3>
+            <span class="genre-tag">House</span>
+            <p class="home-artist-dek">You Are (Love). Cassette pre-order only.</p>
+            <span class="home-artist-go">More</span>
+          </div>
+        </a>
+      </div>
+    </div>
   </section>
 
 </main>

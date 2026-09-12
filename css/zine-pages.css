@@ -1,0 +1,1131 @@
+/* ==========================================================================
+   Club Copy — interior pages on the homepage Night Shift surface
+   Paper, condensed type, hard rules, lime stamps. Loaded last.
+   ========================================================================== */
+
+body.zine-surface {
+  --zine-paper: #F7F5F1;
+  --zine-paper-2: #EEECE7;
+  --zine-ink: #111111;
+  --zine-muted: #5F636B;
+  --zine-dim: #727780;
+  --zine-rule: rgba(17, 17, 17, .18);
+  --zine-stamp: #C6FF1A;
+  --zine-magenta: var(--zine-muted);
+  --zine-display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
+  --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --zine-gothic: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
+  --zine-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --bg: var(--zine-paper);
+  --card: #fff;
+  --soft: var(--zine-paper-2);
+  --ink: var(--zine-ink);
+  --muted: var(--zine-muted);
+  --dim: var(--zine-dim);
+  --line: var(--zine-rule);
+  --radius: 0;
+  --radius-lg: 0;
+  --bezel-r: 0;
+  --pill: 0;
+  --display: var(--zine-display);
+  --sans: var(--zine-body);
+  --callsign: var(--zine-gothic);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  color-scheme: light;
+  font-family: var(--zine-body);
+}
+
+@media (hover: hover) {
+  body.zine-surface .zine-headline a:hover,
+  body.zine-surface a.zine-post:hover .zine-post-title,
+  body.zine-surface .zine-scene a:hover strong,
+  body.zine-surface .zine-flyer:hover strong,
+  body.zine-surface .zine-desk a:hover strong,
+  body.zine-surface .zine-also-list a:hover strong {
+    color: var(--zine-ink);
+    background-image: none;
+  }
+}
+
+/* Chrome — masthead, drawer, footer -------------------------------------- */
+body.zine-surface .nav,
+body.zine-surface .nav.scrolled,
+body.zine-surface.hero-top .nav,
+body.zine-surface.hero-top .nav.scrolled,
+body.zine-surface.surface-night .nav,
+body.zine-surface.surface-night .nav.scrolled,
+body.zine-surface.archive-release .nav,
+body.zine-surface.archive-release .nav.scrolled,
+body.zine-surface.shop-page .nav,
+body.zine-surface.shop-page .nav.scrolled,
+body.zine-surface.news-listing .nav,
+body.zine-surface.news-listing .nav.scrolled,
+body.zine-surface.surface-acetate .nav,
+body.zine-surface.surface-acetate .nav.scrolled,
+body.zine-surface.has-station-bumper .nav,
+body.zine-surface.has-station-bumper .nav.scrolled {
+  background: var(--zine-paper);
+  border-bottom: 1px solid var(--zine-ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.zine-surface .nav-logo img,
+body.zine-surface.hero-top .nav-logo img,
+body.zine-surface.shop-page .nav-logo img,
+body.zine-surface.nav-on-dark .nav-logo img,
+body.zine-surface.surface-night .nav-logo img,
+body.zine-surface.archive-release .nav-logo img {
+  filter: none;
+}
+body.zine-surface .nav-links a,
+body.zine-surface.hero-top .nav-links a,
+body.zine-surface.surface-night .nav-links a,
+body.zine-surface.archive-release .nav-links a,
+body.zine-surface.shop-page .nav-links a,
+body.zine-surface.news-listing .nav-links a {
+  color: var(--zine-ink);
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 6px 9px;
+  background: transparent;
+}
+body.zine-surface .nav-links a[aria-current="page"],
+body.zine-surface .nav-links a:hover,
+body.zine-surface.surface-night .nav-links a[aria-current="page"],
+body.zine-surface.surface-night .nav-links a:hover,
+body.zine-surface.archive-release .nav-links a[aria-current="page"],
+body.zine-surface.archive-release .nav-links a:hover,
+body.zine-surface.shop-page .nav-links a[aria-current="page"],
+body.zine-surface.shop-page .nav-links a:hover {
+  color: var(--zine-ink);
+  background: var(--zine-stamp);
+}
+body.zine-surface .nav-ham span,
+body.zine-surface.surface-night .nav-ham span,
+body.zine-surface.archive-release .nav-ham span,
+body.zine-surface.shop-page .nav-ham span {
+  background: var(--zine-ink);
+}
+body.zine-surface .nav-cart,
+body.zine-surface.surface-night .nav-cart,
+body.zine-surface.archive-release .nav-cart,
+body.zine-surface.shop-page .nav-cart {
+  color: var(--zine-ink);
+  background: none;
+}
+body.zine-surface .nav-cart-count,
+body.zine-surface.surface-night .nav-cart-count,
+body.zine-surface.archive-release .nav-cart-count,
+body.zine-surface.shop-page .nav-cart-count {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border-radius: 0;
+}
+body.zine-surface .nav-drawer,
+body.zine-surface.surface-night .nav-drawer,
+body.zine-surface.archive-release .nav-drawer,
+body.zine-surface.shop-page .nav-drawer {
+  background: var(--zine-paper);
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .nav-drawer a,
+body.zine-surface.surface-night .nav-drawer a,
+body.zine-surface.archive-release .nav-drawer a,
+body.zine-surface.shop-page .nav-drawer a {
+  color: var(--zine-ink);
+  font-family: var(--zine-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  border-bottom-color: var(--zine-rule);
+}
+
+body.zine-surface .footer,
+body.zine-surface.hero-top .footer,
+body.zine-surface.surface-night .footer,
+body.zine-surface.archive-release .footer,
+body.zine-surface.shop-page .footer {
+  background: var(--zine-paper);
+  color: var(--zine-muted);
+  border-top: 1px solid var(--zine-ink);
+}
+body.zine-surface .footer-top,
+body.zine-surface.surface-night .footer-top {
+  box-shadow: none;
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .footer-top::after { display: none; }
+body.zine-surface .footer-logo,
+body.zine-surface.archive-release .footer-logo,
+body.zine-surface.surface-night .footer-logo {
+  filter: none;
+  opacity: .9;
+}
+body.zine-surface .footer-manifesto,
+body.zine-surface .footer-copy,
+body.zine-surface .footer-links a,
+body.zine-surface .footer-note,
+body.zine-surface .footer label,
+body.zine-surface.surface-night .footer-copy,
+body.zine-surface.surface-night .footer-links a,
+body.zine-surface.archive-release .footer,
+body.zine-surface.archive-release .footer a,
+body.zine-surface.archive-release .footer p {
+  color: var(--zine-muted);
+}
+@media (hover: hover) {
+  body.zine-surface .footer-links a:hover,
+  body.zine-surface.surface-night .footer-links a:hover {
+    background: var(--zine-stamp);
+    color: var(--zine-ink);
+  }
+}
+body.zine-surface .footer-form input,
+body.zine-surface.surface-night .footer-form input,
+body.zine-surface.archive-release .footer-form input,
+body.zine-surface.shop-page .footer-form input[type="email"] {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: #fff;
+  color: var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface .footer-form button,
+body.zine-surface.surface-night .footer-form button,
+body.zine-surface.archive-release .footer-form button {
+  border-radius: 0;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border: 1px solid var(--zine-ink);
+}
+
+/* Type — section heads, crumbs, buttons ---------------------------------- */
+body.zine-surface .section-head {
+  align-items: flex-end;
+  padding: 28px 0 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface .section-head::after { display: none; }
+body.zine-surface .eyebrow,
+body.zine-surface .section-head .eyebrow,
+body.zine-surface.surface-night .eyebrow {
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  color: var(--zine-ink);
+}
+body.zine-surface .eyebrow::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 0;
+  background: var(--zine-stamp);
+  box-shadow: none;
+}
+body.zine-surface .section-head h1,
+body.zine-surface .section-head h2,
+body.zine-surface.surface-night .section-head h1,
+body.zine-surface.surface-night .section-head h2 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: .88;
+  text-transform: uppercase;
+  font-size: clamp(40px, 7vw, 72px);
+  color: var(--zine-ink);
+}
+body.zine-surface .section-head .head-link,
+body.zine-surface.surface-night .section-head .head-link {
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .crumbs,
+body.zine-surface.surface-night .crumbs,
+body.zine-surface .page-lead,
+body.zine-surface.surface-night .page-lead,
+body.zine-surface.surface-night .roster-lead {
+  color: var(--zine-muted);
+}
+body.zine-surface .crumbs a,
+body.zine-surface.surface-night .crumbs a,
+body.zine-surface .page-lead a {
+  color: var(--zine-ink);
+}
+
+body.zine-surface .btn,
+body.zine-surface .btn-dark,
+body.zine-surface .btn-ghost,
+body.zine-surface .btn-soft,
+body.zine-surface .btn-fill,
+body.zine-surface .btn-chrome-on-dark,
+body.zine-surface .btn-ghost-on-dark,
+body.zine-surface .btn-light,
+body.zine-surface .btn-outline,
+body.zine-surface.surface-night .btn-chrome-on-dark,
+body.zine-surface.surface-night .btn-ghost-on-dark,
+body.zine-surface.archive-release .ra-hero-ctas .btn-light,
+body.zine-surface.archive-release .ra-hero-ctas .btn-outline {
+  border-radius: 0;
+  height: auto;
+  min-height: 46px;
+  padding: 12px 18px;
+  font-family: var(--zine-gothic);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-stamp);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: none;
+  filter: none;
+}
+body.zine-surface .btn::before,
+body.zine-surface .btn::after,
+body.zine-surface .btn-chrome-on-dark::before,
+body.zine-surface .btn-chrome-on-dark::after,
+body.zine-surface .btn-ghost-on-dark::before,
+body.zine-surface .btn-ghost-on-dark::after { display: none; }
+body.zine-surface .btn-ghost,
+body.zine-surface .btn-ghost-on-dark,
+body.zine-surface .btn-outline,
+body.zine-surface.archive-release .ra-hero-ctas .btn-outline {
+  background: transparent;
+}
+@media (hover: hover) {
+  body.zine-surface .btn:hover,
+  body.zine-surface .btn-chrome-on-dark:hover,
+  body.zine-surface .btn-light:hover,
+  body.zine-surface .btn-dark:hover {
+    filter: none;
+    transform: none;
+    background: #111;
+    color: var(--zine-paper);
+    border-color: #111;
+    box-shadow: none;
+  }
+}
+
+body.zine-surface :focus-visible {
+  outline: 2px solid var(--zine-ink);
+  outline-offset: 3px;
+  border-radius: 0;
+  box-shadow: 0 0 0 5px var(--zine-stamp);
+}
+
+body.zine-surface .station-chip,
+body.zine-surface.surface-night .station-chip {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: transparent;
+  color: var(--zine-ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: var(--zine-gothic);
+  letter-spacing: .14em;
+}
+body.zine-surface .station-chip.is-active,
+body.zine-surface .station-chip[aria-pressed="true"],
+body.zine-surface.surface-night .station-chip.is-active {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border-color: var(--zine-ink);
+  box-shadow: none;
+}
+
+body.zine-surface .genre-tag,
+body.zine-surface .chip-acetate,
+body.zine-surface .chip-glass,
+body.zine-surface .cat-cc {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: transparent;
+  color: var(--zine-ink);
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  box-shadow: none;
+  text-shadow: none;
+}
+body.zine-surface .genre-tag::after,
+body.zine-surface .chip-acetate::after,
+body.zine-surface .chip-glass::after { display: none; }
+
+/* Station bumper — folio, not blur ---------------------------------------- */
+body.zine-surface .station-bumper,
+body.zine-surface .station-bumper--night,
+body.zine-surface .station-bumper--acetate,
+body.zine-surface .station-bumper--compact,
+body.zine-surface .page .station-bumper,
+body.zine-surface .page .station-bumper--compact {
+  min-height: 0;
+  color: var(--zine-ink);
+  background: var(--zine-paper);
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .station-bumper__ambient { display: none; }
+body.zine-surface .station-bumper__inner {
+  padding-top: calc(var(--nav-h) + var(--safe-t) + 36px);
+  padding-bottom: 28px;
+}
+body.zine-surface .station-bumper__callsign,
+body.zine-surface .station-bumper__crumbs,
+body.zine-surface .station-bumper--acetate .station-bumper__callsign,
+body.zine-surface .station-bumper--acetate .station-bumper__crumbs {
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-magenta);
+}
+body.zine-surface .station-bumper__crumbs a,
+body.zine-surface .station-bumper--acetate .station-bumper__crumbs a {
+  color: var(--zine-ink);
+}
+body.zine-surface .station-bumper__title,
+body.zine-surface .station-bumper--acetate .station-bumper__title,
+body.zine-surface .page .station-bumper__title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  font-size: clamp(48px, 9vw, 96px);
+  line-height: .82;
+  color: var(--zine-ink);
+  text-shadow: none;
+  margin-top: 8px;
+}
+body.zine-surface .station-bumper__lede,
+body.zine-surface .station-bumper--acetate .station-bumper__lede {
+  font-family: var(--zine-body);
+  font-stretch: 75%;
+  font-style: italic;
+  color: var(--zine-muted);
+  max-width: 32em;
+}
+body.zine-surface .station-bumper__brand {
+  filter: none;
+  width: min(220px, 52vw);
+  margin-bottom: 12px;
+}
+
+/* Library ------------------------------------------------------------------ */
+body.zine-surface.surface-night,
+body.zine-surface .page {
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+}
+body.zine-surface .lib-shelf {
+  background: var(--zine-paper);
+  border: 1px solid var(--zine-ink);
+  border-radius: 0;
+  color: var(--zine-ink);
+}
+body.zine-surface .lib-shelf__ambient { display: none; }
+body.zine-surface .lib-shelf__art {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+}
+body.zine-surface .lib-shelf__callsign {
+  font-family: var(--zine-mono);
+  color: var(--zine-magenta);
+}
+body.zine-surface .lib-shelf__title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.03em;
+  color: var(--zine-ink);
+}
+body.zine-surface .lib-shelf__meta { color: var(--zine-muted); }
+body.zine-surface .lib-rail {
+  border-bottom: 1px solid var(--zine-ink);
+  background: none;
+}
+body.zine-surface .lib-group-label {
+  font-family: var(--zine-mono);
+  color: var(--zine-ink);
+}
+body.zine-surface .lib-select-wrap::after {
+  border-right-color: var(--zine-ink);
+  border-bottom-color: var(--zine-ink);
+}
+body.zine-surface .lib-select {
+  color: var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+  background: transparent;
+}
+body.zine-surface .lib-select:hover,
+body.zine-surface .lib-select:focus-visible,
+body.zine-surface .lib-select.has-value {
+  border-bottom-color: var(--zine-ink);
+}
+body.zine-surface .lib-count,
+body.zine-surface .lib-clear,
+body.zine-surface.surface-night .lib-clear {
+  color: var(--zine-muted);
+}
+body.zine-surface .lib-view {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: transparent;
+  padding: 0;
+}
+body.zine-surface .lib-view-btn {
+  border-radius: 0;
+  color: var(--zine-ink);
+  font-family: var(--zine-gothic);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+body.zine-surface .lib-view-btn.is-active {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface .cat-row {
+  color: var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+  background: none;
+}
+body.zine-surface .cat-cover {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+}
+body.zine-surface .cat-title,
+body.zine-surface .cat-title a {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+body.zine-surface .cat-artist,
+body.zine-surface .cat-meta,
+body.zine-surface .cat-price {
+  font-family: var(--zine-gothic);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--zine-muted);
+}
+body.zine-surface .cat-price-tile-label,
+body.zine-surface .cat-priceboard-kicker {
+  font-family: var(--zine-mono);
+  color: var(--zine-dim);
+}
+body.zine-surface .cat-price-tile-amt,
+body.zine-surface .cat-price-tile.is-active .cat-price-tile-amt,
+body.zine-surface .cat-price-tile.is-yours + .cat-price-tile .cat-price-tile-amt,
+body.zine-surface .cat-price-tile-currency {
+  color: var(--zine-ink);
+}
+body.zine-surface .cat-play {
+  border-radius: 0;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border: 1px solid var(--zine-ink);
+}
+@media (hover: hover) {
+  body.zine-surface .cat-row:hover {
+    background: rgba(17, 17, 17, .03);
+  }
+}
+
+/* Cover flow — square sleeves, ink captions (same as home) ---------------- */
+body.zine-surface .coverflow-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.zine-surface .coverflow-title,
+body.zine-surface .wall .coverflow-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+body.zine-surface .coverflow-artist,
+body.zine-surface .coverflow-kicker,
+body.zine-surface .coverflow-hint {
+  font-family: var(--zine-gothic);
+  color: var(--zine-ink);
+}
+body.zine-surface .coverflow-kicker { color: var(--zine-magenta); font-family: var(--zine-mono); }
+body.zine-surface .flow-art,
+body.zine-surface .album-flow.is-ready .flow-sleeve.is-center .flow-art {
+  border-radius: 0;
+}
+body.zine-surface .coverflow-caption {
+  border-top: 1px solid var(--zine-ink);
+}
+
+/* Artists roster + worlds -------------------------------------------------- */
+body.zine-surface .roster-page .section-head {
+  padding-top: calc(var(--nav-h) + var(--safe-t) + 36px);
+}
+body.zine-surface .roster-lead { color: var(--zine-muted); }
+body.zine-surface .roster-artist {
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  margin-bottom: 0;
+  min-height: 0;
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .roster-photo {
+  background: var(--zine-paper-2);
+  min-height: min(52vh, 480px);
+}
+body.zine-surface .roster-photo::after { display: none; }
+body.zine-surface .roster-photo img {
+  filter: contrast(1.12) saturate(.72) grayscale(.12);
+}
+body.zine-surface .roster-copy {
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  box-shadow: none;
+  border-left: 1px solid var(--zine-ink);
+}
+@media (max-width: 799px) {
+  body.zine-surface .roster-copy { border-left: 0; border-top: 1px solid var(--zine-ink); }
+}
+body.zine-surface .roster-copy h2 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+  color: var(--zine-ink);
+}
+body.zine-surface .roster-place,
+body.zine-surface .roster-copy .eyebrow {
+  font-family: var(--zine-mono);
+  color: var(--zine-magenta);
+}
+body.zine-surface .roster-bio {
+  color: var(--zine-muted);
+  text-shadow: none;
+}
+
+body.zine-surface .artist-world,
+body.zine-surface .artist-world-hero {
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+}
+body.zine-surface .artist-world-photo {
+  background: var(--zine-paper-2);
+}
+body.zine-surface .artist-world-photo::after { display: none; }
+body.zine-surface .artist-world-photo img {
+  filter: contrast(1.12) saturate(.72) grayscale(.12);
+}
+body.zine-surface .artist-world-copy {
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  border-left: 1px solid var(--zine-ink);
+}
+@media (max-width: 899px) {
+  body.zine-surface .artist-world-copy { border-left: 0; border-top: 1px solid var(--zine-ink); }
+}
+body.zine-surface .artist-world-copy .crumbs,
+body.zine-surface .artist-world-copy .crumbs a { color: var(--zine-muted); }
+body.zine-surface .artist-world-copy h1 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+  color: var(--zine-ink);
+}
+body.zine-surface .artist-world-place,
+body.zine-surface .artist-world-copy .eyebrow {
+  font-family: var(--zine-mono);
+  color: var(--zine-magenta);
+}
+body.zine-surface .artist-world-bio,
+body.zine-surface .artist-shelf-lead {
+  color: var(--zine-muted);
+}
+body.zine-surface .artist-shelf-list a {
+  color: var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .ar-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.02em;
+}
+body.zine-surface .ar-sub,
+body.zine-surface .ar-meta {
+  font-family: var(--zine-mono);
+  color: var(--zine-dim);
+}
+
+/* About -------------------------------------------------------------------- */
+body.zine-surface .about-block h2,
+body.zine-surface .about-faq h2 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.03em;
+  color: var(--zine-ink);
+}
+body.zine-surface .about-block p,
+body.zine-surface .about-faq-lead,
+body.zine-surface .about-faq details p {
+  color: var(--zine-muted);
+}
+body.zine-surface .about-grid,
+body.zine-surface .about-faq,
+body.zine-surface .facts {
+  border-top-color: var(--zine-ink);
+}
+body.zine-surface .fact {
+  box-shadow: inset 0 -1px 0 var(--zine-ink);
+}
+body.zine-surface .fact dt {
+  font-family: var(--zine-mono);
+  color: var(--zine-magenta);
+}
+body.zine-surface .fact dd { color: var(--zine-ink); }
+body.zine-surface .fact a {
+  color: var(--zine-ink);
+  text-decoration-color: var(--zine-ink);
+}
+body.zine-surface .about-faq details { border-bottom-color: var(--zine-ink); }
+body.zine-surface .about-faq summary { color: var(--zine-ink); }
+body.zine-surface .about-faq summary::after { color: var(--zine-ink); }
+body.zine-surface .about-sleeves img {
+  border: 1px solid var(--zine-ink);
+  border-radius: 0;
+}
+
+/* Shop + merch PDPs + cart ------------------------------------------------- */
+body.zine-surface.shop-page,
+body.zine-surface.shop-ice,
+body.zine-surface.shop-ice.surface-acetate,
+body.zine-surface.surface-acetate {
+  --zine-paper: #F7F5F1;
+  --zine-ink: #111111;
+  --bg: #F7F5F1;
+  --ink: #111111;
+  --muted: #5F636B;
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  color-scheme: light;
+}
+body.zine-surface .shop-hero,
+body.zine-surface.shop-page .shop-hero {
+  min-height: 0;
+  color: var(--zine-ink);
+  background: var(--zine-paper);
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .shop-hero__ambient { display: none; }
+body.zine-surface .shop-hero .crumbs,
+body.zine-surface .shop-hero .crumbs a { color: var(--zine-muted); }
+body.zine-surface .shop-hero__brand {
+  filter: none;
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+body.zine-surface .shop-hero__title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+  font-size: clamp(48px, 9vw, 96px);
+  line-height: .82;
+  color: var(--zine-ink);
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+body.zine-surface .shop-hero__lede,
+body.zine-surface .shop-hero__lede a {
+  color: var(--zine-muted);
+  animation: none;
+  opacity: 1;
+  transform: none;
+  border-bottom-color: var(--zine-ink);
+}
+body.zine-surface .store-bar {
+  background: var(--zine-paper);
+  border-bottom: 1px solid var(--zine-ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.zine-surface .store-label { color: var(--zine-dim); }
+body.zine-surface .store-bar .store-chip,
+body.zine-surface .store-chip {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: transparent;
+  color: var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface .store-bar .store-chip.is-active,
+body.zine-surface .store-bar .store-chip[aria-pressed="true"] {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+}
+body.zine-surface .store-sort select {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: #fff;
+  color: var(--zine-ink);
+}
+body.zine-surface .product,
+body.zine-surface .merch-card {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  box-shadow: none;
+  color: var(--zine-ink);
+}
+body.zine-surface .product-title,
+body.zine-surface .product-title a {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.03em;
+  color: var(--zine-ink);
+}
+body.zine-surface .product-type {
+  font-family: var(--zine-mono);
+  color: var(--zine-dim);
+}
+body.zine-surface .product-price { color: var(--zine-ink); }
+body.zine-surface .product-visual,
+body.zine-surface .product[data-type="clothing"] .product-visual,
+body.zine-surface .product[data-type="goods"] .product-visual,
+body.zine-surface .product[data-type="bundles"] .product-visual,
+body.zine-surface .pdp-art,
+body.zine-surface .pdp-thumb {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper-2);
+}
+body.zine-surface .acetate-panel,
+body.zine-surface .card.panel,
+body.zine-surface .summary-panel,
+body.zine-surface .empty,
+body.zine-surface.surface-acetate .card.panel,
+body.zine-surface.shop-ice.surface-acetate .card.panel,
+body.zine-surface.shop-ice.surface-acetate .empty,
+body.zine-surface.shop-ice.surface-acetate .summary-panel {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.zine-surface .cart-line,
+body.zine-surface.surface-acetate .cart-line {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  box-shadow: none;
+}
+body.zine-surface .cart-thumb {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+}
+body.zine-surface .qty {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+}
+body.zine-surface .field input,
+body.zine-surface .field textarea,
+body.zine-surface .field select {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: #fff;
+  box-shadow: none;
+}
+body.zine-surface .field input:focus,
+body.zine-surface .field textarea:focus {
+  border-color: var(--zine-ink);
+  box-shadow: 0 0 0 3px var(--zine-stamp);
+}
+body.zine-surface .panel h2 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.03em;
+}
+body.zine-surface .policy,
+body.zine-surface .policy article,
+body.zine-surface.surface-acetate .policy,
+body.zine-surface.surface-acetate .policy article {
+  border-color: var(--zine-ink);
+  box-shadow: none;
+}
+
+/* Release pages ------------------------------------------------------------ */
+body.zine-surface.archive-release {
+  --ra-bg: #F7F5F1;
+  --ra-surface: #F7F5F1;
+  --ra-surface-hi: #EEECE7;
+  --ra-ink: #111111;
+  --ra-muted: #5F636B;
+  --ra-dim: #727780;
+  --ra-line: rgba(17, 17, 17, .18);
+  --ra-green: #111111;
+  --ra-vfd: var(--zine-muted);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  font-family: var(--zine-body);
+}
+body.zine-surface.archive-release .ra-hero {
+  min-height: 0;
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  padding-top: calc(var(--nav-h) + 28px);
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-hero-ambient { display: none; }
+body.zine-surface.archive-release .ra-hero .crumbs,
+body.zine-surface.archive-release .ra-hero .crumbs a {
+  font-family: var(--zine-mono);
+  color: var(--zine-muted);
+}
+body.zine-surface.archive-release .ra-hero-title,
+body.zine-surface.archive-release .ra-hero-title .ra-hero-kind {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+  background: none;
+  -webkit-text-fill-color: var(--zine-ink);
+  filter: none;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  body.zine-surface.archive-release .ra-hero-title {
+    background-image: none;
+    -webkit-text-fill-color: var(--zine-ink);
+    color: var(--zine-ink);
+  }
+}
+body.zine-surface.archive-release .ra-hero-meta,
+body.zine-surface.archive-release .ra-hero-meta span,
+body.zine-surface.archive-release .ra-hero-meta .artist,
+body.zine-surface.archive-release .ra-hero-facts {
+  font-family: var(--zine-mono);
+  color: var(--zine-ink);
+  border-color: var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-hero-meta span + span::before { color: var(--zine-dim); }
+body.zine-surface.archive-release .ra-cover {
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+}
+body.zine-surface.archive-release .ra-cover::after { display: none; }
+body.zine-surface.archive-release .ra-head,
+body.zine-surface.archive-release .ra-head h2 {
+  color: var(--zine-ink);
+  box-shadow: inset 0 -1px 0 var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-head h2 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+  box-shadow: none;
+}
+body.zine-surface.archive-release .ra-head .eyebrow,
+body.zine-surface.archive-release .ra-more .eyebrow {
+  font-family: var(--zine-mono);
+  color: var(--zine-magenta);
+}
+body.zine-surface.archive-release .ra-tracks,
+body.zine-surface.archive-release .ra-format,
+body.zine-surface.archive-release .ra-redeem {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface.archive-release .ra-tracks .track-row {
+  border-top-color: var(--zine-rule);
+  color: var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-tracks .track-row:hover {
+  background: rgba(17, 17, 17, .03);
+}
+body.zine-surface.archive-release .ra-tracks .track-row.is-active {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border-top-color: var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-tracks .track-row.is-active .track-no,
+body.zine-surface.archive-release .ra-tracks .track-row.is-active .track-title,
+body.zine-surface.archive-release .ra-tracks .track-row.is-active .track-dur {
+  color: var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-tracks .track-title { color: var(--zine-ink); }
+body.zine-surface.archive-release .ra-tracks .track-no,
+body.zine-surface.archive-release .ra-tracks .track-dur,
+body.zine-surface.archive-release .ra-tracks-note {
+  color: var(--zine-dim);
+}
+body.zine-surface.archive-release .ra-format-opt {
+  color: var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-format-opt:hover { background: rgba(17, 17, 17, .03); }
+body.zine-surface.archive-release .ra-format-opt[aria-checked="true"] {
+  background: var(--zine-stamp);
+  box-shadow: none;
+}
+body.zine-surface.archive-release .ra-format-opt .fmt,
+body.zine-surface.archive-release .ra-format-opt .price { color: var(--zine-ink); }
+body.zine-surface.archive-release .ra-notes p,
+body.zine-surface.archive-release .ra-notes .credo {
+  color: var(--zine-muted);
+}
+body.zine-surface.archive-release .ra-stage-hit .glyph {
+  border-radius: 0;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border: 1px solid var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface.archive-release .modal {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface.archive-release .modal h2 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+body.zine-surface.archive-release .modal p { color: var(--zine-muted); }
+
+/* Mixtapes / tapes page ---------------------------------------------------- */
+body.zine-surface .mixtapes,
+body.zine-surface.news-listing .mixtapes {
+  --mix-ink: var(--zine-ink);
+  --mix-muted: var(--zine-muted);
+  --mix-lcd: var(--zine-magenta);
+  --mix-lcd-ink: var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+}
+body.zine-surface .mixtapes::before { display: none; }
+body.zine-surface .mix-card,
+body.zine-surface .tape {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.zine-surface .tape-sleeve,
+body.zine-surface .mix-sleeve {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+}
+
+/* Planet ------------------------------------------------------------------- */
+body.zine-surface.nav-on-dark:not(.news-listing) {
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+}
+body.zine-surface .planet-kicker {
+  font-family: var(--zine-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--zine-magenta);
+}
+body.zine-surface .planet-shell h1,
+body.zine-surface .planet-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+  color: var(--zine-ink);
+}
+body.zine-surface .planet-lead,
+body.zine-surface .planet-points span {
+  color: var(--zine-muted);
+}
+body.zine-surface .planet-points {
+  border-top: 1px solid var(--zine-ink);
+}
+body.zine-surface .planet-points li {
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .planet-points strong { color: var(--zine-ink); }
+body.zine-surface .planet-cta,
+body.zine-surface a.planet-cta {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  box-shadow: none;
+}
+
+/* 404 / thank-you ---------------------------------------------------------- */
+body.zine-surface .miss h1 {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+}
+
+/* Tab bar ------------------------------------------------------------------ */
+@media (max-width: 720px) {
+  body.zine-surface .tabbar {
+    background: var(--zine-paper);
+    border-top: 1px solid var(--zine-ink);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  body.zine-surface .tabbar a { color: var(--zine-ink); }
+  body.zine-surface .tabbar a span {
+    font-family: var(--zine-gothic);
+    font-size: 9px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  body.zine-surface .tabbar a.is-current {
+    background: var(--zine-stamp);
+    color: var(--zine-ink);
+  }
+}
