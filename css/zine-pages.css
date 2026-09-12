@@ -94,18 +94,19 @@ body.zine-surface.shop-page .nav-links a:hover {
   color: var(--zine-ink);
   background: var(--zine-stamp);
 }
-body.zine-surface .nav-cart,
 body.zine-surface .nav-ham span,
-body.zine-surface.surface-night .nav-cart,
 body.zine-surface.surface-night .nav-ham span,
-body.zine-surface.archive-release .nav-cart,
 body.zine-surface.archive-release .nav-ham span,
-body.zine-surface.shop-page .nav-cart,
 body.zine-surface.shop-page .nav-ham span {
-  color: var(--zine-ink);
   background: var(--zine-ink);
 }
-body.zine-surface .nav-cart { background: none; }
+body.zine-surface .nav-cart,
+body.zine-surface.surface-night .nav-cart,
+body.zine-surface.archive-release .nav-cart,
+body.zine-surface.shop-page .nav-cart {
+  color: var(--zine-ink);
+  background: none;
+}
 body.zine-surface .nav-cart-count,
 body.zine-surface.surface-night .nav-cart-count,
 body.zine-surface.archive-release .nav-cart-count,
@@ -536,6 +537,41 @@ body.zine-surface .cat-play {
   }
 }
 
+/* Cover flow — square sleeves, ink captions (same as home) ---------------- */
+body.zine-surface .coverflow-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.zine-surface .coverflow-title,
+body.zine-surface .wall .coverflow-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+body.zine-surface .coverflow-artist,
+body.zine-surface .coverflow-kicker,
+body.zine-surface .coverflow-hint {
+  font-family: var(--zine-gothic);
+  color: var(--zine-ink);
+}
+body.zine-surface .coverflow-kicker { color: var(--zine-magenta); font-family: var(--zine-mono); }
+body.zine-surface .flow-art,
+body.zine-surface .album-flow.is-ready .flow-sleeve.is-center .flow-art {
+  border-radius: 0;
+}
+body.zine-surface .coverflow-caption {
+  border-top: 1px solid var(--zine-ink);
+}
+
 /* Artists roster + worlds -------------------------------------------------- */
 body.zine-surface .roster-page .section-head {
   padding-top: calc(var(--nav-h) + var(--safe-t) + 36px);
@@ -745,6 +781,12 @@ body.zine-surface .store-bar .store-chip[aria-pressed="true"] {
   background: var(--zine-stamp);
   color: var(--zine-ink);
 }
+body.zine-surface .store-sort select {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: #fff;
+  color: var(--zine-ink);
+}
 body.zine-surface .product,
 body.zine-surface .merch-card {
   border-radius: 0;
@@ -767,6 +809,9 @@ body.zine-surface .product-type {
 }
 body.zine-surface .product-price { color: var(--zine-ink); }
 body.zine-surface .product-visual,
+body.zine-surface .product[data-type="clothing"] .product-visual,
+body.zine-surface .product[data-type="goods"] .product-visual,
+body.zine-surface .product[data-type="bundles"] .product-visual,
 body.zine-surface .pdp-art,
 body.zine-surface .pdp-thumb {
   border-radius: 0;
@@ -778,7 +823,9 @@ body.zine-surface .card.panel,
 body.zine-surface .summary-panel,
 body.zine-surface .empty,
 body.zine-surface.surface-acetate .card.panel,
-body.zine-surface.shop-ice.surface-acetate .card.panel {
+body.zine-surface.shop-ice.surface-acetate .card.panel,
+body.zine-surface.shop-ice.surface-acetate .empty,
+body.zine-surface.shop-ice.surface-acetate .summary-panel {
   border-radius: 0;
   border: 1px solid var(--zine-ink);
   background: var(--zine-paper);
@@ -1013,12 +1060,32 @@ body.zine-surface .planet-kicker {
   text-transform: uppercase;
   color: var(--zine-magenta);
 }
-body.zine-surface .planet-shell h1 {
+body.zine-surface .planet-shell h1,
+body.zine-surface .planet-title {
   font-family: var(--zine-display);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -.04em;
   color: var(--zine-ink);
+}
+body.zine-surface .planet-lead,
+body.zine-surface .planet-points span {
+  color: var(--zine-muted);
+}
+body.zine-surface .planet-points {
+  border-top: 1px solid var(--zine-ink);
+}
+body.zine-surface .planet-points li {
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface .planet-points strong { color: var(--zine-ink); }
+body.zine-surface .planet-cta,
+body.zine-surface a.planet-cta {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  box-shadow: none;
 }
 
 /* 404 / thank-you ---------------------------------------------------------- */
