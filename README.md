@@ -8,7 +8,7 @@ Night Shift paper across the site. Homepage art direction in `css/home-zine.css`
 The zine (`css/news.css`) is the evening paper — Barlow Condensed display, Archivo body, fluorescent lime. `/news` is the live front.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
-- Paper `#F7F5F1` · Ink `#111111` · Acid lime `#C6FF1A` · Magenta kickers `#E11D48`
+- Paper `#F7F5F1` · Ink `#111111` · Acid lime `#C6FF1A` · Muted kickers `#5F636B`
 - Type: Barlow Condensed display · Archivo body · IBM Plex Mono specs · Oswald gothic nav
 
 ## Commerce
