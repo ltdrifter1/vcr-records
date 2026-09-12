@@ -642,22 +642,42 @@ body.home-zine .hero-ticker-copy span {
   font-family: var(--mono);
   letter-spacing: .12em;
 }
-body.home-zine .hero-ticker-dot { background: var(--stamp); opacity: .55; }
+@media (max-width: 720px) {
+  body.home-zine .hero-ticker {
+    bottom: calc(var(--tabbar-h, 56px) + var(--safe-b, 0px));
+  }
+}
+
+body.zine-surface .product-visual,
+body.zine-surface a.product-visual,
+body.zine-surface .media-bezel.product-visual {
+  border: 2px solid var(--ink) !important;
+  border-radius: 0 !important;
+  background: var(--paper-2) !important;
+  box-shadow: none !important;
+}
+body.zine-surface .store-sort select {
+  border: 2px solid var(--ink) !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  color: var(--ink) !important;
+}
 
 /* --------------------------------------------------------------------------
    Catalogue wall / coverflow — record-shop spread, not iTunes
    -------------------------------------------------------------------------- */
 .coverflow-nav,
-body.home-zine .wall .coverflow-nav {
+body.home-zine .wall .coverflow-nav,
+body.zine-surface .coverflow-nav {
   width: 44px;
   height: 44px;
-  border-radius: 0;
-  border: 2px solid var(--ink);
-  background: var(--paper);
-  color: var(--ink);
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  border-radius: 0 !important;
+  border: 2px solid var(--ink) !important;
+  background: var(--stamp) !important;
+  color: var(--ink) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 @media (hover: hover) {
   .coverflow-nav:hover,
@@ -901,21 +921,65 @@ body.zine-surface.surface-acetate {
   box-shadow: none;
 }
 
-body.zine-surface .roster-artist {
-  background: #0A0A0A;
-  color: #F3ECDC;
-  border-top: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
+body.zine-surface::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  opacity: .14;
+  mix-blend-mode: multiply;
+  background-image: var(--issue-grain), var(--issue-halftone);
+  background-size: 160px 160px, 10px 10px;
+  background-repeat: repeat;
 }
+body.zine-surface .roster-artist,
+body.zine-surface .roster-copy,
+body.zine-surface .artist-world-copy {
+  background: var(--paper);
+  color: var(--ink);
+}
+body.zine-surface .roster-copy h2,
+body.zine-surface .roster-copy .eyebrow,
+body.zine-surface .roster-place,
+body.zine-surface .artist-world-copy h1 {
+  color: var(--ink);
+}
+body.zine-surface .roster-bio { color: var(--muted); }
 body.zine-surface .roster-photo img,
 body.zine-surface .artist-world-photo img {
-  filter: contrast(1.28) saturate(.35) grayscale(.5);
+  filter: contrast(1.2) saturate(.5) grayscale(.28);
 }
 @media (hover: hover) {
   body.zine-surface .roster-artist:hover .roster-photo img,
   body.zine-surface .artist-world:hover .artist-world-photo img {
-    filter: contrast(1.16) saturate(.8) grayscale(.1);
+    filter: contrast(1.12) saturate(.9) grayscale(0);
   }
+}
+body.zine-surface .hero-vinyl-mirror,
+body.zine-surface .hero-ipod-mirror,
+body.archive-release .ra-hero-reflect,
+body.zine-surface .ra-reflect {
+  display: none !important;
+}
+body.zine-surface .ra-cover,
+body.zine-surface .ra-cassette,
+body.zine-surface .ra-vinyl,
+body.zine-surface .listen-sleeve,
+body.zine-surface .ra-object,
+body.zine-surface.archive-release .ra-cover,
+body.zine-surface.archive-release .ra-vinyl {
+  -webkit-box-reflect: unset !important;
+  -webkit-box-reflect: none !important;
+}
+body.zine-surface .ra-stage {
+  padding-bottom: 0 !important;
+  perspective: none;
+}
+body.zine-surface .ra-stage-shadow,
+body.zine-surface .ra-cover::before {
+  display: none !important;
+  animation: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
