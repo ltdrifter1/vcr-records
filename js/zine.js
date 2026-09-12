@@ -57,7 +57,7 @@
       kicker: "tuesday afters",
       title: "Nobody Asked What to Put On",
       artist: "Night Shift",
-      dek: "The photo is a lie with good lighting. The night starts when somebody drops a record without taking a vote.",
+      dek: "The club photo is a lie with good lighting. The night starts when somebody puts a record on and nobody takes a vote.",
       image: "news-afters.webp",
       spec: ["afters", "no vote"]
     },
