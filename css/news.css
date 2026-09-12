@@ -280,7 +280,7 @@ img.zine-logo {
   .zine-barcode { margin-left: 0; }
 }
 
-/* Lead : image collision + oversized type -------------------------------- */
+/* Lead : type sits on paper, photo still tucks under the column -------- */
 .zine-lead {
   display: grid;
   grid-template-columns: 1fr;
@@ -297,14 +297,24 @@ img.zine-logo {
   .zine-lead > figure { z-index: 1; }
   .zine-lead > div {
     margin-top: 9%;
-    margin-left: -72px;
+    margin-left: -40px;
     position: relative;
     z-index: 2;
-    padding: 14px 0 8px 28px;
-    background: linear-gradient(90deg, transparent 0, var(--zine-paper) 36px);
+    padding: 14px 0 8px 36px;
+    background: linear-gradient(90deg, transparent 0, var(--zine-paper) 56px);
   }
   .zine-lead .zine-headline {
-    font-size: clamp(64px, 10vw, 128px);
+    font-size: clamp(56px, 8.6vw, 104px);
+    letter-spacing: -.028em;
+    line-height: .86;
+  }
+  /* Paper slug so the I in RISCAPE does not sit in the trees. */
+  .zine-lead .zine-headline a {
+    background: var(--zine-paper);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 0 .06em 0 .04em;
+    margin-left: -.04em;
   }
 }
 
@@ -437,50 +447,35 @@ img.zine-logo {
   background: var(--zine-stamp);
 }
 .zine-pull {
-  margin: 0 0 14px;
-  padding: 0 0 0 12px;
+  margin: 0 0 16px;
+  padding: 0 0 0 14px;
   border-left: 3px solid var(--zine-stamp);
   border-image: none;
   font-family: var(--zine-display);
-  font-size: clamp(22px, 3vw, 32px);
-  font-style: italic;
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-style: normal;
   font-weight: 700;
-  letter-spacing: -.02em;
-  line-height: 1.05;
-  text-transform: uppercase;
+  letter-spacing: -.01em;
+  line-height: 1.18;
+  text-transform: none;
   color: var(--zine-ink);
-  max-width: 16em;
+  max-width: 22em;
 }
 .zine-copy p {
-  margin: 0 0 .85em;
+  margin: 0 0 .9em;
   font-family: var(--zine-body);
-  font-size: 14.5px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.42;
+  line-height: 1.52;
   color: var(--zine-ink);
-  max-width: 34em;
+  max-width: 36em;
 }
 .zine-copy {
   isolation: isolate;
   overflow: visible;
 }
-.zine-copy p:first-of-type::first-letter {
-  float: left;
-  font-family: var(--zine-display);
-  font-stretch: 100%;
-  font-weight: 900;
-  font-size: 3.6em;
-  line-height: .72;
-  padding: .12em .1em 0 0;
-  color: var(--zine-magenta);
-}
+/* No drop cap: a condensed I reads as a second rule under the pull. */
 .zine-copy p:last-of-type { margin-bottom: 0; }
-@media (max-width: 699px) {
-  .zine-copy p:first-of-type::first-letter {
-    font-size: 2.35em;
-    padding: .08em .08em 0 0;
-  }
-}
 .zine-copy a {
   color: inherit;
   font-weight: 600;
@@ -1791,6 +1786,15 @@ body.surface-acetate.has-station-bumper {
     font-size: 2.4em;
     padding: .06em .08em 0 0;
   }
+}
+.news-body--flush p:first-of-type::first-letter {
+  float: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  padding: 0;
+  color: inherit;
 }
 .news-body--interview p:first-of-type {
   font-size: inherit;
