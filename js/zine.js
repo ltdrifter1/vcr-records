@@ -93,7 +93,7 @@
       kicker: "saturday door",
       title: "She Showed Up",
       artist: "Lorde",
-      dek: "She skipped the green room. Stood in the crush. Sang along.",
+      dek: "Mary’s Underground threw a Lorde night. Then Lorde walked in and skipped the green room.",
       image: "news-showed-up.webp",
       spec: ["live", "no green room"]
     }
