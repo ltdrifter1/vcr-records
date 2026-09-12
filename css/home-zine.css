@@ -12,7 +12,7 @@ body.home-zine {
   --zine-dim: #727780;
   --zine-rule: rgba(17, 17, 17, .18);
   --zine-stamp: #C6FF1A;
-  --zine-magenta: #E11D48;
+  --zine-magenta: var(--zine-muted);
   --zine-display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-gothic: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -276,7 +276,7 @@ body.home-zine .hero-ticker-copy span {
 }
 body.home-zine .hero-ticker-copy a { color: var(--zine-ink); }
 @media (hover: hover) {
-  body.home-zine .hero-ticker-copy a:hover { color: var(--zine-magenta); }
+  body.home-zine .hero-ticker-copy a:hover { color: var(--zine-ink); }
 }
 body.home-zine .hero-ticker-dot {
   background: var(--zine-ink);
@@ -757,7 +757,7 @@ body.home-zine .home-artist {
     box-shadow: none;
     background: rgba(17, 17, 17, .03);
   }
-  body.home-zine .home-artist:hover .home-artist-name { color: var(--zine-magenta); }
+  body.home-zine .home-artist:hover .home-artist-name { color: var(--zine-ink); }
 }
 body.home-zine .home-artist-photo {
   border-right: 1px solid var(--zine-ink);
