@@ -1,24 +1,25 @@
 /* ==========================================================================
    Night Shift — Club Copy zine
-   1997–99 underground electronic magazine, rebuilt for 2026.
-   Dirty newsprint, condensed grotesk, one fluorescent ink. Not Y2K chrome.
+   1990s underground electronic magazine, rebuilt for the web.
+   Dirty newsprint, condensed grotesk, CMYK fluoro inks. Not Y2K chrome.
    ========================================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wdth,wght@0,75,400;0,75,500;0,75,600;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400;1,100,500&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap");
 
 :root {
-  --zine-paper: #F7F5F1;
-  --zine-paper-2: #EEECE7;
-  --zine-ink: #111111;
-  --zine-muted: #5F636B;
-  --zine-dim: #727780;
-  --zine-rule: rgba(17, 17, 17, .18);
-  --zine-stamp: #C6FF1A;
-  --zine-hi: #C6FF1A;
-  --zine-cyan: #C6FF1A;
-  --zine-magenta: var(--zine-muted);
-  --zine-ice: #C6FF1A;
-  --zine-tape: rgba(198, 255, 26, .42);
+  --zine-paper: #EDE6D4;
+  --zine-paper-2: #E2D8C0;
+  --zine-ink: #0A0A0A;
+  --zine-muted: #3D3A34;
+  --zine-dim: #5C574C;
+  --zine-rule: rgba(10, 10, 10, .28);
+  --zine-stamp: #E8FF00;
+  --zine-hi: #E8FF00;
+  --zine-cyan: #00C8DC;
+  --zine-magenta: #0A0A0A;
+  --zine-flash: #FF3B8A;
+  --zine-ice: #E8FF00;
+  --zine-tape: rgba(232, 255, 0, .42);
   --zine-display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-gothic: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -185,13 +186,13 @@
   padding: .14em .12em .1em .14em;
 }
 .zine-logo-night {
-  background: #111;
-  color: #F7F5F1;
+  background: #0A0A0A;
+  color: #E8FF00;
   padding-right: .1em;
 }
 .zine-logo-shift {
-  background: #fff;
-  color: #111;
+  background: #FF3B8A;
+  color: #0A0A0A;
   padding-left: .08em;
   padding-right: .16em;
 }
@@ -370,13 +371,16 @@ img.zine-logo {
 }
 
 .zine-kicker {
-  margin: 0 0 6px;
-  font-family: var(--zine-mono);
+  margin: 0 0 8px;
+  display: inline-block;
+  padding: 3px 8px 2px;
+  font-family: var(--zine-gothic);
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: .22em;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--zine-magenta);
+  color: var(--zine-ink);
+  background: var(--zine-stamp);
 }
 .zine-headline {
   margin: 0 0 8px;
@@ -396,9 +400,8 @@ img.zine-logo {
 }
 @media (hover: hover) {
   .zine-headline a:hover {
-    color: var(--zine-magenta);
-    transform: translateX(5px);
-    background-image: none;
+    color: var(--zine-ink);
+    background: var(--zine-stamp);
   }
 }
 .zine-dek {

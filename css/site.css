@@ -1,74 +1,55 @@
 /* ==========================================================================
    Club Copy — shared design system
-   iOS Music × Y2K click-wheel: SF-like UI, liquid glass, holographic acetate.
-   Oswald stays for broadcast callsigns. Cool steel — not costume neon.
+   Independent music publication: newsprint, condensed gothic, fluoro ink.
+   Tokens match css/issue.css. Page CSS may still assume these names.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,600;0,100,700;1,100,400&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900&family=IBM+Plex+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap");
 
 :root {
-  --bg: #F7F5F1;
-  --card: #FFFFFF;
-  --card-solid: #FFFFFF;
-  --soft: #EEECE7;
-  --line: rgba(210,214,222,.72);
-  --line-hi: rgba(255,255,255,.72);
-  --ink: #111111;
-  --muted: #5F636B;
-  --dim: #727780;
-  --fill: rgba(17,17,17,.04);
-  --fill-hi: rgba(17,17,17,.07);
-  --glass: rgba(255,255,255,.48);
-  --glass-hi: rgba(255,255,255,.88);
-  --glass-dark: rgba(14,16,20,.62);
-  /* Chrome / liquid metal — CD-R hologram, not rave fill */
-  --chrome-hi: rgba(255,255,255,.88);
-  --chrome-mid: rgba(186,198,214,.46);
-  --chrome-lo: rgba(88,98,116,.18);
-  --chrome-steel: #A8B4C4;
-  --chrome-ink: #1A1E26;
-  --iridescent: linear-gradient(118deg,
-    rgba(186,214,238,.28) 0%,
-    rgba(255,196,224,.12) 28%,
-    rgba(255,255,255,.22) 48%,
-    rgba(186,236,228,.14) 72%,
-    rgba(176,196,220,.22) 100%);
-  --chrome-edge: linear-gradient(135deg,
-    rgba(255,255,255,.92) 0%,
-    rgba(176,188,206,.58) 42%,
-    rgba(255,255,255,.74) 68%,
-    rgba(150,162,180,.42) 100%);
-  /* Aurora — cool spectral accent, reserved for glow/focus states, never fills */
-  --aurora-a: 132,170,255;
-  --aurora-b: 198,140,255;
-  --aurora-c: 120,228,232;
-  --aurora-line: linear-gradient(92deg,
-    rgba(var(--aurora-a), .9) 0%,
-    rgba(var(--aurora-b), .85) 48%,
-    rgba(var(--aurora-c), .9) 100%);
-  --aurora-ring: conic-gradient(from 180deg,
-    rgba(var(--aurora-a), .55),
-    rgba(var(--aurora-b), .5) 30%,
-    rgba(var(--aurora-c), .55) 55%,
-    rgba(var(--aurora-b), .5) 80%,
-    rgba(var(--aurora-a), .55));
-  --blur: 40px;
-  --blur-lg: 56px;
-  --shadow: 0 1px 2px rgba(17,17,17,.04), 0 12px 32px rgba(26,30,38,.07);
-  --shadow-lg: 0 2px 8px rgba(17,17,17,.05), 0 32px 72px rgba(26,30,38,.14);
-  --glow-sm: 0 0 0 1px rgba(var(--aurora-b), .16), 0 8px 28px rgba(120,140,255,.14);
-  --glow-lg: 0 0 0 1px rgba(var(--aurora-b), .18), 0 20px 56px rgba(120,140,255,.2);
-  --radius: 12px;
-  --radius-lg: 22px;
-  --bezel-r: 12px;
-  --btn-r: 980px;
-  --pill: 980px;
-  --ease: cubic-bezier(.22,1,.36,1);
-  --dur: 280ms;
-  --ios: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
-  --display: var(--ios);
-  --sans: var(--ios);
-  --callsign: 'Oswald', var(--ios);
+  --bg: #EDE6D4;
+  --card: #F4EEE0;
+  --card-solid: #F4EEE0;
+  --soft: #E2D8C0;
+  --line: rgba(10,10,10,.28);
+  --line-hi: rgba(10,10,10,.16);
+  --ink: #0A0A0A;
+  --muted: #3D3A34;
+  --dim: #5C574C;
+  --fill: rgba(10,10,10,.05);
+  --fill-hi: rgba(10,10,10,.09);
+  --glass: #EDE6D4;
+  --glass-hi: #F4EEE0;
+  --glass-dark: #0A0A0A;
+  --chrome-hi: transparent;
+  --chrome-mid: transparent;
+  --chrome-lo: transparent;
+  --chrome-steel: #0A0A0A;
+  --chrome-ink: #0A0A0A;
+  --iridescent: none;
+  --chrome-edge: none;
+  --aurora-a: 10,10,10;
+  --aurora-b: 10,10,10;
+  --aurora-c: 10,10,10;
+  --aurora-line: #E8FF00;
+  --aurora-ring: none;
+  --blur: 0px;
+  --blur-lg: 0px;
+  --shadow: none;
+  --shadow-lg: none;
+  --glow-sm: none;
+  --glow-lg: none;
+  --radius: 0;
+  --radius-lg: 0;
+  --bezel-r: 0;
+  --btn-r: 0;
+  --pill: 0;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --dur: 160ms;
+  --ios: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
+  --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --callsign: "Oswald", "Barlow Condensed", sans-serif;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
@@ -83,18 +64,14 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--sans);
-  background:
-    radial-gradient(780px 480px at 92% -6%, rgba(210,222,236,.55), transparent 58%),
-    radial-gradient(640px 420px at 6% 8%, rgba(236,230,220,.7), transparent 52%),
-    radial-gradient(520px 360px at 70% 100%, rgba(186,198,214,.18), transparent 55%),
-    linear-gradient(180deg, #F4F3F0 0%, var(--bg) 40%, #F0EEE9 100%);
+  background: var(--bg);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  font-size: 17px;
-  line-height: 1.47;
-  letter-spacing: -.022em;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: 0;
   font-weight: 400;
   padding-bottom: var(--safe-b);
 }
@@ -106,15 +83,12 @@ button {
   color: inherit;
   -webkit-tap-highlight-color: transparent;
 }
-::selection { background: rgba(17,17,17,.12); }
+::selection { background: #E8FF00; color: #0A0A0A; }
 :focus-visible {
-  outline: 2px solid transparent;
+  outline: 3px solid #0A0A0A;
   outline-offset: 3px;
-  border-radius: 12px;
-  box-shadow:
-    0 0 0 4px rgba(var(--aurora-a), .35),
-    0 0 0 5px rgba(255,255,255,.55);
-  transition: box-shadow .18s var(--ease, ease);
+  border-radius: 0;
+  box-shadow: 0 0 0 6px #E8FF00;
 }
 
 .skip-link {
@@ -203,29 +177,22 @@ button {
 }
 .section-head .head-link:hover { color: var(--ink); border-bottom-color: var(--chrome-steel); }
 
-/* Nav — iOS liquid glass ---------------------------------------------------- */
+/* Nav — magazine masthead --------------------------------------------------- */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   height: calc(var(--nav-h) + var(--safe-t));
   padding-top: var(--safe-t);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,.12)),
-    rgba(247,245,241,.52);
-  backdrop-filter: saturate(210%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(210%) blur(var(--blur-lg));
-  border-bottom: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 transparent;
-  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  background: var(--bg);
+  border-bottom: 2px solid var(--ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: none;
 }
 .nav.scrolled {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.16)),
-    rgba(247,245,241,.78);
-  border-bottom-color: rgba(170,182,200,.28);
-  box-shadow:
-    inset 0 1px 0 var(--chrome-hi),
-    inset 0 -1px 0 rgba(255,255,255,.45),
-    0 10px 36px rgba(26,30,38,.07);
+  background: var(--bg);
+  border-bottom-color: var(--ink);
+  box-shadow: none;
 }
 .nav-inner {
   max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);
@@ -429,11 +396,11 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #1c2430; }
     z-index: 480;
     height: calc(var(--tabbar-h) + var(--safe-b));
     padding: 4px 4px calc(4px + var(--safe-b));
-    background: rgba(12, 12, 16, .78);
-    border-top: 1px solid rgba(255,255,255,.12);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
-    backdrop-filter: saturate(200%) blur(40px);
-    -webkit-backdrop-filter: saturate(200%) blur(40px);
+    background: #0A0A0A;
+    border-top: 2px solid #E8FF00;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .tabbar a {
     display: flex;
@@ -455,7 +422,7 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #1c2430; }
     letter-spacing: -.01em;
     line-height: 1.1;
   }
-  .tabbar a.is-current { color: #fff; }
+  .tabbar a.is-current { color: #0A0A0A; background: #E8FF00; }
   .nav-drawer a[href="/"],
   .nav-drawer a[href="/index.html"],
   .nav-drawer a[href="#listen"],

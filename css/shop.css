@@ -4,67 +4,53 @@
    Same temperature as the zine: space-grey aluminum + ice blue, not cream/crimson.
    ========================================================================== */
 
-/* Zine ice tokens (shop listing + merch PDPs / cart) ---------------------- */
+/* Shop sits on the same issue stock as the rest of the publication -------- */
 body.shop-page,
 body.shop-ice {
-  --zine-paper: #454A52;
-  --zine-paper-2: #32373F;
-  --zine-ink: #F7F9FB;
-  --zine-muted: #E4EAF1;
-  --zine-dim: #C5CED8;
-  --zine-rule: rgba(236, 240, 246, .3);
-  --zine-stamp: #B7D4EA;
-  --zine-hi: #A9D4F2;
-  --zine-cyan: #7ED4E2;
-  --zine-ice: #D7EEF8;
-  --zine-holo: linear-gradient(120deg, #9ec4e8 0%, #d7eef8 28%, #c5d4ea 52%, #7ed4e2 78%, #b7d4ea 100%);
-  --shop-well: linear-gradient(165deg, #e8f1f8 0%, #d5dee8 50%, #c5d3e0 100%);
+  --zine-paper: #EDE6D4;
+  --zine-paper-2: #E2D8C0;
+  --zine-ink: #0A0A0A;
+  --zine-muted: #3D3A34;
+  --zine-dim: #5C574C;
+  --zine-rule: rgba(10, 10, 10, .28);
+  --zine-stamp: #E8FF00;
+  --zine-hi: #E8FF00;
+  --zine-cyan: #00C8DC;
+  --zine-ice: #E8FF00;
+  --zine-holo: #E8FF00;
+  --shop-well: #EDE6D4;
 }
 
-/* Catalog: evening aluminum, not warm gallery paper ------------------------- */
 body.shop-page {
   --bg: var(--zine-paper);
-  --card: #3a4048;
-  --card-solid: #3a4048;
+  --card: #F4EEE0;
+  --card-solid: #F4EEE0;
   --soft: var(--zine-paper-2);
   --line: var(--zine-rule);
   --ink: var(--zine-ink);
   --muted: var(--zine-muted);
   --dim: var(--zine-dim);
-  --fill: rgba(247, 249, 251, .06);
-  --iridescent: linear-gradient(118deg,
-    rgba(186, 214, 238, .28) 0%,
-    rgba(167, 212, 226, .14) 28%,
-    rgba(255, 255, 255, .16) 48%,
-    rgba(126, 212, 226, .16) 72%,
-    rgba(176, 196, 220, .22) 100%);
-  background:
-    radial-gradient(ellipse 70% 42% at 8% -4%, rgba(186, 220, 242, .22), transparent 54%),
-    radial-gradient(ellipse 50% 36% at 96% 18%, rgba(126, 212, 226, .1), transparent 50%),
-    linear-gradient(180deg, var(--zine-paper-2) 0%, var(--zine-paper) 42%, #3a3f47 100%);
+  --fill: rgba(10, 10, 10, .05);
+  --iridescent: none;
+  background: var(--zine-paper);
   color: var(--zine-ink);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-/* PDP / cart: cool ice paper (zine ice, not cream) ------------------------- */
 body.shop-ice.surface-acetate {
-  --bg: #e6eef4;
-  --soft: #dce6ee;
-  --card: #f4f8fc;
-  --line: rgba(158, 176, 194, .45);
-  --ink: #1c242c;
-  --muted: #4a5560;
-  --dim: #6a7684;
-  --acetate-ink: #1c242c;
-  --acetate-muted: #4a5560;
-  --acetate-dim: #6a7684;
-  --acetate-line: rgba(158, 176, 194, .45);
-  background:
-    radial-gradient(780px 480px at 92% -6%, rgba(186, 220, 242, .45), transparent 58%),
-    radial-gradient(640px 420px at 6% 8%, rgba(215, 238, 248, .55), transparent 52%),
-    radial-gradient(520px 360px at 70% 100%, rgba(126, 212, 226, .14), transparent 55%),
-    linear-gradient(180deg, #e8f1f8 0%, #e6eef4 40%, #dce6ee 100%);
-  color: #1c242c;
+  --bg: #EDE6D4;
+  --soft: #E2D8C0;
+  --card: #F4EEE0;
+  --line: rgba(10, 10, 10, .28);
+  --ink: #0A0A0A;
+  --muted: #3D3A34;
+  --dim: #5C574C;
+  --acetate-ink: #0A0A0A;
+  --acetate-muted: #3D3A34;
+  --acetate-dim: #5C574C;
+  --acetate-line: rgba(10, 10, 10, .28);
+  background: #EDE6D4;
+  color: #0A0A0A;
   color-scheme: light;
 }
 body.shop-ice.surface-acetate.has-station-bumper .nav.scrolled {

@@ -1,0 +1,931 @@
+/* ==========================================================================
+   Club Copy — Issue
+   1990s electronic-press visual language for the web.
+   Newsprint, condensed gothic, CMYK fluoro inks, hard rules.
+   Inspiration: dance weeklies and rave flyers — not a costume, not chrome.
+   Loaded last. Tokens first; chrome, type, and surfaces follow.
+   ========================================================================== */
+
+:root {
+  --paper: #EDE6D4;
+  --paper-2: #E2D8C0;
+  --ink: #0A0A0A;
+  --knockout: #F3ECDC;
+  --muted: #3D3A34;
+  --dim: #5C574C;
+  --line: #0A0A0A;
+  --fill: rgba(10, 10, 10, .05);
+  --fill-hi: rgba(10, 10, 10, .09);
+
+  --stamp: #E8FF00;
+  --flash: #FF3B8A;
+  --cyan: #00C8DC;
+  --lime: #C8FF1A;
+
+  --bg: var(--paper);
+  --card: #F4EEE0;
+  --card-solid: #F4EEE0;
+  --soft: var(--paper-2);
+  --line-hi: rgba(10, 10, 10, .16);
+  --glass: var(--paper);
+  --glass-hi: #F4EEE0;
+  --glass-dark: #0A0A0A;
+
+  --zine-paper: var(--paper);
+  --zine-paper-2: var(--paper-2);
+  --zine-ink: var(--ink);
+  --zine-muted: var(--muted);
+  --zine-dim: var(--dim);
+  --zine-rule: rgba(10, 10, 10, .28);
+  --zine-stamp: var(--stamp);
+  --zine-hi: var(--stamp);
+  --zine-cyan: var(--cyan);
+  --zine-magenta: var(--ink);
+  --zine-flash: var(--flash);
+  --zine-ice: var(--stamp);
+  --zine-tape: rgba(232, 255, 0, .42);
+  --zine-holo: var(--stamp);
+  --zine-chrome: var(--ink);
+
+  --masthead: "Anton", Impact, "Arial Black", "Arial Narrow", sans-serif;
+  --display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
+  --gothic: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
+  --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --zine-display: var(--display);
+  --zine-gothic: var(--gothic);
+  --zine-body: var(--sans);
+  --zine-hand: var(--sans);
+  --zine-mono: var(--mono);
+  --callsign: var(--gothic);
+  --ios: var(--sans);
+
+  --radius: 0;
+  --radius-lg: 0;
+  --bezel-r: 0;
+  --btn-r: 0;
+  --pill: 0;
+  --blur: 0px;
+  --blur-lg: 0px;
+  --shadow: none;
+  --shadow-lg: none;
+  --glow-sm: none;
+  --glow-lg: none;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --dur: 160ms;
+
+  --chrome-hi: transparent;
+  --chrome-mid: transparent;
+  --chrome-lo: transparent;
+  --chrome-steel: var(--ink);
+  --chrome-ink: var(--ink);
+  --iridescent: none;
+  --chrome-edge: none;
+  --aurora-a: 10, 10, 10;
+  --aurora-b: 10, 10, 10;
+  --aurora-c: 10, 10, 10;
+  --aurora-line: var(--stamp);
+  --aurora-ring: none;
+
+  --issue-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --issue-fiber: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.04 .85' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>");
+  --issue-halftone: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle cx='2' cy='2' r='1.05' fill='black' fill-opacity='.22'/></svg>");
+  --zine-grain: var(--issue-grain);
+  --zine-fiber: var(--issue-fiber);
+}
+
+html { background: var(--paper); }
+body,
+body.zine-surface,
+body.home-zine,
+body.shop-page,
+body.shop-ice,
+body.surface-night,
+body.surface-acetate,
+body.archive-release,
+body.hero-top {
+  --bg: var(--paper);
+  --ink: var(--zine-ink);
+  --muted: var(--zine-muted);
+  --dim: var(--zine-dim);
+  --card: #F4EEE0;
+  --soft: var(--paper-2);
+  --line: var(--zine-rule);
+  --radius: 0;
+  --radius-lg: 0;
+  --bezel-r: 0;
+  --pill: 0;
+  --display: var(--zine-display);
+  --sans: var(--zine-body);
+  --callsign: var(--zine-gothic);
+  background-color: var(--paper);
+  background-image:
+    var(--issue-fiber),
+    var(--issue-grain);
+  background-size: 240px 240px, 160px 160px;
+  background-repeat: repeat;
+  color: var(--ink);
+  color-scheme: light;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+body.hero-top,
+body.surface-night,
+body.vcr-chroma.hero-top,
+body.vcr-chroma.surface-night,
+body.is-air.vcr-chroma.hero-top,
+body.is-air.vcr-chroma.surface-night {
+  background-color: var(--paper);
+  background-image:
+    var(--issue-fiber),
+    var(--issue-grain);
+}
+
+::selection {
+  background: var(--stamp);
+  color: var(--ink);
+}
+
+:focus-visible,
+body.zine-surface :focus-visible,
+body.home-zine :focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 0;
+  box-shadow: 0 0 0 6px var(--stamp);
+}
+
+.skip-link {
+  background: var(--ink);
+  color: var(--stamp);
+  border-radius: 0;
+  font-family: var(--gothic);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Chrome — masthead, drawer, tab strip
+   -------------------------------------------------------------------------- */
+.nav,
+.nav.scrolled,
+body.hero-top .nav,
+body.hero-top .nav.scrolled,
+body.zine-surface .nav,
+body.home-zine .nav,
+body.shop-page .nav,
+body.surface-night .nav,
+body.archive-release .nav,
+body.news-listing .nav,
+body.surface-acetate .nav,
+body.has-station-bumper .nav {
+  background: var(--paper) !important;
+  border-bottom: 2px solid var(--ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.nav-logo img,
+body.hero-top .nav-logo img,
+body.shop-page .nav-logo img,
+body.nav-on-dark .nav-logo img,
+body.surface-night .nav-logo img,
+body.archive-release .nav-logo img {
+  filter: none !important;
+}
+.nav-links a,
+body.hero-top .nav-links a,
+body.zine-surface .nav-links a {
+  color: var(--ink);
+  font-family: var(--gothic);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 7px 10px;
+  background: transparent;
+}
+.nav-links a[aria-current="page"],
+.nav-links a:hover,
+body.zine-surface .nav-links a[aria-current="page"],
+body.zine-surface .nav-links a:hover {
+  color: var(--ink);
+  background: var(--stamp);
+}
+.nav-cart,
+.nav-ham span { color: var(--ink); background-color: currentColor; }
+.nav-ham span { background: var(--ink); }
+.nav-cart { background: none; color: var(--ink); border-radius: 0; }
+.nav-cart-count {
+  background: var(--stamp);
+  color: var(--ink);
+  border-radius: 0;
+  border: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-weight: 600;
+}
+.nav-drawer {
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+.nav-drawer a {
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  line-height: .9;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--ink);
+}
+.nav-scrim {
+  background: rgba(10, 10, 10, .55);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.nav-member {
+  height: auto;
+  padding: 4px 8px;
+  border-radius: 0;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  box-shadow: none;
+  color: var(--stamp);
+}
+.nav-member-lcd {
+  min-width: 58px;
+  height: auto;
+  padding: 2px 6px;
+  border-radius: 0;
+  background: var(--stamp);
+  box-shadow: none;
+  color: var(--ink);
+}
+.nav-member-level,
+.nav-member-no {
+  font-family: var(--mono);
+  color: var(--ink);
+  letter-spacing: .08em;
+}
+.nav-member-wheel { display: none; }
+
+@media (max-width: 720px) {
+  .tabbar {
+    background: var(--ink) !important;
+    border-top: 2px solid var(--stamp) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .tabbar a { color: var(--knockout) !important; }
+  .tabbar a span {
+    font-family: var(--gothic);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .tabbar a.is-current {
+    color: var(--ink) !important;
+    background: var(--stamp);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Type — section heads, chips, badges
+   -------------------------------------------------------------------------- */
+.section-head {
+  padding: 28px 0 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--ink);
+  box-shadow: none;
+}
+.section-head::after { display: none; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: var(--ink);
+}
+.eyebrow::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: var(--stamp);
+  box-shadow: none;
+}
+.section-head h1,
+.section-head h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: .82;
+  text-transform: uppercase;
+  font-size: clamp(44px, 8vw, 88px);
+}
+.section-head .head-link {
+  font-family: var(--gothic);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+}
+
+.badge,
+.badge-ink,
+.release-pill,
+.release-pill--preorder,
+.chip-acetate,
+.cat-cc,
+.genre-tag,
+.station-chip {
+  border-radius: 0 !important;
+  border: 1px solid var(--ink) !important;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  font-family: var(--mono) !important;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.chip-acetate::after,
+.cat-cc::after,
+.genre-tag::after,
+.station-chip::before { display: none !important; }
+.station-chip.is-active,
+.station-chip[aria-pressed="true"],
+.release-pill--preorder {
+  background: var(--stamp) !important;
+  color: var(--ink) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons, fields, cards
+   -------------------------------------------------------------------------- */
+.btn,
+.btn-dark,
+.btn-ghost,
+.btn-soft,
+.btn-fill,
+.btn-chrome-on-dark,
+.btn-ghost-on-dark,
+.btn-light,
+.btn-outline,
+.newsletter-form button,
+.footer-form button {
+  border-radius: 0 !important;
+  height: auto;
+  min-height: 46px;
+  padding: 12px 18px;
+  font-family: var(--gothic);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink) !important;
+  border: 2px solid var(--ink) !important;
+  background: var(--stamp) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  text-shadow: none;
+  filter: none;
+}
+.btn::before,
+.btn::after,
+.btn-chrome-on-dark::before,
+.btn-ghost-on-dark::before { display: none !important; }
+.btn-ghost,
+.btn-ghost-on-dark,
+.btn-outline {
+  background: transparent !important;
+}
+@media (hover: hover) {
+  .btn:hover,
+  .btn-dark:hover,
+  .btn-chrome-on-dark:hover,
+  .btn-light:hover,
+  .newsletter-form button:hover,
+  .footer-form button:hover {
+    background: var(--ink) !important;
+    color: var(--stamp) !important;
+    border-color: var(--ink) !important;
+    transform: none;
+    filter: none;
+    box-shadow: none !important;
+  }
+  .btn-ghost:hover,
+  .btn-outline:hover {
+    background: var(--stamp) !important;
+    color: var(--ink) !important;
+  }
+}
+
+.card,
+.glass,
+.newsletter,
+.newsletter-inner,
+.media-bezel {
+  border-radius: 0 !important;
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.newsletter::before,
+.newsletter::after { display: none; }
+.newsletter {
+  margin-top: 48px;
+  padding: 48px 0;
+}
+.chrome-input,
+.field input,
+.field textarea,
+.newsletter-form input[type="email"],
+.footer-form input[type="email"] {
+  border-radius: 0 !important;
+  border: 2px solid var(--ink) !important;
+  background: #fff !important;
+  color: var(--ink) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.chrome-input:focus,
+.field input:focus,
+.field textarea:focus,
+.newsletter-form input[type="email"]:focus,
+.footer-form input[type="email"]:focus {
+  outline: 3px solid var(--stamp);
+  outline-offset: 0;
+  border-color: var(--ink) !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.footer,
+body.hero-top .footer,
+body.zine-surface .footer,
+body.shop-page .footer {
+  background: var(--paper) !important;
+  color: var(--muted);
+  border-top: 2px solid var(--ink);
+}
+.footer-top {
+  box-shadow: none;
+  border-bottom: 1px solid var(--ink);
+}
+.footer-top::after { display: none; }
+.footer-logo { filter: none; opacity: .92; }
+.footer-manifesto,
+.footer-copy,
+.footer-links a,
+.footer-note,
+.footer label {
+  color: var(--muted);
+  font-family: var(--sans);
+}
+.footer-links a {
+  border-radius: 0;
+  color: var(--ink);
+  font-family: var(--gothic);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+@media (hover: hover) {
+  .footer-links a:hover {
+    background: var(--stamp);
+    color: var(--ink);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Home cover — listening object on a magazine spread
+   -------------------------------------------------------------------------- */
+body.home-zine .hero,
+body.zine-surface .hero {
+  --hero-ink: var(--ink);
+  background: var(--paper) !important;
+  color: var(--ink);
+  min-height: auto;
+}
+body.home-zine .hero::before,
+body.zine-surface .hero::before {
+  opacity: .11;
+  mix-blend-mode: multiply;
+  background-image: var(--issue-halftone), var(--issue-grain);
+  background-size: 12px 12px, 160px 160px;
+  filter: none;
+}
+body.home-zine .hero::after,
+body.home-zine .hero-ground,
+body.home-zine .hero-lcd-bloom,
+body.home-zine .hero-ipod-mirror,
+body.home-zine .hero-vinyl-sheen,
+body.home-zine .hero-vinyl-mirror,
+body.home-zine .hero-pulse { display: none !important; }
+
+body.home-zine .hero-lockup {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+body.home-zine .hero-lockup-kicker {
+  display: inline-block;
+  align-self: flex-start;
+  margin: 0 0 10px;
+  padding: 4px 10px 3px;
+  background: var(--stamp);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+body.home-zine .hero-lockup-spec span {
+  font-family: var(--mono);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+}
+body.home-zine .hero-lockup-spec span:first-child {
+  background: var(--flash);
+  color: var(--ink);
+  border-color: var(--ink);
+}
+body.home-zine .hero-lockup-artist {
+  font-family: var(--gothic);
+  font-size: clamp(18px, 2.4vw, 26px);
+  letter-spacing: .18em;
+}
+body.home-zine .hero-lockup-title {
+  font-family: var(--display);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  font-size: clamp(64px, 14vw, 148px);
+  line-height: .78;
+}
+body.home-zine .hero-lockup-title a {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--stamp);
+  padding: .02em .08em .04em;
+}
+@media (hover: hover) {
+  body.home-zine .hero-lockup-title a:hover {
+    background: var(--flash);
+    color: var(--ink);
+    opacity: 1;
+  }
+}
+
+body.home-zine .hero-vinyl-board,
+body.home-zine .hero-vinyl-board img,
+body.home-zine .hero-vinyl:focus-visible {
+  border-radius: 0;
+}
+body.home-zine .hero-vinyl-board {
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  overflow: hidden;
+}
+body.home-zine .hero-vinyl-board img {
+  filter: contrast(1.18) saturate(.55) grayscale(.25);
+  transform: scale(1.04);
+}
+@media (hover: hover) {
+  body.home-zine .hero-vinyl:hover .hero-vinyl-board img {
+    filter: contrast(1.12) saturate(.95) grayscale(0);
+  }
+}
+
+body.home-zine .hero-ticker,
+body.home-zine .hero.is-playing .hero-ticker {
+  background: var(--ink);
+  border-top: 2px solid var(--ink);
+  box-shadow: none;
+  color: var(--stamp);
+}
+body.home-zine .hero-ticker-bug {
+  background: var(--stamp);
+  border-right: 2px solid var(--ink);
+}
+body.home-zine .hero-ticker-bug .status-chip,
+body.home-zine .hero-ticker .status-chip--standby,
+body.home-zine .hero-ticker .status-chip--air {
+  color: var(--ink);
+  background: transparent;
+  font-family: var(--gothic);
+}
+body.home-zine .hero-ticker-now,
+body.home-zine .hero-ticker-copy a,
+body.home-zine .hero-ticker-copy span {
+  color: var(--stamp) !important;
+  font-family: var(--mono);
+  letter-spacing: .12em;
+}
+body.home-zine .hero-ticker-dot { background: var(--stamp); opacity: .55; }
+
+/* --------------------------------------------------------------------------
+   Catalogue wall / coverflow — record-shop spread, not iTunes
+   -------------------------------------------------------------------------- */
+.coverflow-nav,
+body.home-zine .wall .coverflow-nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 0;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+@media (hover: hover) {
+  .coverflow-nav:hover,
+  body.home-zine .wall .coverflow-nav:hover {
+    background: var(--stamp);
+    color: var(--ink);
+    transform: none;
+    border-color: var(--ink);
+  }
+}
+.coverflow-stage,
+body.home-zine .wall .coverflow-stage {
+  background:
+    linear-gradient(180deg, transparent 70%, rgba(10, 10, 10, .06) 100%);
+}
+.coverflow-stage::after { display: none; }
+.flow-art {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+}
+.album-flow.is-ready .flow-sleeve.is-center .flow-art {
+  box-shadow: 8px 8px 0 var(--ink) !important;
+}
+.coverflow-caption {
+  border-top: 2px solid var(--ink);
+}
+.coverflow-title,
+body.home-zine .wall .coverflow-title {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.04em;
+  line-height: .84;
+}
+.media-bezel {
+  border-radius: 0 !important;
+  border: 1px solid var(--ink) !important;
+  box-shadow: none !important;
+}
+.fx-spec::before,
+.fx-spec::after { display: none !important; }
+
+body.home-zine .home-artist-photo img,
+body.zine-surface .roster-artist img,
+.zine-polaroid img {
+  filter: contrast(1.22) saturate(.42) grayscale(.4);
+}
+@media (hover: hover) {
+  body.home-zine .home-artist:hover .home-artist-photo img,
+  .zine-polaroid:hover img {
+    filter: contrast(1.14) saturate(.88) grayscale(.08);
+  }
+}
+body.home-zine .home-artist-name {
+  font-size: clamp(28px, 3.4vw, 46px);
+  letter-spacing: -.04em;
+}
+
+/* --------------------------------------------------------------------------
+   Night Shift masthead — publication, not a website header
+   -------------------------------------------------------------------------- */
+.zine-logo,
+.zine-title a {
+  font-family: var(--masthead);
+  letter-spacing: .02em;
+  outline: 3px solid var(--ink);
+}
+.zine-logo-night {
+  background: var(--ink);
+  color: var(--stamp);
+}
+.zine-logo-shift {
+  background: var(--flash);
+  color: var(--ink);
+}
+.zine-stamp,
+.zine-kicker {
+  display: inline-block;
+  background: var(--stamp);
+  color: var(--ink) !important;
+  border: 0;
+  padding: 3px 8px 2px;
+  font-family: var(--gothic);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.zine-headline {
+  letter-spacing: -.05em;
+  line-height: .78;
+}
+@media (hover: hover) {
+  .zine-headline a:hover {
+    background: var(--stamp);
+    color: var(--ink) !important;
+  }
+}
+.zine-cols {
+  border-bottom: 2px solid var(--ink);
+}
+.zine-cols a {
+  font-family: var(--gothic);
+  letter-spacing: .14em;
+}
+.news-bridge,
+.news-bridge--out,
+.wall-bridge,
+.home-artists-bridge,
+.mixtapes-bridge { height: 0 !important; background: none !important; }
+
+.news.zine,
+body.home-zine .news.zine,
+body.home-zine .home-artists,
+body.home-zine .mixtapes {
+  border-top: 6px solid var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Audio dock — mixer strip
+   -------------------------------------------------------------------------- */
+.vcr-player {
+  border-radius: 0 !important;
+  background: var(--ink) !important;
+  border: 2px solid var(--stamp) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: var(--knockout);
+}
+.vcr-player::before { display: none; }
+.vcr-player.is-playing {
+  border-color: var(--stamp) !important;
+  box-shadow: none !important;
+}
+.vcr-player__jewel {
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--stamp);
+}
+.vcr-player__title {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: var(--stamp);
+}
+.vcr-player__sub,
+.vcr-player__times,
+.vcr-player__bug,
+.vcr-player__upnext {
+  font-family: var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(243, 236, 220, .72);
+  font-style: normal;
+}
+.vcr-player__btn {
+  border-radius: 0;
+  border: 1px solid transparent;
+}
+.vcr-player__btn--play,
+.vcr-player__buy {
+  border-radius: 0 !important;
+  background: var(--stamp) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--stamp) !important;
+  box-shadow: none !important;
+  font-family: var(--gothic);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+@media (hover: hover) {
+  .vcr-player__btn:hover { background: rgba(232, 255, 0, .16); transform: none; }
+  .vcr-player__btn--play:hover,
+  .vcr-player__buy:hover {
+    background: var(--flash) !important;
+    color: var(--ink) !important;
+    border-color: var(--flash) !important;
+    transform: none;
+  }
+}
+.vcr-player__eq i {
+  border-radius: 0;
+  background: var(--stamp);
+  box-shadow: none;
+}
+.vcr-player__scrub { accent-color: var(--stamp); }
+
+/* --------------------------------------------------------------------------
+   Listening sleeve / mixtapes / shop ice kill
+   -------------------------------------------------------------------------- */
+.listen-sleeve {
+  border-radius: 0;
+  box-shadow: none;
+  border: 2px solid var(--ink);
+}
+.listen-sleeve::before { display: none; }
+.listen-sleeve-hit .listen-glyph {
+  border-radius: 0;
+  background: var(--stamp);
+  color: var(--ink);
+}
+
+.mixtapes,
+body.home-zine .mixtapes {
+  --mix-ink: var(--ink);
+  --mix-muted: var(--muted);
+  --mix-lcd: var(--ink);
+  --mix-lcd-ink: var(--ink);
+  background: var(--paper) !important;
+  color: var(--ink);
+}
+.mixtapes::before { display: none; }
+
+body.shop-page,
+body.shop-ice,
+body.shop-ice.surface-acetate,
+body.zine-surface.shop-page,
+body.zine-surface.shop-ice,
+body.zine-surface.surface-acetate {
+  --zine-paper: var(--paper);
+  --zine-paper-2: var(--paper-2);
+  --zine-ink: var(--ink);
+  --zine-muted: var(--muted);
+  --zine-dim: var(--dim);
+  --zine-stamp: var(--stamp);
+  --bg: var(--paper);
+  --ink: var(--ink);
+  --card: #F4EEE0;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  color-scheme: light;
+}
+
+.fx-glass {
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+body.zine-surface .roster-artist {
+  background: #0A0A0A;
+  color: #F3ECDC;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+body.zine-surface .roster-photo img,
+body.zine-surface .artist-world-photo img {
+  filter: contrast(1.28) saturate(.35) grayscale(.5);
+}
+@media (hover: hover) {
+  body.zine-surface .roster-artist:hover .roster-photo img,
+  body.zine-surface .artist-world:hover .artist-world-photo img {
+    filter: contrast(1.16) saturate(.8) grayscale(.1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body.home-zine .hero-ticker-track,
+  .vcr-player,
+  .flow-sleeve,
+  .zine-polaroid img,
+  .home-artist-photo img {
+    animation: none !important;
+    transition: none !important;
+  }
+  .rv { opacity: 1; transform: none; }
+}

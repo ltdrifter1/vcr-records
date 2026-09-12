@@ -26,19 +26,16 @@
   width: 44px;
   height: 44px;
   margin: 0 8px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.28);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.16) 42%, rgba(176,190,208,.12) 100%);
-  color: #fff;
+  border-radius: 0;
+  border: 2px solid #0A0A0A;
+  background: #EDE6D4;
+  color: #0A0A0A;
   display: grid;
   place-items: center;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.55),
-    0 10px 22px rgba(0,0,0,.28);
-  backdrop-filter: blur(16px) saturate(1.4);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  transition: transform .2s var(--ease, cubic-bezier(.22,1,.36,1)), opacity .2s ease, border-color .2s ease;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: background .16s ease, border-color .16s ease;
   z-index: 4;
 }
 .coverflow-nav svg { width: 16px; height: 16px; fill: currentColor; }
@@ -143,20 +140,14 @@
 .flow-art {
   position: relative;
   aspect-ratio: 1;
-  overflow: visible;
+  overflow: hidden;
   background: #0a0a0c;
-  border-radius: 14px;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.16),
-    0 0 0 1px rgba(255,255,255,.1),
-    0 20px 44px rgba(0,0,0,.48);
+  border-radius: 0;
+  border: 2px solid #0A0A0A;
+  box-shadow: none;
 }
 .album-flow.is-ready .flow-sleeve.is-center .flow-art {
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.22),
-    0 0 0 1px rgba(220,230,242,.28),
-    0 26px 56px rgba(0,0,0,.56),
-    0 0 34px rgba(186,204,224,.14);
+  box-shadow: 8px 8px 0 #0A0A0A;
 }
 .flow-art img {
   width: 100%;

@@ -4,12 +4,11 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 ## Design
 
-Night Shift paper across the site. Homepage art direction in `css/home-zine.css`; every interior page loads `css/zine-pages.css` (`body.zine-surface`) so Library, Artists, Shop, releases, About, and utility pages share the same issue: paper, condensed display, hard rules, lime stamps.
-The zine (`css/news.css`) is the evening paper — Barlow Condensed display, Archivo body, fluorescent lime. `/news` is the live front.
+One publication across the site: newsprint stock, condensed gothic display, hard rules, highlighter yellow and process-magenta ink. Homepage art direction in `css/home-zine.css`; interiors load `css/zine-pages.css`; the shared issue skin is `css/issue.css` (loaded last). The zine (`css/news.css`) is the evening paper — Barlow Condensed / Anton display, Archivo body. `/news` is the live front.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 
-- Paper `#F7F5F1` · Ink `#111111` · Acid lime `#C6FF1A` · Muted kickers `#5F636B`
-- Type: Barlow Condensed display · Archivo body · IBM Plex Mono specs · Oswald gothic nav
+- Paper `#EDE6D4` · Ink `#0A0A0A` · Highlighter `#E8FF00` · Magenta `#FF3B8A` · Body copy `#3D3A34`
+- Type: Anton / Barlow Condensed display · Archivo body · IBM Plex Mono specs · Oswald gothic nav
 
 ## Commerce
 
