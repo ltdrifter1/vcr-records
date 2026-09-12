@@ -106,7 +106,7 @@
   <link rel="stylesheet" href="css/fx.css"/>
   <link rel="stylesheet" href="css/player.css"/>
   <link rel="stylesheet" href="css/news.css"/>
-  <link rel="stylesheet" href="css/desk.css"/>
+  <link rel="stylesheet" href="css/mixtapes.css"/>
   <style>
     /* Listening booth hero : ice cove, LCD gel, iPod as product ------------ */
     .hero {
@@ -122,8 +122,8 @@
       place-items: center;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 56% 42% at 64% 46%, rgba(255,255,255,.92), transparent 62%),
-        radial-gradient(ellipse 80% 55% at 28% 8%, rgba(232, 240, 248, .9), transparent 58%),
+        radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
+        radial-gradient(ellipse 80% 55% at 72% 8%, rgba(232, 240, 248, .9), transparent 58%),
         linear-gradient(180deg, #eef3f7 0%, #d5e0ea 38%, #c5d2dc 72%, #b4c2d0 100%);
       color: var(--hero-ink);
       isolation: isolate;
@@ -159,23 +159,25 @@
     .hero-post {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       gap: clamp(10px, 1.6vh, 22px);
-      width: 100%;
-      max-width: 1100px;
+      width: max-content;
+      max-width: 100%;
       margin: 0 auto;
     }
 
-    /* Billboard lockup — identity lives above the still life --------------- */
+    /* Billboard lockup — sits over the iPod column ------------------------- */
     .hero-lockup {
       position: relative;
       z-index: 2;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 0;
       margin: 0;
-      text-align: center;
+      width: var(--ipod-w);
+      max-width: 100%;
+      text-align: left;
     }
     .hero-lockup-kicker {
       margin: 0 0 8px;
@@ -198,14 +200,14 @@
       font-family: Oswald, var(--sans);
       font-weight: 600;
       font-size: clamp(22px, 3.4vw, 42px);
-      letter-spacing: .18em;
+      letter-spacing: .1em;
     }
     .hero-lockup-title {
       margin: 0;
       font-family: Oswald, var(--sans);
       font-weight: 700;
       font-size: clamp(44px, 7.2vw, 88px);
-      letter-spacing: .06em;
+      letter-spacing: .02em;
     }
     .hero-lockup-title a {
       font: inherit;
@@ -227,8 +229,8 @@
     .hero-scene {
       position: relative;
       display: grid;
-      grid-template-columns: var(--disc) var(--ipod-w);
-      grid-template-areas: "vinyl booth";
+      grid-template-columns: var(--ipod-w) var(--disc);
+      grid-template-areas: "booth vinyl";
       align-items: end;
       justify-content: center;
       column-gap: clamp(28px, 3.4vw, 40px);
@@ -274,18 +276,7 @@
         transparent 72%);
       filter: blur(22px);
     }
-    .hero-ipod-mirror {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 100%;
-      height: 18%;
-      z-index: 0;
-      pointer-events: none;
-      border-radius: 50%;
-      background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(26, 30, 38, .22), transparent 70%);
-      filter: blur(10px);
-    }
+    .hero-ipod-mirror { display: none; }
 
     .hero-vinyl {
       position: relative;
@@ -506,21 +497,7 @@
         transparent 68%,
         rgba(255,255,255,.22) 100%);
     }
-    .hero-platter::after {
-      content: "";
-      position: absolute;
-      top: 7px;
-      left: 46%;
-      z-index: 5;
-      width: 11px;
-      height: 7px;
-      border-radius: 3px;
-      background: radial-gradient(circle at 50% 40%, #2a2a2a, #0a0a0a 70%);
-      box-shadow:
-        inset 0 1px 2px #000,
-        0 .5px 0 rgba(255,255,255,.55);
-      pointer-events: none;
-    }
+    .hero-platter::after { content: none; display: none; }
     .hero-pulse { display: none; }
     .hero.is-playing .hero-platter {
       box-shadow:
@@ -1539,18 +1516,18 @@
       .wall-item.is-now-playing.is-audible .wall-art::before { animation: none; }
     }
 
-    /* Home artists — ice roster after the aluminum desk -------------------- */
+    /* Home artists — ice roster after mixtapes ---------------------------- */
     .home-artists {
       position: relative;
       padding: 0 0 56px;
       color: #1A1E26;
       background:
         radial-gradient(720px 360px at 88% 100%, rgba(186,204,224,.22), transparent 55%),
-        linear-gradient(180deg, #EEF1F4 0%, #E6EAEF 100%);
+        linear-gradient(180deg, #eef3f7 0%, #E6EAEF 100%);
     }
     .home-artists-bridge {
-      height: 48px;
-      background: linear-gradient(180deg, #3E434C 0%, transparent 100%);
+      height: 36px;
+      background: linear-gradient(180deg, #eef3f7 0%, transparent 100%);
       pointer-events: none;
     }
     @media (min-width: 800px) {
@@ -1749,11 +1726,17 @@
         width: min(100% - 32px, 640px);
         padding: calc(var(--nav-h) + var(--safe-t) + 8px) 0 calc(12px + var(--ticker-h) + var(--tabbar-h) + var(--safe-b));
       }
+      .hero-post { width: 100%; align-items: center; }
+      .hero-lockup {
+        align-items: center;
+        text-align: center;
+        width: 100%;
+      }
       .hero-scene {
         grid-template-columns: 1fr;
         grid-template-areas:
-          "vinyl"
-          "booth";
+          "booth"
+          "vinyl";
         justify-items: center;
         column-gap: 0;
         row-gap: 20px;
@@ -1913,7 +1896,7 @@
       <a href="/library">Library</a>
       <a href="#artists">Artists</a>
       <a href="/news">Zine</a>
-      <a href="/tapes">Tapes</a>
+      <a href="#mixtapes">Mixtapes</a>
       <a href="/merch">Shop</a>
       <a href="#join">Join</a>
       <a href="/contact">Contact</a>
@@ -1939,7 +1922,7 @@
   <a href="/library">Library</a>
   <a href="#artists">Artists</a>
   <a href="/news">Zine</a>
-  <a href="/tapes">Tapes</a>
+  <a href="#mixtapes">Mixtapes</a>
   <a href="/merch">Shop</a>
   <a href="#join">Join</a>
   <a href="/contact">Contact</a>
@@ -1960,13 +1943,6 @@
           <h1 class="hero-lockup-title"><a href="/desire">Desire</a></h1>
         </header>
         <div class="hero-scene">
-          <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
-            <span class="hero-vinyl-board">
-              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
-              <span class="hero-vinyl-sheen" aria-hidden="true"></span>
-            </span>
-            <span class="hero-vinyl-mirror" aria-hidden="true"></span>
-          </a>
         <div class="hero-booth">
           <span class="hero-lcd-bloom" aria-hidden="true"></span>
         <div class="hero-platter">
@@ -2028,6 +2004,13 @@
         </div>
         <span class="hero-ipod-mirror" aria-hidden="true"></span>
         </div>
+          <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
+            <span class="hero-vinyl-board">
+              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
+              <span class="hero-vinyl-sheen" aria-hidden="true"></span>
+            </span>
+            <span class="hero-vinyl-mirror" aria-hidden="true"></span>
+          </a>
         </div>
       </div>
     </div>
@@ -2161,158 +2144,29 @@
     </div>
   </section>
 
-  <!-- The Tapes — Night Shift crate -->
-  <section class="news zine tapes-zine" id="tapes" aria-labelledby="tapes-title">
-    <div class="news-bridge" aria-hidden="true"></div>
-    <div class="zine-sheet">
-      <header class="zine-masthead">
-        <div class="zine-nameplate">
-          <p class="zine-issue">vol. xxii · vancouver</p>
-          <p class="zine-stamp">c90</p>
-        </div>
-        <h2 class="zine-title" id="tapes-title">
-          <a class="zine-logo" href="/tapes"><span class="zine-logo-night">The</span><span class="zine-logo-shift">Tapes</span></a>
-        </h2>
-        <p class="zine-credit">club copy</p>
-        <p class="zine-tagline">c90s for the ride home. upload a mix to /tapes and the desk plays it.</p>
-        <p class="tapes-now" data-tapes-now hidden></p>
+  <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
+    <div class="mixtapes-bridge" aria-hidden="true"></div>
+    <div class="mixtapes-band">
+      <header class="mixtapes-head">
+        <h2 id="mixtapes-title">Mixtapes</h2>
+        <a class="mixtapes-head-link" href="/tapes">All mixtapes</a>
       </header>
+      <p class="tapes-now" data-tapes-now hidden></p>
       <div class="tapes-grid" data-tapes-grid>
-        <article class="tape" data-tape="01">
-          <div class="tape-sleeve"><img src="mixtape-cover.webp" alt="mixtape (instrumental version) — L.T. Drifta" width="1400" height="1400" loading="lazy"/></div>
-          <div>
-            <p class="tape-kicker">CC024 · vol. 01</p>
-            <h3 class="tape-title">mixtape (instrumental version)</h3>
+        <article class="mix-card tape" data-tape="01">
+          <div class="tape-sleeve mix-sleeve"><img src="mixtape-cover.webp" alt="mixtape (instrumental version) — L.T. Drifta" width="1400" height="1400" loading="lazy"/></div>
+          <div class="mix-body">
+            <p class="mix-lcd">CC024</p>
+            <h3 class="tape-title mix-title">mixtape (instrumental version)</h3>
             <em class="tape-dj">L.T. Drifta</em>
-            <p class="tape-spec zine-spec"><span>2026</span><span>48:00</span><span>CC024</span></p>
-            <p class="tape-dek">Fifteen instrumentals. The house after they think they’re done.</p>
+            <p class="tape-spec"><span>2026</span><span>48:00</span></p>
+            <p class="tape-dek">15 tracks. Instrumental hip-hop. Digital, $9 CAD.</p>
             <div class="tape-actions">
               <button type="button" class="tape-play" data-tape-play="tapes/01/mix.mp3" data-tape-id="01" data-tape-title="mixtape (instrumental version)" data-tape-dj="L.T. Drifta">play</button>
-              <a class="tape-link" href="/mixtape">sleeve →</a>
+              <a class="tape-link" href="/mixtape">release</a>
             </div>
           </div>
         </article>
-        <article class="tape" data-tape="02">
-          <div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">02</div>
-          <div>
-            <p class="tape-kicker">TAPE 02 · vol. 02</p>
-            <h3 class="tape-title">Side A — forthcoming</h3>
-            <em class="tape-dj">Club Copy</em>
-            <p class="tape-spec zine-spec"><span>2026</span><span>—</span><span>TAPE 02</span></p>
-            <p class="tape-dek">Upload cover.webp and mix.mp3 to tapes/02/. The desk plays whatever you put there.</p>
-            <div class="tape-actions">
-              <button type="button" class="tape-play" data-tape-play="tapes/02/mix.mp3" data-tape-id="02" data-tape-title="Side A — forthcoming" data-tape-dj="Club Copy">play</button>
-            </div>
-          </div>
-        </article>
-        <article class="tape" data-tape="03">
-          <div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">03</div>
-          <div>
-            <p class="tape-kicker">TAPE 03 · vol. 03</p>
-            <h3 class="tape-title">Side B — forthcoming</h3>
-            <em class="tape-dj">Club Copy</em>
-            <p class="tape-spec zine-spec"><span>2026</span><span>—</span><span>TAPE 03</span></p>
-            <p class="tape-dek">Same crate. Different night. Leave the runtime blank until the file lands.</p>
-            <div class="tape-actions">
-              <button type="button" class="tape-play" data-tape-play="tapes/03/mix.mp3" data-tape-id="03" data-tape-title="Side B — forthcoming" data-tape-dj="Club Copy">play</button>
-            </div>
-          </div>
-        </article>
-        <article class="tape" data-tape="04">
-          <div class="tape-sleeve tape-sleeve--blank" aria-hidden="true">04</div>
-          <div>
-            <p class="tape-kicker">TAPE 04 · vol. 04</p>
-            <h3 class="tape-title">Afters — forthcoming</h3>
-            <em class="tape-dj">Club Copy</em>
-            <p class="tape-spec zine-spec"><span>2026</span><span>—</span><span>TAPE 04</span></p>
-            <p class="tape-dek">Kitchen aux. No vote. File goes in tapes/04/.</p>
-            <div class="tape-actions">
-              <button type="button" class="tape-play" data-tape-play="tapes/04/mix.mp3" data-tape-id="04" data-tape-title="Afters — forthcoming" data-tape-dj="Club Copy">play</button>
-            </div>
-          </div>
-        </article>
-      </div>
-      <p class="tapes-note">put <code>cover.webp</code> + <code>mix.mp3</code> in <code>tapes/01</code> … <code>tapes/04</code> · <a href="/tapes">full crate</a></p>
-    </div>
-  </section>
-
-  <!-- Still life — silver discman + Diamond Rio -->
-  <section class="desk" id="desk" data-desk aria-label="Listen on a portable CD player or Diamond Rio">
-    <div class="desk-folio">
-      <p class="desk-folio-kicker">02 / hardware</p>
-      <p class="desk-folio-title">Listen on a portable</p>
-      <p class="desk-folio-meta">Discman · Rio PMP300 · jewel cases</p>
-    </div>
-    <div class="desk-band">
-      <div class="desk-still">
-        <div class="desk-cases" aria-label="Jewel cases on the desk">
-          <a class="desk-case desk-case--a" href="/j-adore">
-            <span class="desk-case-spine" aria-hidden="true"></span>
-            <img src="j-adore-cover.webp" alt="j'adore — Rosco" width="1200" height="1200" loading="lazy"/>
-          </a>
-          <a class="desk-case desk-case--live" data-desk-sleeve-link href="/desire">
-            <span class="desk-case-spine" aria-hidden="true"></span>
-            <img data-desk-sleeve-img src="desire-cover.webp" alt="DESIRE — Molly Haze" width="1200" height="1200" loading="lazy"/>
-          </a>
-        </div>
-        <div class="desk-players">
-          <div
-            class="desk-option desk-option--walkman is-active"
-            data-desk-option
-            data-desk-release="desire"
-            data-page="/desire"
-            data-cover="desire-cover.webp"
-            data-title="DESIRE"
-            data-artist="Molly Haze"
-            data-lcd-title="DESIRE"
-          >
-            <div class="hw hw--walkman">
-              <img class="hw-photo" src="img/desk-walkman.webp?v=cdr" alt="Silver portable CD player" width="860" height="794" loading="lazy"/>
-              <div class="hw-lcd" aria-hidden="true">
-                <div class="hw-lcd-row">
-                  <span class="hw-lcd-mode" data-desk-lcd-mode></span>
-                  <span class="hw-lcd-track" data-desk-lcd-track>001</span>
-                  <span class="hw-lcd-time" data-desk-lcd-time>0:00</span>
-                </div>
-                <span class="hw-lcd-title" data-desk-lcd-title>DESIRE</span>
-              </div>
-              <button type="button" class="hw-hit hw-hit--play" data-desk-play aria-label="Play DESIRE"></button>
-              <button type="button" class="hw-hit hw-hit--prev" data-desk-prev aria-label="Previous track"></button>
-              <button type="button" class="hw-hit hw-hit--next" data-desk-next aria-label="Next track"></button>
-              <button type="button" class="hw-hit hw-hit--stop" data-desk-stop aria-label="Stop"></button>
-              <button type="button" class="hw-hit hw-hit--vol-down" data-desk-vol-down aria-label="Volume down"></button>
-              <button type="button" class="hw-hit hw-hit--vol-up" data-desk-vol-up aria-label="Volume up"></button>
-            </div>
-          </div>
-
-          <a class="desk-case desk-case--mid" href="/news/please">
-            <span class="desk-case-spine" aria-hidden="true"></span>
-            <img src="you-are-love-cover.webp" alt="You Are (Love) — Riscape" width="1254" height="1254" loading="lazy"/>
-          </a>
-
-          <div
-            class="desk-option desk-option--rio"
-            data-desk-option
-            data-desk-release="still-riding"
-            data-page="/still-riding"
-            data-cover="still-riding-cover.webp"
-            data-title="Still Riding (Molly Haze Edit)"
-            data-artist="Molly Haze"
-            data-lcd-title="STILL RIDING"
-          >
-            <div class="hw hw--rio">
-              <img class="hw-photo" src="img/desk-rio.webp" alt="Diamond Rio PMP300" width="392" height="534" loading="lazy"/>
-              <div class="hw-lcd" aria-hidden="true">
-                <span class="hw-lcd-title" data-desk-lcd-title>STILL RIDING</span>
-                <span class="hw-lcd-time" data-desk-lcd-time>0:00</span>
-              </div>
-              <button type="button" class="hw-hit hw-hit--play" data-desk-play aria-label="Play Still Riding (Molly Haze Edit)"></button>
-              <button type="button" class="hw-hit hw-hit--stop" data-desk-stop aria-label="Stop"></button>
-              <button type="button" class="hw-hit hw-hit--next" data-desk-next aria-label="Next track"></button>
-              <button type="button" class="hw-hit hw-hit--prev" data-desk-prev aria-label="Previous track"></button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -2323,7 +2177,7 @@
     <div class="band">
       <header class="section-head home-artists-head rv">
         <div>
-          <p class="eyebrow">03 / roster</p>
+          <p class="eyebrow">02 / roster</p>
           <h2 id="home-artists-title">Artists</h2>
         </div>
         <a class="head-link" href="/artists">View all</a>
@@ -2614,9 +2468,9 @@
           <em>read the paper</em>
         </a>
         <a class="zine-flyer" href="/tapes">
-          <strong>The Tapes</strong>
-          <span>C90s for the ride home. Drop a mix in the crate. We play whatever you put there.</span>
-          <em>put it on</em>
+          <strong>Mixtapes</strong>
+          <span>L.T. Drifta, mixtape (instrumental version). CC024.</span>
+          <em>play</em>
         </a>
       </div>
 
@@ -2749,7 +2603,6 @@
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
 <script src="js/ipod.js"></script>
-<script src="js/desk.js"></script>
 <script src="js/home-wall.js"></script>
 <script>
 (function () {
@@ -2762,9 +2615,7 @@
     /* Home ice cove : dark-on-light nav through the catalogue */
     document.body.classList.toggle('nav-light', true);
     var xerox = document.getElementById('news');
-    var tapes = document.getElementById('tapes');
-    var onPaper = !!(xerox && xerox.getBoundingClientRect().top <= 64) ||
-      !!(tapes && tapes.getBoundingClientRect().top <= 64 && tapes.getBoundingClientRect().bottom > 80);
+    var onPaper = !!(xerox && xerox.getBoundingClientRect().top <= 64);
     document.body.classList.toggle('xerox-under-nav', onPaper);
     ticking = false;
   }

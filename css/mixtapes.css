@@ -1,0 +1,278 @@
+/* Mixtapes — Y2K ice / chrome, not newsprint, not red */
+
+.mixtapes {
+  --mix-ink: #111318;
+  --mix-muted: #4a5563;
+  --mix-lcd: #7ee0e8;
+  --mix-lcd-ink: #0b3a3e;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--mix-ink);
+  background:
+    radial-gradient(ellipse 70% 48% at 12% 0%, rgba(186, 214, 238, .55), transparent 58%),
+    radial-gradient(ellipse 55% 40% at 92% 18%, rgba(196, 176, 232, .22), transparent 52%),
+    radial-gradient(ellipse 50% 36% at 70% 100%, rgba(120, 228, 232, .16), transparent 58%),
+    linear-gradient(180deg, #e6eef6 0%, #d4dee8 42%, #eef3f7 100%);
+  padding: 0 0 72px;
+}
+.mixtapes::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg,
+      rgba(186,214,238,.2) 0%,
+      rgba(255,255,255,.18) 46%,
+      rgba(176,232,228,.12) 100%);
+  opacity: .7;
+}
+.mixtapes-bridge {
+  height: 36px;
+  background: linear-gradient(180deg, #E6EAEF 0%, transparent 100%);
+  pointer-events: none;
+}
+.mixtapes-band {
+  position: relative;
+  z-index: 1;
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 8px;
+}
+#mixtapes,
+#tapes { scroll-margin-top: calc(var(--nav-h, 56px) + 16px); }
+
+.mixtapes-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 28px;
+}
+.mixtapes-head h1,
+.mixtapes-head h2 {
+  margin: 0;
+  font-family: Oswald, var(--callsign, sans-serif);
+  font-weight: 700;
+  font-size: clamp(36px, 6vw, 64px);
+  letter-spacing: .08em;
+  line-height: .9;
+  text-transform: uppercase;
+}
+.mixtapes-head-link {
+  font-family: Oswald, var(--callsign, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--mix-muted);
+  border-bottom: 1px solid rgba(17, 19, 24, .22);
+}
+@media (hover: hover) {
+  .mixtapes-head-link:hover { color: var(--mix-ink); }
+}
+
+.tapes-now {
+  margin: 0 0 18px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--mix-lcd-ink);
+}
+.tapes-now[hidden] { display: none; }
+
+.tapes-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.mix-card,
+.tape {
+  display: grid;
+  grid-template-columns: minmax(140px, 280px) minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 36px);
+  align-items: center;
+  padding: 22px;
+  border-radius: 22px;
+  background:
+    linear-gradient(165deg, rgba(255,255,255,.72), rgba(255,255,255,.32)),
+    rgba(255,255,255,.42);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.88) inset,
+    0 0 0 1px rgba(150, 166, 186, .38),
+    0 24px 56px rgba(26, 30, 38, .12);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+@media (max-width: 640px) {
+  .mix-card,
+  .tape {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+}
+
+.tape-sleeve,
+.mix-sleeve {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111318;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.55) inset,
+    0 18px 40px rgba(17, 19, 24, .22);
+}
+.tape-sleeve::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(125deg, rgba(255,255,255,.34) 0%, transparent 38%, rgba(120,228,232,.12) 100%);
+}
+.tape-sleeve img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tape-sleeve--blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Oswald, sans-serif;
+  font-size: 42px;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.55);
+}
+
+.mix-body { min-width: 0; }
+.mix-lcd {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 12px;
+  padding: 5px 10px 4px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--mix-lcd-ink);
+  background: linear-gradient(180deg, #c8f4f6, #9ee8ee);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 0 16px rgba(126, 224, 232, .35);
+}
+.mix-title,
+.tape-title {
+  margin: 0 0 8px;
+  font-family: Oswald, var(--callsign, sans-serif);
+  font-size: clamp(26px, 4.2vw, 42px);
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: .95;
+  text-transform: none;
+}
+.tape-dj {
+  display: block;
+  margin: 0 0 10px;
+  font-family: Oswald, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--mix-muted);
+}
+.tape-spec {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0 0 16px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--mix-muted);
+}
+.tape-spec span + span::before {
+  content: "·";
+  margin-right: 14px;
+  opacity: .45;
+}
+.tape-dek {
+  margin: 0 0 18px;
+  max-width: 36em;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--mix-muted);
+  letter-spacing: -.01em;
+}
+.tape-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tape-play,
+.tape-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 18px;
+  font-family: Oswald, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #f4f7fb;
+  background: #111318;
+  border: 0;
+  border-radius: 980px;
+}
+.tape-link {
+  color: var(--mix-ink);
+  background: rgba(255,255,255,.55);
+  box-shadow: inset 0 0 0 1px rgba(17, 19, 24, .16);
+}
+.tape-play[disabled],
+.tape-play.is-pending {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.tape-play.is-live {
+  background: #0b3a3e;
+  color: var(--mix-lcd);
+}
+@media (hover: hover) {
+  .tape-play:not([disabled]):hover { opacity: .82; }
+  .tape-link:hover { background: #fff; }
+}
+
+body.mixtapes-page {
+  background:
+    radial-gradient(ellipse 70% 48% at 12% 0%, rgba(186, 214, 238, .45), transparent 58%),
+    linear-gradient(180deg, #e6eef6 0%, #eef3f7 55%, #e6eef6 100%);
+}
+.mixtapes-page .crumbs {
+  margin: 88px 0 8px;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--mix-muted);
+}
+.mixtapes-page .crumbs span { margin: 0 8px; opacity: .4; }
+.mixtapes-page .footer {
+  background: transparent;
+  border-top: 0;
+}
+.mixtapes-page .footer-copy,
+.mixtapes-page .footer-links a {
+  color: #4a5563;
+}
