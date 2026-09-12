@@ -276,3 +276,42 @@ body.mixtapes-page {
 .mixtapes-page .footer-links a {
   color: #4a5563;
 }
+
+/* Sit on Night Shift paper: hard rule, iOS glass card */
+.news.zine .mixtapes {
+  background: transparent;
+  padding: 0;
+  overflow: visible;
+}
+.news.zine .mixtapes::before,
+.news.zine .mixtapes-bridge { display: none; }
+.news.zine .mixtapes-band {
+  width: min(1240px, calc(100% - 20px));
+  margin: 0 auto;
+  padding: 32px 0 24px;
+  border-top: 1px solid var(--zine-ink, #111);
+}
+.news.zine .mixtapes-head {
+  align-items: flex-end;
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+}
+.news.zine .mixtapes-head h2 {
+  font-family: "Barlow Condensed", Oswald, sans-serif;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  font-size: clamp(40px, 7vw, 72px);
+  line-height: .88;
+}
+.news.zine .mixtapes-head-link {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  text-transform: none;
+  color: rgba(17, 19, 24, .55);
+  border-bottom: 0;
+}
+.news.zine .mix-card {
+  border-radius: 18px;
+}

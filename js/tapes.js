@@ -155,9 +155,7 @@
       '">' +
       sleeve +
       '<div class="mix-body">' +
-      '<p class="mix-lcd">' +
-      esc(t.cat) +
-      "</p>" +
+      '<p class="mix-lcd">Mix</p>' +
       '<h3 class="tape-title mix-title">' +
       esc(t.title) +
       "</h3>" +
