@@ -43,18 +43,7 @@ body.home-zine.hero-top .nav-logo img {
 body.home-zine .nav-logo {
   gap: 10px;
 }
-body.home-zine .nav-logo::after {
-  content: "CC / XXII";
-  font-family: var(--zine-mono);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--zine-dim);
-  border-left: 1px solid var(--zine-ink);
-  padding-left: 10px;
-  line-height: 1;
-}
+body.home-zine .nav-logo::after { content: none; display: none; }
 @media (max-width: 520px) {
   body.home-zine .nav-logo::after { display: none; }
 }
@@ -124,13 +113,7 @@ body.home-zine .section-head .eyebrow {
   color: var(--zine-ink);
   margin-bottom: 8px;
 }
-body.home-zine .eyebrow::before {
-  width: 7px;
-  height: 7px;
-  border-radius: 0;
-  background: var(--zine-stamp);
-  box-shadow: none;
-}
+body.home-zine .eyebrow::before { display: none; }
 body.home-zine .section-head h1,
 body.home-zine .section-head h2 {
   font-family: var(--zine-display);
@@ -201,7 +184,7 @@ body.home-zine .hero-lockup-kicker {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: .22em;
-  color: var(--zine-magenta);
+  color: var(--zine-dim);
 }
 body.home-zine .hero-lockup-spec {
   display: flex;
@@ -347,7 +330,7 @@ body.home-zine .wall .coverflow-kicker {
   font-size: 10px;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--zine-magenta);
+  color: var(--zine-dim);
 }
 body.home-zine .wall .coverflow-title {
   font-family: var(--zine-display);
