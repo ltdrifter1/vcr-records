@@ -11,7 +11,7 @@ body.zine-surface {
   --zine-dim: #727780;
   --zine-rule: rgba(17, 17, 17, .18);
   --zine-stamp: #C6FF1A;
-  --zine-magenta: #E11D48;
+  --zine-magenta: var(--zine-muted);
   --zine-display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-gothic: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -34,6 +34,18 @@ body.zine-surface {
   color: var(--zine-ink);
   color-scheme: light;
   font-family: var(--zine-body);
+}
+
+@media (hover: hover) {
+  body.zine-surface .zine-headline a:hover,
+  body.zine-surface a.zine-post:hover .zine-post-title,
+  body.zine-surface .zine-scene a:hover strong,
+  body.zine-surface .zine-flyer:hover strong,
+  body.zine-surface .zine-desk a:hover strong,
+  body.zine-surface .zine-also-list a:hover strong {
+    color: var(--zine-ink);
+    background-image: none;
+  }
 }
 
 /* Chrome — masthead, drawer, footer -------------------------------------- */
@@ -885,7 +897,7 @@ body.zine-surface.archive-release {
   --ra-dim: #727780;
   --ra-line: rgba(17, 17, 17, .18);
   --ra-green: #111111;
-  --ra-vfd: #E11D48;
+  --ra-vfd: var(--zine-muted);
   background: var(--zine-paper);
   color: var(--zine-ink);
   font-family: var(--zine-body);
