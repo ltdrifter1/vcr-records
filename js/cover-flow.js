@@ -373,6 +373,10 @@
     var cat = rel.genre
       ? '<span class="cat-cc">' + esc(rel.genre) + "</span>"
       : "";
+    var preorder = String(rel.status || "").toLowerCase() === "pre-order";
+    var pill = preorder
+      ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
+      : "";
     return (
       '<a class="flow-sleeve" href="' + esc(href) + '" data-coverflow-item data-release="' + esc(rel.id) + '"' +
         ' data-flow-title="' + esc(rel.title) + '"' +
@@ -383,6 +387,7 @@
           '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:700px) 52vw, 340px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
           cat +
           play +
+          pill +
         "</div>" +
       "</a>"
     );
