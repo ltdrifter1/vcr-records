@@ -104,17 +104,16 @@
       '<a href="/merch" data-tab="shop">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/><circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>' +
         '<span>Shop</span></a>' +
-      '<a href="' + (isHome ? '#join' : '/#join') + '" data-tab="club">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="12" r="2.1"/><path d="M13.2 10.4h5.2M13.2 13.6h3.6" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>' +
-        '<span>Club</span></a>';
+      '<a href="/news" data-tab="zine">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.2" y="5" width="15.6" height="14" rx="1.6"/><path d="M7.4 9h9.2M7.4 12.2h6.6M7.4 15.4h8.2"/></svg>' +
+        '<span>Zine</span></a>';
     document.body.appendChild(bar);
 
     function currentTab() {
       var p = (location.pathname || '/').replace(/\/index\.html$/, '/');
-      var hash = location.hash || '';
       if (p.indexOf('/library') === 0) return 'library';
       if (p.indexOf('/merch') === 0 || p.indexOf('/cart') === 0 || p.indexOf('/checkout') === 0) return 'shop';
-      if (p.indexOf('/account') === 0 || hash === '#join') return 'club';
+      if (p.indexOf('/news') === 0) return 'zine';
       if (p === '/' || p === '') return 'listen';
       return '';
     }
@@ -142,22 +141,6 @@
       syncTabs();
     });
 
-    bar.querySelector('[data-tab="club"]').addEventListener('click', function (e) {
-      var href = this.getAttribute('href') || '';
-      if (href.indexOf('#join') === -1) return;
-      if (!isHome) return;
-      e.preventDefault();
-      closeDrawer();
-      var join = document.getElementById('join');
-      if (join) {
-        try { join.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        catch (err) { join.scrollIntoView(true); }
-      }
-      try { history.replaceState({}, '', '#join'); }
-      catch (err) { location.hash = 'join'; }
-      syncTabs();
-    });
-
     window.addEventListener('hashchange', syncTabs);
     syncTabs();
 
@@ -167,7 +150,7 @@
         var dup = href === '/' || href === '/index.html' ||
           href === '#listen' || href === '/#listen' ||
           href === '/library' || href === '/merch' ||
-          href === '#join' || href === '/#join' || href === '/account';
+          href === '/news';
         if (dup) a.classList.add('tabbar-dup');
       });
     }
