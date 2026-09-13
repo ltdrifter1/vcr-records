@@ -124,6 +124,7 @@
     <button class="modal-close" id="modalClose" aria-label="Close">×</button>
     <h2>Acquisition confirmed</h2>
     <p>Thanks for supporting independent music. Your receipt and download details are on their way by email.</p>
+    <p class="ra-club-nudge" data-club-nudge>Buying often? <a href="/?plan=club#join">Club is $5/year and pays for itself.</a></p>
     <div class="modal-btns">
       <a class="btn btn-fill" href="/library">Back to the library</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
@@ -207,6 +208,7 @@
           <button type="button" class="btn btn-light" id="buyBtn">Buy Digital — $1.50 CAD</button>
           <button type="button" class="btn btn-ghost" id="heroListen">Play preview</button>
         </div>
+        <p class="ra-club-nudge" data-club-nudge>Buying often? <a href="/?plan=club#join">Club is $5/year and pays for itself.</a></p>
       </div>
     </div>
   </section>
@@ -282,7 +284,7 @@
             <button class="track-play-btn" type="button" aria-label="Play Radio Edit" tabindex="-1"></button>
           </div>
           <p class="ra-tracks-note">Total running time 3:45 · 90s preview on site · files after checkout</p>
-        </div>
+          <p class="ra-club-nudge" data-club-nudge>Buying often? <a href="/?plan=club#join">Club is $5/year and pays for itself.</a></p>
       </div>
     </div>
   </section>
@@ -383,6 +385,7 @@ VCRReleaseBind({
     if (!f) return;
     if (window.VCRCart) VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: 'the-process-cover.webp', qty: 1, id: f.sku });
     buyBtn.textContent = 'Added \u2713';
+    document.body.classList.add('is-cc020-bought');
     clearTimeout(resetTimer);
     resetTimer = setTimeout(() => { buyBtn.textContent = buyLabel; }, 2200);
   });
@@ -426,6 +429,30 @@ if (sp.get('purchase') === 'success' || sp.has('session_id')) setTimeout(openM, 
 })();
 
 (function(){ const f = $('signupPageField'); if (f) f.value = location.href; })();
+
+(function () {
+  function paidMember() {
+    var p = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
+    return p && (p.level === 'club' || p.level === 'premium');
+  }
+  function syncNudges() {
+    if (!paidMember()) return;
+    document.querySelectorAll('[data-club-nudge]').forEach(function (el) {
+      el.hidden = true;
+    });
+  }
+  window.addEventListener('club:member', syncNudges);
+  syncNudges();
+
+  window.addEventListener('vcr:player', function (e) {
+    var d = e.detail || {};
+    var t = d.track;
+    if (!t || t.releaseId !== 'the-process') return;
+    if (d.currentTime >= 12 || (!d.playing && d.currentTime > 2)) {
+      document.body.classList.add('is-cc020-heard');
+    }
+  });
+})();
 </script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
