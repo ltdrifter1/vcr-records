@@ -111,7 +111,6 @@
     /* Listening booth hero : ice cove, LCD gel, iPod as product ------------ */
     .hero {
       --ticker-h: 32px;
-      --disc: min(320px, 28vw, calc((100svh - var(--nav-h) - 210px) * .42));
       --ipod-w: min(380px, 34vw, calc((100svh - var(--nav-h) - 210px) * .52));
       --hero-ink: #111318;
       position: relative;
@@ -225,15 +224,14 @@
       outline-offset: 6px;
     }
 
-    /* One camera, one lamp — vinyl supporting, iPod hero, shared baseline */
+    /* One camera, one lamp — iPod hero, shared baseline */
     .hero-scene {
       position: relative;
       display: grid;
-      grid-template-columns: var(--ipod-w) var(--disc);
-      grid-template-areas: "booth vinyl";
+      grid-template-columns: var(--ipod-w);
+      grid-template-areas: "booth";
       align-items: end;
       justify-content: center;
-      column-gap: clamp(28px, 3.4vw, 40px);
       width: max-content;
       max-width: 100%;
       padding: 8px 4px 72px;
@@ -277,79 +275,6 @@
       filter: blur(22px);
     }
     .hero-ipod-mirror { display: none; }
-
-    .hero-vinyl {
-      position: relative;
-      grid-area: vinyl;
-      z-index: 2;
-      display: block;
-      width: var(--disc);
-      margin: 0;
-      color: inherit;
-      text-decoration: none;
-    }
-    .hero-vinyl:focus { outline: none; }
-    .hero-vinyl:focus-visible {
-      outline: 2px solid var(--hero-ink);
-      outline-offset: 8px;
-      border-radius: 50%;
-    }
-    @media (hover:hover) {
-      .hero-vinyl:hover .hero-vinyl-sheen { opacity: .95; }
-    }
-    .hero-vinyl-board {
-      position: relative;
-      z-index: 1;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #050506;
-      box-shadow:
-        0 22px 40px rgba(26, 30, 38, .28),
-        0 0 0 1px rgba(255,255,255,.85);
-    }
-    .hero-vinyl-board img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 50%;
-      transform: scale(1.08);
-    }
-    .hero-vinyl-sheen {
-      position: absolute;
-      inset: -8%;
-      z-index: 2;
-      pointer-events: none;
-      border-radius: 50%;
-      background:
-        linear-gradient(122deg,
-          rgba(255,255,255,0) 32%,
-          rgba(255,255,255,.5) 41%,
-          rgba(255,255,255,0) 47%);
-      mix-blend-mode: normal;
-      opacity: .7;
-      transform-origin: 50% 50%;
-    }
-    .hero.is-playing .hero-vinyl-sheen {
-      animation: vinylSheen 32s linear infinite;
-    }
-    @keyframes vinylSheen {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .hero-vinyl-mirror {
-      position: absolute;
-      left: 10%;
-      width: 80%;
-      top: 100%;
-      height: 32%;
-      z-index: 0;
-      pointer-events: none;
-      background: radial-gradient(ellipse 72% 70% at 50% 0%, rgba(26, 30, 38, .2), transparent 68%);
-      filter: blur(10px);
-      opacity: .9;
-    }
 
     /* Station bar — ice aluminum edge ------------------------------------- */
     .hero-ticker {
@@ -471,8 +396,12 @@
       align-items: stretch;
       isolation: isolate;
       width: var(--ipod-w);
-      padding: 22px 20px 28px;
-      border-radius: 36px;
+      /* ~10% of body width: 4th-gen Click Wheel, not nano/soap-bar round */
+      --ipod-r: max(20px, calc(var(--ipod-w) * 0.1));
+      --ipod-inset: max(18px, calc(var(--ipod-w) * 0.08));
+      padding: var(--ipod-inset) var(--ipod-inset) calc(var(--ipod-inset) + 8px);
+      border-radius: var(--ipod-r);
+      overflow: hidden;
       background:
         linear-gradient(165deg, #ffffff 0%, #f6f6f6 36%, #ececec 72%, #dcdcdc 100%);
       box-shadow:
@@ -512,7 +441,7 @@
     .hero-vinyl-rig {
       position: relative;
       z-index: 2;
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 3px;
       background: linear-gradient(180deg, #b8b8b8 0%, #8e8e8e 50%, #cfcfcf 100%);
       box-shadow:
@@ -523,7 +452,7 @@
       position: relative;
       isolation: isolate;
       overflow: hidden;
-      border-radius: 3px;
+      border-radius: 5px;
       aspect-ratio: 5 / 4;
       display: flex;
       flex-direction: column;
@@ -1012,12 +941,11 @@
     @media (prefers-reduced-motion: reduce) {
       .hero-platter, .hero-ctas, .hero-console,
       .hero-pulse, .hero-station, .wall-eq i,
-      .hero-ticker-track, .hero-vinyl-sheen,
+      .hero-ticker-track,
       .wall-item.is-now-playing.is-audible .wall-art::before {
         animation: none !important;
       }
-      .hero-idle, .hero-platter, .hero-sleeve, .hero-vinyl { transition: none; }
-      .hero-vinyl-board { box-shadow: 0 16px 22px rgba(0,0,0,.5); }
+      .hero-idle, .hero-platter, .hero-sleeve { transition: none; }
       .wall-item.is-now-playing.is-audible .wall-eq i { height: 70%; }
       .place-img { transform: none !important; }
       .hero-ticker-track { transform: none; }
@@ -1709,7 +1637,6 @@
     /* Stack the still life on small screens — iPod remains the larger object */
     @media (max-width: 1080px) {
       .hero {
-        --disc: min(280px, 26vw, calc((100svh - var(--nav-h) - 200px) * .38));
         --ipod-w: min(340px, 32vw, calc((100svh - var(--nav-h) - 200px) * .48));
       }
     }
@@ -1721,7 +1648,6 @@
 
     @media (max-width: 720px) {
       .hero {
-        --disc: min(168px, 22vh, 46vw);
         --ipod-w: min(268px, 58vw, 42vh);
       }
       .hero-stage {
@@ -1736,15 +1662,10 @@
       }
       .hero-scene {
         grid-template-columns: 1fr;
-        grid-template-areas:
-          "booth"
-          "vinyl";
+        grid-template-areas: "booth";
         justify-items: center;
-        column-gap: 0;
-        row-gap: 20px;
         padding: 4px 0 48px;
       }
-      .hero-vinyl { margin: 0; }
       .hero-booth { margin: 0; }
       .hero { --ticker-h: 30px; }
       .hero-ticker { bottom: var(--tabbar-h); }
@@ -1770,10 +1691,8 @@
         padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
       .hero {
-        --disc: min(150px, 20vh, 42vw);
         --ipod-w: min(248px, 64vw, 40vh);
       }
-      .hero-platter { padding: 14px 14px 20px; }
       .hero-booth { margin: 0; }
 
       .hero.is-live .hero-stage {
@@ -1813,10 +1732,8 @@
       }
       .hero-booth { gap: 8px; margin: 0; }
       .hero {
-        --disc: min(132px, 18vh, 40vw);
         --ipod-w: min(220px, 58vw, 36vh);
       }
-      .hero-platter { padding: 12px 12px 18px; }
       .hero.is-live .hero-station { display: none; }
       .hero { --ticker-h: 36px; }
       .hero-ticker-now { display: none; }
@@ -1835,7 +1752,6 @@
       }
       .hero {
         --ipod-w: min(220px, 32vh);
-        --disc: min(160px, 28vh, 22vw);
       }
     }
 
@@ -2007,13 +1923,6 @@
         </div>
         <span class="hero-ipod-mirror" aria-hidden="true"></span>
         </div>
-          <a class="hero-vinyl" href="/desire" aria-label="DESIRE — Molly Haze">
-            <span class="hero-vinyl-board">
-              <img src="desire-cover.webp?v=re" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width: 720px) 46vw, 320px" alt="" width="1200" height="1200" fetchpriority="high"/>
-              <span class="hero-vinyl-sheen" aria-hidden="true"></span>
-            </span>
-            <span class="hero-vinyl-mirror" aria-hidden="true"></span>
-          </a>
         </div>
       </div>
     </div>
