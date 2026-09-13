@@ -891,6 +891,7 @@
       border: 0;
       padding: 0;
       cursor: pointer;
+      touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
       background: radial-gradient(circle at 38% 32%, #ffffff 0%, #f4f4f4 55%, #e8e8e8 100%);
       box-shadow:
@@ -910,7 +911,7 @@
       align-items: center;
       justify-content: center;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
+      touch-action: none;
       transition: opacity .18s var(--ease);
     }
     .ipod-key svg { width: 14px; height: 14px; fill: currentColor; pointer-events: none; }
@@ -1711,7 +1712,7 @@
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
       }
-      .ipod-key { touch-action: manipulation; }
+      .ipod-key { touch-action: none; }
 
       .wall { padding-bottom: 8px; }
       .wall-bridge { height: 32px; }
