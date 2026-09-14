@@ -63,8 +63,6 @@
   var lastAngle = 0;
   var pointerId = null;
   var dragging = false;
-  var startX = 0;
-  var startY = 0;
   var suppressClick = false;
 
   function reduceMotion() {
@@ -482,42 +480,53 @@
 
   function onWheelPointerDown(e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    if (e.target && e.target.closest("button")) return;
+    // Ring keys are the wheel surface. Only the hub is Select-only.
+    if (e.target && e.target.closest("#ipodSelect, .ipod-hub")) return;
     pointerActive = true;
     pointerId = e.pointerId;
     dragging = false;
     suppressClick = false;
     wheelAcc = 0;
-    startX = e.clientX;
-    startY = e.clientY;
     lastAngle = angleFromEvent(e);
   }
 
   function onWindowPointerMove(e) {
     if (!pointerActive || e.pointerId !== pointerId) return;
-    var dx = e.clientX - startX;
-    var dy = e.clientY - startY;
-    if (!dragging && dx * dx + dy * dy > 64) dragging = true;
-    if (!dragging) return;
     var angle = angleFromEvent(e);
     var delta = angle - lastAngle;
     if (delta > Math.PI) delta -= Math.PI * 2;
     if (delta < -Math.PI) delta += Math.PI * 2;
     lastAngle = angle;
     wheelAcc += delta;
+    var stepped = false;
     while (wheelAcc > TICK) {
       wheelAcc -= TICK;
+      stepped = true;
       if (view === "menu") moveHighlight(1);
     }
     while (wheelAcc < -TICK) {
       wheelAcc += TICK;
+      stepped = true;
       if (view === "menu") moveHighlight(-1);
     }
+    if (!stepped) return;
+    if (!dragging) {
+      dragging = true;
+      try {
+        if (wheel.setPointerCapture) wheel.setPointerCapture(e.pointerId);
+      } catch (err) {}
+    }
+    if (e.cancelable) e.preventDefault();
   }
 
   function onWindowPointerUp(e) {
     if (!pointerActive || e.pointerId !== pointerId) return;
     pointerActive = false;
+    if (dragging) {
+      try {
+        if (wheel.releasePointerCapture) wheel.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+    }
     pointerId = null;
     if (dragging) {
       suppressClick = true;
@@ -687,9 +696,17 @@
 
   if (wheel) {
     wheel.addEventListener("pointerdown", onWheelPointerDown);
-    window.addEventListener("pointermove", onWindowPointerMove);
+    window.addEventListener("pointermove", onWindowPointerMove, { passive: false });
     window.addEventListener("pointerup", onWindowPointerUp);
     window.addEventListener("pointercancel", onWindowPointerUp);
+    wheel.addEventListener(
+      "touchmove",
+      function (e) {
+        if (!dragging) return;
+        if (e.cancelable) e.preventDefault();
+      },
+      { passive: false }
+    );
     wheel.addEventListener("click", onWheelClickCapture, true);
     wheel.addEventListener("wheel", onWheelScroll, { passive: false });
   }

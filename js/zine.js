@@ -48,7 +48,7 @@
       kicker: "monday rain",
       title: "Dummy",
       artist: "Portishead",
-      dek: "Portishead on a Cumberland afternoon. Rain on the glass. I still start people here.",
+      dek: "Portishead on a Cumberland afternoon, rain on the glass. I still start people here.",
       image: "news-dummy.webp",
       spec: ["1994", "go! beat", "lp"]
     },
@@ -66,7 +66,7 @@
       kicker: "wednesday loops",
       title: "Donuts",
       artist: "J Dilla",
-      dek: "Put this on when your loops feel too clean.",
+      dek: "Put this on when your loops feel too clean, when everything lands on the grid like it was afraid to be late to its own party.",
       image: "news-donuts.webp",
       spec: ["2006", "stones throw", "lp"]
     },
@@ -84,7 +84,7 @@
       kicker: "friday floor",
       title: "Headphones On",
       artist: "Addison Rae",
-      dek: "Addison’s debut is out. Twelve tracks, no features. Charli said trust it. I did on the walk home.",
+      dek: "Addison’s debut is twelve tracks and no features. Charli said trust the ideas, and I did on the walk home.",
       image: "news-headphones.webp",
       spec: ["2025", "columbia", "lp"]
     },
@@ -93,7 +93,7 @@
       kicker: "saturday door",
       title: "She Showed Up",
       artist: "Lorde",
-      dek: "Mary’s Underground threw a Lorde night. Then Lorde walked in and skipped the green room.",
+      dek: "Mary’s Underground threw a Lorde night, and then Lorde walked in and skipped the green room.",
       image: "news-showed-up.webp",
       spec: ["live", "no green room"]
     }
@@ -132,7 +132,7 @@
       if (el.tagName === "A") el.setAttribute("href", pick.slug);
       if (img) {
         img.setAttribute("src", asset(pick.image));
-        img.setAttribute("alt", pick.title + " — " + pick.artist);
+        img.setAttribute("alt", pick.title + ", " + pick.artist);
       }
       if (kicker) kicker.textContent = pick.kicker;
       if (title) title.textContent = pick.title;
