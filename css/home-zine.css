@@ -1075,7 +1075,10 @@ body.home-zine .zine--home .zine-lead .zine-headline {
 }
 
 /* Tonight’s record — stacked listening note on the paper --------------- */
-body.home-zine .zine-tonight--home {
+body.home-zine .zine.zine--home .zine-tonight--home {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   margin: 12px 0 0;
   padding: 22px 0 24px;
   border-top: 4px solid var(--zine-ink);
@@ -1087,6 +1090,8 @@ body.home-zine .zine-tonight--home .zine-desk-kicker {
   letter-spacing: .22em;
 }
 body.home-zine .zine-tonight--home h3 {
+  display: block;
+  width: 100%;
   margin: 0 0 16px;
   font-family: var(--zine-display);
   font-weight: 800;
@@ -1096,15 +1101,19 @@ body.home-zine .zine-tonight--home h3 {
   line-height: .82;
   color: var(--zine-ink);
 }
-body.home-zine .zine-tonight--home .zine-tonight-card {
-  display: grid;
-  grid-template-columns: 1fr;
+body.home-zine .zine.zine--home .zine-tonight--home .zine-tonight-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
+  width: 100%;
   max-width: 28em;
   color: inherit;
   text-decoration: none;
 }
-body.home-zine .zine-tonight--home .zine-tonight-card img {
+body.home-zine .zine.zine--home .zine-tonight--home .zine-tonight-card img {
+  display: block;
+  float: none;
   width: 168px;
   height: 168px;
   max-width: 168px;
