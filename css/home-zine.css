@@ -817,7 +817,7 @@ body.home-zine .cat-cc::after {
   display: none;
 }
 
-/* Night Shift already owns its paper. Gutter lives on the bridge. -------- */
+/* Night Shift already owns its paper. Seam is a single department rule. -- */
 body.home-zine .news-bridge {
   pointer-events: none;
 }
@@ -990,45 +990,71 @@ body.home-zine #news {
   body.home-zine .home-artist-photo img { animation: none; transition: none; }
 }
 
-/* Folio gutters — paper between sections, not stacked rules -------------- */
+/* Folio seams — one 4px rule, paper air. No boxed gray gutters. ---------- */
 body.home-zine .wall-bridge,
 body.home-zine .news-bridge,
+body.home-zine .news-bridge--out,
 body.home-zine .club-join-bridge,
 body.home-zine .home-artists-bridge,
 body.home-zine .mixtapes-bridge {
-  height: 56px;
-  margin: 0;
-  background: var(--zine-paper-2);
-  border-top: 1px solid var(--zine-ink);
-  border-bottom: 1px solid var(--zine-ink);
-  pointer-events: none;
-}
-body.home-zine .news-bridge--out { display: none; }
-@media (max-width: 699px) {
-  body.home-zine .wall-bridge,
-  body.home-zine .news-bridge,
-  body.home-zine .club-join-bridge,
-  body.home-zine .home-artists-bridge,
-  body.home-zine .mixtapes-bridge { height: 40px; }
+  display: none;
 }
 
-body.home-zine .wall { padding-bottom: 28px; }
-body.home-zine .news.zine {
-  border-top: 0;
-  padding-bottom: 12px;
+body.home-zine .wall {
+  padding-bottom: 8px;
 }
-body.home-zine .zine-club.home-join {
-  margin: 0;
-  border-top: 0;
-  padding: 8px 0 36px;
+body.home-zine .news.zine {
+  border-top: 4px solid var(--zine-ink);
+  padding-top: 4px;
+  padding-bottom: 8px;
 }
 body.home-zine .home-artists {
-  border-top: 0;
-  padding-bottom: 28px;
+  border-top: 4px solid var(--zine-ink);
+  padding-bottom: 40px;
 }
 body.home-zine .mixtapes {
-  border-top: 0;
-  padding-bottom: 72px;
+  border-top: 4px solid var(--zine-ink);
+  padding-bottom: 36px;
+}
+
+/* Record Club — last folio, back-page coupon ----------------------------- */
+body.home-zine .zine-club.home-join {
+  margin: 0;
+  border-top: 4px solid var(--zine-ink);
+  padding: 28px 0 64px;
+  background: var(--zine-paper);
+}
+body.home-zine .zine-club.home-join .zine-sheet {
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+body.home-zine .zine-club.home-join .zine-desk-kicker {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 3px 8px 2px;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+}
+body.home-zine .zine-club.home-join .club-join-title {
+  font-size: clamp(44px, 8vw, 84px);
+}
+body.home-zine .zine-club.home-join .club-join-dek {
+  max-width: 28em;
+}
+body.home-zine .zine-club.home-join .join-panel {
+  padding: 18px 18px 16px;
+  border: 1px dashed var(--zine-ink);
+  background: var(--zine-paper-2);
+}
+body.home-zine .zine-club.home-join .join-field input[type="email"],
+body.home-zine .zine-club.home-join .join-field input[type="text"],
+body.home-zine .zine-club.home-join #premiumAmount {
+  background: #fff;
+}
+@media (max-width: 720px) {
+  body.home-zine .zine-club.home-join {
+    padding: 24px 0 48px;
+  }
 }
 
 /* Homepage zine — one cover, four stars, six in this issue --------------- */

@@ -2214,101 +2214,6 @@
 
       <p class="zine-foot">evening edition · pacific northwest · <a href="/news">night shift, live</a></p>
     </div>
-
-    <div class="news-bridge news-bridge--out" aria-hidden="true"></div>
-  </section>
-
-  <!-- Record Club -->
-  <section class="zine-club club-join home-join" id="join" aria-labelledby="join-title">
-    <div class="club-join-bridge" aria-hidden="true"></div>
-    <div class="zine-sheet">
-        <p class="zine-desk-kicker">record club</p>
-        <div class="club-join-inner rv">
-          <div class="club-join-copy">
-            <header class="club-join-head">
-              <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
-              <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
-            </header>
-
-            <div class="join-member-home" id="joinMemberHome" hidden>
-              <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
-              <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
-              <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
-              <div class="join-member-actions">
-                <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
-                <a class="btn btn-ghost-on-dark" href="/account">View profile</a>
-                <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
-              </div>
-            </div>
-
-            <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
-              <button type="button" class="join-level" data-level="free" role="radio" aria-checked="true">
-                <span class="join-level-dot" aria-hidden="true"></span>
-                <span>
-                  <span class="join-level-name">Free</span>
-                  <span class="join-level-blurb">Emails when we release something. Listen on the site.</span>
-                </span>
-                <span class="join-level-price">$0</span>
-              </button>
-              <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
-                <span class="join-level-dot" aria-hidden="true"></span>
-                <span>
-                  <span class="join-level-name">Club</span>
-                  <span class="join-level-blurb">30% off all music — digital, cassette, vinyl.</span>
-                </span>
-                <span class="join-level-price">$5/year</span>
-              </button>
-              <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
-                <span class="join-level-dot" aria-hidden="true"></span>
-                <span>
-                  <span class="join-level-name">Premium</span>
-                  <span class="join-level-blurb">50% off all music. Credit toward cassettes.</span>
-                </span>
-                <span class="join-level-price">from $10/year</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="join-stage">
-            <div class="join-panel" id="joinPanel">
-              <div class="join-panel-top">
-                <span class="join-wheel" aria-hidden="true"></span>
-                <p class="join-panel-label">cut this coupon</p>
-              </div>
-              <div class="join-fields">
-                <div class="join-field">
-                  <label for="joinEmail">Email</label>
-                  <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
-                </div>
-                <div class="join-field">
-                  <label for="joinName">Name</label>
-                  <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
-                </div>
-              </div>
-
-              <div class="join-premium-amount" id="premiumAmountBox" hidden>
-                <div class="join-field">
-                  <label for="premiumAmount">Yearly amount (CAD)</label>
-                  <div class="premium-presets" id="premiumPresets">
-                    <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
-                    <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
-                    <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
-                    <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
-                  </div>
-                  <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
-                </div>
-                <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
-                  That's <strong>$25.00</strong> toward cassettes.
-                </p>
-              </div>
-
-              <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join free</button>
-              <p class="club-join-note" id="joinNote">We'll email you. You can upgrade later.</p>
-              <p class="club-join-status" id="joinStatus" role="status" hidden></p>
-            </div>
-          </div>
-        </div>
-    </div>
   </section>
 
   <!-- Artists -->
@@ -2398,6 +2303,98 @@
             </div>
           </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Record Club — back-page coupon -->
+  <section class="zine-club club-join home-join" id="join" aria-labelledby="join-title">
+    <div class="zine-sheet">
+      <p class="zine-desk-kicker">record club</p>
+      <div class="club-join-inner rv">
+        <div class="club-join-copy">
+          <header class="club-join-head">
+            <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
+            <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
+          </header>
+
+          <div class="join-member-home" id="joinMemberHome" hidden>
+            <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
+            <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
+            <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
+            <div class="join-member-actions">
+              <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
+              <a class="btn btn-ghost-on-dark" href="/account">View profile</a>
+              <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
+            </div>
+          </div>
+
+          <div class="join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
+            <button type="button" class="join-level" data-level="free" role="radio" aria-checked="true">
+              <span class="join-level-dot" aria-hidden="true"></span>
+              <span>
+                <span class="join-level-name">Free</span>
+                <span class="join-level-blurb">Emails when we release something. Listen on the site.</span>
+              </span>
+              <span class="join-level-price">$0</span>
+            </button>
+            <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
+              <span class="join-level-dot" aria-hidden="true"></span>
+              <span>
+                <span class="join-level-name">Club</span>
+                <span class="join-level-blurb">30% off all music — digital, cassette, vinyl.</span>
+              </span>
+              <span class="join-level-price">$5/year</span>
+            </button>
+            <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
+              <span class="join-level-dot" aria-hidden="true"></span>
+              <span>
+                <span class="join-level-name">Premium</span>
+                <span class="join-level-blurb">50% off all music. Credit toward cassettes.</span>
+              </span>
+              <span class="join-level-price">from $10/year</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="join-stage">
+          <div class="join-panel" id="joinPanel">
+            <div class="join-panel-top">
+              <span class="join-wheel" aria-hidden="true"></span>
+              <p class="join-panel-label">cut this coupon</p>
+            </div>
+            <div class="join-fields">
+              <div class="join-field">
+                <label for="joinEmail">Email</label>
+                <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
+              </div>
+              <div class="join-field">
+                <label for="joinName">Name</label>
+                <input type="text" id="joinName" name="displayName" placeholder="Your name" maxlength="40" autocomplete="nickname"/>
+              </div>
+            </div>
+
+            <div class="join-premium-amount" id="premiumAmountBox" hidden>
+              <div class="join-field">
+                <label for="premiumAmount">Yearly amount (CAD)</label>
+                <div class="premium-presets" id="premiumPresets">
+                  <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
+                  <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
+                  <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
+                  <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
+                </div>
+                <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
+              </div>
+              <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">
+                That's <strong>$25.00</strong> toward cassettes.
+              </p>
+            </div>
+
+            <button type="button" class="btn club-join-btn" id="clubJoinBtn">Join free</button>
+            <p class="club-join-note" id="joinNote">We'll email you. You can upgrade later.</p>
+            <p class="club-join-status" id="joinStatus" role="status" hidden></p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
