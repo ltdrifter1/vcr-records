@@ -981,7 +981,8 @@ body.home-zine #tapes,
 body.home-zine #join,
 body.home-zine #artists,
 body.home-zine #desk,
-body.home-zine #news {
+body.home-zine #news,
+body.home-zine #tonight {
   scroll-margin-top: calc(var(--nav-h) + 10px);
 }
 
@@ -1073,8 +1074,121 @@ body.home-zine .zine--home .zine-lead .zine-headline {
   font-size: clamp(44px, 7vw, 84px);
 }
 
+/* Tonight’s record — stacked listening note on the paper --------------- */
+body.home-zine .zine.zine--home .zine-tonight--home {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 12px 0 0;
+  padding: 22px 0 24px;
+  border-top: 4px solid var(--zine-ink);
+  max-width: 34em;
+}
+body.home-zine .zine-tonight--home .zine-desk-kicker {
+  margin: 0 0 8px;
+  color: var(--zine-dim);
+  letter-spacing: .22em;
+}
+body.home-zine .zine-tonight--home h3 {
+  display: block;
+  width: 100%;
+  margin: 0 0 16px;
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  font-size: clamp(40px, 8vw, 68px);
+  line-height: .82;
+  color: var(--zine-ink);
+}
+body.home-zine .zine.zine--home .zine-tonight--home .zine-tonight-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  max-width: 28em;
+  color: inherit;
+  text-decoration: none;
+}
+body.home-zine .zine.zine--home .zine-tonight--home .zine-tonight-card img {
+  display: block;
+  float: none;
+  width: 168px;
+  height: 168px;
+  max-width: 168px;
+  object-fit: cover;
+  border: 1px solid var(--zine-ink);
+  filter: contrast(1.1) saturate(.78);
+  background: #111;
+}
+body.home-zine .zine-tonight--home .zine-tonight-night {
+  margin: 2px 0 6px;
+  color: var(--zine-dim);
+  letter-spacing: .16em;
+}
+body.home-zine .zine-tonight--home .zine-tonight-card strong {
+  display: block;
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  font-size: clamp(32px, 5.4vw, 48px);
+  line-height: .84;
+  color: var(--zine-ink);
+}
+body.home-zine .zine-tonight--home .zine-tonight-card em {
+  display: block;
+  margin: 6px 0 10px;
+  font-family: var(--zine-gothic);
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+body.home-zine .zine-tonight--home .zine-spec {
+  margin: 0 0 12px;
+}
+body.home-zine .zine-tonight--home [data-tonight-dek] {
+  display: block;
+  max-width: 28em;
+  font-family: var(--zine-body);
+  font-size: 15px;
+  font-style: italic;
+  font-stretch: 75%;
+  line-height: 1.32;
+  color: var(--zine-muted);
+}
+body.home-zine .zine-tonight--home .zine-tonight-card b {
+  margin-top: 14px;
+  padding: 6px 10px 5px;
+  font-size: 12px;
+  letter-spacing: .16em;
+}
+@media (hover: hover) {
+  body.home-zine .zine-tonight--home .zine-tonight-card:hover img {
+    filter: contrast(1.16) saturate(.92);
+  }
+  body.home-zine .zine-tonight--home .zine-tonight-card:hover b {
+    background: var(--zine-ink);
+    color: var(--zine-paper);
+  }
+}
+@media (min-width: 760px) {
+  body.home-zine .zine-tonight--home {
+    padding: 28px 0 28px;
+  }
+  body.home-zine .zine-tonight--home .zine-tonight-card img {
+    width: 196px;
+    height: 196px;
+    max-width: 196px;
+  }
+}
+
 body.home-zine .zine-stars--home {
-  margin: 20px 0 0;
+  margin: 4px 0 0;
   padding: 16px 0 14px;
   border-top: 1px solid var(--zine-ink);
   border-bottom: 0;
