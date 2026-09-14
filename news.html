@@ -1083,6 +1083,9 @@
         </div>
       </a>
     </div>
+    <p class="news-more-wrap">
+      <button type="button" class="news-more" id="newsMore">More from the paper</button>
+    </p>
   </div>
 </main>
 
@@ -1109,6 +1112,10 @@
   var cards = Array.prototype.slice.call(document.querySelectorAll('.news-grid .news-card'));
   var years = Array.prototype.slice.call(document.querySelectorAll('.news-grid .news-year'));
   var buttons = Array.prototype.slice.call(bar.querySelectorAll('.news-filter'));
+  var moreBtn = document.getElementById('newsMore');
+  var PAGE = 12;
+  var shown = PAGE;
+  var currentFilter = 'all';
   cards.sort(function (a, b) {
     return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
   });
@@ -1122,17 +1129,26 @@
       if (card.getAttribute('data-year') === y) grid.appendChild(card);
     });
   });
-  function apply(filter) {
+  function apply(filter, resetPage) {
+    currentFilter = filter;
+    if (resetPage) shown = PAGE;
+    var matched = 0;
     cards.forEach(function (card) {
       var type = card.getAttribute('data-type') || '';
       var show = filter === 'all' || type === filter || (filter === 'gossip' && (type === 'fit' || type === 'ritual')) || (filter === 'fit' && type === 'ritual');
       card.hidden = !show;
+      if (show) {
+        matched += 1;
+        card.classList.toggle('is-paged-out', matched > shown);
+      } else {
+        card.classList.remove('is-paged-out');
+      }
     });
     var lead = true;
     years.forEach(function (year) {
       var y = year.getAttribute('data-year');
       var visible = cards.some(function (card) {
-        return !card.hidden && card.getAttribute('data-year') === y;
+        return !card.hidden && !card.classList.contains('is-paged-out') && card.getAttribute('data-year') === y;
       });
       year.hidden = !visible;
       year.classList.toggle('is-lead', visible && lead);
@@ -1143,13 +1159,24 @@
       btn.classList.toggle('is-active', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    if (moreBtn) {
+      var left = matched - shown;
+      moreBtn.hidden = left <= 0;
+      moreBtn.textContent = left > 0 ? 'More from the paper · ' + left : 'More from the paper';
+    }
   }
   bar.addEventListener('click', function (e) {
     var btn = e.target.closest('.news-filter');
     if (!btn) return;
-    apply(btn.getAttribute('data-filter'));
+    apply(btn.getAttribute('data-filter'), true);
   });
-  apply('all');
+  if (moreBtn) {
+    moreBtn.addEventListener('click', function () {
+      shown += PAGE;
+      apply(currentFilter, false);
+    });
+  }
+  apply('all', true);
 })();
 </script>
 <script src="js/zine.js"></script>

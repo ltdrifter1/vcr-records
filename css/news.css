@@ -1538,8 +1538,43 @@ a.news-card.news-card--featured .news-card-dek {
   font-weight: 800;
   color: var(--zine-ink);
 }
-.news-index .news-card-dek { color: var(--zine-muted); }
-.news-index .news-card[hidden] { display: none !important; }
+.news-index .news-card-dek {
+  color: var(--zine-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-index .news-card[hidden],
+.news-index .news-card.is-paged-out { display: none !important; }
+.news-more-wrap {
+  display: flex;
+  justify-content: flex-start;
+  margin: 18px 0 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--zine-ink);
+}
+.news-more {
+  appearance: none;
+  font-family: var(--zine-gothic);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+  background: var(--zine-stamp);
+  border: 1px solid var(--zine-ink);
+  border-radius: 0;
+  padding: 10px 14px 9px;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .news-more:hover {
+    background: var(--zine-ink);
+    color: var(--zine-paper);
+  }
+}
+.news-more[hidden] { display: none !important; }
 @media (hover: hover) {
   .news-index a.news-card:hover { transform: none; opacity: 1; }
   .news-index a.news-card:hover .news-card-title {
@@ -2507,10 +2542,23 @@ body.surface-acetate.has-station-bumper:has(.news-page) .footer-manifesto {
 }
 
 .news-index .zine-sheet { padding-top: 8px; }
-.news-index-front { margin-bottom: 28px; }
+.news-index-front {
+  margin-bottom: 0;
+  padding-bottom: 40px;
+}
+.news-index-front .zine-lead { margin-bottom: 8px; }
+.news-index-front .zine-stars {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+.news-index-front .zine-desks { margin-top: 32px; }
+.news-index-front .zine-letters {
+  margin-top: 36px;
+  padding-top: 8px;
+}
 .news-archive-label {
-  margin: 28px 0 10px;
-  padding-top: 16px;
+  margin: 8px 0 12px;
+  padding-top: 28px;
   border-top: 4px solid var(--zine-ink);
   font-family: var(--zine-mono);
   font-size: 10px;
