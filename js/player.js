@@ -90,6 +90,7 @@
 
   function applyChroma(palette) {
     if (!palette) return;
+    if (document.body.classList.contains("zine-surface")) return;
     var root = document.documentElement;
     root.style.setProperty("--room-a", rgbStr(palette.a));
     root.style.setProperty("--room-b", rgbStr(palette.b));

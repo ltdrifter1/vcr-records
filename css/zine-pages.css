@@ -898,9 +898,43 @@ body.zine-surface.archive-release {
   --ra-line: rgba(17, 17, 17, .18);
   --ra-green: #111111;
   --ra-vfd: var(--zine-muted);
-  background: var(--zine-paper);
+  background: var(--zine-paper) !important;
   color: var(--zine-ink);
   font-family: var(--zine-body);
+}
+body.zine-surface.archive-release.hero-top,
+body.zine-surface.archive-release.vcr-chroma,
+body.zine-surface.archive-release.vcr-chroma.hero-top,
+body.zine-surface.archive-release.is-air.vcr-chroma.hero-top {
+  background: var(--zine-paper) !important;
+  background-color: var(--zine-paper) !important;
+  color: var(--zine-ink);
+}
+body.zine-surface.archive-release .vcr-player {
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+body.zine-surface.archive-release.is-air .vcr-player,
+body.zine-surface.archive-release .vcr-player.is-playing {
+  background: var(--zine-paper);
+  border-color: var(--zine-ink);
+  box-shadow: none;
+}
+body.zine-surface.archive-release .vcr-player__title,
+body.zine-surface.archive-release .vcr-player__sub,
+body.zine-surface.archive-release .vcr-player__bug {
+  color: var(--zine-ink);
+}
+body.zine-surface.archive-release .vcr-player__buy {
+  border-radius: 0;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border: 1px solid var(--zine-ink);
 }
 body.zine-surface.archive-release .ra-hero {
   min-height: 0;

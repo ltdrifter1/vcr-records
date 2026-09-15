@@ -150,7 +150,6 @@
     function playAt(idx) {
       if (idx < 0 || !TRACKS[idx]) return;
       if (!hasPreview(TRACKS[idx])) {
-        setActive(idx);
         setMsg("No preview on this cue — full track after checkout.");
         return;
       }
