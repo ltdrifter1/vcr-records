@@ -27,6 +27,7 @@
   var analyser = null;
   var analyserBins = null;
   var energyRaf = 0;
+  var lastPreviewError = "";
   var toastTimer = 0;
 
   function $(sel, root) {
@@ -312,6 +313,7 @@
           src: streamSrc(release, t),
           filePreview: filePreviewSrc(t.preview),
           fromBandcamp: fromBandcamp,
+          bandcampTrackId: t.bandcampTrackId || null,
           isPreview: true,
           previewDuration: fromBandcamp ? 0 : t.previewDuration || 90,
           releaseId: release.id,
@@ -488,6 +490,7 @@
     var attempt = function () {
       return audio.play().then(function () {
         hidePlayGate();
+        hidePreviewError();
       });
     };
     return attempt().catch(function (err) {
@@ -541,6 +544,7 @@
       '<p class="vcr-player__bug">CC · Standby</p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
+      '<p class="vcr-player__err" data-player-err hidden></p>' +
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
       '<div class="vcr-player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
       '<div class="vcr-player__progress-wrap">' +
@@ -1028,7 +1032,14 @@
 
   function onTime() {
     if (!audio || !ui) return;
-    var dur = audio.duration || 0;
+    var track = current();
+    var cap = track && track.isPreview ? Number(track.previewDuration) || 0 : 0;
+    if (cap && audio.currentTime >= cap) {
+      audio.pause();
+      showBumperThenNext();
+      return;
+    }
+    var dur = cap || audio.duration || 0;
     var cur = audio.currentTime || 0;
     var ratio = dur ? Math.round((cur / dur) * 1000) : 0;
     ui.dock.querySelector(".vcr-player__scrub").value = String(ratio);
@@ -1066,6 +1077,8 @@
             stageOpen: stageOpen,
             roomOpen: roomOpen,
             bumperOpen: bumperOpen,
+            error: !!lastPreviewError,
+            errorMessage: lastPreviewError || "",
           },
         })
       );
@@ -1076,6 +1089,60 @@
     render();
     persist();
     emit();
+  }
+
+  function previewErrorMessage(track, fallback) {
+    if (track && track.title) {
+      return (
+        fallback ||
+        "Preview is not wired or not active for “" + track.title + "”."
+      );
+    }
+    return fallback || "Preview is not wired or not active.";
+  }
+
+  function hidePreviewError() {
+    lastPreviewError = "";
+    if (!ui || !ui.dock) return;
+    var errEl = ui.dock.querySelector("[data-player-err]");
+    if (errEl) {
+      errEl.hidden = true;
+      errEl.textContent = "";
+    }
+    ui.dock.classList.remove("is-error");
+  }
+
+  function showPreviewError(msg, track) {
+    lastPreviewError = msg || previewErrorMessage(track);
+    ensureUI();
+    var errEl = ui.dock.querySelector("[data-player-err]");
+    if (errEl) {
+      errEl.hidden = false;
+      errEl.textContent = lastPreviewError;
+    }
+    ui.dock.classList.add("is-visible", "is-error");
+    document.body.classList.add("has-vcr-player");
+    var bug = ui.dock.querySelector(".vcr-player__bug");
+    if (bug) bug.textContent = "CC · Error";
+    notify(lastPreviewError, true);
+    try {
+      window.dispatchEvent(
+        new CustomEvent("vcr:player", {
+          detail: {
+            track: track || current(),
+            nextTrack: peekNext(),
+            playing: false,
+            currentTime: 0,
+            duration: 0,
+            error: true,
+            errorMessage: lastPreviewError,
+            stageOpen: stageOpen,
+            roomOpen: roomOpen,
+            bumperOpen: bumperOpen,
+          },
+        })
+      );
+    } catch (e) {}
   }
 
   function onAudioError() {
@@ -1090,29 +1157,13 @@
       safePlay();
       return;
     }
-    notify(
+    showPreviewError(
+      previewErrorMessage(
+        track,
+        "This preview link is not active. Check the Bandcamp wiring."
+      ),
       track
-        ? "Could not play “" + (track.title || "this track") + "”."
-        : "Could not play this preview.",
-      true
     );
-    try {
-      window.dispatchEvent(
-        new CustomEvent("vcr:player", {
-          detail: {
-            track: track,
-            nextTrack: peekNext(),
-            playing: false,
-            currentTime: 0,
-            duration: 0,
-            error: true,
-            stageOpen: stageOpen,
-            roomOpen: roomOpen,
-            bumperOpen: bumperOpen,
-          },
-        })
-      );
-    } catch (e) {}
   }
 
   function onEnded() {
@@ -1319,22 +1370,28 @@
   }
 
   function loadTrack(i, autoplay) {
-    if (i < 0 || i >= queue.length) return;
+    if (i < 0 || i >= queue.length) return Promise.resolve(null);
     clearBumper();
+    hidePreviewError();
     index = i;
     var track = queue[index];
     ensureAudio();
     var playSrc = track.src;
-    if (audio.src !== new URL(playSrc, window.location.origin).href) {
+    if (!playSrc) {
+      showPreviewError(previewErrorMessage(track), track);
+      return Promise.resolve(null);
+    }
+    try {
+      var abs = new URL(playSrc, window.location.origin).href;
+      if (audio.src !== abs) audio.src = playSrc;
+    } catch (e) {
       audio.src = playSrc;
     }
     render();
     emit();
     setDeepLink(track, true);
-    if (autoplay) {
-      return safePlay();
-    }
-    return Promise.resolve();
+    if (autoplay) return safePlay().then(function () { return current(); });
+    return Promise.resolve(current());
   }
 
   function applyRelease(catalog, releaseId, trackId, opts) {
@@ -1342,32 +1399,43 @@
       return r.id === releaseId;
     });
     if (!release) {
-      notify("Could not find that release.", true);
-      return null;
+      showPreviewError("Release is not in the library.");
+      return Promise.resolve(null);
     }
     var nextQueue = buildQueueFromRelease(release);
     if (!nextQueue.length) {
-      notify("Preview unavailable — this title is not streaming from Bandcamp.", true);
-      return null;
+      showPreviewError(
+        "No preview is wired for “" + (release.title || releaseId) + "”.",
+        { releaseId: release.id, title: release.title }
+      );
+      return Promise.resolve(null);
     }
-    queue = nextQueue;
     var i = 0;
     if (trackId) {
-      var found = queue.findIndex(function (t) {
+      var found = nextQueue.findIndex(function (t) {
         return t.id === trackId;
       });
       if (found < 0) {
-        notify("No stream for this cue.", true);
-        return null;
+        var listed = (release.tracks || []).find(function (t) {
+          return t.id === trackId;
+        });
+        showPreviewError(
+          listed
+            ? "This cue is not wired to Bandcamp."
+            : "That cue is not on this release.",
+          listed || { releaseId: release.id, title: release.title }
+        );
+        return Promise.resolve(null);
       }
       i = found;
     }
-    loadTrack(i, opts.autoplay !== false);
+    queue = nextQueue;
+    index = i;
     if (opts.stage) {
       if (getRoom()) openRoom({ scroll: opts.scroll !== false });
       else openStage();
     }
-    return current();
+    return loadTrack(i, opts.autoplay !== false);
   }
 
   function playRelease(releaseId, trackId, opts) {
@@ -1376,7 +1444,7 @@
     // and applying a cached catalog synchronously when available.
     unlockAudioFromGesture();
     if (catalogCache) {
-      return Promise.resolve(applyRelease(catalogCache, releaseId, trackId, opts));
+      return applyRelease(catalogCache, releaseId, trackId, opts);
     }
     return loadCatalog()
       .then(function (catalog) {
@@ -1552,32 +1620,32 @@
     root = root || document;
     if (listenBound && root === document) return;
     if (root === document) listenBound = true;
-    root.querySelectorAll("[data-play-release]").forEach(function (el) {
+    root.addEventListener("click", function (e) {
+      var el = e.target.closest("[data-play-release]");
+      if (!el || !root.contains(el)) return;
       if (el.hasAttribute("data-desk-option") || el.closest("[data-desk-option]")) return;
-      el.addEventListener("click", function (e) {
-        e.preventDefault();
-        unlockAudioFromGesture();
-        var releaseId = el.getAttribute("data-play-release");
-        var trackId = el.getAttribute("data-play-track");
-        var wantStage = el.hasAttribute("data-play-stage");
-        var cur = current();
-        // Same release: toggle; reopen immersive UI when requested and minimized.
-        if (cur && cur.releaseId === releaseId && !trackId) {
-          if (wantStage) {
-            if (getRoom()) {
-              if (!roomOpen) openRoom({ scroll: true });
-              else toggle();
-            } else if (!stageOpen) openStage();
+      e.preventDefault();
+      e.stopPropagation();
+      unlockAudioFromGesture();
+      var releaseId = el.getAttribute("data-play-release");
+      var trackId = el.getAttribute("data-play-track");
+      var wantStage = el.hasAttribute("data-play-stage");
+      var cur = current();
+      if (cur && cur.releaseId === releaseId && (!trackId || cur.id === trackId)) {
+        if (wantStage) {
+          if (getRoom()) {
+            if (!roomOpen) openRoom({ scroll: true });
             else toggle();
-          } else {
-            toggle();
-          }
-          return;
+          } else if (!stageOpen) openStage();
+          else toggle();
+        } else {
+          toggle();
         }
-        playRelease(releaseId, trackId, {
-          autoplay: true,
-          stage: wantStage,
-        });
+        return;
+      }
+      playRelease(releaseId, trackId || null, {
+        autoplay: true,
+        stage: wantStage,
       });
     });
   }

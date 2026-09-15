@@ -18,7 +18,7 @@ Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
 - **Club Credit ledger:** email-keyed balance. Premium webhook grants **$25**; cart can apply credit at Checkout via one-time Stripe coupon; webhook debits on success. Storage: Upstash/Vercel KV if configured, else Stripe Customer metadata + balance transactions.
 - **Physical** (vinyl, cassette, merch): bag → Stripe Checkout. Ships **Canada & US** only ($8 / $14 CAD).
 - **Digital**: sold on-site (email delivery after Checkout).
-- On-site listening uses **90s preview** clips in `previews/` only — full masters are not in the deploy.
+- On-site listening plays **90s Bandcamp streams** through the Club Copy player (`/api/preview` resolves the live `mp3-128` URL). Local `previews/` files are a fallback only. Unwired or dead cues surface an error in the player.
 
 ### Stripe setup
 

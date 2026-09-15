@@ -368,6 +368,9 @@
         showAlert("Preview unavailable");
       }
       syncPlayUi();
+    }).catch(function () {
+      showAlert("Preview unavailable");
+      syncPlayUi();
     });
   }
 
