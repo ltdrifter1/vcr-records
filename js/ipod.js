@@ -365,7 +365,7 @@
         updateNowPlayingMeta(queued);
         showNowPlaying();
       } else {
-        showAlert("No preview");
+        showAlert("Preview unavailable");
       }
       syncPlayUi();
     });
