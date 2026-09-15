@@ -1035,6 +1035,170 @@ body.zine-surface.archive-release .modal h2 {
 }
 body.zine-surface.archive-release .modal p { color: var(--zine-muted); }
 
+/* Listen stereo — paper hi-fi, not a glossy iPod -------------------- */
+body.zine-surface.archive-release .ra-deck {
+  --ra-vfd: var(--zine-mono);
+  --vfd-cyan: var(--zine-stamp);
+  --vfd-amber: var(--zine-ink);
+  --vfd-green: var(--zine-stamp);
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  padding: 14px;
+  box-shadow: none;
+  overflow: visible;
+}
+body.zine-surface.archive-release .ra-deck::before { display: none; }
+body.zine-surface.archive-release .ra-stereo {
+  gap: 12px;
+  grid-template-columns: 92px 1fr 92px;
+}
+body.zine-surface.archive-release .ra-stereo-brand {
+  font-family: var(--zine-gothic);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: var(--zine-ink);
+  text-shadow: none;
+  padding: 0 2px 6px;
+  border-bottom: 1px solid var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-stereo-brand span:last-child {
+  color: var(--zine-muted);
+}
+body.zine-surface.archive-release .ra-stereo-speaker {
+  border-radius: 0;
+  background: var(--zine-paper-2);
+  border: 1px solid var(--zine-ink);
+  box-shadow: none;
+  padding: 14px 8px;
+}
+body.zine-surface.archive-release .ra-stereo-driver {
+  background:
+    radial-gradient(circle at 50% 50%, #1a1a1a 0 18%, transparent 19%),
+    repeating-radial-gradient(circle at 50% 50%, #2a2a2a 0 2px, #111 2px 4px);
+  box-shadow:
+    0 0 0 2px var(--zine-paper),
+    0 0 0 3px var(--zine-ink);
+}
+body.zine-surface.archive-release .release-console.is-live .ra-stereo-driver {
+  box-shadow:
+    0 0 0 2px var(--zine-paper),
+    0 0 0 3px var(--zine-ink),
+    0 0 16px rgba(198, 255, 26, .45);
+}
+body.zine-surface.archive-release .ra-vfd {
+  border-radius: 0;
+  min-height: 150px;
+  background: #111;
+  color: var(--zine-stamp);
+  text-shadow: none;
+  box-shadow: inset 0 0 0 1px rgba(198, 255, 26, .28);
+}
+body.zine-surface.archive-release .release-console.is-live .ra-vfd {
+  box-shadow: inset 0 0 0 1px var(--zine-stamp);
+}
+body.zine-surface.archive-release .ra-vfd-scan {
+  opacity: .22;
+  mix-blend-mode: normal;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(198, 255, 26, .08) 0 1px,
+    transparent 1px 3px
+  );
+}
+body.zine-surface.archive-release .ra-vfd-top,
+body.zine-surface.archive-release .ra-vfd-times {
+  color: var(--zine-stamp);
+  text-shadow: none;
+  font-family: var(--zine-mono);
+}
+body.zine-surface.archive-release .ra-vfd-mode {
+  color: var(--zine-stamp);
+  text-shadow: none;
+}
+body.zine-surface.archive-release .ra-vfd-title {
+  font-family: var(--zine-display);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--zine-stamp);
+}
+body.zine-surface.archive-release .ra-vfd-sub {
+  color: rgba(198, 255, 26, .72);
+  font-family: var(--zine-mono);
+}
+body.zine-surface.archive-release .ra-vfd-eq i {
+  background: var(--zine-stamp);
+  box-shadow: none;
+  border-radius: 0;
+}
+body.zine-surface.archive-release .ra-stereo-vol-dial {
+  width: 52px;
+  height: 52px;
+  background: conic-gradient(from 210deg, #111 0 70%, var(--zine-paper-2) 70% 100%);
+  box-shadow: inset 0 0 0 1px var(--zine-ink);
+  border: 1px solid var(--zine-ink);
+}
+body.zine-surface.archive-release .ra-stereo-vol-dial::after {
+  background: var(--zine-stamp);
+  height: 12px;
+}
+body.zine-surface.archive-release .ra-stereo-vol-cap {
+  font-family: var(--zine-gothic);
+  color: var(--zine-muted);
+}
+body.zine-surface.archive-release .ra-transport { gap: 8px; }
+body.zine-surface.archive-release .ra-key {
+  height: 42px;
+  border-radius: 0;
+  border: 1px solid var(--zine-ink);
+  background: var(--zine-paper);
+  color: var(--zine-ink);
+  box-shadow: none;
+  filter: none;
+}
+body.zine-surface.archive-release .ra-key:hover {
+  filter: none;
+  background: var(--zine-paper-2);
+  box-shadow: none;
+}
+body.zine-surface.archive-release .ra-key:active {
+  transform: none;
+  background: var(--zine-ink);
+  color: var(--zine-paper);
+}
+body.zine-surface.archive-release .ra-key--play.on {
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  border-color: var(--zine-ink);
+  box-shadow: none;
+  transform: none;
+  filter: none;
+}
+body.zine-surface.archive-release .ra-deck .p-msg {
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--zine-muted);
+}
+body.zine-surface.archive-release .ra-deck .p-msg.err { color: #8a2f2a; }
+body.zine-surface.archive-release .ra-tracks .track-row.is-locked {
+  opacity: .55;
+}
+body.zine-surface.archive-release .ra-tracks .track-row.is-locked .track-title::after {
+  content: " · buy";
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--zine-dim);
+}
+@media (max-width: 959px) {
+  body.zine-surface.archive-release .ra-stereo { grid-template-columns: 1fr; }
+  body.zine-surface.archive-release .ra-stereo-speaker { display: none; }
+}
+
 /* Mixtapes / tapes page ---------------------------------------------------- */
 body.zine-surface .mixtapes,
 body.zine-surface.news-listing .mixtapes {
