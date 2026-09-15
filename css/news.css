@@ -303,6 +303,10 @@ img.zine-logo {
     padding: 16px 0 10px 32px;
     background: linear-gradient(90deg, transparent 0, var(--zine-paper) 32px);
   }
+  .zine-lead > .zine-mast {
+    padding-top: 12px;
+    padding-bottom: 4px;
+  }
   .zine-lead .zine-headline {
     font-size: clamp(52px, 8.2vw, 96px);
     letter-spacing: -.026em;
@@ -459,6 +463,98 @@ img.zine-logo {
   text-transform: none;
   color: var(--zine-ink);
   max-width: 22em;
+}
+
+/* Cover mast — kicker+stamps, standfirst, credit rule, pull as one plate */
+.zine-mast {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+}
+.zine-mast-rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  flex-wrap: wrap;
+  margin: 0 0 8px;
+}
+.zine-mast .zine-kicker,
+.zine-mast .news-kicker {
+  margin: 0;
+  color: var(--zine-ink);
+}
+.zine-mast .news-kicker {
+  gap: 8px 10px;
+}
+.zine-mast .zine-spec {
+  margin: 0;
+}
+.zine-mast .zine-spec span {
+  padding: 4px 9px 3px;
+}
+.zine-mast .zine-headline,
+.zine-mast h1.zine-headline {
+  margin: 0 0 16px;
+}
+.zine-mast .zine-dek {
+  margin: 0 0 18px;
+  max-width: 34em;
+  font-style: italic;
+  font-stretch: 100%;
+  font-size: clamp(16.5px, 1.9vw, 20px);
+  font-weight: 400;
+  line-height: 1.36;
+  letter-spacing: -.018em;
+  color: var(--zine-ink);
+}
+.zine-mast-credit {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+  margin: 0 0 20px;
+  padding: 9px 0 8px;
+  border-top: 1px solid var(--zine-ink);
+  border-bottom: 1px solid var(--zine-ink);
+  font-family: var(--zine-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--zine-ink);
+}
+.zine-mast-credit time {
+  color: var(--zine-dim);
+  letter-spacing: .14em;
+}
+.zine-mast .zine-pull {
+  margin: 0 0 22px;
+  padding: 4px 0 2px 18px;
+  border-left: 4px solid var(--zine-stamp);
+  font-size: clamp(22px, 2.7vw, 32px);
+  font-weight: 800;
+  letter-spacing: -.022em;
+  line-height: 1.08;
+  max-width: 17em;
+}
+.zine-mast .zine-copy {
+  margin-top: 0;
+}
+@media (max-width: 759px) {
+  .zine-mast-rail {
+    margin-bottom: 10px;
+  }
+  .zine-mast .zine-dek {
+    margin-bottom: 16px;
+  }
+  .zine-mast .zine-pull {
+    margin-bottom: 18px;
+    font-size: clamp(20px, 6.2vw, 26px);
+    max-width: none;
+  }
 }
 .zine-copy p {
   margin: 0 0 .9em;
@@ -1772,6 +1868,11 @@ body.surface-acetate.has-station-bumper {
   margin-top: 2px;
   columns: 1;
 }
+.news-article .zine-mast + .news-body--essay {
+  border-top: 0;
+  padding-top: 2px;
+  margin-top: 0;
+}
 @media (min-width: 1100px) {
   .news-story .news-body--essay {
     columns: 2;
@@ -2629,6 +2730,7 @@ body.news-story .news-page {
   .news-story .news-article .zine-dek,
   .news-story .news-article .zine-spec,
   .news-story .news-article .news-byline:not(.news-byline--end),
+  .news-story .news-article .zine-mast,
   .news-story .news-body {
     grid-column: 2;
     position: relative;
@@ -2637,6 +2739,16 @@ body.news-story .news-page {
   .news-story .news-kicker {
     padding-left: 56px;
     margin-top: 18px;
+  }
+  .news-story .news-article .zine-mast {
+    padding-left: 0;
+    margin-top: 18px;
+  }
+  .news-story .news-article .zine-mast .zine-mast-rail,
+  .news-story .news-article .zine-mast .zine-dek,
+  .news-story .news-article .zine-mast-credit,
+  .news-story .news-article .zine-mast .zine-pull {
+    padding-left: 56px;
   }
   .news-story .news-article .zine-headline,
   .news-story .news-article h1 {
@@ -2650,6 +2762,10 @@ body.news-story .news-page {
   .news-story .news-article .news-byline:not(.news-byline--end),
   .news-story .news-body {
     padding-left: 56px;
+  }
+  .news-story .news-article .zine-mast .zine-dek {
+    padding-left: 56px;
+    max-width: 36em;
   }
   .news-story .news-byline--end { grid-column: 2; padding-left: 56px; }
   .news-story .news-nav,
@@ -2683,6 +2799,10 @@ body.news-story .news-page {
 .news-story .news-article .zine-dek {
   margin: 0 0 10px;
   max-width: 24em;
+}
+.news-story .news-article .zine-mast .zine-dek {
+  margin: 0 0 18px;
+  max-width: 36em;
 }
 .news-story .news-article-hero .zine-tape { display: none; }
 
