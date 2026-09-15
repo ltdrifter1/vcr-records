@@ -317,7 +317,7 @@
     var cue = formatCue(rel);
     var catNo = rel.catalogue ? '<span class="cat-cue">' + esc(rel.catalogue) + '</span>' : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
-      return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
+      return !!(t && (t.preview || t.bandcampTrackId));
     });
     var playBtn = (
           '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '"' +
@@ -563,7 +563,7 @@
     var meta = [rel.kind, rel.year].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
     var hasPrev = tracks.some(function (t) {
-      return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
+      return !!(t && (t.preview || t.bandcampTrackId));
     });
     var play =
       '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +

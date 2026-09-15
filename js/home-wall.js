@@ -31,7 +31,7 @@
   }
 
   function hasPreview(rel) {
-    return Array.isArray(rel.tracks) && rel.tracks.some(trackWired);
+    return !!(rel && rel.id);
   }
 
   function mountFlow() {

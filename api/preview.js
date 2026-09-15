@@ -185,7 +185,8 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const bandcampUrl = release.bandcamp || track.bandcamp || null;
+  const bandcampUrl =
+    release.bandcampUrl || release.bandcamp || track.bandcamp || null;
   const localSrc = localPreviewPath(track.preview);
 
   if (bandcampUrl) {

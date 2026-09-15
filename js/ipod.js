@@ -365,11 +365,11 @@
         updateNowPlayingMeta(queued);
         showNowPlaying();
       } else {
-        showAlert("Preview not wired");
+        showAlert("Preview unavailable");
       }
       syncPlayUi();
     }).catch(function () {
-      showAlert("Preview not wired");
+      showAlert("Preview unavailable");
       syncPlayUi();
     });
   }

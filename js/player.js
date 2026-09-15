@@ -28,7 +28,7 @@
   var analyserBins = null;
   var energyRaf = 0;
   var lastPreviewError = "";
-  var loadGen = 0;
+  var toastTimer = 0;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -278,29 +278,44 @@
     }
   }
 
+  function trackPlayable(t) {
+    return !!(t && (t.bandcampTrackId || t.preview));
+  }
+
+  function filePreviewSrc(preview) {
+    if (!preview) return "";
+    return preview.charAt(0) === "/" ? preview : "/" + preview;
+  }
+
+  function streamSrc(release, t) {
+    if (t.bandcampTrackId) {
+      return (
+        "/api/bandcamp-stream?r=" +
+        encodeURIComponent(release.id) +
+        "&t=" +
+        encodeURIComponent(t.id)
+      );
+    }
+    return filePreviewSrc(t.preview);
+  }
+
   function buildQueueFromRelease(release) {
     var vinyl = (release.formats && release.formats.vinyl) || null;
     var cassette = (release.formats && release.formats.cassette) || null;
     var digital = (release.formats && release.formats.digital) || null;
     return (release.tracks || [])
-      .filter(function (t) {
-        return !!(t && (t.bandcampTrackId || t.preview || t.bandcamp));
-      })
+      .filter(trackPlayable)
       .map(function (t) {
-        var preview = t.preview || "";
-        var localSrc = preview
-          ? preview.charAt(0) === "/"
-            ? preview
-            : "/" + preview
-          : "";
+        var fromBandcamp = !!t.bandcampTrackId;
         return {
           id: t.id,
           title: t.title,
-          src: localSrc,
-          bandcamp: t.bandcamp || release.bandcamp || "",
+          src: streamSrc(release, t),
+          filePreview: filePreviewSrc(t.preview),
+          fromBandcamp: fromBandcamp,
           bandcampTrackId: t.bandcampTrackId || null,
           isPreview: true,
-          previewDuration: t.previewDuration || 90,
+          previewDuration: fromBandcamp ? 0 : t.previewDuration || 90,
           releaseId: release.id,
           releaseTitle: release.title,
           artist: release.artist,
@@ -597,9 +612,17 @@
       '<a class="vcr-stage__notes" data-page href="#">Sleeve notes</a>' +
       "</div>";
 
+    var toast = document.createElement("div");
+    toast.className = "vcr-toast";
+    toast.id = "vcr-toast";
+    toast.hidden = true;
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+
     document.body.appendChild(dock);
     document.body.appendChild(stage);
     document.body.appendChild(bumper);
+    document.body.appendChild(toast);
 
     dock.addEventListener("click", onDockClick);
     stage.addEventListener("click", onStageClick);
@@ -618,8 +641,26 @@
     });
     document.addEventListener("keydown", onKey);
 
-    ui = { dock: dock, stage: stage, bumper: bumper };
+    ui = { dock: dock, stage: stage, bumper: bumper, toast: toast };
     return ui;
+  }
+
+  function notify(msg, isError) {
+    if (!msg) return;
+    ensureUI();
+    var toast = ui.toast;
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.hidden = false;
+    toast.classList.toggle("is-error", !!isError);
+    toast.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("is-on");
+      toast.hidden = true;
+    }, 4200);
+    var bug = ui.dock && ui.dock.querySelector(".vcr-player__bug");
+    if (bug && isError) bug.textContent = "CC · Error";
   }
 
   function fmt(sec) {
@@ -817,7 +858,9 @@
 
     var roomHint = room.querySelector(".hero-console-hint");
     if (roomHint && track) {
-      roomHint.textContent = track.isPreview
+      roomHint.textContent = track.fromBandcamp
+        ? "Streaming on site · bumper at end · Esc minimize"
+        : track.isPreview
         ? "90s preview · bumper at end · Esc minimize"
         : "Space play/pause · Esc minimize";
     }
@@ -885,7 +928,7 @@
     dock.querySelector(".vcr-player__art").src = track.cover;
     dock.querySelector(".vcr-player__title").textContent = track.title;
     dock.querySelector(".vcr-player__sub").textContent =
-      (track.isPreview ? "Preview · " : "") +
+      (track.fromBandcamp ? "Bandcamp · " : track.isPreview ? "Preview · " : "") +
       track.artist +
       " — " +
       track.releaseTitle;
@@ -1081,6 +1124,7 @@
     document.body.classList.add("has-vcr-player");
     var bug = ui.dock.querySelector(".vcr-player__bug");
     if (bug) bug.textContent = "CC · Error";
+    notify(lastPreviewError, true);
     try {
       window.dispatchEvent(
         new CustomEvent("vcr:player", {
@@ -1101,47 +1145,18 @@
     } catch (e) {}
   }
 
-  function resolvePreviewSrc(track) {
-    if (!track) {
-      return Promise.reject(new Error("No track."));
-    }
-    var api =
-      "/api/preview?release=" +
-      encodeURIComponent(track.releaseId) +
-      "&track=" +
-      encodeURIComponent(track.id || "");
-    return fetch(api, { headers: { Accept: "application/json" } })
-      .then(function (r) {
-        var ctype = r.headers.get("content-type") || "";
-        if (ctype.indexOf("application/json") < 0) {
-          if (track.src) return { src: track.src, source: "file" };
-          throw new Error("Preview resolver is not available.");
-        }
-        return r.json().then(function (d) {
-          d = d || {};
-          if (!r.ok || !d.src) {
-            throw new Error(d.error || previewErrorMessage(track));
-          }
-          return d;
-        });
-      })
-      .catch(function (err) {
-        if (track.src) {
-          return fetch(track.src, { method: "HEAD" })
-            .then(function (head) {
-              if (head.ok) return { src: track.src, source: "file" };
-              throw err;
-            })
-            .catch(function () {
-              throw err;
-            });
-        }
-        throw err;
-      });
-  }
-
   function onAudioError() {
     var track = current();
+    if (track && track.fromBandcamp && track.filePreview && !track._fellBack) {
+      track._fellBack = true;
+      track.src = track.filePreview;
+      track.fromBandcamp = false;
+      ensureAudio();
+      audio.src = track.filePreview;
+      render();
+      safePlay();
+      return;
+    }
     showPreviewError(
       previewErrorMessage(
         track,
@@ -1360,40 +1375,23 @@
     hidePreviewError();
     index = i;
     var track = queue[index];
-    var gen = ++loadGen;
     ensureAudio();
+    var playSrc = track.src;
+    if (!playSrc) {
+      showPreviewError(previewErrorMessage(track), track);
+      return Promise.resolve(null);
+    }
+    try {
+      var abs = new URL(playSrc, window.location.origin).href;
+      if (audio.src !== abs) audio.src = playSrc;
+    } catch (e) {
+      audio.src = playSrc;
+    }
     render();
     emit();
     setDeepLink(track, true);
-    return resolvePreviewSrc(track)
-      .then(function (resolved) {
-        if (gen !== loadGen) return null;
-        var playSrc = resolved && resolved.src;
-        if (!playSrc) {
-          showPreviewError(previewErrorMessage(track), track);
-          return null;
-        }
-        track.resolvedSrc = playSrc;
-        track.resolvedSource = resolved.source || "";
-        try {
-          var abs = new URL(playSrc, window.location.origin).href;
-          if (audio.src !== abs) audio.src = playSrc;
-        } catch (e) {
-          audio.src = playSrc;
-        }
-        render();
-        emit();
-        if (autoplay) return safePlay().then(function () { return current(); });
-        return current();
-      })
-      .catch(function (err) {
-        if (gen !== loadGen) return null;
-        showPreviewError(
-          (err && err.message) || previewErrorMessage(track),
-          track
-        );
-        return null;
-      });
+    if (autoplay) return safePlay().then(function () { return current(); });
+    return Promise.resolve(current());
   }
 
   function applyRelease(catalog, releaseId, trackId, opts) {
@@ -1448,9 +1446,14 @@
     if (catalogCache) {
       return applyRelease(catalogCache, releaseId, trackId, opts);
     }
-    return loadCatalog().then(function (catalog) {
-      return applyRelease(catalog, releaseId, trackId, opts);
-    });
+    return loadCatalog()
+      .then(function (catalog) {
+        return applyRelease(catalog, releaseId, trackId, opts);
+      })
+      .catch(function () {
+        notify("Could not load the catalog.", true);
+        return null;
+      });
   }
 
   function play() {
@@ -1695,6 +1698,8 @@
 
   window.VCRPlayer = {
     playRelease: playRelease,
+    notify: notify,
+    trackPlayable: trackPlayable,
     openStage: openStage,
     closeStage: closeStage,
     openRoom: openRoom,
