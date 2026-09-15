@@ -156,8 +156,11 @@
       setActive(idx);
       setMsg("Loading…");
       VCRPlayer.playRelease(RELEASE_ID, trackIdAt(idx), { autoplay: true }).then(function (queued) {
-        if (queued) setMsg("90s preview · full file after checkout.");
-        else setMsg("Could not play this track.", true);
+        if (queued) {
+          setMsg(queued.fromBandcamp
+            ? "Streaming on site · full file after checkout."
+            : "90s preview · full file after checkout.");
+        } else setMsg("Could not play this track.", true);
       }).catch(function () {
         setMsg("Could not play this track.", true);
       });
@@ -193,7 +196,8 @@
           return;
         }
         if (cat.preview) local.preview = cat.preview;
-        local.locked = !cat.preview;
+        if (cat.bandcampTrackId) local.bandcampTrackId = cat.bandcampTrackId;
+        local.locked = !(cat.preview || cat.bandcampTrackId);
       });
       trackRows.forEach(function (r, idx) {
         r.classList.toggle("is-locked", !hasPreview(TRACKS[idx]));
@@ -317,7 +321,11 @@
       }
       if (elapsedEl) elapsedEl.textContent = fmt(d.currentTime || 0);
       if (remainEl) remainEl.textContent = "-" + fmt((d.duration || 0) - (d.currentTime || 0));
-      if (d.playing) setMsg("90s preview · full file after checkout.");
+      if (d.playing) {
+        setMsg(t.fromBandcamp
+          ? "Streaming on site · full file after checkout."
+          : "90s preview · full file after checkout.");
+      }
     });
 
     if (TRACKS.length) setActive(0);

@@ -27,6 +27,7 @@
   var analyser = null;
   var analyserBins = null;
   var energyRaf = 0;
+  var toastTimer = 0;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -276,21 +277,43 @@
     }
   }
 
+  function trackPlayable(t) {
+    return !!(t && (t.bandcampTrackId || t.preview));
+  }
+
+  function filePreviewSrc(preview) {
+    if (!preview) return "";
+    return preview.charAt(0) === "/" ? preview : "/" + preview;
+  }
+
+  function streamSrc(release, t) {
+    if (t.bandcampTrackId) {
+      return (
+        "/api/bandcamp-stream?r=" +
+        encodeURIComponent(release.id) +
+        "&t=" +
+        encodeURIComponent(t.id)
+      );
+    }
+    return filePreviewSrc(t.preview);
+  }
+
   function buildQueueFromRelease(release) {
     var vinyl = (release.formats && release.formats.vinyl) || null;
     var cassette = (release.formats && release.formats.cassette) || null;
     var digital = (release.formats && release.formats.digital) || null;
     return (release.tracks || [])
-      .filter(function (t) {
-        return t.preview;
-      })
+      .filter(trackPlayable)
       .map(function (t) {
+        var fromBandcamp = !!t.bandcampTrackId;
         return {
           id: t.id,
           title: t.title,
-          src: t.preview.charAt(0) === "/" ? t.preview : "/" + t.preview,
+          src: streamSrc(release, t),
+          filePreview: filePreviewSrc(t.preview),
+          fromBandcamp: fromBandcamp,
           isPreview: true,
-          previewDuration: t.previewDuration || 90,
+          previewDuration: fromBandcamp ? 0 : t.previewDuration || 90,
           releaseId: release.id,
           releaseTitle: release.title,
           artist: release.artist,
@@ -585,9 +608,17 @@
       '<a class="vcr-stage__notes" data-page href="#">Sleeve notes</a>' +
       "</div>";
 
+    var toast = document.createElement("div");
+    toast.className = "vcr-toast";
+    toast.id = "vcr-toast";
+    toast.hidden = true;
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+
     document.body.appendChild(dock);
     document.body.appendChild(stage);
     document.body.appendChild(bumper);
+    document.body.appendChild(toast);
 
     dock.addEventListener("click", onDockClick);
     stage.addEventListener("click", onStageClick);
@@ -606,8 +637,26 @@
     });
     document.addEventListener("keydown", onKey);
 
-    ui = { dock: dock, stage: stage, bumper: bumper };
+    ui = { dock: dock, stage: stage, bumper: bumper, toast: toast };
     return ui;
+  }
+
+  function notify(msg, isError) {
+    if (!msg) return;
+    ensureUI();
+    var toast = ui.toast;
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.hidden = false;
+    toast.classList.toggle("is-error", !!isError);
+    toast.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("is-on");
+      toast.hidden = true;
+    }, 4200);
+    var bug = ui.dock && ui.dock.querySelector(".vcr-player__bug");
+    if (bug && isError) bug.textContent = "CC · Error";
   }
 
   function fmt(sec) {
@@ -805,7 +854,9 @@
 
     var roomHint = room.querySelector(".hero-console-hint");
     if (roomHint && track) {
-      roomHint.textContent = track.isPreview
+      roomHint.textContent = track.fromBandcamp
+        ? "Streaming on site · bumper at end · Esc minimize"
+        : track.isPreview
         ? "90s preview · bumper at end · Esc minimize"
         : "Space play/pause · Esc minimize";
     }
@@ -873,7 +924,7 @@
     dock.querySelector(".vcr-player__art").src = track.cover;
     dock.querySelector(".vcr-player__title").textContent = track.title;
     dock.querySelector(".vcr-player__sub").textContent =
-      (track.isPreview ? "Preview · " : "") +
+      (track.fromBandcamp ? "Bandcamp · " : track.isPreview ? "Preview · " : "") +
       track.artist +
       " — " +
       track.releaseTitle;
@@ -1029,6 +1080,22 @@
 
   function onAudioError() {
     var track = current();
+    if (track && track.fromBandcamp && track.filePreview && !track._fellBack) {
+      track._fellBack = true;
+      track.src = track.filePreview;
+      track.fromBandcamp = false;
+      ensureAudio();
+      audio.src = track.filePreview;
+      render();
+      safePlay();
+      return;
+    }
+    notify(
+      track
+        ? "Could not play “" + (track.title || "this track") + "”."
+        : "Could not play this preview.",
+      true
+    );
     try {
       window.dispatchEvent(
         new CustomEvent("vcr:player", {
@@ -1274,9 +1341,13 @@
     var release = (catalog.releases || []).find(function (r) {
       return r.id === releaseId;
     });
-    if (!release) return null;
+    if (!release) {
+      notify("Could not find that release.", true);
+      return null;
+    }
     var nextQueue = buildQueueFromRelease(release);
     if (!nextQueue.length) {
+      notify("Preview unavailable — this title is not streaming from Bandcamp.", true);
       return null;
     }
     queue = nextQueue;
@@ -1285,7 +1356,10 @@
       var found = queue.findIndex(function (t) {
         return t.id === trackId;
       });
-      if (found < 0) return null;
+      if (found < 0) {
+        notify("No stream for this cue.", true);
+        return null;
+      }
       i = found;
     }
     loadTrack(i, opts.autoplay !== false);
@@ -1304,9 +1378,14 @@
     if (catalogCache) {
       return Promise.resolve(applyRelease(catalogCache, releaseId, trackId, opts));
     }
-    return loadCatalog().then(function (catalog) {
-      return applyRelease(catalog, releaseId, trackId, opts);
-    });
+    return loadCatalog()
+      .then(function (catalog) {
+        return applyRelease(catalog, releaseId, trackId, opts);
+      })
+      .catch(function () {
+        notify("Could not load the catalog.", true);
+        return null;
+      });
   }
 
   function play() {
@@ -1551,6 +1630,8 @@
 
   window.VCRPlayer = {
     playRelease: playRelease,
+    notify: notify,
+    trackPlayable: trackPlayable,
     openStage: openStage,
     closeStage: closeStage,
     openRoom: openRoom,
