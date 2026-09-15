@@ -90,6 +90,7 @@
 
   function applyChroma(palette) {
     if (!palette) return;
+    if (document.body.classList.contains("zine-surface")) return;
     var root = document.documentElement;
     root.style.setProperty("--room-a", rgbStr(palette.a));
     root.style.setProperty("--room-b", rgbStr(palette.b));
@@ -403,6 +404,7 @@
     audio.addEventListener("play", onPlayState);
     audio.addEventListener("pause", onPlayState);
     audio.addEventListener("loadedmetadata", onTime);
+    audio.addEventListener("error", onAudioError);
     return audio;
   }
 
@@ -467,6 +469,10 @@
     };
     return attempt().catch(function (err) {
       var name = err && err.name;
+      if (name === "NotSupportedError" || name === "NotFoundError") {
+        onAudioError();
+        return;
+      }
       if (name === "AbortError") {
         if (audio.readyState >= 2) {
           return attempt().catch(function (err2) {
@@ -1021,6 +1027,27 @@
     emit();
   }
 
+  function onAudioError() {
+    var track = current();
+    try {
+      window.dispatchEvent(
+        new CustomEvent("vcr:player", {
+          detail: {
+            track: track,
+            nextTrack: peekNext(),
+            playing: false,
+            currentTime: 0,
+            duration: 0,
+            error: true,
+            stageOpen: stageOpen,
+            roomOpen: roomOpen,
+            bumperOpen: bumperOpen,
+          },
+        })
+      );
+    } catch (e) {}
+  }
+
   function onEnded() {
     var track = current();
     if (track && track.isPreview) {
@@ -1258,7 +1285,8 @@
       var found = queue.findIndex(function (t) {
         return t.id === trackId;
       });
-      if (found >= 0) i = found;
+      if (found < 0) return null;
+      i = found;
     }
     loadTrack(i, opts.autoplay !== false);
     if (opts.stage) {
