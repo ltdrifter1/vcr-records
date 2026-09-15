@@ -150,16 +150,16 @@
     function playAt(idx) {
       if (idx < 0 || !TRACKS[idx]) return;
       if (!hasPreview(TRACKS[idx])) {
-        setMsg("No preview on this cue — full track after checkout.");
+        setMsg("No preview wired — this cue is not linked to Bandcamp.", true);
         return;
       }
       setActive(idx);
       setMsg("Loading…");
       VCRPlayer.playRelease(RELEASE_ID, trackIdAt(idx), { autoplay: true }).then(function (queued) {
         if (queued) setMsg("90s preview · full file after checkout.");
-        else setMsg("Could not play this track.", true);
+        else setMsg("Could not play this preview — link is not wired or not active.", true);
       }).catch(function () {
-        setMsg("Could not play this track.", true);
+        setMsg("Could not play this preview — link is not wired or not active.", true);
       });
     }
 
@@ -193,7 +193,10 @@
           return;
         }
         if (cat.preview) local.preview = cat.preview;
-        local.locked = !cat.preview;
+        if (cat.bandcampTrackId) local.bandcampTrackId = cat.bandcampTrackId;
+        if (cat.bandcamp) local.bandcamp = cat.bandcamp;
+        if (release.bandcamp) local.bandcamp = local.bandcamp || release.bandcamp;
+        local.locked = !(cat.preview || cat.bandcampTrackId || cat.bandcamp || release.bandcamp);
       });
       trackRows.forEach(function (r, idx) {
         r.classList.toggle("is-locked", !hasPreview(TRACKS[idx]));
@@ -289,7 +292,7 @@
       var d = ev.detail || {};
       if (d.error && d.track && d.track.releaseId === RELEASE_ID) {
         setPlaying(false);
-        setMsg("Could not play this preview.", true);
+        setMsg(d.errorMessage || "Could not play this preview — link is not wired or not active.", true);
         return;
       }
       var t = d.track;

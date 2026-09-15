@@ -365,8 +365,11 @@
         updateNowPlayingMeta(queued);
         showNowPlaying();
       } else {
-        showAlert("No preview");
+        showAlert("Preview not wired");
       }
+      syncPlayUi();
+    }).catch(function () {
+      showAlert("Preview not wired");
       syncPlayUi();
     });
   }

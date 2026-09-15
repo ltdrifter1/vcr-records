@@ -26,10 +26,12 @@
     return d && d.price != null ? Number(d.price) : null;
   }
 
+  function trackWired(t) {
+    return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
+  }
+
   function hasPreview(rel) {
-    return Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
-      return !!(t && t.preview);
-    });
+    return Array.isArray(rel.tracks) && rel.tracks.some(trackWired);
   }
 
   function mountFlow() {
@@ -53,9 +55,12 @@
       ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.genre) + "</span></p>"
       : "";
     var meta = [rel.kind, rel.year].filter(Boolean).join(" · ");
-    var play = hasPreview(rel)
-      ? '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' + esc(rel.id) + '">Play</button>'
-      : "";
+    var play =
+      '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
+      esc(rel.id) +
+      '"' +
+      (hasPreview(rel) ? "" : " data-preview-unwired=\"1\"") +
+      ">Play</button>";
     var add = (rel.formats && rel.formats.digital && rel.formats.digital.sku)
       ? (
           '<button type="button" class="btn btn-ghost-on-dark" data-add-release="' + esc(rel.id) + '"' +
@@ -77,6 +82,7 @@
         (meta ? '<p class="album-inspect__meta">' + esc(meta) + "</p>" : "") +
         '<h3 class="album-inspect__title"><a href="' + esc(rel.page || "#") + '">' + esc(rel.title) + "</a></h3>" +
         '<p class="album-inspect__artist">' + esc(rel.artist || "") + "</p>" +
+        '<p class="album-inspect__err" data-inspect-err hidden></p>' +
         '<div class="album-inspect__actions">' +
           play +
           add +
@@ -86,6 +92,20 @@
     if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(inspect);
     bindAdd(inspect);
   }
+
+  window.addEventListener("vcr:player", function (e) {
+    var d = e.detail || {};
+    if (!inspect) return;
+    var errEl = inspect.querySelector("[data-inspect-err]");
+    if (!errEl) return;
+    if (d.error && d.errorMessage) {
+      errEl.hidden = false;
+      errEl.textContent = d.errorMessage;
+    } else if (d.playing) {
+      errEl.hidden = true;
+      errEl.textContent = "";
+    }
+  });
 
   function bindAdd(root) {
     (root || document).querySelectorAll("[data-add-release]").forEach(function (el) {

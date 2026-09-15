@@ -317,17 +317,16 @@
     var cue = formatCue(rel);
     var catNo = rel.catalogue ? '<span class="cat-cue">' + esc(rel.catalogue) + '</span>' : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
-      return !!(t && t.preview);
+      return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
     });
-    var playBtn = hasPreview
-      ? (
-          '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '">' +
+    var playBtn = (
+          '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '"' +
+            (hasPreview ? '' : ' data-preview-unwired="1"') + '>' +
             '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           '</button>' +
           '<span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span>'
-        )
-      : '';
+        );
     var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var pill = preorder
       ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
@@ -563,16 +562,23 @@
       : '';
     var meta = [rel.kind, rel.year].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
-    var hasPrev = tracks.some(function (t) { return !!(t && t.preview); });
-    var play = hasPrev
-      ? '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' + esc(rel.id) + '">Play</button>'
-      : '';
+    var hasPrev = tracks.some(function (t) {
+      return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
+    });
+    var play =
+      '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
+      esc(rel.id) +
+      '"' +
+      (hasPrev ? '' : ' data-preview-unwired="1"') +
+      '>Play</button>';
     var trackHtml = tracks.length
       ? tracks.map(function (t, i) {
           var dur = fmtDur(t.duration);
+          var wired = !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
           return (
-            '<button type="button" class="inspect-track" data-play-release="' + esc(rel.id) + '"' +
+            '<button type="button" class="inspect-track' + (wired ? '' : ' is-unwired') + '" data-play-release="' + esc(rel.id) + '"' +
               (t.id ? ' data-play-track="' + esc(t.id) + '"' : '') +
+              (wired ? '' : ' data-preview-unwired="1"') +
               ' aria-label="Play ' + esc(t.title || rel.title) + '">' +
               '<span class="inspect-track-n">' + String(i + 1).padStart(2, '0') + '</span>' +
               '<span class="inspect-track-t">' + esc(t.title || 'Track') + '</span>' +
@@ -592,6 +598,7 @@
         (meta ? '<p class="album-inspect__meta">' + esc(meta) + '</p>' : '') +
         '<h3 class="album-inspect__title"><a href="' + esc(rel.page || '#') + '">' + esc(rel.title) + '</a></h3>' +
         '<p class="album-inspect__artist">' + esc(rel.artist || '') + '</p>' +
+        '<p class="album-inspect__err" data-inspect-err hidden></p>' +
         '<div class="album-inspect__actions">' +
           play +
           addBtnHtml(rel) +
@@ -699,6 +706,16 @@
       inspect.querySelectorAll('.inspect-track').forEach(function (rowEl) {
         rowEl.classList.toggle('is-now', !!(trackId && rowEl.getAttribute('data-play-track') === trackId));
       });
+      var errEl = inspect.querySelector('[data-inspect-err]');
+      if (errEl) {
+        if (d.error && d.errorMessage) {
+          errEl.hidden = false;
+          errEl.textContent = d.errorMessage;
+        } else if (d.playing) {
+          errEl.hidden = true;
+          errEl.textContent = '';
+        }
+      }
     }
   });
 
