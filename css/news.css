@@ -149,7 +149,7 @@
 }
 .zine-slug-price {
   margin-left: auto;
-  background: var(--zine-stamp) !important;
+  background: var(--zine-paper) !important;
   color: var(--zine-ink) !important;
   letter-spacing: .28em;
   font-weight: 700;
@@ -161,8 +161,8 @@
   left: 4px;
   right: -4px;
   bottom: -3px;
-  height: 3px;
-  background: var(--zine-stamp);
+  height: 2px;
+  background: var(--zine-ink);
   pointer-events: none;
 }
 
@@ -267,7 +267,7 @@ img.zine-logo {
   letter-spacing: .28em;
   text-transform: uppercase;
   color: var(--zine-ink);
-  background: var(--zine-stamp);
+  background: var(--zine-paper);
   border: 2px solid var(--zine-ink);
   box-shadow: 3px 3px 0 var(--zine-ink);
   outline: 1px dashed var(--zine-ink);
@@ -319,12 +319,17 @@ img.zine-logo {
   font-family: var(--zine-display);
   font-size: clamp(64px, 11vw, 128px);
   font-weight: 900;
-  letter-spacing: -.08em;
+  letter-spacing: -.04em;
   line-height: .72;
   text-transform: uppercase;
-  color: var(--zine-stamp);
+  color: transparent;
+  -webkit-text-stroke: .034em var(--zine-ink);
+  paint-order: stroke fill;
   pointer-events: none;
   user-select: none;
+}
+@supports not (-webkit-text-stroke: 1px black) {
+  .zine-issue { color: var(--zine-ink); }
 }
 .zine-tagline {
   grid-column: 2;
@@ -391,7 +396,7 @@ img.zine-logo {
   padding: 0;
   background: var(--zine-ink);
   border-top: 0;
-  border-bottom: 3px solid var(--zine-stamp);
+  border-bottom: 3px solid var(--zine-ink);
   font-family: var(--zine-gothic);
   font-size: 11px;
   font-weight: 600;
