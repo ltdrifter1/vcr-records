@@ -6,13 +6,12 @@
  */
 const fs = require("fs");
 const path = require("path");
+const bc = require("./lib/bandcamp");
 
 const CACHE_MS = 4 * 60 * 1000;
 const cache = new Map();
 let catalogCache = null;
 let catalogAt = 0;
-
-const HOST_OK = /(^|\.)bandcamp\.com$/i;
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -33,142 +32,29 @@ function loadCatalog() {
 function findCue(releaseId, trackId) {
   const catalog = loadCatalog();
   const release = (catalog.releases || []).find((r) => r.id === releaseId);
-  if (!release) return { error: "Unknown release.", status: 404 };
+  if (!release) return { error: "Unknown release.", status: 404, catalog };
   const tracks = release.tracks || [];
   let track = null;
   if (trackId) {
     track = tracks.find((t) => t.id === trackId) || null;
-    if (!track) return { error: "Unknown track.", status: 404 };
+    if (!track) return { error: "Unknown track.", status: 404, catalog };
   } else {
-    track = tracks.find((t) => t.bandcampTrackId || t.preview) || tracks[0] || null;
+    track =
+      tracks.find((t) => t.bandcampTrackId || t.preview) || tracks[0] || null;
   }
-  if (!track) return { error: "No tracks on this release.", status: 404 };
-  if (!track.bandcampTrackId || !release.bandcampUrl) {
-    return {
-      error: "Preview unavailable — this title is not streaming from Bandcamp.",
-      status: 404,
-      release,
-      track,
-    };
-  }
-  return { release, track };
+  if (!track) return { error: "No tracks on this release.", status: 404, catalog };
+  return { release, track, catalog };
 }
 
-async function getHttps(url) {
-  const pageUrl = new URL(url);
-  if (pageUrl.protocol !== "https:" || !HOST_OK.test(pageUrl.hostname)) {
-    throw new Error("Bandcamp host not allowed");
-  }
-  const ctrl = new AbortController();
-  const timer = setTimeout(function () {
-    ctrl.abort();
-  }, 8000);
-  try {
-    const resp = await fetch(pageUrl.toString(), {
-      signal: ctrl.signal,
-      redirect: "follow",
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      },
-    });
-    const finalHost = new URL(resp.url).hostname;
-    if (!HOST_OK.test(finalHost)) throw new Error("Unexpected redirect host");
-    const body = await resp.text();
-    return { status: resp.status, body };
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-function unescapeHtml(s) {
-  return String(s || "")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
-
-function parseTralbum(html) {
-  const m = html.match(/data-tralbum="([^"]+)"/);
-  if (!m) return null;
-  try {
-    return JSON.parse(unescapeHtml(m[1]));
-  } catch (err) {
-    return null;
-  }
-}
-
-function mp3FromTralbum(tralbum, bandcampTrackId) {
-  const want = String(bandcampTrackId);
-  const tracks = (tralbum && tralbum.trackinfo) || [];
-  for (let i = 0; i < tracks.length; i++) {
-    const t = tracks[i];
-    const id = String(t.track_id || t.id || "");
-    if (id !== want) continue;
-    const file = t.file || {};
-    return file["mp3-128"] || file["mp3-v0"] || null;
-  }
-  if (tracks.length === 1) {
-    const file = tracks[0].file || {};
-    return file["mp3-128"] || file["mp3-v0"] || null;
-  }
-  return null;
-}
-
-function streamAllowed(src) {
-  try {
-    const u = new URL(src);
-    if (u.protocol !== "https:") return false;
-    return HOST_OK.test(u.hostname) || /\.bcbits\.com$/i.test(u.hostname);
-  } catch (err) {
-    return false;
-  }
-}
-
-async function resolveStream(bandcampUrl, bandcampTrackId) {
-  const key = String(bandcampTrackId);
-  const hit = cache.get(key);
-  if (hit && hit.exp > Date.now() && streamAllowed(hit.src)) return hit.src;
-
-  let pageUrl;
-  try {
-    pageUrl = new URL(bandcampUrl);
-  } catch (err) {
-    throw new Error("Invalid Bandcamp URL");
-  }
-  if (pageUrl.protocol !== "https:" || !HOST_OK.test(pageUrl.hostname)) {
-    throw new Error("Bandcamp host not allowed");
-  }
-
-  const fetched = await getHttps(pageUrl.toString());
-  if (fetched.status >= 400) {
-    throw new Error("Bandcamp page " + fetched.status);
-  }
-  const tralbum = parseTralbum(fetched.body);
-  if (!tralbum) throw new Error("No Bandcamp stream metadata");
-  const tracks = (tralbum.trackinfo || []);
-  tracks.forEach(function (t) {
-    const id = t.track_id || t.id;
-    const file = t.file || {};
-    const mp3 = file["mp3-128"] || file["mp3-v0"] || null;
-    if (id && mp3 && streamAllowed(mp3)) {
-      cache.set(String(id), { src: mp3, exp: Date.now() + CACHE_MS });
-    }
-  });
-  const src = mp3FromTralbum(tralbum, bandcampTrackId);
-  if (!src || !streamAllowed(src)) throw new Error("No audio on this Bandcamp cue");
-  cache.set(key, { src, exp: Date.now() + CACHE_MS });
-  return src;
+function cacheKey(pageUrl, track) {
+  return [pageUrl, track && (track.bandcampTrackId || track.id || track.title)].join("::");
 }
 
 module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
     return res.end();
   }
   if (req.method !== "GET" && req.method !== "HEAD") {
@@ -195,20 +81,35 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const src = await resolveStream(cue.release.bandcampUrl, cue.track.bandcampTrackId);
+    const pageUrl = await bc.resolvePageUrl(cue.release, cue.catalog);
+    if (!pageUrl) {
+      return json(res, 404, {
+        error: "Preview unavailable — this title is not streaming from Bandcamp.",
+      });
+    }
+    const key = cacheKey(pageUrl, cue.track);
+    const hit = cache.get(key);
+    let stream;
+    if (hit && hit.exp > Date.now() && bc.streamAllowed(hit.src)) {
+      stream = hit;
+    } else {
+      stream = await bc.resolveStream(pageUrl, cue.track);
+      cache.set(key, { src: stream.src, exp: Date.now() + CACHE_MS, duration: stream.duration, title: stream.title });
+    }
     if (asJson) {
       res.setHeader("Cache-Control", "private, max-age=60");
       return json(res, 200, {
-        src,
+        src: stream.src,
         releaseId: cue.release.id,
         trackId: cue.track.id,
-        title: cue.track.title,
+        title: stream.title || cue.track.title,
       });
     }
     res.statusCode = 302;
-    res.setHeader("Location", src);
+    res.setHeader("Location", stream.src);
     res.setHeader("Cache-Control", "private, max-age=60");
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Referrer-Policy", "no-referrer");
     return res.end();
   } catch (err) {
     return json(res, 502, {
@@ -218,4 +119,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._test = { findCue, parseTralbum, mp3FromTralbum, streamAllowed, resolveStream };
+module.exports._test = { findCue };

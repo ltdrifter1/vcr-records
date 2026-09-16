@@ -217,8 +217,17 @@
     }
   }
 
+  function usesBandcampStream(track) {
+    if (track && track.fromBandcamp) return true;
+    var src = audio && (audio.currentSrc || audio.src);
+    return !!(src && /bandcamp-stream|bcbits\.com|bandcamp\.com/i.test(src));
+  }
+
   function attachAnalyser() {
+    // Bandcamp mp3-128 URLs (and 302s to bcbits) are cross-origin without CORS.
+    // createMediaElementSource captures the element and then outputs silence.
     if (analyser || !audio || reduceMotion()) return;
+    if (usesBandcampStream(current())) return;
     var AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     try {
@@ -238,6 +247,10 @@
 
   function startEnergy() {
     if (reduceMotion()) return;
+    if (usesBandcampStream(current())) {
+      document.documentElement.style.setProperty("--room-energy", "0.62");
+      return;
+    }
     attachAnalyser();
     if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
     if (!energyRaf && analyser) energyRaf = requestAnimationFrame(pumpEnergy);
@@ -278,8 +291,13 @@
     }
   }
 
-  function trackPlayable(t) {
-    return !!(t && (t.bandcampTrackId || t.preview));
+  function trackPlayable(t, release) {
+    return !!(
+      t &&
+      (t.bandcampTrackId ||
+        (release && (release.bandcampUrl || release.bandcamp)) ||
+        t.preview)
+    );
   }
 
   function filePreviewSrc(preview) {
@@ -288,7 +306,7 @@
   }
 
   function streamSrc(release, t) {
-    if (t.bandcampTrackId) {
+    if (t.bandcampTrackId || (release && (release.bandcampUrl || release.bandcamp))) {
       return (
         "/api/bandcamp-stream?r=" +
         encodeURIComponent(release.id) +
@@ -304,9 +322,11 @@
     var cassette = (release.formats && release.formats.cassette) || null;
     var digital = (release.formats && release.formats.digital) || null;
     return (release.tracks || [])
-      .filter(trackPlayable)
+      .filter(function (t) {
+        return trackPlayable(t, release);
+      })
       .map(function (t) {
-        var fromBandcamp = !!t.bandcampTrackId;
+        var fromBandcamp = !!(t.bandcampTrackId || release.bandcampUrl || release.bandcamp);
         return {
           id: t.id,
           title: t.title,
@@ -419,11 +439,14 @@
   function ensureAudio() {
     if (audio) return audio;
     audio = new Audio();
-    audio.preload = "metadata";
+    audio.preload = "auto";
     audio.volume = 0.8;
     audio.playsInline = true;
     audio.setAttribute("playsinline", "");
     audio.setAttribute("webkit-playsinline", "");
+    try {
+      audio.referrerPolicy = "no-referrer";
+    } catch (e) {}
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnded);
     audio.addEventListener("play", onPlayState);
@@ -435,7 +458,8 @@
 
   function unlockAudioFromGesture() {
     ensureAudio();
-    attachAnalyser();
+    // Do not attach Web Audio here. Bandcamp streams 302 to bcbits without CORS;
+    // MediaElementSource would mute the element for the rest of the session.
     if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
     audioUnlocked = true;
   }
@@ -1152,6 +1176,9 @@
       track.src = track.filePreview;
       track.fromBandcamp = false;
       ensureAudio();
+      try {
+        audio.referrerPolicy = "no-referrer";
+      } catch (e) {}
       audio.src = track.filePreview;
       render();
       safePlay();
