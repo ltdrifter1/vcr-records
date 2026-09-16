@@ -1,0 +1,662 @@
+/* ==========================================================================
+   Club Copy — one world
+   iPod / Aqua / Bondi ice. Night Shift stays a magazine on the same ground.
+   Load last so xerox flattening and lime stamps cannot win.
+   ========================================================================== */
+
+:root,
+body.zine-surface,
+body.home-zine,
+body.shop-page,
+body.shop-ice,
+body.shop-ice.surface-acetate,
+body.archive-release,
+body.surface-night,
+body.surface-acetate,
+body.news-listing,
+body.hero-top {
+  --ice: #E7F0F6;
+  --ice-2: #D5E4EE;
+  --pearl: #F4F9FC;
+  --lcd: #C5D2DC;
+  --lcd-ink: #1C2430;
+  --lcd-sel: #2A3D68;
+  --bondi: #6EB8D0;
+  --stamp: #8EC8DC;
+  --led: #5EE0EA;
+  --bg: var(--ice);
+  --card: var(--pearl);
+  --card-solid: var(--pearl);
+  --soft: var(--ice-2);
+  --line: rgba(42, 61, 104, .16);
+  --ink: var(--lcd-ink);
+  --muted: #4A5C70;
+  --dim: #6A7C8E;
+  --fill: rgba(42, 61, 104, .06);
+  --zine-paper: var(--ice);
+  --zine-paper-2: var(--ice-2);
+  --zine-ink: var(--lcd-ink);
+  --zine-muted: #4A5C70;
+  --zine-dim: #6A7C8E;
+  --zine-rule: rgba(42, 61, 104, .16);
+  --zine-stamp: var(--stamp);
+  --zine-hi: var(--stamp);
+  --zine-cyan: var(--stamp);
+  --zine-ice: var(--stamp);
+  --zine-tape: rgba(142, 200, 220, .45);
+  --zine-magenta: #4A5C70;
+  --zine-holo: linear-gradient(118deg, #9ec4e8 0%, #f4f9fc 42%, #7ed4e2 100%);
+  --zine-display: "Oswald", "Arial Narrow", sans-serif;
+  --zine-gothic: "Oswald", "Arial Narrow", sans-serif;
+  --zine-mtv: "Oswald", "Arial Narrow", sans-serif;
+  --zine-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --zine-hand: var(--zine-body);
+  --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --ui: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  --ios: var(--ui);
+  --display: var(--zine-display);
+  --sans: var(--zine-body);
+  --callsign: var(--zine-gothic);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --bezel-r: 12px;
+  --btn-r: 12px;
+  --pill: 12px;
+  --ra-bg: var(--ice);
+  --ra-surface: var(--pearl);
+  --ra-surface-hi: var(--ice-2);
+  --ra-ink: var(--lcd-ink);
+  --ra-muted: #4A5C70;
+  --ra-dim: #6A7C8E;
+  --ra-line: rgba(42, 61, 104, .16);
+  --ra-vfd: #5EE0EA;
+  --ra-chrome: #C8D4E4;
+}
+
+html body,
+html body.zine-surface,
+html body.home-zine,
+html body.shop-page,
+html body.shop-ice,
+html body.archive-release,
+html body.surface-night,
+html body.surface-acetate,
+html body.news-listing,
+html body.hero-top,
+html body.surface-night.zine-surface,
+html body.archive-release.hero-top,
+html body.archive-release.vcr-chroma,
+html body.archive-release.vcr-chroma.hero-top {
+  background:
+    radial-gradient(780px 480px at 88% -8%, rgba(186, 220, 242, .55), transparent 58%),
+    radial-gradient(640px 420px at 8% 10%, rgba(255, 255, 255, .72), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(126, 212, 226, .16), transparent 55%),
+    linear-gradient(180deg, #eef4f8 0%, var(--ice) 42%, #dce8f0 100%) !important;
+  background-color: var(--ice) !important;
+  color: var(--lcd-ink);
+  color-scheme: light;
+  font-family: var(--zine-body);
+}
+
+::selection { background: rgba(142, 200, 220, .45); }
+
+/* Nav — ice glass, Lucida, Bondi hover ----------------------------------- */
+html body.zine-surface .nav,
+html body.home-zine .nav,
+html body.zine-surface .nav.scrolled,
+html body.home-zine .nav.scrolled,
+html body.zine-surface.surface-night .nav,
+html body.zine-surface.archive-release .nav,
+html body.zine-surface.shop-page .nav,
+html body.zine-surface.news-listing .nav,
+html body.zine-surface.hero-top .nav {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.72), rgba(231,240,246,.55)),
+    rgba(231, 240, 246, .78);
+  border-bottom: 1px solid rgba(42, 61, 104, .14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
+  backdrop-filter: saturate(180%) blur(22px);
+  -webkit-backdrop-filter: saturate(180%) blur(22px);
+}
+html body.zine-surface .nav-logo img,
+html body.home-zine .nav-logo img,
+html body.zine-surface.surface-night .nav-logo img,
+html body.zine-surface.archive-release .nav-logo img,
+html body.surface-night .nav-logo img {
+  filter: none;
+}
+html body.zine-surface .nav-links a,
+html body.home-zine .nav-links a,
+html body.zine-surface.surface-night .nav-links a,
+html body.zine-surface.archive-release .nav-links a,
+html body.zine-surface.shop-page .nav-links a {
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--lcd-ink);
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: transparent;
+}
+html body.zine-surface .nav-links a[aria-current="page"],
+html body.zine-surface .nav-links a:hover,
+html body.home-zine .nav-links a[aria-current="page"],
+html body.home-zine .nav-links a:hover,
+html body.zine-surface.surface-night .nav-links a[aria-current="page"],
+html body.zine-surface.surface-night .nav-links a:hover,
+html body.zine-surface.archive-release .nav-links a[aria-current="page"],
+html body.zine-surface.archive-release .nav-links a:hover,
+html body.zine-surface.shop-page .nav-links a[aria-current="page"],
+html body.zine-surface.shop-page .nav-links a:hover {
+  color: var(--lcd-sel);
+  background: rgba(142, 200, 220, .45);
+}
+html body.zine-surface .nav-cart-count,
+html body.home-zine .nav-cart-count,
+html body.zine-surface.surface-night .nav-cart-count {
+  background: var(--lcd-sel);
+  color: #fff;
+  border-radius: 8px;
+}
+html body.zine-surface .nav-drawer,
+html body.home-zine .nav-drawer,
+html body.zine-surface.surface-night .nav-drawer {
+  background: rgba(244, 249, 252, .96);
+  border-bottom: 1px solid rgba(42, 61, 104, .14);
+}
+html body.zine-surface .nav-drawer a,
+html body.home-zine .nav-drawer a {
+  font-family: var(--zine-display);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  text-transform: none;
+  color: var(--lcd-ink);
+}
+
+html body.zine-surface .footer,
+html body.home-zine .footer,
+html body.zine-surface.surface-night .footer,
+html body.zine-surface.archive-release .footer,
+html body.surface-night .footer {
+  background: transparent;
+  color: var(--muted);
+  border-top: 1px solid rgba(42, 61, 104, .16);
+}
+html body.zine-surface .footer-form input,
+html body.zine-surface.surface-night .footer-form input {
+  border-radius: 10px;
+  border: 1px solid rgba(42, 61, 104, .22);
+  background: rgba(255,255,255,.78);
+  color: var(--lcd-ink);
+}
+html body.zine-surface .footer-form button,
+html body.zine-surface.surface-night .footer-form button,
+html body.zine-surface.archive-release .footer-form button {
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, #d7eef8 0%, #8ec8dc 48%, #6eb8d0 100%);
+  color: var(--lcd-sel);
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 6px 16px rgba(42, 61, 104, .16);
+  font-family: var(--ui);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+@media (hover: hover) {
+  html body.zine-surface .footer-links a:hover {
+    background: rgba(142, 200, 220, .45);
+    color: var(--lcd-ink);
+    border-radius: 8px;
+  }
+}
+
+/* Aqua gel CTAs — un-flatten xerox stamps -------------------------------- */
+html body.zine-surface .btn,
+html body.zine-surface .btn-dark,
+html body.zine-surface .btn-ghost,
+html body.zine-surface .btn-soft,
+html body.zine-surface .btn-fill,
+html body.zine-surface .btn-chrome-on-dark,
+html body.zine-surface .btn-ghost-on-dark,
+html body.zine-surface .btn-light,
+html body.zine-surface .btn-outline,
+html body.home-zine .btn,
+html body.home-zine .club-join-btn.btn,
+html body.home-zine .btn-chrome-on-dark,
+html body.home-zine .btn-ghost-on-dark,
+html body.zine-surface.archive-release .ra-hero-ctas .btn-light,
+html body.zine-surface.archive-release .ra-hero-ctas .btn-outline,
+html body.zine-surface.archive-release .btn-fill,
+html body.zine-surface.archive-release .btn-dark,
+html body.surface-night .btn-chrome-on-dark,
+html body .page .btn-chrome-on-dark,
+html body .page .btn-ghost-on-dark {
+  border-radius: 12px;
+  min-height: 46px;
+  height: 46px;
+  padding: 0 18px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--lcd-sel);
+  border: 1px solid rgba(255,255,255,.72);
+  background:
+    linear-gradient(180deg, #f4fbff 0%, #c5e6f2 42%, #8ec8dc 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(42, 61, 104, .12),
+    0 8px 18px rgba(42, 61, 104, .14);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: none;
+  filter: none;
+}
+html body.zine-surface .btn::before,
+html body.zine-surface .btn::after,
+html body.home-zine .btn::before,
+html body.home-zine .btn::after,
+html body.zine-surface .btn-chrome-on-dark::before,
+html body.zine-surface .btn-chrome-on-dark::after,
+html body .page .btn-chrome-on-dark::before,
+html body .page .btn-chrome-on-dark::after {
+  display: block;
+}
+html body.zine-surface .btn-ghost,
+html body.zine-surface .btn-ghost-on-dark,
+html body.zine-surface .btn-outline,
+html body.home-zine .btn-ghost-on-dark,
+html body.zine-surface.archive-release .ra-hero-ctas .btn-outline,
+html body .page .btn-ghost-on-dark {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.88), rgba(231,240,246,.7));
+  color: var(--lcd-ink);
+  border: 1px solid rgba(42, 61, 104, .22);
+}
+@media (hover: hover) {
+  html body.zine-surface .btn:hover,
+  html body.zine-surface .btn-chrome-on-dark:hover,
+  html body.zine-surface .btn-light:hover,
+  html body.zine-surface .btn-dark:hover,
+  html body.home-zine .club-join-btn.btn:hover,
+  html body.zine-surface.archive-release .btn-fill:hover {
+    filter: none;
+    transform: none;
+    background:
+      linear-gradient(180deg, #ffffff 0%, #d7eef8 40%, #6eb8d0 100%);
+    color: var(--lcd-sel);
+    border-color: rgba(255,255,255,.9);
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 10px 22px rgba(42, 61, 104, .2);
+  }
+}
+
+html body.zine-surface :focus-visible {
+  outline: 2px solid var(--lcd-sel);
+  outline-offset: 3px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px rgba(142, 200, 220, .55);
+}
+
+/* Chips / stamps / inputs — Aqua rounded rects --------------------------- */
+html body.zine-surface .station-chip,
+html body.zine-surface .genre-tag,
+html body.zine-surface .chip-acetate,
+html body.zine-surface .chip-glass,
+html body.zine-surface .cat-cc,
+html body.zine-surface .store-chip,
+html body.zine-surface .badge,
+html body.home-zine .flow-play,
+html body.home-zine .wall-play,
+html body.home-zine .coverflow-nav,
+html body.zine-surface .coverflow-nav {
+  border-radius: 10px;
+  border: 1px solid rgba(42, 61, 104, .2);
+  background: linear-gradient(180deg, #fff, var(--ice));
+  color: var(--lcd-ink);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+html body.zine-surface .station-chip.is-active,
+html body.zine-surface .store-chip.is-active,
+html body.zine-surface .store-chip[aria-pressed="true"],
+html body.home-zine .inspect-track.is-now,
+html body.home-zine .inspect-track:hover {
+  background: var(--lcd-sel);
+  color: #fff;
+  border-color: var(--lcd-sel);
+}
+html body.zine-surface .field input,
+html body.zine-surface .field textarea,
+html body.zine-surface .field select,
+html body.zine-surface .store-sort select,
+html body.home-zine .join-field input,
+html body.zine-club .join-field input {
+  border-radius: 10px;
+  border: 1px solid rgba(42, 61, 104, .22);
+  background: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  font-family: var(--ui);
+}
+html body.zine-surface .acetate-panel,
+html body.zine-surface .card.panel,
+html body.zine-surface .summary-panel,
+html body.zine-surface .empty,
+html body.zine-surface .cart-line,
+html body.zine-surface .product,
+html body.zine-surface .merch-card,
+html body.zine-surface .album-inspect,
+html body.zine-surface .modal {
+  border-radius: 16px;
+  border: 1px solid rgba(42, 61, 104, .16);
+  background:
+    linear-gradient(165deg, rgba(255,255,255,.86), rgba(231,240,246,.72));
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 14px 36px rgba(42, 61, 104, .08);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+}
+html body.zine-surface .product-visual,
+html body.zine-surface .pdp-art,
+html body.zine-surface .pdp-thumb,
+html body.zine-surface .cart-thumb,
+html body.zine-surface .wall-art,
+html body.home-zine .wall-art,
+html body.home-zine .flow-art,
+html body.home-zine .album-flow.is-ready .flow-sleeve.is-center .flow-art {
+  border-radius: 12px;
+  border: 1px solid rgba(42, 61, 104, .16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.35),
+    0 16px 32px rgba(26, 30, 38, .16);
+}
+
+/* Cover Flow — jewel cases, not xerox boxes ------------------------------ */
+html body.home-zine .wall .coverflow-nav,
+html body.zine-surface .coverflow-nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background:
+    linear-gradient(180deg, #fff 0%, #d7e6f0 100%);
+  color: var(--lcd-sel);
+  border: 1px solid rgba(255,255,255,.8);
+  box-shadow: inset 0 1px 0 #fff, 0 8px 18px rgba(42, 61, 104, .16);
+}
+html body.home-zine .wall .coverflow-stage,
+html body.zine-surface .coverflow-stage,
+html body .album-flow .coverflow-stage,
+html body .coverflow .coverflow-stage {
+  background:
+    radial-gradient(ellipse 58% 22% at 50% 78%, rgba(142, 200, 220, .18), transparent 70%),
+    linear-gradient(180deg, transparent 55%, rgba(42, 61, 104, .06) 100%);
+}
+html body.home-zine .coverflow-caption,
+html body.zine-surface .coverflow-caption,
+html body .coverflow-kicker,
+html body .coverflow-title,
+html body .coverflow-artist,
+html body .coverflow-hint {
+  color: var(--lcd-ink);
+}
+html body .coverflow-kicker,
+html body .coverflow-hint { color: var(--dim); }
+html body .coverflow-artist { color: var(--muted); }
+
+html body.home-zine .flow-play {
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, #8ec8dc);
+  color: var(--lcd-sel);
+  border: 1px solid rgba(255,255,255,.8);
+}
+
+/* Record Club — click-wheel membership card ------------------------------ */
+.join-wheel {
+  display: inline-block !important;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 50%, #d8dce2 0 22%, #8a9098 23% 28%, #eef1f4 29% 62%, #6e747c 63% 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.75),
+    inset 0 -2px 5px rgba(0,0,0,.28),
+    0 6px 14px rgba(42, 61, 104, .22);
+}
+.join-wheel::after {
+  content: "";
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #fff, #c8ccd2 46%, #6e747c);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(0,0,0,.35);
+}
+html body .zine-club .join-wheel,
+html body.home-zine .join-wheel,
+html body.home-zine .club-join .join-wheel {
+  display: inline-block !important;
+}
+html body .zine-club .join-panel,
+html body.home-zine .zine-club.home-join .join-panel,
+html body.home-zine .club-join .join-panel {
+  border-radius: 18px;
+  border: 1px solid rgba(42, 61, 104, .16);
+  background:
+    linear-gradient(165deg, rgba(255,255,255,.9), rgba(197, 210, 220, .35));
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 18px 40px rgba(42, 61, 104, .1);
+  padding: 22px 20px 18px;
+}
+html body .zine-club .join-panel-label,
+html body.home-zine .join-panel-label {
+  font-family: var(--ui);
+  letter-spacing: .04em;
+  color: var(--lcd-sel);
+}
+html body .zine-club .join-level,
+html body.home-zine .join-level {
+  border-radius: 12px;
+  border: 1px solid rgba(42, 61, 104, .16);
+  background: rgba(255,255,255,.55);
+  box-shadow: inset 0 1px 0 #fff;
+}
+html body .zine-club .join-level[aria-checked="true"],
+html body.home-zine .join-level[aria-checked="true"] {
+  background: var(--lcd-sel);
+  color: #fff;
+  border-color: var(--lcd-sel);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+}
+html body .zine-club .join-level[aria-checked="true"] .join-level-blurb,
+html body .zine-club .join-level[aria-checked="true"] .join-level-price {
+  color: rgba(255,255,255,.78);
+}
+html body .zine-club .join-level-dot,
+html body.home-zine .join-level-dot {
+  border-radius: 50%;
+}
+html body .zine-club .join-level[aria-checked="true"] .join-level-dot {
+  background: var(--led);
+  border-color: var(--led);
+}
+@media (hover: hover) {
+  html body .zine-club .join-level:hover {
+    background: rgba(142, 200, 220, .28);
+    border-color: rgba(42, 61, 104, .28);
+    transform: none;
+  }
+}
+
+/* Player — MiniDisc / iPod dock ------------------------------------------ */
+html body .vcr-player,
+html body.zine-surface.archive-release .vcr-player,
+html body.zine-surface.archive-release.is-air .vcr-player,
+html body.zine-surface.archive-release .vcr-player.is-playing {
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, #f3f6f8 0%, #c5d2dc 42%, #9aafbf 100%);
+  border: 1px solid rgba(255,255,255,.7);
+  color: var(--lcd-ink);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -2px 4px rgba(42, 61, 104, .18),
+    0 16px 40px rgba(26, 30, 38, .28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body .vcr-player__title,
+html body .vcr-player__sub,
+html body .vcr-player__bug,
+html body .vcr-player__times,
+html body.zine-surface.archive-release .vcr-player__title,
+html body.zine-surface.archive-release .vcr-player__sub,
+html body.zine-surface.archive-release .vcr-player__bug {
+  color: var(--lcd-ink);
+  font-family: var(--ui);
+  text-shadow: none;
+}
+html body .vcr-player__sub,
+html body .vcr-player__times { color: rgba(28, 36, 48, .55); }
+html body .vcr-player__lcd {
+  border-radius: 6px;
+  background: linear-gradient(180deg, #d4e0ea, #b7c6d4);
+  box-shadow: inset 0 1px 2px rgba(40,50,60,.28);
+  padding: 6px 10px;
+}
+html body .vcr-player__btn { color: var(--lcd-sel); }
+html body .vcr-player__btn--play {
+  background: linear-gradient(180deg, #fff, #d7e6f0);
+  color: var(--lcd-sel);
+  border-radius: 50%;
+}
+html body .vcr-player__buy,
+html body.zine-surface.archive-release .vcr-player__buy {
+  border-radius: 10px;
+  background: linear-gradient(180deg, #d7eef8, #8ec8dc);
+  color: var(--lcd-sel);
+  border: 1px solid rgba(255,255,255,.7);
+  font-family: var(--ui);
+}
+html body .vcr-player__jewel { border-radius: 8px; }
+html body .vcr-player__scrub { accent-color: var(--lcd-sel); }
+
+/* Library / shop / releases sit on ice ----------------------------------- */
+html body.zine-surface .page,
+html body.surface-night .page,
+html body.lib-covers-on .page {
+  background: transparent !important;
+  color: var(--lcd-ink);
+}
+html body.zine-surface .page-lead,
+html body.surface-night .page-lead,
+html body .lib-body .page-lead {
+  color: var(--muted);
+}
+html body.zine-surface .page-lead a,
+html body .lib-body .page-lead a {
+  color: var(--lcd-sel);
+  text-decoration-color: rgba(42, 61, 104, .35);
+}
+html body.zine-surface .shop-hero,
+html body.zine-surface.shop-page .shop-hero,
+html body.zine-surface.archive-release .ra-hero {
+  background: transparent;
+  color: var(--lcd-ink);
+  border-bottom: 1px solid rgba(42, 61, 104, .14);
+}
+html body.zine-surface .shop-hero__title,
+html body.zine-surface.archive-release .ra-hero h1,
+html body.zine-surface .section-head h1,
+html body.zine-surface .section-head h2 {
+  font-family: var(--zine-display);
+  color: var(--lcd-ink);
+  text-transform: none;
+  letter-spacing: -.03em;
+  font-weight: 600;
+}
+html body.zine-surface .store-bar {
+  background: rgba(231, 240, 246, .92);
+  border-bottom: 1px solid rgba(42, 61, 104, .14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+html body.zine-surface.archive-release .ra-deck {
+  --vfd-cyan: var(--led);
+  --vfd-green: var(--led);
+  border-radius: 16px;
+  border: 1px solid rgba(42, 61, 104, .18);
+  background:
+    linear-gradient(180deg, #f4f8fb, #c5d2dc);
+  box-shadow: inset 0 1px 0 #fff, 0 18px 40px rgba(42, 61, 104, .12);
+}
+html body.zine-surface.archive-release .ra-stereo-speaker {
+  border-radius: 12px;
+}
+html body.zine-surface.archive-release .ra-format-opt[aria-checked="true"],
+html body.zine-surface.archive-release .ra-stage-hit .glyph {
+  background: var(--lcd-sel);
+  color: #fff;
+  border-radius: 10px;
+  border-color: var(--lcd-sel);
+}
+
+/* Night Shift magazine — same ice, inverted masthead kept ---------------- */
+html body .zine-live i {
+  background: var(--led);
+  box-shadow: 0 0 8px var(--led);
+}
+html body .news.zine,
+html body .news-index,
+html body .news-page {
+  background: transparent;
+  color: var(--lcd-ink);
+}
+html body .zine-stamp {
+  background: var(--pearl);
+  color: var(--lcd-sel);
+  border-color: var(--lcd-sel);
+  box-shadow: 3px 3px 0 rgba(42, 61, 104, .25);
+  outline-color: var(--stamp);
+}
+html body.home-zine .hero-ticker-bug {
+  background: rgba(142, 200, 220, .55);
+}
+html body.home-zine .hero {
+  background:
+    radial-gradient(ellipse 46% 38% at 50% 40%, #ffffff 0%, transparent 64%),
+    radial-gradient(ellipse 70% 48% at 82% 0%, rgba(186, 214, 238, .35), transparent 56%),
+    var(--ice);
+}
+
+/* Type: Oswald display, Archivo body, Lucida chrome ---------------------- */
+html body.home-zine .section-head h1,
+html body.home-zine .section-head h2,
+html body.home-zine .wall .coverflow-title,
+html body.home-zine .home-artist-name,
+html body.home-zine .club-join-title,
+html body .zine-title,
+html body .zine-post-title {
+  font-family: var(--zine-display);
+}
+
+/* Photographic spreads can stay dark — they are objects, not chrome ------ */
+html body.home-zine .desk,
+html body.home-zine .desk-folio,
+html body.zine-surface .roster-artist {
+  background: #111318;
+  color: #eef3f7;
+}
+
+html body.home-zine .home-artists {
+  background: transparent;
+  color: var(--lcd-ink);
+}
