@@ -59,6 +59,7 @@
       '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
       esc(rel.id) +
       '"' +
+      (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
       (hasPreview(rel) ? "" : " data-preview-unwired=\"1\"") +
       ">Play</button>";
     var add = (rel.formats && rel.formats.digital && rel.formats.digital.sku)

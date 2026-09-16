@@ -364,7 +364,9 @@
     var href = rel.page || "#";
     var kicker = [rel.genre, rel.kind, rel.year].filter(Boolean).join(" · ");
     var play = (
-          '<button type="button" class="flow-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '"' +
+          '<button type="button" class="flow-play" data-play-release="' + esc(rel.id) + '"' +
+            (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
+            ' aria-label="Play ' + esc(rel.title) + '"' +
             (hasPreview(rel) ? "" : " data-preview-unwired=\"1\"") + ">" +
             '<svg class="fp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="fp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +

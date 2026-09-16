@@ -55,8 +55,15 @@
       return !!(tr && tr.locked !== true);
     }
 
+    var previewTrackId = opts.previewTrackId || "";
+
     function firstPlayable() {
       var i;
+      if (previewTrackId) {
+        for (i = 0; i < TRACKS.length; i++) {
+          if (TRACKS[i].id === previewTrackId && hasPreview(TRACKS[i])) return i;
+        }
+      }
       for (i = 0; i < TRACKS.length; i++) {
         if (hasPreview(TRACKS[i])) return i;
       }
@@ -187,6 +194,7 @@
         }
       }
       if (!release || !release.tracks) return;
+      if (release.previewTrackId) previewTrackId = release.previewTrackId;
       TRACKS.forEach(function (local) {
         var cat = release.tracks.find(function (t) {
           return t.id === local.id || t.title === local.title;
@@ -212,6 +220,8 @@
           note.textContent = note.textContent.replace(/· files after checkout/, "· 90s preview on available cues · files after checkout");
         }
       }
+      var featured = firstPlayable();
+      if (featured >= 0) setActive(featured);
     }
 
     ensurePauseIcon(consolePlay);
@@ -331,7 +341,7 @@
       }
     });
 
-    if (TRACKS.length) setActive(0);
+    if (TRACKS.length) setActive(firstPlayable() >= 0 ? firstPlayable() : 0);
 
     fetch("/data/catalog.json")
       .then(function (r) {
