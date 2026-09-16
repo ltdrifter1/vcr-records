@@ -1,32 +1,36 @@
 /* ==========================================================================
    Club Copy — shared design system
-   iOS Music × Y2K click-wheel: SF-like UI, liquid glass, holographic acetate.
-   Oswald stays for broadcast callsigns. Cool steel — not costume neon.
+   iPod × Aqua × Bondi ice. Lucida chrome, Oswald display, Archivo body.
+   One fluorescent: LCD phosphor. Not costume neon, not xerox lime.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap");
 
 :root {
-  --bg: #F7F5F1;
-  --card: #FFFFFF;
-  --card-solid: #FFFFFF;
-  --soft: #EEECE7;
-  --line: rgba(210,214,222,.72);
+  --bg: #E7F0F6;
+  --card: #F4F9FC;
+  --card-solid: #F4F9FC;
+  --soft: #D5E4EE;
+  --line: rgba(42,61,104,.18);
   --line-hi: rgba(255,255,255,.72);
-  --ink: #111111;
-  --muted: #5F636B;
-  --dim: #727780;
-  --fill: rgba(17,17,17,.04);
-  --fill-hi: rgba(17,17,17,.07);
+  --ink: #1C2430;
+  --muted: #4A5C70;
+  --dim: #6A7C8E;
+  --fill: rgba(42,61,104,.06);
+  --fill-hi: rgba(42,61,104,.1);
   --glass: rgba(255,255,255,.48);
   --glass-hi: rgba(255,255,255,.88);
   --glass-dark: rgba(14,16,20,.62);
+  --lcd-sel: #2A3D68;
+  --stamp: #8EC8DC;
+  --led: #5EE0EA;
+  --bondi: #6EB8D0;
   /* Chrome / liquid metal — CD-R hologram, not rave fill */
   --chrome-hi: rgba(255,255,255,.88);
   --chrome-mid: rgba(186,198,214,.46);
   --chrome-lo: rgba(88,98,116,.18);
   --chrome-steel: #A8B4C4;
-  --chrome-ink: #1A1E26;
+  --chrome-ink: #1C2430;
   --iridescent: linear-gradient(118deg,
     rgba(186,214,238,.28) 0%,
     rgba(255,196,224,.12) 28%,
@@ -39,9 +43,9 @@
     rgba(255,255,255,.74) 68%,
     rgba(150,162,180,.42) 100%);
   /* Aurora — cool spectral accent, reserved for glow/focus states, never fills */
-  --aurora-a: 132,170,255;
-  --aurora-b: 198,140,255;
-  --aurora-c: 120,228,232;
+  --aurora-a: 110,184,208;
+  --aurora-b: 142,200,220;
+  --aurora-c: 94,224,234;
   --aurora-line: linear-gradient(92deg,
     rgba(var(--aurora-a), .9) 0%,
     rgba(var(--aurora-b), .85) 48%,
@@ -56,19 +60,20 @@
   --blur-lg: 56px;
   --shadow: 0 1px 2px rgba(17,17,17,.04), 0 12px 32px rgba(26,30,38,.07);
   --shadow-lg: 0 2px 8px rgba(17,17,17,.05), 0 32px 72px rgba(26,30,38,.14);
-  --glow-sm: 0 0 0 1px rgba(var(--aurora-b), .16), 0 8px 28px rgba(120,140,255,.14);
-  --glow-lg: 0 0 0 1px rgba(var(--aurora-b), .18), 0 20px 56px rgba(120,140,255,.2);
-  --radius: 12px;
-  --radius-lg: 22px;
+  --glow-sm: 0 0 0 1px rgba(var(--aurora-b), .16), 0 8px 28px rgba(110,184,208,.14);
+  --glow-lg: 0 0 0 1px rgba(var(--aurora-b), .18), 0 20px 56px rgba(110,184,208,.2);
+  --radius: 10px;
+  --radius-lg: 16px;
   --bezel-r: 12px;
-  --btn-r: 980px;
-  --pill: 980px;
+  --btn-r: 12px;
+  --pill: 12px;
   --ease: cubic-bezier(.22,1,.36,1);
   --dur: 280ms;
-  --ios: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
-  --display: var(--ios);
-  --sans: var(--ios);
-  --callsign: 'Oswald', var(--ios);
+  --ui: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  --ios: var(--ui);
+  --display: "Oswald", "Arial Narrow", sans-serif;
+  --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --callsign: "Oswald", var(--ui);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
@@ -84,10 +89,10 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--sans);
   background:
-    radial-gradient(780px 480px at 92% -6%, rgba(210,222,236,.55), transparent 58%),
-    radial-gradient(640px 420px at 6% 8%, rgba(236,230,220,.7), transparent 52%),
-    radial-gradient(520px 360px at 70% 100%, rgba(186,198,214,.18), transparent 55%),
-    linear-gradient(180deg, #F4F3F0 0%, var(--bg) 40%, #F0EEE9 100%);
+    radial-gradient(780px 480px at 92% -6%, rgba(186,220,242,.55), transparent 58%),
+    radial-gradient(640px 420px at 6% 8%, rgba(255,255,255,.72), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(126,212,226,.16), transparent 55%),
+    linear-gradient(180deg, #eef4f8 0%, var(--bg) 40%, #dce8f0 100%);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

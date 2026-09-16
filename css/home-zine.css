@@ -1,22 +1,22 @@
 /* ==========================================================================
-   Club Copy home — Apple-scale type on Night Shift paper
-   Lime stamps match the rest of the site. Logo is black / white invert.
+   Club Copy home — iPod / Aqua on Bondi ice
+   Night Shift is the magazine block. Chrome matches the rest of the site.
    ========================================================================== */
 
 body.home-zine {
-  --zine-paper: #F7F5F1;
-  --zine-paper-2: #EEECE7;
-  --zine-ink: #111111;
-  --zine-muted: #5F636B;
-  --zine-dim: #727780;
-  --zine-rule: rgba(17, 17, 17, .18);
-  --zine-stamp: #C6FF1A;
+  --zine-paper: #E7F0F6;
+  --zine-paper-2: #D5E4EE;
+  --zine-ink: #1C2430;
+  --zine-muted: #4A5C70;
+  --zine-dim: #6A7C8E;
+  --zine-rule: rgba(42, 61, 104, .16);
+  --zine-stamp: #8EC8DC;
   --zine-magenta: var(--zine-muted);
-  --zine-display: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --zine-display: "Oswald", "Arial Narrow", sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --zine-gothic: "Anton", Impact, "Arial Narrow", sans-serif;
-  --zine-body: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --zine-mtv: "Anton", Impact, "Arial Black", sans-serif;
+  --zine-gothic: "Oswald", "Arial Narrow", sans-serif;
+  --zine-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --zine-mtv: "Oswald", "Arial Black", sans-serif;
   --zine-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .42 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --zine-fiber: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.035 .9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>");
   background: var(--zine-paper);
@@ -153,7 +153,7 @@ body.home-zine .hero {
   background:
     radial-gradient(ellipse 46% 38% at 50% 40%, #ffffff 0%, transparent 64%),
     radial-gradient(ellipse 70% 48% at 82% 0%, rgba(186, 214, 238, .22), transparent 56%),
-    radial-gradient(ellipse 50% 36% at 12% 88%, rgba(198, 255, 26, .06), transparent 58%),
+    radial-gradient(ellipse 50% 36% at 12% 88%, rgba(142, 200, 220, .12), transparent 58%),
     var(--zine-paper);
   color: var(--zine-ink);
   min-height: auto;
@@ -418,7 +418,7 @@ body.home-zine .album-inspect .cat-add:hover {
 }
 body.home-zine .flow-art,
 body.home-zine .album-flow.is-ready .flow-sleeve.is-center .flow-art {
-  border-radius: 0;
+  border-radius: 12px;
 }
 body.home-zine .flow-play {
   border-radius: 0;
@@ -525,7 +525,7 @@ body.home-zine .club-join:not(.zine-club) .join-member-title {
   letter-spacing: -.03em;
   color: var(--zine-ink);
 }
-body.home-zine .club-join:not(.zine-club) .join-wheel { display: none; }
+body.home-zine .club-join:not(.zine-club) .join-wheel { display: inline-block; }
 body.home-zine .club-join:not(.zine-club) .join-level {
   border-radius: 0;
   border: 1px solid var(--zine-ink);

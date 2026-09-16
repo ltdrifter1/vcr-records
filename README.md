@@ -4,12 +4,12 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 ## Design
 
-Night Shift paper across the site. Homepage art direction in `css/home-zine.css`; every interior page loads `css/zine-pages.css` (`body.zine-surface`) so Library, Artists, Shop, releases, About, and utility pages share the same issue: paper, condensed display, hard rules, lime stamps.
-The zine (`css/news.css`) is the evening paper — Barlow Condensed display, Archivo body, fluorescent lime. `/news` is the live front.
-Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css`.
+One world: Bondi ice ground, Aqua gel chrome, 4th-gen iPod as the listening object. Night Shift is the magazine *inside* that world — same ice, same type, inverted masthead.
+`css/aqua-world.css` loads last and keeps xerox/lime flattening from winning.
+Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum / LCD, not an iOS pill).
 
-- Paper `#F7F5F1` · Ink `#111111` · Acid lime `#C6FF1A` · Muted kickers `#5F636B`
-- Type: Barlow Condensed display · Archivo body · IBM Plex Mono specs · Oswald gothic nav
+- Ice `#E7F0F6` · LCD ink `#1C2430` · Bondi stamp `#8EC8DC` · Select `#2A3D68` · Phosphor LED `#5EE0EA`
+- Type: Oswald display · Archivo body · Lucida Grande UI/LCD · IBM Plex Mono specs
 
 ## Commerce
 
