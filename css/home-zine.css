@@ -95,14 +95,14 @@ body.home-zine .nav-drawer a {
 /* Section heads — folio strip -------------------------------------------- */
 body.home-zine .section-head {
   align-items: flex-end;
-  padding: 28px 0 12px;
-  margin-bottom: 20px;
+  padding: 0 0 14px;
+  margin-bottom: 24px;
   border-bottom: 1px solid var(--zine-ink);
   box-shadow: none;
 }
 body.home-zine .section-head::after { display: none; }
 @media (min-width: 800px) {
-  body.home-zine .section-head { padding: 40px 0 14px; margin-bottom: 28px; }
+  body.home-zine .section-head { padding: 0 0 16px; margin-bottom: 28px; }
 }
 body.home-zine .eyebrow,
 body.home-zine .section-head .eyebrow {
@@ -124,19 +124,26 @@ body.home-zine .section-head h2 {
   font-size: clamp(40px, 7vw, 72px);
   color: var(--zine-ink);
 }
-body.home-zine .section-head .head-link {
+body.home-zine .section-head .head-link,
+body.home-zine .mixtapes-head-link {
   font-family: var(--zine-gothic);
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: .16em;
+  text-transform: uppercase;
   color: var(--zine-ink);
-  border-bottom: 1px solid var(--zine-ink);
-  padding-bottom: 2px;
+  text-decoration: none;
+  border-bottom: 0;
+  background: var(--zine-stamp);
+  padding: 4px 8px 3px;
+  white-space: nowrap;
 }
 @media (hover: hover) {
-  body.home-zine .section-head .head-link:hover {
-    background: var(--zine-stamp);
-    border-bottom-color: var(--zine-stamp);
-    color: var(--zine-ink);
+  body.home-zine .section-head .head-link:hover,
+  body.home-zine .mixtapes-head-link:hover {
+    background: var(--zine-ink);
+    border-bottom-color: var(--zine-ink);
+    color: var(--zine-paper);
   }
 }
 
@@ -231,6 +238,7 @@ body.home-zine .hero-ticker {
   height: auto;
   min-height: 32px;
   border-top: 1px solid var(--zine-ink);
+  border-bottom: 4px solid var(--zine-ink);
   background: var(--zine-paper);
   box-shadow: none;
 }
@@ -718,7 +726,7 @@ body.home-zine .home-artists-bridge {
 }
 body.home-zine .home-roster {
   gap: 0;
-  border-top: 1px solid var(--zine-ink);
+  border-top: 0;
 }
 @media (min-width: 800px) {
   body.home-zine .home-roster {
@@ -790,6 +798,10 @@ body.home-zine .home-artist-dek {
   font-stretch: 75%;
   color: var(--zine-muted);
 }
+body.home-zine .home-artist-meta {
+  padding: 16px 16px 18px;
+  gap: 7px;
+}
 body.home-zine .home-artist-go {
   font-family: var(--zine-gothic);
   color: var(--zine-ink);
@@ -831,7 +843,7 @@ body.home-zine .mixtapes {
   --mix-muted: var(--zine-muted);
   --mix-lcd: var(--zine-magenta);
   --mix-lcd-ink: var(--zine-ink);
-  background: var(--zine-paper);
+  background: var(--zine-paper-2);
   color: var(--zine-ink);
   border-top: 0;
   padding-bottom: 64px;
@@ -839,8 +851,17 @@ body.home-zine .mixtapes {
 body.home-zine .mixtapes::before { display: none; }
 body.home-zine .mixtapes-bridge { pointer-events: none; }
 body.home-zine .mixtapes-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
   border-bottom: 1px solid var(--zine-ink);
-  padding-bottom: 12px;
+  padding: 0 0 14px;
+  margin: 0 0 24px;
+}
+@media (min-width: 800px) {
+  body.home-zine .mixtapes-head { padding-bottom: 16px; margin-bottom: 28px; }
 }
 body.home-zine .mixtapes-head h2,
 body.home-zine #mixtapes-title {
@@ -853,12 +874,8 @@ body.home-zine #mixtapes-title {
   color: var(--zine-ink);
 }
 body.home-zine .mixtapes-head-link {
-  font-family: var(--zine-gothic);
-  font-size: 11px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--zine-ink);
-  border-bottom: 1px solid var(--zine-ink);
+  align-self: flex-end;
+  margin-bottom: 4px;
   border-radius: 0;
 }
 body.home-zine .mix-card,
@@ -867,6 +884,7 @@ body.home-zine .mixtapes .tape {
   border: 1px solid var(--zine-ink);
   background: var(--zine-paper);
   box-shadow: none;
+  padding: 20px 22px;
 }
 @media (hover: hover) {
   body.home-zine .zine-headline a:hover {
@@ -982,8 +1000,9 @@ body.home-zine #join,
 body.home-zine #artists,
 body.home-zine #desk,
 body.home-zine #news,
-body.home-zine #tonight {
-  scroll-margin-top: calc(var(--nav-h) + 10px);
+body.home-zine #tonight,
+body.home-zine #mixtapes {
+  scroll-margin-top: calc(var(--nav-h) + 18px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -991,77 +1010,133 @@ body.home-zine #tonight {
   body.home-zine .home-artist-photo img { animation: none; transition: none; }
 }
 
-/* Folio seams — double department cut, paper air, no gray gutters -------- */
+/* Chapter cuts — one 4px bar + paper air. Hero ticker already closes the
+   first beat, so the catalogue bridge is air only. Night Shift / mixtapes
+   sit on paper-2 so each folio reads as its own page. -------------------- */
 body.home-zine .wall-bridge,
 body.home-zine .news-bridge,
 body.home-zine .club-join-bridge,
 body.home-zine .home-artists-bridge,
 body.home-zine .mixtapes-bridge {
   display: block;
-  height: 28px;
+  height: 44px;
   margin: 0;
   pointer-events: none;
+  border: 0;
   background:
     linear-gradient(var(--zine-ink), var(--zine-ink)) 0 0 / 100% 4px no-repeat,
-    linear-gradient(var(--zine-ink), var(--zine-ink)) 0 12px / 100% 1px no-repeat,
     var(--zine-paper);
-  border: 0;
+}
+body.home-zine .wall-bridge {
+  height: 36px;
+  background: var(--zine-paper);
+}
+body.home-zine .news-bridge,
+body.home-zine .mixtapes-bridge {
+  background:
+    linear-gradient(var(--zine-ink), var(--zine-ink)) 0 0 / 100% 4px no-repeat,
+    var(--zine-paper-2);
 }
 body.home-zine .news-bridge--out { display: none; }
 @media (min-width: 800px) {
-  body.home-zine .wall-bridge,
+  body.home-zine .wall-bridge { height: 48px; }
   body.home-zine .news-bridge,
   body.home-zine .club-join-bridge,
   body.home-zine .home-artists-bridge,
   body.home-zine .mixtapes-bridge {
-    height: 36px;
-    background-position: 0 0, 0 14px;
+    height: 56px;
   }
 }
 
 body.home-zine .wall {
-  padding-bottom: 28px;
+  background: var(--zine-paper);
+  padding-bottom: 48px;
 }
 body.home-zine .news.zine {
   border-top: 0;
   padding-top: 0;
-  padding-bottom: 36px;
+  padding-bottom: 48px;
+  background: var(--zine-paper-2);
 }
 body.home-zine .home-artists {
   border-top: 0;
-  padding-bottom: 48px;
+  padding-bottom: 56px;
+  background: var(--zine-paper);
+}
+body.home-zine .home-artists .section-head {
+  border-bottom: 1px solid var(--zine-ink);
+  padding-top: 0;
+  padding-bottom: 14px;
+  margin-bottom: 0;
 }
 body.home-zine .mixtapes {
   border-top: 0;
-  padding-bottom: 48px;
+  padding-bottom: 56px;
+  background: var(--zine-paper-2);
+}
+body.home-zine .mixtapes-band {
+  width: min(1240px, calc(100% - 2 * max(24px, var(--safe-l, 0px))));
+  padding-top: 0;
+}
+@media (min-width: 800px) {
+  body.home-zine .wall { padding-bottom: 64px; }
+  body.home-zine .news.zine { padding-bottom: 64px; }
+  body.home-zine .home-artists { padding-bottom: 72px; }
+  body.home-zine .mixtapes { padding-bottom: 72px; }
+  body.home-zine .mixtapes-band {
+    width: min(1240px, calc(100% - 2 * max(40px, var(--safe-l, 0px))));
+  }
+}
+@media (max-width: 700px) {
+  body.home-zine .wall { padding-bottom: 40px; }
+  body.home-zine .wall-bridge { height: 32px; }
+  body.home-zine .wall .section-head,
+  body.home-zine .home-artists .section-head {
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+  body.home-zine .wall .section-head { margin-bottom: 22px; }
 }
 
 /* Record Club — last folio, back-page coupon ----------------------------- */
 body.home-zine .zine-club.home-join {
   margin: 0;
   border-top: 0;
-  padding: 8px 0 64px;
+  padding: 0 0 72px;
   background: var(--zine-paper);
 }
 body.home-zine .zine-club.home-join .zine-sheet {
-  padding-top: 4px;
+  width: min(1240px, calc(100% - 2 * max(24px, var(--safe-l, 0px))));
+  padding-top: 0;
   padding-bottom: 0;
 }
 body.home-zine .zine-club.home-join .zine-desk-kicker {
   display: inline-block;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   padding: 3px 8px 2px;
   background: var(--zine-stamp);
   color: var(--zine-ink);
+}
+body.home-zine .zine-club.home-join .club-join-head {
+  margin-bottom: 20px;
 }
 body.home-zine .zine-club.home-join .club-join-title {
   font-size: clamp(44px, 8vw, 84px);
 }
 body.home-zine .zine-club.home-join .club-join-dek {
-  max-width: 28em;
+  max-width: 32em;
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+body.home-zine .zine-club.home-join .join-levels {
+  margin-top: 4px;
+}
+body.home-zine .zine-club.home-join .join-level {
+  padding: 12px 12px 12px 10px;
 }
 body.home-zine .zine-club.home-join .join-panel {
-  padding: 18px 18px 16px;
+  padding: 22px 20px 18px;
   border: 1px dashed var(--zine-ink);
   background: var(--zine-paper-2);
 }
@@ -1070,21 +1145,32 @@ body.home-zine .zine-club.home-join .join-field input[type="text"],
 body.home-zine .zine-club.home-join #premiumAmount {
   background: #fff;
 }
+@media (min-width: 800px) {
+  body.home-zine .zine-club.home-join .zine-sheet {
+    width: min(1240px, calc(100% - 2 * max(40px, var(--safe-l, 0px))));
+  }
+}
 @media (max-width: 720px) {
   body.home-zine .zine-club.home-join {
-    padding: 24px 0 48px;
+    padding: 0 0 56px;
   }
 }
 
 /* Homepage zine — cover, stars, this issue, tonight’s record ------------- */
 body.home-zine .zine--home .zine-sheet {
-  padding-top: 10px;
-  padding-bottom: 28px;
+  width: min(1240px, calc(100% - 2 * max(24px, var(--safe-l, 0px))));
+  padding-top: 4px;
+  padding-bottom: 8px;
+}
+@media (min-width: 800px) {
+  body.home-zine .zine--home .zine-sheet {
+    width: min(1240px, calc(100% - 2 * max(40px, var(--safe-l, 0px))));
+  }
 }
 body.home-zine .zine--home .zine-cols,
 body.home-zine .zine--home .zine-ticker { display: none; }
 body.home-zine .zine--home .zine-lead {
-  padding-bottom: 22px;
+  padding-bottom: 8px;
   margin-bottom: 0;
   border-bottom: 0;
 }
@@ -1094,18 +1180,12 @@ body.home-zine .zine--home .zine-lead .zine-headline {
 }
 
 body.home-zine .zine-stars--home {
-  margin: 0;
-  padding: 0 0 8px;
-  border-top: 4px solid var(--zine-ink);
+  margin: 28px 0 0;
+  padding: 28px 0 8px;
+  border-top: 1px solid var(--zine-ink);
   border-bottom: 0;
 }
-body.home-zine .zine-stars--home::before {
-  content: "";
-  display: block;
-  height: 1px;
-  margin: 10px 0 22px;
-  background: var(--zine-ink);
-}
+body.home-zine .zine-stars--home::before { display: none; }
 body.home-zine .zine-stars--home .zine-desk-kicker {
   margin: 0 0 10px;
 }
@@ -1213,19 +1293,13 @@ body.home-zine .zine-stars-strip--home dd {
 /* Tonight’s record — listening coupon under this issue ------------------- */
 body.home-zine .zine.zine--home .zine-tonight--home {
   display: block;
-  margin: 8px 0 0;
-  padding: 0 0 8px;
-  border-top: 4px solid var(--zine-ink);
+  margin: 28px 0 0;
+  padding: 28px 0 8px;
+  border-top: 1px solid var(--zine-ink);
   max-width: none;
   width: 100%;
 }
-body.home-zine .zine-tonight--home::before {
-  content: "";
-  display: block;
-  height: 1px;
-  margin: 10px 0 22px;
-  background: var(--zine-ink);
-}
+body.home-zine .zine-tonight--home::before { display: none; }
 body.home-zine .zine-tonight--home .zine-desk-kicker {
   display: inline-block;
   margin: 0 0 10px;
@@ -1350,20 +1424,12 @@ body.home-zine .zine-issue-head {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px 16px;
-  margin: 18px 0 0;
-  padding: 0 0 12px;
-  border-top: 4px solid var(--zine-ink);
+  margin: 28px 0 0;
+  padding: 28px 0 12px;
+  border-top: 1px solid var(--zine-ink);
   border-bottom: 1px solid var(--zine-ink);
 }
-body.home-zine .zine-issue-head::before {
-  content: "";
-  display: block;
-  width: 100%;
-  flex-basis: 100%;
-  height: 1px;
-  margin: 10px 0 18px;
-  background: var(--zine-ink);
-}
+body.home-zine .zine-issue-head::before { display: none; }
 body.home-zine .zine-issue-head .zine-desk-kicker { margin-bottom: 4px; }
 body.home-zine .zine-issue-head h3 {
   margin: 0;
@@ -1441,7 +1507,7 @@ body.home-zine .zine--home .zine-post-dek {
 }
 
 body.home-zine .zine--home .zine-foot {
-  margin-top: 16px;
-  padding-top: 10px;
+  margin-top: 22px;
+  padding-top: 12px;
   border-top: 1px solid var(--zine-ink);
 }
