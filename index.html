@@ -1805,6 +1805,7 @@
   <link rel="stylesheet" href="css/zine-pages.css"/>
   <link rel="stylesheet" href="css/home-zine.css"/>
   <link rel="stylesheet" href="css/aqua-world.css"/>
+  <link rel="stylesheet" href="css/home-folio.css"/>
 </head>
 <body id="top" class="hero-top nav-light home-zine zine-surface">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -1815,9 +1816,10 @@
         <nav class="nav-links" aria-label="Primary">
       <a href="#listen">Listen</a>
       <a href="/library">Library</a>
-      <a href="#artists">Artists</a>
       <a href="/news">Zine</a>
       <a href="#mixtapes">Mixtapes</a>
+      <a href="#instagram">Instagram</a>
+      <a href="#artists">Artists</a>
       <a href="/merch">Shop</a>
       <a href="#join">Join</a>
       <a href="/contact">Contact</a>
@@ -1841,9 +1843,10 @@
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="#listen">Listen</a>
   <a href="/library">Library</a>
-  <a href="#artists">Artists</a>
   <a href="/news">Zine</a>
   <a href="#mixtapes">Mixtapes</a>
+  <a href="#instagram">Instagram</a>
+  <a href="#artists">Artists</a>
   <a href="/merch">Shop</a>
   <a href="#join">Join</a>
   <a href="/contact">Contact</a>
@@ -2242,7 +2245,55 @@
     </div>
   </section>
 
-  <!-- Artists -->
+  <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
+    <div class="mixtapes-bridge" aria-hidden="true"></div>
+    <div class="mixtapes-band">
+      <header class="mixtapes-head">
+        <div>
+          <p class="eyebrow">tapes</p>
+          <h2 id="mixtapes-title">Mixtapes</h2>
+        </div>
+        <a class="mixtapes-head-link" href="/tapes">All mixtapes</a>
+      </header>
+      <p class="tapes-now" data-tapes-now hidden></p>
+      <div class="tapes-grid" data-tapes-grid>
+        <p class="mix-soon" role="status">Coming soon</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ig-feed" id="instagram" aria-labelledby="ig-feed-title">
+    <div class="ig-feed-bridge" aria-hidden="true"></div>
+    <div class="band">
+      <header class="section-head rv">
+        <div>
+          <p class="eyebrow">on instagram</p>
+          <h2 id="ig-feed-title">From the floor</h2>
+        </div>
+        <div class="ig-feed-links">
+          <a href="https://www.instagram.com/ltdrifta/" rel="noopener noreferrer" target="_blank">@ltdrifta</a>
+          <a href="https://www.instagram.com/clubcopyrecords/" rel="noopener noreferrer" target="_blank">@clubcopyrecords</a>
+        </div>
+      </header>
+      <div class="ig-grid" data-ig-grid>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+        <span class="ig-card ig-skel" aria-hidden="true"></span>
+      </div>
+    </div>
+  </section>
+
   <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
     <div class="home-artists-bridge" aria-hidden="true"></div>
     <div class="band">
@@ -2306,34 +2357,32 @@
     </div>
   </section>
 
-  <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
-    <div class="mixtapes-bridge" aria-hidden="true"></div>
-    <div class="mixtapes-band">
-      <header class="mixtapes-head">
-        <div>
-          <p class="eyebrow">tapes</p>
-          <h2 id="mixtapes-title">Mixtapes</h2>
-        </div>
-        <a class="mixtapes-head-link" href="/tapes">All mixtapes</a>
-      </header>
-      <p class="tapes-now" data-tapes-now hidden></p>
-      <div class="tapes-grid" data-tapes-grid>
-        <p class="mix-soon" role="status">Coming soon</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Record Club — back-page coupon -->
-  <section class="zine-club club-join home-join" id="join" aria-labelledby="join-title">
+  <!-- Record Club — membership desk -->
+  <section class="zine-club club-join home-join club-join--luxe" id="join" aria-labelledby="join-title">
     <div class="club-join-bridge" aria-hidden="true"></div>
-    <div class="zine-sheet">
+    <div class="club-luxe">
+    <div class="zine-sheet club-luxe-sheet">
       <p class="zine-desk-kicker">record club</p>
       <div class="club-join-inner rv">
         <div class="club-join-copy">
           <header class="club-join-head">
             <h2 class="club-join-title" id="join-title">Join the Record Club</h2>
-            <p class="club-join-dek">We'll email you when a record comes out. Club is 30% off all music. Premium is 50% off.</p>
+            <p class="club-join-dek">A private list for the pressing. We write when a record comes out. Club is 30% off all music. Premium is 50% off, plus credit toward cassettes.</p>
           </header>
+          <dl class="club-perks">
+            <div class="club-perk">
+              <dt>Free</dt>
+              <dd>Release letters. Listen on the site.</dd>
+            </div>
+            <div class="club-perk">
+              <dt>Club · $5/yr</dt>
+              <dd>30% off digital, cassette, vinyl.</dd>
+            </div>
+            <div class="club-perk">
+              <dt>Premium</dt>
+              <dd>50% off. Credit toward tapes.</dd>
+            </div>
+          </dl>
 
           <div class="join-member-home" id="joinMemberHome" hidden>
             <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
@@ -2414,6 +2463,7 @@
         </div>
       </div>
     </div>
+    </div>
   </section>
 
 </main>
@@ -2451,6 +2501,7 @@
 <script src="js/player.js"></script>
 <script src="js/ipod.js"></script>
 <script src="js/home-wall.js"></script>
+<script src="js/ig-feed.js"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');
