@@ -1,7 +1,6 @@
 /* ==========================================================================
-   Club Copy home — Night Shift art direction
-   Same publication as the zine. Paper, condensed type, hard rules.
-   Lime is ink on labels, never running text.
+   Club Copy home — Apple-scale type on Night Shift paper
+   Lime stamps match the rest of the site. Logo is black / white invert.
    ========================================================================== */
 
 body.home-zine {
@@ -13,10 +12,11 @@ body.home-zine {
   --zine-rule: rgba(17, 17, 17, .18);
   --zine-stamp: #C6FF1A;
   --zine-magenta: var(--zine-muted);
-  --zine-display: "Barlow Condensed", "Oswald", "Arial Narrow", Impact, sans-serif;
+  --zine-display: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --zine-gothic: "Oswald", "Barlow Condensed", "Arial Narrow", sans-serif;
-  --zine-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --zine-gothic: "Anton", Impact, "Arial Narrow", sans-serif;
+  --zine-body: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --zine-mtv: "Anton", Impact, "Arial Black", sans-serif;
   --zine-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .42 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   --zine-fiber: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.035 .9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>");
   background: var(--zine-paper);
@@ -50,11 +50,11 @@ body.home-zine .nav-logo::after { content: none; display: none; }
 body.home-zine .nav-links a,
 body.home-zine.hero-top .nav-links a {
   color: var(--zine-ink);
-  font-family: var(--zine-gothic);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  font-family: var(--zine-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  text-transform: none;
   border-radius: 0;
   padding: 6px 9px;
   background: transparent;
@@ -84,10 +84,10 @@ body.home-zine.hero-top .nav-drawer {
 body.home-zine .nav-drawer a {
   color: var(--zine-ink);
   font-family: var(--zine-display);
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 600;
   letter-spacing: -.03em;
-  text-transform: uppercase;
+  text-transform: none;
   padding: 12px 20px;
   border-bottom-color: var(--zine-rule);
 }
@@ -117,25 +117,25 @@ body.home-zine .eyebrow::before { display: none; }
 body.home-zine .section-head h1,
 body.home-zine .section-head h2 {
   font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  line-height: .88;
-  text-transform: uppercase;
-  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  text-transform: none;
+  font-size: clamp(32px, 4.8vw, 52px);
   color: var(--zine-ink);
 }
 body.home-zine .section-head .head-link,
 body.home-zine .mixtapes-head-link {
-  font-family: var(--zine-gothic);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .16em;
+  font-family: var(--zine-mtv);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--zine-ink);
   text-decoration: none;
   border-bottom: 0;
   background: var(--zine-stamp);
-  padding: 4px 8px 3px;
+  padding: 5px 9px 3px;
   white-space: nowrap;
 }
 @media (hover: hover) {
@@ -329,18 +329,18 @@ body.home-zine .wall .coverflow-kicker {
 }
 body.home-zine .wall .coverflow-title {
   font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  text-transform: uppercase;
-  font-size: clamp(28px, 4.4vw, 52px);
-  line-height: .88;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  text-transform: none;
+  font-size: clamp(26px, 3.6vw, 44px);
+  line-height: 1.05;
   color: var(--zine-ink);
 }
 body.home-zine .wall .coverflow-artist {
-  font-family: var(--zine-gothic);
-  font-size: 13px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
+  font-family: var(--zine-display);
+  font-size: 15px;
+  letter-spacing: -.01em;
+  text-transform: none;
   color: var(--zine-ink);
 }
 body.home-zine .wall .coverflow-hint {
@@ -774,11 +774,11 @@ body.home-zine .home-artist-role {
 }
 body.home-zine .home-artist-name {
   font-family: var(--zine-display);
-  font-weight: 800;
-  text-transform: uppercase;
+  font-weight: 600;
+  text-transform: none;
   letter-spacing: -.03em;
-  font-size: clamp(26px, 3vw, 40px);
-  line-height: .88;
+  font-size: clamp(24px, 2.8vw, 36px);
+  line-height: 1.05;
   color: var(--zine-ink);
 }
 body.home-zine .home-artist-dek {
@@ -854,11 +854,11 @@ body.home-zine .mixtapes-head {
 body.home-zine .mixtapes-head h2,
 body.home-zine #mixtapes-title {
   font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  text-transform: uppercase;
-  font-size: clamp(40px, 7vw, 72px);
-  line-height: .88;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  text-transform: none;
+  font-size: clamp(32px, 4.8vw, 52px);
+  line-height: 1.05;
   color: var(--zine-ink);
 }
 body.home-zine .mixtapes-head-link {
@@ -890,8 +890,8 @@ body.home-zine .tape-kicker {
 body.home-zine .mix-title,
 body.home-zine .tape-title {
   font-family: var(--zine-display);
-  font-weight: 800;
-  text-transform: uppercase;
+  font-weight: 600;
+  text-transform: none;
   letter-spacing: -.03em;
   color: var(--zine-ink);
 }
@@ -1109,7 +1109,11 @@ body.home-zine .zine-club.home-join .club-join-head {
   margin-bottom: 20px;
 }
 body.home-zine .zine-club.home-join .club-join-title {
-  font-size: clamp(44px, 8vw, 84px);
+  font-size: clamp(36px, 5.4vw, 56px);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  text-transform: none;
+  line-height: 1.05;
 }
 body.home-zine .zine-club.home-join .club-join-dek {
   max-width: 32em;
@@ -1156,12 +1160,30 @@ body.home-zine .zine--home .zine-sheet {
   }
 }
 body.home-zine .zine--home .zine-folio,
-body.home-zine .zine--home .zine-cols,
-body.home-zine .zine--home .zine-ticker { display: none; }
+body.home-zine .zine--home .zine-cols { display: none; }
 body.home-zine .zine--home .zine-nameplate {
   border-bottom: 4px solid var(--zine-ink);
   box-shadow: 0 3px 0 var(--zine-stamp);
   margin-bottom: 8px;
+}
+body.home-zine .zine--home .zine-title a,
+body.home-zine .zine--home .zine-logo {
+  font-family: Anton, Impact, "Arial Narrow", sans-serif;
+  font-weight: 400;
+  letter-spacing: .04em;
+  line-height: .88;
+  text-transform: uppercase;
+  outline: 3px solid #111;
+  background: transparent;
+  color: #111;
+}
+body.home-zine .zine--home .zine-logo-night {
+  background: #111;
+  color: #F7F5F1;
+}
+body.home-zine .zine--home .zine-logo-shift {
+  background: #fff;
+  color: #111;
 }
 body.home-zine .zine--home .zine-lead {
   padding-bottom: 8px;
@@ -1169,8 +1191,33 @@ body.home-zine .zine--home .zine-lead {
   border-bottom: 0;
 }
 body.home-zine .zine--home .zine-copy { display: none; }
-body.home-zine .zine--home .zine-lead .zine-headline {
-  font-size: clamp(44px, 7vw, 84px);
+body.home-zine .zine--home .zine-lead .zine-headline { display: none; }
+body.home-zine .zine--home .zine-kicker {
+  font-family: var(--zine-mtv);
+  font-size: 14px;
+  letter-spacing: .06em;
+  background: var(--zine-stamp);
+  color: var(--zine-ink);
+  padding: 4px 8px 2px;
+}
+body.home-zine .zine--home .zine-mast .zine-pull {
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  max-width: 14em;
+  font-family: var(--zine-display);
+  font-size: clamp(28px, 4.2vw, 48px);
+  font-weight: 600;
+  letter-spacing: -.038em;
+  line-height: 1.08;
+  text-transform: none;
+}
+body.home-zine .zine--home .zine-mast .zine-pull a {
+  color: inherit;
+  text-decoration: none;
+}
+@media (hover: hover) {
+  body.home-zine .zine--home .zine-mast .zine-pull a:hover { opacity: .62; }
 }
 
 body.home-zine .zine-stars--home {
@@ -1194,12 +1241,16 @@ body.home-zine .zine-stars--home .zine-stars-head {
   border-bottom: 1px solid var(--zine-ink);
 }
 body.home-zine .zine-stars--home h3 {
-  font-size: clamp(40px, 11vw, 64px);
-  line-height: .78;
-  max-width: 7.2em;
+  font-family: var(--zine-display);
+  font-size: clamp(32px, 4.6vw, 48px);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  max-width: 12em;
+  text-transform: none;
 }
 body.home-zine .zine-stars--home h3 span {
-  display: block;
+  display: inline;
 }
 body.home-zine .zine-stars--home .zine-stars-head a {
   flex: none;
@@ -1241,7 +1292,7 @@ body.home-zine .zine-stars-strip--home dd {
   body.home-zine .zine-stars--home h3 {
     flex: 1 1 100%;
     max-width: none;
-    font-size: clamp(48px, 16vw, 72px);
+    font-size: clamp(32px, 8vw, 42px);
   }
   body.home-zine .zine-stars--home .zine-stars-head a {
     align-self: flex-start;
@@ -1343,11 +1394,11 @@ body.home-zine .zine-tonight--home .zine-tonight-night {
 body.home-zine .zine-tonight--home .zine-tonight-card strong {
   display: block;
   font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  text-transform: uppercase;
-  font-size: clamp(32px, 6vw, 48px);
-  line-height: .84;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  text-transform: none;
+  font-size: clamp(28px, 4.4vw, 42px);
+  line-height: 1.05;
   color: var(--zine-ink);
 }
 body.home-zine .zine-tonight--home .zine-tonight-card em {
@@ -1428,23 +1479,23 @@ body.home-zine .zine-issue-head .zine-desk-kicker { margin-bottom: 4px; }
 body.home-zine .zine-issue-head h3 {
   margin: 0;
   font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  text-transform: uppercase;
-  font-size: clamp(28px, 4.2vw, 44px);
-  line-height: .88;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  text-transform: none;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.05;
   color: var(--zine-ink);
 }
 body.home-zine .zine-issue-head a {
-  font-family: var(--zine-gothic);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .16em;
+  font-family: var(--zine-mtv);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--zine-ink);
   text-decoration: none;
   background: var(--zine-stamp);
-  padding: 4px 8px 3px;
+  padding: 5px 9px 3px;
   white-space: nowrap;
 }
 
@@ -1476,8 +1527,12 @@ body.home-zine .zine--home a.zine-post:first-child .zine-post-art {
 }
 body.home-zine .zine--home .zine-post-title,
 body.home-zine .zine--home a.zine-post:first-child .zine-post-title {
-  font-size: clamp(18px, 2.2vw, 26px);
-  line-height: .92;
+  font-family: var(--zine-display);
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1.12;
+  text-transform: none;
 }
 body.home-zine .zine--home .zine-post-dek {
   display: -webkit-box;
