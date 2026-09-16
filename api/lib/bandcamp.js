@@ -65,6 +65,45 @@ function mp3FromFile(file) {
   return file["mp3-128"] || file["mp3-v0"] || null;
 }
 
+function titlesClose(a, b) {
+  const na = normTitle(a);
+  const nb = normTitle(b);
+  if (!na || !nb) return false;
+  if (na === nb) return true;
+  const shorter = na.length <= nb.length ? na : nb;
+  const longer = na.length <= nb.length ? nb : na;
+  return shorter.length >= 10 && longer.indexOf(shorter) !== -1;
+}
+
+function pickCueTrack(release, trackId) {
+  const tracks = (release && release.tracks) || [];
+  const want = String(trackId || "").trim();
+  if (want) {
+    return (
+      tracks.find(function (t) {
+        return t && t.id === want;
+      }) || null
+    );
+  }
+  if (release && release.previewTrackId) {
+    const featured = tracks.find(function (t) {
+      return t && t.id === release.previewTrackId;
+    });
+    if (featured) return featured;
+  }
+  const flagged = tracks.find(function (t) {
+    return t && t.previewTrack;
+  });
+  if (flagged) return flagged;
+  return (
+    tracks.find(function (t) {
+      return t && (t.bandcampTrackId || t.preview);
+    }) ||
+    tracks[0] ||
+    null
+  );
+}
+
 function pickStream(tralbum, track) {
   const list = (tralbum && tralbum.trackinfo) || [];
   if (!list.length) return null;
@@ -76,9 +115,14 @@ function pickStream(tralbum, track) {
     });
   }
   if (!match && track && track.title) {
-    const n = normTitle(track.title);
     match = list.find(function (t) {
-      return normTitle(t.title) === n;
+      return titlesClose(t.title, track.title);
+    });
+  }
+  const wantNum = track && track.trackNum != null ? Number(track.trackNum) : NaN;
+  if (!match && isFinite(wantNum)) {
+    match = list.find(function (t) {
+      return Number(t.track_num) === wantNum;
     });
   }
   if (!match && list.length === 1) match = list[0];
@@ -196,6 +240,8 @@ async function resolveStream(pageUrl, track) {
 module.exports = {
   decodeEntities,
   normTitle,
+  titlesClose,
+  pickCueTrack,
   absoluteUrl,
   streamAllowed,
   parseTralbum,

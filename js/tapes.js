@@ -1,4 +1,4 @@
-/* Mixtapes — play files from /tapes when they exist. */
+/* Mixtapes — play Bandcamp cues through VCRPlayer, with local /tapes as fallback. */
 (function () {
   "use strict";
 
@@ -74,8 +74,17 @@
   }
 
   function syncButtons() {
-    document.querySelectorAll("[data-tape-play]").forEach(function (btn) {
-      var live = btn.getAttribute("data-tape-id") === currentId && audio && !audio.paused;
+    document.querySelectorAll("[data-tape-play], .tape-play[data-play-release]").forEach(function (btn) {
+      var live = false;
+      if (btn.getAttribute("data-play-release") && window.VCRPlayer && VCRPlayer.current) {
+        var t = VCRPlayer.current();
+        var st = VCRPlayer.getState && VCRPlayer.getState();
+        var releaseId = btn.getAttribute("data-play-release");
+        var trackId = btn.getAttribute("data-play-track") || "";
+        live = !!(t && t.releaseId === releaseId && (!trackId || t.id === trackId) && st && st.playing);
+      } else {
+        live = btn.getAttribute("data-tape-id") === currentId && audio && !audio.paused;
+      }
       btn.classList.toggle("is-live", !!live);
       if (!btn.disabled) btn.textContent = live ? "pause" : "play";
     });
@@ -87,12 +96,49 @@
     nowEl.textContent = title + " — " + dj;
   }
 
+  function playViaPlayer(btn, releaseId, trackId) {
+    if (!window.VCRPlayer || !VCRPlayer.playRelease) return false;
+    var id = btn.getAttribute("data-tape-id") || releaseId;
+    var title = btn.getAttribute("data-tape-title") || "";
+    var dj = btn.getAttribute("data-tape-dj") || "";
+    var cur = VCRPlayer.current && VCRPlayer.current();
+    var playing = !!(VCRPlayer.getState && VCRPlayer.getState().playing);
+    if (cur && cur.releaseId === releaseId && (!trackId || cur.id === trackId) && playing) {
+      VCRPlayer.toggle();
+      currentId = "";
+      syncButtons();
+      if (nowEl) nowEl.hidden = true;
+      return true;
+    }
+    currentId = id;
+    stampNow(title, dj);
+    syncButtons();
+    VCRPlayer.playRelease(releaseId, trackId || null, { autoplay: true }).then(function (queued) {
+      if (!queued) {
+        markPending(id);
+        currentId = "";
+        syncButtons();
+        return;
+      }
+      syncButtons();
+    }).catch(function () {
+      markPending(id);
+      currentId = "";
+      syncButtons();
+    });
+    return true;
+  }
+
   function playTape(btn) {
+    var releaseId = btn.getAttribute("data-play-release");
+    var trackId = btn.getAttribute("data-play-track") || "";
     var src = btn.getAttribute("data-tape-play");
     var id = btn.getAttribute("data-tape-id");
     var title = btn.getAttribute("data-tape-title") || "";
     var dj = btn.getAttribute("data-tape-dj") || "";
-    if (!src || btn.disabled) return;
+    if (btn.disabled) return;
+    if (releaseId && playViaPlayer(btn, releaseId, trackId)) return;
+    if (!src) return;
     var a = ensureAudio();
     if (currentId === id && !a.paused) {
       a.pause();
@@ -116,7 +162,7 @@
   }
 
   function bind(root) {
-    (root || document).querySelectorAll("[data-tape-play]").forEach(function (btn) {
+    (root || document).querySelectorAll("[data-tape-play], .tape-play[data-play-release]").forEach(function (btn) {
       if (btn.getAttribute("data-tape-bound")) return;
       btn.setAttribute("data-tape-bound", "1");
       btn.addEventListener("click", function () {
@@ -135,10 +181,17 @@
         esc(t.dj) +
         '" width="1400" height="1400" loading="lazy"/></div>'
       : '<div class="tape-sleeve tape-sleeve--blank" aria-hidden="true"></div>';
-    var play = t.audio
-      ? '<button type="button" class="tape-play" data-tape-play="' +
-        esc(t._audio || asset(t.audio)) +
-        '" data-tape-id="' +
+    var playAttrs = "";
+    if (t.releaseId) {
+      playAttrs += ' data-play-release="' + esc(t.releaseId) + '"';
+      if (t.trackId) playAttrs += ' data-play-track="' + esc(t.trackId) + '"';
+    } else if (t.audio) {
+      playAttrs += ' data-tape-play="' + esc(t._audio || asset(t.audio)) + '"';
+    }
+    var play = playAttrs
+      ? '<button type="button" class="tape-play"' +
+        playAttrs +
+        ' data-tape-id="' +
         esc(t.id) +
         '" data-tape-title="' +
         esc(t.title) +
@@ -190,8 +243,11 @@
       Promise.all(
         tapes.map(function (t) {
           var cover = asset(t.cover);
-          var audioSrc = asset(t.audio);
-          return Promise.all([probe(cover), probe(audioSrc)]).then(function (flags) {
+          var audioSrc = t.audio ? asset(t.audio) : "";
+          return Promise.all([
+            probe(cover),
+            audioSrc ? probe(audioSrc) : Promise.resolve(false)
+          ]).then(function (flags) {
             t._hasCover = flags[0];
             t._hasAudio = flags[1];
             t._cover = cover;
@@ -201,7 +257,7 @@
         })
       ).then(function (ready) {
         var live = ready.filter(function (t) {
-          return t._hasCover || t._hasAudio || t.page === "/mixtape";
+          return t._hasCover || t._hasAudio || t.releaseId || t.page === "/mixtape";
         });
         if (!live.length) {
           bind();
@@ -212,6 +268,27 @@
       });
     });
   }
+
+  window.addEventListener("vcr:player", function (ev) {
+    var d = ev.detail || {};
+    var t = d.track;
+    var matched = false;
+    document.querySelectorAll(".tape-play[data-play-release]").forEach(function (btn) {
+      var releaseId = btn.getAttribute("data-play-release");
+      var trackId = btn.getAttribute("data-play-track") || "";
+      var live = !!(t && t.releaseId === releaseId && (!trackId || t.id === trackId) && d.playing);
+      if (live) {
+        matched = true;
+        currentId = btn.getAttribute("data-tape-id") || releaseId;
+        stampNow(btn.getAttribute("data-tape-title") || "", btn.getAttribute("data-tape-dj") || "");
+      }
+    });
+    if (!matched && !d.playing) {
+      currentId = "";
+      if (nowEl) nowEl.hidden = true;
+    }
+    syncButtons();
+  });
 
   hydrate();
 })();

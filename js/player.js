@@ -1437,6 +1437,15 @@
       );
       return Promise.resolve(null);
     }
+    if (!trackId) {
+      if (release.previewTrackId) trackId = release.previewTrackId;
+      else {
+        var flagged = (release.tracks || []).find(function (t) {
+          return t && t.previewTrack;
+        });
+        if (flagged) trackId = flagged.id;
+      }
+    }
     var i = 0;
     if (trackId) {
       var found = nextQueue.findIndex(function (t) {
