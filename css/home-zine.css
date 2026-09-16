@@ -1160,63 +1160,28 @@ body.home-zine .zine--home .zine-sheet {
   }
 }
 body.home-zine .zine--home .zine-cols { display: none; }
-body.home-zine .zine--home .zine-masthead::before { display: none; }
-body.home-zine .zine--home .zine-masthead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 16px;
-  padding: 8px 0 12px;
-}
-body.home-zine .zine--home .zine-nameplate {
-  flex: 1 1 auto;
-  margin: 0;
-  padding: 0;
-  min-height: 0;
-  border-bottom: 0;
-}
 body.home-zine .zine--home .zine-title {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  margin: 10px 0 8px;
 }
-body.home-zine .zine--home .zine-credit,
-body.home-zine .zine--home .zine-tagline,
-body.home-zine .zine--home .zine-barcode { display: none; }
-body.home-zine .zine--home .zine-folio {
-  margin: 0;
-  gap: 10px;
-}
-body.home-zine .zine--home .zine-ticker {
-  display: flex;
-  margin: 0 0 22px;
-  padding: 8px 0;
-  border-top: 1px solid var(--zine-ink);
-  border-bottom: 1px solid var(--zine-ink);
-  background: var(--zine-ink);
-  color: var(--zine-stamp);
-}
-body.home-zine .zine--home .zine-ticker-label {
-  font-family: var(--zine-mtv);
-  font-size: 13px;
-  letter-spacing: .06em;
-  color: var(--zine-ink);
-  background: var(--zine-stamp);
-  padding: 4px 8px 2px;
-}
-body.home-zine .zine--home .zine-ticker-track,
-body.home-zine .zine--home .zine-ticker-track p,
-body.home-zine .zine--home .zine-ticker a {
-  color: var(--zine-stamp);
-  font-family: var(--zine-mtv);
+body.home-zine .zine--home .zine-title a,
+body.home-zine .zine--home .zine-logo {
+  font-family: Anton, Impact, "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: clamp(34px, 8.6vw, 80px);
   letter-spacing: .04em;
+  line-height: .88;
   text-transform: uppercase;
+  outline: 3px solid #111;
+  background: transparent;
+  color: #111;
+}
+body.home-zine .zine--home .zine-logo-night {
+  background: #111;
+  color: #fff;
+}
+body.home-zine .zine--home .zine-logo-shift {
+  background: #fff;
+  color: #111;
 }
 body.home-zine .zine--home .zine-lead {
   padding-bottom: 8px;
