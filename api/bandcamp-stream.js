@@ -33,15 +33,8 @@ function findCue(releaseId, trackId) {
   const catalog = loadCatalog();
   const release = (catalog.releases || []).find((r) => r.id === releaseId);
   if (!release) return { error: "Unknown release.", status: 404, catalog };
-  const tracks = release.tracks || [];
-  let track = null;
-  if (trackId) {
-    track = tracks.find((t) => t.id === trackId) || null;
-    if (!track) return { error: "Unknown track.", status: 404, catalog };
-  } else {
-    track =
-      tracks.find((t) => t.bandcampTrackId || t.preview) || tracks[0] || null;
-  }
+  const track = bc.pickCueTrack(release, trackId);
+  if (trackId && !track) return { error: "Unknown track.", status: 404, catalog };
   if (!track) return { error: "No tracks on this release.", status: 404, catalog };
   return { release, track, catalog };
 }

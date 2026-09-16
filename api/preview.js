@@ -40,19 +40,7 @@ function findRelease(catalog, releaseId) {
 }
 
 function findTrack(release, trackId) {
-  const tracks = release.tracks || [];
-  if (!trackId) {
-    return (
-      tracks.find(function (t) {
-        return t.bandcampTrackId || t.preview;
-      }) || tracks[0] || null
-    );
-  }
-  return (
-    tracks.find(function (t) {
-      return t.id === trackId;
-    }) || null
-  );
+  return bc.pickCueTrack(release, trackId);
 }
 
 function localPreviewPath(preview) {

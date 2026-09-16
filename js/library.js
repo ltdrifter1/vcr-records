@@ -320,7 +320,9 @@
       return !!(t && (t.preview || t.bandcampTrackId));
     });
     var playBtn = (
-          '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '" aria-label="Play ' + esc(rel.title) + '"' +
+          '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '"' +
+            (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
+            ' aria-label="Play ' + esc(rel.title) + '"' +
             (hasPreview ? '' : ' data-preview-unwired="1"') + '>' +
             '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
@@ -569,6 +571,7 @@
       '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
       esc(rel.id) +
       '"' +
+      (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : '') +
       (hasPrev ? '' : ' data-preview-unwired="1"') +
       '>Play</button>';
     var trackHtml = tracks.length
