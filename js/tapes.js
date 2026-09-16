@@ -147,7 +147,7 @@
         '">play</button>'
       : "";
     var link = t.page
-      ? '<a class="tape-link" href="' + esc(t.page) + '">release</a>'
+      ? '<a class="tape-link" href="' + esc(t.page) + '">mix</a>'
       : "";
     return (
       '<article class="mix-card tape" data-tape="' +
@@ -201,7 +201,7 @@
         })
       ).then(function (ready) {
         var live = ready.filter(function (t) {
-          return t._hasCover || t._hasAudio || t.page === "/mixtape";
+          return t._hasCover || t._hasAudio;
         });
         if (!live.length) {
           bind();
