@@ -1,16 +1,16 @@
 /* ==========================================================================
-   Club Copy home — Apple Store product still × 90s MTV lower-third
-   Helvetica for running type. Anton / yellow for bugs and tickers.
+   Club Copy home — Apple-scale type on Night Shift paper
+   Lime stamps match the rest of the site. Logo is black / white invert.
    ========================================================================== */
 
 body.home-zine {
-  --zine-paper: #F5F5F7;
-  --zine-paper-2: #EDEDF0;
-  --zine-ink: #1D1D1F;
-  --zine-muted: #6E6E73;
-  --zine-dim: #86868B;
-  --zine-rule: rgba(29, 29, 31, .14);
-  --zine-stamp: #FFCC00;
+  --zine-paper: #F7F5F1;
+  --zine-paper-2: #EEECE7;
+  --zine-ink: #111111;
+  --zine-muted: #5F636B;
+  --zine-dim: #727780;
+  --zine-rule: rgba(17, 17, 17, .18);
+  --zine-stamp: #C6FF1A;
   --zine-magenta: var(--zine-muted);
   --zine-display: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -1160,63 +1160,28 @@ body.home-zine .zine--home .zine-sheet {
   }
 }
 body.home-zine .zine--home .zine-cols { display: none; }
-body.home-zine .zine--home .zine-masthead::before { display: none; }
-body.home-zine .zine--home .zine-masthead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 16px;
-  padding: 8px 0 12px;
-}
-body.home-zine .zine--home .zine-nameplate {
-  flex: 1 1 auto;
-  margin: 0;
-  padding: 0;
-  min-height: 0;
-  border-bottom: 0;
-}
 body.home-zine .zine--home .zine-title {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  margin: 10px 0 8px;
 }
-body.home-zine .zine--home .zine-credit,
-body.home-zine .zine--home .zine-tagline,
-body.home-zine .zine--home .zine-barcode { display: none; }
-body.home-zine .zine--home .zine-folio {
-  margin: 0;
-  gap: 10px;
-}
-body.home-zine .zine--home .zine-ticker {
-  display: flex;
-  margin: 0 0 22px;
-  padding: 8px 0;
-  border-top: 1px solid var(--zine-ink);
-  border-bottom: 1px solid var(--zine-ink);
-  background: var(--zine-ink);
-  color: var(--zine-stamp);
-}
-body.home-zine .zine--home .zine-ticker-label {
-  font-family: var(--zine-mtv);
-  font-size: 13px;
-  letter-spacing: .06em;
-  color: var(--zine-ink);
-  background: var(--zine-stamp);
-  padding: 4px 8px 2px;
-}
-body.home-zine .zine--home .zine-ticker-track,
-body.home-zine .zine--home .zine-ticker-track p,
-body.home-zine .zine--home .zine-ticker a {
-  color: var(--zine-stamp);
-  font-family: var(--zine-mtv);
+body.home-zine .zine--home .zine-title a,
+body.home-zine .zine--home .zine-logo {
+  font-family: Anton, Impact, "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: clamp(34px, 8.6vw, 80px);
   letter-spacing: .04em;
+  line-height: .88;
   text-transform: uppercase;
+  outline: 3px solid #111;
+  background: transparent;
+  color: #111;
+}
+body.home-zine .zine--home .zine-logo-night {
+  background: #111;
+  color: #fff;
+}
+body.home-zine .zine--home .zine-logo-shift {
+  background: #fff;
+  color: #111;
 }
 body.home-zine .zine--home .zine-lead {
   padding-bottom: 8px;
