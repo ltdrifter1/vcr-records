@@ -151,16 +151,20 @@ html body.home-zine .ig-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
-@media (min-width: 720px) {
+@media (min-width: 640px) {
   html body.home-zine .ig-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
   }
 }
 @media (min-width: 1100px) {
   html body.home-zine .ig-grid {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
+  }
+  html body.home-zine .ig-card:nth-child(1),
+  html body.home-zine .ig-card:nth-child(2) {
+    grid-column: span 2;
   }
 }
 html body.home-zine .ig-card {
@@ -443,15 +447,17 @@ html body.home-zine .club-join--luxe .join-fields {
 html body.home-zine .club-join--luxe .join-field label {
   color: rgba(244, 239, 230, .55);
 }
-html body.home-zine .club-join--luxe .join-field input[type="email"],
-html body.home-zine .club-join--luxe .join-field input[type="text"],
-html body.home-zine .club-join--luxe #premiumAmount {
+html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="email"],
+html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="text"],
+html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="number"],
+html body.home-zine .zine-club.home-join.club-join--luxe .join-panel #premiumAmount {
   height: 48px;
   border-radius: 12px;
-  border: 1px solid rgba(215, 196, 163, .28);
-  background: rgba(8, 12, 16, .55);
-  color: var(--folio-pearl);
+  border: 1px solid rgba(215, 196, 163, .28) !important;
+  background: rgba(8, 12, 16, .72) !important;
+  color: var(--folio-pearl) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  caret-color: var(--folio-pearl);
 }
 html body.home-zine .club-join--luxe .join-field input::placeholder,
 html body.home-zine .club-join--luxe #premiumAmount::placeholder {

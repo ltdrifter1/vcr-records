@@ -49,7 +49,7 @@ function mapNode(node, handle, name) {
     id: String(node.id || short),
     shortcode: short,
     href: "https://www.instagram.com/p/" + short + "/",
-    image: "https://www.instagram.com/p/" + short + "/media/?size=l",
+    image: "/api/instagram-media?p=" + encodeURIComponent(short),
     caption: caption.slice(0, 240),
     alt: alt,
     takenAt: Number(node.taken_at_timestamp) || 0,
