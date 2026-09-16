@@ -111,7 +111,7 @@
     /* Listening booth hero : ice cove, LCD gel, iPod as product ------------ */
     .hero {
       --ticker-h: 32px;
-      --ipod-w: min(380px, 34vw, calc((100svh - var(--nav-h) - 210px) * .52));
+      --ipod-w: min(420px, 38vw, calc((100svh - var(--nav-h) - 100px) * .6));
       --hero-ink: #111318;
       position: relative;
       min-height: 100vh;
@@ -234,7 +234,7 @@
       justify-content: center;
       width: max-content;
       max-width: 100%;
-      padding: 8px 4px 72px;
+      padding: 12px 4px 96px;
     }
     .hero-ground {
       position: absolute;
@@ -1638,7 +1638,7 @@
     /* Stack the still life on small screens — iPod remains the larger object */
     @media (max-width: 1080px) {
       .hero {
-        --ipod-w: min(340px, 32vw, calc((100svh - var(--nav-h) - 200px) * .48));
+        --ipod-w: min(380px, 40vw, calc((100svh - var(--nav-h) - 96px) * .58));
       }
     }
 
@@ -1649,7 +1649,7 @@
 
     @media (max-width: 720px) {
       .hero {
-        --ipod-w: min(268px, 58vw, 42vh);
+        --ipod-w: min(300px, 68vw, 50vh);
       }
       .hero-stage {
         width: min(100% - 32px, 640px);
@@ -1665,7 +1665,7 @@
         grid-template-columns: 1fr;
         grid-template-areas: "booth";
         justify-items: center;
-        padding: 4px 0 48px;
+        padding: 8px 0 72px;
       }
       .hero-booth { margin: 0; }
       .hero { --ticker-h: 30px; }
@@ -1692,7 +1692,7 @@
         padding: calc(var(--nav-h) + var(--safe-t) + 12px) 0 calc(12px + var(--ticker-h, 30px) + var(--tabbar-h, 56px) + var(--safe-b));
       }
       .hero {
-        --ipod-w: min(248px, 64vw, 40vh);
+        --ipod-w: min(280px, 70vw, 46vh);
       }
       .hero-booth { margin: 0; }
 
@@ -1733,7 +1733,7 @@
       }
       .hero-booth { gap: 8px; margin: 0; }
       .hero {
-        --ipod-w: min(220px, 58vw, 36vh);
+        --ipod-w: min(248px, 62vw, 40vh);
       }
       .hero.is-live .hero-station { display: none; }
       .hero { --ticker-h: 36px; }
@@ -1752,7 +1752,7 @@
         width: min(100% - 24px, 900px);
       }
       .hero {
-        --ipod-w: min(220px, 32vh);
+        --ipod-w: min(240px, 36vh);
       }
     }
 
@@ -1856,11 +1856,8 @@
     <div class="hero-ground" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-post">
-        <header class="hero-lockup">
-          <p class="hero-lockup-kicker">Out now</p>
-          <p class="hero-lockup-spec"><span>house</span><span>5:38</span></p>
-          <a class="hero-lockup-artist" href="/artists/molly-haze">Molly Haze</a>
-          <h1 class="hero-lockup-title"><a href="/desire">Desire</a></h1>
+        <header class="hero-lockup visually-hidden">
+          <h1 class="hero-lockup-title"><a href="/desire">Desire</a> — Molly Haze</h1>
         </header>
         <div class="hero-scene">
         <div class="hero-booth">
