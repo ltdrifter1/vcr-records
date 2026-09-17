@@ -10,11 +10,9 @@ body.home-zine,
 body.shop-page,
 body.shop-ice,
 body.shop-ice.surface-acetate,
-body.archive-release,
-body.surface-night,
 body.surface-acetate,
 body.news-listing,
-body.hero-top {
+body.hero-top:not(.archive-release):not(.surface-night) {
   --ice: #E8E8E6;
   --ice-2: #D2D2D0;
   --pearl: #F4F4F2;
@@ -24,6 +22,8 @@ body.hero-top {
   --bondi: #9A9A96;
   --stamp: #B8B8B4;
   --led: #E4E4E0;
+  --acid: #C6F000;
+  --acid-ink: #141414;
   --bg: var(--ice);
   --card: var(--pearl);
   --card-solid: var(--pearl);
@@ -57,42 +57,27 @@ body.hero-top {
   --display: var(--zine-display);
   --sans: var(--zine-body);
   --callsign: var(--zine-gothic);
-  --radius: 10px;
-  --radius-lg: 16px;
-  --bezel-r: 12px;
-  --btn-r: 12px;
-  --pill: 12px;
-  --ra-bg: var(--ice);
-  --ra-surface: var(--pearl);
-  --ra-surface-hi: var(--ice-2);
-  --ra-ink: var(--lcd-ink);
-  --ra-muted: #5C5C5A;
-  --ra-dim: #7A7A78;
-  --ra-line: rgba(40, 40, 40, .16);
-  --ra-vfd: #C8C8C4;
-  --ra-chrome: #C8C8C4;
+  --radius: 8px;
+  --radius-lg: 10px;
+  --bezel-r: 8px;
+  --btn-r: 8px;
+  --pill: 8px;
 }
 
-html body,
-html body.zine-surface,
+html body:not(.archive-release):not(.surface-night),
+html body.zine-surface:not(.archive-release):not(.surface-night),
 html body.home-zine,
 html body.shop-page,
 html body.shop-ice,
-html body.archive-release,
-html body.surface-night,
-html body.surface-acetate,
+html body.surface-acetate:not(.archive-release):not(.surface-night),
 html body.news-listing,
-html body.hero-top,
-html body.surface-night.zine-surface,
-html body.archive-release.hero-top,
-html body.archive-release.vcr-chroma,
-html body.archive-release.vcr-chroma.hero-top {
+html body.hero-top:not(.archive-release):not(.surface-night) {
   background:
     radial-gradient(780px 480px at 88% -8%, rgba(220, 220, 216, .55), transparent 58%),
     radial-gradient(640px 420px at 8% 10%, rgba(255, 255, 255, .72), transparent 52%),
     radial-gradient(520px 360px at 70% 100%, rgba(176, 176, 172, .16), transparent 55%),
-    linear-gradient(180deg, #eeeeec 0%, var(--ice) 42%, #d6d6d4 100%) !important;
-  background-color: var(--ice) !important;
+    linear-gradient(180deg, #eeeeec 0%, var(--ice) 42%, #d6d6d4 100%);
+  background-color: var(--ice);
   color: var(--lcd-ink);
   color-scheme: light;
   font-family: var(--zine-body);
@@ -100,35 +85,26 @@ html body.archive-release.vcr-chroma.hero-top {
 
 ::selection { background: rgba(168, 168, 164, .45); }
 
-/* Nav — aluminum glass, Lucida, steel hover ------------------------------ */
-html body.zine-surface .nav,
+/* Nav — solid aluminum, no glass. Dark PDPs keep their own nav. ---------- */
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav,
 html body.home-zine .nav,
-html body.zine-surface .nav.scrolled,
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav.scrolled,
 html body.home-zine .nav.scrolled,
-html body.zine-surface.surface-night .nav,
-html body.zine-surface.archive-release .nav,
 html body.zine-surface.shop-page .nav,
 html body.zine-surface.news-listing .nav,
-html body.zine-surface.hero-top .nav {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.72), rgba(232,232,230,.55)),
-    rgba(232, 232, 230, .78);
-  border-bottom: 1px solid rgba(40, 40, 40, .14);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
-  backdrop-filter: saturate(180%) blur(22px);
-  -webkit-backdrop-filter: saturate(180%) blur(22px);
+html body.zine-surface.hero-top:not(.archive-release):not(.surface-night) .nav {
+  background: var(--ice);
+  border-bottom: 1px solid rgba(40, 40, 40, .16);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
-html body.zine-surface .nav-logo img,
-html body.home-zine .nav-logo img,
-html body.zine-surface.surface-night .nav-logo img,
-html body.zine-surface.archive-release .nav-logo img,
-html body.surface-night .nav-logo img {
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav-logo img,
+html body.home-zine .nav-logo img {
   filter: none;
 }
-html body.zine-surface .nav-links a,
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav-links a,
 html body.home-zine .nav-links a,
-html body.zine-surface.surface-night .nav-links a,
-html body.zine-surface.archive-release .nav-links a,
 html body.zine-surface.shop-page .nav-links a {
   font-family: var(--ui);
   font-size: 12px;
@@ -136,34 +112,28 @@ html body.zine-surface.shop-page .nav-links a {
   letter-spacing: 0;
   text-transform: none;
   color: var(--lcd-ink);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 6px 10px;
   background: transparent;
 }
-html body.zine-surface .nav-links a[aria-current="page"],
-html body.zine-surface .nav-links a:hover,
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav-links a[aria-current="page"],
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav-links a:hover,
 html body.home-zine .nav-links a[aria-current="page"],
 html body.home-zine .nav-links a:hover,
-html body.zine-surface.surface-night .nav-links a[aria-current="page"],
-html body.zine-surface.surface-night .nav-links a:hover,
-html body.zine-surface.archive-release .nav-links a[aria-current="page"],
-html body.zine-surface.archive-release .nav-links a:hover,
 html body.zine-surface.shop-page .nav-links a[aria-current="page"],
 html body.zine-surface.shop-page .nav-links a:hover {
   color: var(--lcd-sel);
   background: rgba(168, 168, 164, .45);
 }
-html body.zine-surface .nav-cart-count,
-html body.home-zine .nav-cart-count,
-html body.zine-surface.surface-night .nav-cart-count {
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav-cart-count,
+html body.home-zine .nav-cart-count {
   background: var(--lcd-sel);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 4px;
 }
-html body.zine-surface .nav-drawer,
-html body.home-zine .nav-drawer,
-html body.zine-surface.surface-night .nav-drawer {
-  background: rgba(244, 249, 252, .96);
+html body.zine-surface:not(.archive-release):not(.surface-night) .nav-drawer,
+html body.home-zine .nav-drawer {
+  background: var(--ice);
   border-bottom: 1px solid rgba(40, 40, 40, .14);
 }
 html body.zine-surface .nav-drawer a,
@@ -176,26 +146,20 @@ html body.home-zine .nav-drawer a {
   color: var(--lcd-ink);
 }
 
-html body.zine-surface .footer,
-html body.home-zine .footer,
-html body.zine-surface.surface-night .footer,
-html body.zine-surface.archive-release .footer,
-html body.surface-night .footer {
+html body.zine-surface:not(.archive-release):not(.surface-night) .footer,
+html body.home-zine .footer {
   background: transparent;
   color: var(--muted);
   border-top: 1px solid rgba(40, 40, 40, .16);
 }
-html body.zine-surface .footer-form input,
-html body.zine-surface.surface-night .footer-form input {
-  border-radius: 10px;
+html body.zine-surface:not(.archive-release):not(.surface-night) .footer-form input {
+  border-radius: 8px;
   border: 1px solid rgba(40, 40, 40, .22);
   background: rgba(255,255,255,.78);
   color: var(--lcd-ink);
 }
-html body.zine-surface .footer-form button,
-html body.zine-surface.surface-night .footer-form button,
-html body.zine-surface.archive-release .footer-form button {
-  border-radius: 12px;
+html body.zine-surface:not(.archive-release):not(.surface-night) .footer-form button {
+  border-radius: 8px;
   background:
     linear-gradient(180deg, #e4e4e2 0%, #b8b8b4 48%, #9a9a96 100%);
   color: var(--lcd-sel);
@@ -228,11 +192,6 @@ html body.home-zine .btn,
 html body.home-zine .club-join-btn.btn,
 html body.home-zine .btn-chrome-on-dark,
 html body.home-zine .btn-ghost-on-dark,
-html body.zine-surface.archive-release .ra-hero-ctas .btn-light,
-html body.zine-surface.archive-release .ra-hero-ctas .btn-outline,
-html body.zine-surface.archive-release .btn-fill,
-html body.zine-surface.archive-release .btn-dark,
-html body.surface-night .btn-chrome-on-dark,
 html body .page .btn-chrome-on-dark,
 html body .page .btn-ghost-on-dark {
   border-radius: 12px;
@@ -271,7 +230,6 @@ html body.zine-surface .btn-ghost,
 html body.zine-surface .btn-ghost-on-dark,
 html body.zine-surface .btn-outline,
 html body.home-zine .btn-ghost-on-dark,
-html body.zine-surface.archive-release .ra-hero-ctas .btn-outline,
 html body .page .btn-ghost-on-dark {
   background:
     linear-gradient(180deg, rgba(255,255,255,.88), rgba(232,232,230,.7));
@@ -283,8 +241,7 @@ html body .page .btn-ghost-on-dark {
   html body.zine-surface .btn-chrome-on-dark:hover,
   html body.zine-surface .btn-light:hover,
   html body.zine-surface .btn-dark:hover,
-  html body.home-zine .club-join-btn.btn:hover,
-  html body.zine-surface.archive-release .btn-fill:hover {
+  html body.home-zine .club-join-btn.btn:hover {
     filter: none;
     transform: none;
     background:
@@ -343,8 +300,8 @@ html body.zine-club .join-field input {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
   font-family: var(--ui);
 }
-html body.zine-surface .acetate-panel,
-html body.zine-surface .card.panel,
+html body.zine-surface:not(.archive-release):not(.surface-night) .acetate-panel,
+html body.zine-surface:not(.archive-release):not(.surface-night) .card.panel,
 html body.zine-surface .summary-panel,
 html body.zine-surface .empty,
 html body.zine-surface .cart-line,
@@ -352,15 +309,14 @@ html body.zine-surface .product,
 html body.zine-surface .merch-card,
 html body.zine-surface .album-inspect,
 html body.zine-surface .modal {
-  border-radius: 16px;
+  border-radius: 8px;
   border: 1px solid rgba(40, 40, 40, .16);
-  background:
-    linear-gradient(165deg, rgba(255,255,255,.86), rgba(232,232,230,.72));
+  background: var(--pearl, #F4F4F2);
   box-shadow:
     inset 0 1px 0 #fff,
-    0 14px 36px rgba(40, 40, 40, .08);
-  backdrop-filter: saturate(140%) blur(12px);
-  -webkit-backdrop-filter: saturate(140%) blur(12px);
+    0 10px 24px rgba(40, 40, 40, .08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 html body.zine-surface .product-visual,
 html body.zine-surface .pdp-art,
@@ -496,87 +452,32 @@ html body .zine-club .join-level[aria-checked="true"] .join-level-dot {
   }
 }
 
-/* Player — MiniDisc / iPod dock ------------------------------------------ */
-html body .vcr-player,
-html body.zine-surface.archive-release .vcr-player,
-html body.zine-surface.archive-release.is-air .vcr-player,
-html body.zine-surface.archive-release .vcr-player.is-playing {
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, #f3f3f1 0%, #c8c8c4 42%, #9a9a96 100%);
-  border: 1px solid rgba(255,255,255,.7);
-  color: var(--lcd-ink);
-  box-shadow:
-    inset 0 1px 0 #fff,
-    inset 0 -2px 4px rgba(40, 40, 40, .18),
-    0 16px 40px rgba(26, 30, 38, .28);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-html body .vcr-player__title,
-html body .vcr-player__sub,
-html body .vcr-player__bug,
-html body .vcr-player__times,
-html body.zine-surface.archive-release .vcr-player__title,
-html body.zine-surface.archive-release .vcr-player__sub,
-html body.zine-surface.archive-release .vcr-player__bug {
-  color: var(--lcd-ink);
-  font-family: var(--ui);
-  text-shadow: none;
-}
-html body .vcr-player__sub,
-html body .vcr-player__times { color: rgba(28, 36, 48, .55); }
-html body .vcr-player__lcd {
-  border-radius: 6px;
-  background: linear-gradient(180deg, #d4d4d2, #b8b8b4);
-  box-shadow: inset 0 1px 2px rgba(40,50,60,.28);
-  padding: 6px 10px;
-}
-html body .vcr-player__btn { color: var(--lcd-sel); }
-html body .vcr-player__btn--play {
-  background: linear-gradient(180deg, #fff, #d8d8d6);
-  color: var(--lcd-sel);
-  border-radius: 50%;
-}
-html body .vcr-player__buy,
-html body.zine-surface.archive-release .vcr-player__buy {
-  border-radius: 10px;
-  background: linear-gradient(180deg, #e4e4e2, #b8b8b4);
-  color: var(--lcd-sel);
-  border: 1px solid rgba(255,255,255,.7);
-  font-family: var(--ui);
-}
-html body .vcr-player__jewel { border-radius: 8px; }
-html body .vcr-player__scrub { accent-color: var(--lcd-sel); }
+/* Player chrome lives in css/player.css — do not re-skin the dock here. */
 
-/* Library / shop / releases sit on ice ----------------------------------- */
-html body.zine-surface .page,
-html body.surface-night .page,
+/* Library / shop sit on ice. Release PDPs keep release-archive.css. ------ */
+html body.zine-surface:not(.archive-release):not(.surface-night) .page,
 html body.lib-covers-on .page {
-  background: transparent !important;
+  background: transparent;
   color: var(--lcd-ink);
 }
-html body.zine-surface .page-lead,
-html body.surface-night .page-lead,
+html body.zine-surface:not(.archive-release):not(.surface-night) .page-lead,
 html body .lib-body .page-lead {
   color: var(--muted);
 }
-html body.zine-surface .page-lead a,
+html body.zine-surface:not(.archive-release):not(.surface-night) .page-lead a,
 html body .lib-body .page-lead a {
   color: var(--lcd-sel);
   text-decoration-color: rgba(40, 40, 40, .35);
 }
 html body.zine-surface .shop-hero,
-html body.zine-surface.shop-page .shop-hero,
-html body.zine-surface.archive-release .ra-hero {
+html body.zine-surface.shop-page .shop-hero {
   background: transparent;
   color: var(--lcd-ink);
   border-bottom: 1px solid rgba(40, 40, 40, .14);
 }
 html body.zine-surface .shop-hero__title,
-html body.zine-surface.archive-release .ra-hero h1,
-html body.zine-surface .section-head h1,
-html body.zine-surface .section-head h2 {
+html body.zine-surface:not(.archive-release) .section-head h1,
+html body.zine-surface:not(.archive-release) .section-head h2 {
   font-family: var(--zine-display);
   color: var(--lcd-ink);
   text-transform: none;
@@ -584,29 +485,10 @@ html body.zine-surface .section-head h2 {
   font-weight: 600;
 }
 html body.zine-surface .store-bar {
-  background: rgba(232, 232, 230, .92);
+  background: var(--ice);
   border-bottom: 1px solid rgba(40, 40, 40, .14);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-html body.zine-surface.archive-release .ra-deck {
-  --vfd-cyan: var(--led);
-  --vfd-green: var(--led);
-  border-radius: 16px;
-  border: 1px solid rgba(40, 40, 40, .18);
-  background:
-    linear-gradient(180deg, #f4f4f2, #c8c8c4);
-  box-shadow: inset 0 1px 0 #fff, 0 18px 40px rgba(40, 40, 40, .12);
-}
-html body.zine-surface.archive-release .ra-stereo-speaker {
-  border-radius: 12px;
-}
-html body.zine-surface.archive-release .ra-format-opt[aria-checked="true"],
-html body.zine-surface.archive-release .ra-stage-hit .glyph {
-  background: var(--lcd-sel);
-  color: #fff;
-  border-radius: 10px;
-  border-color: var(--lcd-sel);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Night Shift magazine — same ice, inverted masthead kept ---------------- */
@@ -654,3 +536,40 @@ html body.zine-surface .roster-artist {
   background: #111111;
   color: #eeeeec;
 }
+
+/* Release PDPs keep the archive ground. Do not ice them. */
+html body.archive-release,
+html body.archive-release.hero-top,
+html body.archive-release.zine-surface,
+html body.archive-release.zine-surface.hero-top {
+  background: var(--ra-bg, #050505);
+  color: var(--ra-ink, #F4F1E9);
+  color-scheme: dark;
+}
+html body.archive-release .nav,
+html body.archive-release .nav.scrolled,
+html body.archive-release.hero-top .nav,
+html body.archive-release.zine-surface .nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body.archive-release .nav-links a {
+  color: rgba(255, 255, 255, .72);
+  background: transparent;
+}
+html body.archive-release .nav-links a:hover,
+html body.archive-release .nav-links a[aria-current="page"] {
+  color: #fff;
+  background: rgba(255, 255, 255, .1);
+}
+html body.archive-release .nav-cart { color: #fff; }
+html body.archive-release .nav-ham span { background: #fff; }
+html body.archive-release .nav-logo img { filter: invert(1); }
+html body.archive-release .nav-drawer {
+  background: rgba(8, 8, 10, .92);
+  border-bottom-color: rgba(255, 255, 255, .08);
+}
+html body.archive-release .nav-drawer a { color: #fff; }

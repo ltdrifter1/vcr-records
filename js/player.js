@@ -325,7 +325,7 @@
       .filter(function (t) {
         return trackPlayable(t, release);
       })
-      .map(function (t) {
+      .map(function (t, i) {
         var fromBandcamp = !!(t.bandcampTrackId || release.bandcampUrl || release.bandcamp);
         return {
           id: t.id,
@@ -342,6 +342,8 @@
           cover: release.cover,
           page: release.page,
           catalogue: release.catalogue || "",
+          trackNum: t.trackNum || (i + 1),
+          durationSec: Number(t.duration) || 0,
           year: release.year || "",
           kind: release.kind || "",
           genre: release.genre || "",
@@ -565,7 +567,7 @@
       '<img class="vcr-player__art" alt="" width="56" height="56" />' +
       "</div>" +
       '<div class="vcr-player__lcd">' +
-      '<p class="vcr-player__bug">CC · Standby</p>' +
+      '<p class="vcr-player__bug"><span data-lcd-meta>CC · 01</span><span class="vcr-player__led" data-lcd-led>Standby</span></p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__err" data-player-err hidden></p>' +
@@ -669,6 +671,28 @@
     return ui;
   }
 
+  function pad2(n) {
+    n = Math.floor(Number(n) || 0);
+    if (n < 0) n = 0;
+    return n < 10 ? "0" + n : String(n);
+  }
+
+  function dockLcdMeta(track) {
+    var cat = (track && track.catalogue) || "CC";
+    var no = pad2(track && track.trackNum ? track.trackNum : 1);
+    return cat + "  ·  " + no;
+  }
+
+  function updateDockLcd(track, playing) {
+    if (!ui || !ui.dock) return;
+    var meta = ui.dock.querySelector("[data-lcd-meta]");
+    var led = ui.dock.querySelector("[data-lcd-led]");
+    var bug = ui.dock.querySelector(".vcr-player__bug");
+    if (meta) meta.textContent = dockLcdMeta(track);
+    else if (bug) bug.textContent = dockLcdMeta(track);
+    if (led) led.textContent = playing ? "On air" : "Standby";
+  }
+
   function notify(msg, isError) {
     if (!msg) return;
     ensureUI();
@@ -683,8 +707,12 @@
       toast.classList.remove("is-on");
       toast.hidden = true;
     }, 4200);
-    var bug = ui.dock && ui.dock.querySelector(".vcr-player__bug");
-    if (bug && isError) bug.textContent = "CC · Error";
+    var led = ui.dock && ui.dock.querySelector("[data-lcd-led]");
+    if (led && isError) led.textContent = "Error";
+    else if (!led) {
+      var bug = ui.dock && ui.dock.querySelector(".vcr-player__bug");
+      if (bug && isError) bug.textContent = "CC · Error";
+    }
   }
 
   function fmt(sec) {
@@ -769,14 +797,9 @@
     return document.querySelector("[data-listening-room]");
   }
 
-  /** Hide the floating dock while the in-page header room (or full stage) is the active surface. */
+  /** Hide the floating dock only while the full Now Playing stage is open. */
   function syncDockAway() {
-    var away = !!stageOpen;
-    if (roomOpen) {
-      if ("IntersectionObserver" in window) away = away || roomInView;
-      else away = true;
-    }
-    document.body.classList.toggle("vcr-dock-away", away);
+    document.body.classList.toggle("vcr-dock-away", !!stageOpen);
   }
 
   function ensureRoomObserver() {
@@ -945,9 +968,7 @@
     var roomNow = getRoom();
     if (track && track.cover && !(roomNow && roomNow.hasAttribute("data-ipod"))) sampleCover(track.cover);
     syncDockAway();
-
-    var bug = dock.querySelector(".vcr-player__bug");
-    if (bug) bug.textContent = playing ? "CC · On air" : "CC · Standby";
+    updateDockLcd(track, playing);
 
     dock.querySelector(".vcr-player__art").src = track.cover;
     dock.querySelector(".vcr-player__title").textContent = track.title;
@@ -1146,8 +1167,9 @@
     }
     ui.dock.classList.add("is-visible", "is-error");
     document.body.classList.add("has-vcr-player");
-    var bug = ui.dock.querySelector(".vcr-player__bug");
-    if (bug) bug.textContent = "CC · Error";
+    updateDockLcd(track, false);
+    var led = ui.dock.querySelector("[data-lcd-led]");
+    if (led) led.textContent = "Error";
     notify(lastPreviewError, true);
     try {
       window.dispatchEvent(

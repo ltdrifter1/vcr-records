@@ -16,13 +16,6 @@ body.zine-surface {
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-gothic: "Oswald", "Arial Narrow", sans-serif;
   --zine-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --bg: var(--zine-paper);
-  --card: #F4F4F2;
-  --soft: var(--zine-paper-2);
-  --ink: var(--zine-ink);
-  --muted: var(--zine-muted);
-  --dim: var(--zine-dim);
-  --line: var(--zine-rule);
   --radius: 10px;
   --radius-lg: 16px;
   --bezel-r: 12px;
@@ -30,6 +23,15 @@ body.zine-surface {
   --display: var(--zine-display);
   --sans: var(--zine-body);
   --callsign: var(--zine-gothic);
+}
+body.zine-surface:not(.archive-release):not(.surface-night) {
+  --bg: var(--zine-paper);
+  --card: #F4F4F2;
+  --soft: var(--zine-paper-2);
+  --ink: var(--zine-ink);
+  --muted: var(--zine-muted);
+  --dim: var(--zine-dim);
+  --line: var(--zine-rule);
   background: var(--zine-paper);
   color: var(--zine-ink);
   color-scheme: light;
@@ -49,40 +51,31 @@ body.zine-surface {
 }
 
 /* Chrome — masthead, drawer, footer -------------------------------------- */
-body.zine-surface .nav,
-body.zine-surface .nav.scrolled,
-body.zine-surface.hero-top .nav,
-body.zine-surface.hero-top .nav.scrolled,
-body.zine-surface.surface-night .nav,
-body.zine-surface.surface-night .nav.scrolled,
-body.zine-surface.archive-release .nav,
-body.zine-surface.archive-release .nav.scrolled,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav.scrolled,
+body.zine-surface.hero-top:not(.archive-release):not(.surface-night) .nav,
+body.zine-surface.hero-top:not(.archive-release):not(.surface-night) .nav.scrolled,
 body.zine-surface.shop-page .nav,
 body.zine-surface.shop-page .nav.scrolled,
 body.zine-surface.news-listing .nav,
 body.zine-surface.news-listing .nav.scrolled,
-body.zine-surface.surface-acetate .nav,
-body.zine-surface.surface-acetate .nav.scrolled,
-body.zine-surface.has-station-bumper .nav,
-body.zine-surface.has-station-bumper .nav.scrolled {
+body.zine-surface.surface-acetate:not(.archive-release) .nav,
+body.zine-surface.surface-acetate:not(.archive-release) .nav.scrolled,
+body.zine-surface.has-station-bumper:not(.archive-release):not(.surface-night) .nav,
+body.zine-surface.has-station-bumper:not(.archive-release):not(.surface-night) .nav.scrolled {
   background: var(--zine-paper);
   border-bottom: 1px solid var(--zine-ink);
   box-shadow: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-body.zine-surface .nav-logo img,
-body.zine-surface.hero-top .nav-logo img,
-body.zine-surface.shop-page .nav-logo img,
-body.zine-surface.nav-on-dark .nav-logo img,
-body.zine-surface.surface-night .nav-logo img,
-body.zine-surface.archive-release .nav-logo img {
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-logo img,
+body.zine-surface.hero-top:not(.archive-release):not(.surface-night) .nav-logo img,
+body.zine-surface.shop-page .nav-logo img {
   filter: none;
 }
-body.zine-surface .nav-links a,
-body.zine-surface.hero-top .nav-links a,
-body.zine-surface.surface-night .nav-links a,
-body.zine-surface.archive-release .nav-links a,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-links a,
+body.zine-surface.hero-top:not(.archive-release):not(.surface-night) .nav-links a,
 body.zine-surface.shop-page .nav-links a,
 body.zine-surface.news-listing .nav-links a {
   color: var(--zine-ink);
@@ -95,48 +88,34 @@ body.zine-surface.news-listing .nav-links a {
   padding: 6px 9px;
   background: transparent;
 }
-body.zine-surface .nav-links a[aria-current="page"],
-body.zine-surface .nav-links a:hover,
-body.zine-surface.surface-night .nav-links a[aria-current="page"],
-body.zine-surface.surface-night .nav-links a:hover,
-body.zine-surface.archive-release .nav-links a[aria-current="page"],
-body.zine-surface.archive-release .nav-links a:hover,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-links a[aria-current="page"],
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-links a:hover,
 body.zine-surface.shop-page .nav-links a[aria-current="page"],
 body.zine-surface.shop-page .nav-links a:hover {
   color: var(--zine-ink);
   background: var(--zine-stamp);
 }
-body.zine-surface .nav-ham span,
-body.zine-surface.surface-night .nav-ham span,
-body.zine-surface.archive-release .nav-ham span,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-ham span,
 body.zine-surface.shop-page .nav-ham span {
   background: var(--zine-ink);
 }
-body.zine-surface .nav-cart,
-body.zine-surface.surface-night .nav-cart,
-body.zine-surface.archive-release .nav-cart,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-cart,
 body.zine-surface.shop-page .nav-cart {
   color: var(--zine-ink);
   background: none;
 }
-body.zine-surface .nav-cart-count,
-body.zine-surface.surface-night .nav-cart-count,
-body.zine-surface.archive-release .nav-cart-count,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-cart-count,
 body.zine-surface.shop-page .nav-cart-count {
   background: var(--zine-stamp);
   color: var(--zine-ink);
   border-radius: 0;
 }
-body.zine-surface .nav-drawer,
-body.zine-surface.surface-night .nav-drawer,
-body.zine-surface.archive-release .nav-drawer,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-drawer,
 body.zine-surface.shop-page .nav-drawer {
   background: var(--zine-paper);
   border-bottom: 1px solid var(--zine-ink);
 }
-body.zine-surface .nav-drawer a,
-body.zine-surface.surface-night .nav-drawer a,
-body.zine-surface.archive-release .nav-drawer a,
+body.zine-surface:not(.archive-release):not(.surface-night) .nav-drawer a,
 body.zine-surface.shop-page .nav-drawer a {
   color: var(--zine-ink);
   font-family: var(--zine-display);
@@ -147,24 +126,19 @@ body.zine-surface.shop-page .nav-drawer a {
   border-bottom-color: var(--zine-rule);
 }
 
-body.zine-surface .footer,
-body.zine-surface.hero-top .footer,
-body.zine-surface.surface-night .footer,
-body.zine-surface.archive-release .footer,
+body.zine-surface:not(.archive-release):not(.surface-night) .footer,
+body.zine-surface.hero-top:not(.archive-release):not(.surface-night) .footer,
 body.zine-surface.shop-page .footer {
   background: var(--zine-paper);
   color: var(--zine-muted);
   border-top: 1px solid var(--zine-ink);
 }
-body.zine-surface .footer-top,
-body.zine-surface.surface-night .footer-top {
+body.zine-surface .footer-top {
   box-shadow: none;
   border-bottom: 1px solid var(--zine-ink);
 }
 body.zine-surface .footer-top::after { display: none; }
-body.zine-surface .footer-logo,
-body.zine-surface.archive-release .footer-logo,
-body.zine-surface.surface-night .footer-logo {
+body.zine-surface .footer-logo {
   filter: none;
   opacity: .9;
 }
@@ -172,24 +146,16 @@ body.zine-surface .footer-manifesto,
 body.zine-surface .footer-copy,
 body.zine-surface .footer-links a,
 body.zine-surface .footer-note,
-body.zine-surface .footer label,
-body.zine-surface.surface-night .footer-copy,
-body.zine-surface.surface-night .footer-links a,
-body.zine-surface.archive-release .footer,
-body.zine-surface.archive-release .footer a,
-body.zine-surface.archive-release .footer p {
+body.zine-surface .footer label {
   color: var(--zine-muted);
 }
 @media (hover: hover) {
-  body.zine-surface .footer-links a:hover,
-  body.zine-surface.surface-night .footer-links a:hover {
+  body.zine-surface .footer-links a:hover {
     background: var(--zine-stamp);
     color: var(--zine-ink);
   }
 }
 body.zine-surface .footer-form input,
-body.zine-surface.surface-night .footer-form input,
-body.zine-surface.archive-release .footer-form input,
 body.zine-surface.shop-page .footer-form input[type="email"] {
   border-radius: 0;
   border: 1px solid var(--zine-ink);
@@ -197,9 +163,7 @@ body.zine-surface.shop-page .footer-form input[type="email"] {
   color: var(--zine-ink);
   box-shadow: none;
 }
-body.zine-surface .footer-form button,
-body.zine-surface.surface-night .footer-form button,
-body.zine-surface.archive-release .footer-form button {
+body.zine-surface .footer-form button {
   border-radius: 0;
   background: var(--zine-stamp);
   color: var(--zine-ink);
@@ -264,19 +228,15 @@ body.zine-surface .page-lead a {
   color: var(--zine-ink);
 }
 
-body.zine-surface .btn,
-body.zine-surface .btn-dark,
-body.zine-surface .btn-ghost,
-body.zine-surface .btn-soft,
-body.zine-surface .btn-fill,
-body.zine-surface .btn-chrome-on-dark,
-body.zine-surface .btn-ghost-on-dark,
-body.zine-surface .btn-light,
-body.zine-surface .btn-outline,
-body.zine-surface.surface-night .btn-chrome-on-dark,
-body.zine-surface.surface-night .btn-ghost-on-dark,
-body.zine-surface.archive-release .ra-hero-ctas .btn-light,
-body.zine-surface.archive-release .ra-hero-ctas .btn-outline {
+body.zine-surface:not(.archive-release):not(.surface-night) .btn,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-dark,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-ghost,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-soft,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-fill,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-chrome-on-dark,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-ghost-on-dark,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-light,
+body.zine-surface:not(.archive-release):not(.surface-night) .btn-outline {
   border-radius: 0;
   height: auto;
   min-height: 46px;
@@ -301,10 +261,9 @@ body.zine-surface .btn-chrome-on-dark::before,
 body.zine-surface .btn-chrome-on-dark::after,
 body.zine-surface .btn-ghost-on-dark::before,
 body.zine-surface .btn-ghost-on-dark::after { display: none; }
-body.zine-surface .btn-ghost,
-body.zine-surface .btn-ghost-on-dark,
-body.zine-surface .btn-outline,
-body.zine-surface.archive-release .ra-hero-ctas .btn-outline {
+body.zine-surface:not(.archive-release) .btn-ghost,
+body.zine-surface:not(.archive-release) .btn-ghost-on-dark,
+body.zine-surface:not(.archive-release) .btn-outline {
   background: transparent;
 }
 @media (hover: hover) {
@@ -885,352 +844,6 @@ body.zine-surface.surface-acetate .policy,
 body.zine-surface.surface-acetate .policy article {
   border-color: var(--zine-ink);
   box-shadow: none;
-}
-
-/* Release pages ------------------------------------------------------------ */
-body.zine-surface.archive-release {
-  --ra-bg: #E8E8E6;
-  --ra-surface: #E8E8E6;
-  --ra-surface-hi: #D2D2D0;
-  --ra-ink: #1A1A1A;
-  --ra-muted: #5C5C5A;
-  --ra-dim: #7A7A78;
-  --ra-line: rgba(40, 40, 40, .16);
-  --ra-green: #2A2A28;
-  --ra-vfd: #C8C8C4;
-  background: var(--zine-paper) !important;
-  color: var(--zine-ink);
-  font-family: var(--zine-body);
-}
-body.zine-surface.archive-release.hero-top,
-body.zine-surface.archive-release.vcr-chroma,
-body.zine-surface.archive-release.vcr-chroma.hero-top,
-body.zine-surface.archive-release.is-air.vcr-chroma.hero-top {
-  background: var(--zine-paper) !important;
-  background-color: var(--zine-paper) !important;
-  color: var(--zine-ink);
-}
-body.zine-surface.archive-release .vcr-player {
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
-  color: var(--zine-ink);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-}
-body.zine-surface.archive-release.is-air .vcr-player,
-body.zine-surface.archive-release .vcr-player.is-playing {
-  background: var(--zine-paper);
-  border-color: var(--zine-ink);
-  box-shadow: none;
-}
-body.zine-surface.archive-release .vcr-player__title,
-body.zine-surface.archive-release .vcr-player__sub,
-body.zine-surface.archive-release .vcr-player__bug {
-  color: var(--zine-ink);
-}
-body.zine-surface.archive-release .vcr-player__buy {
-  border-radius: 0;
-  background: var(--zine-stamp);
-  color: var(--zine-ink);
-  border: 1px solid var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-hero {
-  min-height: 0;
-  background: var(--zine-paper);
-  color: var(--zine-ink);
-  padding-top: calc(var(--nav-h) + 28px);
-  padding-bottom: 48px;
-  border-bottom: 1px solid var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-hero-ambient { display: none; }
-body.zine-surface.archive-release .ra-hero .crumbs,
-body.zine-surface.archive-release .ra-hero .crumbs a {
-  font-family: var(--zine-mono);
-  color: var(--zine-muted);
-}
-body.zine-surface.archive-release .ra-hero-title,
-body.zine-surface.archive-release .ra-hero-title .ra-hero-kind {
-  font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  text-transform: uppercase;
-  color: var(--zine-ink);
-  background: none;
-  -webkit-text-fill-color: var(--zine-ink);
-  filter: none;
-}
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  body.zine-surface.archive-release .ra-hero-title {
-    background-image: none;
-    -webkit-text-fill-color: var(--zine-ink);
-    color: var(--zine-ink);
-  }
-}
-body.zine-surface.archive-release .ra-hero-meta,
-body.zine-surface.archive-release .ra-hero-meta span,
-body.zine-surface.archive-release .ra-hero-meta .artist,
-body.zine-surface.archive-release .ra-hero-facts {
-  font-family: var(--zine-mono);
-  color: var(--zine-ink);
-  border-color: var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-hero-meta span + span::before { color: var(--zine-dim); }
-body.zine-surface.archive-release .ra-cover {
-  border-radius: 0;
-  box-shadow: none;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
-}
-body.zine-surface.archive-release .ra-cover::after { display: none; }
-body.zine-surface.archive-release .ra-head,
-body.zine-surface.archive-release .ra-head h2 {
-  color: var(--zine-ink);
-  box-shadow: inset 0 -1px 0 var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-head h2 {
-  font-family: var(--zine-display);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -.04em;
-  box-shadow: none;
-}
-body.zine-surface.archive-release .ra-head .eyebrow,
-body.zine-surface.archive-release .ra-more .eyebrow {
-  font-family: var(--zine-mono);
-  color: var(--zine-magenta);
-}
-body.zine-surface.archive-release .ra-tracks,
-body.zine-surface.archive-release .ra-format,
-body.zine-surface.archive-release .ra-redeem {
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
-  color: var(--zine-ink);
-  box-shadow: none;
-}
-body.zine-surface.archive-release .ra-tracks .track-row {
-  border-top-color: var(--zine-rule);
-  color: var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-tracks .track-row:hover {
-  background: rgba(17, 17, 17, .03);
-}
-body.zine-surface.archive-release .ra-tracks .track-row.is-active {
-  background: var(--zine-stamp);
-  color: var(--zine-ink);
-  border-top-color: var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-tracks .track-row.is-active .track-no,
-body.zine-surface.archive-release .ra-tracks .track-row.is-active .track-title,
-body.zine-surface.archive-release .ra-tracks .track-row.is-active .track-dur {
-  color: var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-tracks .track-title { color: var(--zine-ink); }
-body.zine-surface.archive-release .ra-tracks .track-no,
-body.zine-surface.archive-release .ra-tracks .track-dur,
-body.zine-surface.archive-release .ra-tracks-note {
-  color: var(--zine-dim);
-}
-body.zine-surface.archive-release .ra-format-opt {
-  color: var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-format-opt:hover { background: rgba(17, 17, 17, .03); }
-body.zine-surface.archive-release .ra-format-opt[aria-checked="true"] {
-  background: var(--zine-stamp);
-  box-shadow: none;
-}
-body.zine-surface.archive-release .ra-format-opt .fmt,
-body.zine-surface.archive-release .ra-format-opt .price { color: var(--zine-ink); }
-body.zine-surface.archive-release .ra-notes p,
-body.zine-surface.archive-release .ra-notes .credo {
-  color: var(--zine-muted);
-}
-body.zine-surface.archive-release .ra-stage-hit .glyph {
-  border-radius: 0;
-  background: var(--zine-stamp);
-  color: var(--zine-ink);
-  border: 1px solid var(--zine-ink);
-  box-shadow: none;
-}
-body.zine-surface.archive-release .modal {
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
-  color: var(--zine-ink);
-  box-shadow: none;
-}
-body.zine-surface.archive-release .modal h2 {
-  font-family: var(--zine-display);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--zine-ink);
-}
-body.zine-surface.archive-release .modal p { color: var(--zine-muted); }
-
-/* Listen stereo — paper hi-fi, not a glossy iPod -------------------- */
-body.zine-surface.archive-release .ra-deck {
-  --ra-vfd: var(--zine-mono);
-  --vfd-cyan: var(--zine-stamp);
-  --vfd-amber: var(--zine-ink);
-  --vfd-green: var(--zine-stamp);
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
-  color: var(--zine-ink);
-  padding: 14px;
-  box-shadow: none;
-  overflow: visible;
-}
-body.zine-surface.archive-release .ra-deck::before { display: none; }
-body.zine-surface.archive-release .ra-stereo {
-  gap: 12px;
-  grid-template-columns: 92px 1fr 92px;
-}
-body.zine-surface.archive-release .ra-stereo-brand {
-  font-family: var(--zine-gothic);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  color: var(--zine-ink);
-  text-shadow: none;
-  padding: 0 2px 6px;
-  border-bottom: 1px solid var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-stereo-brand span:last-child {
-  color: var(--zine-muted);
-}
-body.zine-surface.archive-release .ra-stereo-speaker {
-  border-radius: 0;
-  background: var(--zine-paper-2);
-  border: 1px solid var(--zine-ink);
-  box-shadow: none;
-  padding: 14px 8px;
-}
-body.zine-surface.archive-release .ra-stereo-driver {
-  background:
-    radial-gradient(circle at 50% 50%, #1a1a1a 0 18%, transparent 19%),
-    repeating-radial-gradient(circle at 50% 50%, #2a2a2a 0 2px, #111 2px 4px);
-  box-shadow:
-    0 0 0 2px var(--zine-paper),
-    0 0 0 3px var(--zine-ink);
-}
-body.zine-surface.archive-release .release-console.is-live .ra-stereo-driver {
-  box-shadow:
-    0 0 0 2px var(--zine-paper),
-    0 0 0 3px var(--zine-ink),
-    0 0 16px rgba(94, 224, 234, .45);
-}
-body.zine-surface.archive-release .ra-vfd {
-  border-radius: 0;
-  min-height: 150px;
-  background: #111;
-  color: var(--zine-stamp);
-  text-shadow: none;
-  box-shadow: inset 0 0 0 1px rgba(94, 224, 234, .28);
-}
-body.zine-surface.archive-release .release-console.is-live .ra-vfd {
-  box-shadow: inset 0 0 0 1px var(--zine-stamp);
-}
-body.zine-surface.archive-release .ra-vfd-scan {
-  opacity: .22;
-  mix-blend-mode: normal;
-  background: repeating-linear-gradient(
-    180deg,
-    rgba(94, 224, 234, .08) 0 1px,
-    transparent 1px 3px
-  );
-}
-body.zine-surface.archive-release .ra-vfd-top,
-body.zine-surface.archive-release .ra-vfd-times {
-  color: var(--zine-stamp);
-  text-shadow: none;
-  font-family: var(--zine-mono);
-}
-body.zine-surface.archive-release .ra-vfd-mode {
-  color: var(--zine-stamp);
-  text-shadow: none;
-}
-body.zine-surface.archive-release .ra-vfd-title {
-  font-family: var(--zine-display);
-  font-weight: 800;
-  letter-spacing: -.03em;
-  color: var(--zine-stamp);
-}
-body.zine-surface.archive-release .ra-vfd-sub {
-  color: rgba(40, 40, 40, .72);
-  font-family: var(--zine-mono);
-}
-body.zine-surface.archive-release .ra-vfd-eq i {
-  background: var(--zine-stamp);
-  box-shadow: none;
-  border-radius: 0;
-}
-body.zine-surface.archive-release .ra-stereo-vol-dial {
-  width: 52px;
-  height: 52px;
-  background: conic-gradient(from 210deg, #111 0 70%, var(--zine-paper-2) 70% 100%);
-  box-shadow: inset 0 0 0 1px var(--zine-ink);
-  border: 1px solid var(--zine-ink);
-}
-body.zine-surface.archive-release .ra-stereo-vol-dial::after {
-  background: var(--zine-stamp);
-  height: 12px;
-}
-body.zine-surface.archive-release .ra-stereo-vol-cap {
-  font-family: var(--zine-gothic);
-  color: var(--zine-muted);
-}
-body.zine-surface.archive-release .ra-transport { gap: 8px; }
-body.zine-surface.archive-release .ra-key {
-  height: 42px;
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
-  color: var(--zine-ink);
-  box-shadow: none;
-  filter: none;
-}
-body.zine-surface.archive-release .ra-key:hover {
-  filter: none;
-  background: var(--zine-paper-2);
-  box-shadow: none;
-}
-body.zine-surface.archive-release .ra-key:active {
-  transform: none;
-  background: var(--zine-ink);
-  color: var(--zine-paper);
-}
-body.zine-surface.archive-release .ra-key--play.on {
-  background: var(--zine-stamp);
-  color: var(--zine-ink);
-  border-color: var(--zine-ink);
-  box-shadow: none;
-  transform: none;
-  filter: none;
-}
-body.zine-surface.archive-release .ra-deck .p-msg {
-  font-family: var(--zine-mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  color: var(--zine-muted);
-}
-body.zine-surface.archive-release .ra-deck .p-msg.err { color: #8a2f2a; }
-body.zine-surface.archive-release .ra-tracks .track-row.is-locked {
-  opacity: .55;
-}
-body.zine-surface.archive-release .ra-tracks .track-row.is-locked .track-title::after {
-  content: " · buy";
-  font-family: var(--zine-mono);
-  font-size: 10px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--zine-dim);
-}
-@media (max-width: 959px) {
-  body.zine-surface.archive-release .ra-stereo { grid-template-columns: 1fr; }
-  body.zine-surface.archive-release .ra-stereo-speaker { display: none; }
 }
 
 /* Mixtapes / tapes page ---------------------------------------------------- */

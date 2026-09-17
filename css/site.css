@@ -21,9 +21,16 @@
   --glass: rgba(255,255,255,.48);
   --glass-hi: rgba(255,255,255,.88);
   --glass-dark: rgba(14,16,20,.62);
+  --ice: #E8E8E6;
+  --ice-2: #D2D2D0;
+  --pearl: #F4F4F2;
+  --lcd: #C8C8C4;
+  --lcd-ink: #1A1A1A;
   --lcd-sel: #2A2A28;
   --stamp: #B8B8B4;
   --led: #E4E4E0;
+  --acid: #C6F000;
+  --acid-ink: #141414;
   --bondi: #9A9A96; /* steel alias; kept so older rules do not go missing */
   /* Chrome / liquid metal — brushed aluminum, not rave fill */
   --chrome-hi: rgba(255,255,255,.88);
@@ -213,24 +220,17 @@ button {
   position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   height: calc(var(--nav-h) + var(--safe-t));
   padding-top: var(--safe-t);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,.12)),
-    rgba(247,245,241,.52);
-  backdrop-filter: saturate(210%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(210%) blur(var(--blur-lg));
-  border-bottom: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 transparent;
+  background: var(--ice, #E8E8E6);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(40,40,40,.16);
+  box-shadow: none;
   transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .nav.scrolled {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.16)),
-    rgba(247,245,241,.78);
-  border-bottom-color: rgba(170,170,166,.28);
-  box-shadow:
-    inset 0 1px 0 var(--chrome-hi),
-    inset 0 -1px 0 rgba(255,255,255,.45),
-    0 10px 36px rgba(26,30,38,.07);
+  background: var(--ice, #E8E8E6);
+  border-bottom-color: rgba(40,40,40,.22);
+  box-shadow: none;
 }
 .nav-inner {
   max-width: var(--wrap); margin: 0 auto; height: var(--nav-h);

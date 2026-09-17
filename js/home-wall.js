@@ -1,11 +1,7 @@
-/* Club Copy — homepage Cover Flow catalogue from catalog.json */
+/* Club Copy — homepage sleeve index from catalog.json */
 (function () {
-  var track = document.getElementById("wallGrid");
-  var flowRoot = document.getElementById("albumFlow");
-  var inspect = document.querySelector("[data-album-inspect]");
-  if (!track) return;
-
-  var allReleases = [];
+  var grid = document.getElementById("wallGrid");
+  if (!grid) return;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -15,140 +11,79 @@
       .replace(/"/g, "&quot;");
   }
 
-  function money(n) {
-    var v = Number(n);
-    if (!isFinite(v)) return "";
-    return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.00$/, "");
+  function fmtDur(sec) {
+    var n = Number(sec);
+    if (!isFinite(n) || n <= 0) return "";
+    var m = Math.floor(n / 60);
+    var s = Math.floor(n % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
   }
 
-  function digitalPrice(rel) {
-    var d = rel.formats && rel.formats.digital;
-    return d && d.price != null ? Number(d.price) : null;
-  }
-
-  function trackWired(t) {
-    return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
-  }
-
-  function hasPreview(rel) {
-    return !!(rel && rel.id);
-  }
-
-  function mountFlow() {
-    if (!flowRoot) return;
-    if (flowRoot._coverFlow) flowRoot._coverFlow.refresh();
-    else if (window.ClubCopy && typeof ClubCopy.initCoverFlow === "function") {
-      ClubCopy.initCoverFlow();
+  function releaseDuration(rel) {
+    var tracks = rel.tracks || [];
+    var sum = 0;
+    var i;
+    for (i = 0; i < tracks.length; i++) {
+      var d = Number(tracks[i] && tracks[i].duration);
+      if (isFinite(d)) sum += d;
     }
-    if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(flowRoot);
-    if (window.VCRPlayer && VCRPlayer.getState && window.ClubCopy && ClubCopy.syncFlowAir) {
-      ClubCopy.syncFlowAir(flowRoot, VCRPlayer.getState());
-    }
+    return sum;
   }
 
-  function renderInspect(rel) {
-    if (!inspect || !rel) return;
+  function cardHtml(rel) {
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
-    var price = digitalPrice(rel);
-    var catHtml = rel.genre
-      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.genre) + "</span></p>"
-      : "";
-    var meta = [rel.kind, rel.year].filter(Boolean).join(" · ");
-    var play =
-      '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
-      esc(rel.id) +
-      '"' +
-      (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
-      (hasPreview(rel) ? "" : " data-preview-unwired=\"1\"") +
-      ">Play</button>";
-    var add = (rel.formats && rel.formats.digital && rel.formats.digital.sku)
-      ? (
-          '<button type="button" class="btn btn-ghost-on-dark" data-add-release="' + esc(rel.id) + '"' +
-            ' data-sku="' + esc(rel.formats.digital.sku) + '"' +
-            ' data-name="' + esc(rel.title + " — Digital") + '"' +
-            ' data-price="' + esc(rel.formats.digital.price) + '"' +
-            ' data-image="' + esc(full) + '">' +
-            (price != null ? "Add digital · $" + money(price) : "Add digital") +
-          "</button>"
-        )
-      : "";
-    inspect.hidden = false;
-    inspect.innerHTML =
-      '<figure class="album-inspect__art jewel">' +
-        '<img src="' + esc(thumb) + '" alt="" width="400" height="400"/>' +
-      "</figure>" +
-      '<div class="album-inspect__copy">' +
-        (catHtml) +
-        (meta ? '<p class="album-inspect__meta">' + esc(meta) + "</p>" : "") +
-        '<h3 class="album-inspect__title"><a href="' + esc(rel.page || "#") + '">' + esc(rel.title) + "</a></h3>" +
-        '<p class="album-inspect__artist">' + esc(rel.artist || "") + "</p>" +
-        '<p class="album-inspect__err" data-inspect-err hidden></p>' +
-        '<div class="album-inspect__actions">' +
-          play +
-          add +
-          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || "#") + '">Details</a>' +
+    var href = rel.page || "/library";
+    var cat = rel.catalogue || "";
+    var dur = fmtDur(releaseDuration(rel));
+    var spec = [cat, rel.kind, dur].filter(Boolean).join("  ·  ");
+    return (
+      '<article class="sleeve-card" data-release="' + esc(rel.id) + '">' +
+        '<div class="sleeve-card-art">' +
+          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
+            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:640px) 46vw, (max-width:1100px) 22vw, 220px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
+          "</a>" +
+          '<button type="button" class="sleeve-card-play" data-play-release="' + esc(rel.id) + '"' +
+            (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
+            ' aria-label="Play ' + esc(rel.title) + '">' +
+            '<svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
+            '<svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+          "</button>" +
+          '<span class="sleeve-card-air" hidden>On air</span>' +
         "</div>" +
-      "</div>";
-    if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(inspect);
-    bindAdd(inspect);
+        '<div class="sleeve-card-meta">' +
+          (spec ? '<p class="sleeve-card-spec">' + esc(spec) + "</p>" : "") +
+          '<h3 class="sleeve-card-title"><a href="' + esc(href) + '">' + esc(rel.title) + "</a></h3>" +
+          '<p class="sleeve-card-artist">' + esc(rel.artist || "") + "</p>" +
+        "</div>" +
+      "</article>"
+    );
+  }
+
+  function syncAir(detail) {
+    var d = detail || {};
+    var nowId = d.track ? d.track.releaseId : null;
+    var playing = !!d.playing;
+    grid.querySelectorAll(".sleeve-card[data-release]").forEach(function (item) {
+      var id = item.getAttribute("data-release");
+      var mine = nowId && id === nowId;
+      item.classList.toggle("is-now-playing", !!mine);
+      item.classList.toggle("is-audible", !!(mine && playing));
+      var air = item.querySelector(".sleeve-card-air");
+      if (air) {
+        air.hidden = !(mine && playing);
+      }
+      var btn = item.querySelector(".sleeve-card-play");
+      if (btn) {
+        btn.classList.toggle("is-playing", !!(mine && playing));
+        btn.setAttribute("aria-label", (mine && playing ? "Pause " : "Play ") + (item.querySelector(".sleeve-card-title") ? item.querySelector(".sleeve-card-title").textContent : "release"));
+      }
+    });
   }
 
   window.addEventListener("vcr:player", function (e) {
-    var d = e.detail || {};
-    if (!inspect) return;
-    var errEl = inspect.querySelector("[data-inspect-err]");
-    if (!errEl) return;
-    if (d.error && d.errorMessage) {
-      errEl.hidden = false;
-      errEl.textContent = d.errorMessage;
-    } else if (d.playing) {
-      errEl.hidden = true;
-      errEl.textContent = "";
-    }
+    syncAir(e.detail || {});
   });
-
-  function bindAdd(root) {
-    (root || document).querySelectorAll("[data-add-release]").forEach(function (el) {
-      if (el.getAttribute("data-bound-add") === "1") return;
-      el.setAttribute("data-bound-add", "1");
-      el.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!window.VCRCart) return;
-        var sku = el.getAttribute("data-sku");
-        var price = Number(el.getAttribute("data-price"));
-        if (!sku || !isFinite(price)) return;
-        VCRCart.add({
-          sku: sku,
-          name: el.getAttribute("data-name") || sku,
-          price: price,
-          image: el.getAttribute("data-image") || "",
-          qty: 1,
-          id: sku
-        });
-        var orig = el.textContent;
-        el.textContent = "Added ✓";
-        clearTimeout(el._flash);
-        el._flash = setTimeout(function () { el.textContent = orig; }, 1600);
-      });
-    });
-  }
-
-  function byId(id) {
-    for (var i = 0; i < allReleases.length; i++) {
-      if (allReleases[i].id === id) return allReleases[i];
-    }
-    return null;
-  }
-
-  if (flowRoot) {
-    flowRoot.addEventListener("coverflow:change", function (e) {
-      var id = e.detail && e.detail.id;
-      var rel = byId(id);
-      if (rel) renderInspect(rel);
-    });
-  }
 
   fetch("/data/catalog.json")
     .then(function (r) {
@@ -156,26 +91,21 @@
       return r.json();
     })
     .then(function (data) {
-      allReleases = (data.releases || []).slice().sort(function (a, b) {
+      var allReleases = (data.releases || []).slice().sort(function (a, b) {
         var aDate = String(a.released || "");
         var bDate = String(b.released || "");
         if (aDate !== bDate) return bDate.localeCompare(aDate);
         return String(b.catalogue || "").localeCompare(String(a.catalogue || ""));
       });
       if (!allReleases.length) return;
-      if (window.ClubCopy && ClubCopy.flowSleeveHtml) {
-        track.innerHTML = allReleases.map(ClubCopy.flowSleeveHtml).join("");
-      }
-      track.removeAttribute("aria-busy");
-      mountFlow();
-      renderInspect(allReleases[0]);
+      grid.innerHTML = allReleases.map(cardHtml).join("");
+      grid.removeAttribute("aria-busy");
+      if (window.VCRPlayer && VCRPlayer.getState) syncAir(VCRPlayer.getState());
     })
     .catch(function () {
-      track.removeAttribute("aria-busy");
-      if (track.querySelector(".wall-item, .flow-sleeve")) {
-        mountFlow();
-        return;
+      grid.removeAttribute("aria-busy");
+      if (!grid.querySelector(".sleeve-card, .wall-item")) {
+        grid.innerHTML = '<p class="sleeve-index-err">Could not load releases. <a href="/library">Open Library</a></p>';
       }
-      track.innerHTML = '<p style="color:rgba(255,255,255,.55);padding:24px">Could not load releases. <a href="/library">Open Library</a></p>';
     });
 })();
