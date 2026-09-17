@@ -702,25 +702,6 @@ body.home-zine .desk-folio-meta {
   color: rgba(247, 245, 241, .55);
 }
 
-body.home-zine .chip-acetate,
-body.home-zine .cat-cc {
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: transparent;
-  color: var(--zine-ink);
-  font-family: var(--zine-mono);
-  font-size: 10px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  padding: 2px 7px;
-  box-shadow: none;
-  text-shadow: none;
-}
-body.home-zine .chip-acetate::after,
-body.home-zine .cat-cc::after {
-  display: none;
-}
-
 /* Night Shift already owns its paper. Seam is a single department rule. -- */
 body.home-zine .news-bridge {
   pointer-events: none;
@@ -905,7 +886,7 @@ body.home-zine #mixtapes {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.home-zine .hero-ticker-track { animation: none; }
+  body.home-zine .hero-ticker-track { animation: none; transition: none; }
 }
 
 /* Chapter cuts — one 4px bar + paper air. Hero ticker already closes the
