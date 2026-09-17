@@ -536,3 +536,40 @@ html body.zine-surface .roster-artist {
   background: #111111;
   color: #eeeeec;
 }
+
+/* Release PDPs keep the archive ground. Do not ice them. */
+html body.archive-release,
+html body.archive-release.hero-top,
+html body.archive-release.zine-surface,
+html body.archive-release.zine-surface.hero-top {
+  background: var(--ra-bg, #050505);
+  color: var(--ra-ink, #F4F1E9);
+  color-scheme: dark;
+}
+html body.archive-release .nav,
+html body.archive-release .nav.scrolled,
+html body.archive-release.hero-top .nav,
+html body.archive-release.zine-surface .nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body.archive-release .nav-links a {
+  color: rgba(255, 255, 255, .72);
+  background: transparent;
+}
+html body.archive-release .nav-links a:hover,
+html body.archive-release .nav-links a[aria-current="page"] {
+  color: #fff;
+  background: rgba(255, 255, 255, .1);
+}
+html body.archive-release .nav-cart { color: #fff; }
+html body.archive-release .nav-ham span { background: #fff; }
+html body.archive-release .nav-logo img { filter: invert(1); }
+html body.archive-release .nav-drawer {
+  background: rgba(8, 8, 10, .92);
+  border-bottom-color: rgba(255, 255, 255, .08);
+}
+html body.archive-release .nav-drawer a { color: #fff; }
