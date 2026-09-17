@@ -15,8 +15,8 @@ body.archive-release {
   --ra-line: rgba(255, 255, 255, .1);
   --ra-line-soft: rgba(255, 255, 255, .06);
   --ra-green: #97AC92;
-  --ra-chrome: #C8D4E4;
-  --ra-vfd: #7ef6ff;
+  --ra-chrome: #C8C8C4;
+  --ra-vfd: #c8c8c4;
   --ra-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --ra-ease: cubic-bezier(.22, 1, .36, 1);
   --tape-oxide: #a05a22;
@@ -527,7 +527,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   display: grid;
   place-items: center;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.92) 42%, rgba(176,190,208,.86) 100%);
+    linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(230,236,244,.92) 42%, rgba(176,176,172,.86) 100%);
   color: #111;
   border: 1px solid rgba(255,255,255,.58);
   opacity: 0;
@@ -662,7 +662,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(118deg, rgba(255,255,255,.18) 0%, transparent 28%, transparent 62%, rgba(180,198,220,.1) 100%),
+    linear-gradient(118deg, rgba(255,255,255,.18) 0%, transparent 28%, transparent 62%, rgba(180,180,176,.1) 100%),
     linear-gradient(180deg, rgba(255,255,255,.08), transparent 36%);
   opacity: .7;
   mix-blend-mode: soft-light;
@@ -678,7 +678,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 .ra-cover.is-spinning {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .22),
-    0 0 0 1px rgba(200, 214, 230, .4),
+    0 0 0 1px rgba(200, 200, 196, .4),
     0 40px 80px -16px rgba(0, 0, 0, .9),
     0 10px 22px rgba(0, 0, 0, .45),
     0 0 40px rgba(186, 204, 224, .12);
@@ -718,11 +718,11 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   padding: 26px 28px 24px;
   overflow: hidden;
   background:
-    linear-gradient(155deg, rgba(255,255,255,.1) 0%, rgba(200,214,230,.04) 46%, rgba(14,16,20,.38) 100%),
+    linear-gradient(155deg, rgba(255,255,255,.1) 0%, rgba(200,200,196,.04) 46%, rgba(14,16,20,.38) 100%),
     rgba(8, 10, 14, .46);
   backdrop-filter: saturate(170%) blur(22px);
   -webkit-backdrop-filter: saturate(170%) blur(22px);
-  border: 1px solid rgba(200, 214, 230, .28);
+  border: 1px solid rgba(200, 200, 196, .28);
   border-radius: 4px;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.28),
@@ -776,7 +776,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   font-weight: 600;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: rgba(200, 214, 230, .7);
+  color: rgba(200, 200, 196, .7);
 }
 .ra-hero-callsign::before {
   content: "";
@@ -784,8 +784,8 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: rgba(200, 214, 230, .38);
-  box-shadow: 0 0 0 3px rgba(200, 214, 230, .08);
+  background: rgba(200, 200, 196, .38);
+  box-shadow: 0 0 0 3px rgba(200, 200, 196, .08);
   transition: background .4s var(--ra-ease), box-shadow .4s var(--ra-ease);
 }
 .ra-hero.is-live .ra-hero-callsign::before {
@@ -811,14 +811,14 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   height: 26px;
   padding: 0 10px;
   border-radius: 2px;
-  border: 1px solid rgba(200, 214, 230, .26);
+  border: 1px solid rgba(200, 200, 196, .26);
   background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
   box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
   color: var(--ra-muted);
 }
 .ra-hero-meta .artist {
   color: #fff;
-  border-color: rgba(200, 214, 230, .48);
+  border-color: rgba(200, 200, 196, .48);
   background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.04));
 }
 
@@ -872,8 +872,8 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   color: rgba(244, 241, 233, .72);
   margin: 0 0 22px;
   padding: 14px 0;
-  border-top: 1px solid rgba(200, 214, 230, .2);
-  border-bottom: 1px solid rgba(200, 214, 230, .2);
+  border-top: 1px solid rgba(200, 200, 196, .2);
+  border-bottom: 1px solid rgba(200, 200, 196, .2);
 }
 .ra-hero-facts .scarce { color: var(--ra-green); font-weight: 500; }
 .ra-hero-facts .scarce--preorder { color: #d4a84b; }
@@ -935,7 +935,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 
 .ra-deck {
   --ra-vfd: "Share Tech Mono", var(--ra-mono);
-  --vfd-cyan: #7ef6ff;
+  --vfd-cyan: #c8c8c4;
   --vfd-amber: #ffd08a;
   --vfd-green: #b8ff9a;
   position: relative;
@@ -952,7 +952,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
     inset 0 -3px 6px rgba(90, 110, 130, .16),
     0 0 0 1px rgba(120, 140, 160, .18),
     0 28px 56px -18px rgba(0, 0, 0, .55),
-    0 0 48px rgba(186, 214, 238, .18);
+    0 0 48px rgba(210, 210, 206, .18);
   display: flex;
   flex-direction: column;
 }
@@ -1128,7 +1128,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   flex: 1;
   height: 22%;
   border-radius: 1px 1px 0 0;
-  background: linear-gradient(180deg, var(--vfd-cyan), #1a6a72);
+  background: linear-gradient(180deg, var(--vfd-cyan), #3a3a38);
   box-shadow: 0 0 6px rgba(126, 246, 255, .45);
   transform-origin: bottom;
   animation: ra-eq 1.05s ease-in-out infinite;
@@ -1301,12 +1301,12 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 .ra-key--play.on .i-play { display: none; }
 .ra-key--play.on {
   background:
-    linear-gradient(180deg, #eaf6ff 0%, #86cdf7 42%, #3a94e0 100%);
+    linear-gradient(180deg, #f6f6f4 0%, #c8c8c4 42%, #6e6e6c 100%);
   color: #fff;
   border-color: rgba(255,255,255,.8);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.85),
-    0 0 18px rgba(80, 180, 255, .35);
+    0 0 18px rgba(80, 80, 76, .35);
   transform: none;
   filter: none;
 }
@@ -1332,9 +1332,9 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 .ra-tracks {
   font-family: var(--sans, 'Space Grotesk', sans-serif);
   background:
-    radial-gradient(120% 80% at 88% 0%, rgba(200, 214, 230, .07), transparent 42%),
+    radial-gradient(120% 80% at 88% 0%, rgba(200, 200, 196, .07), transparent 42%),
     linear-gradient(180deg, #16181c 0%, var(--ra-surface) 48%, #0a0a0a 100%);
-  border: 1px solid rgba(200, 214, 230, .28);
+  border: 1px solid rgba(200, 200, 196, .28);
   border-radius: 4px;
   padding: 14px 12px 14px;
   box-shadow:
@@ -1514,7 +1514,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   background:
     linear-gradient(180deg, rgba(255,255,255,.04), transparent 40%),
     var(--ra-surface);
-  border: 1px solid rgba(200, 214, 230, .26);
+  border: 1px solid rgba(200, 200, 196, .26);
   border-radius: 4px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
@@ -1564,9 +1564,9 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(120% 80% at 12% 0%, rgba(200, 214, 230, .08), transparent 42%),
+    radial-gradient(120% 80% at 12% 0%, rgba(200, 200, 196, .08), transparent 42%),
     linear-gradient(180deg, #181a1e 0%, var(--ra-surface) 48%, #0a0a0a 100%);
-  border: 1px solid rgba(200, 214, 230, .3);
+  border: 1px solid rgba(200, 200, 196, .3);
   border-radius: 4px;
   padding: 22px 22px 20px;
   box-shadow:
@@ -1579,7 +1579,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(118deg, rgba(255,255,255,.08), transparent 42%, rgba(180,198,220,.06) 100%);
+  background: linear-gradient(118deg, rgba(255,255,255,.08), transparent 42%, rgba(180,180,176,.06) 100%);
   mix-blend-mode: soft-light;
 }
 .ra-format-opt {
@@ -1695,7 +1695,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 
 /* Redeem — archive claim form */
 .ra-redeem {
-  border: 1px solid rgba(200, 214, 230, .26);
+  border: 1px solid rgba(200, 200, 196, .26);
   border-radius: 4px;
   padding: 30px 28px 26px;
   font-family: var(--sans, 'Space Grotesk', sans-serif);
@@ -1858,7 +1858,7 @@ body.archive-release .footer-form button {
 
 /* ==========================================================================
    iTunes / iOS Aqua — one material system for release pages
-   Metal player · white tables · real Aqua gel. No fake HUD labels.
+   Metal player · white tables · steel gel. No fake HUD labels.
    ========================================================================== */
 
 /* Keep Cover Flow reflection from the jewel stage -------------------------- */
@@ -1882,7 +1882,7 @@ body.archive-release .footer-form button {
     118deg,
     transparent 36%,
     rgba(255,255,255,.2) 48%,
-    rgba(200,214,230,.08) 52%,
+    rgba(200,200,196,.08) 52%,
     transparent 64%
   );
   mix-blend-mode: screen;
@@ -2024,12 +2024,12 @@ body.archive-release .footer-form button {
 }
 .ra-hero-ctas .btn-light {
   background:
-    linear-gradient(180deg, #eaf6ff 0%, #86cdf7 16%, #3a94e0 48%, #1868c4 78%, #0d4e9a 100%);
+    linear-gradient(180deg, #f7f7f5 0%, #d0d0cc 16%, #9a9a96 48%, #5c5c5a 78%, #2a2a28 100%);
   color: #fff;
-  border: 1px solid #0a478c;
+  border: 1px solid #2a2a28;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  text-shadow: 0 -1px 0 rgba(0, 40, 80, .35);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .35);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.78),
     inset 0 -1px 0 rgba(0, 40, 90, .18),
@@ -2037,7 +2037,7 @@ body.archive-release .footer-form button {
 }
 .ra-hero-ctas .btn-light:hover {
   filter: brightness(1.06);
-  border-color: #1663b8;
+  border-color: #3a3a38;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.88),
     0 3px 8px rgba(0,0,0,.32);
@@ -2081,7 +2081,7 @@ body.archive-release .footer-form button {
   border-top: 1px solid #ececec;
   padding: 11px 14px;
 }
-.ra-tracks .track-row:hover { background: #eef3fb; }
+.ra-tracks .track-row:hover { background: #ececec; }
 .ra-tracks .track-no,
 .ra-tracks .track-dur {
   font-family: var(--sans, 'Space Grotesk', sans-serif);
@@ -2185,7 +2185,7 @@ body.archive-release .footer-form button {
   border-radius: 8px;
 }
 .ra-format-opt:first-of-type { border-top-color: #e5e5ea; }
-.ra-format-opt:hover { background: #eef3fb; }
+.ra-format-opt:hover { background: #ececec; }
 .ra-format-opt[aria-checked="true"],
 .ra-format-opt[aria-checked="true"]:hover {
   background: linear-gradient(180deg, #7eb6f5 0%, #3b7dd8 52%, #1f5cb8 100%);
@@ -2199,7 +2199,7 @@ body.archive-release .footer-form button {
 .ra-format-opt[aria-checked="true"] .dot {
   border-color: #fff;
   background:
-    radial-gradient(circle at 50% 50%, #fff 0 36%, #0b5ed7 40% 100%);
+    radial-gradient(circle at 50% 50%, #fff 0 36%, #2a2a28 40% 100%);
   box-shadow: none;
 }
 .ra-format-opt .fmt { color: #1d1d1f; }
@@ -2228,10 +2228,10 @@ body.archive-release .footer-form button {
 body.archive-release .btn-fill.ra-collect-btn,
 body.archive-release .ra-collect-btn.btn-fill {
   background:
-    linear-gradient(180deg, #eaf6ff 0%, #86cdf7 16%, #3a94e0 48%, #1868c4 78%, #0d4e9a 100%) !important;
+    linear-gradient(180deg, #f7f7f5 0%, #d0d0cc 16%, #9a9a96 48%, #5c5c5a 78%, #2a2a28 100%) !important;
   color: #fff !important;
-  border: 1px solid #0a478c !important;
-  text-shadow: 0 -1px 0 rgba(0, 40, 80, .35);
+  border: 1px solid #2a2a28 !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .35);
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   box-shadow:
@@ -2245,7 +2245,7 @@ body.archive-release .btn-fill.ra-collect-btn:hover {
 }
 .ra-purchase-fine,
 .ra-club-cue { color: #6e6e73; }
-.ra-club-cue a { color: #1473e6; }
+.ra-club-cue a { color: #1a1a1a; }
 .ra-redeem h3 { color: #1d1d1f; }
 .ra-redeem .hint { color: #6e6e73; }
 .ra-redeem input {
@@ -2314,7 +2314,7 @@ body.archive-release .btn-fill.ra-collect-btn:hover {
   padding: 4px 2px 18px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: rgba(200, 214, 230, .28) transparent;
+  scrollbar-color: rgba(200, 200, 196, .28) transparent;
 }
 @media (min-width: 960px) {
   .ra-more-rail {
