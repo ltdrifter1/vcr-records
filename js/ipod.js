@@ -25,7 +25,7 @@
       title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
-        { id: "artists", label: "Artists", kind: "link", href: "/artists" },
+        { id: "join", label: "Join", kind: "link", href: "#join" },
         { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
         { id: "zine", label: "Zine", kind: "link", href: "/news" },
         { id: "now", label: "Now Playing", kind: "now" },
