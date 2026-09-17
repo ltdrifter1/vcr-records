@@ -1445,185 +1445,6 @@
       .wall-item.is-now-playing.is-audible .wall-art::before { animation: none; }
     }
 
-    /* Home artists — closing contact sheet -------------------------------- */
-    .home-artists {
-      position: relative;
-      padding: 0 0 56px;
-      color: #111111;
-      background: transparent;
-    }
-    .home-artists-bridge {
-      height: 0;
-      pointer-events: none;
-    }
-    @media (min-width: 800px) {
-      .home-artists { padding-bottom: 72px; }
-    }
-    .home-artists .section-head {
-      border-bottom: none;
-      box-shadow: none;
-      padding-top: 12px;
-      padding-bottom: 0;
-      margin-bottom: 20px;
-    }
-    @media (min-width: 800px) {
-      .home-artists .section-head {
-        padding-top: 16px;
-        margin-bottom: 24px;
-      }
-    }
-    .home-artists h2 {
-      font-family: var(--display);
-      font-weight: 700;
-      letter-spacing: -.038em;
-      color: #1A1E26;
-    }
-    .home-artists .head-link { color: rgba(26,30,38,.55); }
-    @media (hover:hover) {
-      .home-artists .head-link:hover {
-        color: #1A1E26;
-        border-bottom-color: rgba(58,63,71,.45);
-      }
-    }
-
-    .home-roster {
-      display: grid;
-      gap: 12px;
-    }
-    @media (min-width: 800px) {
-      .home-roster {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0;
-      }
-    }
-    @media (min-width: 1100px) {
-      .home-roster {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-    .home-artist {
-      position: relative;
-      display: grid;
-      grid-template-columns: 108px minmax(0, 1fr);
-      align-items: stretch;
-      min-height: 0;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      border-radius: var(--radius-lg);
-      border: 1px solid transparent;
-      background:
-        linear-gradient(165deg, rgba(255,255,255,.96), rgba(236,240,244,.88)) padding-box,
-        linear-gradient(135deg,
-          rgba(255,255,255,.95) 0%,
-          rgba(168,184,204,.55) 36%,
-          rgba(255,255,255,.42) 58%,
-          rgba(120,132,148,.5) 100%) border-box;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
-        inset 0 -1px 0 rgba(90,100,120,.06),
-        0 0 0 1px rgba(90,100,120,.1),
-        0 14px 32px rgba(30,34,40,.1);
-      transition: box-shadow .25s var(--ease), transform .25s var(--ease);
-    }
-    @media (min-width: 800px) {
-      .home-artist { grid-template-columns: 1fr; }
-    }
-    @media (hover:hover) {
-      .home-artist:hover {
-        transform: translateY(-2px);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,.98),
-          0 0 0 1px rgba(90,100,120,.14),
-          0 0 0 1px rgba(var(--aurora-a), .16),
-          0 18px 36px rgba(30,34,40,.14);
-      }
-      .home-artist:hover .home-artist-photo img {
-        transform: scale(1.035);
-        filter: brightness(1.06);
-      }
-      .home-artist:hover .home-artist-go { color: #1A1E26; }
-    }
-    .home-artist-photo {
-      position: relative;
-      overflow: hidden;
-      background: #111;
-      min-height: 100%;
-    }
-    .home-artist-photo img {
-      width: 100%;
-      height: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      object-position: center 18%;
-      display: block;
-      aspect-ratio: 4 / 5;
-      transition: transform .85s var(--ease), filter .85s var(--ease);
-    }
-    @media (min-width: 800px) {
-      .home-artist-photo img {
-        aspect-ratio: 16 / 10;
-        height: auto;
-        min-height: 0;
-      }
-    }
-    .home-artist-photo img.is-wide { object-position: 58% 38%; }
-    .home-artist-photo img.is-field { object-position: center 18%; }
-    .home-artist-meta {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-      padding: 16px 18px 18px 20px;
-      min-width: 0;
-    }
-    .home-artist-role {
-      margin: 0;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(58,63,71,.52);
-    }
-    .home-artist-name {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(22px, 2.4vw, 28px);
-      font-weight: 700;
-      letter-spacing: -.038em;
-      line-height: 1.08;
-      text-transform: none;
-      color: #1A1E26;
-    }
-    .home-artist-dek {
-      margin: 0;
-      font-family: var(--sans);
-      font-size: 15px;
-      line-height: 1.45;
-      letter-spacing: -.018em;
-      color: rgba(26,30,38,.58);
-      max-width: 28em;
-    }
-    .home-artist .genre-tag {
-      margin: 2px 0 0;
-    }
-    .home-artist-go {
-      margin-top: 4px;
-      font-family: var(--callsign);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: rgba(58,63,71,.52);
-      transition: color .25s var(--ease);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .home-artist,
-      .home-artist-photo img { transition: none; }
-      .home-artist:hover { transform: none; }
-    }
-
     /* Legacy place styles kept unused (image frame removed) ---------------- */
     .place,
     .place-frame,
@@ -1819,7 +1640,7 @@
       <a href="/news">Zine</a>
       <a href="#mixtapes">Mixtapes</a>
       <a href="#instagram">Instagram</a>
-      <a href="#artists">Artists</a>
+      <a href="/artists">Artists</a>
       <a href="/merch">Shop</a>
       <a href="#join">Join</a>
       <a href="/contact">Contact</a>
@@ -1846,7 +1667,7 @@
   <a href="/news">Zine</a>
   <a href="#mixtapes">Mixtapes</a>
   <a href="#instagram">Instagram</a>
-  <a href="#artists">Artists</a>
+  <a href="/artists">Artists</a>
   <a href="/merch">Shop</a>
   <a href="#join">Join</a>
   <a href="/contact">Contact</a>
@@ -2290,69 +2111,6 @@
         <span class="ig-card ig-skel" aria-hidden="true"></span>
         <span class="ig-card ig-skel" aria-hidden="true"></span>
         <span class="ig-card ig-skel" aria-hidden="true"></span>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-artists" id="artists" aria-labelledby="home-artists-title">
-    <div class="home-artists-bridge" aria-hidden="true"></div>
-    <div class="band">
-      <header class="section-head home-artists-head rv">
-        <div>
-          <p class="eyebrow">roster</p>
-          <h2 id="home-artists-title">Artists</h2>
-        </div>
-        <a class="head-link" href="/artists">View all</a>
-      </header>
-      <div class="home-roster">
-        <a class="home-artist rv" href="/artists/molly-haze">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/molly-haze.webp" alt="Molly Haze" width="1254" height="1254" loading="lazy"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Artist</p>
-            <h3 class="home-artist-name">Molly Haze</h3>
-            <span class="genre-tag">House</span>
-            <p class="home-artist-dek">Gorilla (Molly’s Hazy Edit). Out now.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
-        <a class="home-artist rv" href="/artists/rosco">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/rosco.webp" alt="Rosco" width="800" height="1000" loading="lazy"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Artist</p>
-            <h3 class="home-artist-name">Rosco</h3>
-            <span class="genre-tag">House</span>
-            <p class="home-artist-dek">Bridget In My Room. Out now.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
-        <a class="home-artist rv" href="/artists/lt-drifta">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/lt-drifta.webp" alt="L.T. Drifta" width="1672" height="941" loading="lazy" class="is-wide"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Producer</p>
-            <h3 class="home-artist-name">L.T. Drifta</h3>
-            <span class="genre-tag">Jungle</span>
-            <p class="home-artist-dek">mixtape (instrumental version). Out now.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
-        <a class="home-artist rv" href="/artists/riscape">
-          <div class="home-artist-photo fx-spec">
-            <img src="artists/riscape.webp" alt="Riscape" width="1086" height="1448" loading="lazy" class="is-field"/>
-          </div>
-          <div class="home-artist-meta">
-            <p class="home-artist-role">Artist</p>
-            <h3 class="home-artist-name">Riscape</h3>
-            <span class="genre-tag">House</span>
-            <p class="home-artist-dek">You Are (Love). Cassette pre-order only.</p>
-            <span class="home-artist-go">More</span>
-          </div>
-        </a>
       </div>
     </div>
   </section>
