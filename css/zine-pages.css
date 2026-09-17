@@ -16,13 +16,6 @@ body.zine-surface {
   --zine-mono: "IBM Plex Mono", ui-monospace, monospace;
   --zine-gothic: "Oswald", "Arial Narrow", sans-serif;
   --zine-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --bg: var(--zine-paper);
-  --card: #F4F4F2;
-  --soft: var(--zine-paper-2);
-  --ink: var(--zine-ink);
-  --muted: var(--zine-muted);
-  --dim: var(--zine-dim);
-  --line: var(--zine-rule);
   --radius: 10px;
   --radius-lg: 16px;
   --bezel-r: 12px;
@@ -30,6 +23,15 @@ body.zine-surface {
   --display: var(--zine-display);
   --sans: var(--zine-body);
   --callsign: var(--zine-gothic);
+}
+body.zine-surface:not(.archive-release):not(.surface-night) {
+  --bg: var(--zine-paper);
+  --card: #F4F4F2;
+  --soft: var(--zine-paper-2);
+  --ink: var(--zine-ink);
+  --muted: var(--zine-muted);
+  --dim: var(--zine-dim);
+  --line: var(--zine-rule);
   background: var(--zine-paper);
   color: var(--zine-ink);
   color-scheme: light;

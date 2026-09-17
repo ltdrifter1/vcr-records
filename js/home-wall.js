@@ -38,7 +38,7 @@
     var dur = fmtDur(releaseDuration(rel));
     var spec = [cat, rel.kind, dur].filter(Boolean).join("  ·  ");
     return (
-      '<article class="sleeve-card rv" data-release="' + esc(rel.id) + '">' +
+      '<article class="sleeve-card" data-release="' + esc(rel.id) + '">' +
         '<div class="sleeve-card-art">' +
           '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:640px) 46vw, (max-width:1100px) 22vw, 220px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
