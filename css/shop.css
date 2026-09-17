@@ -1,75 +1,75 @@
 /* ==========================================================================
    Club Copy — Shop + PDP
    Branded entrance, catalog cards, editorial product pages.
-   Same temperature as the zine: space-grey aluminum + ice blue, not cream/crimson.
+   Same temperature as the zine: space-grey aluminum + iPod white, not cream/crimson.
    ========================================================================== */
 
 /* Zine ice tokens (shop listing + merch PDPs / cart) ---------------------- */
 body.shop-page,
 body.shop-ice {
-  --zine-paper: #E7F0F6;
-  --zine-paper-2: #D5E4EE;
-  --zine-ink: #1C2430;
-  --zine-muted: #4A5C70;
-  --zine-dim: #6A7C8E;
-  --zine-rule: rgba(42, 61, 104, .16);
-  --zine-stamp: #8EC8DC;
-  --zine-hi: #8EC8DC;
-  --zine-cyan: #6EB8D0;
-  --zine-ice: #D7EEF8;
-  --zine-holo: linear-gradient(120deg, #9ec4e8 0%, #d7eef8 28%, #c5d4ea 52%, #7ed4e2 78%, #b7d4ea 100%);
-  --shop-well: linear-gradient(165deg, #e8f1f8 0%, #d5dee8 50%, #c5d3e0 100%);
+  --zine-paper: #E8E8E6;
+  --zine-paper-2: #D2D2D0;
+  --zine-ink: #1A1A1A;
+  --zine-muted: #5C5C5A;
+  --zine-dim: #7A7A78;
+  --zine-rule: rgba(40, 40, 40, .16);
+  --zine-stamp: #B8B8B4;
+  --zine-hi: #B8B8B4;
+  --zine-cyan: #9A9A96;
+  --zine-ice: #E4E4E2;
+  --zine-holo: linear-gradient(120deg, #c8c8c4 0%, #e4e4e2 28%, #c8c8c4 52%, #b0b0ac 78%, #c0c0bc 100%);
+  --shop-well: linear-gradient(165deg, #eaeae8 0%, #d4d4d2 50%, #c8c8c4 100%);
 }
 
 /* Catalog: evening aluminum, not warm gallery paper ------------------------- */
 body.shop-page {
   --bg: var(--zine-paper);
-  --card: #F4F9FC;
-  --card-solid: #F4F9FC;
+  --card: #F4F4F2;
+  --card-solid: #F4F4F2;
   --soft: var(--zine-paper-2);
   --line: var(--zine-rule);
   --ink: var(--zine-ink);
   --muted: var(--zine-muted);
   --dim: var(--zine-dim);
-  --fill: rgba(42, 61, 104, .06);
+  --fill: rgba(40, 40, 40, .06);
   --iridescent: linear-gradient(118deg,
-    rgba(186, 214, 238, .28) 0%,
-    rgba(167, 212, 226, .14) 28%,
+    rgba(210, 210, 206, .28) 0%,
+    rgba(180, 180, 176, .14) 28%,
     rgba(255, 255, 255, .16) 48%,
-    rgba(126, 212, 226, .16) 72%,
-    rgba(176, 196, 220, .22) 100%);
+    rgba(176, 176, 172, .16) 72%,
+    rgba(176, 176, 172, .22) 100%);
   background:
-    radial-gradient(ellipse 70% 42% at 8% -4%, rgba(186, 220, 242, .35), transparent 54%),
-    radial-gradient(ellipse 50% 36% at 96% 18%, rgba(126, 212, 226, .14), transparent 50%),
-    linear-gradient(180deg, #eef4f8 0%, var(--zine-paper) 42%, #dce8f0 100%);
+    radial-gradient(ellipse 70% 42% at 8% -4%, rgba(220, 220, 216, .35), transparent 54%),
+    radial-gradient(ellipse 50% 36% at 96% 18%, rgba(176, 176, 172, .14), transparent 50%),
+    linear-gradient(180deg, #eeeeec 0%, var(--zine-paper) 42%, #d6d6d4 100%);
   color: var(--zine-ink);
   color-scheme: light;
 }
 
 /* PDP / cart: cool ice paper (zine ice, not cream) ------------------------- */
 body.shop-ice.surface-acetate {
-  --bg: #e6eef4;
-  --soft: #dce6ee;
-  --card: #f4f8fc;
-  --line: rgba(158, 176, 194, .45);
-  --ink: #1c242c;
-  --muted: #4a5560;
-  --dim: #6a7684;
-  --acetate-ink: #1c242c;
-  --acetate-muted: #4a5560;
-  --acetate-dim: #6a7684;
-  --acetate-line: rgba(158, 176, 194, .45);
+  --bg: #e6e6e4;
+  --soft: #d8d8d6;
+  --card: #f4f4f2;
+  --line: rgba(160, 160, 156, .45);
+  --ink: #1a1a1a;
+  --muted: #5c5c5a;
+  --dim: #7a7a78;
+  --acetate-ink: #1a1a1a;
+  --acetate-muted: #5c5c5a;
+  --acetate-dim: #7a7a78;
+  --acetate-line: rgba(160, 160, 156, .45);
   background:
-    radial-gradient(780px 480px at 92% -6%, rgba(186, 220, 242, .45), transparent 58%),
-    radial-gradient(640px 420px at 6% 8%, rgba(215, 238, 248, .55), transparent 52%),
-    radial-gradient(520px 360px at 70% 100%, rgba(126, 212, 226, .14), transparent 55%),
-    linear-gradient(180deg, #e8f1f8 0%, #e6eef4 40%, #dce6ee 100%);
-  color: #1c242c;
+    radial-gradient(780px 480px at 92% -6%, rgba(220, 220, 216, .45), transparent 58%),
+    radial-gradient(640px 420px at 6% 8%, rgba(232, 232, 228, .55), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(176, 176, 172, .14), transparent 55%),
+    linear-gradient(180deg, #eaeae8 0%, #e6e6e4 40%, #d8d8d6 100%);
+  color: #1a1a1a;
   color-scheme: light;
 }
 body.shop-ice.surface-acetate.has-station-bumper .nav.scrolled {
   background: rgba(230, 238, 244, .88);
-  border-bottom-color: rgba(158, 176, 194, .38);
+  border-bottom-color: rgba(160, 160, 156, .38);
 }
 body.shop-ice .station-bumper--acetate .station-bumper__ambient::after {
   background:
@@ -81,18 +81,18 @@ body.shop-ice.surface-acetate .card.panel,
 body.shop-ice.surface-acetate .summary-panel,
 body.shop-ice.surface-acetate .empty {
   background:
-    linear-gradient(118deg, rgba(186,214,238,.22), rgba(255,255,255,.18) 38%, rgba(126,212,226,.1) 72%),
+    linear-gradient(118deg, rgba(210,210,206,.22), rgba(255,255,255,.18) 38%, rgba(176,176,172,.1) 72%),
     linear-gradient(180deg, rgba(255,255,255,.86), rgba(232,241,248,.58));
 }
 
 body.shop-page .footer-form input[type="email"] {
-  background: rgba(215, 238, 248, .12);
+  background: rgba(232, 232, 228, .12);
   border-color: rgba(183, 212, 234, .38);
   color: var(--zine-ink);
 }
 body.shop-page .footer-form input[type="email"]:focus {
-  background: #e8f1f8;
-  color: #1c242c;
+  background: #eaeae8;
+  color: #1a1a1a;
 }
 body.shop-page .footer-top {
   box-shadow:
@@ -210,7 +210,7 @@ body.shop-page .footer-top {
   max-width: 28em;
   font-size: 15px;
   line-height: 1.5;
-  color: rgba(215, 238, 248, .82);
+  color: rgba(232, 232, 228, .82);
   opacity: 0;
   transform: translateY(10px);
   animation: shopBrandIn .9s var(--ease) .32s forwards;
@@ -231,7 +231,7 @@ body.shop-page .nav.scrolled {
   background: rgba(8,8,10,.72);
   backdrop-filter: saturate(160%) blur(var(--blur-lg));
   -webkit-backdrop-filter: saturate(160%) blur(var(--blur-lg));
-  border-bottom: 1px solid rgba(200,214,230,.18);
+  border-bottom: 1px solid rgba(200,200,196,.18);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
 body.shop-page .nav-links a { color: rgba(255,255,255,.7); }
@@ -250,7 +250,7 @@ body.shop-page .nav-ham span { background: #fff; }
 body.shop-page .nav-cart-count { background: #fff; color: #000; }
 body.shop-page .nav-drawer {
   background: rgba(8,8,10,.94);
-  border-bottom-color: rgba(200,214,230,.18);
+  border-bottom-color: rgba(200,200,196,.18);
 }
 body.shop-page .nav-drawer a {
   color: #fff;
@@ -298,7 +298,7 @@ body.shop-page .nav-drawer a {
 .product[data-type="bundles"] .product-visual {
   background:
     radial-gradient(ellipse 72% 58% at 50% 38%, rgba(255,255,255,.85), transparent 70%),
-    var(--shop-well, linear-gradient(165deg, #e8f1f8 0%, #d5dee8 48%, #c5d3e0 100%));
+    var(--shop-well, linear-gradient(165deg, #eaeae8 0%, #d4d4d2 48%, #c8c8c4 100%));
 }
 .product[data-type="clothing"] .product-visual img,
 .product[data-type="goods"] .product-visual img,
@@ -333,13 +333,13 @@ body.has-station-bumper .pdp { padding-top: 0; padding-bottom: 0; }
 .pdp-art {
   background:
     radial-gradient(ellipse 70% 56% at 50% 36%, rgba(255,255,255,.9), transparent 68%),
-    var(--shop-well, linear-gradient(165deg, #e8f1f8 0%, #d5dee8 50%, #c5d3e0 100%));
+    var(--shop-well, linear-gradient(165deg, #eaeae8 0%, #d4d4d2 50%, #c8c8c4 100%));
   border-radius: var(--bezel-r);
   overflow: hidden;
   aspect-ratio: 1;
 }
 .pdp-art--light {
-  background: #e8f1f8;
+  background: #eaeae8;
 }
 .pdp-art img {
   width: 100%;
@@ -368,7 +368,7 @@ body.has-station-bumper .pdp { padding-top: 0; padding-bottom: 0; }
   border: 1px solid var(--line);
   border-radius: var(--bezel-r);
   background:
-    linear-gradient(165deg, #e8f1f8 0%, #d5dee8 100%);
+    linear-gradient(165deg, #eaeae8 0%, #d4d4d2 100%);
   overflow: hidden;
   cursor: pointer;
   opacity: .72;
@@ -471,7 +471,7 @@ body.has-station-bumper .pdp { padding-top: 0; padding-bottom: 0; }
   margin-top: 36px;
   padding-top: 24px;
   border-top: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(170,182,200,.28);
+  box-shadow: inset 0 1px 0 rgba(170,170,166,.28);
 }
 .pdp-related__label {
   font-family: var(--callsign);

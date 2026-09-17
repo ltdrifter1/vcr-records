@@ -3,9 +3,9 @@
 
 :root {
   --vcr-player-h: 96px;
-  --room-a: 168, 186, 204;
-  --room-b: 36, 72, 118;
-  --room-c: 196, 208, 220;
+  --room-a: 168, 168, 164;
+  --room-b: 48, 48, 46;
+  --room-c: 196, 196, 192;
   --room-energy: 0.18;
 }
 
@@ -28,13 +28,13 @@ body.has-vcr-player {
   padding: 10px 14px;
   border-radius: 18px;
   background:
-    linear-gradient(180deg, #f3f6f8 0%, #c5d2dc 46%, #9aafbf 100%);
+    linear-gradient(180deg, #f3f3f1 0%, #c8c8c4 46%, #9a9a96 100%);
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow:
     inset 0 1px 0 #fff,
-    inset 0 -2px 4px rgba(42, 61, 104, .16),
+    inset 0 -2px 4px rgba(40, 40, 40, .16),
     0 16px 40px rgba(26, 30, 38, .28);
-  color: #1c2430;
+  color: #1a1a1a;
   transform: translateY(140%);
   opacity: 0;
   pointer-events: none;
@@ -50,7 +50,7 @@ body.has-vcr-player {
     108deg,
     transparent 40%,
     rgba(255,255,255,.06) 48%,
-    rgba(200,214,230,.1) 50%,
+    rgba(200,200,196,.1) 50%,
     transparent 58%
   );
   opacity: .55;
@@ -167,7 +167,7 @@ body.vcr-stage-open.has-vcr-player {
   overflow: hidden;
   background: #12141a;
   box-shadow:
-    0 0 0 1px rgba(200,214,230,.28),
+    0 0 0 1px rgba(200,200,196,.28),
     inset 0 1px 0 rgba(255,255,255,.12);
 }
 .vcr-player__art {
@@ -233,7 +233,7 @@ body.vcr-stage-open.has-vcr-player {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #1c2430;
+  color: #1a1a1a;
   text-shadow: none;
 }
 
@@ -263,7 +263,7 @@ body.vcr-stage-open.has-vcr-player {
   border-radius: 50%;
   border: 1px solid transparent;
   background: transparent;
-  color: #2a3d68;
+  color: #2a2a28;
   cursor: pointer;
   font-family: inherit;
   display: inline-flex;
@@ -337,18 +337,18 @@ body.vcr-stage-open.has-vcr-player {
   font: inherit;
   font-size: 12px;
   font-weight: 700;
-  color: #2a3d68;
+  color: #2a2a28;
   text-decoration: none;
   min-height: 36px;
   padding: 8px 14px;
   border-radius: 10px;
-  background: linear-gradient(180deg, #d7eef8, #8ec8dc);
+  background: linear-gradient(180deg, #e4e4e2, #b8b8b4);
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
 }
 
-.vcr-player__btn { color: #2a3d68; }
+.vcr-player__btn { color: #2a2a28; }
 .vcr-player__btn--play { color: #111; }
 
 .vcr-player__times {
@@ -364,7 +364,7 @@ body.vcr-stage-open.has-vcr-player {
 }
 
 .vcr-player__scrub {
-  accent-color: #2a3d68;
+  accent-color: #2a2a28;
 }
 
 /* Preview bumper interstitial */
