@@ -2,11 +2,12 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&display=swap");
 
 :root {
-  --vcr-player-h: 96px;
-  --room-a: 168, 168, 164;
+  --vcr-player-h: 72px;
+  --room-a: 198, 240, 0;
   --room-b: 48, 48, 46;
   --room-c: 196, 196, 192;
   --room-energy: 0.18;
+  --acid: #C6F000;
 }
 
 body.has-vcr-player {
@@ -19,75 +20,50 @@ body.has-vcr-player {
   right: max(12px, env(safe-area-inset-right, 0px));
   bottom: calc(10px + var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px));
   z-index: 500;
-  max-width: 920px;
+  max-width: 760px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 56px minmax(0, 1.6fr) auto auto auto;
-  gap: 10px;
+  grid-template-columns: 48px minmax(0, 1fr) auto auto;
+  gap: 8px 10px;
   align-items: center;
-  padding: 10px 14px;
-  border-radius: 18px;
+  padding: 8px 10px;
+  border-radius: 6px;
   background:
-    linear-gradient(180deg, #f3f3f1 0%, #c8c8c4 46%, #9a9a96 100%);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+    linear-gradient(180deg, #f4f4f2 0%, #d8d8d4 52%, #c0c0bc 100%);
+  border: 1px solid rgba(40, 40, 40, .22);
   box-shadow:
     inset 0 1px 0 #fff,
-    inset 0 -2px 4px rgba(40, 40, 40, .16),
-    0 16px 40px rgba(26, 30, 38, .28);
+    inset 0 -1px 0 rgba(40, 40, 40, .12),
+    0 10px 28px rgba(26, 30, 38, .22);
   color: #1a1a1a;
   transform: translateY(140%);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.35s ease, border-color .35s ease, box-shadow .35s ease;
+  transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.28s ease, box-shadow .28s ease;
   overflow: hidden;
 }
-.vcr-player::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    108deg,
-    transparent 40%,
-    rgba(255,255,255,.06) 48%,
-    rgba(200,200,196,.1) 50%,
-    transparent 58%
-  );
-  opacity: .55;
-  mix-blend-mode: soft-light;
-}
+.vcr-player::before { content: none; display: none; }
 .vcr-player.is-playing {
-  border-color: rgba(var(--room-a), 0.46);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.16) inset,
-    0 0 0 1px rgba(var(--room-c), .16) inset,
-    0 0 36px rgba(var(--room-a), calc(0.16 + var(--room-energy) * 0.28)),
-    0 22px 48px rgba(0, 0, 0, 0.4);
+    inset 0 1px 0 #fff,
+    0 0 0 1px var(--acid, #C6F000),
+    0 12px 28px rgba(26, 30, 38, .22);
 }
 body.is-air .vcr-player {
   background:
-    linear-gradient(135deg, rgba(var(--room-a), .18), transparent 46%),
-    linear-gradient(180deg, rgba(18,18,20,.92), rgba(10,10,12,.88));
+    linear-gradient(180deg, #f4f4f2 0%, #d8d8d4 52%, #c0c0bc 100%);
 }
 
-/* Record color continues past the listening booth ------------------------- */
+/* Do not paint the whole page dark when audio runs. */
 body.hero-top,
 body.surface-night {
-  background-color: #08090c;
+  background-color: inherit;
 }
 body.vcr-chroma.hero-top,
-body.vcr-chroma.surface-night {
-  background:
-    radial-gradient(880px 520px at 12% -8%, rgba(var(--room-a), .16), transparent 58%),
-    radial-gradient(720px 460px at 92% 18%, rgba(var(--room-b), .1), transparent 52%),
-    linear-gradient(180deg, #0a0a0c 0%, #07080a 55%, #050506 100%);
-}
+body.vcr-chroma.surface-night,
 body.is-air.vcr-chroma.hero-top,
 body.is-air.vcr-chroma.surface-night {
-  background:
-    radial-gradient(920px 560px at 14% -6%, rgba(var(--room-a), calc(0.2 + var(--room-energy) * 0.16)), transparent 60%),
-    radial-gradient(760px 500px at 90% 22%, rgba(var(--room-b), .14), transparent 54%),
-    linear-gradient(180deg, #0a0a0c 0%, #07080a 55%, #050506 100%);
+  background: inherit;
 }
 
 .vcr-player.is-visible {
@@ -112,12 +88,37 @@ body.vcr-stage-open.has-vcr-player {
 
 .vcr-player__bug {
   margin: 0 0 2px;
-  font-family: var(--callsign, 'Oswald', 'Space Grotesk', sans-serif);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .18em;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .06em;
   text-transform: uppercase;
-  color: rgba(184, 224, 200, .48);
+  color: rgba(26, 26, 26, .62);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.vcr-player__led {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: inherit;
+}
+.vcr-player__led::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7A7A78;
+  box-shadow: none;
+}
+.vcr-player.is-playing .vcr-player__led {
+  color: var(--acid-ink, #141414);
+}
+.vcr-player.is-playing .vcr-player__led::before {
+  background: var(--acid, #C6F000);
+  box-shadow: 0 0 8px var(--acid, #C6F000);
 }
 
 .vcr-player.is-error .vcr-player__bug {
@@ -135,12 +136,12 @@ body.vcr-stage-open.has-vcr-player {
 
 .vcr-player__upnext {
   margin: 2px 0 0;
-  font-family: var(--callsign, 'Oswald', 'Space Grotesk', sans-serif);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .12em;
+  font-weight: 500;
+  letter-spacing: .04em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.32);
+  color: rgba(26,26,26,.45);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -161,14 +162,14 @@ body.vcr-stage-open.has-vcr-player {
 }
 
 .vcr-player__jewel {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 3px;
   overflow: hidden;
   background: #12141a;
   box-shadow:
-    0 0 0 1px rgba(200,200,196,.28),
-    inset 0 1px 0 rgba(255,255,255,.12);
+    0 0 0 1px rgba(40,40,40,.35),
+    inset 0 1px 0 rgba(255,255,255,.2);
 }
 .vcr-player__art {
   width: 100%;
@@ -182,14 +183,21 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__lcd {
   position: relative;
   min-width: 0;
-  padding: 4px 8px 4px 2px;
-  border-radius: 0;
-  background: none;
-  border: 0;
-  box-shadow: none;
+  padding: 4px 8px 5px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #d2d2ce 0%, #b8b8b4 100%);
+  border: 1px solid rgba(40, 40, 40, .22);
+  box-shadow: inset 0 1px 2px rgba(40,50,60,.28);
   overflow: hidden;
 }
-.vcr-player__lcd::before,
+.vcr-player__lcd::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .12;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.7) 0 1px, transparent 1px 3px);
+}
 .vcr-player__lcd::after { display: none; }
 
 .vcr-player__meta { min-width: 0; }
@@ -209,8 +217,8 @@ body.vcr-stage-open.has-vcr-player {
   width: 2px;
   height: 30%;
   border-radius: 1px;
-  background: #fff;
-  box-shadow: 0 0 6px rgba(255,255,255,.35);
+  background: var(--acid, #C6F000);
+  box-shadow: 0 0 6px rgba(198, 240, 0, .45);
   animation: lcdEq 1s ease-in-out infinite;
 }
 .vcr-player__eq i:nth-child(2) { animation-delay: .12s; }
@@ -227,7 +235,7 @@ body.vcr-stage-open.has-vcr-player {
   position: relative;
   z-index: 1;
   font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0;
   white-space: nowrap;
@@ -240,12 +248,12 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__sub {
   position: relative;
   z-index: 1;
-  font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0;
-  font-style: italic;
-  color: rgba(28,36,48,.55);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  font-style: normal;
+  color: rgba(26,26,26,.58);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -258,19 +266,19 @@ body.vcr-stage-open.has-vcr-player {
 }
 
 .vcr-player__btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  background: transparent;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  border: 1px solid rgba(40,40,40,.18);
+  background: linear-gradient(180deg, #fff, #d8d8d4);
   color: #2a2a28;
   cursor: pointer;
   font-family: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: none;
-  transition: transform .2s cubic-bezier(.22,1,.36,1), background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  box-shadow: inset 0 1px 0 #fff;
+  transition: transform .2s cubic-bezier(.22,1,.36,1), background .2s ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
@@ -286,27 +294,26 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__btn.is-playing .vcr-ico--pause { display: block; }
 
 .vcr-player__btn--play {
-  width: 46px;
-  height: 46px;
-  background: #fff;
-  color: #111;
-  border-color: transparent;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.9) inset,
-    0 8px 20px rgba(0,0,0,.28);
+  width: 40px;
+  height: 40px;
+  background: #1a1a1a;
+  color: var(--acid, #C6F000);
+  border-color: #1a1a1a;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
 }
 .vcr-player__btn--play svg { width: 15px; height: 15px; }
 .vcr-player__btn--play .vcr-ico--play { margin-left: 1px; }
 
 @media (hover:hover) {
   .vcr-player__btn:hover {
-    transform: scale(1.06);
-    background: rgba(255,255,255,.1);
+    transform: none;
+    background: #ececea;
   }
   .vcr-player__btn--play:hover {
-    background: #f4f4f6;
-    border-color: transparent;
-    transform: scale(1.06);
+    background: #111;
+    border-color: #111;
+    transform: none;
+    color: var(--acid, #C6F000);
   }
 }
 .vcr-player__btn:active { transform: scale(.96); }
@@ -316,55 +323,57 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__scrub,
 .vcr-stage__scrub {
   width: 100%;
-  accent-color: #111111;
+  accent-color: var(--acid, #C6F000);
   cursor: pointer;
 }
 
 .vcr-player__times {
   display: flex;
   justify-content: space-between;
-  font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
-  font-size: 11px;
-  color: rgba(28,36,48,.5);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  color: rgba(26,26,26,.55);
   font-variant-numeric: tabular-nums;
   margin-top: 2px;
 }
 
 .vcr-player__buy {
   appearance: none;
-  border: 0;
+  border: 1px solid rgba(40,40,40,.22);
   cursor: pointer;
   font: inherit;
-  font-size: 12px;
+  font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
+  font-size: 11px;
   font-weight: 700;
   color: #2a2a28;
   text-decoration: none;
-  min-height: 36px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #e4e4e2, #b8b8b4);
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #fff, #d4d4d0);
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
+  box-shadow: inset 0 1px 0 #fff;
 }
 
 .vcr-player__btn { color: #2a2a28; }
-.vcr-player__btn--play { color: #111; }
+.vcr-player__btn--play { color: var(--acid, #C6F000); }
 
 .vcr-player__times {
-  color: rgba(28,36,48,.5);
+  color: rgba(26,26,26,.55);
 }
 
 .vcr-player__close {
   font-size: 18px;
-  color: rgba(28,36,48,.5);
+  color: rgba(26,26,26,.5);
   border-color: transparent;
   background: transparent;
   box-shadow: none;
 }
 
 .vcr-player__scrub {
-  accent-color: #2a2a28;
+  accent-color: var(--acid, #C6F000);
 }
 
 /* Preview bumper interstitial */
@@ -494,22 +503,22 @@ body.vcr-bumper-open { overflow: hidden; }
 }
 
 @media (max-width: 760px) {
-  :root { --vcr-player-h: 128px; }
+  :root { --vcr-player-h: 108px; }
   .vcr-player {
     left: max(10px, env(safe-area-inset-left, 0px));
     right: max(10px, env(safe-area-inset-right, 0px));
     bottom: calc(8px + var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px));
-    grid-template-columns: 48px minmax(0, 1fr) auto auto;
+    grid-template-columns: 44px minmax(0, 1fr) auto auto;
     grid-template-areas:
       "art lcd controls close"
       "buy buy buy buy";
-    gap: 8px 10px;
-    padding: 10px 12px 12px;
-    border-radius: 16px;
+    gap: 8px 8px;
+    padding: 8px 10px 10px;
+    border-radius: 6px;
   }
-  .vcr-player__jewel { grid-area: art; width: 48px; height: 48px; }
+  .vcr-player__jewel { grid-area: art; width: 44px; height: 44px; }
   .vcr-player__lcd { grid-area: lcd; }
-  .vcr-player__controls { grid-area: controls; gap: 6px; }
+  .vcr-player__controls { grid-area: controls; gap: 4px; }
   .vcr-player__close { grid-area: close; }
   .vcr-player__buy {
     grid-area: buy;
@@ -519,12 +528,12 @@ body.vcr-bumper-open { overflow: hidden; }
     min-height: 32px;
   }
   .vcr-player__btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
   .vcr-player__btn--play {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
   .vcr-player__scrub {
     height: 28px;
