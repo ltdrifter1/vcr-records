@@ -1,7 +1,7 @@
 # Club Copy — Creative Audit
 
 **Role:** Senior Creative Director, Brand Designer, UX/UI Designer (music / editorial / culture)  
-**Scope:** Current repository at `st18` (homepage `index.html`, Club Copy OS steel lock, Night Shift, Library, player, release archive). No product code was changed for this audit.  
+**Scope:** Repository HEAD at `st18` (steel lock, You Are (Love) hero) **and** production `https://www.clubcopy.ca/` as captured 18 September 2026. They are not the same site. No product code was changed for this audit.  
 **Date:** 18 September 2026  
 **Constraint:** Preserve distinctive work. Recommend the smallest set of high-impact moves. Reinterpret 1999–2005 digital culture; do not recreate it.
 
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-Club Copy already has a **real identity**, not a moodboard. The site is not a generic independent-label template. It is a **brushed-steel listening OS** with catalogue numbers, cassette economics, a Pacific Northwest evening paper, and a membership desk. That combination is rare and worth protecting.
+Club Copy already has a **real identity**, not a moodboard. The site is not a generic independent-label template. In the repo it is becoming a **brushed-steel listening OS**; in production it is still a **Bondi Click Wheel replica** with catalogue numbers, cassette economics, a Pacific Northwest evening paper, and a membership desk. That combination is rare and worth protecting — once the replica and the ice-blue fill are treated as a phase, not the brand.
 
 The problem is not lack of taste. The problem is **costume versus language**.
 
@@ -39,7 +39,41 @@ It should communicate: *we are a small library you can hear, keep, and subscribe
 
 ## 2. Overall Score: **67 / 100**
 
-A distinctive culture site with a coherent steel thesis, undermined by literal iPod cosplay, competing page dialects, and a hero that cannot play the record it is selling.
+A distinctive culture site. Repo HEAD has a coherent steel thesis, undermined by literal iPod cosplay, competing page dialects, and a hero that cannot play the record it is selling. **Live production** can play music immediately, but it is more costume (Bondi LCD, Cover Flow, cyan CTAs) than the brief allows.
+
+---
+
+## 2a. Live production vs repository (visual pass)
+
+A browser pass of [clubcopy.ca](https://www.clubcopy.ca/) on 18 September 2026 shows **an older Aqua/Bondi build**, not the `st18` steel lock in this repo. Score **67** is for **HEAD**. Live would score **~62**: music-first **up**, originality and visual language **down**.
+
+Do not treat a generous “the iPod is a clever content system” reading as the creative brief. The stills show a **product replica**. Functional replica is still replica.
+
+| | **Production (live)** | **Repository HEAD** |
+|---|---|---|
+| Feature | DESIRE — Molly Haze, **plays** from the wheel | You Are (Love) — Riscape, **pre-order**, no cue |
+| LCD | Ice-blue menu, **navy invert-select** (classic iPod) | Grey LCD, graphite select (`club-copy-os.css`) |
+| Field | Cool Bondi cove, cyan “Library / Join / Play” | Steel `#E8E8E6`, acid LED only |
+| In rotation | **iTunes Cover Flow** + On air | Sleeve-card grid from `catalog.json` |
+| Nav | Listen · Library · **Artists** · Zine · Mixtapes · Shop · Join · Contact | Artists **hidden**; Instagram in the HTML |
+| Mobile | Click Wheel + **tab bar** (Listen / Library / Shop / Zine) + glass dock | Same wheel; dock-away rules; no tab bar in the home markup reviewed |
+| Release `/desire` | Clean sleeve + meta + Buy / Play — **this is the right object page** | `release-archive.css` still documents a dark stereo/cassette dialect |
+
+![Live homepage: white Click Wheel iPod, ice LCD, Bondi field](creative-audit/live_hero_ipod.webp)
+
+![Live In rotation Cover Flow plus glass player pill](creative-audit/live_coverflow_player.webp)
+
+![Live Night Shift masthead with cyan “Just in” rail](creative-audit/live_night_shift.webp)
+
+![Live mobile: iPod, glass dock, cyan tab bar; DevTools still loading aqua-world.css](creative-audit/live_mobile_tabbar.webp)
+
+![Live DESIRE page: sleeve, catalogue line, play — keep this pattern](creative-audit/live_desire_release.webp)
+
+**What live gets right (keep):** native preview without a gate; ticker as station ID; Night Shift masthead; `/desire` as a collectible spec sheet; Record Club tiers.
+
+**What live gets wrong vs the brief:** Bondi ice as atmosphere; cyan as the interactive colour; Cover Flow as the catalogue; the iPod as the logo of the label; “Tonight’s Record” competing with Club Copy (Addison Rae / Columbia on the home strip while the label’s own record is in the gadget).
+
+**Implementation implication:** Do not “improve” production by adding more Apple chrome. Ship steel tokens, kill Cover Flow on home, keep **play-on-first-gesture** from live, and use the **DESIRE object page** as the release template — not the replica player as the homepage.
 
 ---
 
@@ -423,7 +457,7 @@ No calendar padding — three passes on the existing static site.
 
 ## What not to do
 
-- Do not “Y2K-ify” with Bondi, bubble gum, or Frutiger Airport. You already escaped that.  
+- Do not “Y2K-ify” with Bondi, bubble gum, or Frutiger Airport. Production still wears Bondi; the repo is trying to leave it. Do not go back.  
 - Do not flatten Night Shift into a blog grid.  
 - Do not replace steel with fashion-black luxury.  
 - Do not add Spotify/Apple Music as the face of listening.  
@@ -437,4 +471,4 @@ If I could only implement five changes, they would be:
 2. Give You Are (Love) a **canonical catalogue page** and an **on-site cue**; stop using the zine URL and the Play key as cart.  
 3. Cut primary nav to **Library · Artists · Zine · Shop · Join** and restore Artists as a first-class path.  
 4. Shrink homepage Night Shift to a **front page** so the catalogue can sit next to culture instead of under it.  
-5. Put **one aluminum LCD dock** and the **Oswald / Archivo / Lucida / Plex + steel tokens** on every template, and stop running a dark stereo brand on release pages.
+5. Put **one aluminum LCD dock** (not the live glass/cyan pill) and the **Oswald / Archivo / Lucida / Plex + steel tokens** on every template; use the live `/desire` object layout as the release pattern, not Cover Flow and not a second stereo brand.
