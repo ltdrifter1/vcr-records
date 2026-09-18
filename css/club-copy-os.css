@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Club Copy OS — steel lock (v=st21)
+   Club Copy OS — steel lock (v=st22)
    Loaded LAST. Kills Bondi / Aqua ice / cyan LCD even if an older
    aqua-world.css is still in a CDN cache (that file used !important ice fills).
    No blue fills. No home roster. No Artists in home chrome.
@@ -128,11 +128,90 @@ html body.home-zine .plate-hero .hero-stage {
   width: min(1080px, calc(100% - 40px)) !important;
   min-height: 0 !important;
   margin: 0 auto;
-  padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 32px));
-  text-align: center;
+  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 calc(36px + var(--ticker-h, 32px));
+  text-align: left;
 }
 html body.home-zine .plate-hero .hero-lockup {
   text-align: left;
+  width: auto !important;
+  max-width: none !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Plate type lock — kill zine gothic / uppercase flyer on the first screen */
+html body.home-zine .plate-hero .hero-lockup-kicker,
+html body.home-zine .plate-hero .hero-lockup-artist,
+html body.home-zine .plate-hero .hero-lockup-artist a,
+html body.home-zine .plate-hero .hero-lockup-title,
+html body.home-zine .plate-hero .hero-lockup-title a {
+  text-transform: none !important;
+}
+html body.home-zine .plate-hero .hero-lockup-kicker {
+  font-family: "IBM Plex Mono", ui-monospace, monospace !important;
+  font-weight: 400 !important;
+  letter-spacing: .08em !important;
+}
+html body.home-zine .plate-hero .hero-lockup-artist,
+html body.home-zine .plate-hero .hero-lockup-artist a {
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: .01em !important;
+}
+html body.home-zine .plate-hero .hero-lockup-title,
+html body.home-zine .plate-hero .hero-lockup-title a {
+  font-family: Oswald, "Arial Narrow", sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -.03em !important;
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn,
+html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
+html body.home-zine .plate-hero .listen-plate-actions .btn-ghost,
+html body.home-zine .plate-hero .listen-plate-actions .btn-text {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  border-radius: 2px !important;
+  min-height: 44px;
+  height: 44px;
+  padding: 0 16px;
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill {
+  background: #1a1a1a !important;
+  color: #f4f4f2 !important;
+  border: 1px solid #1a1a1a !important;
+  box-shadow: none !important;
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn-ghost {
+  background: transparent !important;
+  color: #1a1a1a !important;
+  border: 1px solid rgba(40, 40, 40, .28) !important;
+}
+html body.home-zine .plate-hero .listen-plate-actions a.btn-text {
+  display: inline-flex;
+  align-items: center;
+  height: auto;
+  min-height: 44px;
+  padding: 0 4px;
+  background: none !important;
+  border: 0 !important;
+  color: #1a1a1a !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (hover: hover) {
+  html body.home-zine .plate-hero .listen-plate-actions .btn-fill:hover,
+  html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill:hover {
+    background: #111 !important;
+    color: #f4f4f2 !important;
+  }
+  html body.home-zine .plate-hero .listen-plate-actions .btn-ghost:hover {
+    background: rgba(26, 26, 26, .06) !important;
+    color: #1a1a1a !important;
+  }
 }
 html body.home-zine .plate-hero .hero-post,
 html body.home-zine .plate-hero .hero-scene,

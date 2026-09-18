@@ -204,9 +204,7 @@
           buyDigitalBtn.hidden = true;
         }
         if (buyBtn) {
-          buyBtn.textContent = featured.cassetteBackorder
-            ? "Cassette backorder · $" + featured.price
-            : "Cassette · $" + featured.price;
+          buyBtn.textContent = "Cassette · $" + featured.price;
         }
         if (buyDigitalBtn && featured.digitalSku) {
           buyDigitalBtn.textContent = featured.digitalPrice != null
@@ -231,10 +229,14 @@
       }
       applySleeveArt();
       if (featured.playable) {
+        var digitalBit =
+          featured.digitalSku && featured.digitalPrice != null
+            ? "Digital $" + featured.digitalPrice
+            : "Digital";
         setStatus(
           featured.cassetteBackorder
-            ? "Out now · play the record. Cassette is backorder — still taking orders."
-            : "On the plate · play the record"
+            ? digitalBit + " · cassette backorder"
+            : digitalBit + " · cassette $" + featured.price
         );
       } else {
         setStatus(
