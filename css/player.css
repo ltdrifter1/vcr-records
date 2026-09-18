@@ -25,11 +25,11 @@ body.has-vcr-player {
   max-width: 820px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) auto auto;
-  grid-template-areas: "art lcd controls buy";
+  grid-template-columns: 52px minmax(0, 1fr) auto auto 28px;
+  grid-template-areas: "art lcd controls buy close";
   gap: 8px 10px;
   align-items: center;
-  padding: 9px 40px 9px 9px;
+  padding: 9px 8px 9px 9px;
   border-radius: 4px;
   background:
     linear-gradient(180deg, #f6f6f4 0%, #dcdcd8 46%, #c4c4c0 100%);
@@ -94,6 +94,7 @@ body.vcr-stage-open.has-vcr-player {
 .vcr-player__lcd { grid-area: lcd; }
 .vcr-player__controls { grid-area: controls; }
 .vcr-player__buy { grid-area: buy; }
+.vcr-player__close { grid-area: close; }
 
 .vcr-player__bug {
   margin: 0 0 2px;
@@ -107,6 +108,11 @@ body.vcr-stage-open.has-vcr-player {
   align-items: center;
   gap: 8px;
   min-width: 0;
+  white-space: nowrap;
+}
+.vcr-player__bug [data-lcd-meta] {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .vcr-player__led {
   display: inline-flex;
@@ -475,10 +481,9 @@ body.vcr-stage-open.has-vcr-player {
 }
 
 .vcr-player__close {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  z-index: 2;
+  grid-area: close;
+  justify-self: end;
+  align-self: start;
   width: 28px;
   height: 28px;
   font-size: 16px;
@@ -634,12 +639,12 @@ body.vcr-bumper-open { overflow: hidden; }
     left: max(10px, env(safe-area-inset-left, 0px));
     right: max(10px, env(safe-area-inset-right, 0px));
     bottom: calc(8px + var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px));
-    grid-template-columns: 48px minmax(0, 1fr) auto;
+    grid-template-columns: 48px minmax(0, 1fr) auto 28px;
     grid-template-areas:
-      "art lcd controls"
-      "buy buy buy";
+      "art lcd controls close"
+      "buy buy buy buy";
     gap: 8px 8px;
-    padding: 8px 36px 10px 8px;
+    padding: 8px 8px 10px;
     border-radius: 4px;
   }
   .vcr-player__jewel { width: 48px; height: 48px; }
@@ -1036,5 +1041,12 @@ body.vcr-stage-open .tabbar { display: none !important; }
   .vcr-toast {
     transition: none !important;
     animation: none !important;
+  }
+  .vcr-player__eq i {
+    animation: none !important;
+    height: 55% !important;
+  }
+  .vcr-player.is-playing .vcr-player__led::before {
+    box-shadow: none;
   }
 }
