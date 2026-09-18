@@ -1,8 +1,7 @@
 /**
- * Live Instagram wall for the homepage.
- * Mixes @ltdrifta and @clubcopyrecords, newest first, 14 posts.
- *
- * GET /api/instagram-feed
+ * Offline Instagram snapshot mixer (not a Vercel function).
+ * Live scraping from /api broke production deploys; the homepage
+ * reads data/instagram-feed.json instead.
  */
 const fs = require("fs");
 const path = require("path");

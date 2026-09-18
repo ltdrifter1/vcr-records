@@ -20,7 +20,7 @@ const {
   priceIdFromEnv,
   musicMemberUnitAmount,
   isMusicProduct,
-} = require("./catalog");
+} = require("./lib/catalog");
 const {
   getBalance,
   maxApplicableCredit,
