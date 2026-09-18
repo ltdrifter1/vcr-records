@@ -18,7 +18,7 @@
  */
 const fs = require("fs");
 const path = require("path");
-const { FORMAT, PRODUCTS, MERCH_PAGE_SKUS } = require("../api/lib/catalog");
+const { FORMAT, PRODUCTS, MERCH_PAGE_SKUS } = require("../lib/catalog");
 
 const secret = process.env.STRIPE_SECRET_KEY;
 if (!secret) {

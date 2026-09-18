@@ -6,7 +6,7 @@
  */
 const fs = require("fs");
 const path = require("path");
-const bc = require("./lib/bandcamp");
+const bc = require("../lib/bandcamp");
 
 const CACHE_MS = 4 * 60 * 1000;
 const cache = new Map();

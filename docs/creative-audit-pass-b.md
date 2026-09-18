@@ -1,5 +1,7 @@
 # Club Copy — Creative Audit, Pass B
 
+**Live/deploy status superseded by [Pass C](creative-audit-pass-c.md)** (production now matches HEAD after #616).
+
 **Role:** Senior Creative Director, Brand Designer, UX/UI Designer (music / editorial / culture)  
 **Scope:** Repository `main` at `8765740` (listening plate, `/you-are-love`, nav cut, zine front, local-preview follow-up) **and** production `https://www.clubcopy.ca/` captured 18 September 2026. They are still not the same site. **No product code was changed for this audit.**  
 **Date:** 18 September 2026  

@@ -21,8 +21,8 @@ const {
   isValidEmail,
   premiumCreditCents,
   PREMIUM_MIN_CENTS,
-} = require("./lib/credit-ledger");
-const { sendMail, welcomeEmail } = require("./lib/mailer");
+} = require("../lib/credit-ledger");
+const { sendMail, welcomeEmail } = require("../lib/mailer");
 
 function memberNumberFromEmail(email) {
   let hash = 0;
