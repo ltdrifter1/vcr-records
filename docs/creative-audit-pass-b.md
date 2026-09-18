@@ -5,7 +5,7 @@
 **Role:** Senior Creative Director, Brand Designer, UX/UI Designer (music / editorial / culture)  
 **Scope:** Repository `main` at `8765740` (listening plate, `/you-are-love`, nav cut, zine front, local-preview follow-up) **and** production `https://www.clubcopy.ca/` captured 18 September 2026. They are still not the same site. **No product code was changed for this audit.**  
 **Date:** 18 September 2026  
-**Previous:** [Pass A](creative-audit.md) scored HEAD **67 / 100** (replica iPod, Bondi live, unplayable feature). Pass A’s five changes shipped in #608 / #609. This pass re-scores the result.
+**Previous:** [Pass A](creative-audit.md) scored HEAD **67 / 100** (replica iPod, Bondi live, unplayable feature). Pass A’s five changes shipped in #608 / #609. This pass re-scores the result. **Current identity scorecard:** [Pass D](creative-audit-pass-d.md).
 
 ---
 

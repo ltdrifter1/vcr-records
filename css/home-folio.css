@@ -40,7 +40,7 @@ html body.home-zine .ig-feed-bridge {
 html body.home-zine .ig-feed-bridge {
   background:
     linear-gradient(var(--folio-ink), var(--folio-ink)) 0 0 / 100% 7px no-repeat,
-    linear-gradient(var(--folio-foil), var(--folio-foil)) 0 7px / 100% 5px no-repeat,
+    linear-gradient(var(--folio-ice), var(--folio-ice)) 0 7px / 100% 5px no-repeat,
     var(--folio-navy);
 }
 html body.home-zine .club-join-bridge {
@@ -106,7 +106,7 @@ html body.home-zine .ig-feed .section-head {
   margin-bottom: 22px;
 }
 html body.home-zine .ig-feed .eyebrow {
-  color: var(--folio-foil);
+  color: var(--folio-ice);
 }
 html body.home-zine .ig-feed h2,
 html body.home-zine #ig-feed-title {
@@ -128,13 +128,13 @@ html body.home-zine .ig-feed-links a {
   letter-spacing: .08em;
   text-transform: lowercase;
   color: var(--folio-navy);
-  background: var(--folio-foil);
+  background: var(--folio-ice);
   text-decoration: none;
   padding: 6px 10px 5px;
 }
 @media (hover: hover) {
   html body.home-zine .ig-feed-links a:hover {
-    background: var(--folio-ice);
+    background: var(--folio-pearl);
   }
 }
 html body.home-zine .ig-grid {
@@ -153,10 +153,6 @@ html body.home-zine .ig-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
   }
-  html body.home-zine .ig-card:nth-child(1),
-  html body.home-zine .ig-card:nth-child(2) {
-    grid-column: span 2;
-  }
 }
 html body.home-zine .ig-card {
   position: relative;
@@ -173,6 +169,9 @@ html body.home-zine .ig-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+html body.home-zine .ig-art {
+  position: relative;
 }
 html body.home-zine .ig-art img {
   transform: scale(1.01);
@@ -221,7 +220,7 @@ html body.home-zine .ig-empty {
   font-family: var(--zine-body);
   color: rgba(244, 239, 230, .7);
 }
-html body.home-zine .ig-empty a { color: var(--folio-foil); }
+html body.home-zine .ig-empty a { color: var(--folio-ice); }
 html body.home-zine .ig-skel {
   background:
     linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.1), rgba(255,255,255,.04));
