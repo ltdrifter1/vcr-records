@@ -1,5 +1,5 @@
 /* Club Copy — homepage listening plate. Play the feature if it has a cue;
-   otherwise play what's on air and keep cassette pre-order honest. */
+   otherwise the sleeve is what's on air. Cassette buy stays on the feature. */
 (function () {
   "use strict";
 
@@ -12,6 +12,7 @@
   var buyBtn = document.getElementById("plateBuy");
   var statusEl = plate.querySelector("[data-plate-status]");
   var sleeve = plate.querySelector(".listen-sleeve");
+  var art = plate.querySelector("[data-plate-art]");
 
   var featured = {
     id: FEATURED_ID,
@@ -20,8 +21,16 @@
     price: 20,
     name: "You Are (Love) — Cassette",
     image: "you-are-love-jcard.webp",
+    cover: "you-are-love-cover.webp",
+    title: "You Are (Love)",
+    artist: "Riscape",
   };
-  var onAir = { id: "gorilla", title: "Gorilla", artist: "Molly Haze" };
+  var onAir = {
+    id: "gorilla",
+    title: "Gorilla",
+    artist: "Molly Haze",
+    cover: "gorilla-cover.webp",
+  };
 
   function hasCue(rel) {
     return (rel.tracks || []).some(function (t) {
@@ -34,9 +43,16 @@
     return onAir.id;
   }
 
+  function soundingCover() {
+    if (featured.playable) {
+      return { src: featured.cover, alt: featured.title + " — " + featured.artist };
+    }
+    return { src: onAir.cover, alt: onAir.title + " — " + onAir.artist };
+  }
+
   function playLabel() {
     if (featured.playable) return "Play";
-    return "Play " + (onAir.title || "on air");
+    return "Play on air";
   }
 
   function setStatus(html) {
@@ -44,13 +60,37 @@
     statusEl.innerHTML = html;
   }
 
+  function showSleeveHit(on) {
+    if (!hitBtn) return;
+    hitBtn.hidden = !on;
+    if (sleeve) sleeve.classList.toggle("is-uncued", !on && !featured.playable);
+  }
+
+  function applySleeveArt() {
+    var next = soundingCover();
+    if (!art) return;
+    art.src = next.src;
+    art.alt = next.alt;
+  }
+
   function syncButtons() {
     var label = playLabel();
+    var canHit = true;
+    if (!featured.playable) {
+      /* Sleeve is the on-air object; hit still plays. */
+      canHit = true;
+    }
+    showSleeveHit(canHit);
     [playBtn, hitBtn].forEach(function (btn) {
       if (!btn) return;
       btn.setAttribute("aria-label", label);
       if (btn === playBtn) btn.textContent = label;
     });
+  }
+
+  function soundingId(detail) {
+    var track = detail && detail.track;
+    return track && track.releaseId ? track.releaseId : "";
   }
 
   function playNow() {
@@ -94,9 +134,10 @@
 
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
-    var playing = !!d.playing;
-    if (sleeve) sleeve.classList.toggle("is-live", playing);
-    if (hitBtn) hitBtn.classList.toggle("is-playing", playing);
+    var mine = soundingId(d) === playTarget();
+    var live = !!(d.playing && mine);
+    if (sleeve) sleeve.classList.toggle("is-live", live);
+    if (hitBtn) hitBtn.classList.toggle("is-playing", live);
   });
 
   fetch("/data/catalog.json")
@@ -112,6 +153,9 @@
       }
       if (feat) {
         featured.playable = hasCue(feat);
+        featured.title = feat.title || featured.title;
+        featured.artist = feat.artist || featured.artist;
+        featured.cover = feat.cover || featured.cover;
         var cassette = feat.formats && feat.formats.cassette;
         if (cassette) {
           if (cassette.sku) featured.sku = cassette.sku;
@@ -132,13 +176,15 @@
           id: dated[0].id,
           title: dated[0].title,
           artist: dated[0].artist,
+          cover: dated[0].cover || dated[0].coverThumb || onAir.cover,
         };
       }
+      applySleeveArt();
       if (featured.playable) {
         setStatus("On the plate · play the record");
       } else {
         setStatus(
-          "Cassette pre-order. Hear <a href=\"/" +
+          "Cassette pre-order. Sleeve is <a href=\"/" +
             onAir.id +
             "\">" +
             (onAir.title || "the library") +
@@ -148,8 +194,10 @@
       syncButtons();
     })
     .catch(function () {
+      applySleeveArt();
       syncButtons();
     });
 
+  applySleeveArt();
   syncButtons();
 })();

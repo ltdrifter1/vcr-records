@@ -351,11 +351,11 @@
   }
 
   function trackWired(t) {
-    return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
+    return !!(t && (t.preview || t.bandcampTrackId || t.bandcamp || t.previewTrack));
   }
 
   function hasPreview(rel) {
-    return !!(rel && rel.id);
+    return !!(rel && Array.isArray(rel.tracks) && rel.tracks.some(trackWired));
   }
 
   function sleeveHtml(rel) {
@@ -363,16 +363,18 @@
     var full = rel.cover || thumb;
     var href = rel.page || "#";
     var kicker = [rel.genre, rel.kind, rel.year].filter(Boolean).join(" · ");
-    var play = (
+    var cued = hasPreview(rel);
+    var play = cued
+      ? (
           '<button type="button" class="flow-play" data-play-release="' + esc(rel.id) + '"' +
             (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
-            ' aria-label="Play ' + esc(rel.title) + '"' +
-            (hasPreview(rel) ? "" : " data-preview-unwired=\"1\"") + ">" +
+            ' aria-label="Play ' + esc(rel.title) + '">' +
             '<svg class="fp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="fp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           "</button>" +
           '<span class="flow-air status-chip status-chip--air" aria-hidden="true">On air</span>'
-        );
+        )
+      : "";
     var cat = rel.genre
       ? '<span class="cat-cc">' + esc(rel.genre) + "</span>"
       : "";

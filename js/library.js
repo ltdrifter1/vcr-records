@@ -45,9 +45,6 @@
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
     if (view === 'covers' || view === 'list') viewMode = view;
-    else if (window.matchMedia && window.matchMedia('(min-width: 720px)').matches) {
-      viewMode = 'covers';
-    }
     filters = { genre: genre, artist: artist };
   }
 
@@ -317,18 +314,19 @@
     var cue = formatCue(rel);
     var catNo = rel.catalogue ? '<span class="cat-cue">' + esc(rel.catalogue) + '</span>' : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
-      return !!(t && (t.preview || t.bandcampTrackId));
+      return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack));
     });
-    var playBtn = (
+    var playBtn = hasPreview
+      ? (
           '<button type="button" class="cat-play" data-play-release="' + esc(rel.id) + '"' +
             (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
-            ' aria-label="Play ' + esc(rel.title) + '"' +
-            (hasPreview ? '' : ' data-preview-unwired="1"') + '>' +
+            ' aria-label="Play ' + esc(rel.title) + '">' +
             '<svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           '</button>' +
           '<span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span>'
-        );
+        )
+      : '';
     var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var pill = preorder
       ? '<span class="release-pill release-pill--preorder">Pre-order</span>'
