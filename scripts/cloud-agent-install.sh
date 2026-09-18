@@ -11,7 +11,7 @@ npx --yes serve --version
 # Syntax-check commerce handlers when present on this revision.
 for f in \
   api/create-checkout-session.js \
-  api/lib/catalog.js \
+  lib/catalog.js \
   api/stripe-webhook.js \
   scripts/sync-stripe-catalog.js
 do

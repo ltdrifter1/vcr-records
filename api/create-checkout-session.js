@@ -20,7 +20,7 @@ const {
   priceIdFromEnv,
   musicMemberUnitAmount,
   isMusicProduct,
-} = require("./lib/catalog");
+} = require("../lib/catalog");
 const {
   getBalance,
   maxApplicableCredit,
@@ -28,7 +28,7 @@ const {
   normalizeEmail,
   isValidEmail,
   MEMBERSHIP_SKUS,
-} = require("./lib/credit-ledger");
+} = require("../lib/credit-ledger");
 
 function formBody(params) {
   return Object.entries(params)

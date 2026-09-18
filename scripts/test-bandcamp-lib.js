@@ -1,5 +1,5 @@
 const assert = require("assert");
-const bc = require("../api/lib/bandcamp");
+const bc = require("../lib/bandcamp");
 
 const html =
   '<div data-tralbum="{&quot;trackinfo&quot;:[{&quot;id&quot;:1,&quot;track_id&quot;:1,&quot;title&quot;:&quot;DESIRE&quot;,&quot;file&quot;:{&quot;mp3-128&quot;:&quot;//t4.bcbits.com/stream/abc/mp3-128/1&quot;}}]}"></div>';

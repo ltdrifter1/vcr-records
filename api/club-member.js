@@ -11,8 +11,8 @@ const {
   isValidEmail,
   findOrCreateCustomer,
   redisConfig,
-} = require("./lib/credit-ledger");
-const { sendMail, welcomeEmail } = require("./lib/mailer");
+} = require("../lib/credit-ledger");
+const { sendMail, welcomeEmail } = require("../lib/mailer");
 
 function json(res, status, body) {
   res.statusCode = status;

@@ -7,7 +7,7 @@
  */
 const fs = require("fs");
 const path = require("path");
-const bc = require("./lib/bandcamp");
+const bc = require("../lib/bandcamp");
 
 const CATALOG_PATH = path.join(process.cwd(), "data", "catalog.json");
 const CACHE_MS = 4 * 60 * 1000;

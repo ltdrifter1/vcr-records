@@ -13,7 +13,7 @@ const {
   isValidEmail,
   normalizeEmail,
   JOIN_CREDIT_CENTS,
-} = require("./lib/credit-ledger");
+} = require("../lib/credit-ledger");
 
 function json(res, status, body) {
   res.statusCode = status;

@@ -40,4 +40,5 @@ npx serve .
 
 Vercel static hosting (`framework: null`, `outputDirectory: "."`). Root `index.html` is the homepage.
 Merch checkout runs through `api/create-checkout-session.js` (Stripe, requires `STRIPE_SECRET_KEY`).
+Shared Node helpers live in `/lib`, not `/api` — Hobby is capped at **12 serverless functions**, and every `.js` file under `/api` counts (that is why Instagram scrapers in `/api` failed production, and why `api/lib` still counted after they were moved).
 Legacy / redirected URLs land on `/library` or `/merch`.

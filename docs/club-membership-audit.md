@@ -25,7 +25,7 @@ carried around the site (`js/member.js`), and everything downstream of signup
    general newsletter Formspree form — it never told the person "you're
    member #1234").
 4. **Club Credit balance was invisible.** `api/club-credit.js` /
-   `api/lib/credit-ledger.js` fully implement a ledger (grants from Premium
+   `lib/credit-ledger.js` fully implement a ledger (grants from Premium
    signup, spends at checkout, Stripe balance-transaction mirroring) but no
    page anywhere read from it. Premium members had no way to see their
    balance or history.
@@ -53,7 +53,7 @@ carried around the site (`js/member.js`), and everything downstream of signup
 - **Signup now awaits the server write** and reconciles the local profile
   with the server's response; Free signup surfaces an error instead of
   silently declaring success if `/api/club-member` fails.
-- **Welcome / confirmation emails** — new `api/lib/mailer.js` (Resend REST
+- **Welcome / confirmation emails** — new `lib/mailer.js` (Resend REST
   API, no SDK, same fetch-based pattern as the rest of `api/`):
   - Free/Club signup on `api/club-member.js` sends the welcome email
     immediately for new **Free** members (nothing to wait on — there's no
@@ -64,7 +64,7 @@ carried around the site (`js/member.js`), and everything downstream of signup
   - Like the rest of this backend, it's optional-by-default: with no
     `RESEND_API_KEY` set it's a documented no-op, so nothing breaks in an
     unconfigured environment (mirrors how `STRIPE_SECRET_KEY` / Upstash
-    Redis are already optional in `api/lib/credit-ledger.js`).
+    Redis are already optional in `lib/credit-ledger.js`).
 
 ## Still needs a human to flip the switch
 
