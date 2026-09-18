@@ -193,15 +193,18 @@ body.home-zine .hero-scene {
   padding-bottom: 104px;
 }
 body.home-zine .hero-lockup {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+  position: relative;
+  width: var(--ipod-w);
+  height: auto;
   padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
   border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 body.home-zine .hero-lcd-bloom {
   background: radial-gradient(ellipse 68% 78% at 50% 42%,
