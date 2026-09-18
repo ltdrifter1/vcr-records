@@ -10,6 +10,7 @@
   var playBtn = document.getElementById("platePlay");
   var hitBtn = document.getElementById("platePlayHit");
   var buyBtn = document.getElementById("plateBuy");
+  var buyDigitalBtn = document.getElementById("plateBuyDigital");
   var statusEl = plate.querySelector("[data-plate-status]");
   var sleeve = plate.querySelector(".listen-sleeve");
   var art = plate.querySelector("[data-plate-art]");
@@ -24,6 +25,11 @@
     cover: "you-are-love-cover.webp",
     title: "You Are (Love)",
     artist: "Riscape",
+    digitalSku: "dg-you-are-love",
+    digitalPrice: 9,
+    digitalName: "You Are (Love) — Digital",
+    digitalImage: "you-are-love-cover.webp",
+    cassetteBackorder: true,
   };
   var onAir = {
     id: "gorilla",
@@ -99,7 +105,7 @@
   }
 
   function buyCassette() {
-    if (!window.VCRCart) return;
+    if (!window.VCRCart || !featured.sku) return;
     VCRCart.add({
       sku: featured.sku,
       name: featured.name,
@@ -108,13 +114,29 @@
       qty: 1,
       id: featured.sku,
     });
-    if (buyBtn) {
-      var prev = buyBtn.textContent;
-      buyBtn.textContent = "Added";
-      setTimeout(function () {
-        buyBtn.textContent = prev;
-      }, 1800);
-    }
+    flashBuy(buyBtn);
+  }
+
+  function buyDigital() {
+    if (!window.VCRCart || !featured.digitalSku) return;
+    VCRCart.add({
+      sku: featured.digitalSku,
+      name: featured.digitalName,
+      price: featured.digitalPrice,
+      image: featured.digitalImage || featured.cover,
+      qty: 1,
+      id: featured.digitalSku,
+    });
+    flashBuy(buyDigitalBtn);
+  }
+
+  function flashBuy(btn) {
+    if (!btn) return;
+    var prev = btn.textContent;
+    btn.textContent = "Added";
+    setTimeout(function () {
+      btn.textContent = prev;
+    }, 1800);
   }
 
   [playBtn, hitBtn].forEach(function (btn) {
@@ -129,6 +151,13 @@
     buyBtn.addEventListener("click", function (e) {
       e.preventDefault();
       buyCassette();
+    });
+  }
+
+  if (buyDigitalBtn) {
+    buyDigitalBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      buyDigital();
     });
   }
 
@@ -157,12 +186,33 @@
         featured.artist = feat.artist || featured.artist;
         featured.cover = feat.cover || featured.cover;
         var cassette = feat.formats && feat.formats.cassette;
+        var digital = feat.formats && feat.formats.digital;
         if (cassette) {
           if (cassette.sku) featured.sku = cassette.sku;
           if (cassette.price != null) featured.price = Number(cassette.price);
           if (cassette.image) featured.image = cassette.image;
+          featured.cassetteBackorder = !!cassette.backorder;
         }
         featured.name = (feat.title || "Release") + " — Cassette";
+        if (digital && digital.sku) {
+          featured.digitalSku = digital.sku;
+          if (digital.price != null) featured.digitalPrice = Number(digital.price);
+          featured.digitalName = (feat.title || "Release") + " — Digital";
+          featured.digitalImage = feat.cover || featured.cover;
+          if (buyDigitalBtn) buyDigitalBtn.hidden = false;
+        } else if (buyDigitalBtn) {
+          buyDigitalBtn.hidden = true;
+        }
+        if (buyBtn) {
+          buyBtn.textContent = featured.cassetteBackorder
+            ? "Cassette backorder · $" + featured.price
+            : "Cassette · $" + featured.price;
+        }
+        if (buyDigitalBtn && featured.digitalSku) {
+          buyDigitalBtn.textContent = featured.digitalPrice != null
+            ? "Digital · $" + featured.digitalPrice
+            : "Digital";
+        }
       }
       var dated = releases
         .filter(function (r) {
@@ -181,7 +231,11 @@
       }
       applySleeveArt();
       if (featured.playable) {
-        setStatus("On the plate · play the record");
+        setStatus(
+          featured.cassetteBackorder
+            ? "Out now · play the record. Cassette is backorder — still taking orders."
+            : "On the plate · play the record"
+        );
       } else {
         setStatus(
           "Cassette pre-order. Sleeve is <a href=\"/" +

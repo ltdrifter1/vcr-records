@@ -18,12 +18,12 @@
   </script>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Cassette $20 CAD. Pre-order."/>
+  <meta name="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Digital $9 CAD. Cassette $20 CAD backorder."/>
   <meta name="theme-color" content="#E8E8E6"/>
   <link rel="canonical" href="https://www.clubcopy.ca/you-are-love"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:title" content="Riscape — You Are (Love)"/>
-  <meta property="og:description" content="You Are (Love) — EP by Riscape. Four tracks. Cassette $20 CAD."/>
+  <meta property="og:description" content="You Are (Love) — EP by Riscape. Four tracks. Digital $9 CAD. Cassette backorder $20 CAD."/>
   <meta property="og:type" content="music.album"/>
   <meta property="og:url" content="https://www.clubcopy.ca/you-are-love"/>
   <meta property="og:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
@@ -32,7 +32,7 @@
   <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Riscape — You Are (Love)"/>
-  <meta name="twitter:description" content="Four tracks. Cassette $20 CAD."/>
+  <meta name="twitter:description" content="Four tracks. Digital $9 CAD. Cassette backorder $20 CAD."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
   <meta property="music:musician" content="https://www.clubcopy.ca/artists/riscape"/>
   <script type="application/ld+json">
@@ -55,18 +55,36 @@
   },
   "recordLabel": {"@type": "RecordLabel", "name": "Club Copy", "url": "https://www.clubcopy.ca/"},
   "track": [
-    {"@type": "MusicRecording", "name": "You Are (Love)", "position": 1},
-    {"@type": "MusicRecording", "name": "Make it Right", "position": 2},
-    {"@type": "MusicRecording", "name": "Action", "position": 3},
-    {"@type": "MusicRecording", "name": "Days Like This", "position": 4}
+    {"@type": "MusicRecording", "name": "You Are (Love)", "position": 1, "duration": "PT3M3S"},
+    {"@type": "MusicRecording", "name": "Make It Right", "position": 2, "duration": "PT3M23S"},
+    {"@type": "MusicRecording", "name": "Action", "position": 3, "duration": "PT4M15S"},
+    {"@type": "MusicRecording", "name": "Day Like This", "position": 4, "duration": "PT4M21S"}
   ],
   "offers": {
-    "@type": "Offer",
+    "@type": "AggregateOffer",
     "url": "https://www.clubcopy.ca/you-are-love",
     "priceCurrency": "CAD",
-    "price": "20.00",
-    "availability": "https://schema.org/PreOrder",
-    "itemOffered": {"@type": "Product", "name": "You Are (Love) — Cassette"}
+    "lowPrice": "9.00",
+    "highPrice": "20.00",
+    "offerCount": 2,
+    "offers": [
+      {
+        "@type": "Offer",
+        "url": "https://www.clubcopy.ca/you-are-love",
+        "priceCurrency": "CAD",
+        "price": "9.00",
+        "availability": "https://schema.org/InStock",
+        "itemOffered": {"@type": "Product", "name": "You Are (Love) — Digital"}
+      },
+      {
+        "@type": "Offer",
+        "url": "https://www.clubcopy.ca/you-are-love",
+        "priceCurrency": "CAD",
+        "price": "20.00",
+        "availability": "https://schema.org/BackOrder",
+        "itemOffered": {"@type": "Product", "name": "You Are (Love) — Cassette"}
+      }
+    ]
   }
 }
   </script>
@@ -122,7 +140,7 @@
 
 <main id="main" itemscope itemtype="https://schema.org/Product">
   <meta itemprop="name" content="You Are (Love)"/>
-  <meta itemprop="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Cassette $20 CAD."/>
+  <meta itemprop="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Digital $9 CAD. Cassette $20 CAD backorder."/>
   <meta itemprop="brand" content="Club Copy"/>
   <meta itemprop="image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
 
@@ -132,6 +150,12 @@
       <div class="ra-stage" id="artworkWrap">
         <div class="listen-sleeve">
           <img src="you-are-love-cover.webp" alt="You Are (Love) — Riscape" width="1254" height="1254" fetchpriority="high"/>
+          <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause">
+            <span class="listen-glyph">
+              <svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
+            </span>
+          </button>
         </div>
       </div>
       <div class="ra-hero-info">
@@ -143,34 +167,114 @@
         <h1 class="ra-hero-title">You Are (Love)</h1>
         <div class="ra-hero-facts">
           EP · four tracks<br/>
-          Cassette<br/>
-          <span class="scarce">Pre-order</span>
+          Digital live · cassette backorder<br/>
+          <span class="scarce">Available</span>
         </div>
         <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <meta itemprop="priceCurrency" content="CAD"/>
-          <meta itemprop="price" content="20.00"/>
-          <link itemprop="availability" href="https://schema.org/PreOrder"/>
-          <button type="button" class="btn btn-light" id="buyBtn">Cassette — $20 CAD</button>
-          <a class="btn btn-ghost" href="/news/please">Night Shift</a>
+          <meta itemprop="price" content="9.00"/>
+          <link itemprop="availability" href="https://schema.org/InStock"/>
+          <button type="button" class="btn btn-light" id="buyDigitalBtn">Buy Digital — $9 CAD</button>
+          <button type="button" class="btn btn-ghost" id="buyBtn">Cassette backorder — $20 CAD</button>
+          <button type="button" class="btn btn-ghost" id="heroListen">Play</button>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="ra-section" id="listen" aria-label="Tracks">
+  <section class="ra-section" id="listen" aria-label="Listen">
     <div class="ra-wrap">
       <header class="ra-head ra-reveal">
         <div>
-          <h2>Tracks</h2>
+          <h2>Listen</h2>
         </div>
-        <span class="head-note">Cassette pre-order · previews with street files</span>
+        <span class="head-note">Streaming on site · files after checkout</span>
       </header>
-      <div class="ra-tracks ra-reveal">
-        <div class="track-row"><span class="track-no">01</span><span class="track-title">You Are (Love)</span></div>
-        <div class="track-row"><span class="track-no">02</span><span class="track-title">Make it Right</span></div>
-        <div class="track-row"><span class="track-no">03</span><span class="track-title">Action</span></div>
-        <div class="track-row"><span class="track-no">04</span><span class="track-title">Days Like This</span></div>
-        <p class="ra-tracks-note">Hear the library on the homepage while this EP is cassette-only. Written and produced by Ioannis Rigas for Club Copy.</p>
+      <div class="ra-player-grid">
+
+        <div class="ra-deck release-console ra-reveal" role="region" aria-label="Mini hi-fi">
+          <div class="ra-stereo">
+            <div class="ra-stereo-speaker" aria-hidden="true">
+              <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
+              <span class="ra-stereo-driver ra-stereo-driver--lo"></span>
+            </div>
+            <div class="ra-stereo-unit">
+              <div class="ra-stereo-brand">
+                <span>CLUB COPY</span>
+                <span>CC-GX00</span>
+              </div>
+              <div class="ra-stereo-dash">
+                <div class="ra-vfd">
+                  <div class="ra-vfd-scan" aria-hidden="true"></div>
+                  <div class="ra-vfd-top">
+                    <span class="ra-vfd-mode">TAPE</span>
+                    <span class="live" id="ipTrackIndex">01 / 04</span>
+                    <span id="ipStampSide">Side A</span>
+                  </div>
+                  <div class="ra-vfd-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <p class="ra-vfd-title" id="ipStampTitle">You Are (Love)</p>
+                  <p class="name" id="ipTrackName">You Are (Love)</p>
+                  <p class="ra-vfd-sub"><span id="ipArtist">Riscape</span> — <span id="ipRelease">You Are (Love)</span></p>
+                  <div class="ra-vfd-times">
+                    <span id="ipElapsed">0:00</span>
+                    <span id="ipRemaining">-0:00</span>
+                  </div>
+                </div>
+                <label class="ra-stereo-vol">
+                  <span class="ra-stereo-vol-dial" aria-hidden="true"></span>
+                  <input type="range" id="ipVolume" min="0" max="1" step="0.01" value="0.85" aria-label="Volume"/>
+                  <span class="ra-stereo-vol-cap">VOL</span>
+                </label>
+              </div>
+              <div class="ra-transport">
+            <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
+            </button>
+            <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Play / pause">
+              <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
+            </button>
+          </div>
+              <canvas class="ra-wave" id="raWave" data-release="you-are-love" aria-label="Seek within track" role="slider"></canvas>
+            </div>
+            <div class="ra-stereo-speaker ra-stereo-speaker--r" aria-hidden="true">
+              <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
+              <span class="ra-stereo-driver ra-stereo-driver--lo"></span>
+            </div>
+          </div>
+          <div class="p-msg" id="pMsg" aria-live="polite"></div>
+        </div>
+
+        <div class="ra-tracks ra-reveal">
+          <div class="track-row is-active" data-index="0">
+            <span class="track-no">01</span>
+            <span class="track-title">You Are (Love)</span>
+            <span class="track-dur">3:03</span>
+            <button class="track-play-btn" type="button" aria-label="Play You Are (Love)" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="1">
+            <span class="track-no">02</span>
+            <span class="track-title">Make It Right</span>
+            <span class="track-dur">3:23</span>
+            <button class="track-play-btn" type="button" aria-label="Play Make It Right" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="2">
+            <span class="track-no">03</span>
+            <span class="track-title">Action</span>
+            <span class="track-dur">4:15</span>
+            <button class="track-play-btn" type="button" aria-label="Play Action" tabindex="-1"></button>
+          </div>
+          <div class="track-row" data-index="3">
+            <span class="track-no">04</span>
+            <span class="track-title">Day Like This</span>
+            <span class="track-dur">4:21</span>
+            <button class="track-play-btn" type="button" aria-label="Play Day Like This" tabindex="-1"></button>
+          </div>
+          <p class="ra-tracks-note">Total running time 15:02 · streaming on site · files after checkout</p>
+        </div>
       </div>
     </div>
   </section>
@@ -184,11 +288,11 @@
       </header>
       <div class="ra-about-grid">
         <div class="ra-notes ra-reveal">
-          <p>Riscape’s first Club Copy record is four tracks: piano in a kitchen with the windows open, house that still has a tune. Cassette $20. Digital follows with the files.</p>
+          <p>Riscape’s first Club Copy record is four tracks: piano in a kitchen with the windows open, house that still has a tune. Digital is live. Cassette is backorder — still taking orders, ships when the dubs land.</p>
         </div>
         <dl class="ra-specs ra-reveal">
 <div><dt>Artist</dt><dd><a href="/artists/riscape">Riscape</a></dd></div>
-          <div><dt>Format</dt><dd>Cassette EP · four tracks</dd></div>
+          <div><dt>Format</dt><dd>Digital EP · cassette backorder</dd></div>
           <div><dt>Released</dt><dd>September 18, 2026</dd></div>
           <div><dt>Published</dt><dd>Club Copy · Copy House Publishing</dd></div>
         </dl>
@@ -213,27 +317,54 @@
 </footer>
 
 <script src="js/player.js"></script>
+<script src="js/release-bind.js"></script>
+<script src="js/tape-player.js"></script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script>
-(function () {
-  var buyBtn = document.getElementById("buyBtn");
-  if (!buyBtn) return;
-  var label = buyBtn.textContent;
-  buyBtn.addEventListener("click", function () {
-    if (window.VCRCart) {
-      VCRCart.add({
-        sku: "cs-you-are-love",
-        name: "You Are (Love) — Cassette",
-        price: 20,
-        image: "you-are-love-jcard.webp",
-        qty: 1,
-        id: "cs-you-are-love"
-      });
-    }
-    buyBtn.textContent = "Added";
-    setTimeout(function () { buyBtn.textContent = label; }, 2200);
+const $ = id => document.getElementById(id);
+VCRReleaseBind({
+  releaseId: "you-are-love",
+  previewTrackId: "yal-01",
+  tracks: [
+    { id: "yal-01", title: "You Are (Love)" },
+    { id: "yal-02", title: "Make It Right" },
+    { id: "yal-03", title: "Action" },
+    { id: "yal-04", title: "Day Like This" }
+  ]
+});
+
+(function() {
+  const FORMATS = {
+    cassette: { sku: "cs-you-are-love", name: "You Are (Love) — Cassette", price: 20, image: "you-are-love-jcard.webp" },
+    digital: { sku: "dg-you-are-love", name: "You Are (Love) — Digital (EP)", price: 9, image: "you-are-love-cover.webp" }
+  };
+  let resetTimer = null;
+
+  function bindBuy(btn, fmt) {
+    if (!btn) return;
+    const label = btn.textContent;
+    btn.addEventListener("click", () => {
+      const f = FORMATS[fmt];
+      if (!f || !window.VCRCart) return;
+      VCRCart.add({ sku: f.sku, name: f.name, price: f.price, image: f.image, qty: 1, id: f.sku });
+      btn.textContent = "Added \u2713";
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { btn.textContent = label; }, 2200);
+    });
+  }
+
+  bindBuy($("buyBtn"), "cassette");
+  bindBuy($("buyDigitalBtn"), "digital");
+})();
+
+(function() {
+  const listen = $("heroListen");
+  if (!listen) return;
+  listen.addEventListener("click", () => {
+    document.getElementById("listen")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("ipPlayConsole")?.click();
   });
 })();
 </script>

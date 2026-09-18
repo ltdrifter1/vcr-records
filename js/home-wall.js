@@ -40,6 +40,7 @@
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var href = rel.page || "/library";
+    var dur = fmtDur(releaseDuration(rel));
     var spec = [rel.kind, dur].filter(Boolean).join("  ·  ");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";

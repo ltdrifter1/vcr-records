@@ -365,6 +365,7 @@
           cassettePrice: cassette && cassette.price != null ? Number(cassette.price) : null,
           cassetteImage: (cassette && cassette.image) || release.cover,
           cassetteStock: cassette && cassette.stock != null ? Number(cassette.stock) : null,
+          cassetteBackorder: !!(cassette && cassette.backorder),
           digitalPrice: digital && digital.price != null ? Number(digital.price) : null,
           digitalSku: digital && digital.sku ? digital.sku : null,
         };
@@ -902,7 +903,9 @@
       } else if (format === "cassette") {
         var hasCassette = !!(track && track.cassetteSku);
         btn.hidden = !hasCassette;
-        btn.textContent = track && track.cassettePrice != null ? "Cassette · $" + track.cassettePrice : "Cassette";
+        btn.textContent = track && track.cassetteBackorder
+          ? (track.cassettePrice != null ? "Cassette backorder · $" + track.cassettePrice : "Cassette backorder")
+          : (track && track.cassettePrice != null ? "Cassette · $" + track.cassettePrice : "Cassette");
         btn.disabled = !!(track && track.cassetteSku && track.cassetteStock != null && track.cassetteStock <= 0);
       } else if (format === "digital") {
         btn.hidden = false;
@@ -1601,9 +1604,12 @@
     }
     if (track.cassetteSku) {
       var cassOut = track.cassetteStock != null && track.cassetteStock <= 0;
+      var cassLabel = cassOut
+        ? "Cassette · Sold out"
+        : (track.cassetteBackorder ? "Cassette backorder" : "Cassette") + formatPrice(track.cassettePrice, track.cassetteSku);
       html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="cassette"' +
         (cassOut ? " disabled" : "") + ">" +
-        label("cassette", cassOut ? "Cassette · Sold out" : "Cassette" + formatPrice(track.cassettePrice, track.cassetteSku)) +
+        label("cassette", cassLabel) +
         "</button>";
     }
     if (track.vinylSku) {
