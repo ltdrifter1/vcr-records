@@ -102,16 +102,32 @@ html body.home-zine .hero-ground {
   background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 28%, rgba(196, 196, 192, .55) 100%);
 }
 
-/* Artists stay off the home page even if stale HTML is cached ------------ */
+/* Listening plate — record object, not a Click Wheel replica ------------- */
+html body.home-zine .hero.plate-hero {
+  min-height: 0 !important;
+  display: block !important;
+  place-items: unset;
+}
+html body.home-zine .plate-hero .hero-stage {
+  display: block !important;
+  width: min(1080px, calc(100% - 40px)) !important;
+  min-height: 0 !important;
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 32px));
+  text-align: left;
+}
+html body.home-zine .plate-hero .hero-post,
+html body.home-zine .plate-hero .hero-scene,
+html body.home-zine .plate-hero .hero-booth,
+html body.home-zine .plate-hero .hero-platter {
+  display: none !important;
+}
+
+/* Roster block stays off home; Artists belongs in chrome. ---------------- */
 html body.home-zine .home-artists,
 html body.home-zine #artists.home-artists,
 html body.home-zine .home-roster,
 html body.home-zine section#artists {
-  display: none !important;
-}
-html body.home-zine .nav-links a[href="#artists"],
-html body.home-zine .nav-drawer a[href="#artists"],
-html body.home-zine .footer-links a[href="#artists"] {
   display: none !important;
 }
 

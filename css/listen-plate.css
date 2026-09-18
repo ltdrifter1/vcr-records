@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Club Copy — listening plate (hero)
+   Record object on steel. LCD grammar, not a Click Wheel replica.
+   ========================================================================== */
+
+body.home-zine .hero.plate-hero {
+  --hero-ink: #111111;
+  min-height: 0;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.plate-hero .hero-stage {
+  width: min(1080px, calc(100% - 40px));
+  min-height: 0;
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 32px));
+  display: block;
+  text-align: left;
+}
+
+.listen-plate {
+  display: grid;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: end;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (min-width: 820px) {
+  .listen-plate {
+    grid-template-columns: minmax(240px, 400px) minmax(0, 1fr);
+  }
+}
+
+.listen-plate .hero-lockup {
+  width: auto;
+  max-width: none;
+}
+
+.listen-plate-object {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.listen-plate .listen-sleeve {
+  width: 100%;
+  max-width: 400px;
+}
+
+.listen-plate-lcd {
+  padding: 10px 12px 12px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #d2d2ce 0%, #b8b8b4 100%);
+  border: 1px solid rgba(40, 40, 40, .22);
+  box-shadow: inset 0 1px 2px rgba(40, 50, 60, .28);
+  font-family: var(--ui);
+  color: var(--lcd-ink, #1a1a1a);
+}
+
+.listen-plate-cat,
+.listen-plate-status {
+  margin: 0;
+}
+
+.listen-plate-cat {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: rgba(26, 26, 26, .62);
+}
+
+.listen-plate-status {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.listen-plate-status a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.listen-plate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.listen-plate-actions .btn {
+  height: 44px;
+  padding: 0 16px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.listen-plate-actions .btn-fill,
+.listen-plate-actions .btn.btn-fill {
+  background: #1a1a1a;
+  color: #f4f4f2;
+  border: 1px solid #1a1a1a;
+}
+
+.listen-plate-actions .btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(40, 40, 40, .28);
+  color: #1a1a1a;
+}
+
+@media (max-width: 819px) {
+  .plate-hero .hero-stage {
+    width: min(1180px, calc(100% - 28px));
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 18px);
+  }
+  .listen-plate .listen-sleeve {
+    max-width: min(420px, 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .listen-plate .listen-sleeve.is-live::after {
+    animation: none;
+  }
+}

@@ -10,7 +10,7 @@
     title: "You Are (Love)",
     artist: "Riscape",
     track: "You Are (Love)",
-    page: "/news/please",
+    page: "/you-are-love",
     sku: "cs-you-are-love",
     price: 20,
     cover: "you-are-love-cover.webp",
