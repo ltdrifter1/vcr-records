@@ -429,11 +429,11 @@ No calendar padding — three passes on the existing static site.
 
 ### Pass A — Hear the label (highest leverage)
 
-- Playable first screen; honest pre-order state.  
+- Playable first screen (keep live’s “tap Music → audio” path). Honest pre-order only when there is no cue.  
 - Canonical feature URL.  
-- Nav reduced; Artists restored.  
-- Mobile hero without wheel.  
-- Do not add dependencies.
+- Nav reduced; Artists stay in chrome (live already has them; do not hide via OS lock).  
+- Mobile hero without wheel; do not keep the cyan tab bar as the brand.  
+- Do not add dependencies. Do not re-ship Bondi/Cover Flow if steel HEAD deploys.
 
 ### Pass B — One world
 
