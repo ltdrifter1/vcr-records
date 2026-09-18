@@ -114,6 +114,12 @@ const PRODUCTS = {
     stock: 50,
     format: "cassette",
   },
+  "dg-you-are-love": {
+    name: "You Are (Love) — Digital (EP)",
+    unitAmount: 900,
+    digital: true,
+    format: "digital",
+  },
   "dg-desire": {
     name: "DESIRE — Digital (Single)",
     unitAmount: 150,

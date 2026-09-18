@@ -15,7 +15,7 @@
     price: 20,
     cover: "you-are-love-cover.webp",
     format: "cassette",
-    playable: false,
+    playable: true,
   };
 
   var TICK = Math.PI / 10;
@@ -698,15 +698,6 @@
       if (item.kind === "buy") item.price = priceLabel;
     });
     var shopItems = [];
-    if (cassette && cassette.sku) {
-      shopItems.push({
-        id: "buy-cassette",
-        label: cassette.price != null ? "Cassette · $" + money(cassette.price) : "Cassette",
-        kind: "buy",
-        sku: cassette.sku,
-        price: cassette.price != null ? "$" + money(cassette.price) : "",
-      });
-    }
     if (digital && digital.sku) {
       shopItems.push({
         id: "buy-digital",
@@ -714,6 +705,17 @@
         kind: "buy",
         sku: digital.sku,
         price: digital.price != null ? "$" + money(digital.price) : "",
+      });
+    }
+    if (cassette && cassette.sku) {
+      shopItems.push({
+        id: "buy-cassette",
+        label: cassette.backorder
+          ? (cassette.price != null ? "Cassette backorder · $" + money(cassette.price) : "Cassette backorder")
+          : (cassette.price != null ? "Cassette · $" + money(cassette.price) : "Cassette"),
+        kind: "buy",
+        sku: cassette.sku,
+        price: cassette.price != null ? "$" + money(cassette.price) : "",
       });
     }
     if (vinyl && vinyl.sku) {

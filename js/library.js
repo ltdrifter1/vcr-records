@@ -102,7 +102,9 @@
     if (String(rel.status || '').toLowerCase() === 'pre-order') bits.push('Pre-order');
     if (rel.tracksCount) bits.push(rel.tracksCount + (rel.tracksCount === 1 ? ' track' : ' tracks'));
     var formats = [];
-    if (rel.formats && rel.formats.cassette) formats.push('Cassette');
+    if (rel.formats && rel.formats.cassette) {
+      formats.push(rel.formats.cassette.backorder ? 'Cassette backorder' : 'Cassette');
+    }
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
     if (formats.length) bits.push(formats.join(' · '));
@@ -111,7 +113,9 @@
 
   function formatSide(rel) {
     var formats = [];
-    if (rel.formats && rel.formats.cassette) formats.push('Cassette');
+    if (rel.formats && rel.formats.cassette) {
+      formats.push(rel.formats.cassette.backorder ? 'Cassette backorder' : 'Cassette');
+    }
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
     if (!formats.length) return rel.kind || 'Release';
@@ -281,14 +285,18 @@
       }
     }
     var offer = cartOffer(rel);
-    var sku = offer ? offer.sku : btn.getAttribute('data-sku');
-    var name = offer
-      ? (digitalOffer(rel) ? (rel.title + ' — Digital') : (rel.title + ' — Cassette'))
-      : btn.getAttribute('data-name');
-    var price = offer ? offer.price : Number(btn.getAttribute('data-price'));
-    var image = offer
-      ? (offer.image || rel.cover || rel.coverThumb || '')
-      : btn.getAttribute('data-image');
+    var sku = btn.getAttribute('data-sku') || (offer ? offer.sku : null);
+    var name = btn.getAttribute('data-name') ||
+      (offer
+        ? (digitalOffer(rel) && offer.sku === digitalOffer(rel).sku
+            ? (rel.title + ' — Digital')
+            : (rel.title + ' — Cassette'))
+        : null);
+    var price = btn.getAttribute('data-price') != null && btn.getAttribute('data-price') !== ''
+      ? Number(btn.getAttribute('data-price'))
+      : (offer ? offer.price : NaN);
+    var image = btn.getAttribute('data-image') ||
+      (offer ? (offer.image || (rel && (rel.cover || rel.coverThumb)) || '') : '');
     if (!sku || !isFinite(Number(price))) return false;
     VCRCart.add({
       sku: sku,
