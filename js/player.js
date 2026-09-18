@@ -689,7 +689,24 @@
   function dockLcdMeta(track) {
     var no = pad2(track && track.trackNum ? track.trackNum : 1);
     var of = track && track.tracksCount ? pad2(track.tracksCount) : "";
-    return of ? no + " / " + of : no;
+    var idx = of ? no + " / " + of : no;
+    if (track && track.catalogue) return idx + "  ·  " + track.catalogue;
+    return idx;
+  }
+
+  function dockLcdSub(track) {
+    if (!track) return "";
+    if (track.artist && track.releaseTitle && track.releaseTitle !== track.title) {
+      return track.artist + " — " + track.releaseTitle;
+    }
+    return track.artist || track.releaseTitle || "";
+  }
+
+  function setScrubUi(ratio) {
+    var pct = Math.max(0, Math.min(100, (Number(ratio) || 0) / 10)) + "%";
+    if (!ui) return;
+    if (ui.dock) ui.dock.style.setProperty("--scrub", pct);
+    if (ui.stage) ui.stage.style.setProperty("--scrub", pct);
   }
 
   function updateDockLcd(track, playing) {
@@ -983,11 +1000,7 @@
 
     dock.querySelector(".vcr-player__art").src = track.cover;
     dock.querySelector(".vcr-player__title").textContent = track.title;
-    dock.querySelector(".vcr-player__sub").textContent =
-      (track.fromBandcamp ? "Bandcamp · " : track.isPreview ? "Preview · " : "") +
-      track.artist +
-      " — " +
-      track.releaseTitle;
+    dock.querySelector(".vcr-player__sub").textContent = dockLcdSub(track);
     var dockUp = dock.querySelector("[data-upnext]");
     if (dockUp) {
       var n1 = peekNext();
@@ -1091,9 +1104,11 @@
       showBumperThenNext();
       return;
     }
-    var dur = cap || audio.duration || 0;
+    var dur = cap || audio.duration || (track && track.durationSec) || 0;
+    if (!isFinite(dur) || dur < 0) dur = 0;
     var cur = audio.currentTime || 0;
     var ratio = dur ? Math.round((cur / dur) * 1000) : 0;
+    setScrubUi(ratio);
     ui.dock.querySelector(".vcr-player__scrub").value = String(ratio);
     ui.stage.querySelector(".vcr-stage__scrub").value = String(ratio);
     ui.dock.querySelector("[data-cur]").textContent = fmt(cur);
@@ -1237,6 +1252,7 @@
   function onScrub(e) {
     if (!audio || !audio.duration) return;
     audio.currentTime = (Number(e.target.value) / 1000) * audio.duration;
+    setScrubUi(e.target.value);
   }
 
   function onDockClick(e) {
