@@ -14,7 +14,7 @@
   function card(post) {
     var handle = esc(post.handle || "");
     var href = esc(post.href || "https://www.instagram.com/" + handle + "/");
-    var img = esc(post.image || "");
+    var img = esc(post.thumb || post.image || "");
     var alt = esc(post.alt || "Instagram post from @" + handle);
     var video = post.isVideo
       ? '<span class="ig-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>'
@@ -59,10 +59,7 @@
     });
   }
 
-  load("/api/instagram-feed")
-    .catch(function () {
-      return load("/data/instagram-feed.json");
-    })
+  load("/data/instagram-feed.json")
     .then(function (data) {
       render(data && data.posts);
     })

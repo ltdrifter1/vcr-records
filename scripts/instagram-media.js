@@ -1,6 +1,6 @@
 /**
- * Same-origin Instagram stills for the homepage wall.
- * GET /api/instagram-media?p=SHORTCODE
+ * Instagram still proxy — kept as a local script, not a Vercel function.
+ * GET would have been /api/instagram-media?p=SHORTCODE
  */
 const IG_RE = /^[A-Za-z0-9_-]{5,20}$/;
 const UA =

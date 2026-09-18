@@ -13,7 +13,7 @@
  * Club: $5/year subscription — 30% off all music
  * Premium: annual contribution ($10+) — 50% off all music + 2.5×–5.0× Club Credit
  */
-const { PRODUCTS, MEMBERSHIP, priceIdFromEnv } = require("./catalog");
+const { PRODUCTS, MEMBERSHIP, priceIdFromEnv } = require("./lib/catalog");
 const {
   normalizeEmail,
   isValidEmail,
