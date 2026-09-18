@@ -312,7 +312,7 @@
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
-    var catNo = rel.catalogue ? '<span class="cat-cue">' + esc(rel.catalogue) + '</span>' : '';
+    var catNo = '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack));
     });
