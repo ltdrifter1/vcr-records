@@ -113,7 +113,8 @@
         return String(b.catalogue || "").localeCompare(String(a.catalogue || ""));
       });
       if (!allReleases.length) return;
-      grid.innerHTML = allReleases.map(cardHtml).join("");
+      var WALL = 12;
+      grid.innerHTML = allReleases.slice(0, WALL).map(cardHtml).join("");
       grid.removeAttribute("aria-busy");
       if (window.VCRPlayer && VCRPlayer.getState) syncAir(VCRPlayer.getState());
     })

@@ -142,8 +142,9 @@
     if (drawer) {
       drawer.querySelectorAll('a').forEach(function (a) {
         var href = (a.getAttribute('href') || '').split('?')[0];
-        var dup = href === '/library' || href === '/artists' ||
-          href === '/merch' || href === '/news' || href === '#join';
+        var dup = href === '/library' || href === '/merch' ||
+          href === '/news' || href === '#join';
+        if (!home && href === '/artists') dup = true;
         if (dup) a.classList.add('tabbar-dup');
       });
     }
