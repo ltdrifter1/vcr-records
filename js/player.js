@@ -575,7 +575,7 @@
       '<img class="vcr-player__art" alt="" width="56" height="56" />' +
       "</div>" +
       '<div class="vcr-player__lcd">' +
-      '<p class="vcr-player__bug"><span data-lcd-meta>CC · 01</span><span class="vcr-player__led" data-lcd-led>Standby</span></p>' +
+      '<p class="vcr-player__bug"><span data-lcd-meta>01</span><span class="vcr-player__led" data-lcd-led>Standby</span></p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__err" data-player-err hidden></p>' +
@@ -686,9 +686,9 @@
   }
 
   function dockLcdMeta(track) {
-    var cat = (track && track.catalogue) || "CC";
     var no = pad2(track && track.trackNum ? track.trackNum : 1);
-    return cat + "  ·  " + no;
+    var of = track && track.tracksCount ? pad2(track.tracksCount) : "";
+    return of ? no + " / " + of : no;
   }
 
   function updateDockLcd(track, playing) {
@@ -719,7 +719,7 @@
     if (led && isError) led.textContent = "Error";
     else if (!led) {
       var bug = ui.dock && ui.dock.querySelector(".vcr-player__bug");
-      if (bug && isError) bug.textContent = "CC · Error";
+      if (bug && isError) bug.textContent = "Error";
     }
   }
 
@@ -1035,12 +1035,8 @@
     stage.querySelector(".vcr-stage__artist").textContent = track.artist || "";
     var catEl = stage.querySelector("[data-stage-cat]");
     if (catEl) {
-      if (track.catalogue) {
-        catEl.hidden = false;
-        catEl.textContent = track.catalogue;
-      } else {
-        catEl.hidden = true;
-      }
+      catEl.hidden = true;
+      catEl.textContent = "";
     }
     var credits = stage.querySelector("[data-stage-credits]");
     if (credits) {
