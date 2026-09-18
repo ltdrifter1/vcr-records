@@ -86,35 +86,33 @@
     } catch (e) {}
   }
 
-  function injectTabBar() {
+    function injectTabBar() {
     if (document.getElementById('tabBar')) return;
-    var path = (location.pathname || '/').replace(/\/index\.html$/, '/');
-    var isHome = path === '/' || path === '';
     var bar = document.createElement('nav');
     bar.className = 'tabbar';
     bar.id = 'tabBar';
     bar.setAttribute('aria-label', 'App');
     bar.innerHTML =
-      '<a href="/" data-tab="listen">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.4"/><path d="M12 5.6v2.2M12 16.2v2.2M5.6 12h2.2M16.2 12h2.2" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>' +
-        '<span>Listen</span></a>' +
       '<a href="/library" data-tab="library">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="4" y="5" width="7" height="7" rx="1.4"/><rect x="13" y="5" width="7" height="7" rx="1.4"/><rect x="4" y="14" width="7" height="7" rx="1.4"/><rect x="13" y="14" width="7" height="7" rx="1.4"/></svg>' +
         '<span>Library</span></a>' +
-      '<a href="/merch" data-tab="shop">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/><circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>' +
-        '<span>Shop</span></a>' +
+      '<a href="/artists" data-tab="artists">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="2.4"/><circle cx="15.5" cy="8.6" r="2"/><path d="M4.6 18.2c.6-2.6 2.6-4 4.4-4s3.8 1.4 4.4 4M13.2 16.6c.5-1.6 1.8-2.6 3.2-2.6 1.2 0 2.4.7 3 2"/></svg>' +
+        '<span>Artists</span></a>' +
       '<a href="/news" data-tab="zine">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.2" y="5" width="15.6" height="14" rx="1.6"/><path d="M7.4 9h9.2M7.4 12.2h6.6M7.4 15.4h8.2"/></svg>' +
-        '<span>Zine</span></a>';
+        '<span>Zine</span></a>' +
+      '<a href="/merch" data-tab="shop">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/><circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>' +
+        '<span>Shop</span></a>';
     document.body.appendChild(bar);
 
     function currentTab() {
       var p = (location.pathname || '/').replace(/\/index\.html$/, '/');
       if (p.indexOf('/library') === 0) return 'library';
+      if (p.indexOf('/artists') === 0) return 'artists';
       if (p.indexOf('/merch') === 0 || p.indexOf('/cart') === 0 || p.indexOf('/checkout') === 0) return 'shop';
       if (p.indexOf('/news') === 0) return 'zine';
-      if (p === '/' || p === '') return 'listen';
       return '';
     }
 
@@ -128,29 +126,14 @@
       });
     }
 
-    bar.querySelector('[data-tab="listen"]').addEventListener('click', function (e) {
-      if (!isHome) return;
-      e.preventDefault();
-      closeDrawer();
-      if (location.hash) {
-        try { history.replaceState({}, '', location.pathname + location.search); }
-        catch (err) {}
-      }
-      try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-      catch (err) { window.scrollTo(0, 0); }
-      syncTabs();
-    });
-
     window.addEventListener('hashchange', syncTabs);
     syncTabs();
 
     if (drawer) {
       drawer.querySelectorAll('a').forEach(function (a) {
         var href = (a.getAttribute('href') || '').split('?')[0];
-        var dup = href === '/' || href === '/index.html' ||
-          href === '#listen' || href === '/#listen' ||
-          href === '/library' || href === '/merch' ||
-          href === '/news';
+        var dup = href === '/library' || href === '/artists' ||
+          href === '/merch' || href === '/news';
         if (dup) a.classList.add('tabbar-dup');
       });
     }
