@@ -30,6 +30,12 @@
     return sum;
   }
 
+  function hasCue(rel) {
+    return (rel.tracks || []).some(function (t) {
+      return t && (t.preview || t.bandcampTrackId || t.previewTrack);
+    });
+  }
+
   function cardHtml(rel) {
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
@@ -37,19 +43,26 @@
     var cat = rel.catalogue || "";
     var dur = fmtDur(releaseDuration(rel));
     var spec = [cat, rel.kind, dur].filter(Boolean).join("  ·  ");
-    return (
-      '<article class="sleeve-card" data-release="' + esc(rel.id) + '">' +
-        '<div class="sleeve-card-art">' +
-          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
-            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:640px) 46vw, (max-width:1100px) 22vw, 220px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
-          "</a>" +
+    var cued = hasCue(rel);
+    var preorder = String(rel.status || "").toLowerCase() === "pre-order";
+    var play = cued
+      ? (
           '<button type="button" class="sleeve-card-play" data-play-release="' + esc(rel.id) + '"' +
             (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
             ' aria-label="Play ' + esc(rel.title) + '">' +
             '<svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
             '<svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
           "</button>" +
-          '<span class="sleeve-card-air" hidden>On air</span>' +
+          '<span class="sleeve-card-air" hidden>On air</span>'
+        )
+      : (preorder ? '<span class="sleeve-card-stamp">Pre-order</span>' : "");
+    return (
+      '<article class="sleeve-card" data-release="' + esc(rel.id) + '">' +
+        '<div class="sleeve-card-art">' +
+          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
+            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:640px) 46vw, (max-width:1100px) 22vw, 220px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
+          "</a>" +
+          play +
         "</div>" +
         '<div class="sleeve-card-meta">' +
           (spec ? '<p class="sleeve-card-spec">' + esc(spec) + "</p>" : "") +

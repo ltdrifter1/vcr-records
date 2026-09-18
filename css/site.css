@@ -136,6 +136,18 @@ button {
 }
 .skip-link:focus { left: 0; }
 
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Glass utility — chrome-glass --------------------------------------------- */
 .glass {
   background:
@@ -849,6 +861,25 @@ body.vcr-stage-open .tabbar {
 }
 .footer-logo-link .footer-logo { margin-bottom: 0; }
 .footer-logo { width: min(156px, 44vw); height: auto; margin-bottom: 14px; display: block; }
+.footer-wordmark {
+  display: inline-block;
+  margin: 0 0 8px;
+  font-family: Oswald, var(--display), sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+}
+.footer-publisher {
+  margin: 8px 0 0;
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+.footer-publisher a { color: inherit; }
 .footer-manifesto {
   font-size: 18px; font-weight: 500; letter-spacing: -.015em; line-height: 1.4;
   color: var(--muted); max-width: 20em;

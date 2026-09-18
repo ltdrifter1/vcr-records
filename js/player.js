@@ -1537,7 +1537,7 @@
 
   function toggle() {
     if (!current()) {
-      playRelease("desire", null, { autoplay: true, stage: true });
+      playRelease("gorilla", null, { autoplay: true, stage: true });
       return;
     }
     if (!audio) return;

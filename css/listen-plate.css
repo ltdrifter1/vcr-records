@@ -111,18 +111,173 @@ body.home-zine .hero.plate-hero {
   color: #1a1a1a;
 }
 
+.listen-plate-actions a.btn-text {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 4px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  border: 0;
+  background: none;
+}
+
+body.home-zine .hero.plate-hero {
+  --ticker-h: 32px;
+  --hero-ink: #111111;
+  background:
+    radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
+    linear-gradient(180deg, #eeeeec 0%, #d8d8d6 42%, #cfcfcd 100%);
+  color: var(--hero-ink);
+  isolation: isolate;
+}
+
+body.home-zine .hero.plate-hero .hero-lockup {
+  width: auto;
+  max-width: none;
+}
+
+body.home-zine .hero.plate-hero .hero-lockup-kicker {
+  margin: 0 0 8px;
+  font-family: var(--callsign);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: rgba(17, 19, 24, .48);
+}
+
+body.home-zine .hero.plate-hero .hero-lockup-artist,
+body.home-zine .hero.plate-hero .hero-lockup-title,
+body.home-zine .hero.plate-hero .hero-lockup-title a,
+body.home-zine .hero.plate-hero .hero-lockup-artist a {
+  color: var(--hero-ink);
+  text-decoration: none;
+  text-transform: uppercase;
+  line-height: .9;
+}
+
+body.home-zine .hero.plate-hero .hero-lockup-artist {
+  font-family: Oswald, var(--sans);
+  font-weight: 600;
+  font-size: clamp(16px, 2.4vw, 28px);
+  letter-spacing: .1em;
+}
+
+body.home-zine .hero.plate-hero .hero-lockup-title {
+  margin: 0;
+  font-family: Oswald, var(--sans);
+  font-weight: 700;
+  font-size: clamp(28px, 4.6vw, 52px);
+  letter-spacing: .02em;
+}
+
+body.home-zine .hero.plate-hero .hero-ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--ticker-h, 32px);
+  height: 40%;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(196, 196, 192, .35) 100%);
+}
+
+body.home-zine .hero.plate-hero .hero-ticker {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 3;
+  height: var(--ticker-h);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  border-top: 1px solid rgba(255, 255, 255, .55);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.12)),
+    #c8c8c4;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-bug {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px 0 18px;
+  border-right: 1px solid rgba(40, 40, 40, .12);
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-viewport {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: heroTicker 42s linear infinite;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-copy a,
+body.home-zine .hero.plate-hero .hero-ticker-copy span {
+  font-family: var(--callsign);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0 22px;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(40, 40, 40, .28);
+  padding: 0 !important;
+}
+
+@keyframes heroTicker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 @media (max-width: 819px) {
   .plate-hero .hero-stage {
     width: min(1180px, calc(100% - 28px));
     padding-top: calc(var(--nav-h) + var(--safe-t) + 18px);
+    padding-bottom: calc(20px + var(--ticker-h, 32px));
   }
   .listen-plate .listen-sleeve {
     max-width: min(420px, 100%);
+  }
+  .listen-plate-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .listen-plate-actions .btn-fill,
+  .listen-plate-actions .btn-ghost {
+    grid-column: 1 / -1;
+  }
+  .listen-plate-actions a.btn-text {
+    grid-column: 1 / -1;
+    height: auto;
+    justify-content: flex-start;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .listen-plate .listen-sleeve.is-live::after {
+    animation: none;
+  }
+  body.home-zine .hero.plate-hero .hero-ticker-track {
     animation: none;
   }
 }
