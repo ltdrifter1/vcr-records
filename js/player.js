@@ -306,6 +306,13 @@
   }
 
   function streamSrc(release, t) {
+    var file = filePreviewSrc(t.preview);
+    var host = "";
+    try {
+      host = window.location.hostname || "";
+    } catch (e) {}
+    var localDev = host === "127.0.0.1" || host === "localhost";
+    if (localDev && file) return file;
     if (t.bandcampTrackId || (release && (release.bandcampUrl || release.bandcamp))) {
       return (
         "/api/bandcamp-stream?r=" +
@@ -314,7 +321,7 @@
         encodeURIComponent(t.id)
       );
     }
-    return filePreviewSrc(t.preview);
+    return file;
   }
 
   function buildQueueFromRelease(release) {
@@ -326,11 +333,12 @@
         return trackPlayable(t, release);
       })
       .map(function (t, i) {
-        var fromBandcamp = !!(t.bandcampTrackId || release.bandcampUrl || release.bandcamp);
+        var src = streamSrc(release, t);
+        var fromBandcamp = /bandcamp-stream/.test(src);
         return {
           id: t.id,
           title: t.title,
-          src: streamSrc(release, t),
+          src: src,
           filePreview: filePreviewSrc(t.preview),
           fromBandcamp: fromBandcamp,
           bandcampTrackId: t.bandcampTrackId || null,
@@ -1204,6 +1212,9 @@
       audio.src = track.filePreview;
       render();
       safePlay();
+      return;
+    }
+    if (track && track._fellBack && audio && /previews\//.test(audio.currentSrc || audio.src || "")) {
       return;
     }
     showPreviewError(

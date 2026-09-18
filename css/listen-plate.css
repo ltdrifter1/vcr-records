@@ -21,17 +21,12 @@ body.home-zine .hero.plate-hero {
 }
 
 .listen-plate {
-  display: grid;
-  gap: clamp(20px, 3vw, 40px);
-  align-items: end;
-  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.4vw, 28px);
+  max-width: 420px;
   margin: 0 auto;
-}
-
-@media (min-width: 820px) {
-  .listen-plate {
-    grid-template-columns: minmax(240px, 400px) minmax(0, 1fr);
-  }
+  align-items: stretch;
 }
 
 .listen-plate .hero-lockup {
