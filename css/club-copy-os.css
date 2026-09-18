@@ -1,7 +1,8 @@
 /* ==========================================================================
-   Club Copy OS — steel lock (v=st20)
+   Club Copy OS — steel lock (v=st21)
    Loaded LAST. Kills Bondi / Aqua ice / cyan LCD even if an older
-   aqua-world.css is still in a CDN cache. No blue fills. No home roster.
+   aqua-world.css is still in a CDN cache (that file used !important ice fills).
+   No blue fills. No home roster. No Artists in home chrome.
    ========================================================================== */
 
 :root,
@@ -65,16 +66,20 @@ body.surface-night {
   --ipod-lcd-ink: #1a1a1a;
 }
 
-html,
-html body,
 html body.home-zine,
-html body.zine-surface,
+html body.home-zine.zine-surface,
+html body.home-zine.hero-top,
+html body.zine-surface:not(.archive-release):not(.surface-night),
 html body.shop-page,
-html body.surface-acetate,
 html body.news-listing,
-html body.hero-top {
-  background-color: #E8E8E6;
-  color: #1A1A1A;
+html body.hero-top:not(.archive-release):not(.surface-night) {
+  background:
+    radial-gradient(780px 480px at 88% -8%, rgba(220, 220, 216, .55), transparent 58%),
+    radial-gradient(640px 420px at 8% 10%, rgba(255, 255, 255, .72), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(176, 176, 172, .16), transparent 55%),
+    linear-gradient(180deg, #eeeeec 0%, #E8E8E6 42%, #d6d6d4 100%) !important;
+  background-color: #E8E8E6 !important;
+  color: #1A1A1A !important;
 }
 
 /* Homepage hero — brushed steel cove, not Bondi ice ---------------------- */
@@ -83,8 +88,8 @@ html body.home-zine .hero {
   background:
     radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
     radial-gradient(ellipse 80% 55% at 72% 8%, rgba(236, 236, 234, .9), transparent 58%),
-    linear-gradient(180deg, #eeeeec 0%, #d4d4d2 38%, #c8c8c4 72%, #b4b4b0 100%);
-  color: #111111;
+    linear-gradient(180deg, #eeeeec 0%, #d4d4d2 38%, #c8c8c4 72%, #b4b4b0 100%) !important;
+  color: #111111 !important;
 }
 html body.home-zine .hero::before {
   background:
@@ -100,6 +105,16 @@ html body.home-zine .hero::after {
 }
 html body.home-zine .hero-ground {
   background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 28%, rgba(196, 196, 192, .55) 100%);
+}
+html body.home-zine .nav,
+html body.home-zine .nav.scrolled,
+html body.home-zine.hero-top .nav,
+html body.home-zine.hero-top .nav.scrolled {
+  background: #E8E8E6 !important;
+  border-bottom: 1px solid rgba(40, 40, 40, .16) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Listening plate — record object, not a Click Wheel replica ------------- */
@@ -126,11 +141,16 @@ html body.home-zine .plate-hero .hero-platter {
   display: none !important;
 }
 
-/* Roster block stays off home; Artists belongs in chrome. ---------------- */
+/* Roster + Artists chrome stay off home. Roster lives on /artists. ------- */
 html body.home-zine .home-artists,
 html body.home-zine #artists.home-artists,
 html body.home-zine .home-roster,
-html body.home-zine section#artists {
+html body.home-zine section#artists,
+html body.home-zine .nav-links a[href="/artists"],
+html body.home-zine .nav-drawer a[href="/artists"],
+html body.home-zine .footer-links a[href="/artists"],
+html body.home-zine .tabbar a[href="/artists"],
+html body.home-zine .tabbar a[data-tab="artists"] {
   display: none !important;
 }
 

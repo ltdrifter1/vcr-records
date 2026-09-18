@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="generator" content="club-copy-os-st18"/>
+  <meta name="generator" content="club-copy-os-st21"/>
   <meta name="description" content="Club Copy — You Are (Love) by Riscape out now. Pacific Northwest house, jungle, and instrumental hip-hop. Small library. Long shelf life. Listen, collect, join the Record Club."/>
   <meta name="theme-color" content="#E8E8E6"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -101,17 +101,37 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,600;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st20"/>
-  <link rel="stylesheet" href="css/listen-object.css?v=st20"/>
-  <link rel="stylesheet" href="css/listen-plate.css?v=st20"/>
-  <link rel="stylesheet" href="css/fx.css?v=st20"/>
-  <link rel="stylesheet" href="css/player.css?v=st20"/>
-  <link rel="stylesheet" href="css/news.css?v=st20"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st20"/>
-  <link rel="stylesheet" href="css/home-zine.css?v=st20"/>
-  <link rel="stylesheet" href="css/aqua-world.css?v=st20"/>
-  <link rel="stylesheet" href="css/home-folio.css?v=st20"/>
-  <link rel="stylesheet" href="css/club-copy-os.css?v=st20"/>
+  <link rel="stylesheet" href="css/site.css?v=st21"/>
+  <link rel="stylesheet" href="css/listen-object.css?v=st21"/>
+  <link rel="stylesheet" href="css/listen-plate.css?v=st21"/>
+  <link rel="stylesheet" href="css/fx.css?v=st21"/>
+  <link rel="stylesheet" href="css/player.css?v=st21"/>
+  <link rel="stylesheet" href="css/news.css?v=st21"/>
+  <link rel="stylesheet" href="css/zine-pages.css?v=st21"/>
+  <link rel="stylesheet" href="css/home-zine.css?v=st21"/>
+  <link rel="stylesheet" href="css/home-folio.css?v=st21"/>
+  <link rel="stylesheet" href="css/club-copy-os.css?v=st21"/>
+  <style id="club-copy-home-lock">
+    /* Steel lock in the document so a cached Bondi aqua-world.css cannot paint the home field, and a stale Artists roster cannot show. */
+    html, html body, html body.home-zine {
+      --ice: #E8E8E6; --ice-2: #D2D2D0; --pearl: #F4F4F2;
+      --lcd: #C8C8C4; --lcd-ink: #1A1A1A; --bondi: #9A9A96;
+      --stamp: #B8B8B4; --bg: #E8E8E6; --ink: #1A1A1A;
+      --zine-paper: #E8E8E6; --zine-stamp: #B8B8B4; --zine-cyan: #B8B8B4;
+      background-color: #E8E8E6 !important;
+      color: #1A1A1A !important;
+    }
+    html body.home-zine .home-artists,
+    html body.home-zine #artists,
+    html body.home-zine .home-roster,
+    html body.home-zine .nav-links a[href="/artists"],
+    html body.home-zine .nav-drawer a[href="/artists"],
+    html body.home-zine .footer-links a[href="/artists"],
+    html body.home-zine .tabbar a[href="/artists"],
+    html body.home-zine .tabbar a[data-tab="artists"] {
+      display: none !important;
+    }
+  </style>
 
 </head>
 <body id="top" class="hero-top nav-light home-zine zine-surface">
@@ -122,7 +142,6 @@
     <a href="#top" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
             <nav class="nav-links" aria-label="Primary">
       <a href="/library">Library</a>
-      <a href="/artists">Artists</a>
       <a href="/news">Zine</a>
       <a href="/merch">Shop</a>
       <a href="#join">Join</a>
@@ -145,7 +164,6 @@
 
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="/library">Library</a>
-  <a href="/artists">Artists</a>
   <a href="/news">Zine</a>
   <a href="/merch">Shop</a>
   <a href="#join">Join</a>
@@ -561,7 +579,6 @@
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="/library">Library</a>
-        <a href="/artists">Artists</a>
         <a href="/news">Zine</a>
         <a href="/merch">Shop</a>
         <a href="/planet">Planet MP3</a>
@@ -573,7 +590,7 @@
 </footer>
 
 <script src="js/zine.js"></script>
-<script src="js/site.js"></script>
+<script src="js/site.js?v=st21"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js"></script>
