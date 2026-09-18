@@ -114,6 +114,9 @@ html body.home-zine .plate-hero .hero-stage {
   min-height: 0 !important;
   margin: 0 auto;
   padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 32px));
+  text-align: center;
+}
+html body.home-zine .plate-hero .hero-lockup {
   text-align: left;
 }
 html body.home-zine .plate-hero .hero-post,
@@ -143,4 +146,66 @@ html body.home-zine .ig-feed {
 }
 html body.home-zine .ig-card {
   background: #111111;
+}
+
+/* Object release pages — steel, not a second dark brand -------------------- */
+html body.archive-release.release-object {
+  background: #e8e8e6 !important;
+  color: #1a1a1a !important;
+}
+html body.archive-release.release-object .nav,
+html body.archive-release.release-object .nav.scrolled {
+  background: #e8e8e6;
+  border-bottom: 1px solid rgba(40, 40, 40, .18);
+  box-shadow: none;
+}
+html body.archive-release.release-object .nav-links a {
+  color: #1a1a1a;
+}
+html body.archive-release.release-object .nav-links a:hover,
+html body.archive-release.release-object .nav-links a[aria-current="page"] {
+  color: #1a1a1a;
+  background: #b8b8b4;
+}
+html body.archive-release.release-object .nav-cart,
+html body.archive-release.release-object .nav-ham span {
+  color: #1a1a1a;
+  background: #1a1a1a;
+}
+html body.archive-release.release-object .nav-ham span { background: #1a1a1a; }
+html body.archive-release.release-object .nav-cart { color: #1a1a1a; }
+html body.archive-release.release-object .ra-hero {
+  background: transparent;
+}
+html body.archive-release.release-object .ra-hero-ambient {
+  filter: blur(48px) saturate(.6) brightness(1.1);
+  opacity: .35;
+}
+html body.archive-release.release-object .ra-hero-ambient::after {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(232,232,230,.2), rgba(232,232,230,.92) 70%);
+}
+html body.archive-release.release-object .ra-hero-title,
+html body.archive-release.release-object .ra-hero-meta,
+html body.archive-release.release-object .ra-hero-facts,
+html body.archive-release.release-object .ra-hero-info,
+html body.archive-release.release-object .crumbs,
+html body.archive-release.release-object .ra-head h2,
+html body.archive-release.release-object .track-title,
+html body.archive-release.release-object .ra-notes,
+html body.archive-release.release-object .ra-specs {
+  color: #1a1a1a;
+}
+html body.archive-release.release-object .ra-hero .crumbs a {
+  color: #5c5c5a;
+}
+html body.archive-release.release-object .btn-light {
+  background: #1a1a1a;
+  color: #f4f4f2;
+  border-color: #1a1a1a;
+}
+html body.archive-release.release-object .btn-ghost {
+  background: transparent;
+  color: #1a1a1a;
+  border: 1px solid rgba(40,40,40,.28);
 }
