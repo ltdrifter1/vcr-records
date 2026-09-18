@@ -1,54 +1,79 @@
 /* ==========================================================================
    Club Copy — listening plate (hero)
-   Record object on steel. LCD grammar, not a Click Wheel replica.
+   Record object on steel. Liner-notes type, not a flyer lockup.
+   Title stays mixed-case. Specs live in Plex/Lucida. No slogan copy.
    ========================================================================== */
 
 body.home-zine .hero.plate-hero {
   --hero-ink: #111111;
+  --ticker-h: 32px;
+  position: relative;
+  isolation: isolate;
   min-height: 0;
   display: block;
   padding: 0;
   overflow: hidden;
+  color: var(--hero-ink);
+  background:
+    radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
+    linear-gradient(180deg, #eeeeec 0%, #d8d8d6 42%, #cfcfcd 100%);
 }
 
 .plate-hero .hero-stage {
+  position: relative;
+  z-index: 1;
   width: min(1080px, calc(100% - 40px));
   min-height: 0;
   margin: 0 auto;
-  padding: calc(var(--nav-h) + var(--safe-t) + 28px) 0 calc(28px + var(--ticker-h, 32px));
+  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 calc(36px + var(--ticker-h, 32px));
   display: block;
   text-align: left;
 }
 
 .listen-plate {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(16px, 2.4vw, 28px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "lockup"
+    "sleeve"
+    "copy";
+  gap: 22px;
   max-width: 420px;
   margin: 0 auto;
   align-items: stretch;
 }
 
-.listen-plate .hero-lockup {
+body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
+  grid-area: lockup;
   width: auto;
   max-width: none;
-}
-
-.listen-plate-object {
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  min-width: 0;
+  align-items: flex-start;
 }
 
 .listen-plate .listen-sleeve {
+  grid-area: sleeve;
   width: 100%;
   max-width: 400px;
+  justify-self: center;
+}
+
+.listen-plate-copy {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
 }
 
 .listen-plate-lcd {
-  padding: 10px 12px 12px;
-  border-radius: 4px;
+  padding: 10px 12px 11px;
+  border-radius: 3px;
   background: linear-gradient(180deg, #d2d2ce 0%, #b8b8b4 100%);
   border: 1px solid rgba(40, 40, 40, .22);
   box-shadow: inset 0 1px 2px rgba(40, 50, 60, .28);
@@ -64,118 +89,91 @@ body.home-zine .hero.plate-hero {
 .listen-plate-cat {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: .04em;
-  text-transform: uppercase;
+  text-transform: none;
   color: rgba(26, 26, 26, .62);
 }
 
 .listen-plate-status {
-  margin-top: 4px;
+  margin-top: 3px;
+  font-family: var(--ui);
   font-size: 13px;
-  font-weight: 600;
-  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: none;
 }
 
 .listen-plate-status a {
   text-decoration: underline;
   text-underline-offset: 2px;
+  color: inherit;
 }
 
 .listen-plate-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
-.listen-plate-actions .btn {
-  height: 44px;
-  padding: 0 16px;
-  font-family: var(--ui);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-}
-
-.listen-plate-actions .btn-fill,
-.listen-plate-actions .btn.btn-fill {
-  background: #1a1a1a;
-  color: #f4f4f2;
-  border: 1px solid #1a1a1a;
-}
-
-.listen-plate-actions .btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(40, 40, 40, .28);
-  color: #1a1a1a;
-}
-
-.listen-plate-actions a.btn-text {
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 4px;
-  font-family: var(--ui);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: #1a1a1a;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  border: 0;
-  background: none;
-}
-
-body.home-zine .hero.plate-hero {
-  --ticker-h: 32px;
-  --hero-ink: #111111;
-  background:
-    radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
-    linear-gradient(180deg, #eeeeec 0%, #d8d8d6 42%, #cfcfcd 100%);
-  color: var(--hero-ink);
-  isolation: isolate;
-}
-
-body.home-zine .hero.plate-hero .hero-lockup {
-  width: auto;
-  max-width: none;
-}
-
+/* Type: mixed-case lockup — Oswald for the title only, Archivo for the artist,
+   Plex for the kicker. Zine gothic uppercase is locked out in club-copy-os. */
 body.home-zine .hero.plate-hero .hero-lockup-kicker {
-  margin: 0 0 8px;
-  font-family: var(--callsign);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .34em;
-  text-transform: uppercase;
-  color: rgba(17, 19, 24, .48);
+  margin: 0 0 14px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: none;
+  color: rgba(17, 17, 17, .5);
 }
 
 body.home-zine .hero.plate-hero .hero-lockup-artist,
-body.home-zine .hero.plate-hero .hero-lockup-title,
-body.home-zine .hero.plate-hero .hero-lockup-title a,
 body.home-zine .hero.plate-hero .hero-lockup-artist a {
-  color: var(--hero-ink);
+  margin: 0 0 6px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(14px, 1.6vw, 16px);
+  letter-spacing: .01em;
+  line-height: 1.2;
+  text-transform: none;
   text-decoration: none;
-  text-transform: uppercase;
-  line-height: .9;
-}
-
-body.home-zine .hero.plate-hero .hero-lockup-artist {
-  font-family: Oswald, var(--sans);
-  font-weight: 600;
-  font-size: clamp(16px, 2.4vw, 28px);
-  letter-spacing: .1em;
+  color: rgba(17, 17, 17, .72);
 }
 
 body.home-zine .hero.plate-hero .hero-lockup-title {
   margin: 0;
-  font-family: Oswald, var(--sans);
-  font-weight: 700;
-  font-size: clamp(28px, 4.6vw, 52px);
-  letter-spacing: .02em;
+  font-family: Oswald, var(--display), sans-serif;
+  font-weight: 500;
+  font-size: clamp(40px, 6.4vw, 64px);
+  letter-spacing: -.03em;
+  line-height: .92;
+  text-transform: none;
+}
+
+body.home-zine .hero.plate-hero .hero-lockup-title a {
+  color: var(--hero-ink);
+  text-decoration: none;
+  text-transform: none;
+}
+
+body.home-zine .hero.plate-hero .hero-lockup-aside {
+  display: block;
+  font-weight: 500;
+  font-size: .78em;
+  letter-spacing: -.024em;
+  margin-top: .02em;
+}
+
+@media (hover: hover) {
+  body.home-zine .hero.plate-hero .hero-lockup-artist a:hover {
+    color: var(--hero-ink);
+  }
+  body.home-zine .hero.plate-hero .hero-lockup-title a:hover {
+    opacity: .72;
+  }
 }
 
 body.home-zine .hero.plate-hero .hero-ground {
@@ -209,6 +207,18 @@ body.home-zine .hero.plate-hero .hero-ticker-bug {
   gap: 10px;
   padding: 0 14px 0 18px;
   border-right: 1px solid rgba(40, 40, 40, .12);
+  background: transparent;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: none;
+  padding: 0;
+  background: transparent;
+  color: #1a1a1a;
 }
 
 body.home-zine .hero.plate-hero .hero-ticker-viewport {
@@ -225,15 +235,15 @@ body.home-zine .hero.plate-hero .hero-ticker-track {
 
 body.home-zine .hero.plate-hero .hero-ticker-copy a,
 body.home-zine .hero.plate-hero .hero-ticker-copy span {
-  font-family: var(--callsign);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: none;
   color: #1a1a1a;
   text-decoration: none;
   white-space: nowrap;
-  padding: 0 22px;
+  padding: 0 18px;
 }
 
 body.home-zine .hero.plate-hero .hero-ticker-dot {
@@ -248,27 +258,60 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
   to { transform: translateX(-50%); }
 }
 
-@media (max-width: 819px) {
+@media (min-width: 860px) {
   .plate-hero .hero-stage {
-    width: min(1180px, calc(100% - 28px));
-    padding-top: calc(var(--nav-h) + var(--safe-t) + 18px);
-    padding-bottom: calc(20px + var(--ticker-h, 32px));
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 40px);
+    padding-bottom: calc(44px + var(--ticker-h, 32px));
+  }
+  .listen-plate {
+    max-width: 960px;
+    grid-template-columns: minmax(280px, 440px) minmax(260px, 1fr);
+    grid-template-areas:
+      "sleeve lockup"
+      "sleeve copy";
+    column-gap: 64px;
+    row-gap: 20px;
+    align-items: center;
   }
   .listen-plate .listen-sleeve {
-    max-width: min(420px, 100%);
+    justify-self: stretch;
+    max-width: none;
+  }
+  .listen-plate .hero-lockup {
+    align-self: end;
+  }
+  .listen-plate-copy {
+    align-self: start;
+  }
+  .listen-plate-lcd {
+    max-width: 320px;
+  }
+  body.home-zine .hero.plate-hero .hero-lockup-title {
+    font-size: clamp(44px, 5.4vw, 64px);
+  }
+}
+
+@media (max-width: 859px) {
+  .plate-hero .hero-stage {
+    width: min(1180px, calc(100% - 28px));
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
+    padding-bottom: calc(22px + var(--ticker-h, 32px) + 56px);
+  }
+  body.home-zine .hero.plate-hero .hero-ticker {
+    bottom: 56px;
   }
   .listen-plate-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  .listen-plate-actions .btn-fill,
-  .listen-plate-actions .btn-ghost {
+  .listen-plate-actions .btn-fill {
     grid-column: 1 / -1;
   }
   .listen-plate-actions a.btn-text {
     grid-column: 1 / -1;
     height: auto;
+    min-height: 0;
     justify-content: flex-start;
   }
 }
