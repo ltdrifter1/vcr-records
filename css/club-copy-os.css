@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Club Copy OS — steel lock (v=st23)
+   Club Copy OS — steel lock (v=st24)
    Loaded LAST. Kills Bondi / Aqua ice / cyan LCD even if an older
    aqua-world.css is still in a CDN cache (that file used !important ice fills).
-   No blue fills. No home roster. No Artists in home chrome.
+   No blue fills. No home photo roster. Artists stays in nav.
    ========================================================================== */
 
 :root,
@@ -62,6 +62,7 @@ body.surface-night {
   --aurora-c: 200, 200, 196;
   --folio-navy: #1A1A1A;
   --folio-navy-2: #222220;
+  --folio-foil: #B8B8B4;
   --ipod-lcd: #c8c8c4;
   --ipod-lcd-ink: #1a1a1a;
 }
@@ -220,16 +221,11 @@ html body.home-zine .plate-hero .hero-platter {
   display: none !important;
 }
 
-/* Roster + Artists chrome stay off home. Roster lives on /artists. ------- */
+/* Photo roster stays off home. Roster lives on /artists. Artists stays in nav. */
 html body.home-zine .home-artists,
 html body.home-zine #artists.home-artists,
 html body.home-zine .home-roster,
-html body.home-zine section#artists,
-html body.home-zine .nav-links a[href="/artists"],
-html body.home-zine .nav-drawer a[href="/artists"],
-html body.home-zine .footer-links a[href="/artists"],
-html body.home-zine .tabbar a[href="/artists"],
-html body.home-zine .tabbar a[data-tab="artists"] {
+html body.home-zine section#artists {
   display: none !important;
 }
 
@@ -239,6 +235,7 @@ html body.home-zine .club-join--luxe,
 html body.home-zine .club-luxe {
   --folio-navy: #1A1A1A;
   --folio-navy-2: #222220;
+  --folio-foil: #B8B8B4;
 }
 html body.home-zine .ig-feed {
   background: #1A1A1A;
