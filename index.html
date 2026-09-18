@@ -4,24 +4,24 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="generator" content="club-copy-os-st18"/>
-  <meta name="description" content="Club Copy — DESIRE and Still Riding (Molly Haze Edit) out now. Pacific Northwest house, jungle, and instrumental hip-hop. Small library. Long shelf life. Listen, collect, join the Record Club."/>
+  <meta name="description" content="Club Copy — You Are (Love) by Riscape out now. Pacific Northwest house, jungle, and instrumental hip-hop. Small library. Long shelf life. Listen, collect, join the Record Club."/>
   <meta name="theme-color" content="#E8E8E6"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="format-detection" content="telephone=no"/>
   <link rel="canonical" href="https://www.clubcopy.ca/"/>
   <meta property="og:site_name" content="Club Copy"/>
-  <meta property="og:title" content="Club Copy | DESIRE — Molly Haze"/>
-      <meta property="og:description" content="DESIRE and Still Riding (Molly Haze Edit) out now. Pacific Northwest house, jungle, and instrumental hip-hop — listen and collect."/>
+  <meta property="og:title" content="Club Copy | You Are (Love) — Riscape"/>
+      <meta property="og:description" content="You Are (Love) by Riscape out now. Pacific Northwest house, jungle, and instrumental hip-hop — listen and collect."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/desire-cover.webp"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
   <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Club Copy | DESIRE — Molly Haze"/>
-  <meta name="twitter:description" content="DESIRE and Still Riding (Molly Haze Edit) out now. House, jungle, instrumental hip-hop — listen and collect."/>
-  <meta name="twitter:image" content="https://www.clubcopy.ca/desire-cover.webp"/>
-  <title>Club Copy | DESIRE — Molly Haze</title>
+  <meta name="twitter:title" content="Club Copy | You Are (Love) — Riscape"/>
+  <meta name="twitter:description" content="You Are (Love) by Riscape out now. House, jungle, instrumental hip-hop — listen and collect."/>
+  <meta name="twitter:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
+  <title>Club Copy | You Are (Love) — Riscape</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -39,7 +39,7 @@
           "width": 180,
           "height": 180
         },
-        "image": "https://www.clubcopy.ca/desire-cover.webp",
+        "image": "https://www.clubcopy.ca/you-are-love-cover.webp",
         "email": "charlie@clubcopy.ca",
         "founder": { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/cj-archer#person", "name": "CJ Archer", "url": "https://www.clubcopy.ca/artists/cj-archer" },
         "description": "Club Copy is an independent Pacific Northwest record label based in British Columbia, Canada. The label releases house, jungle, instrumental hip-hop, and adjacent forms on digital and cassette — small editions, long shelf life.",
@@ -111,7 +111,7 @@
     /* Listening booth hero : ice cove, LCD gel, iPod as product ------------ */
     .hero {
       --ticker-h: 32px;
-      --ipod-w: min(420px, 38vw, calc((100svh - var(--nav-h) - 100px) * .6));
+      --ipod-w: min(420px, 72vw, calc((100svh - var(--nav-h) - 160px) * .52));
       --hero-ink: #111111;
       position: relative;
       min-height: 100vh;
@@ -189,7 +189,8 @@
     }
     .hero-lockup-artist,
     .hero-lockup-title,
-    .hero-lockup-title a {
+    .hero-lockup-title a,
+    .hero-lockup-artist a {
       color: var(--hero-ink);
       text-decoration: none;
       text-transform: uppercase;
@@ -198,14 +199,14 @@
     .hero-lockup-artist {
       font-family: Oswald, var(--sans);
       font-weight: 600;
-      font-size: clamp(22px, 3.4vw, 42px);
+      font-size: clamp(16px, 2.4vw, 28px);
       letter-spacing: .1em;
     }
     .hero-lockup-title {
       margin: 0;
       font-family: Oswald, var(--sans);
       font-weight: 700;
-      font-size: clamp(44px, 7.2vw, 88px);
+      font-size: clamp(28px, 4.6vw, 52px);
       letter-spacing: .02em;
     }
     .hero-lockup-title a {
@@ -469,6 +470,13 @@
     }
     .hero-disc img {
       display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero.is-now-playing .hero-disc img,
+    .hero[data-ipod-view="now"] .hero-disc img {
+      display: block;
     }
     .hero-disc::after { content: none; }
     .hero-disc::before {
@@ -666,7 +674,7 @@
       outline-offset: 3px;
     }
 
-    /* Now Playing — same LCD, no album art (4th-gen never showed a sleeve) */
+    /* Now Playing — sleeve under LCD gel */
     .hero-console {
       display: none;
       flex-direction: column;
@@ -677,6 +685,7 @@
       flex: 1;
       margin: 0;
       padding: 8px 10px 8px;
+      background: linear-gradient(180deg, rgba(200,200,196,.78) 0%, rgba(200,200,196,.92) 100%);
     }
     .hero.is-live .hero-console,
     .hero.is-now-playing .hero-console,
@@ -706,6 +715,14 @@
     .hero-meta-value[data-room-title] {
       font-size: 14px;
       font-weight: 700;
+    }
+    .hero-meta-value[data-room-spec] {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: rgba(28,36,48,.58);
     }
     a.hero-meta-value {
       transition: opacity var(--dur) var(--ease);
@@ -1677,12 +1694,14 @@
 <main id="main">
 
   <!-- Featured release -->
-  <section class="hero" id="room" data-listening-room data-ipod data-ipod-view="menu" aria-label="DESIRE">
+  <section class="hero" id="room" data-listening-room data-ipod data-ipod-view="now" aria-label="You Are (Love)">
     <div class="hero-ground" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="hero-post">
-        <header class="hero-lockup visually-hidden">
-          <h1 class="hero-lockup-title"><a href="/desire">Desire</a> — Molly Haze</h1>
+        <header class="hero-lockup">
+          <p class="hero-lockup-kicker">CC004 · EP · cassette</p>
+          <p class="hero-lockup-artist"><a href="/artists/riscape">Riscape</a></p>
+          <h1 class="hero-lockup-title"><a href="/news/please">You Are (Love)</a></h1>
         </header>
         <div class="hero-scene">
         <div class="hero-booth">
@@ -1693,7 +1712,7 @@
           <div class="hero-vinyl-rig" data-room-disc>
             <div class="hero-sleeve">
               <div class="hero-disc">
-                <img data-room-art src="desire-cover.webp?v=re" alt="DESIRE — Molly Haze" width="1200" height="1200"/>
+                <img data-room-art src="you-are-love-cover.webp" alt="You Are (Love) — Riscape" width="1254" height="1254"/>
               </div>
 
               <div class="ipod-statusbar" aria-hidden="true">
@@ -1718,8 +1737,9 @@
 
               <div class="hero-console" data-room-console>
                 <div class="hero-meta">
-                  <p class="hero-meta-value" data-room-title>DESIRE</p>
-                  <p class="hero-meta-value" data-room-artist>Molly Haze</p>
+                  <p class="hero-meta-value" data-room-title>You Are (Love)</p>
+                  <p class="hero-meta-value" data-room-artist>Riscape</p>
+                  <p class="hero-meta-value" data-room-spec>CC004 · four tracks · $20 cassette</p>
                 </div>
                 <p class="hero-upnext" data-room-upnext hidden></p>
                 <div class="hero-progress">
@@ -1739,7 +1759,7 @@
             <button type="button" class="ipod-key ipod-key--next" data-act="ipod-next" aria-label="Next">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 6H19v12h-2.4zM13 12 3 5.6v12.8z"/></svg>
             </button>
-            <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" data-act="ipod-play" aria-label="Play DESIRE">
+            <button type="button" class="ipod-key ipod-key--playpause" id="heroPlayBtn" data-act="ipod-play" aria-label="You Are (Love) — cassette pre-order">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 7.1v9.8L12 12zm10.8 0h1.7v9.8h-1.7zm3.1 0h1.7v9.8h-1.7z"/></svg>
             </button>
           </div>
@@ -1749,7 +1769,7 @@
         </div>
       </div>
     </div>
-    <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. In rotation: Gorilla (Molly’s Hazy Edit), mixtape (instrumental version), DESIRE, Still Riding (Molly Haze Edit), The Process.</p>
+    <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. Featured: You Are (Love) by Riscape. In rotation: You Are (Love), Gorilla (Molly’s Hazy Edit), mixtape (instrumental version), DESIRE, Still Riding (Molly Haze Edit), The Process.</p>
     <div class="hero-ticker" data-hero-ticker>
       <div class="hero-ticker-bug" aria-live="polite">
         <span class="status-chip status-chip--standby" data-ticker-chip>Stand by</span>
@@ -1758,6 +1778,8 @@
       <div class="hero-ticker-viewport">
         <div class="hero-ticker-track">
           <div class="hero-ticker-copy">
+            <a href="/news/please">You Are (Love)</a>
+            <span class="hero-ticker-dot"></span>
             <a href="/gorilla">Gorilla</a>
             <span class="hero-ticker-dot"></span>
             <a href="/mixtape">mixtape</a>
@@ -1794,6 +1816,8 @@
             <span class="hero-ticker-dot"></span>
           </div>
           <div class="hero-ticker-copy" aria-hidden="true">
+            <a href="/news/please" tabindex="-1">You Are (Love)</a>
+            <span class="hero-ticker-dot"></span>
             <a href="/gorilla" tabindex="-1">Gorilla</a>
             <span class="hero-ticker-dot"></span>
             <a href="/mixtape" tabindex="-1">mixtape</a>
@@ -1849,6 +1873,7 @@
     </div>
     <div class="sleeve-index" id="sleeveIndex" aria-label="Catalogue">
       <div class="sleeve-index-grid" id="wallGrid" aria-live="polite" aria-busy="false">
+<article class="sleeve-card" data-release="you-are-love"><div class="sleeve-card-art"><a href="/news/please" aria-label="You Are (Love) — view release"><img src="you-are-love-cover-480.webp" srcset="you-are-love-cover-480.webp 480w, you-are-love-cover.webp 1200w" sizes="(max-width:640px) 46vw, 220px" alt="You Are (Love) — artwork" loading="lazy" width="1254" height="1254"/></a></div><div class="sleeve-card-meta"><p class="sleeve-card-spec">CC004  ·  EP  ·  Cassette</p><h3 class="sleeve-card-title"><a href="/news/please">You Are (Love)</a></h3><p class="sleeve-card-artist">Riscape</p></div></article>
 <article class="sleeve-card" data-release="desire"><div class="sleeve-card-art"><a href="/desire" aria-label="DESIRE — view release"><img src="desire-cover-480.webp" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(max-width:640px) 46vw, 220px" alt="DESIRE — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="sleeve-card-play" data-play-release="desire" aria-label="Play DESIRE"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button></div><div class="sleeve-card-meta"><p class="sleeve-card-spec">CC021  ·  Single</p><h3 class="sleeve-card-title"><a href="/desire">DESIRE</a></h3><p class="sleeve-card-artist">Molly Haze</p></div></article>
 <article class="sleeve-card" data-release="still-riding"><div class="sleeve-card-art"><a href="/still-riding" aria-label="Still Riding — view release"><img src="still-riding-cover-480.webp" srcset="still-riding-cover-480.webp 480w, still-riding-cover.webp 1200w" sizes="(max-width:640px) 46vw, 220px" alt="Still Riding — artwork" loading="lazy" width="1200" height="1200"/></a><button type="button" class="sleeve-card-play" data-play-release="still-riding" aria-label="Play Still Riding"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button></div><div class="sleeve-card-meta"><p class="sleeve-card-spec">CC022  ·  Single</p><h3 class="sleeve-card-title"><a href="/still-riding">Still Riding</a></h3><p class="sleeve-card-artist">Molly Haze</p></div></article>
       </div>

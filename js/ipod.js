@@ -6,14 +6,16 @@
   if (!hero) return;
 
   var FEATURED = {
-    releaseId: "desire",
-    title: "DESIRE",
-    artist: "Molly Haze",
-    track: "Original Mix",
-    page: "/desire",
-    sku: "dg-desire",
-    price: 1.5,
-    cover: "desire-cover.webp",
+    releaseId: "you-are-love",
+    title: "You Are (Love)",
+    artist: "Riscape",
+    track: "You Are (Love)",
+    page: "/news/please",
+    sku: "cs-you-are-love",
+    price: 20,
+    cover: "you-are-love-cover.webp",
+    format: "cassette",
+    playable: false,
   };
 
   var TICK = Math.PI / 10;
@@ -25,20 +27,20 @@
       title: "Club Copy",
       items: [
         { id: "music", label: "Music", kind: "drill", screen: "music" },
-        { id: "join", label: "Join", kind: "link", href: "#join" },
         { id: "shop", label: "Shop", kind: "drill", screen: "shop" },
+        { id: "join", label: "Join", kind: "link", href: "#join" },
         { id: "zine", label: "Zine", kind: "link", href: "/news" },
         { id: "now", label: "Now Playing", kind: "now" },
       ],
     },
     music: {
       title: "Music",
-      items: [{ id: "rel-desire", label: "DESIRE", kind: "play", releaseId: "desire" }],
+      items: [{ id: "rel-you-are-love", label: "You Are (Love)", kind: "now", releaseId: "you-are-love" }],
     },
     shop: {
       title: "Shop",
       items: [
-        { id: "buy-digital", label: "Buy Now", kind: "buy", price: "$1.50" },
+        { id: "buy-cassette", label: "Cassette · $20", kind: "buy", sku: "cs-you-are-love", price: "$20" },
         { id: "details", label: "Details", kind: "link", href: FEATURED.page },
         { id: "merch", label: "Merch", kind: "link", href: "/merch" },
       ],
@@ -118,6 +120,15 @@
 
   function loadedOffer() {
     var track = siteTrack();
+    if (track && track.cassetteSku) {
+      return {
+        sku: track.cassetteSku,
+        name: (track.releaseTitle || track.title) + " — Cassette",
+        price: track.cassettePrice != null ? Number(track.cassettePrice) : FEATURED.price,
+        image: track.cassetteImage || track.cover || FEATURED.cover,
+        page: track.page || FEATURED.page,
+      };
+    }
     if (track && track.digitalSku) {
       return {
         sku: track.digitalSku,
@@ -127,9 +138,10 @@
         page: track.page || FEATURED.page,
       };
     }
+    var formatName = FEATURED.format === "cassette" ? "Cassette" : "Digital";
     return {
       sku: FEATURED.sku,
-      name: FEATURED.title + " — Digital (Single)",
+      name: FEATURED.title + " — " + formatName,
       price: FEATURED.price,
       image: FEATURED.cover,
       page: FEATURED.page,
@@ -306,8 +318,13 @@
     if (!track) return;
     var title = hero.querySelector("[data-room-title]");
     var artist = hero.querySelector("[data-room-artist]");
-    if (title) title.textContent = track.releaseTitle || track.title || "";
-    if (artist) artist.textContent = track.artist || "";
+    var art = hero.querySelector("[data-room-art]");
+    if (title) title.textContent = track.releaseTitle || track.title || FEATURED.title;
+    if (artist) artist.textContent = track.artist || FEATURED.artist;
+    if (art && track.cover) {
+      art.src = track.cover;
+      art.alt = (track.releaseTitle || track.title || FEATURED.title) + " — " + (track.artist || FEATURED.artist);
+    }
   }
 
   function syncTicker(playing, line) {
@@ -341,6 +358,12 @@
     if (VCRPlayer.getAudio) VCRPlayer.getAudio();
 
     var id = releaseId || FEATURED.releaseId;
+    if (id === FEATURED.releaseId && FEATURED.playable === false) {
+      showNowPlaying();
+      showAlert("Cassette pre-order");
+      syncPlayUi();
+      return;
+    }
     var state = VCRPlayer.getState ? VCRPlayer.getState() : null;
     var track = state && state.track;
     var playing = !!(state && state.playing);
@@ -417,6 +440,11 @@
       return;
     }
     if (item.kind === "buy") {
+      if (item.sku) FEATURED.sku = item.sku;
+      if (item.price) {
+        var n = Number(String(item.price).replace(/[^0-9.]/g, ""));
+        if (isFinite(n)) FEATURED.price = n;
+      }
       buyNow();
       return;
     }
@@ -652,20 +680,40 @@
     var digital = release.formats.digital;
     var cassette = release.formats.cassette;
     var vinyl = release.formats.vinyl;
-    if (digital && digital.price != null) {
-      FEATURED.price = Number(digital.price);
-      FEATURED.sku = digital.sku || FEATURED.sku;
+    var tracks = release.tracks || [];
+    FEATURED.playable = tracks.some(function (t) {
+      return t && (t.bandcampTrackId || t.preview || release.bandcampUrl || release.bandcamp);
+    });
+    if (cassette && cassette.sku) {
+      FEATURED.format = "cassette";
+      FEATURED.sku = cassette.sku;
+      if (cassette.price != null) FEATURED.price = Number(cassette.price);
+    } else if (digital && digital.sku) {
+      FEATURED.format = "digital";
+      FEATURED.sku = digital.sku;
+      if (digital.price != null) FEATURED.price = Number(digital.price);
     }
-    var priceLabel = FEATURED.price != null ? "$" + money(FEATURED.price) : "$1.50";
+    var priceLabel = FEATURED.price != null ? "$" + money(FEATURED.price) : "";
     SCREENS.main.items.forEach(function (item) {
       if (item.kind === "buy") item.price = priceLabel;
     });
-    var shopItems = [{ id: "buy-digital", label: "Buy Now", kind: "buy", price: priceLabel }];
+    var shopItems = [];
     if (cassette && cassette.sku) {
       shopItems.push({
         id: "buy-cassette",
         label: cassette.price != null ? "Cassette · $" + money(cassette.price) : "Cassette",
         kind: "buy",
+        sku: cassette.sku,
+        price: cassette.price != null ? "$" + money(cassette.price) : "",
+      });
+    }
+    if (digital && digital.sku) {
+      shopItems.push({
+        id: "buy-digital",
+        label: digital.price != null ? "Digital · $" + money(digital.price) : "Digital",
+        kind: "buy",
+        sku: digital.sku,
+        price: digital.price != null ? "$" + money(digital.price) : "",
       });
     }
     if (vinyl && vinyl.sku) {
@@ -673,6 +721,17 @@
         id: "buy-vinyl",
         label: vinyl.price != null ? "Vinyl · $" + money(vinyl.price) : "Vinyl",
         kind: "buy",
+        sku: vinyl.sku,
+        price: vinyl.price != null ? "$" + money(vinyl.price) : "",
+      });
+    }
+    if (!shopItems.length) {
+      shopItems.push({
+        id: "buy-now",
+        label: priceLabel ? "Buy Now · " + priceLabel : "Buy Now",
+        kind: "buy",
+        sku: FEATURED.sku,
+        price: priceLabel,
       });
     }
     shopItems.push({ id: "details", label: "Details", kind: "link", href: FEATURED.page });
@@ -685,12 +744,22 @@
   }
 
   function hydrateMusicFromCatalog(catalog) {
-    var releases = catalog.releases || [];
+    var releases = (catalog.releases || []).slice().sort(function (a, b) {
+      if (a.id === FEATURED.releaseId) return -1;
+      if (b.id === FEATURED.releaseId) return 1;
+      var aDate = String(a.released || "");
+      var bDate = String(b.released || "");
+      if (aDate !== bDate) return bDate.localeCompare(aDate);
+      return String(b.catalogue || "").localeCompare(String(a.catalogue || ""));
+    });
     SCREENS.music.items = releases.map(function (r) {
+      var playable = (r.tracks || []).some(function (t) {
+        return t && (t.bandcampTrackId || t.preview || r.bandcampUrl || r.bandcamp);
+      });
       return {
         id: "rel-" + r.id,
         label: r.title,
-        kind: "play",
+        kind: playable ? "play" : "now",
         releaseId: r.id,
       };
     });
@@ -746,7 +815,7 @@
     })
     .catch(function () {});
 
-  setView("menu");
+  setView("now");
   renderList();
   syncPlayUi();
 })();
