@@ -2,6 +2,7 @@
  * Offline Instagram snapshot mixer (not a Vercel function).
  * Live scraping from /api broke production deploys; the homepage
  * reads data/instagram-feed.json instead.
+ * Refresh stills with: node scripts/sync-instagram-feed.js
  */
 const fs = require("fs");
 const path = require("path");

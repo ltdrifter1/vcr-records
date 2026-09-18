@@ -2,7 +2,7 @@
 
 **Role:** UI / identity for a music, editorial, and culture site  
 **Scope:** Repository `main` at `1d2431e` and production `https://www.clubcopy.ca/` on 18 September 2026, **after** the Vercel outage window. No product UI was redesigned for this pass.  
-**Previous:** [Pass A](creative-audit.md) 67 · [Pass B](creative-audit-pass-b.md) 75 (HEAD), ~62 (live Bondi replica)
+**Current identity scorecard:** [Pass D](creative-audit-pass-d.md).
 
 ---
 
