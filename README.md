@@ -4,11 +4,11 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 ## Design
 
-One world: Bondi ice ground, Aqua gel chrome, 4th-gen iPod as the listening object. Night Shift is the magazine *inside* that world — same ice, same type, inverted masthead.
-`css/aqua-world.css` loads last and keeps xerox/lime flattening from winning.
+One world: brushed iPod steel, not Bondi ice. Night Shift is the magazine *inside* that world — same aluminum, same type.
+`css/club-copy-os.css` loads last (after `aqua-world.css`) and is the lock: grey tokens, no cyan fills, no Artists roster on home.
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum / LCD, not an iOS pill).
 
-- Ice `#E7F0F6` · LCD ink `#1C2430` · Bondi stamp `#8EC8DC` · Select `#2A3D68` · Phosphor LED `#5EE0EA`
+- Steel `#E8E8E6` · LCD ink `#1A1A1A` · Stamp `#B8B8B4` · Select `#2A2A28` · LED `#E4E4E0`
 - Type: Oswald display · Archivo body · Lucida Grande UI/LCD · IBM Plex Mono specs
 
 ## Commerce
