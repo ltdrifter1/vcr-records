@@ -5,6 +5,7 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 ## Design
 
 One world: brushed iPod steel, not Bondi ice. Night Shift is the magazine *inside* that world — same aluminum, same type.
+Creative brief (living — edit in place): `docs/creative-audit.md`.
 Homepage hero is a listening plate (sleeve + LCD + Play), not a Click Wheel replica: `css/listen-plate.css`.
 `css/club-copy-os.css` loads last and is the lock: grey tokens, no cyan fills, no Artists photo roster on home (Artists stays in nav).
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum LCD spec bar — invert play, pearl LED, no lime).
