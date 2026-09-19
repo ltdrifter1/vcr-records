@@ -1,19 +1,18 @@
 /**
- * Offline Instagram snapshot mixer (not a Vercel function).
- * Live scraping from /api broke production deploys; the homepage
- * reads data/instagram-feed.json instead.
+ * Live Instagram mixer for GET /api/instagram-feed.
+ * Guest-session profile JSON for @ltdrifta + @clubcopyrecords.
+ * Snapshot fallback: data/instagram-feed.json
  * Refresh stills with: node scripts/sync-instagram-feed.js
  */
 const fs = require("fs");
 const path = require("path");
 
+const { fetchProfile } = require("./ig-session");
+
 const HANDLES = ["ltdrifta", "clubcopyrecords"];
-const LIMIT = 14;
+const LIMIT = 16;
 const CACHE_MS = 5 * 60 * 1000;
 const FALLBACK_PATH = path.join(process.cwd(), "data", "instagram-feed.json");
-const IG_APP_ID = "936619743392459";
-const UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
 
 let cache = { at: 0, body: null };
 
@@ -49,7 +48,9 @@ function mapNode(node, handle, name) {
     id: String(node.id || short),
     shortcode: short,
     href: "https://www.instagram.com/p/" + short + "/",
-    image: "/api/instagram-media?p=" + encodeURIComponent(short),
+    image: fs.existsSync(path.join(process.cwd(), "media", "ig", short + ".jpg"))
+      ? "/media/ig/" + short + ".jpg"
+      : "/api/instagram-media?p=" + encodeURIComponent(short),
     caption: caption.slice(0, 240),
     alt: alt,
     takenAt: Number(node.taken_at_timestamp) || 0,
@@ -57,28 +58,6 @@ function mapNode(node, handle, name) {
     handle: handle,
     name: name || handle,
   };
-}
-
-async function fetchProfile(username) {
-  const url = "https://www.instagram.com/api/v1/users/web_profile_info/?username=" + encodeURIComponent(username);
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": UA,
-      Accept: "application/json",
-      "Accept-Language": "en-US,en;q=0.9",
-      "X-IG-App-ID": IG_APP_ID,
-      "X-ASBD-ID": "129477",
-      "X-IG-WWW-Claim": "0",
-      Referer: "https://www.instagram.com/" + username + "/",
-      Origin: "https://www.instagram.com",
-    },
-  });
-  if (!res.ok) {
-    const err = new Error("Instagram " + username + " " + res.status);
-    err.status = res.status;
-    throw err;
-  }
-  return res.json();
 }
 
 function mixProfiles(payloads) {
@@ -117,7 +96,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const payloads = await Promise.all(HANDLES.map(fetchProfile));
+    const payloads = [];
+    for (let i = 0; i < HANDLES.length; i++) {
+      if (i) await new Promise(function (r) { setTimeout(r, 400); });
+      payloads.push(await fetchProfile(HANDLES[i]));
+    }
     const posts = mixProfiles(payloads);
     if (!posts.length) throw new Error("Empty Instagram payload");
     const body = {
