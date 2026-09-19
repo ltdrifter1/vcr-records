@@ -174,12 +174,36 @@ html body.library-index .lib-shelf {
   border-radius: 0;
 }
 html body.library-index .lib-shelf__ambient { display: none; }
+html body.library-index .lib-shelf__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 40px);
+  align-items: center;
+}
+@media (max-width: 799px) {
+  html body.library-index .lib-shelf__grid {
+    grid-template-columns: 1fr;
+  }
+}
 html body.library-index .lib-shelf__art {
+  margin: 0;
+  width: min(200px, 56vw);
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid rgba(40, 40, 40, .16);
   box-shadow: 0 12px 28px rgba(26, 30, 38, .1);
-  max-width: min(200px, 100%);
+}
+html body.library-index .lib-shelf__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  display: block;
 }
 html body.library-index .lib-shelf__callsign {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -208,7 +232,8 @@ html body.library-index .lib-shelf__meta {
   color: #5C5C5A;
 }
 
-body.library-index.lib-covers-on .lib-shelf { display: none; }
+body.library-index.lib-covers-on .lib-shelf,
+body.library-index.lib-filtered .lib-shelf { display: none; }
 
 /* Filter rail — file index chrome ------------------------------------------ */
 html body.library-index .lib-body { padding-top: 8px; }

@@ -428,6 +428,7 @@
     list.setAttribute('aria-hidden', isCovers ? 'true' : 'false');
     if (flowRoot) flowRoot.hidden = !isCovers;
     document.body.classList.toggle('lib-covers-on', isCovers);
+    document.body.classList.toggle('lib-filtered', !!(filters.genre || filters.artist));
     if (viewListBtn) {
       viewListBtn.classList.toggle('is-active', !isCovers);
       viewListBtn.setAttribute('aria-pressed', !isCovers ? 'true' : 'false');
