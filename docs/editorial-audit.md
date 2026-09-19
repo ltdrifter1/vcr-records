@@ -133,7 +133,7 @@ That also reads as AI: the model was told “no short sentences,” so it never 
 
 Fifteen-odd pieces sit at **~95–170 words** and do not contain a fact you could not get off the sleeve. `inlet-knight-on-club-copy` (107 words), `champion-sound`, `lt-drifta-on-club-copy`, `donuts`, `summer-madness`, `working-for-the-knife`, `caprisongs`.
 
-A signing notice can be short. It cannot be **only temperature**. If we signed Rosco, we owe a when, a what, a why that is not “the room wouldn’t leave.”
+A signing notice can be short. It cannot be **only temperature**. If we signed Rainier, we owe a when, a what, a why that is not “the room wouldn’t leave.”
 
 ### 8. Desk hygiene (not voice, still slop)
 
@@ -150,7 +150,7 @@ A signing notice can be short. It cannot be **only temperature**. If we signed R
 
 `please`, `inlet-knight`, `need-you`, `lions-gate`, `inlet-knight-on-club-copy`, `lt-drifta-on-club-copy`, most CC catalogue blurbs.
 
-**What’s wrong:** Telegram stack + no reporting. The Riscape release (`please`) is the best of a weak set because it still has kitchen piano and conservatory-as-blood. `We Signed Rosco` is the worst: three grafs of vibe, then “this isn’t a bio.” If it isn’t a bio, it still has to *be* something.
+**What’s wrong:** Telegram stack + no reporting. The Riscape release (`please`) is the best of a weak set because it still has kitchen piano and conservatory-as-blood. `We Signed Rainier` is the worst: three grafs of vibe, then “this isn’t a bio.” If it isn’t a bio, it still has to *be* something.
 
 **Must change before rewrite:** Every owned-catalogue piece needs **one unfakeable detail** (who mixed it, what the tape shell is, which night you first played it, what the neighbour said). Then **one** command, not five. No “this isn’t a press kit.”
 
@@ -214,7 +214,7 @@ Human × craft × whether it matches Night Shift. 10 = steal this xerox. 3 = del
 | Need U | **3.5** | Caption. |
 | Inlet Knight | **3.5** | Boat, rain, commands. |
 | Lions’ Gate | **3.0** | Pure telegram. |
-| We Signed Rosco | **3.0** | Temperature check that refuses to be a story. |
+| We Signed Rainier | **3.0** | Temperature check that refuses to be a story. |
 
 Median of the stack is about **5–6**. The home rail is currently overweight on 3s and 7s, not 8s.
 
@@ -246,7 +246,7 @@ Median of the stack is about **5–6**. The home rail is currently overweight on
 **P0 — the kit is showing**
 
 1. All canon listening that shares the liturgy closer (Untrue, Donuts, Love Deluxe, Homogenic, Mezzanine, Velvet Rope). Dummy stays closest to itself; still pass for rhythm.
-2. Owned-catalogue blurbs: Inlet Knight, Need U, Lions’ Gate, We Signed Rosco, L.T. Drifta signing, Please / You Are (Love).
+2. Owned-catalogue blurbs: Inlet Knight, Need U, Lions’ Gate, We Signed Rainier, L.T. Drifta signing, Please / You Are (Love).
 3. Strip banned phrases from the rest of the stack even where the piece is otherwise good.
 
 **P1 — make the bomb bombier**

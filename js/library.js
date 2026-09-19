@@ -41,7 +41,8 @@
   function readFiltersFromUrl() {
     var p = params();
     var artist = String(p.get('artist') || p.get('artistId') || '').trim();
-    if (artist.toLowerCase() === 'inlet-knight') artist = 'rosco';
+    var artistKey = artist.toLowerCase();
+    if (artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'rainier';
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
     if (view === 'covers' || view === 'list') viewMode = view;
@@ -76,7 +77,7 @@
   function matchesArtist(rel, filter) {
     if (!filter) return true;
     var q = filter.toLowerCase();
-    if (q === 'inlet-knight') q = 'rosco';
+    if (q === 'inlet-knight' || q === 'rosco' || q === 'roscoe') q = 'rainier';
     var id = String(rel.artistId || '').toLowerCase();
     var name = String(rel.artist || '').toLowerCase();
     return id === q || name === q || slugify(name) === q;

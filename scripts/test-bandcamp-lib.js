@@ -62,4 +62,15 @@ assert.strictEqual(bc.pickCueTrack(yal).id, "yal-01");
 assert.strictEqual(yal.tracks[3].title, "Day Like This");
 assert.strictEqual(yal.tracks[3].bandcampTrackId, 1221909968);
 
+const rainier = catalog.artists.find((a) => a.id === "rainier");
+assert.ok(rainier);
+assert.strictEqual(rainier.name, "Rainier");
+assert.strictEqual(rainier.slug, "/artists/rainier");
+const bridget = catalog.releases.find((r) => r.id === "bridget-in-my-room");
+assert.strictEqual(bridget.artist, "Rainier");
+assert.strictEqual(bridget.artistId, "rainier");
+assert.ok(/rainiershouse\.bandcamp\.com/.test(bridget.bandcampUrl));
+assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
+assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
+
 console.log("bandcamp lib ok");
