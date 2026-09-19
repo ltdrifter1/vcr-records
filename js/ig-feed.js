@@ -2,7 +2,7 @@
 (function () {
   var root = document.querySelector("[data-ig-grid]");
   if (!root) return;
-  var LIMIT = 12;
+  var LIMIT = 16;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -77,7 +77,14 @@
     return out;
   }
 
-  load("/data/instagram-feed.json")
+  load("/api/instagram-feed")
+    .then(function (data) {
+      if (!data || !data.posts || !data.posts.length) throw new Error("empty live feed");
+      return data;
+    })
+    .catch(function () {
+      return load("/data/instagram-feed.json");
+    })
     .then(function (data) {
       render(mix(data && data.posts));
     })

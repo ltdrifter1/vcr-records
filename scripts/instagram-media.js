@@ -1,7 +1,7 @@
 /**
- * Instagram still proxy — kept as a local script, not a Vercel function.
- * GET would have been /api/instagram-media?p=SHORTCODE
+ * Instagram still proxy for GET /api/instagram-media?p=SHORTCODE
  */
+const { execFile } = require("child_process");
 const IG_RE = /^[A-Za-z0-9_-]{5,20}$/;
 const UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
@@ -32,27 +32,33 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const upstream = await fetch("https://www.instagram.com/p/" + code + "/media/?size=l", {
-      headers: {
-        "User-Agent": UA,
-        Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        Referer: "https://www.instagram.com/",
-      },
-      redirect: "follow",
+    const buf = await new Promise(function (resolve, reject) {
+      execFile(
+        "curl",
+        [
+          "-sS",
+          "-L",
+          "-A",
+          UA,
+          "-H",
+          "Referer: https://www.instagram.com/",
+          "https://www.instagram.com/p/" + code + "/media/?size=l",
+        ],
+        { encoding: "buffer", maxBuffer: 6 * 1024 * 1024, timeout: 15000 },
+        function (err, stdout) {
+          if (err) return reject(err);
+          resolve(stdout);
+        }
+      );
     });
-    if (!upstream.ok) {
-      return send(res, upstream.status === 404 ? 404 : 502, "Media unavailable", {
+    if (!buf || buf.length < 800) {
+      return send(res, 502, "Media unavailable", {
         "Content-Type": "text/plain",
         "Cache-Control": "public, max-age=60",
       });
     }
-    const type = upstream.headers.get("content-type") || "image/jpeg";
-    if (type.indexOf("image/") !== 0 && type.indexOf("octet-stream") === -1) {
-      return send(res, 502, "Unexpected media type", { "Content-Type": "text/plain" });
-    }
-    const buf = Buffer.from(await upstream.arrayBuffer());
     return send(res, 200, buf, {
-      "Content-Type": type.indexOf("image/") === 0 ? type : "image/jpeg",
+      "Content-Type": "image/jpeg",
       "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
       "Access-Control-Allow-Origin": "*",
     });
