@@ -101,6 +101,8 @@
     if (rel.kind) bits.push(rel.kind);
     if (String(rel.status || '').toLowerCase() === 'pre-order') bits.push('Pre-order');
     if (rel.tracksCount) bits.push(rel.tracksCount + (rel.tracksCount === 1 ? ' track' : ' tracks'));
+    if (rel.year) bits.push(String(rel.year));
+    if (rel.genre) bits.push(rel.genre);
     var formats = [];
     if (rel.formats && rel.formats.cassette) {
       formats.push(rel.formats.cassette.backorder ? 'Cassette backorder' : 'Cassette');
@@ -175,11 +177,11 @@
       var mem = digitalMemberPrice(retail);
       if (mem == null) mem = retail;
       var showClub = isFinite(mem) && Math.abs(mem - retail) > 0.001;
-      var clubLabel = 'club';
+      var clubLabel = 'Club';
       if (yours) {
         clubLabel = (window.ClubMember && ClubMember.isPremium && ClubMember.isPremium())
-          ? 'premium'
-          : 'yours';
+          ? 'Premium'
+          : 'Yours';
       }
       board =
         '<div class="cat-price' + (yours ? ' is-yours' : '') + '">' +
@@ -320,7 +322,9 @@
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
-    var catNo = '';
+    var catNo = rel.catalogue
+      ? '<p class="cat-id">' + esc(rel.catalogue) + '</p>'
+      : '';
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack));
     });
@@ -344,17 +348,16 @@
       '<article class="cat-row rv" style="--cover:' + cssUrl(full || thumb) + '" data-release="' + esc(rel.id) + '" data-artist-id="' + esc(rel.artistId || '') + '" data-genre="' + esc(slugify(rel.genre)) + '">' +
         '<div class="cat-cover media-bezel fx-spec jewel">' +
           '<a href="' + esc(href) + '" tabindex="-1" aria-hidden="true">' +
-            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(min-width:860px) 108px, 88px" alt="' + alt + '" width="1200" height="1200" loading="lazy"/>' +
+            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(min-width:860px) 80px, 72px" alt="' + alt + '" width="1200" height="1200" loading="lazy"/>' +
           '</a>' +
-          '<span class="cat-cc">' + esc(rel.genre || '') + '</span>' +
           playBtn +
           pill +
         '</div>' +
         '<div class="cat-main">' +
+          catNo +
           '<a class="cat-title" href="' + esc(href) + '">' + esc(rel.title) + '</a>' +
           '<span class="cat-artist">' + esc(rel.artist) + '</span>' +
           '<div class="cat-tags">' +
-            catNo +
             (cue ? '<span class="cat-cue">' + esc(cue) + '</span>' : '') +
           '</div>' +
         '</div>' +
@@ -425,6 +428,7 @@
     list.setAttribute('aria-hidden', isCovers ? 'true' : 'false');
     if (flowRoot) flowRoot.hidden = !isCovers;
     document.body.classList.toggle('lib-covers-on', isCovers);
+    document.body.classList.toggle('lib-filtered', !!(filters.genre || filters.artist));
     if (viewListBtn) {
       viewListBtn.classList.toggle('is-active', !isCovers);
       viewListBtn.setAttribute('aria-pressed', !isCovers ? 'true' : 'false');
@@ -448,12 +452,12 @@
       var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
       if (profile && ClubMember.hasMemberPricing(profile)) {
         leadEl.innerHTML = ClubMember.isPremium(profile)
-          ? "You're in. 50% off all music on this email. <a href=\"/#join\">Your club</a>"
-          : "You're in. 30% off all music on this email. <a href=\"/#join\">Your club</a>";
+          ? 'Your catalogue. Premium is on this email — 50% off music. <a href="/#join">Your club</a>'
+          : 'Your catalogue. Club is on this email — 30% off music. <a href="/#join">Your club</a>';
       } else if (profile) {
-        leadEl.innerHTML = "You're on the list. <a href=\"/#join\">Join the club</a> for 30% off music.";
+        leadEl.innerHTML = 'You\'re on the list. Files and small-run formats — <a href="/#join">join</a> for 30% off music.';
       } else {
-        leadEl.innerHTML = 'Club members get 30% off, premium members get 50% off all music. <a href="/#join">Join</a>.';
+        leadEl.innerHTML = 'Pacific Northwest house, jungle, and instrumental hip-hop. Files you keep, objects in small runs. <a href="/#join">Club 30% off music</a>';
       }
       return;
     }
@@ -565,10 +569,10 @@
     if (!inspect || !rel) return;
     var thumb = coverSrc(rel);
     var full = rel.cover || thumb;
-    var catHtml = rel.genre
-      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.genre) + '</span></p>'
+    var catHtml = rel.catalogue
+      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.catalogue) + '</span></p>'
       : '';
-    var meta = [rel.kind, rel.year].filter(Boolean).join(' · ');
+    var meta = [rel.kind, rel.year, rel.genre].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
     var hasPrev = tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId));
@@ -750,8 +754,8 @@
         return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
       });
 
-      renderSelect(genreSelect, uniqueGenres(allReleases), 'All', filters.genre);
-      renderSelect(artistSelect, uniqueArtists(allReleases), 'All', filters.artist);
+      renderSelect(genreSelect, uniqueGenres(allReleases), 'All genres', filters.genre);
+      renderSelect(artistSelect, uniqueArtists(allReleases), 'All artists', filters.artist);
       render();
     })
     .catch(function () {
