@@ -1,5 +1,7 @@
 # Night Shift — Editorial Audit (before rewrite)
 
+**P0 rewrite (19 Sep 2026):** Canon liturgy closers and the thin catalogue/signing notes are rewritten in the HTML. Remaining work is P1 (object essays, city last-grafs) and desk hygiene. See the pull request.
+
 **Role:** Senior zine editor  
 **Scope:** All 85 `news/*.html` bodies, `data/news.json` deks/headlines, About page copy. No articles rewritten in this pass.  
 **Date:** 19 September 2026  

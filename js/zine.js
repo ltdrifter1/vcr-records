@@ -66,7 +66,7 @@
       kicker: "wednesday loops",
       title: "Donuts",
       artist: "J Dilla",
-      dek: "Put this on when your loops feel too clean, when everything lands on the grid like it was afraid to be late to its own party.",
+      dek: "J Dilla, Stones Throw, thirty-one short ones: the smile on the sleeve and a snare that shows up late on purpose.",
       image: "news-donuts.webp",
       spec: ["2006", "stones throw", "lp"]
     },
