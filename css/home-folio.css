@@ -313,6 +313,12 @@ html body.home-zine .club-join--luxe .join-levels {
   border: 0;
   background: transparent;
 }
+html body.home-zine .club-join--luxe .join-level[hidden] {
+  display: none !important;
+}
+html body.home-zine .club-join--luxe .join-levels:has(.join-level[hidden]) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 html body.home-zine .club-join--luxe .join-level {
   position: relative;
   display: flex;
@@ -539,7 +545,7 @@ html body.home-zine .club-join--luxe .premium-credit-preview strong {
   color: var(--folio-foil);
 }
 html body.home-zine .club-join--luxe .club-join-btn.btn,
-html body.home-zine .club-join--luxe .join-member-actions .btn-chrome-on-dark {
+html body.home-zine .club-join--luxe .join-member-home .club-join-btn.btn {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -570,16 +576,30 @@ html body.home-zine .club-join--luxe .join-member-actions .btn-chrome-on-dark {
 }
 html body.home-zine .club-join--luxe .join-member-home {
   color: var(--folio-pearl);
-  padding: 8px 0 0;
+  padding: 0;
+  max-width: 220px;
 }
-html body.home-zine .club-join--luxe .join-member-title { color: var(--folio-pearl); }
-html body.home-zine .club-join--luxe .join-member-dek { color: rgba(244, 239, 230, .7); }
+html body.home-zine .club-join--luxe.is-member-home {
+  padding: 12px 0 40px;
+}
+html body.home-zine .club-join--luxe.is-member-home .zine-desk-kicker,
+html body.home-zine .club-join--luxe.is-member-home .club-join-head {
+  display: none;
+}
 html body.home-zine .club-join--luxe.is-member-home .club-join-inner {
-  display: block;
-  max-width: 40em;
+  display: flex;
+  justify-content: center;
+  max-width: none;
+  gap: 0;
 }
 html body.home-zine .club-join--luxe.is-member-home .join-desk {
   display: none;
+}
+html body.home-zine .club-join--luxe.is-member-home .join-member-home {
+  margin: 0 auto;
+}
+html body.home-zine .club-join--luxe.is-member-home .join-member-home .club-join-btn.btn {
+  margin-top: 0;
 }
 
 @media (max-width: 900px) {
@@ -593,6 +613,9 @@ html body.home-zine .club-join--luxe.is-member-home .join-desk {
   }
   html body.home-zine .club-join--luxe {
     padding-bottom: 64px;
+  }
+  html body.home-zine .club-join--luxe.is-member-home {
+    padding-bottom: 40px;
   }
   html body.home-zine .ig-feed { padding-bottom: 48px; }
   html body.home-zine .ig-feed .band,
