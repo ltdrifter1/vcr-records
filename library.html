@@ -150,7 +150,6 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600;700&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,600;0,100,700;1,100,400&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css?v=st25"/>
-  <link rel="stylesheet" href="css/surface-night.css?v=st18"/>
   <link rel="stylesheet" href="css/station-bumper.css?v=st18"/>
   <link rel="stylesheet" href="css/listen-object.css?v=st18"/>
   <link rel="stylesheet" href="css/cover-flow.css?v=st18"/>
@@ -159,638 +158,17 @@
   <link rel="stylesheet" href="css/player.css?v=st25"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st18"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st20"/>
+  <link rel="stylesheet" href="css/library.css?v=st26"/>
 
-  <style>
-    .page { padding: 0 0 96px; background: transparent; }
-    body.surface-night {
-      background: transparent;
-    }
-    .lib-body { padding-top: 28px; }
-    @media (min-width: 800px) { .lib-body { padding-top: 40px; } }
-
-    .page .section-head {
-      padding-top: 0;
-      margin-bottom: 28px;
-      border-bottom: none;
-      box-shadow: none;
-    }
-    .page-lead {
-      margin-top: 12px;
-      font-size: 16px;
-      color: #5C5C5A;
-      max-width: 34em;
-    }
-    .page-lead a {
-      color: #2A2A28;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-decoration-color: rgba(40, 40, 40, .32);
-    }
-    @media (hover:hover) {
-      .page-lead a:hover { text-decoration-color: rgba(40, 40, 40, .8); }
-    }
-
-    /* Bumper: type only, logo stays in the nav */
-    .page .station-bumper,
-    .page .station-bumper--compact {
-      min-height: 0;
-      background: transparent;
-    }
-    .page .station-bumper__ambient { display: none; }
-    .page .station-bumper__brand { display: none; }
-    .page .station-bumper__title {
-      margin-top: 0;
-      font-size: clamp(40px, 7vw, 64px);
-    }
-    .page .station-bumper__lede { max-width: 28em; }
-
-    .page .btn-chrome-on-dark,
-    .page .btn-ghost-on-dark {
-      font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0;
-      text-transform: none;
-    }
-
-    /* Filters — one quiet row ---------------------------------------------- */
-    .lib-rail {
-      display: grid;
-      gap: 16px;
-      margin: 0 0 8px;
-      padding: 0 0 20px;
-      border: 0;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      background: none;
-      box-shadow: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      overflow: visible;
-    }
-    .lib-rail::before { display: none; }
-    @media (min-width: 900px) {
-      .lib-rail {
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: end;
-        gap: 20px 32px;
-        margin-bottom: 12px;
-        padding-bottom: 22px;
-      }
-    }
-    .lib-rail-groups {
-      display: grid;
-      gap: 14px;
-      min-width: 0;
-    }
-    @media (min-width: 720px) {
-      .lib-rail-groups {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px 24px;
-      }
-    }
-    .lib-group { min-width: 0; }
-    .lib-group-label {
-      display: block;
-      font-family: var(--callsign);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: rgba(200,200,196,.48);
-      margin-bottom: 8px;
-    }
-    .lib-select-wrap { position: relative; min-width: 0; }
-    .lib-select-wrap::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: 12px;
-      width: 7px;
-      height: 7px;
-      border-right: 1.5px solid rgba(255,255,255,.45);
-      border-bottom: 1.5px solid rgba(255,255,255,.45);
-      transform: translateY(-70%) rotate(45deg);
-      pointer-events: none;
-    }
-    .lib-select {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      min-height: 44px;
-      padding: 0 36px 0 0;
-      border: 0;
-      border-bottom: 1px solid rgba(255,255,255,.18);
-      border-radius: 0;
-      background: transparent;
-      color: #fff;
-      font: inherit;
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: -.01em;
-      cursor: pointer;
-      box-shadow: none;
-    }
-    .lib-select:hover,
-    .lib-select:focus-visible,
-    .lib-select.has-value {
-      background: transparent;
-      border-bottom-color: rgba(255,255,255,.5);
-      box-shadow: none;
-    }
-    .lib-select:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 4px;
-    }
-    .lib-select option { color: #111; background: #fff; }
-
-    .lib-rail-end {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px 16px;
-      justify-content: space-between;
-    }
-    @media (min-width: 900px) {
-      .lib-rail-end { justify-content: flex-end; }
-    }
-    .lib-count {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0;
-      text-transform: none;
-      font-family: var(--sans);
-      color: rgba(255,255,255,.45);
-      font-variant-numeric: tabular-nums;
-    }
-    .lib-view {
-      display: inline-flex;
-      padding: 3px;
-      border: 0;
-      border-radius: 980px;
-      background: rgba(120,120,128,.22);
-      box-shadow: none;
-    }
-    .lib-view-btn {
-      appearance: none;
-      border: 0;
-      background: none;
-      color: rgba(255,255,255,.55);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: -.01em;
-      min-height: 32px;
-      padding: 0 14px;
-      border-radius: 980px;
-      cursor: pointer;
-    }
-    .lib-view-btn + .lib-view-btn { border-left: 0; }
-    .lib-view-btn.is-active {
-      color: #111;
-      background: #fff;
-      box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    }
-    .lib-view-btn:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 2px;
-    }
-    .lib-clear {
-      appearance: none;
-      border: 0;
-      background: none;
-      color: rgba(255,255,255,.55);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-decoration-color: rgba(255,255,255,.28);
-      padding: 0;
-      min-height: 36px;
-    }
-    .lib-clear[hidden] { display: none; }
-    @media (hover:hover) {
-      .lib-clear:hover {
-        color: #fff;
-        text-decoration-color: rgba(255,255,255,.7);
-      }
-    }
-
-    /* Catalogue rows — sleeve + type + price, no plates -------------------- */
-    .cat-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .cat-row {
-      position: relative;
-      isolation: auto;
-      display: grid;
-      grid-template-columns: 88px minmax(0, 1fr);
-      grid-template-areas:
-        "cover main"
-        "cover side";
-      gap: 12px 16px;
-      align-items: center;
-      padding: 18px 0;
-      border: 0;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      border-radius: 0;
-      background: none;
-      box-shadow: none;
-      overflow: visible;
-      color: #fff;
-      transform: none;
-    }
-    .cat-row::before,
-    .cat-row::after { display: none; }
-    .cat-cover { grid-area: cover; }
-    .cat-main { grid-area: main; min-width: 0; }
-    .cat-side { grid-area: side; min-width: 0; }
-    @media (min-width: 860px) {
-      .cat-row {
-        grid-template-columns: 96px minmax(0, 1.6fr) minmax(168px, .85fr);
-        grid-template-areas: "cover main side";
-        gap: 20px 24px;
-        padding: 20px 0;
-      }
-    }
-    .cat-row--featured {
-      padding: 20px 0;
-      background: none;
-      box-shadow: none;
-    }
-    .cat-row--featured .cat-cover { width: 88px; height: 88px; }
-    @media (min-width: 860px) {
-      .cat-row--featured .cat-cover { width: 96px; height: 96px; }
-      .cat-row--featured .cat-title { font-size: clamp(22px, 2.4vw, 28px); }
-    }
-    @media (hover:hover) {
-      .cat-row:hover {
-        background: none;
-        box-shadow: none;
-        transform: none;
-      }
-    }
-
-    .cat-cover {
-      position: relative;
-      width: 88px;
-      height: 88px;
-      border-radius: 2px;
-      overflow: hidden;
-      background: #111;
-      box-shadow: none;
-    }
-    @media (min-width: 860px) {
-      .cat-cover { width: 96px; height: 96px; }
-    }
-    .cat-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    @media (hover:hover) {
-      .cat-row:hover .cat-cover img { transform: none; }
-    }
-
-    .cat-cc {
-      position: absolute;
-      left: 6px;
-      bottom: 6px;
-      z-index: 3;
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-    }
-
-    .cat-play {
-      position: absolute;
-      right: 6px;
-      bottom: 6px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 0;
-      background: #fff;
-      color: #111;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: none;
-      opacity: 0;
-      transform: none;
-      z-index: 4;
-      cursor: pointer;
-    }
-    .cat-play svg {
-      width: 11px;
-      height: 11px;
-      fill: currentColor;
-      margin-left: 1px;
-      display: block;
-    }
-    .cat-play .cp-pause { display: none; margin-left: 0; }
-    .cat-row.is-now-playing.is-audible .cat-play .cp-play { display: none; }
-    .cat-row.is-now-playing.is-audible .cat-play .cp-pause { display: block; }
-    .cat-row.is-now-playing .cat-play,
-    .cat-row.is-up-next .cat-play { opacity: 1; }
-    @media (hover:hover) {
-      .cat-row:hover .cat-play { opacity: 1; }
-      .cat-play:hover { filter: none; background: #ececec; box-shadow: none; }
-    }
-    @media (hover:none), (max-width: 720px) {
-      .cat-play { opacity: 1; }
-    }
-
-    .cat-air {
-      position: absolute;
-      left: 6px;
-      top: 6px;
-      z-index: 4;
-      display: none;
-    }
-    .cat-row.is-now-playing .cat-air,
-    .cat-row.is-up-next .cat-air { display: inline-flex; }
-
-    .cat-title {
-      display: inline-block;
-      font-family: var(--display);
-      font-size: clamp(18px, 2.2vw, 24px);
-      font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1.15;
-      color: #fff;
-      text-decoration: none;
-      max-width: 100%;
-    }
-    @media (hover:hover) {
-      .cat-title:hover { opacity: .72; }
-    }
-    .cat-artist {
-      display: block;
-      margin-top: 4px;
-      font-size: 14px;
-      color: rgba(255,255,255,.55);
-      letter-spacing: -.01em;
-    }
-    .cat-tags {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .cat-genre {
-      display: inline;
-      min-height: 0;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0;
-      text-transform: none;
-      color: rgba(255,255,255,.45);
-      background: none;
-      box-shadow: none;
-    }
-    .cat-cue,
-    .cat-meta {
-      font-size: 13px;
-      color: rgba(255,255,255,.4);
-      letter-spacing: -.01em;
-    }
-
-    .cat-side-pricing {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-width: none;
-      width: 100%;
-    }
-
-    /* Digital price — a line, not a card */
-    .cat-priceboard,
-    .cat-price {
-      position: relative;
-      padding: 0;
-      background: none;
-      border: 0;
-      border-radius: 0;
-      box-shadow: none;
-      overflow: visible;
-    }
-    .cat-priceboard::before,
-    .cat-priceboard::after { display: none; }
-    .cat-priceboard-kicker,
-    .cat-price-kicker {
-      display: none;
-    }
-    .cat-price-panel,
-    .cat-price-line {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 8px 14px;
-      border: 0;
-      background: none;
-      box-shadow: none;
-    }
-    .cat-price-tile {
-      display: flex;
-      flex-direction: row;
-      align-items: baseline;
-      gap: 6px;
-      min-height: 0;
-      padding: 0;
-      background: none !important;
-      border: 0 !important;
-      box-shadow: none !important;
-      border-radius: 0 !important;
-    }
-    .cat-price-tile + .cat-price-tile { opacity: 1; padding: 0; }
-    .cat-price-tile-label {
-      font-family: var(--sans);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0;
-      text-transform: none;
-      color: rgba(255,255,255,.42);
-      line-height: 1.2;
-    }
-    .cat-price-tile-amt,
-    .cat-price-amt,
-    .cat-price-regular {
-      display: inline-flex;
-      align-items: baseline;
-      font-family: var(--display);
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: -.03em;
-      line-height: 1;
-      color: #fff;
-      text-shadow: none;
-      font-variant-numeric: tabular-nums;
-    }
-    .cat-price-tile-currency { font-size: .7em; margin-right: 1px; color: rgba(255,255,255,.55); }
-    .cat-price-tile--member .cat-price-tile-amt,
-    .cat-price-club,
-    .cat-price-member {
-      font-family: var(--sans);
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: -.01em;
-      color: rgba(255,255,255,.55);
-      text-shadow: none;
-    }
-    .cat-price-tile--member.is-yours,
-    .cat-price.is-yours .cat-price-member,
-    .cat-price-tile.is-active .cat-price-tile-amt {
-      color: #fff;
-    }
-    .cat-price-tile--member.is-yours .cat-price-tile-label::after { content: none; }
-    .cat-price.is-yours .cat-price-regular,
-    .cat-price-tile.is-yours + .cat-price-tile .cat-price-tile-amt { color: #fff; }
-
-    .cat-format-note {
-      display: block;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      background: none;
-      box-shadow: none;
-      font-size: 13px;
-      font-weight: 500;
-      color: rgba(255,255,255,.4);
-      line-height: 1.3;
-    }
-    .cat-format-note-mark { display: none; }
-
-    .cat-add {
-      appearance: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      min-height: 34px;
-      margin-top: 8px;
-      padding: 0 14px;
-      border: 0;
-      border-radius: 2px;
-      background: #fff;
-      color: #111;
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: -.01em;
-      line-height: 1;
-      text-decoration: none;
-      cursor: pointer;
-      box-shadow: none;
-    }
-    .cat-add.is-added { background: #ececec; }
-    @media (hover:hover) {
-      .cat-add:hover { background: #ececec; }
-      .cat-row:hover .cat-priceboard,
-      .cat-row:hover .cat-price-panel,
-      .cat-row:hover .cat-format-note {
-        background: none;
-        border: 0;
-        box-shadow: none;
-        color: inherit;
-      }
-    }
-    .cat-add:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-    }
-
-    .cat-row.is-now-playing {
-      background: none;
-      box-shadow: none;
-    }
-    .cat-row.is-now-playing::before { display: none; }
-    .cat-row.is-up-next { box-shadow: none; }
-
-    /* Covers — sleeves, not price cards ------------------------------------ */
-    .cat-list.is-covers {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 28px 16px;
-    }
-    @media (min-width: 720px) {
-      .cat-list.is-covers {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 32px 20px;
-      }
-    }
-    @media (min-width: 1100px) {
-      .cat-list.is-covers {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 36px 22px;
-      }
-    }
-    .cat-list.is-covers .cat-row {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "cover"
-        "main"
-        "side";
-      align-items: start;
-      gap: 12px;
-      padding: 0 0 8px;
-      height: auto;
-      border-bottom: 0;
-    }
-    .cat-list.is-covers .cat-cover {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1;
-    }
-    .cat-list.is-covers .cat-side { display: block; }
-    .cat-list.is-covers .cat-add { margin-top: 10px; }
-    .cat-list.is-covers .cat-side-pricing { max-width: none; }
-    .cat-list.is-covers .cat-priceboard,
-    .cat-list.is-covers .cat-price { padding: 0; border-radius: 0; }
-    .cat-list.is-covers .cat-price-tile {
-      min-height: 0;
-      padding: 0;
-    }
-    .cat-list.is-covers .cat-price-tile-amt,
-    .cat-list.is-covers .cat-price-amt {
-      font-size: 18px;
-    }
-    .cat-list.is-covers .cat-main { align-self: stretch; }
-    .cat-list.is-covers .cat-title { font-size: 16px; }
-    .cat-list.is-covers .cat-artist { font-size: 13px; }
-    .cat-list.is-covers .cat-tags { margin-top: 6px; }
-    .cat-list.is-covers .cat-play {
-      width: 36px;
-      height: 36px;
-      right: 10px;
-      bottom: 10px;
-    }
-
-    body.lib-covers-on .lib-shelf { display: none; }
-    body.lib-covers-on .coverflow-stage { height: calc(var(--flow-cover) * 1.38); }
-    .cat-list[hidden] { display: none !important; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cat-row, .cat-cover img, .cat-play, .lib-select { transition: none !important; }
-    }
-  </style>
 </head>
-<body id="top" class="surface-night has-station-bumper lib-covers-on zine-surface nav-light">
+<body id="top" class="library-index has-station-bumper zine-surface nav-light">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
         <nav class="nav-links" aria-label="Primary">
-      <a href="/library">Library</a>
+      <a href="/library" aria-current="page">Library</a>
       <a href="/artists">Artists</a>
       <a href="/news">Zine</a>
       <a href="/merch">Shop</a>
@@ -823,15 +201,12 @@
 </div>
 
 <main id="main" class="page">
-  <section class="station-bumper station-bumper--night station-bumper--compact" aria-label="Library">
-    <div class="station-bumper__ambient" style="background-image:url('you-are-love-cover.webp')" aria-hidden="true"></div>
+  <section class="station-bumper station-bumper--compact" aria-label="Library">
     <div class="band station-bumper__inner">
       <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Library</nav>
+      <p class="lib-index-mark">Catalogue</p>
       <h1 class="station-bumper__title">Library</h1>
-      <p class="station-bumper__lede" id="libLead">Every Club Copy release. Digital is cheaper if you join the club.</p>
-      <div class="station-bumper__ctas">
-        <a class="btn btn-chrome-on-dark" href="/#join">Join the club</a>
-      </div>
+      <p class="station-bumper__lede" id="libLead">Pacific Northwest house, jungle, and instrumental hip-hop. Files you keep, objects in small runs. <a href="/#join">Club 30% off music</a></p>
     </div>
   </section>
 
@@ -845,7 +220,7 @@
         <div>
           <p class="lib-shelf__callsign">On the shelf</p>
           <h2 class="lib-shelf__title"><a href="/you-are-love">You Are (Love)</a></h2>
-          <p class="lib-shelf__meta">Riscape · EP · Digital $9 · Cassette $20 backorder</p>
+          <p class="lib-shelf__meta">CC004 · Riscape · EP · 2026 · Digital $9 · Cassette $20 backorder</p>
           <div class="lib-shelf__actions">
             <button type="button" class="btn btn-chrome-on-dark" data-add-release="you-are-love" data-sku="dg-you-are-love" data-name="You Are (Love) — Digital" data-price="9" data-image="you-are-love-cover.webp">Add digital</button>
             <button type="button" class="btn btn-ghost-on-dark" data-add-release="you-are-love" data-sku="cs-you-are-love" data-name="You Are (Love) — Cassette" data-price="20" data-image="you-are-love-jcard.webp">Cassette backorder</button>
@@ -861,7 +236,7 @@
           <label class="lib-group-label" for="libGenreSelect">Genre</label>
           <div class="lib-select-wrap">
             <select class="lib-select" id="libGenreSelect" aria-label="Filter by genre">
-              <option value="">All</option>
+              <option value="">All genres</option>
             </select>
           </div>
         </div>
@@ -869,14 +244,14 @@
           <label class="lib-group-label" for="libArtistSelect">Artist</label>
           <div class="lib-select-wrap">
             <select class="lib-select" id="libArtistSelect" aria-label="Filter by artist">
-              <option value="">All</option>
+              <option value="">All artists</option>
             </select>
           </div>
         </div>
       </div>
       <div class="lib-rail-end">
-        <p class="lib-count" id="libCount" aria-live="polite">8 releases</p>
-        '<div class="lib-view" role="group" aria-label="Library view">
+        <p class="lib-count" id="libCount" aria-live="polite">19 releases</p>
+        <div class="lib-view" role="group" aria-label="Library view">
           <button type="button" class="lib-view-btn is-active" id="libViewList" data-view="list" aria-pressed="true">List</button>
           <button type="button" class="lib-view-btn" id="libViewCovers" data-view="covers" aria-pressed="false">Cover Flow</button>
         </div>
@@ -900,22 +275,32 @@
         <p class="coverflow-kicker"></p>
         <h3 class="coverflow-title"></h3>
         <p class="coverflow-artist"></p>
-        <p class="coverflow-hint">Drag to flip · Space to play</p>
+        <p class="coverflow-hint">Drag to browse · Space to play</p>
       </div>
       <div class="album-inspect" data-album-inspect hidden></div>
     </div>
 
     <div class="cat-list" id="catList" aria-live="polite">
-<article class="cat-row cat-row--featured rv" style="--cover:url('desire-cover.webp')" data-release="desire" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/desire" tabindex="-1" aria-hidden="true"><img src="desire-cover-480.webp" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="DESIRE — Molly Haze" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span></div><div class="cat-main"><a class="cat-title" href="/desire">DESIRE</a><span class="cat-artist">Molly Haze</span><span class="cat-meta">Single · Original Mix · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="DESIRE digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Club</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.05</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('still-riding-cover.webp')" data-release="still-riding" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/still-riding" tabindex="-1" aria-hidden="true"><img src="still-riding-cover-480.webp" srcset="still-riding-cover-480.webp 480w, still-riding-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="Still Riding (Molly Haze Edit) — Molly Haze" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span></div><div class="cat-main"><a class="cat-title" href="/still-riding">Still Riding (Molly Haze Edit)</a><span class="cat-artist">Molly Haze</span><span class="cat-meta">Single · Molly Haze Edit · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="Still Riding digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Club</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.05</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('the-process-cover.webp')" data-release="the-process" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/the-process" tabindex="-1" aria-hidden="true"><img src="the-process-cover-480.webp" srcset="the-process-cover-480.webp 480w, the-process-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="The Process — Molly Haze" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span></div><div class="cat-main"><a class="cat-title" href="/the-process">The Process</a><span class="cat-artist">Molly Haze</span><span class="cat-meta">Single · Radio Edit · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="The Process digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Club</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.05</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('any-jungle-cover.webp')" data-release="any-jungle" data-artist-id="lt-drifta" data-genre="jungle"><div class="cat-cover media-bezel"><a href="/any-jungle" tabindex="-1" aria-hidden="true"><img src="any-jungle-cover-480.webp" srcset="any-jungle-cover-480.webp 480w, any-jungle-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="any jungle — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">Jungle</span></div><div class="cat-main"><a class="cat-title" href="/any-jungle">any jungle</a><span class="cat-artist">L.T. Drifta</span><span class="cat-meta">Single · 1 track · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="any jungle digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Club</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.05</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('bridget-in-my-room-cover.webp')" data-release="bridget-in-my-room" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/bridget-in-my-room" tabindex="-1" aria-hidden="true"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span><button type="button" class="cat-play" data-play-release="bridget-in-my-room" aria-label="Play Bridget In My Room"><svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="cat-main"><a class="cat-title" href="/bridget-in-my-room">Bridget In My Room</a><span class="cat-artist">Rosco</span><span class="cat-meta">Single · 2 tracks · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="Bridget In My Room digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>8</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Member</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>6</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('the-mystic-jade-touch-cover.webp')" data-release="the-mystic-jade-touch" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/the-mystic-jade-touch" tabindex="-1" aria-hidden="true"><img src="the-mystic-jade-touch-cover-480.webp" srcset="the-mystic-jade-touch-cover-480.webp 480w, the-mystic-jade-touch-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="The Mystic / Jade Touch — Rosco" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span></div><div class="cat-main"><a class="cat-title" href="/the-mystic-jade-touch">The Mystic / Jade Touch</a><span class="cat-artist">Rosco</span><span class="cat-meta">Single · 1 track · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="The Mystic / Jade Touch digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Member</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>1.50</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('need-you-cover.webp')" data-release="need-you" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/need-you" tabindex="-1" aria-hidden="true"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="Neon blue line-art face on black — Need U" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span></div><div class="cat-main"><a class="cat-title" href="/need-you">Need U</a><span class="cat-artist">Rosco</span><span class="cat-meta">Album · 8 tracks · Digital</span></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="Need U digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>8</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Member</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>6</span></div></div></div></div></div></article>
-<article class="cat-row rv" style="--cover:url('j-adore-cover.webp')" data-release="j-adore" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/j-adore" tabindex="-1" aria-hidden="true"><img src="j-adore-cover-480.webp" srcset="j-adore-cover-480.webp 480w, j-adore-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="j&#x27;adore — Rosco" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span><button type="button" class="cat-play" data-play-release="j-adore" aria-label="Play j&#x27;adore"><svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="cat-main"><a class="cat-title" href="/j-adore">j&#x27;adore</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-genre">House</span><span class="cat-cue">Single · 2 tracks · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="j'adore digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>8</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Member</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>6</span></div></div></div></div></div><a class="cat-go" href="/j-adore" aria-label="Open j&#x27;adore"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></article>
-<article class="cat-row rv" style="--cover:url('inlet-knight-cover.webp')" data-release="inlet-knight" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/inlet-knight" tabindex="-1" aria-hidden="true"><img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="Inlet Knight — Rosco" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span><button type="button" class="cat-play" data-play-release="inlet-knight" aria-label="Play Inlet Knight"><svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="cat-main"><a class="cat-title" href="/inlet-knight">Inlet Knight</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-genre">House</span><span class="cat-cue">Album · 11 tracks · Cassette · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="Rosco digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>8</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Member</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>6</span></div></div></div><p class="cat-format-note"><span class="cat-format-note-mark" aria-hidden="true"></span><span>Cassette available</span></p></div></div><a class="cat-go" href="/inlet-knight" aria-label="Open Rosco"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></article>
-<article class="cat-row rv" style="--cover:url('letters-from-another-era-cover.webp')" data-release="letters-from-another-era" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/letters-from-another-era" tabindex="-1" aria-hidden="true"><img src="letters-from-another-era-cover-480.webp" srcset="letters-from-another-era-cover-480.webp 480w, letters-from-another-era-cover.webp 1200w" sizes="(min-width:860px) 108px, 88px" alt="Letters From Another Era — Rosco" width="1200" height="1200" loading="lazy"/></a><span class="cat-cc">House</span><button type="button" class="cat-play" data-play-release="letters-from-another-era" aria-label="Play Letters From Another Era"><svg class="cp-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="cp-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button><span class="cat-air status-chip status-chip--air" aria-hidden="true">On air</span></div><div class="cat-main"><a class="cat-title" href="/letters-from-another-era">Letters From Another Era</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-genre">House</span><span class="cat-cue">EP · 4 tracks · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-priceboard"><p class="cat-priceboard-kicker">Digital</p><div class="cat-price-panel" role="group" aria-label="Letters From Another Era digital pricing"><div class="cat-price-tile is-active"><span class="cat-price-tile-label">Regular</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>8</span></div><div class="cat-price-tile cat-price-tile--member"><span class="cat-price-tile-label">Member</span><span class="cat-price-tile-amt"><span class="cat-price-tile-currency" aria-hidden="true">$</span>6</span></div></div></div></div></div><a class="cat-go" href="/letters-from-another-era" aria-label="Open Letters From Another Era"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></article>    </div>
+<article class="cat-row rv" style="--cover:url('you-are-love-cover.webp')" data-release="you-are-love" data-artist-id="riscape" data-genre="house"><div class="cat-cover media-bezel"><a href="/you-are-love" tabindex="-1" aria-hidden="true"><img src="you-are-love-cover-480.webp" srcset="you-are-love-cover-480.webp 480w, you-are-love-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="You Are (Love) — Riscape" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC004</p><a class="cat-title" href="/you-are-love">You Are (Love)</a><span class="cat-artist">Riscape</span><div class="cat-tags"><span class="cat-cue">EP · 4 tracks · 2026 · House · Cassette backorder · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="You Are (Love) digital price"><span class="cat-price-amt">$9</span><span class="cat-price-club">$6.30 Club</span></p></div><p class="cat-format-note">Cassette available</p></div></div></article>
+<article class="cat-row rv" style="--cover:url('mixtape-cover.webp')" data-release="mixtape" data-artist-id="lt-drifta" data-genre="instrumental-hip-hop"><div class="cat-cover media-bezel"><a href="/mixtape" tabindex="-1" aria-hidden="true"><img src="mixtape-cover-480.webp" srcset="mixtape-cover-480.webp 480w, mixtape-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="mixtape (instrumental version) — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC024</p><a class="cat-title" href="/mixtape">mixtape (instrumental version)</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">Album · 15 tracks · 2026 · Instrumental Hip Hop · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="mixtape (instrumental version) digital price"><span class="cat-price-amt">$9</span><span class="cat-price-club">$6.30 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('gorilla-cover.webp')" data-release="gorilla" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/gorilla" tabindex="-1" aria-hidden="true"><img src="gorilla-cover-480.webp" srcset="gorilla-cover-480.webp 480w, gorilla-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Gorilla (Molly’s Hazy Edit) — Molly Haze" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC023</p><a class="cat-title" href="/gorilla">Gorilla (Molly’s Hazy Edit)</a><span class="cat-artist">Molly Haze</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Gorilla (Molly’s Hazy Edit) digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('still-riding-cover.webp')" data-release="still-riding" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/still-riding" tabindex="-1" aria-hidden="true"><img src="still-riding-cover-480.webp" srcset="still-riding-cover-480.webp 480w, still-riding-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Still Riding (Molly Haze Edit) — Molly Haze" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC022</p><a class="cat-title" href="/still-riding">Still Riding (Molly Haze Edit)</a><span class="cat-artist">Molly Haze</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Still Riding (Molly Haze Edit) digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('desire-cover.webp')" data-release="desire" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/desire" tabindex="-1" aria-hidden="true"><img src="desire-cover-480.webp" srcset="desire-cover-480.webp 480w, desire-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="DESIRE — Molly Haze" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC021</p><a class="cat-title" href="/desire">DESIRE</a><span class="cat-artist">Molly Haze</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="DESIRE digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('the-process-cover.webp')" data-release="the-process" data-artist-id="molly-haze" data-genre="house"><div class="cat-cover media-bezel"><a href="/the-process" tabindex="-1" aria-hidden="true"><img src="the-process-cover-480.webp" srcset="the-process-cover-480.webp 480w, the-process-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="The Process — Molly Haze" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC020</p><a class="cat-title" href="/the-process">The Process</a><span class="cat-artist">Molly Haze</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="The Process digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('any-jungle-cover.webp')" data-release="any-jungle" data-artist-id="lt-drifta" data-genre="jungle"><div class="cat-cover media-bezel"><a href="/any-jungle" tabindex="-1" aria-hidden="true"><img src="any-jungle-cover-480.webp" srcset="any-jungle-cover-480.webp 480w, any-jungle-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="any jungle — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC019</p><a class="cat-title" href="/any-jungle">any jungle</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · Jungle · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="any jungle digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('bridget-in-my-room-cover.webp')" data-release="bridget-in-my-room" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/bridget-in-my-room" tabindex="-1" aria-hidden="true"><img src="bridget-in-my-room-cover-480.webp" srcset="bridget-in-my-room-cover-480.webp 480w, bridget-in-my-room-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Bridget In My Room — Rosco" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC011</p><a class="cat-title" href="/bridget-in-my-room">Bridget In My Room</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-cue">Single · 2 tracks · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Bridget In My Room digital price"><span class="cat-price-amt">$8</span><span class="cat-price-club">$5.60 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('she-spells-doom-cover.webp')" data-release="she-spells-doom" data-artist-id="lt-drifta" data-genre="jungle"><div class="cat-cover media-bezel"><a href="/she-spells-doom" tabindex="-1" aria-hidden="true"><img src="she-spells-doom-cover-480.webp" srcset="she-spells-doom-cover-480.webp 480w, she-spells-doom-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="She Spells Doom — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC014</p><a class="cat-title" href="/she-spells-doom">She Spells Doom</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · Jungle · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="She Spells Doom digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('ep1-cover.webp')" data-release="ep1" data-artist-id="lt-drifta" data-genre="electronic"><div class="cat-cover media-bezel"><a href="/ep1" tabindex="-1" aria-hidden="true"><img src="ep1-cover-480.webp" srcset="ep1-cover-480.webp 480w, ep1-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="EP1 — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">VCR026D3</p><a class="cat-title" href="/ep1">EP1</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">EP · 2 tracks · 2025 · Electronic · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="EP1 digital price"><span class="cat-price-amt">$3</span><span class="cat-price-club">$2.10 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('champion-sound-cover.webp')" data-release="champion-sound" data-artist-id="lt-drifta" data-genre="electronic"><div class="cat-cover media-bezel"><a href="/champion-sound" tabindex="-1" aria-hidden="true"><img src="champion-sound-cover-480.webp" srcset="champion-sound-cover-480.webp 480w, champion-sound-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Champion Sound — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC001</p><a class="cat-title" href="/champion-sound">Champion Sound</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2025 · Electronic · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Champion Sound digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('summer-madness-cover.webp')" data-release="summer-madness" data-artist-id="lt-drifta" data-genre="electronic"><div class="cat-cover media-bezel"><a href="/summer-madness" tabindex="-1" aria-hidden="true"><img src="summer-madness-cover-480.webp" srcset="summer-madness-cover-480.webp 480w, summer-madness-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Summer Madness — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">VCR026D2</p><a class="cat-title" href="/summer-madness">Summer Madness</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">Album · 8 tracks · 2025 · Electronic · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Summer Madness digital price"><span class="cat-price-amt">$9</span><span class="cat-price-club">$6.30 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('classic-jazz-cover.webp')" data-release="classic-jazz" data-artist-id="lt-drifta" data-genre="jazz"><div class="cat-cover media-bezel"><a href="/classic-jazz" tabindex="-1" aria-hidden="true"><img src="classic-jazz-cover-480.webp" srcset="classic-jazz-cover-480.webp 480w, classic-jazz-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Classic Jazz — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">VCR026D1</p><a class="cat-title" href="/classic-jazz">Classic Jazz</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">Album · 7 tracks · 2025 · Jazz · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Classic Jazz digital price"><span class="cat-price-amt">$9</span><span class="cat-price-club">$6.30 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('ep-6-cover.webp')" data-release="ep-6" data-artist-id="lt-drifta" data-genre="electronic"><div class="cat-cover media-bezel"><a href="/ep-6" tabindex="-1" aria-hidden="true"><img src="ep-6-cover-480.webp" srcset="ep-6-cover-480.webp 480w, ep-6-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="EP-6 — L.T. Drifta" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC017</p><a class="cat-title" href="/ep-6">EP-6</a><span class="cat-artist">L.T. Drifta</span><div class="cat-tags"><span class="cat-cue">EP · 6 tracks · 2025 · Electronic · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="EP-6 digital price"><span class="cat-price-amt">$9</span><span class="cat-price-club">$6.30 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('the-mystic-jade-touch-cover.webp')" data-release="the-mystic-jade-touch" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/the-mystic-jade-touch" tabindex="-1" aria-hidden="true"><img src="the-mystic-jade-touch-cover-480.webp" srcset="the-mystic-jade-touch-cover-480.webp 480w, the-mystic-jade-touch-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="The Mystic / Jade Touch — Rosco" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC016</p><a class="cat-title" href="/the-mystic-jade-touch">The Mystic / Jade Touch</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-cue">Single · 1 track · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="The Mystic / Jade Touch digital price"><span class="cat-price-amt">$1.50</span><span class="cat-price-club">$1.05 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('need-you-cover.webp')" data-release="need-you" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/need-you" tabindex="-1" aria-hidden="true"><img src="need-you-cover-480.webp" srcset="need-you-cover-480.webp 480w, need-you-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Need U — Rosco" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC013</p><a class="cat-title" href="/need-you">Need U</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-cue">Album · 8 tracks · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Need U digital price"><span class="cat-price-amt">$8</span><span class="cat-price-club">$5.60 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('j-adore-cover.webp')" data-release="j-adore" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/j-adore" tabindex="-1" aria-hidden="true"><img src="j-adore-cover-480.webp" srcset="j-adore-cover-480.webp 480w, j-adore-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="j'adore — Rosco" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC007</p><a class="cat-title" href="/j-adore">j'adore</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-cue">Single · 2 tracks · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="j'adore digital price"><span class="cat-price-amt">$8</span><span class="cat-price-club">$5.60 Club</span></p></div></div></div></article>
+<article class="cat-row rv" style="--cover:url('inlet-knight-cover.webp')" data-release="inlet-knight" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/inlet-knight" tabindex="-1" aria-hidden="true"><img src="inlet-knight-cover-480.webp" srcset="inlet-knight-cover-480.webp 480w, inlet-knight-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Inlet Knight — Rosco" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC005</p><a class="cat-title" href="/inlet-knight">Inlet Knight</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-cue">Album · 11 tracks · 2026 · House · Cassette · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Inlet Knight digital price"><span class="cat-price-amt">$8</span><span class="cat-price-club">$5.60 Club</span></p></div><p class="cat-format-note">Cassette available</p></div></div></article>
+<article class="cat-row rv" style="--cover:url('letters-from-another-era-cover.webp')" data-release="letters-from-another-era" data-artist-id="rosco" data-genre="house"><div class="cat-cover media-bezel"><a href="/letters-from-another-era" tabindex="-1" aria-hidden="true"><img src="letters-from-another-era-cover-480.webp" srcset="letters-from-another-era-cover-480.webp 480w, letters-from-another-era-cover.webp 1200w" sizes="(min-width:860px) 80px, 72px" alt="Letters From Another Era — Rosco" width="1200" height="1200" loading="lazy"/></a></div><div class="cat-main"><p class="cat-id">CC002</p><a class="cat-title" href="/letters-from-another-era">Letters From Another Era</a><span class="cat-artist">Rosco</span><div class="cat-tags"><span class="cat-cue">EP · 4 tracks · 2026 · House · Digital</span></div></div><div class="cat-side"><div class="cat-side-pricing"><div class="cat-price"><p class="cat-price-line" aria-label="Letters From Another Era digital price"><span class="cat-price-amt">$8</span><span class="cat-price-club">$5.60 Club</span></p></div></div></div></article>
+    </div>
   </div>
 </main>
 
@@ -954,10 +339,10 @@
 </footer>
 
 <script src="js/site.js"></script>
-<script src="js/cover-flow.js"></script>
+<script src="js/cover-flow.js?v=st26"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st25"></script>
-<script src="js/library.js"></script>
+<script src="js/library.js?v=st26"></script>
 </body>
 </html>

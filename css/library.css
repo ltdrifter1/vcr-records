@@ -1,0 +1,897 @@
+/* ==========================================================================
+   Club Copy — Library
+   Digital catalogue, not a flyer. Lucida chrome, Oswald titles (sentence case),
+   IBM Plex Mono metadata. Polycarbonate paper, not nightclub black, not xerox.
+   Loaded last so it can unlock zine-surface uppercase on this page only.
+   ========================================================================== */
+
+html body.library-index {
+  background:
+    radial-gradient(780px 480px at 92% -6%, rgba(220, 220, 216, .55), transparent 58%),
+    radial-gradient(640px 420px at 6% 8%, rgba(255, 255, 255, .72), transparent 52%),
+    radial-gradient(520px 360px at 70% 100%, rgba(176, 176, 172, .16), transparent 55%),
+    linear-gradient(180deg, #eeeeec 0%, #E8E8E6 40%, #d6d6d4 100%) !important;
+  background-color: #E8E8E6 !important;
+  color: #1A1A1A !important;
+  color-scheme: light;
+}
+
+html body.library-index .page {
+  padding: 0 0 96px;
+  background: transparent;
+  color: #1A1A1A;
+}
+
+/* Mast — index plate, not a 96px sports lockup ----------------------------- */
+html body.library-index .station-bumper,
+html body.library-index .page .station-bumper,
+html body.library-index .page .station-bumper--compact,
+html body.library-index .station-bumper--night,
+html body.library-index .station-bumper--compact {
+  min-height: 0;
+  background: transparent;
+  color: #1A1A1A;
+  border-bottom: 1px solid rgba(40, 40, 40, .16);
+}
+
+html body.library-index .station-bumper__ambient { display: none; }
+html body.library-index .station-bumper__brand { display: none; }
+
+html body.library-index .station-bumper__inner {
+  padding-top: calc(var(--nav-h, 56px) + var(--safe-t, 0px) + 28px);
+  padding-bottom: 28px;
+}
+@media (min-width: 800px) {
+  html body.library-index .station-bumper__inner {
+    padding-top: calc(var(--nav-h, 56px) + var(--safe-t, 0px) + 40px);
+    padding-bottom: 36px;
+  }
+}
+
+html body.library-index .station-bumper__crumbs,
+html body.library-index .station-bumper--acetate .station-bumper__crumbs {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: none;
+  color: #7A7A78;
+}
+html body.library-index .station-bumper__crumbs a {
+  color: #5C5C5A;
+}
+@media (hover: hover) {
+  html body.library-index .station-bumper__crumbs a:hover { color: #1A1A1A; }
+}
+
+html body.library-index .lib-index-mark,
+html body.library-index .station-bumper__callsign {
+  display: block;
+  margin: 0 0 10px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #7A7A78;
+}
+
+html body.library-index .station-bumper__title,
+html body.library-index .page .station-bumper__title,
+html body.library-index.zine-surface .station-bumper__title,
+html body.library-index.zine-surface .page .station-bumper__title {
+  margin: 0 0 12px;
+  max-width: 18em;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  text-transform: none;
+  color: #1A1A1A;
+  text-shadow: none;
+}
+
+html body.library-index .station-bumper__lede,
+html body.library-index .station-bumper--acetate .station-bumper__lede,
+html body.library-index.zine-surface .station-bumper__lede {
+  max-width: 34em;
+  margin: 0;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-stretch: 100%;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -.018em;
+  line-height: 1.5;
+  color: #5C5C5A;
+}
+html body.library-index .station-bumper__lede a {
+  color: #1A1A1A;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(40, 40, 40, .32);
+}
+@media (hover: hover) {
+  html body.library-index .station-bumper__lede a:hover {
+    text-decoration-color: rgba(40, 40, 40, .8);
+  }
+}
+
+html body.library-index .station-bumper__ctas {
+  margin-top: 18px;
+  gap: 8px;
+}
+
+html body.library-index .btn,
+html body.library-index .btn-chrome-on-dark,
+html body.library-index .btn-ghost-on-dark,
+html body.library-index .btn-fill,
+html body.library-index .btn-ghost {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  border-radius: 2px !important;
+  min-height: 40px;
+  height: auto;
+  padding: 0 14px;
+}
+html body.library-index .btn-chrome-on-dark,
+html body.library-index .btn-fill {
+  background: #1A1A1A !important;
+  color: #F4F4F2 !important;
+  border: 1px solid #1A1A1A !important;
+  box-shadow: none !important;
+}
+html body.library-index .btn-ghost-on-dark,
+html body.library-index .btn-ghost {
+  background: transparent !important;
+  color: #1A1A1A !important;
+  border: 1px solid rgba(40, 40, 40, .28) !important;
+  box-shadow: none !important;
+}
+@media (hover: hover) {
+  html body.library-index .btn-chrome-on-dark:hover,
+  html body.library-index .btn-fill:hover {
+    background: #111 !important;
+  }
+  html body.library-index .btn-ghost-on-dark:hover,
+  html body.library-index .btn-ghost:hover {
+    background: rgba(26, 26, 26, .06) !important;
+  }
+}
+
+/* Featured object ---------------------------------------------------------- */
+html body.library-index .lib-shelf {
+  margin: 0 0 8px;
+  padding: 28px 0 32px;
+  border: 0;
+  border-bottom: 1px solid rgba(40, 40, 40, .16);
+  background: none;
+  color: #1A1A1A;
+  border-radius: 0;
+}
+html body.library-index .lib-shelf__ambient { display: none; }
+html body.library-index .lib-shelf__art {
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(40, 40, 40, .16);
+  box-shadow: 0 12px 28px rgba(26, 30, 38, .1);
+  max-width: min(200px, 100%);
+}
+html body.library-index .lib-shelf__callsign {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #7A7A78;
+}
+html body.library-index .lib-shelf__title,
+html body.library-index.zine-surface .lib-shelf__title {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: clamp(26px, 3.6vw, 36px);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: 1.08;
+  text-transform: none;
+  color: #1A1A1A;
+}
+html body.library-index .lib-shelf__meta {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.55;
+  color: #5C5C5A;
+}
+
+body.library-index.lib-covers-on .lib-shelf { display: none; }
+
+/* Filter rail — file index chrome ------------------------------------------ */
+html body.library-index .lib-body { padding-top: 8px; }
+@media (min-width: 800px) {
+  html body.library-index .lib-body { padding-top: 12px; }
+}
+
+html body.library-index .lib-rail {
+  display: grid;
+  gap: 16px;
+  margin: 0 0 8px;
+  padding: 20px 0 22px;
+  border: 0;
+  border-bottom: 1px solid rgba(40, 40, 40, .16);
+  background: none;
+  box-shadow: none;
+}
+html body.library-index .lib-rail::before { display: none; }
+@media (min-width: 900px) {
+  html body.library-index .lib-rail {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 20px 32px;
+  }
+}
+html body.library-index .lib-rail-groups {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+@media (min-width: 720px) {
+  html body.library-index .lib-rail-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 24px;
+  }
+}
+
+html body.library-index .lib-group-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #7A7A78;
+}
+
+html body.library-index .lib-select-wrap { position: relative; min-width: 0; }
+html body.library-index .lib-select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid rgba(40, 40, 40, .45);
+  border-bottom: 1.5px solid rgba(40, 40, 40, .45);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+html body.library-index .lib-select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 36px 0 0;
+  border: 0;
+  border-bottom: 1px solid rgba(40, 40, 40, .22);
+  border-radius: 0;
+  background: transparent;
+  color: #1A1A1A;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  box-shadow: none;
+}
+html body.library-index .lib-select:hover,
+html body.library-index .lib-select:focus-visible,
+html body.library-index .lib-select.has-value {
+  border-bottom-color: rgba(40, 40, 40, .55);
+}
+html body.library-index .lib-select:focus-visible {
+  outline: 2px solid #1A1A1A;
+  outline-offset: 4px;
+}
+html body.library-index .lib-select option { color: #111; background: #fff; }
+
+html body.library-index .lib-rail-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  justify-content: space-between;
+}
+@media (min-width: 900px) {
+  html body.library-index .lib-rail-end { justify-content: flex-end; }
+}
+
+html body.library-index .lib-count {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #5C5C5A;
+  font-variant-numeric: tabular-nums;
+}
+
+html body.library-index .lib-view {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid rgba(40, 40, 40, .22);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .45);
+  box-shadow: none;
+}
+html body.library-index .lib-view-btn {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: #5C5C5A;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 1px;
+  cursor: pointer;
+}
+html body.library-index .lib-view-btn.is-active {
+  color: #1A1A1A;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(26, 30, 38, .08);
+}
+html body.library-index .lib-view-btn:focus-visible {
+  outline: 2px solid #1A1A1A;
+  outline-offset: 2px;
+}
+
+html body.library-index .lib-clear {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: #5C5C5A;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(40, 40, 40, .28);
+  padding: 0;
+  min-height: 36px;
+}
+html body.library-index .lib-clear[hidden] { display: none; }
+@media (hover: hover) {
+  html body.library-index .lib-clear:hover {
+    color: #1A1A1A;
+    text-decoration-color: rgba(40, 40, 40, .7);
+  }
+}
+
+/* Catalogue rows — iTunes list, not sports tiles --------------------------- */
+html body.library-index .cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+html body.library-index .cat-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-areas:
+    "cover main"
+    "cover side";
+  gap: 10px 14px;
+  align-items: center;
+  padding: 14px 8px;
+  margin: 0 -8px;
+  border: 0;
+  border-bottom: 1px solid rgba(40, 40, 40, .1);
+  border-radius: 2px;
+  background: none;
+  color: #1A1A1A;
+  box-shadow: none;
+  overflow: visible;
+  transform: none;
+}
+html body.library-index .cat-row::before,
+html body.library-index .cat-row::after { display: none; }
+html body.library-index .cat-cover { grid-area: cover; }
+html body.library-index .cat-main { grid-area: main; min-width: 0; }
+html body.library-index .cat-side { grid-area: side; min-width: 0; }
+@media (min-width: 860px) {
+  html body.library-index .cat-row {
+    grid-template-columns: 80px minmax(0, 1.7fr) minmax(180px, .8fr);
+    grid-template-areas: "cover main side";
+    gap: 16px 20px;
+    padding: 14px 10px;
+    margin: 0 -10px;
+  }
+}
+@media (hover: hover) {
+  html body.library-index .cat-row:hover {
+    background: rgba(255, 255, 255, .55);
+  }
+}
+html body.library-index .cat-row.is-now-playing {
+  background: rgba(26, 26, 26, .06);
+  box-shadow: inset 3px 0 0 #1A1A1A;
+}
+
+html body.library-index .cat-cover,
+html body.library-index.zine-surface .cat-cover {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #111;
+  border: 1px solid rgba(40, 40, 40, .16);
+  box-shadow: 0 6px 16px rgba(26, 30, 38, .1);
+}
+@media (min-width: 860px) {
+  html body.library-index .cat-cover {
+    width: 80px;
+    height: 80px;
+  }
+}
+html body.library-index .cat-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Art stays art — genre lives in the metadata line */
+html body.library-index .cat-cc { display: none !important; }
+html body.library-index .cat-go { display: none !important; }
+
+html body.library-index .cat-play {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 4;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .22);
+}
+html body.library-index .cat-play svg {
+  width: 11px;
+  height: 11px;
+  fill: currentColor;
+  margin-left: 1px;
+  display: block;
+}
+html body.library-index .cat-play .cp-pause { display: none; margin-left: 0; }
+html body.library-index .cat-row.is-now-playing.is-audible .cat-play .cp-play { display: none; }
+html body.library-index .cat-row.is-now-playing.is-audible .cat-play .cp-pause { display: block; }
+html body.library-index .cat-row.is-now-playing .cat-play,
+html body.library-index .cat-row.is-up-next .cat-play { opacity: 1; }
+@media (hover: hover) {
+  html body.library-index .cat-row:hover .cat-play { opacity: 1; }
+}
+@media (hover: none), (max-width: 720px) {
+  html body.library-index .cat-play { opacity: 1; }
+}
+
+html body.library-index .cat-air {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  z-index: 4;
+  display: none;
+}
+html body.library-index .cat-row.is-now-playing .cat-air,
+html body.library-index .cat-row.is-up-next .cat-air { display: inline-flex; }
+
+html body.library-index .cat-id {
+  margin: 0 0 3px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: #7A7A78;
+  font-variant-numeric: tabular-nums;
+}
+html body.library-index .cat-id:empty { display: none; }
+
+html body.library-index .cat-title,
+html body.library-index .cat-title a,
+html body.library-index.zine-surface .cat-title,
+html body.library-index.zine-surface .cat-title a {
+  display: inline;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  text-transform: none;
+  color: #1A1A1A;
+  text-decoration: none;
+  max-width: 100%;
+}
+@media (hover: hover) {
+  html body.library-index .cat-title:hover { opacity: .62; }
+}
+
+html body.library-index .cat-artist,
+html body.library-index.zine-surface .cat-artist {
+  display: block;
+  margin-top: 2px;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -.01em;
+  text-transform: none;
+  color: #5C5C5A;
+}
+
+html body.library-index .cat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  margin-top: 6px;
+}
+
+html body.library-index .cat-genre,
+html body.library-index .cat-cue,
+html body.library-index .cat-meta,
+html body.library-index.zine-surface .cat-meta {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #7A7A78;
+  line-height: 1.45;
+}
+
+html body.library-index .cat-side-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+html body.library-index .cat-priceboard,
+html body.library-index .cat-price {
+  position: relative;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+html body.library-index .cat-priceboard::before,
+html body.library-index .cat-priceboard::after { display: none; }
+html body.library-index .cat-priceboard-kicker,
+html body.library-index .cat-price-kicker { display: none; }
+
+html body.library-index .cat-price-panel,
+html body.library-index .cat-price-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+html body.library-index .cat-price-tile {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 0;
+  padding: 0;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+html body.library-index .cat-price-tile-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #7A7A78;
+}
+
+html body.library-index .cat-price-tile-amt,
+html body.library-index .cat-price-amt,
+html body.library-index .cat-price-regular,
+html body.library-index.zine-surface .cat-price {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: none;
+  color: #1A1A1A;
+  text-shadow: none;
+  font-variant-numeric: tabular-nums;
+}
+
+html body.library-index .cat-price-tile-currency {
+  font-size: .75em;
+  margin-right: 1px;
+  color: #7A7A78;
+}
+
+html body.library-index .cat-price-tile--member .cat-price-tile-amt,
+html body.library-index .cat-price-club,
+html body.library-index .cat-price-member {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #5C5C5A;
+  text-shadow: none;
+}
+
+html body.library-index .cat-price.is-yours .cat-price-amt {
+  color: #7A7A78;
+  font-weight: 500;
+}
+html body.library-index .cat-price.is-yours .cat-price-club,
+html body.library-index .cat-price-tile--member.is-yours .cat-price-tile-amt,
+html body.library-index .cat-price-tile.is-active .cat-price-tile-amt {
+  color: #1A1A1A;
+  font-weight: 600;
+}
+
+html body.library-index .cat-format-note {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: #7A7A78;
+  line-height: 1.35;
+}
+html body.library-index .cat-format-note-mark { display: none; }
+
+html body.library-index .cat-add,
+html body.library-index .cat-add--link {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 32px;
+  margin-top: 6px;
+  padding: 0 12px;
+  border: 1px solid #1A1A1A;
+  border-radius: 2px;
+  background: #1A1A1A;
+  color: #F4F4F2;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: none;
+}
+html body.library-index .cat-add.is-added {
+  background: #5C5C5A;
+  border-color: #5C5C5A;
+}
+@media (hover: hover) {
+  html body.library-index .cat-add:hover { background: #111; }
+}
+html body.library-index .cat-add:focus-visible {
+  outline: 2px solid #1A1A1A;
+  outline-offset: 3px;
+}
+
+html body.library-index .page-lead {
+  margin: 24px 0;
+  font-size: 15px;
+  color: #5C5C5A;
+}
+html body.library-index .page-lead a {
+  color: #1A1A1A;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Cover grid fallback (if Cover Flow is unavailable) ----------------------- */
+html body.library-index .cat-list.is-covers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 16px;
+}
+@media (min-width: 720px) {
+  html body.library-index .cat-list.is-covers {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 20px;
+  }
+}
+@media (min-width: 1100px) {
+  html body.library-index .cat-list.is-covers {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 36px 22px;
+  }
+}
+html body.library-index .cat-list.is-covers .cat-row {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "cover"
+    "main"
+    "side";
+  align-items: start;
+  gap: 12px;
+  padding: 0 0 8px;
+  margin: 0;
+  height: auto;
+  border-bottom: 0;
+}
+html body.library-index .cat-list.is-covers .cat-cover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+html body.library-index .cat-list.is-covers .cat-title { font-size: 16px; }
+html body.library-index .cat-list.is-covers .cat-artist { font-size: 13px; }
+html body.library-index .cat-list.is-covers .cat-price-amt { font-size: 14px; }
+html body.library-index .cat-list[hidden] { display: none !important; }
+
+/* Cover Flow on polycarbonate ---------------------------------------------- */
+html body.library-index .album-flow {
+  padding: 12px 0 24px;
+}
+html body.library-index.lib-covers-on .coverflow-stage {
+  height: calc(var(--flow-cover) * 1.38);
+}
+html body.library-index .coverflow-stage {
+  background:
+    radial-gradient(ellipse 58% 28% at 50% 78%, rgba(255, 255, 255, .55), transparent 70%),
+    linear-gradient(180deg, transparent 48%, rgba(210, 210, 206, .28) 100%);
+}
+html body.library-index .coverflow-stage::after {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, .45), transparent 68%);
+}
+html body.library-index .coverflow-nav {
+  color: #1A1A1A;
+  border-color: rgba(255, 255, 255, .7);
+  background: linear-gradient(180deg, #fff 0%, #e8e8e6 48%, #c8c8c4 100%);
+}
+html body.library-index .coverflow-kicker {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: none;
+  color: #7A7A78;
+}
+html body.library-index .coverflow-title {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 500;
+  letter-spacing: -.03em;
+  text-transform: none;
+  color: #1A1A1A;
+}
+html body.library-index .coverflow-artist {
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-size: 15px;
+  color: #5C5C5A;
+}
+html body.library-index .coverflow-hint {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #7A7A78;
+}
+
+html body.library-index .album-inspect {
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f4f4f2 42%, #e4e4e2 100%);
+  border: 1px solid rgba(255, 255, 255, .85);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px rgba(120, 120, 116, .16),
+    0 18px 36px rgba(30, 34, 40, .12);
+  color: #1A1A1A;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body.library-index .album-inspect__meta,
+html body.library-index .album-inspect__artist {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #5C5C5A;
+}
+html body.library-index .album-inspect__title,
+html body.library-index .album-inspect__title a {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 500;
+  text-transform: none;
+  color: #1A1A1A;
+}
+html body.library-index .inspect-track {
+  color: #1A1A1A;
+  border-radius: 2px;
+}
+html body.library-index .inspect-track:hover,
+html body.library-index .inspect-track.is-now {
+  background: rgba(26, 26, 26, .06);
+  color: #1A1A1A;
+}
+html body.library-index .inspect-track-n,
+html body.library-index .inspect-track-d {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  color: #7A7A78;
+}
+html body.library-index .album-inspect .cat-add,
+html body.library-index .album-inspect .cat-add--link {
+  border: 1px solid #1A1A1A;
+  background: #1A1A1A;
+  color: #F4F4F2;
+  border-radius: 2px;
+}
+html body.library-index .album-inspect .chip-acetate {
+  border-radius: 0;
+  border: 1px solid rgba(40, 40, 40, .28);
+  background: transparent;
+  color: #5C5C5A;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: none;
+  text-shadow: none;
+}
+html body.library-index .album-inspect .chip-acetate::after { display: none; }
+html body.library-index .flow-art .cat-cc { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html body.library-index .cat-row,
+  html body.library-index .cat-cover img,
+  html body.library-index .cat-play,
+  html body.library-index .lib-select {
+    transition: none !important;
+  }
+}

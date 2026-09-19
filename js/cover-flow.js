@@ -362,7 +362,7 @@
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var href = rel.page || "#";
-    var kicker = [rel.genre, rel.kind, rel.year].filter(Boolean).join(" · ");
+    var kicker = [rel.catalogue, rel.kind, rel.year].filter(Boolean).join(" · ");
     var cued = hasPreview(rel);
     var play = cued
       ? (
