@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 /**
  * Snapshot mixer for the homepage floor.
- * Mixes @ltdrifta + @clubcopyrecords, newest first, 12 posts.
+ * Mixes @ltdrifta + @clubcopyrecords, newest first, 16 posts.
  * Writes data/instagram-feed.json and stills under media/ig/.
  * Not a Vercel function — Hobby deploys break if scrapers live in /api.
  */
 const fs = require("fs");
 const path = require("path");
 
+const { execFile } = require("child_process");
+const { fetchProfile, UA } = require("./ig-session");
+
 const HANDLES = ["ltdrifta", "clubcopyrecords"];
-const LIMIT = 12;
+const LIMIT = 16;
 const ROOT = process.cwd();
 const OUT_JSON = path.join(ROOT, "data", "instagram-feed.json");
 const OUT_DIR = path.join(ROOT, "media", "ig");
-const IG_APP_ID = "936619743392459";
-const UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
 
 function captionOf(node) {
   const edges = ((node.edge_media_to_caption || {}).edges || []);
@@ -44,28 +44,6 @@ function mapNode(node, handle, name) {
   };
 }
 
-async function fetchProfile(username) {
-  const url = "https://www.instagram.com/api/v1/users/web_profile_info/?username=" + encodeURIComponent(username);
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": UA,
-      Accept: "application/json",
-      "Accept-Language": "en-US,en;q=0.9",
-      "X-IG-App-ID": IG_APP_ID,
-      "X-ASBD-ID": "129477",
-      "X-IG-WWW-Claim": "0",
-      Referer: "https://www.instagram.com/" + username + "/",
-      Origin: "https://www.instagram.com",
-    },
-  });
-  if (!res.ok) {
-    const err = new Error("Instagram " + username + " " + res.status);
-    err.status = res.status;
-    throw err;
-  }
-  return res.json();
-}
-
 function mixProfiles(payloads) {
   const posts = [];
   payloads.forEach(function (data, i) {
@@ -92,8 +70,29 @@ function mixProfiles(payloads) {
   return uniq;
 }
 
+function curlFile(url, dest) {
+  return new Promise(function (resolve, reject) {
+    execFile(
+      "curl",
+      ["-sS", "-L", "-A", UA, "-H", "Referer: https://www.instagram.com/", "-o", dest, url],
+      { timeout: 20000 },
+      function (err) {
+        if (err) return reject(err);
+        try {
+          const size = fs.statSync(dest).size;
+          if (size < 800) return reject(new Error("too small"));
+        } catch (statErr) {
+          return reject(statErr);
+        }
+        resolve(dest);
+      }
+    );
+  });
+}
+
 async function downloadStill(post) {
   const dest = path.join(OUT_DIR, post.shortcode + ".jpg");
+  if (fs.existsSync(dest) && fs.statSync(dest).size > 800) return dest;
   const candidates = [
     "https://www.instagram.com/p/" + post.shortcode + "/media/?size=l",
     post.thumb,
@@ -102,30 +101,7 @@ async function downloadStill(post) {
   let lastErr = null;
   for (let i = 0; i < candidates.length; i++) {
     try {
-      const res = await fetch(candidates[i], {
-        headers: {
-          "User-Agent": UA,
-          Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-          Referer: "https://www.instagram.com/",
-        },
-        redirect: "follow",
-      });
-      if (!res.ok) {
-        lastErr = new Error(post.shortcode + " " + res.status);
-        continue;
-      }
-      const type = res.headers.get("content-type") || "";
-      if (type.indexOf("image/") !== 0 && type.indexOf("octet-stream") === -1) {
-        lastErr = new Error(post.shortcode + " type " + type);
-        continue;
-      }
-      const buf = Buffer.from(await res.arrayBuffer());
-      if (buf.length < 800) {
-        lastErr = new Error(post.shortcode + " too small");
-        continue;
-      }
-      fs.writeFileSync(dest, buf);
-      return dest;
+      return await curlFile(candidates[i], dest);
     } catch (err) {
       lastErr = err;
     }
