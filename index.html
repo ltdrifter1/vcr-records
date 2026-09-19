@@ -522,14 +522,7 @@
           </header>
 
           <div class="join-member-home" id="joinMemberHome" hidden>
-            <p class="join-member-kicker" id="joinMemberKicker">You're in</p>
-            <h3 class="join-member-title">Member <span id="joinMemberNo">0000</span></h3>
-            <p class="join-member-dek" id="joinMemberDek">You're in. Browse the library at your member discount.</p>
-            <div class="join-member-actions">
-              <a class="btn btn-chrome-on-dark" href="/library">Browse the library</a>
-              <a class="btn btn-ghost-on-dark" href="/account">View profile</a>
-              <button type="button" class="btn btn-ghost-on-dark" id="joinMemberManage">Change plan</button>
-            </div>
+            <button type="button" class="btn club-join-btn" id="joinMemberManage">Upgrade</button>
           </div>
         </div>
 
@@ -721,12 +714,6 @@
     var state = { level: 'free', premiumDollars: 10 };
     var collectors = document.getElementById('joinCollectors');
 
-    function memberNumber(email) {
-      var s = String(email || 'guest').trim().toLowerCase();
-      var hash = 0;
-      for (var i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
-      return String((hash % 9000) + 1000).padStart(4, '0');
-    }
 
     /** 2.5× at $10 → 5.0× at $100+ */
     function premiumMult(dollars) {
@@ -807,9 +794,6 @@
     var joinSection = document.getElementById('join');
     var joinTitle = document.getElementById('join-title');
     var joinMemberHome = document.getElementById('joinMemberHome');
-    var joinMemberNo = document.getElementById('joinMemberNo');
-    var joinMemberKicker = document.getElementById('joinMemberKicker');
-    var joinMemberDek = document.getElementById('joinMemberDek');
     var joinMemberManage = document.getElementById('joinMemberManage');
     var joinLevels = document.getElementById('joinLevels');
     var joinPanel = document.getElementById('joinPanel');
@@ -821,47 +805,51 @@
       if (joinName && !joinName.value && profile.displayName) joinName.value = profile.displayName;
     }
 
-    function showMemberHome(profile) {
-      if (!joinSection || !joinMemberHome || !profile) return;
-      managing = false;
-      fillFormFromProfile(profile);
-      joinMemberNo.textContent = profile.memberNumber || memberNumber(profile.email);
-      if (joinTitle) joinTitle.textContent = profile.level === 'free' ? "You're on the list" : "You're in";
-      if (joinMemberKicker) {
-        joinMemberKicker.textContent = profile.level === 'free' ? "You're on the list" : "You're in";
-      }
-      if (joinMemberDek) {
-        if (profile.level === 'premium') {
-          joinMemberDek.textContent = '50% off all music. Credit toward cassettes is on this email.';
-        } else if (profile.level === 'club') {
-          joinMemberDek.textContent = '30% off all music on this email.';
-        } else {
-          joinMemberDek.textContent = "We'll email you when a record comes out. You can upgrade anytime.";
-        }
-      }
-      if (joinMemberManage) {
-        joinMemberManage.textContent = profile.level === 'free' ? 'Upgrade' : 'Change plan';
-      }
-      joinMemberHome.hidden = false;
-      joinSection.classList.add('is-member-home');
+    function hideJoinDesk() {
       if (joinLevels) joinLevels.hidden = true;
       if (collectors) collectors.hidden = true;
       if (joinPanel) joinPanel.hidden = true;
     }
 
+    function showMemberHome(profile) {
+      if (!joinSection || !profile) return;
+      managing = false;
+      fillFormFromProfile(profile);
+      var paid = profile.level === 'club' || profile.level === 'premium';
+      joinSection.classList.add('is-member-home');
+      hideJoinDesk();
+      if (paid) {
+        joinSection.hidden = true;
+        if (joinMemberHome) joinMemberHome.hidden = true;
+        return;
+      }
+      joinSection.hidden = false;
+      if (joinMemberHome) joinMemberHome.hidden = false;
+    }
+
     function showJoinIntake(profile) {
       managing = true;
-      if (joinSection) joinSection.classList.remove('is-member-home');
+      if (joinSection) {
+        joinSection.hidden = false;
+        joinSection.classList.remove('is-member-home');
+      }
       if (joinMemberHome) joinMemberHome.hidden = true;
       if (joinLevels) joinLevels.hidden = false;
       if (collectors) collectors.hidden = false;
       if (joinPanel) joinPanel.hidden = false;
-      if (joinTitle) joinTitle.textContent = profile ? 'Change your plan' : 'Get on the list';
+      if (joinTitle) {
+        joinTitle.textContent = !profile
+          ? 'Get on the list'
+          : (profile.level === 'free' ? 'Upgrade' : 'Change your plan');
+      }
+      levelBtns.forEach(function (b) {
+        var level = b.getAttribute('data-level');
+        b.hidden = !!(profile && profile.level === 'free' && level === 'free');
+      });
       if (profile) {
         fillFormFromProfile(profile);
         if (profile.level === 'premium') state.level = 'premium';
-        else if (profile.level === 'club') state.level = 'club';
-        else state.level = 'free';
+        else state.level = 'club';
         levelBtns.forEach(function (b) {
           b.setAttribute('aria-checked', b.getAttribute('data-level') === state.level ? 'true' : 'false');
         });
@@ -970,11 +958,6 @@
           managing = false;
           joinBtn.disabled = false;
           syncMemberView();
-          var homeProfile = window.ClubMember && ClubMember.readProfile();
-          if (homeProfile) showMemberHome(homeProfile);
-          if (joinMemberDek) {
-            joinMemberDek.textContent = "You're on the list. We'll email you when a record comes out.";
-          }
         } catch (e) {
           showStatus("Couldn't finish Free signup. Try again.", true);
           joinBtn.disabled = false;
