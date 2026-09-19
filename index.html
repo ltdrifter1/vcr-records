@@ -518,7 +518,7 @@
           <p class="zine-desk-kicker">record club</p>
           <header class="club-join-head">
             <h2 class="club-join-title" id="join-title">Get on the list</h2>
-            <p class="club-join-dek">Pick a level, leave an email. We write when a record comes out. Club and Premium unlock member price in the library — nothing ships until you order.</p>
+            <p class="club-join-dek" id="join-dek">Pick a level, leave an email. We write when a record comes out. Club and Premium unlock member price in the library — nothing ships until you order.</p>
           </header>
 
           <div class="join-member-home" id="joinMemberHome" hidden>
@@ -797,6 +797,8 @@
     var joinMemberManage = document.getElementById('joinMemberManage');
     var joinLevels = document.getElementById('joinLevels');
     var joinPanel = document.getElementById('joinPanel');
+    var joinDek = document.getElementById('join-dek');
+    var joinDekDefault = joinDek ? joinDek.textContent : '';
     var managing = false;
 
     function fillFormFromProfile(profile) {
@@ -841,6 +843,11 @@
         joinTitle.textContent = !profile
           ? 'Get on the list'
           : (profile.level === 'free' ? 'Upgrade' : 'Change your plan');
+      }
+      if (joinDek) {
+        joinDek.textContent = profile && profile.level === 'free'
+          ? 'Club is 30% off all music. Premium is 50% off, plus credit toward cassettes.'
+          : joinDekDefault;
       }
       levelBtns.forEach(function (b) {
         var level = b.getAttribute('data-level');
