@@ -70,6 +70,7 @@ const bridget = catalog.releases.find((r) => r.id === "bridget-in-my-room");
 assert.strictEqual(bridget.artist, "Rainier");
 assert.strictEqual(bridget.artistId, "rainier");
 assert.ok(/rainiershouse\.bandcamp\.com/.test(bridget.bandcampUrl));
+assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
 
