@@ -196,7 +196,8 @@ html body.home-zine .plate-hero .listen-plate-actions .btn-ghost {
     inset 0 -1px 0 rgba(40, 40, 40, .12),
     0 1px 1px rgba(0, 0, 0, .08) !important;
 }
-html body.home-zine .plate-hero .listen-plate-actions .btn-steel--play,
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel--play,
+html body.home-zine .plate-hero .listen-plate-actions .btn-steel.btn-steel--play,
 html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
 html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill {
   background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%) !important;
@@ -226,7 +227,8 @@ html body.home-zine .plate-hero .listen-plate-actions a.btn-text {
     background: linear-gradient(180deg, #fff 0%, #e4e4e0 52%, #d0d0cc 100%) !important;
     color: #1a1a1a !important;
   }
-  html body.home-zine .plate-hero .listen-plate-actions .btn-steel--play:hover,
+  html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel--play:hover,
+  html body.home-zine .plate-hero .listen-plate-actions .btn-steel.btn-steel--play:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn-fill:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill:hover {
     background: linear-gradient(180deg, #444442 0%, #161616 100%) !important;
@@ -353,7 +355,8 @@ html body.archive-release.release-object .btn-ghost {
     inset 0 -1px 0 rgba(40, 40, 40, .12),
     0 1px 1px rgba(0, 0, 0, .08) !important;
 }
-html body.archive-release.release-object .ra-hero-ctas .btn-steel--play,
+html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play,
+html body.archive-release.release-object .ra-hero-ctas .btn-steel.btn-steel--play,
 html body.archive-release.release-object .ra-hero-ctas .btn-light,
 html body.archive-release.release-object .btn-light {
   background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%) !important;
@@ -381,6 +384,14 @@ html body.archive-release.release-object .scarce {
 html body.archive-release.release-object .listen-sleeve {
   width: min(420px, 86vw);
 }
+@media (max-width: 959px) {
+  html body.archive-release.release-object .listen-sleeve {
+    width: min(280px, 72vw);
+  }
+  html body.archive-release.release-object .ra-stage {
+    padding: 8px 0 12px;
+  }
+}
 html body.archive-release.release-object .ra-cover,
 html body.archive-release.release-object .listen-sleeve {
   border-radius: 10px !important;
@@ -401,19 +412,30 @@ html body.archive-release.release-object .ra-hero-facts {
   color: #1a1a1a !important;
 }
 html body.archive-release.release-object .ra-hero-ctas {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
+  width: 100%;
   max-width: 420px;
 }
-@media (max-width: 959px) {
-  html body.archive-release.release-object .ra-hero-ctas .btn {
-    flex: 1 1 100%;
-  }
+html body.archive-release.release-object .ra-hero-ctas .btn {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 0;
+}
+html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play,
+html body.archive-release.release-object .ra-hero-ctas .btn-steel.btn-steel--play {
+  grid-column: 1 / -1;
 }
 @media (min-width: 960px) {
   html body.archive-release.release-object .ra-hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
     max-width: none;
+  }
+  html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play,
+  html body.archive-release.release-object .ra-hero-ctas .btn-steel.btn-steel--play {
+    grid-column: auto;
   }
 }
 
@@ -431,7 +453,7 @@ html body.home-zine.hero-top .hero.plate-hero .hero-ticker {
 @media (max-width: 859px) {
   html body.home-zine .plate-hero .hero-stage {
     width: min(1180px, calc(100% - 28px)) !important;
-    padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
-    padding-bottom: 18px;
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 16px);
+    padding-bottom: 12px;
   }
 }

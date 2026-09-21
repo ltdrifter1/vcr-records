@@ -337,8 +337,15 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
 @media (max-width: 859px) {
   .plate-hero .hero-stage {
     width: min(1180px, calc(100% - 28px));
-    padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
-    padding-bottom: 18px;
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 16px);
+    padding-bottom: 12px;
+  }
+  .listen-plate {
+    gap: 14px;
+    max-width: 360px;
+  }
+  .listen-plate .listen-sleeve {
+    max-width: min(280px, 72vw);
   }
   .listen-plate-actions {
     display: grid;
@@ -354,6 +361,11 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
     height: auto;
     min-height: 0;
     justify-content: flex-start;
+  }
+}
+@media (max-width: 720px) {
+  body.home-zine .hero.plate-hero .hero-ticker {
+    margin-bottom: calc(var(--tabbar-h, 56px) + var(--safe-b, 0px));
   }
 }
 
