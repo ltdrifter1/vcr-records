@@ -304,12 +304,87 @@
       });
   }
 
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function postedMeta(iso) {
+    if (!iso) return "";
+    var d = new Date(iso + "T12:00:00");
+    if (isNaN(d.getTime())) return "";
+    var dd = d.getDate();
+    var yy = String(d.getFullYear()).slice(2);
+    return (
+      "posted " +
+      (dd < 10 ? "0" : "") +
+      dd +
+      " " +
+      MONTHS[d.getMonth()] +
+      " " +
+      yy
+    );
+  }
+
+  function homePostHtml(a) {
+    var kicker = a.typeLabel || a.kicker || a.type || "";
+    return (
+      '<a class="zine-post rv in" href="' +
+      esc(a.slug) +
+      '" data-date="' +
+      esc(a.date) +
+      '" data-type="' +
+      esc(a.type || "") +
+      '">' +
+      '<div class="zine-post-art"><img src="' +
+      esc(asset(a.image)) +
+      '" alt="' +
+      esc(a.imageAlt || a.headline || "") +
+      '" width="1400" height="1400" loading="lazy"/></div>' +
+      "<div>" +
+      '<p class="zine-post-kicker">' +
+      esc(kicker) +
+      "</p>" +
+      '<h3 class="zine-post-title">' +
+      esc(a.headline || "") +
+      "</h3>" +
+      '<p class="zine-post-dek">' +
+      esc(a.dek || "") +
+      "</p>" +
+      '<p class="zine-post-meta">' +
+      postedMeta(a.date) +
+      "</p>" +
+      "</div></a>"
+    );
+  }
+
+  function fillHomePosts(articles) {
+    var root = document.querySelector("[data-zine-posts]");
+    if (!root) return;
+    var list = (articles || [])
+      .slice()
+      .sort(function (a, b) {
+        return (b.date || "").localeCompare(a.date || "");
+      })
+      .slice(0, 3);
+    if (!list.length) return;
+    root.innerHTML = list.map(homePostHtml).join("");
+  }
+
   ensureStoryFolio();
   stampDates();
   fillTonight();
   ensureLettersOnIndex();
 
-  if (document.body.classList.contains("news-story") || document.querySelector(".news-article")) {
-    loadNews(injectStoryDesk);
+  var homePosts = document.querySelector("[data-zine-posts]");
+  var story = document.body.classList.contains("news-story") || document.querySelector(".news-article");
+  if (homePosts || story) {
+    loadNews(function (articles) {
+      if (homePosts) fillHomePosts(articles);
+      if (story) injectStoryDesk(articles);
+    });
   }
 })();
