@@ -151,7 +151,7 @@
     var crumbs = document.querySelector(".zine-story-crumbs");
     if (!crumbs) return;
     var kicker = document.querySelector(".news-kicker span");
-    var desk = kicker ? kicker.textContent.trim() : "evening";
+    var desk = kicker ? kicker.textContent.trim() : "zine";
     var p = document.createElement("p");
     p.className = "zine-story-folio";
     p.innerHTML =
