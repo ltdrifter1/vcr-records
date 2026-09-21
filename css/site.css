@@ -28,9 +28,9 @@
   --lcd-ink: #1A1A1A;
   --lcd-sel: #2A2A28;
   --stamp: #B8B8B4;
-  --led: #E4E4E0;
-  --acid: #F4F4F2; /* pearl invert fill — playing state, never lime */
-  --acid-ink: #1A1A1A;
+  --led: #C6F000;
+  --acid: #C6F000; /* LED / on-air / play pip only — never a fill */
+  --acid-ink: #141414;
   --bondi: #9A9A96; /* steel alias; kept so older rules do not go missing */
   /* Chrome / liquid metal — brushed aluminum, not rave fill */
   --chrome-hi: rgba(255,255,255,.88);
@@ -1389,13 +1389,13 @@ body.shop-page .btn-ghost-on-dark {
   flex-shrink: 0;
 }
 .status-chip--air {
-  color: #f0f0ee;
+  color: #1a1a1a;
 }
 .status-chip--air::before {
-  background: #f4f4f2;
+  background: #C6F000;
   box-shadow:
-    0 0 0 1px rgba(0,0,0,.5),
-    0 0 8px rgba(244, 244, 242, .55);
+    0 0 0 1px rgba(0,0,0,.35),
+    0 0 8px rgba(198, 240, 0, .75);
   animation: ledPulse 1.6s ease-in-out infinite;
 }
 .status-chip--standby {

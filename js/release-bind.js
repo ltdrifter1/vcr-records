@@ -101,7 +101,10 @@
     }
 
     function setPlaying(on) {
-      if (playBtn) playBtn.classList.toggle("on", on);
+      if (playBtn) {
+        playBtn.classList.toggle("on", on);
+        playBtn.classList.toggle("is-playing", on);
+      }
       if (consolePlay) {
         consolePlay.classList.toggle("on", on);
         consolePlay.setAttribute("aria-label", on ? "Pause" : "Play");
@@ -111,6 +114,10 @@
       if (disc) disc.classList.toggle("is-spinning", on);
       var art = $("artworkWrap");
       if (art) art.classList.toggle("is-playing", on);
+      var sleeve = document.querySelector(".ra-hero .listen-sleeve");
+      if (sleeve) sleeve.classList.toggle("is-live", on);
+      var heroListen = $("heroListen");
+      if (heroListen) heroListen.classList.toggle("is-playing", on);
       var times = document.querySelector(".ra-vfd-times");
       if (times) {
         times.innerHTML = on

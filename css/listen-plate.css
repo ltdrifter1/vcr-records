@@ -2,6 +2,7 @@
    Club Copy — listening plate (hero)
    Record object on steel. Liner-notes type, not a flyer lockup.
    Title stays mixed-case. Specs live in Plex/Lucida. No slogan copy.
+   Mobile: hero → meta → play → buy → ticker, in document flow (no overlap).
    ========================================================================== */
 
 body.home-zine .hero.plate-hero {
@@ -10,7 +11,8 @@ body.home-zine .hero.plate-hero {
   position: relative;
   isolation: isolate;
   min-height: 0;
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 0;
   overflow: hidden;
   color: var(--hero-ink);
@@ -25,9 +27,10 @@ body.home-zine .hero.plate-hero {
   width: min(1080px, calc(100% - 40px));
   min-height: 0;
   margin: 0 auto;
-  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 calc(36px + var(--ticker-h, 32px));
+  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 24px;
   display: block;
   text-align: left;
+  flex: 0 0 auto;
 }
 
 .listen-plate {
@@ -72,37 +75,51 @@ body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
 }
 
 .listen-plate-lcd {
-  padding: 10px 12px 11px;
+  position: relative;
+  padding: 10px 28px 11px 12px;
   border-radius: 3px;
   background: linear-gradient(180deg, #d2d2ce 0%, #b8b8b4 100%);
   border: 1px solid rgba(40, 40, 40, .22);
   box-shadow: inset 0 1px 2px rgba(40, 50, 60, .28);
-  font-family: var(--ui);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   color: var(--lcd-ink, #1a1a1a);
+}
+.listen-plate-lcd::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7A7A78;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+}
+.listen-plate.is-live .listen-plate-lcd::before,
+.listen-plate .listen-sleeve.is-live ~ .listen-plate-copy .listen-plate-lcd::before {
+  background: #C6F000;
+  box-shadow: 0 0 8px rgba(198, 240, 0, .8);
 }
 
 .listen-plate-cat,
 .listen-plate-status {
   margin: 0;
-}
-
-.listen-plate-cat {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 11px;
   font-weight: 400;
   letter-spacing: .04em;
   text-transform: none;
-  color: rgba(26, 26, 26, .62);
+}
+
+.listen-plate-cat {
+  font-size: 11px;
+  color: rgba(26, 26, 26, .72);
 }
 
 .listen-plate-status {
   margin-top: 3px;
-  font-family: var(--ui);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0;
+  font-size: 11px;
   line-height: 1.4;
-  text-transform: none;
+  color: #1a1a1a;
 }
 
 .listen-plate-status a {
@@ -180,18 +197,23 @@ body.home-zine .hero.plate-hero .hero-ground {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: var(--ticker-h, 32px);
+  bottom: 0;
   height: 40%;
   z-index: 0;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(196, 196, 192, .35) 100%);
 }
 
+/* Ticker sits in document flow under the plate — never overlays buy/copy. */
 body.home-zine .hero.plate-hero .hero-ticker {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
   z-index: 3;
   height: var(--ticker-h);
+  flex: 0 0 var(--ticker-h);
+  margin: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: stretch;
@@ -204,8 +226,8 @@ body.home-zine .hero.plate-hero .hero-ticker {
 body.home-zine .hero.plate-hero .hero-ticker-bug {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 14px 0 18px;
+  gap: 8px;
+  padding: 0 14px 0 16px;
   border-right: 1px solid rgba(40, 40, 40, .12);
   background: transparent;
 }
@@ -219,6 +241,27 @@ body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip {
   padding: 0;
   background: transparent;
   color: #1a1a1a;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: none;
+  border-radius: 0;
+}
+body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip::before {
+  display: inline-block;
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7A7A78;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+}
+body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip--air {
+  color: #1a1a1a;
+}
+body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip--air::before {
+  background: #C6F000;
+  box-shadow: 0 0 7px rgba(198, 240, 0, .85);
 }
 
 body.home-zine .hero.plate-hero .hero-ticker-viewport {
@@ -261,7 +304,7 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
 @media (min-width: 860px) {
   .plate-hero .hero-stage {
     padding-top: calc(var(--nav-h) + var(--safe-t) + 40px);
-    padding-bottom: calc(44px + var(--ticker-h, 32px));
+    padding-bottom: 32px;
   }
   .listen-plate {
     max-width: 960px;
@@ -284,7 +327,7 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
     align-self: start;
   }
   .listen-plate-lcd {
-    max-width: 320px;
+    max-width: 360px;
   }
   body.home-zine .hero.plate-hero .hero-lockup-title {
     font-size: clamp(44px, 5.4vw, 64px);
@@ -295,16 +338,14 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
   .plate-hero .hero-stage {
     width: min(1180px, calc(100% - 28px));
     padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
-    padding-bottom: calc(22px + var(--ticker-h, 32px) + 56px);
-  }
-  body.home-zine .hero.plate-hero .hero-ticker {
-    bottom: 56px;
+    padding-bottom: 18px;
   }
   .listen-plate-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
+  .listen-plate-actions .btn-steel--play,
   .listen-plate-actions .btn-fill {
     grid-column: 1 / -1;
   }
@@ -317,9 +358,6 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .listen-plate .listen-sleeve.is-live::after {
-    animation: none;
-  }
   body.home-zine .hero.plate-hero .hero-ticker-track {
     animation: none;
   }

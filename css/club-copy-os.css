@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Club Copy OS — steel lock (v=st24)
+   Club Copy OS — steel lock (v=st26)
    Loaded LAST. Kills Bondi / Aqua ice / cyan LCD even if an older
    aqua-world.css is still in a CDN cache (that file used !important ice fills).
    No blue fills. No home photo roster. Artists stays in nav.
@@ -25,7 +25,9 @@ body.surface-night {
   --lcd-sel: #2A2A28;
   --bondi: #9A9A96;
   --stamp: #B8B8B4;
-  --led: #E4E4E0;
+  --led: #C6F000;
+  --acid: #C6F000;
+  --acid-ink: #141414;
   --bg: #E8E8E6;
   --card: #F4F4F2;
   --card-solid: #F4F4F2;
@@ -121,7 +123,8 @@ html body.home-zine.hero-top .nav.scrolled {
 /* Listening plate — record object, not a Click Wheel replica ------------- */
 html body.home-zine .hero.plate-hero {
   min-height: 0 !important;
-  display: block !important;
+  display: flex !important;
+  flex-direction: column;
   place-items: unset;
 }
 html body.home-zine .plate-hero .hero-stage {
@@ -129,7 +132,7 @@ html body.home-zine .plate-hero .hero-stage {
   width: min(1080px, calc(100% - 40px)) !important;
   min-height: 0 !important;
   margin: 0 auto;
-  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 calc(36px + var(--ticker-h, 32px));
+  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 24px;
   text-align: left;
 }
 html body.home-zine .plate-hero .hero-lockup {
@@ -166,6 +169,7 @@ html body.home-zine .plate-hero .hero-lockup-title a {
   letter-spacing: -.03em !important;
 }
 html body.home-zine .plate-hero .listen-plate-actions .btn,
+html body.home-zine .plate-hero .listen-plate-actions .btn-steel,
 html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
 html body.home-zine .plate-hero .listen-plate-actions .btn-ghost,
 html body.home-zine .plate-hero .listen-plate-actions .btn-text {
@@ -174,22 +178,34 @@ html body.home-zine .plate-hero .listen-plate-actions .btn-text {
   font-weight: 500 !important;
   letter-spacing: 0 !important;
   text-transform: none !important;
-  border-radius: 2px !important;
+  border-radius: 3px !important;
   min-height: 44px;
   height: 44px;
   padding: 0 16px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
-html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
-html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill {
-  background: #1a1a1a !important;
-  color: #f4f4f2 !important;
-  border: 1px solid #1a1a1a !important;
-  box-shadow: none !important;
-}
+html body.home-zine .plate-hero .listen-plate-actions .btn-steel,
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel,
 html body.home-zine .plate-hero .listen-plate-actions .btn-ghost {
-  background: transparent !important;
+  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%) !important;
   color: #1a1a1a !important;
   border: 1px solid rgba(40, 40, 40, .28) !important;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(40, 40, 40, .12),
+    0 1px 1px rgba(0, 0, 0, .08) !important;
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn-steel--play,
+html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill {
+  background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%) !important;
+  color: #f4f4f2 !important;
+  border: 1px solid #0e0e0e !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(0,0,0,.45),
+    0 1px 2px rgba(0,0,0,.28) !important;
 }
 html body.home-zine .plate-hero .listen-plate-actions a.btn-text {
   display: inline-flex;
@@ -199,19 +215,22 @@ html body.home-zine .plate-hero .listen-plate-actions a.btn-text {
   padding: 0 4px;
   background: none !important;
   border: 0 !important;
+  box-shadow: none !important;
   color: #1a1a1a !important;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 @media (hover: hover) {
+  html body.home-zine .plate-hero .listen-plate-actions .btn-steel:hover,
+  html body.home-zine .plate-hero .listen-plate-actions .btn-ghost:hover {
+    background: linear-gradient(180deg, #fff 0%, #e4e4e0 52%, #d0d0cc 100%) !important;
+    color: #1a1a1a !important;
+  }
+  html body.home-zine .plate-hero .listen-plate-actions .btn-steel--play:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn-fill:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill:hover {
-    background: #111 !important;
+    background: linear-gradient(180deg, #444442 0%, #161616 100%) !important;
     color: #f4f4f2 !important;
-  }
-  html body.home-zine .plate-hero .listen-plate-actions .btn-ghost:hover {
-    background: rgba(26, 26, 26, .06) !important;
-    color: #1a1a1a !important;
   }
 }
 html body.home-zine .plate-hero .hero-post,
@@ -308,17 +327,43 @@ html body.archive-release.release-object .ra-hero .crumbs a {
   color: #5c5c5a !important;
   -webkit-text-fill-color: #5c5c5a !important;
 }
-html body.archive-release.release-object .btn-light {
-  background: #1a1a1a;
-  color: #f4f4f2;
-  -webkit-text-fill-color: #f4f4f2;
-  border-color: #1a1a1a;
-}
+html body.archive-release.release-object .ra-hero-ctas .btn,
+html body.archive-release.release-object .ra-hero-ctas .btn-steel,
+html body.archive-release.release-object .ra-hero-ctas .btn-light,
+html body.archive-release.release-object .ra-hero-ctas .btn-ghost,
+html body.archive-release.release-object .btn-light,
 html body.archive-release.release-object .btn-ghost {
-  background: transparent;
-  color: #1a1a1a;
-  -webkit-text-fill-color: #1a1a1a;
-  border: 1px solid rgba(40,40,40,.28);
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  border-radius: 3px !important;
+  min-height: 44px;
+  height: 44px;
+  padding: 0 16px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%) !important;
+  color: #1a1a1a !important;
+  -webkit-text-fill-color: #1a1a1a !important;
+  border: 1px solid rgba(40, 40, 40, .28) !important;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(40, 40, 40, .12),
+    0 1px 1px rgba(0, 0, 0, .08) !important;
+}
+html body.archive-release.release-object .ra-hero-ctas .btn-steel--play,
+html body.archive-release.release-object .ra-hero-ctas .btn-light,
+html body.archive-release.release-object .btn-light {
+  background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%) !important;
+  color: #f4f4f2 !important;
+  -webkit-text-fill-color: #f4f4f2 !important;
+  border: 1px solid #0e0e0e !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(0,0,0,.45),
+    0 1px 2px rgba(0,0,0,.28) !important;
 }
 html body.archive-release.release-object .ra-deck,
 html body.archive-release.release-object .release-console {
@@ -333,7 +378,60 @@ html body.archive-release.release-object .scarce {
   color: #3d6b2e;
   -webkit-text-fill-color: #3d6b2e;
 }
+html body.archive-release.release-object .listen-sleeve {
+  width: min(420px, 86vw);
+}
 html body.archive-release.release-object .ra-cover,
 html body.archive-release.release-object .listen-sleeve {
-  box-shadow: 0 18px 40px rgba(26, 26, 26, .18);
+  border-radius: 10px !important;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(40,40,40,.16),
+    0 0 0 1px rgba(255,255,255,.28),
+    0 18px 40px rgba(26, 26, 26, .22) !important;
+}
+html body.archive-release.release-object .ra-hero-facts {
+  font-family: "IBM Plex Mono", ui-monospace, monospace !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  letter-spacing: .04em !important;
+  text-transform: none !important;
+  line-height: 1.55;
+  color: #1a1a1a !important;
+}
+html body.archive-release.release-object .ra-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 420px;
+}
+@media (max-width: 959px) {
+  html body.archive-release.release-object .ra-hero-ctas .btn {
+    flex: 1 1 100%;
+  }
+}
+@media (min-width: 960px) {
+  html body.archive-release.release-object .ra-hero-ctas {
+    max-width: none;
+  }
+}
+
+/* Genre ticker must stack under the plate — never overlay CTAs or copy. */
+html body.home-zine .hero.plate-hero .hero-ticker,
+html body.home-zine.hero-top .hero.plate-hero .hero-ticker {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100%;
+  height: var(--ticker-h, 32px);
+  z-index: 3;
+}
+@media (max-width: 859px) {
+  html body.home-zine .plate-hero .hero-stage {
+    width: min(1180px, calc(100% - 28px)) !important;
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
+    padding-bottom: 18px;
+  }
 }

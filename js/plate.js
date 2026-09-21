@@ -166,7 +166,11 @@
     var mine = soundingId(d) === playTarget();
     var live = !!(d.playing && mine);
     if (sleeve) sleeve.classList.toggle("is-live", live);
+    if (plate) plate.classList.toggle("is-live", live);
+    var plateRoot = plate && plate.querySelector(".listen-plate");
+    if (plateRoot) plateRoot.classList.toggle("is-live", live);
     if (hitBtn) hitBtn.classList.toggle("is-playing", live);
+    if (playBtn) playBtn.classList.toggle("is-playing", live);
   });
 
   fetch("/data/catalog.json")
