@@ -93,7 +93,7 @@
   function stampNow(title, dj) {
     if (!nowEl) return;
     nowEl.hidden = false;
-    nowEl.textContent = title + " — " + dj;
+    nowEl.textContent = dj ? title + " — " + dj : title;
   }
 
   function playViaPlayer(btn, releaseId, trackId) {
@@ -165,13 +165,59 @@
     (root || document).querySelectorAll("[data-tape-play], .tape-play[data-play-release]").forEach(function (btn) {
       if (btn.getAttribute("data-tape-bound")) return;
       btn.setAttribute("data-tape-bound", "1");
-      btn.addEventListener("click", function () {
+      btn.addEventListener("click", function (e) {
+        if (btn.getAttribute("data-play-release")) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         playTape(btn);
       });
     });
   }
 
+  function playButton(t) {
+    var playAttrs = "";
+    if (t.releaseId) {
+      playAttrs += ' data-play-release="' + esc(t.releaseId) + '"';
+      if (t.trackId) playAttrs += ' data-play-track="' + esc(t.trackId) + '"';
+    } else if (t.audio) {
+      playAttrs += ' data-tape-play="' + esc(t._audio || asset(t.audio)) + '"';
+    }
+    if (!playAttrs) return "";
+    return (
+      '<button type="button" class="tape-play"' +
+      playAttrs +
+      ' data-tape-id="' +
+      esc(t.id) +
+      '" data-tape-title="' +
+      esc(t.title) +
+      '" data-tape-dj="' +
+      esc(t.dj || "") +
+      '" aria-label="Play ' +
+      esc(t.title) +
+      '">play</button>'
+    );
+  }
+
   function cardHtml(t) {
+    var play = playButton(t);
+    var link = t.page
+      ? '<a class="tape-link" href="' + esc(t.page) + '">mix</a>'
+      : "";
+    if (t.layout === "date") {
+      return (
+        '<article class="mix-card tape mix-card--date" data-tape="' +
+        esc(t.id) +
+        '">' +
+        '<h3 class="tape-title mix-title">' +
+        esc(t.title) +
+        "</h3>" +
+        '<div class="tape-actions">' +
+        play +
+        link +
+        "</div></article>"
+      );
+    }
     var sleeve = t._hasCover
       ? '<div class="tape-sleeve mix-sleeve"><img src="' +
         esc(t._cover) +
@@ -181,27 +227,6 @@
         esc(t.dj) +
         '" width="1400" height="1400" loading="lazy"/></div>'
       : '<div class="tape-sleeve tape-sleeve--blank" aria-hidden="true"></div>';
-    var playAttrs = "";
-    if (t.releaseId) {
-      playAttrs += ' data-play-release="' + esc(t.releaseId) + '"';
-      if (t.trackId) playAttrs += ' data-play-track="' + esc(t.trackId) + '"';
-    } else if (t.audio) {
-      playAttrs += ' data-tape-play="' + esc(t._audio || asset(t.audio)) + '"';
-    }
-    var play = playAttrs
-      ? '<button type="button" class="tape-play"' +
-        playAttrs +
-        ' data-tape-id="' +
-        esc(t.id) +
-        '" data-tape-title="' +
-        esc(t.title) +
-        '" data-tape-dj="' +
-        esc(t.dj) +
-        '">play</button>'
-      : "";
-    var link = t.page
-      ? '<a class="tape-link" href="' + esc(t.page) + '">mix</a>'
-      : "";
     return (
       '<article class="mix-card tape" data-tape="' +
       esc(t.id) +
@@ -212,14 +237,13 @@
       '<h3 class="tape-title mix-title">' +
       esc(t.title) +
       "</h3>" +
-      '<em class="tape-dj">' +
-      esc(t.dj) +
-      "</em>" +
-      '<p class="tape-spec"><span>' +
-      esc(t.year) +
-      "</span><span>" +
-      esc(t.runtime) +
-      "</span></p>" +
+      (t.dj ? '<em class="tape-dj">' + esc(t.dj) + "</em>" : "") +
+      (t.year || t.runtime
+        ? '<p class="tape-spec">' +
+          (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
+          (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
+          "</p>"
+        : "") +
       (t.dek ? '<p class="tape-dek">' + esc(t.dek) + "</p>" : "") +
       '<div class="tape-actions">' +
       play +
@@ -235,6 +259,10 @@
       bind();
       return;
     }
+    if (grid.querySelector("[data-tape-id], .tape-play")) {
+      bind(grid);
+      return;
+    }
     loadList(function (tapes) {
       if (!tapes.length) {
         bind();
@@ -242,10 +270,16 @@
       }
       Promise.all(
         tapes.map(function (t) {
-          var cover = asset(t.cover);
+          if (t.releaseId) {
+            t._hasCover = !!t.cover;
+            t._cover = t.cover ? asset(t.cover) : "";
+            t._hasAudio = true;
+            return Promise.resolve(t);
+          }
+          var cover = t.cover ? asset(t.cover) : "";
           var audioSrc = t.audio ? asset(t.audio) : "";
           return Promise.all([
-            probe(cover),
+            cover ? probe(cover) : Promise.resolve(false),
             audioSrc ? probe(audioSrc) : Promise.resolve(false)
           ]).then(function (flags) {
             t._hasCover = flags[0];
@@ -257,7 +291,7 @@
         })
       ).then(function (ready) {
         var live = ready.filter(function (t) {
-          return t._hasCover || t._hasAudio;
+          return t.releaseId || t._hasCover || t._hasAudio;
         });
         if (!live.length) {
           bind();

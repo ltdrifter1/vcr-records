@@ -110,6 +110,7 @@
   <link rel="stylesheet" href="css/zine-pages.css?v=st24"/>
   <link rel="stylesheet" href="css/home-zine.css?v=st26"/>
   <link rel="stylesheet" href="css/home-folio.css?v=st24"/>
+  <link rel="stylesheet" href="css/mixtapes.css?v=st26"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st26"/>
   <style id="club-copy-home-lock">
     /* Steel lock: grey field, no photo roster on home. Artists stays in nav. */
@@ -319,6 +320,41 @@
     </div>
     <div class="band sleeve-index-foot">
       <a class="head-link" href="/library">Full library →</a>
+    </div>
+  </section>
+
+  <!-- Mixes dated like a log — play the ones on the desk -->
+  <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
+    <div class="mixtapes-bridge" aria-hidden="true"></div>
+    <div class="mixtapes-band">
+      <header class="mixtapes-head">
+        <div>
+          <p class="eyebrow">play these ones</p>
+          <h2 id="mixtapes-title">MIXTAPES</h2>
+        </div>
+        <a class="mixtapes-head-link" href="/tapes">All tapes</a>
+      </header>
+      <p class="tapes-now" data-tapes-now hidden></p>
+      <div class="tapes-grid" data-tapes-grid>
+        <article class="mix-card tape mix-card--date" data-tape="tape-22-mar-24">
+          <h3 class="tape-title mix-title">22 mar 24</h3>
+          <div class="tape-actions">
+            <button type="button" class="tape-play" data-play-release="mixtape" data-tape-id="tape-22-mar-24" data-tape-title="22 mar 24" data-tape-dj="Club Copy" aria-label="Play 22 mar 24">play</button>
+          </div>
+        </article>
+        <article class="mix-card tape mix-card--date" data-tape="tape-08-nov-24">
+          <h3 class="tape-title mix-title">08 nov 24</h3>
+          <div class="tape-actions">
+            <button type="button" class="tape-play" data-play-release="summer-madness" data-tape-id="tape-08-nov-24" data-tape-title="08 nov 24" data-tape-dj="Club Copy" aria-label="Play 08 nov 24">play</button>
+          </div>
+        </article>
+        <article class="mix-card tape mix-card--date" data-tape="tape-17-jun-25">
+          <h3 class="tape-title mix-title">17 jun 25</h3>
+          <div class="tape-actions">
+            <button type="button" class="tape-play" data-play-release="need-you" data-tape-id="tape-17-jun-25" data-tape-title="17 jun 25" data-tape-dj="Club Copy" aria-label="Play 17 jun 25">play</button>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -609,6 +645,7 @@
         <a href="/library">Library</a>
         <a href="/artists">Artists</a>
         <a href="/news">Zine</a>
+        <a href="/tapes">Mixtapes</a>
         <a href="/merch">Shop</a>
         <a href="/planet">Planet MP3</a>
         <a href="/shipping">Shipping</a>
@@ -623,6 +660,7 @@
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st25"></script>
+<script src="js/tapes.js?v=st26"></script>
 <script src="js/plate.js?v=st24"></script>
 <script src="js/home-wall.js?v=st24"></script>
 <script src="js/ig-feed.js?v=st26"></script>
