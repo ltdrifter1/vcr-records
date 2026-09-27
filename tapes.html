@@ -4,13 +4,13 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Mixtapes — Club Copy</title>
-  <meta name="description" content="Club Copy mixtapes. Coming soon."/>
+  <meta name="description" content="L.T. Drifta mixtapes on Club Copy, streamed from SoundCloud. Play every mix in the site — new tapes land here when they land on @ltdrifta."/>
   <meta name="theme-color" content="#E8E8E6"/>
   <link rel="canonical" href="https://www.clubcopy.ca/tapes"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:title" content="Mixtapes — Club Copy"/>
-  <meta property="og:description" content="Club Copy mixtapes. Coming soon."/>
+  <meta property="og:description" content="L.T. Drifta mixtapes, live from SoundCloud. Play them here."/>
   <meta property="og:url" content="https://www.clubcopy.ca/tapes"/>
   <meta property="og:image" content="https://www.clubcopy.ca/club-copy-logo-chrome.webp"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
@@ -19,9 +19,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,600;0,100,700;1,100,400&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st25"/>
+  <link rel="stylesheet" href="css/site.css?v=st27"/>
   <link rel="stylesheet" href="css/player.css?v=st25"/>
-  <link rel="stylesheet" href="css/mixtapes.css?v=st18"/>
+  <link rel="stylesheet" href="css/mixtapes.css?v=st19"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st18"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st18"/>
 
@@ -35,6 +35,7 @@
         <nav class="nav-links" aria-label="Primary">
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
+      <a href="/tapes" aria-current="page">Mixes</a>
       <a href="/news">Zine</a>
       <a href="/merch">Shop</a>
       <a href="/#join">Join</a>
@@ -58,6 +59,7 @@
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
+  <a href="/tapes" aria-current="page">Mixes</a>
   <a href="/news">Zine</a>
   <a href="/merch">Shop</a>
   <a href="/#join">Join</a>
@@ -73,10 +75,13 @@
       </nav>
       <header class="mixtapes-head">
         <h1 id="mixtapes-title">Mixtapes</h1>
+        <a class="mixtapes-head-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer" target="_blank">@ltdrifta</a>
       </header>
       <p class="tapes-now" data-tapes-now hidden></p>
       <div class="tapes-grid" data-tapes-grid>
-        <h2 class="mix-soon">Coming soon</h2>
+        <span class="mix-skel" aria-hidden="true"></span>
+        <span class="mix-skel" aria-hidden="true"></span>
+        <span class="mix-skel" aria-hidden="true"></span>
       </div>
     </div>
   </section>
@@ -90,7 +95,7 @@
         <a href="/#listen">Listen</a>
         <a href="/library">Library</a>
         <a href="/news">Zine</a>
-        <a href="/tapes">Mixtapes</a>
+        <a href="/tapes">Mixes</a>
         <a href="/merch">Shop</a>
         <a href="/contact">Contact</a>
       </div>
@@ -98,8 +103,8 @@
   </div>
 </footer>
 
-<script src="js/tapes.js"></script>
-<script src="js/site.js"></script>
+<script src="js/tapes.js?v=st19"></script>
+<script src="js/site.js?v=st25"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st25"></script>
