@@ -101,15 +101,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st26"/>
+  <link rel="stylesheet" href="css/site.css?v=st27"/>
   <link rel="stylesheet" href="css/listen-object.css?v=st26"/>
   <link rel="stylesheet" href="css/listen-plate.css?v=st26"/>
   <link rel="stylesheet" href="css/fx.css?v=st24"/>
   <link rel="stylesheet" href="css/player.css?v=st25"/>
   <link rel="stylesheet" href="css/news.css?v=st24"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st24"/>
-  <link rel="stylesheet" href="css/home-zine.css?v=st26"/>
+  <link rel="stylesheet" href="css/home-zine.css?v=st27"/>
   <link rel="stylesheet" href="css/home-folio.css?v=st24"/>
+  <link rel="stylesheet" href="css/mixtapes.css?v=st19"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st26"/>
   <style id="club-copy-home-lock">
     /* Steel lock: grey field, no photo roster on home. Artists stays in nav. */
@@ -469,6 +470,26 @@
     </div>
   </section>
 
+  <!-- Mixtapes — live from SoundCloud @ltdrifta -->
+  <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
+    <div class="mixtapes-bridge" aria-hidden="true"></div>
+    <div class="mixtapes-band">
+      <header class="mixtapes-head">
+        <div>
+          <p class="eyebrow">mixes</p>
+          <h2 id="mixtapes-title">Mixtapes</h2>
+        </div>
+        <a class="mixtapes-head-link" href="/tapes">All mixes</a>
+      </header>
+      <p class="tapes-now" data-tapes-now hidden></p>
+      <div class="tapes-grid tapes-grid--home" data-tapes-grid data-tapes-limit="3">
+        <span class="mix-skel" aria-hidden="true"></span>
+        <span class="mix-skel" aria-hidden="true"></span>
+        <span class="mix-skel" aria-hidden="true"></span>
+      </div>
+    </div>
+  </section>
+
   <!-- From the floor — mixed camera roll, last 16 from @ltdrifta + @clubcopyrecords -->
   <section class="ig-feed" id="instagram" aria-labelledby="ig-feed-title">
     <div class="ig-feed-bridge" aria-hidden="true"></div>
@@ -619,13 +640,14 @@
 </footer>
 
 <script src="js/zine.js?v=st27"></script>
-<script src="js/site.js?v=st24"></script>
+<script src="js/site.js?v=st25"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st25"></script>
 <script src="js/plate.js?v=st24"></script>
 <script src="js/home-wall.js?v=st24"></script>
 <script src="js/ig-feed.js?v=st26"></script>
+<script src="js/tapes.js?v=st19"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');

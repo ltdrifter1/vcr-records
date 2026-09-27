@@ -86,29 +86,47 @@
     } catch (e) {}
   }
 
-    function injectTabBar() {
+    function injectMixesNav() {
+    var href = '/tapes';
+    var label = 'Mixes';
+    function hasMix(container) {
+      return !!(container && container.querySelector('a[href="/tapes"], a[href="/mixtapes"]'));
+    }
+    function makeLink() {
+      var a = document.createElement('a');
+      a.href = href;
+      a.textContent = label;
+      var p = (location.pathname || '/').replace(/\/index\.html$/, '/');
+      if (p === '/tapes' || p === '/mixtapes') a.setAttribute('aria-current', 'page');
+      return a;
+    }
+    function insert(container) {
+      if (!container || hasMix(container)) return;
+      var a = makeLink();
+      var artists = container.querySelector('a[href="/artists"]');
+      var zine = container.querySelector('a[href="/news"]');
+      var after = artists || container.querySelector('a[href="/library"]');
+      if (after && after.nextSibling) container.insertBefore(a, after.nextSibling);
+      else if (zine) container.insertBefore(a, zine);
+      else container.appendChild(a);
+    }
+    document.querySelectorAll('.nav-links, .nav-drawer, .footer-links').forEach(insert);
+  }
+  injectMixesNav();
+
+  function injectTabBar() {
     if (document.getElementById('tabBar')) return;
     var bar = document.createElement('nav');
     bar.className = 'tabbar';
     bar.id = 'tabBar';
     bar.setAttribute('aria-label', 'App');
-    var home = document.body.classList.contains('home-zine');
-    var mid = home
-      ? (
-          '<a href="#join" data-tab="join">' +
-            '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.5" y="6" width="15" height="12" rx="1.6"/><path d="M4.5 10h15M8 14h4"/></svg>' +
-            '<span>Join</span></a>'
-        )
-      : (
-          '<a href="/artists" data-tab="artists">' +
-            '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="2.4"/><circle cx="15.5" cy="8.6" r="2"/><path d="M4.6 18.2c.6-2.6 2.6-4 4.4-4s3.8 1.4 4.4 4M13.2 16.6c.5-1.6 1.8-2.6 3.2-2.6 1.2 0 2.4.7 3 2"/></svg>' +
-            '<span>Artists</span></a>'
-        );
     bar.innerHTML =
       '<a href="/library" data-tab="library">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="4" y="5" width="7" height="7" rx="1.4"/><rect x="13" y="5" width="7" height="7" rx="1.4"/><rect x="4" y="14" width="7" height="7" rx="1.4"/><rect x="13" y="14" width="7" height="7" rx="1.4"/></svg>' +
         '<span>Library</span></a>' +
-      mid +
+      '<a href="/tapes" data-tab="mixes">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="7" width="14" height="10" rx="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><path d="M9 10.4V8.6M15 10.4V8.6"/></svg>' +
+        '<span>Mixes</span></a>' +
       '<a href="/news" data-tab="zine">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.2" y="5" width="15.6" height="14" rx="1.6"/><path d="M7.4 9h9.2M7.4 12.2h6.6M7.4 15.4h8.2"/></svg>' +
         '<span>Zine</span></a>' +
@@ -120,7 +138,7 @@
     function currentTab() {
       var p = (location.pathname || '/').replace(/\/index\.html$/, '/');
       if (p.indexOf('/library') === 0) return 'library';
-      if (p.indexOf('/artists') === 0) return 'artists';
+      if (p.indexOf('/tapes') === 0 || p.indexOf('/mixtapes') === 0) return 'mixes';
       if (p.indexOf('/merch') === 0 || p.indexOf('/cart') === 0 || p.indexOf('/checkout') === 0) return 'shop';
       if (p.indexOf('/news') === 0) return 'zine';
       return '';
@@ -143,8 +161,7 @@
       drawer.querySelectorAll('a').forEach(function (a) {
         var href = (a.getAttribute('href') || '').split('?')[0];
         var dup = href === '/library' || href === '/merch' ||
-          href === '/news' || href === '#join';
-        if (!home && href === '/artists') dup = true;
+          href === '/news' || href === '/tapes' || href === '/mixtapes';
         if (dup) a.classList.add('tabbar-dup');
       });
     }
