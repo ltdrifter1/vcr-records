@@ -111,6 +111,16 @@
       else container.appendChild(a);
     }
     document.querySelectorAll('.nav-links, .nav-drawer, .footer-links').forEach(insert);
+    var end = document.querySelector('.nav-end');
+    if (end && !end.querySelector('.nav-join')) {
+      var join = document.createElement('a');
+      join.className = 'nav-join';
+      join.href = document.body.classList.contains('home-zine') ? '#join' : '/#join';
+      join.textContent = 'Join';
+      var cart = end.querySelector('.nav-cart');
+      if (cart) end.insertBefore(join, cart);
+      else end.appendChild(join);
+    }
   }
   injectMixesNav();
 

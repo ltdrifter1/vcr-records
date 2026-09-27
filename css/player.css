@@ -13,14 +13,17 @@
 }
 
 body.has-vcr-player {
-  padding-bottom: calc(var(--vcr-player-h) + var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px) + 16px) !important;
+  padding-bottom: calc(var(--vcr-player-h) + env(safe-area-inset-bottom, 0px) + 16px) !important;
+}
+body.has-vcr-player .tabbar {
+  display: none !important;
 }
 
 .vcr-player {
   position: fixed;
   left: max(12px, env(safe-area-inset-left, 0px));
   right: max(12px, env(safe-area-inset-right, 0px));
-  bottom: calc(10px + var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px));
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   z-index: 500;
   max-width: 820px;
   margin: 0 auto;
@@ -634,41 +637,37 @@ body.vcr-bumper-open { overflow: hidden; }
 }
 
 @media (max-width: 760px) {
-  :root { --vcr-player-h: 118px; }
+  :root { --vcr-player-h: 72px; }
   .vcr-player {
     left: max(10px, env(safe-area-inset-left, 0px));
     right: max(10px, env(safe-area-inset-right, 0px));
-    bottom: calc(8px + var(--tabbar-h, 0px) + env(safe-area-inset-bottom, 0px));
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
     grid-template-columns: 48px minmax(0, 1fr) auto 28px;
-    grid-template-areas:
-      "art lcd controls close"
-      "buy buy buy buy";
-    gap: 8px 8px;
-    padding: 8px 8px 10px;
+    grid-template-areas: "art lcd controls close";
+    gap: 8px;
+    padding: 8px;
     border-radius: 4px;
   }
   .vcr-player__jewel { width: 48px; height: 48px; }
   .vcr-player__lcd { grid-area: lcd; }
-  .vcr-player__controls { grid-area: controls; gap: 4px; }
-  .vcr-player__buy {
-    grid-area: buy;
-    justify-self: start;
-    font-size: 11px;
-    padding: 6px 10px;
-    min-height: 36px;
-  }
-  .vcr-player__btn {
-    width: 40px;
-    height: 40px;
-  }
-  .vcr-player__btn--play {
-    width: 42px;
-    height: 42px;
-  }
-  .vcr-player__scrub {
-    height: 28px;
-    touch-action: none;
-  }
+  .vcr-player__controls { grid-area: controls; gap: 2px; }
+  .vcr-player__buy { display: none !important; }
+  .vcr-player__btn { width: 36px; height: 36px; }
+  .vcr-player__btn--play { width: 40px; height: 40px; }
+  .vcr-player__scrub { height: 22px; touch-action: none; }
+  .vcr-player__eq,
+  .vcr-player__upnext { display: none; }
+  .vcr-toast { display: none !important; }
+}
+.vcr-sc-frame {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  left: -8px;
+  bottom: -8px;
+  opacity: 0.02;
+  pointer-events: none;
+  border: 0;
 }
 
 /* Now Playing sheet — iOS Music × acetate --------------------------------- */

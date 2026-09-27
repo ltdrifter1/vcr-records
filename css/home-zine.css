@@ -915,11 +915,10 @@ body.home-zine .mixtapes-head-link {
 }
 body.home-zine .mix-card,
 body.home-zine .mixtapes .tape {
-  border-radius: 0;
-  border: 1px solid var(--zine-ink);
-  background: var(--zine-paper);
+  border: 0;
+  background: transparent;
   box-shadow: none;
-  padding: 20px 22px;
+  padding: 0;
 }
 body.home-zine .mix-soon {
   font-family: var(--zine-display);
@@ -1184,6 +1183,22 @@ body.home-zine .zine-club.home-join #premiumAmount {
   }
 }
 @media (max-width: 720px) {
+  body.home-zine .hero-ticker,
+  body.home-zine .news.zine,
+  body.home-zine .mixtapes,
+  body.home-zine .ig-feed {
+    display: none !important;
+  }
+  body.home-zine .wall {
+    padding-bottom: 32px;
+  }
+  body.home-zine .sleeve-index-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  body.home-zine .sleeve-card-spec {
+    display: none;
+  }
   body.home-zine .zine-club.home-join {
     padding: 0 0 56px;
   }

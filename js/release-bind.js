@@ -164,7 +164,7 @@
     function playAt(idx) {
       if (idx < 0 || !TRACKS[idx]) return;
       if (!hasPreview(TRACKS[idx])) {
-        setMsg("No preview wired — this cue is not linked to Bandcamp.", true);
+        setMsg("Preview isn’t up yet.", true);
         return;
       }
       setActive(idx);
@@ -174,9 +174,9 @@
           setMsg(queued.fromBandcamp
             ? "Streaming on site · full file after checkout."
             : "90s preview · full file after checkout.");
-        } else setMsg("Could not play this preview — link is not wired or not active.", true);
+        } else setMsg("Preview isn’t up yet.", true);
       }).catch(function () {
-        setMsg("Could not play this preview — link is not wired or not active.", true);
+        setMsg("Preview isn’t up yet.", true);
       });
     }
 
@@ -313,7 +313,7 @@
       var d = ev.detail || {};
       if (d.error && d.track && d.track.releaseId === RELEASE_ID) {
         setPlaying(false);
-        setMsg(d.errorMessage || "Could not play this preview — link is not wired or not active.", true);
+        setMsg(d.errorMessage || "Preview isn’t up yet.", true);
         return;
       }
       var t = d.track;
