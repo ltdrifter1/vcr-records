@@ -1,6 +1,6 @@
 # Club Copy — Creative Audit (Pass A)
 
-**Superseded for current HEAD by [Pass F](creative-audit-pass-f.md)** (81 / 100, 28 Sep 2026). Pass A scored **67 / 100** before the listening plate shipped. See also [Pass B](creative-audit-pass-b.md), [Pass C](creative-audit-pass-c.md) (deploy RCA), [Pass D](creative-audit-pass-d.md), [Pass E](creative-audit-pass-e.md).
+**Superseded for current HEAD by [Pass G](creative-audit-pass-g.md)** (86 / 100, 28 Sep 2026). Pass A scored **67 / 100** before the listening plate shipped. See also [Pass B](creative-audit-pass-b.md), [Pass C](creative-audit-pass-c.md) (deploy RCA), [Pass D](creative-audit-pass-d.md), [Pass E](creative-audit-pass-e.md), [Pass F](creative-audit-pass-f.md).
 
 **Role:** Senior Creative Director, Brand Designer, UX/UI Designer (music / editorial / culture)  
 **Scope:** Repository HEAD at `st18` (steel lock, You Are (Love) hero) **and** production `https://www.clubcopy.ca/` as captured 18 September 2026. They are not the same site. No product code was changed for this audit.  
