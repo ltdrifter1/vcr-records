@@ -378,9 +378,7 @@ html body.library-index .lib-view-btn:focus-visible {
   outline-offset: 2px;
 }
 @media (max-width: 720px) {
-  html body.library-index .lib-view,
-  html body.library-index #libFlow,
-  html body.library-index .album-flow {
+  html body.library-index .lib-view {
     display: none !important;
   }
 }
@@ -820,56 +818,6 @@ html body.library-index .cat-list.is-covers .cat-play {
   opacity: 1;
 }
 html body.library-index .cat-list[hidden] { display: none !important; }
-
-/* Cover Flow on polycarbonate ---------------------------------------------- */
-html body.library-index .album-flow {
-  padding: 12px 0 24px;
-}
-html body.library-index.lib-covers-on .coverflow-stage {
-  height: calc(var(--flow-cover) * 1.38);
-}
-html body.library-index .coverflow-stage {
-  background:
-    radial-gradient(ellipse 58% 28% at 50% 78%, rgba(255, 255, 255, .55), transparent 70%),
-    linear-gradient(180deg, transparent 48%, rgba(210, 210, 206, .28) 100%);
-}
-html body.library-index .coverflow-stage::after {
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, .45), transparent 68%);
-}
-html body.library-index .coverflow-nav {
-  color: #1A1A1A;
-  border-color: rgba(255, 255, 255, .7);
-  background: linear-gradient(180deg, #fff 0%, #e8e8e6 48%, #c8c8c4 100%);
-}
-html body.library-index .coverflow-kicker {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: none;
-  color: #7A7A78;
-}
-html body.library-index .coverflow-title {
-  font-family: "Oswald", "Arial Narrow", sans-serif;
-  font-weight: 500;
-  letter-spacing: -.03em;
-  text-transform: none;
-  color: #1A1A1A;
-}
-html body.library-index .coverflow-artist {
-  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-style: normal;
-  font-size: 15px;
-  color: #5C5C5A;
-}
-html body.library-index .coverflow-hint {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  color: #7A7A78;
-}
 
 html body.library-index .album-inspect {
   border-radius: 8px;

@@ -18,13 +18,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st32"/>
-  <link rel="stylesheet" href="css/fx.css?v=st32"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st32"/>
-  <link rel="stylesheet" href="css/club-copy-os.css?v=st32"/>
+  <link rel="stylesheet" href="css/site.css?v=st34"/>
+  <link rel="stylesheet" href="css/fx.css?v=st34"/>
+  <link rel="stylesheet" href="css/zine-pages.css?v=st34"/>
+  <link rel="stylesheet" href="css/club-copy-os.css?v=st34"/>
 
   <style>
-    body {
+    html body.planet-station {
       background:
         radial-gradient(880px 480px at 14% -4%, rgba(186,204,224,.09), transparent 58%),
         radial-gradient(720px 420px at 88% 8%, rgba(120,140,170,.06), transparent 52%),
@@ -78,20 +78,23 @@
       display: block;
       box-shadow: 0 24px 60px rgba(0,0,0,.45);
     }
-    .planet-kicker {
-      font-size: 12px;
+    html body.planet-station .planet-kicker {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 11px;
       font-weight: 500;
-      letter-spacing: .2em;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.4);
+      color: rgba(255,255,255,.45);
       margin: 0 0 16px;
     }
-    .planet-title {
+    html body.planet-station .planet-title {
       font-family: var(--display);
       font-size: clamp(36px, 7vw, 64px);
       font-weight: 600;
       letter-spacing: -.04em;
       line-height: .98;
+      text-transform: none;
+      color: #F4F4F2;
       margin: 0 0 20px;
     }
     .planet-lead {
@@ -157,7 +160,7 @@
     }
   </style>
 </head>
-<body id="top" class="nav-on-dark zine-surface nav-light">
+<body id="top" class="planet-station nav-on-dark zine-surface nav-light">
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -201,6 +204,7 @@
 <main id="main" class="planet-page fx-phosphor">
   <div class="planet-main">
     <div class="planet-shell">
+      <p class="planet-kicker">Planet MP3 — a Club Copy station</p>
       <img class="planet-mark" src="planetmp3-logo.webp" alt="Planet MP3" width="800" height="800" fetchpriority="high"/>
       <h1 class="planet-title">Music that follows<br/>the day.</h1>
       <p class="planet-lead">Planet MP3 shapes what you hear around the time of day — then lets you take the wheel. Speed it up, slow it down, or build a custom mix for any length of time.</p>

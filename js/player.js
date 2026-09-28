@@ -591,7 +591,6 @@
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__err" data-player-err hidden></p>' +
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
-      '<div class="vcr-player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
       '<div class="vcr-player__progress-wrap">' +
       '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
       '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
@@ -874,7 +873,6 @@
   function bindRoom(room) {
     if (!room || roomBound) return;
     roomBound = true;
-    if (room.hasAttribute("data-ipod")) return;
     room.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-act]");
       if (!btn || !room.contains(btn)) return;
@@ -888,11 +886,6 @@
     var room = getRoom();
     if (!room) return;
     bindRoom(room);
-    if (room.hasAttribute("data-ipod")) {
-      room.classList.toggle("is-live", roomOpen);
-      room.setAttribute("aria-live", roomOpen ? "polite" : "off");
-      return;
-    }
 
     var art = room.querySelector("[data-room-art]");
     var bg = room.querySelector("[data-room-bg]");
@@ -971,12 +964,8 @@
     }
     if (disc) disc.classList.toggle("is-spinning", !!playing);
     room.classList.toggle("is-live", roomOpen);
-    if (!room.hasAttribute("data-ipod")) {
-      room.classList.toggle("is-playing", !!playing);
-      room.classList.toggle("is-now-playing", roomOpen);
-      var ipodHeader = room.querySelector("[data-ipod-header]");
-      if (ipodHeader) ipodHeader.textContent = roomOpen ? "Now Playing" : "Club Copy";
-    }
+    room.classList.toggle("is-playing", !!playing);
+    room.classList.toggle("is-now-playing", roomOpen);
     room.setAttribute("aria-live", roomOpen ? "polite" : "off");
   }
 
@@ -1003,8 +992,7 @@
     dock.classList.toggle("is-playing", !!playing);
     setAirState(playing);
     if (playing) startEnergy();
-    var roomNow = getRoom();
-    if (track && track.cover && !(roomNow && roomNow.hasAttribute("data-ipod"))) sampleCover(track.cover);
+    if (track && track.cover) sampleCover(track.cover);
     syncDockAway();
     updateDockLcd(track, playing);
 
@@ -1129,7 +1117,7 @@
     if (stageCur) stageCur.textContent = fmt(cur);
     if (stageDur) stageDur.textContent = fmt(dur);
     var room = getRoom();
-    if (room && !room.hasAttribute("data-ipod")) {
+    if (room) {
       var roomScrub = room.querySelector("[data-room-scrub]");
       if (roomScrub) roomScrub.value = String(ratio);
       var curEl = room.querySelector("[data-room-cur]");
@@ -1518,7 +1506,7 @@
           setRoomFormatsOpen(false);
           markFormatAdded("digital");
           flashBuyLabel(el, true);
-          var digitalCartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"], [data-ipod-buy]');
+          var digitalCartBtn = getRoom() && getRoom().querySelector('[data-act="open-formats"]');
           if (digitalCartBtn && digitalCartBtn !== el) flashBuyLabel(digitalCartBtn, true);
         }
         return;
@@ -2009,11 +1997,8 @@
     // Prefetch catalog so the first tap can start playback in-gesture on iOS.
     loadCatalog().catch(function () {});
     hydrateFromURL();
-    var room = document.getElementById("room");
-    if (!room || !room.hasAttribute("data-ipod")) {
-      var featured = document.querySelector("[data-room-art]");
-      if (featured && featured.getAttribute("src")) sampleCover(featured.getAttribute("src"));
-    }
+    var featured = document.querySelector("[data-room-art]");
+    if (featured && featured.getAttribute("src")) sampleCover(featured.getAttribute("src"));
   }
 
   window.VCRPlayer = {

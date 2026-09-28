@@ -1,5 +1,5 @@
-/* Club Copy — homepage listening plate. Play the feature if it has a cue;
-   otherwise the sleeve is what's on air. Cassette buy stays on the feature. */
+/* Club Copy — homepage listening plate. Play the featured record.
+   Cassette buy stays on the feature. */
 (function () {
   "use strict";
 
@@ -31,12 +31,6 @@
     digitalImage: "you-are-love-cover.webp",
     cassetteBackorder: true,
   };
-  var onAir = {
-    id: "gorilla",
-    title: "Gorilla",
-    artist: "Molly Haze",
-    cover: "gorilla-cover.webp",
-  };
 
   function hasCue(rel) {
     return (rel.tracks || []).some(function (t) {
@@ -45,15 +39,11 @@
   }
 
   function playTarget() {
-    if (featured.playable) return featured.id;
-    return onAir.id;
+    return featured.id;
   }
 
   function soundingCover() {
-    if (featured.playable) {
-      return { src: featured.cover, alt: featured.title + " — " + featured.artist };
-    }
-    return { src: onAir.cover, alt: onAir.title + " — " + onAir.artist };
+    return { src: featured.cover, alt: featured.title + " — " + featured.artist };
   }
 
   function playLabel(playing) {
@@ -107,23 +97,17 @@
     return track && track.releaseId ? track.releaseId : "";
   }
 
-  var fallingThrough = false;
-
   function playNow() {
     if (!window.VCRPlayer || !VCRPlayer.playRelease) return;
     var id = playTarget();
     var st = VCRPlayer.getState && VCRPlayer.getState();
-    if (st && st.playing && st.track && (st.track.releaseId === id || st.track.releaseId === featured.id || st.track.releaseId === onAir.id)) {
+    if (st && st.playing && st.track && st.track.releaseId === id) {
       VCRPlayer.toggle();
       return;
     }
     setPlayUi(true);
     VCRPlayer.playRelease(id, null, { autoplay: true, stage: false }).then(function (queued) {
       if (queued) return;
-      if (featured.playable && onAir.id && onAir.id !== id && !fallingThrough) {
-        fallingThrough = true;
-        return VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
-      }
       setPlayUi(false);
     }).catch(function () {
       setPlayUi(false);
@@ -189,13 +173,9 @@
 
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
-    var mine = soundingId(d) === playTarget() || soundingId(d) === featured.id || soundingId(d) === onAir.id;
+    var mine = soundingId(d) === playTarget() || soundingId(d) === featured.id;
     var live = !!(d.playing && mine);
     setPlayUi(live);
-    if (d.error && d.track && d.track.releaseId === featured.id && onAir.id && onAir.id !== featured.id && !fallingThrough) {
-      fallingThrough = true;
-      VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
-    }
   });
 
   fetch("/data/catalog.json")
@@ -241,21 +221,6 @@
             : "Digital";
         }
       }
-      var dated = releases
-        .filter(function (r) {
-          return r.id !== FEATURED_ID && hasCue(r);
-        })
-        .sort(function (a, b) {
-          return String(b.released || "").localeCompare(String(a.released || ""));
-        });
-      if (dated[0]) {
-        onAir = {
-          id: dated[0].id,
-          title: dated[0].title,
-          artist: dated[0].artist,
-          cover: dated[0].cover || dated[0].coverThumb || onAir.cover,
-        };
-      }
       applySleeveArt();
       if (featured.playable) {
         var digitalBit =
@@ -268,13 +233,7 @@
             : digitalBit + " · cassette $" + featured.price
         );
       } else {
-        setStatus(
-          "Cassette pre-order. Sleeve is <a href=\"/" +
-            onAir.id +
-            "\">" +
-            (onAir.title || "the library") +
-            "</a> on air."
-        );
+        setStatus("Cassette pre-order. Open the record to listen.");
       }
       syncButtons();
     })

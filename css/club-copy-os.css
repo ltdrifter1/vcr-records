@@ -58,3 +58,93 @@ body {
   --folio-navy-2: #222220;
   --folio-foil: #B8B8B4;
 }
+
+
+/* Aluminum keys — one dialect sitewide */
+.btn-steel,
+.btn.btn-steel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 3px;
+  font-family: var(--ui, "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #1a1a1a;
+  border: 1px solid rgba(40, 40, 40, .28);
+  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(40, 40, 40, .12),
+    0 1px 1px rgba(0, 0, 0, .08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-steel::before,
+.btn-steel::after { display: none; }
+.btn-steel--play,
+.btn.btn-steel--play {
+  background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%);
+  color: #f4f4f2;
+  border-color: #0e0e0e;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(0,0,0,.45),
+    0 1px 2px rgba(0,0,0,.28);
+}
+.btn-steel--play.is-playing {
+  background: linear-gradient(180deg, #2a2a28 0%, #111 100%);
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+.btn-steel--play.is-playing::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f4f4f2;
+  box-shadow: none;
+}
+@media (hover: hover) {
+  .btn-steel:hover,
+  .btn.btn-steel:hover {
+    background: linear-gradient(180deg, #fff 0%, #e4e4e0 52%, #d0d0cc 100%);
+    transform: none;
+    filter: none;
+    color: #1a1a1a;
+  }
+  .btn-steel--play:hover,
+  .btn.btn-steel--play:hover {
+    background: linear-gradient(180deg, #444442 0%, #161616 100%);
+    color: #f4f4f2;
+    border-color: #0e0e0e;
+  }
+}
+.btn-steel:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.28);
+}
+.btn-steel--play:active {
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-steel { transition: none; }
+}

@@ -587,7 +587,7 @@
       return !!(t && (t.preview || t.bandcampTrackId));
     });
     var play =
-      '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
+      '<button type="button" class="btn btn-steel btn-steel--play" data-play-release="' +
       esc(rel.id) +
       '"' +
       (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : '') +
@@ -624,7 +624,7 @@
         '<div class="album-inspect__actions">' +
           play +
           addBtnHtml(rel) +
-          '<a class="btn btn-ghost-on-dark" href="' + esc(rel.page || '#') + '">Details</a>' +
+          '<a class="btn btn-steel" href="' + esc(rel.page || '#') + '">Details</a>' +
         '</div>' +
       '</div>' +
       '<div class="album-inspect__tracks">' + trackHtml + '</div>';
@@ -689,13 +689,6 @@
 
   if (viewListBtn) viewListBtn.addEventListener('click', function () { setView('list'); });
   if (viewCoversBtn) viewCoversBtn.addEventListener('click', function () { setView('covers'); });
-
-  if (flowRoot) {
-    flowRoot.addEventListener('coverflow:change', function (e) {
-      var rel = findRelease(e.detail && e.detail.id);
-      if (rel) renderInspect(rel);
-    });
-  }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {

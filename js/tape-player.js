@@ -1,12 +1,10 @@
 /**
  * Club Copy — release archive interactions.
- * Waveform canvas, cassette parallax, scroll reveals, catalogue rail.
+ * Scroll reveals, catalogue rail, optional waveform canvas.
  * Playback itself stays on the shared VCRPlayer engine.
  */
 (function () {
   "use strict";
-
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---- Scroll reveal ------------------------------------------------------ */
   var revealObs = new IntersectionObserver(function (entries) {
@@ -104,48 +102,6 @@
       })
       .catch(function () {});
   })();
-
-  /* ---- iTunes jewel tilt + wet-floor reflection --------------------------- */
-  var stage = document.querySelector(".ra-stage, [data-tilt-stage]");
-  var cassette = stage && stage.querySelector(".ra-cassette, .ra-vinyl, .ra-cover");
-  if (stage && cassette) {
-    stage.classList.add("has-jewel");
-    if (!stage.querySelector(".ra-reflect")) {
-      var reflect = document.createElement("div");
-      reflect.className = "ra-reflect";
-      reflect.setAttribute("aria-hidden", "true");
-      var srcImg = cassette.querySelector("img");
-      if (srcImg) {
-        var clone = srcImg.cloneNode(true);
-        clone.removeAttribute("alt");
-        clone.setAttribute("alt", "");
-        clone.removeAttribute("fetchpriority");
-        reflect.appendChild(clone);
-      } else {
-        reflect.classList.add("ra-reflect--object");
-      }
-      stage.appendChild(reflect);
-    }
-  }
-  if (stage && cassette && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
-    var raf = null;
-    stage.addEventListener("pointermove", function (e) {
-      if (raf) return;
-      raf = requestAnimationFrame(function () {
-        raf = null;
-        var r = stage.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width - 0.5;
-        var y = (e.clientY - r.top) / r.height - 0.5;
-        cassette.style.transform =
-          "rotateX(" + (-y * 8).toFixed(2) + "deg)" +
-          " rotateY(" + (x * 12).toFixed(2) + "deg)" +
-          " translateY(-8px)";
-      });
-    });
-    stage.addEventListener("pointerleave", function () {
-      cassette.style.transform = "";
-    });
-  }
 
   /* ---- Waveform ------------------------------------------------------------
      Deterministic pseudo-waveform per track (no source analysis available for

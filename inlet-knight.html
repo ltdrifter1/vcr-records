@@ -235,12 +235,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st32"/>
-  <link rel="stylesheet" href="css/player.css?v=st32"/>
-  <link rel="stylesheet" href="css/release-archive.css?v=st32"/>
-  <link rel="stylesheet" href="css/fx.css?v=st32"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st32"/>
-  <link rel="stylesheet" href="css/club-copy-os.css?v=st32"/>
+  <link rel="stylesheet" href="css/site.css?v=st34"/>
+  <link rel="stylesheet" href="css/player.css?v=st34"/>
+  <link rel="stylesheet" href="css/listen-object.css?v=st34"/>
+  <link rel="stylesheet" href="css/release-archive.css?v=st34"/>
+  <link rel="stylesheet" href="css/fx.css?v=st34"/>
+  <link rel="stylesheet" href="css/zine-pages.css?v=st34"/>
+  <link rel="stylesheet" href="css/club-copy-os.css?v=st34"/>
 
 </head>
 <body class="archive-release release-object hero-top zine-surface nav-light">
@@ -249,8 +250,8 @@
 <div class="modal-overlay" id="purchaseModal">
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="Close">×</button>
-    <h2>Acquisition confirmed</h2>
-    <p>Thanks for supporting independent music. Your receipt and download details are on their way by email.</p>
+    <h2>Added. Receipt by email.</h2>
+    <p>Thanks for keeping the record. Download details are on their way.</p>
     <div class="modal-btns">
       <a class="btn btn-fill" href="/library">Back to the library</a>
       <button class="btn btn-ghost" id="modalDismiss">Close</button>
@@ -307,39 +308,15 @@
     <div class="ra-wrap ra-hero-grid">
 
       <div class="ra-stage" id="artworkWrap">
-        <div class="ra-stage-shadow" aria-hidden="true"></div>
-        <div class="ra-cassette" id="releaseDisc" aria-hidden="true">
-          <span class="ra-tape-pancake ra-tape-pancake--l"></span>
-          <span class="ra-tape-pancake ra-tape-pancake--r"></span>
-          <span class="ra-tape-screw ra-tape-screw--tl"></span>
-          <span class="ra-tape-screw ra-tape-screw--tr"></span>
-          <span class="ra-tape-screw ra-tape-screw--bl"></span>
-          <span class="ra-tape-screw ra-tape-screw--br"></span>
-          <span class="ra-tape-screw ra-tape-screw--c"></span>
-          <div class="ra-cassette-film">
-            <span class="ra-cassette-film-brand">Club Copy</span>
-            <span class="ra-cassette-film-title">Inlet Knight</span>
-            <span class="ra-cassette-film-side">A</span>
-          </div>
-          <div class="ra-cassette-window">
-            <div class="ra-reel ra-reel--supply"><span class="ra-reel-hub"></span></div>
-            <div class="ra-reel ra-reel--takeup"><span class="ra-reel-hub"></span></div>
-          </div>
-          <div class="ra-cassette-guides">
-            <span class="ra-roller"></span>
-            <span class="ra-pad"></span>
-            <span class="ra-roller"></span>
-          </div>
-          <div class="ra-cassette-mouth">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
+        <div class="listen-sleeve">
+          <img src="inlet-knight-cover.webp" alt="Inlet Knight — Rainier" width="1200" height="1200" fetchpriority="high"/>
+          <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause">
+            <span class="listen-glyph">
+              <svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
+            </span>
+          </button>
         </div>
-        <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
-          <span class="glyph" aria-hidden="true">
-            <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-          </span>
-        </button>
       </div>
 
       <div class="ra-hero-info">
@@ -350,16 +327,16 @@
         <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/library">Library</a><span>/</span>Inlet Knight (Album)</nav>
         <h1 class="ra-hero-title">Inlet Knight <span class="ra-hero-kind">Album</span></h1>
         <div class="ra-hero-facts">
-          11 Track Album<br/>
-          Limited Cassette Edition<br/>
-          <span class="scarce">In Stock</span>
+          CC005 · Album · 39:05<br/>
+          Digital $8 · cassette $20
         </div>
         <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <meta itemprop="priceCurrency" content="CAD"/>
           <meta itemprop="price" content="20.00"/>
           <link itemprop="availability" href="https://schema.org/InStock"/>
-          <button type="button" class="btn btn-light" id="buyBtn">Buy Cassette — $20 CAD</button>
-          <button type="button" class="btn btn-ghost" id="buyDigitalBtn">Buy Digital — $8 CAD</button>
+          <button type="button" class="btn btn-steel btn-steel--play" id="heroListen">Play</button>
+          <button type="button" class="btn btn-steel" id="buyDigitalBtn">Digital · $8</button>
+          <button type="button" class="btn btn-steel" id="buyBtn">Cassette · $20</button>
         </div>
       </div>
     </div>
@@ -538,9 +515,9 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script src="js/player.js?v=st32"></script>
-<script src="js/release-bind.js?v=st32"></script>
-<script src="js/tape-player.js"></script>
+<script src="js/player.js?v=st34"></script>
+<script src="js/release-bind.js?v=st34"></script>
+<script src="js/tape-player.js?v=st34"></script>
 <script>
 const $ = id => document.getElementById(id);
 const RELEASE_ID = 'inlet-knight';

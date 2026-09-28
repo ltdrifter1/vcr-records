@@ -10,7 +10,7 @@ Homepage hero is a listening plate (sleeve + LCD + Play), not a Click Wheel repl
 Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum LCD spec bar — invert play, pearl LED, no lime).
 
 - Steel `#E8E8E6` · LCD ink `#1A1A1A` · Stamp `#B8B8B4` · Select `#2A2A28` · LED `#E4E4E0`
-- Type: Oswald display · Archivo body · Lucida Grande UI/LCD · IBM Plex Mono specs
+- Type: Oswald display · Archivo body · Lucida system UI stack (Lucida Grande / Lucida Sans Unicode / Geneva / Verdana — not a webfont) · IBM Plex Mono specs
 
 ## Commerce
 
