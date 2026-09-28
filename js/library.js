@@ -100,7 +100,10 @@
 
   function formatCue(rel) {
     var bits = [];
-    if (rel.kind) bits.push(rel.kind);
+    var digital = rel.formats && rel.formats.digital;
+    if (rel.kind && digital && digital.price != null) {
+      bits.push(rel.kind + ' · $' + money(digital.price));
+    } else if (rel.kind) bits.push(rel.kind);
     if (String(rel.status || '').toLowerCase() === 'pre-order') bits.push('Pre-order');
     if (rel.tracksCount) bits.push(rel.tracksCount + (rel.tracksCount === 1 ? ' track' : ' tracks'));
     if (rel.year) bits.push(String(rel.year));
@@ -112,7 +115,8 @@
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
     if (formats.length) bits.push(formats.join(' · '));
-    if (rel.catalogue && /^VCR/i.test(String(rel.catalogue))) bits.push(String(rel.catalogue));
+    if (rel.legacyCatalogue) bits.push(String(rel.legacyCatalogue));
+    else if (rel.catalogue && /^VCR/i.test(String(rel.catalogue))) bits.push(String(rel.catalogue));
     return bits.join(' · ');
   }
 
@@ -327,10 +331,7 @@
     var cue = formatCue(rel);
     var catNo = "";
     if (rel.catalogue) {
-      var legacy = /^VCR/i.test(String(rel.catalogue));
-      catNo = legacy
-        ? '<p class="cat-id">Legacy</p>'
-        : '<p class="cat-id">' + esc(rel.catalogue) + '</p>';
+      catNo = '<p class="cat-id">' + esc(rel.catalogue) + '</p>';
     }
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack));
@@ -577,11 +578,10 @@
     if (!inspect || !rel) return;
     var thumb = coverSrc(rel);
     var full = rel.cover || thumb;
-    var legacyCat = rel.catalogue && /^VCR/i.test(String(rel.catalogue));
     var catHtml = rel.catalogue
-      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(legacyCat ? 'Legacy' : rel.catalogue) + '</span></p>'
+      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.catalogue) + '</span></p>'
       : '';
-    var meta = [rel.kind, rel.year, rel.genre, legacyCat ? rel.catalogue : ''].filter(Boolean).join(' · ');
+    var meta = [rel.kind, rel.year, rel.genre, rel.legacyCatalogue || ''].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
     var hasPrev = tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId));

@@ -143,6 +143,34 @@
   }
   injectAccountNav();
 
+  function ensureDrawerNow() {
+    var drawer = document.getElementById("navDrawer");
+    if (!drawer || document.getElementById("drawerNow")) return;
+    var line = document.createElement("p");
+    line.id = "drawerNow";
+    line.className = "drawer-now";
+    line.hidden = true;
+    drawer.insertBefore(line, drawer.firstChild);
+  }
+  ensureDrawerNow();
+
+  window.addEventListener("vcr:player", function (e) {
+    var line = document.getElementById("drawerNow");
+    if (!line) return;
+    var d = e.detail || {};
+    var track = d.track;
+    if (d.playing && track && (track.title || track.releaseTitle)) {
+      var no = Number(track.trackNum) || 1;
+      var idx = (no < 10 ? "0" : "") + no;
+      var title = track.title || track.releaseTitle;
+      line.textContent = idx + "  ·  " + (track.artist ? track.artist + " — " : "") + title;
+      line.hidden = false;
+    } else {
+      line.textContent = "";
+      line.hidden = true;
+    }
+  });
+
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {

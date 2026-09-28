@@ -235,12 +235,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st32"/>
-  <link rel="stylesheet" href="css/player.css?v=st32"/>
-  <link rel="stylesheet" href="css/release-archive.css?v=st32"/>
-  <link rel="stylesheet" href="css/fx.css?v=st32"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st32"/>
-  <link rel="stylesheet" href="css/club-copy-os.css?v=st32"/>
+  <link rel="stylesheet" href="css/site.css?v=st33"/>
+  <link rel="stylesheet" href="css/player.css?v=st33"/>
+  <link rel="stylesheet" href="css/listen-object.css?v=st33"/>
+  <link rel="stylesheet" href="css/release-archive.css?v=st33"/>
+  <link rel="stylesheet" href="css/fx.css?v=st33"/>
+  <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
+  <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
 </head>
 <body class="archive-release release-object hero-top zine-surface nav-light">
@@ -307,39 +308,15 @@
     <div class="ra-wrap ra-hero-grid">
 
       <div class="ra-stage" id="artworkWrap">
-        <div class="ra-stage-shadow" aria-hidden="true"></div>
-        <div class="ra-cassette" id="releaseDisc" aria-hidden="true">
-          <span class="ra-tape-pancake ra-tape-pancake--l"></span>
-          <span class="ra-tape-pancake ra-tape-pancake--r"></span>
-          <span class="ra-tape-screw ra-tape-screw--tl"></span>
-          <span class="ra-tape-screw ra-tape-screw--tr"></span>
-          <span class="ra-tape-screw ra-tape-screw--bl"></span>
-          <span class="ra-tape-screw ra-tape-screw--br"></span>
-          <span class="ra-tape-screw ra-tape-screw--c"></span>
-          <div class="ra-cassette-film">
-            <span class="ra-cassette-film-brand">Club Copy</span>
-            <span class="ra-cassette-film-title">Inlet Knight</span>
-            <span class="ra-cassette-film-side">A</span>
-          </div>
-          <div class="ra-cassette-window">
-            <div class="ra-reel ra-reel--supply"><span class="ra-reel-hub"></span></div>
-            <div class="ra-reel ra-reel--takeup"><span class="ra-reel-hub"></span></div>
-          </div>
-          <div class="ra-cassette-guides">
-            <span class="ra-roller"></span>
-            <span class="ra-pad"></span>
-            <span class="ra-roller"></span>
-          </div>
-          <div class="ra-cassette-mouth">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
+        <div class="listen-sleeve">
+          <img src="inlet-knight-cover.webp" alt="Inlet Knight — Rainier" width="1200" height="1200" fetchpriority="high"/>
+          <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause">
+            <span class="listen-glyph">
+              <svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
+            </span>
+          </button>
         </div>
-        <button type="button" class="ra-stage-hit" id="ipPlay" aria-label="Play / pause preview">
-          <span class="glyph" aria-hidden="true">
-            <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg class="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-          </span>
-        </button>
       </div>
 
       <div class="ra-hero-info">
@@ -523,11 +500,10 @@
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
-        <a href="/#listen">Listen</a>
         <a href="/library">Library</a>
-        <a href="/news">Zine</a>
         <a href="/artists">Artists</a>
         <a href="/tapes">Mixes</a>
+        <a href="/news">Zine</a>
         <a href="/merch">Shop</a>
         <a href="/shipping">Shipping</a>
         <a href="/planet">Planet MP3</a>
@@ -538,8 +514,8 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script src="js/player.js?v=st32"></script>
-<script src="js/release-bind.js?v=st32"></script>
+<script src="js/player.js?v=st33"></script>
+<script src="js/release-bind.js?v=st33"></script>
 <script src="js/tape-player.js"></script>
 <script>
 const $ = id => document.getElementById(id);

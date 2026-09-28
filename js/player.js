@@ -1467,9 +1467,6 @@
       return;
     }
     if (e.target.closest(".vcr-player__scrub")) return;
-    if (lastPreviewError) return;
-    if (isScTrack(current())) return;
-    openStage();
   }
 
   function onStageClick(e) {
@@ -1709,10 +1706,7 @@
     }
     queue = nextQueue;
     index = i;
-    if (opts.stage) {
-      if (getRoom()) openRoom({ scroll: opts.scroll !== false });
-      else openStage();
-    }
+    if (opts.stage && getRoom()) openRoom({ scroll: opts.scroll !== false });
     return loadTrack(i, opts.autoplay !== false);
   }
 
@@ -1871,16 +1865,8 @@
   }
 
   function openStage() {
-    if (!current()) return;
-    ensureUI();
-    closeRoom();
-    stageOpen = true;
-    ui.stage.hidden = false;
-    document.body.classList.add("vcr-stage-open");
-    setDeepLink(current(), true);
-    syncDockAway();
-    render();
-    emit();
+    /* The aluminum dock is the only player. The sheet stays closed. */
+    return;
   }
 
   function closeStage() {
@@ -1951,15 +1937,8 @@
       var wantStage = el.hasAttribute("data-play-stage");
       var cur = current();
       if (cur && cur.releaseId === releaseId && (!trackId || cur.id === trackId)) {
-        if (wantStage) {
-          if (getRoom()) {
-            if (!roomOpen) openRoom({ scroll: true });
-            else toggle();
-          } else if (!stageOpen) openStage();
-          else toggle();
-        } else {
-          toggle();
-        }
+        if (wantStage && getRoom() && !roomOpen) openRoom({ scroll: true });
+        else toggle();
         return;
       }
       playRelease(releaseId, trackId || null, {
