@@ -1,13 +1,11 @@
 /* ==========================================================================
-   Club Copy — listening plate (hero)
-   Record object on steel. Liner-notes type, not a flyer lockup.
-   Title stays mixed-case. Specs live in Plex/Lucida. No slogan copy.
-   Mobile: hero → meta → play → buy → ticker, in document flow (no overlap).
+   Club Copy — featured release hero
+   Sleeve + liner notes. Catalog ticker under the plate.
    ========================================================================== */
 
 body.home-zine .hero.plate-hero {
   --hero-ink: #111111;
-  --ticker-h: 32px;
+  --ticker-h: 40px;
   position: relative;
   isolation: isolate;
   min-height: 0;
@@ -16,18 +14,16 @@ body.home-zine .hero.plate-hero {
   padding: 0;
   overflow: hidden;
   color: var(--hero-ink);
-  background:
-    radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
-    linear-gradient(180deg, #eeeeec 0%, #d8d8d6 42%, #cfcfcd 100%);
+  background: #E8E8E6;
 }
 
 .plate-hero .hero-stage {
   position: relative;
   z-index: 1;
-  width: min(1080px, calc(100% - 40px));
+  width: min(1120px, calc(100% - 40px));
   min-height: 0;
   margin: 0 auto;
-  padding: calc(var(--nav-h) + var(--safe-t) + 32px) 0 24px;
+  padding: calc(var(--nav-h) + var(--safe-t) + 36px) 0 40px;
   display: block;
   text-align: left;
   flex: 0 0 auto;
@@ -37,13 +33,13 @@ body.home-zine .hero.plate-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "lockup"
     "sleeve"
+    "lockup"
     "copy";
-  gap: 22px;
+  gap: 20px;
   max-width: 420px;
   margin: 0 auto;
-  align-items: stretch;
+  align-items: start;
 }
 
 body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
@@ -66,41 +62,44 @@ body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
   justify-self: center;
 }
 
+body.home-zine .hero.plate-hero .listen-sleeve {
+  --sleeve-bezel: 0px;
+  padding: 0;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #111;
+  border: 0;
+  box-shadow: 0 22px 48px rgba(17, 17, 17, .16);
+}
+body.home-zine .hero.plate-hero .listen-sleeve::before { display: none; }
+body.home-zine .hero.plate-hero .listen-sleeve img {
+  border-radius: 0;
+}
+body.home-zine .hero.plate-hero .listen-sleeve-hit {
+  inset: 0;
+  padding: 12px;
+}
+body.home-zine .hero.plate-hero .listen-sleeve-hit .listen-glyph {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #111;
+  border: 0;
+  box-shadow: none;
+}
+body.home-zine .hero.plate-hero .listen-sleeve-hit.is-playing .listen-glyph::after {
+  display: none;
+}
+
 .listen-plate-copy {
   grid-area: copy;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   min-width: 0;
 }
 
-.listen-plate-lcd {
-  position: relative;
-  padding: 10px 28px 11px 12px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #d2d2ce 0%, #b8b8b4 100%);
-  border: 1px solid rgba(40, 40, 40, .22);
-  box-shadow: inset 0 1px 2px rgba(40, 50, 60, .28);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  color: var(--lcd-ink, #1a1a1a);
-}
-.listen-plate-lcd::before {
-  content: "";
-  position: absolute;
-  top: 11px;
-  right: 11px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #7A7A78;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
-}
-.listen-plate.is-live .listen-plate-lcd::before,
-.listen-plate .listen-sleeve.is-live ~ .listen-plate-copy .listen-plate-lcd::before {
-  background: #f4f4f2;
-  box-shadow: 0 0 0 1px #2a2a28;
-}
-
+.listen-plate-spec,
 .listen-plate-cat,
 .listen-plate-status {
   margin: 0;
@@ -110,15 +109,15 @@ body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
   text-transform: none;
 }
 
+.listen-plate-spec,
 .listen-plate-cat {
-  font-size: 11px;
-  color: rgba(26, 26, 26, .72);
+  font-size: 12px;
+  color: rgba(26, 26, 26, .55);
 }
 
 .listen-plate-status {
-  margin-top: 3px;
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.45;
   color: #1a1a1a;
 }
 
@@ -133,23 +132,22 @@ body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+  margin-top: 8px;
 }
 
-/* Type: mixed-case lockup — Oswald for the title only, Archivo for the artist,
-   Plex for the kicker. Zine gothic uppercase is locked out in club-copy-os. */
 body.home-zine .hero.plate-hero .hero-lockup-kicker {
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 11px;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: .08em;
   text-transform: none;
-  color: rgba(17, 17, 17, .5);
+  color: rgba(17, 17, 17, .45);
 }
 
 body.home-zine .hero.plate-hero .hero-lockup-artist,
 body.home-zine .hero.plate-hero .hero-lockup-artist a {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-family: var(--sans);
   font-weight: 500;
   font-size: clamp(14px, 1.6vw, 16px);
@@ -157,16 +155,16 @@ body.home-zine .hero.plate-hero .hero-lockup-artist a {
   line-height: 1.2;
   text-transform: none;
   text-decoration: none;
-  color: rgba(17, 17, 17, .72);
+  color: rgba(17, 17, 17, .62);
 }
 
 body.home-zine .hero.plate-hero .hero-lockup-title {
   margin: 0;
   font-family: Oswald, var(--display), sans-serif;
   font-weight: 500;
-  font-size: clamp(40px, 6.4vw, 64px);
-  letter-spacing: -.03em;
-  line-height: .92;
+  font-size: clamp(40px, 6.4vw, 72px);
+  letter-spacing: -.04em;
+  line-height: .9;
   text-transform: none;
 }
 
@@ -177,11 +175,12 @@ body.home-zine .hero.plate-hero .hero-lockup-title a {
 }
 
 body.home-zine .hero.plate-hero .hero-lockup-aside {
-  display: block;
+  display: inline;
   font-weight: 500;
-  font-size: .78em;
-  letter-spacing: -.024em;
-  margin-top: .02em;
+  font-size: .86em;
+  letter-spacing: -.03em;
+  margin-top: 0;
+  opacity: .72;
 }
 
 @media (hover: hover) {
@@ -194,107 +193,89 @@ body.home-zine .hero.plate-hero .hero-lockup-aside {
 }
 
 body.home-zine .hero.plate-hero .hero-ground {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 40%;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(196, 196, 192, .35) 100%);
+  display: none;
 }
 
-/* Ticker sits in document flow under the plate — never overlays buy/copy. */
+/* Catalog ticker — full-bleed hairline, no radio bug. */
 body.home-zine .hero.plate-hero .hero-ticker {
   position: relative;
   left: auto;
   right: auto;
   bottom: auto;
   z-index: 3;
-  height: var(--ticker-h);
-  flex: 0 0 var(--ticker-h);
+  min-height: var(--ticker-h);
+  height: auto;
+  flex: 0 0 auto;
   margin: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: stretch;
-  border-top: 1px solid rgba(255, 255, 255, .55);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.12)),
-    #c8c8c4;
+  border-top: 1px solid rgba(26, 26, 26, .12);
+  background: #E8E8E6;
 }
 
-body.home-zine .hero.plate-hero .hero-ticker-bug {
+body.home-zine .hero.plate-hero .hero-ticker-now {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 14px 0 16px;
-  border-right: 1px solid rgba(40, 40, 40, .12);
-  background: transparent;
-}
-
-body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip {
+  margin: 0;
+  padding: 0 16px;
+  border-right: 1px solid rgba(26, 26, 26, .12);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: none;
-  padding: 0;
-  background: transparent;
+  font-size: 11px;
+  letter-spacing: .04em;
   color: #1a1a1a;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: none;
-  border-radius: 0;
+  white-space: nowrap;
+  max-width: 42vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip::before {
-  display: inline-block;
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #7A7A78;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
-}
-body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip--air {
-  color: #f4f4f2;
-  background: #1a1a1a;
-}
-body.home-zine .hero.plate-hero .hero-ticker-bug .status-chip--air::before {
-  background: #f4f4f2;
-  box-shadow: none;
+body.home-zine .hero.plate-hero .hero-ticker-now[hidden] {
+  display: none;
 }
 
 body.home-zine .hero.plate-hero .hero-ticker-viewport {
   overflow: hidden;
   display: flex;
   align-items: center;
+  min-height: var(--ticker-h);
+  mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
 }
 
 body.home-zine .hero.plate-hero .hero-ticker-track {
   display: flex;
   width: max-content;
-  animation: heroTicker 42s linear infinite;
+  animation: heroTicker 48s linear infinite;
+}
+body.home-zine .hero.plate-hero .hero-ticker:hover .hero-ticker-track {
+  animation-play-state: paused;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-copy {
+  display: flex;
+  align-items: center;
 }
 
 body.home-zine .hero.plate-hero .hero-ticker-copy a,
 body.home-zine .hero.plate-hero .hero-ticker-copy span {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: .04em;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .02em;
   text-transform: none;
-  color: #1a1a1a;
+  color: rgba(26, 26, 26, .72);
   text-decoration: none;
   white-space: nowrap;
-  padding: 0 18px;
+  padding: 0;
 }
 
-body.home-zine .hero.plate-hero .hero-ticker-dot {
-  width: 3px; height: 3px;
-  border-radius: 50%;
-  background: rgba(40, 40, 40, .28);
-  padding: 0 !important;
+body.home-zine .hero.plate-hero .hero-ticker-copy a:hover {
+  color: #1a1a1a;
+}
+
+body.home-zine .hero.plate-hero .hero-ticker-sep {
+  padding: 0 14px !important;
+  color: rgba(26, 26, 26, .28) !important;
+  font-weight: 400 !important;
 }
 
 @keyframes heroTicker {
@@ -304,17 +285,17 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
 
 @media (min-width: 860px) {
   .plate-hero .hero-stage {
-    padding-top: calc(var(--nav-h) + var(--safe-t) + 40px);
-    padding-bottom: 32px;
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 48px);
+    padding-bottom: 48px;
   }
   .listen-plate {
-    max-width: 960px;
-    grid-template-columns: minmax(280px, 440px) minmax(260px, 1fr);
+    max-width: none;
+    grid-template-columns: minmax(320px, 480px) minmax(280px, 1fr);
     grid-template-areas:
       "sleeve lockup"
       "sleeve copy";
-    column-gap: 64px;
-    row-gap: 20px;
+    column-gap: 72px;
+    row-gap: 18px;
     align-items: center;
   }
   .listen-plate .listen-sleeve {
@@ -327,26 +308,23 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
   .listen-plate-copy {
     align-self: start;
   }
-  .listen-plate-lcd {
-    max-width: 360px;
-  }
   body.home-zine .hero.plate-hero .hero-lockup-title {
-    font-size: clamp(44px, 5.4vw, 64px);
+    font-size: clamp(48px, 5.6vw, 76px);
   }
 }
 
 @media (max-width: 859px) {
   .plate-hero .hero-stage {
     width: min(1180px, calc(100% - 28px));
-    padding-top: calc(var(--nav-h) + var(--safe-t) + 16px);
-    padding-bottom: 12px;
+    padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
+    padding-bottom: 24px;
   }
   .listen-plate {
-    gap: 14px;
+    gap: 16px;
     max-width: 360px;
   }
   .listen-plate .listen-sleeve {
-    max-width: min(280px, 72vw);
+    max-width: min(320px, 78vw);
   }
   .listen-plate-actions {
     display: grid;
@@ -357,20 +335,11 @@ body.home-zine .hero.plate-hero .hero-ticker-dot {
   .listen-plate-actions .btn-fill {
     grid-column: 1 / -1;
   }
-  .listen-plate-actions .btn-steel--play.is-playing {
-    background: #1a1a1a;
-    color: #f4f4f2;
-  }
   .listen-plate-actions a.btn-text {
     grid-column: 1 / -1;
     height: auto;
     min-height: 0;
     justify-content: flex-start;
-  }
-}
-@media (max-width: 720px) {
-  body.home-zine .hero.plate-hero .hero-ticker {
-    margin-bottom: calc(var(--tabbar-h, 56px) + var(--safe-b, 0px));
   }
 }
 

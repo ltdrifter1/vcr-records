@@ -114,6 +114,35 @@
   }
   injectMixesNav();
 
+  function injectAccountNav() {
+    var end = document.querySelector('.nav-end');
+    if (end && !document.getElementById('navAccount')) {
+      var a = document.createElement('a');
+      a.id = 'navAccount';
+      a.className = 'nav-account';
+      a.href = '/account';
+      a.setAttribute('aria-label', 'Account');
+      a.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">' +
+          '<circle cx="12" cy="8" r="3.15"/>' +
+          '<path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/>' +
+        '</svg>';
+      var cart = end.querySelector('.nav-cart');
+      if (cart) end.insertBefore(a, cart);
+      else end.appendChild(a);
+    }
+    var drawer = document.getElementById('navDrawer');
+    if (drawer && !drawer.querySelector('a[href="/account"]')) {
+      var da = document.createElement('a');
+      da.href = '/account';
+      da.textContent = 'Account';
+      var contact = drawer.querySelector('a[href="/contact"]');
+      if (contact) drawer.insertBefore(da, contact);
+      else drawer.appendChild(da);
+    }
+  }
+  injectAccountNav();
+
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
