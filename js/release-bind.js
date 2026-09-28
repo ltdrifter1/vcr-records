@@ -29,7 +29,6 @@
 
     var playBtn = $("ipPlay");
     var seekEl = $("ipSeek");
-    var volEl = $("ipVolume");
     var elapsedEl = $("ipElapsed");
     var remainEl = $("ipRemaining");
     var trackName = $("ipTrackName");
@@ -82,24 +81,6 @@
       btn.appendChild(svg);
     }
 
-    function ensureVolume() {
-      if (volEl) return volEl;
-      var wrap = document.querySelector(".ra-stereo-vol");
-      if (!wrap) return null;
-      wrap.removeAttribute("aria-hidden");
-      var input = document.createElement("input");
-      input.id = "ipVolume";
-      input.type = "range";
-      input.min = "0";
-      input.max = "1";
-      input.step = "0.01";
-      input.value = "0.8";
-      input.setAttribute("aria-label", "Volume");
-      wrap.appendChild(input);
-      volEl = input;
-      return volEl;
-    }
-
     function setPlaying(on) {
       if (playBtn) {
         playBtn.classList.toggle("on", on);
@@ -118,13 +99,6 @@
       if (sleeve) sleeve.classList.toggle("is-live", on);
       var heroListen = $("heroListen");
       if (heroListen) heroListen.classList.toggle("is-playing", on);
-      var times = document.querySelector(".ra-vfd-times");
-      if (times) {
-        times.innerHTML = on
-          ? "<span>PLAY</span><span>90s</span>"
-          : "<span>READY</span><span>STOP</span>";
-        times.classList.toggle("ra-vfd-times--idle", !on);
-      }
       var hero = document.querySelector(".ra-hero");
       if (hero) hero.classList.toggle("is-live", on);
       trackRows.forEach(function (r, i) {
@@ -233,9 +207,6 @@
 
     ensurePauseIcon(consolePlay);
     ensurePauseIcon(playBtn);
-    volEl = ensureVolume();
-    var mode = document.querySelector(".ra-vfd-mode");
-    if (mode) mode.textContent = "PREVIEW";
 
     if (playBtn) playBtn.addEventListener("click", toggleOrStart);
     if (consolePlay) consolePlay.addEventListener("click", toggleOrStart);
@@ -283,21 +254,6 @@
       });
     }
 
-    if (volEl) {
-      function syncVolDial() {
-        var dial = volEl.closest(".ra-stereo-vol") && volEl.closest(".ra-stereo-vol").querySelector(".ra-stereo-vol-dial");
-        if (dial) dial.style.setProperty("--rot", ((+volEl.value || 0) * 240 - 120) + "deg");
-      }
-      try {
-        volEl.value = String(VCRPlayer.getVolume());
-      } catch (e) {}
-      syncVolDial();
-      volEl.addEventListener("input", function () {
-        VCRPlayer.setVolume(+volEl.value || 0);
-        syncVolDial();
-      });
-    }
-
     trackRows.forEach(function (row, idx) {
       row.setAttribute("role", "button");
       row.setAttribute("tabindex", "0");
@@ -338,13 +294,6 @@
       setPlaying(!!d.playing);
       if (artistEl && t.artist) artistEl.textContent = t.artist;
       if (releaseEl && t.releaseTitle) releaseEl.textContent = t.releaseTitle;
-      if (volEl) {
-        try {
-          volEl.value = String(VCRPlayer.getVolume());
-          var dial = volEl.closest(".ra-stereo-vol") && volEl.closest(".ra-stereo-vol").querySelector(".ra-stereo-vol-dial");
-          if (dial) dial.style.setProperty("--rot", ((+volEl.value || 0) * 240 - 120) + "deg");
-        } catch (e) {}
-      }
       if (seekEl && d.duration) {
         seekEl.max = String(d.duration);
         if (!dragging) seekEl.value = String(d.currentTime || 0);
