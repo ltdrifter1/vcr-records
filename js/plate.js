@@ -12,6 +12,8 @@
   var buyBtn = document.getElementById("plateBuy");
   var buyDigitalBtn = document.getElementById("plateBuyDigital");
   var statusEl = plate.querySelector("[data-plate-status]");
+  var specEl = plate.querySelector(".listen-plate-spec");
+  var specRest = specEl ? specEl.textContent : "";
   var sleeve = plate.querySelector(".listen-sleeve");
   var art = plate.querySelector("[data-plate-art]");
 
@@ -82,6 +84,22 @@
   function setStatus(html) {
     if (!statusEl) return;
     statusEl.innerHTML = html;
+  }
+
+  function fmtClock(sec) {
+    sec = Math.max(0, Math.floor(Number(sec) || 0));
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function lcdLine(detail) {
+    var track = detail && detail.track;
+    if (!track) return specRest;
+    var no = Number(track.trackNum) || 1;
+    var idx = (no < 10 ? "0" : "") + no;
+    var title = track.title || track.releaseTitle || "";
+    return idx + "  ·  " + title + "  ·  " + fmtClock(detail.currentTime);
   }
 
   function showSleeveHit(on) {
@@ -192,6 +210,9 @@
     var mine = soundingId(d) === playTarget() || soundingId(d) === featured.id || soundingId(d) === onAir.id;
     var live = !!(d.playing && mine);
     setPlayUi(live);
+    if (specEl) {
+      specEl.textContent = d.playing && d.track ? lcdLine(d) : specRest;
+    }
     if (d.error && d.track && d.track.releaseId === featured.id && onAir.id && onAir.id !== featured.id && !fallingThrough) {
       fallingThrough = true;
       VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });

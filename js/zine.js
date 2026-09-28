@@ -99,8 +99,19 @@
     }
   ];
 
+  /* The desk plays the record that is out, not a rotating outside LP. */
+  var HOUSE = {
+    slug: "/you-are-love",
+    kicker: "CC004 · out now",
+    title: "You Are (Love)",
+    artist: "Riscape",
+    dek: "Four tracks. Digital is live. Cassette is backorder.",
+    image: "you-are-love-cover.webp",
+    spec: ["CC004", "EP", "2026"]
+  };
+
   function tonightPick() {
-    return TONIGHT[new Date().getDay()];
+    return HOUSE;
   }
 
   function stampDates() {

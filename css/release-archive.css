@@ -2435,3 +2435,154 @@ html body.archive-release.release-object .listen-sleeve {
   html body.archive-release.release-object .listen-sleeve { width: min(280px, 72vw); }
   html body.archive-release.release-object .ra-stage { padding: 8px 0 12px; }
 }
+
+/* First screen is the object plus the track index. No poster wash. */
+html body.archive-release.release-object .ra-hero {
+  min-height: 0;
+  padding: calc(var(--nav-h, 56px) + 16px) 0 4px;
+  background: transparent;
+}
+html body.archive-release.release-object .ra-hero-ambient,
+html body.archive-release.release-object .ra-stage-shadow,
+html body.archive-release.release-object .ra-reflect,
+html body.archive-release.release-object .ra-cassette,
+html body.archive-release.release-object .ra-deck,
+html body.archive-release.release-object .release-console {
+  display: none;
+}
+html body.archive-release.release-object .ra-cover {
+  width: 100%;
+  border-radius: 2px;
+  box-shadow: none;
+  background: #0a0a0c;
+}
+html body.archive-release.release-object .ra-cover::after { opacity: .35; }
+html body.archive-release.release-object .ra-stage {
+  width: min(420px, 100%);
+  margin: 0;
+  padding: 8px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f4f4f0 0%, #d8d8d4 46%, #c4c4c0 100%);
+  border: 1px solid rgba(40, 40, 40, .32);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .92),
+    inset 0 -1px 0 rgba(40, 40, 40, .16),
+    0 18px 40px rgba(26, 26, 26, .18);
+}
+html body.archive-release.release-object .ra-stage .listen-sleeve {
+  width: 100%;
+  box-shadow: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+html body.archive-release.release-object #listen .ra-head {
+  padding-top: 8px;
+  margin-bottom: 8px;
+  box-shadow: none;
+}
+html body.archive-release.release-object #listen .ra-head h2 {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: none;
+}
+@media (min-width: 1000px) {
+  html body.archive-release.release-object main#main {
+    display: grid;
+    grid-template-columns: minmax(280px, 400px) minmax(0, 1fr);
+    column-gap: 56px;
+    row-gap: 6px;
+    align-items: start;
+    width: min(1080px, calc(100% - 80px));
+    margin: 0 auto;
+    padding: calc(var(--nav-h, 56px) + 28px) 0 72px;
+  }
+  html body.archive-release.release-object .ra-hero,
+  html body.archive-release.release-object .ra-hero-grid,
+  html body.archive-release.release-object #listen,
+  html body.archive-release.release-object #listen > .ra-wrap,
+  html body.archive-release.release-object #listen .ra-player-grid {
+    display: contents;
+  }
+  html body.archive-release.release-object .ra-stage {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    align-self: start;
+  }
+  html body.archive-release.release-object .ra-hero-info {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 8px 0 0;
+  }
+  html body.archive-release.release-object #listen .ra-head { grid-column: 2; grid-row: 2; }
+  html body.archive-release.release-object #listen .p-msg { grid-column: 2; grid-row: 3; margin: 0; }
+  html body.archive-release.release-object #listen .ra-tracks { grid-column: 2; grid-row: 4; }
+  html body.archive-release.release-object .ra-section:not(#listen) { grid-column: 1 / -1; }
+}
+@media (max-width: 999px) {
+  html body.archive-release.release-object .ra-hero-grid { gap: 16px; }
+  html body.archive-release.release-object .ra-stage {
+    width: min(260px, 68vw);
+    margin-inline: auto;
+  }
+  html body.archive-release.release-object .ra-hero-ctas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  html body.archive-release.release-object .ra-hero-ctas .btn {
+    flex: none;
+    width: auto;
+  }
+  html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play {
+    grid-column: 1 / -1;
+  }
+  html body.archive-release.release-object #listen .ra-head { padding-top: 4px; }
+}
+
+/* Play stays the invert key. Digital and Cassette stay aluminum. */
+html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%);
+  color: #1a1a1a;
+  -webkit-text-fill-color: #1a1a1a;
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(40, 40, 40, .12);
+}
+html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play {
+  background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%);
+  color: #f4f4f2;
+  -webkit-text-fill-color: #f4f4f2;
+  border-color: #0e0e0e;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    inset 0 -1px 0 rgba(0, 0, 0, .45),
+    0 1px 2px rgba(0, 0, 0, .28);
+}
+@media (hover: hover) {
+  html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel:hover {
+    background: linear-gradient(180deg, #fff 0%, #e4e4e0 52%, #d0d0cc 100%);
+    color: #1a1a1a;
+    -webkit-text-fill-color: #1a1a1a;
+    border-color: rgba(40, 40, 40, .28);
+  }
+  html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play:hover {
+    background: linear-gradient(180deg, #444442 0%, #161616 100%);
+    color: #f4f4f2;
+    -webkit-text-fill-color: #f4f4f2;
+    border-color: #0e0e0e;
+  }
+}
+html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 2px rgba(40, 40, 40, .28);
+}
