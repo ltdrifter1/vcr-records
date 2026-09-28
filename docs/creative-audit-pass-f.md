@@ -1,5 +1,7 @@
 # Club Copy — Creative Audit, Pass F
 
+**Superseded for current HEAD by [Pass G](creative-audit-pass-g.md)** (86 / 100, 28 Sep 2026). Pass F scored **81 / 100** at `d61b7e3` before the identity-fix PRs (#645–#648).
+
 **Role:** Senior Creative Director, Brand Designer, UX/UI Designer (music / editorial / culture)  
 **Scope:** Repository `main` at `d61b7e3` and production `https://www.clubcopy.ca/` as fetched 28 September 2026. They are the same site. **No product UI was redesigned for this audit.**  
 **Date:** 28 September 2026  
