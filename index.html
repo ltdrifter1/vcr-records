@@ -101,17 +101,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st28"/>
+  <link rel="stylesheet" href="css/site.css?v=st29"/>
   <link rel="stylesheet" href="css/listen-object.css?v=st26"/>
-  <link rel="stylesheet" href="css/listen-plate.css?v=st27"/>
+  <link rel="stylesheet" href="css/listen-plate.css?v=st28"/>
   <link rel="stylesheet" href="css/fx.css?v=st24"/>
   <link rel="stylesheet" href="css/player.css?v=st26"/>
   <link rel="stylesheet" href="css/news.css?v=st24"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st24"/>
-  <link rel="stylesheet" href="css/home-zine.css?v=st28"/>
+  <link rel="stylesheet" href="css/home-zine.css?v=st29"/>
   <link rel="stylesheet" href="css/home-folio.css?v=st24"/>
   <link rel="stylesheet" href="css/mixtapes.css?v=st21"/>
-  <link rel="stylesheet" href="css/club-copy-os.css?v=st26"/>
+  <link rel="stylesheet" href="css/club-copy-os.css?v=st27"/>
   <style id="club-copy-home-lock">
     /* Steel lock: grey field, no photo roster on home. Artists stays in nav. */
     html, html body, html body.home-zine {
@@ -141,7 +141,7 @@
       letter-spacing: -.03em !important;
     }
     html body.home-zine .plate-hero .hero-lockup-aside {
-      display: block !important;
+      display: inline !important;
     }
   </style>
 
@@ -193,7 +193,7 @@
     <div class="hero-stage">
       <div class="listen-plate">
         <header class="hero-lockup">
-          <p class="hero-lockup-kicker">CC004 · EP · 2026</p>
+          <p class="hero-lockup-kicker">Out now</p>
           <p class="hero-lockup-artist"><a href="/artists/riscape">Riscape</a></p>
           <h1 class="hero-lockup-title"><a href="/you-are-love">You Are <span class="hero-lockup-aside">(Love)</span></a></h1>
         </header>
@@ -207,10 +207,8 @@
           </button>
         </div>
         <div class="listen-plate-copy">
-          <div class="listen-plate-lcd">
-            <p class="listen-plate-cat">CC004 · four tracks · 15:02</p>
-            <p class="listen-plate-status" data-plate-status>Digital $9 · cassette backorder</p>
-          </div>
+          <p class="listen-plate-spec">CC004 · EP · 15:02</p>
+          <p class="listen-plate-status" data-plate-status>Digital $9 · cassette backorder</p>
           <div class="listen-plate-actions">
             <button type="button" class="btn btn-steel btn-steel--play" id="platePlay">Play</button>
             <button type="button" class="btn btn-steel" id="plateBuyDigital">Digital · $9</button>
@@ -223,75 +221,48 @@
     <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and instrumental hip-hop. Featured: You Are (Love) by Riscape.</p>
 
     <div class="hero-ticker" data-hero-ticker>
-      <div class="hero-ticker-bug" aria-live="polite">
-        <span class="status-chip status-chip--standby" data-ticker-chip>Stand by</span>
-        <span class="hero-ticker-now" data-ticker-now hidden></span>
-      </div>
+      <p class="hero-ticker-now" data-ticker-now hidden></p>
       <div class="hero-ticker-viewport">
         <div class="hero-ticker-track">
           <div class="hero-ticker-copy">
             <a href="/you-are-love">You Are (Love)</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/gorilla">Gorilla</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/mixtape">mixtape</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/still-riding">Still Riding</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/bridget-in-my-room">Bridget In My Room</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/j-adore">j'adore</a>
-            <span class="hero-ticker-dot"></span>
-            <span>House · Jungle · Instrumental hip-hop</span>
-            <span class="hero-ticker-dot"></span>
-            <a href="/need-you">Need U</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/ep-6">EP-6</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/champion-sound">Champion Sound</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/the-mystic-jade-touch">The Mystic / Jade Touch</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/she-spells-doom">She Spells Doom</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/classic-jazz">Classic Jazz</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="#join">Record Club open</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <a href="/j-adore">j’adore</a>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <a href="/tapes">Mixes</a>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/library">Library</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <a href="#join">Record Club</a>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <span>House, jungle, instrumental hip-hop</span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
           </div>
           <div class="hero-ticker-copy" aria-hidden="true">
             <a href="/you-are-love" tabindex="-1">You Are (Love)</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/gorilla" tabindex="-1">Gorilla</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/mixtape" tabindex="-1">mixtape</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/still-riding" tabindex="-1">Still Riding</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/bridget-in-my-room" tabindex="-1">Bridget In My Room</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/j-adore" tabindex="-1">j'adore</a>
-            <span class="hero-ticker-dot"></span>
-            <span>House · Jungle · Instrumental hip-hop</span>
-            <span class="hero-ticker-dot"></span>
-            <a href="/need-you" tabindex="-1">Need U</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/ep-6" tabindex="-1">EP-6</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/champion-sound" tabindex="-1">Champion Sound</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/the-mystic-jade-touch" tabindex="-1">The Mystic / Jade Touch</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/she-spells-doom" tabindex="-1">She Spells Doom</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="/classic-jazz" tabindex="-1">Classic Jazz</a>
-            <span class="hero-ticker-dot"></span>
-            <a href="#join" tabindex="-1">Record Club open</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <a href="/j-adore" tabindex="-1">j’adore</a>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <a href="/tapes" tabindex="-1">Mixes</a>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
             <a href="/library" tabindex="-1">Library</a>
-            <span class="hero-ticker-dot"></span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <a href="#join" tabindex="-1">Record Club</a>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
+            <span>House, jungle, instrumental hip-hop</span>
+            <span class="hero-ticker-sep" aria-hidden="true">/</span>
           </div>
         </div>
       </div>
@@ -645,7 +616,7 @@
 </footer>
 
 <script src="js/zine.js?v=st27"></script>
-<script src="js/site.js?v=st26"></script>
+<script src="js/site.js?v=st27"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st26"></script>
@@ -696,27 +667,19 @@
   });
   syncActiveFromURL();
 
-  // Ticker chip / now-playing line. Click-wheel play + buy live in js/plate.js.
+  // Ticker now-playing line.
   window.addEventListener('vcr:player', function (e) {
     var d = e.detail || {};
-    var playing = !!d.playing;
-    var chip = document.querySelector('[data-ticker-chip]');
     var nowEl = document.querySelector('[data-ticker-now]');
-    if (chip && d.track) {
-      chip.textContent = playing ? 'On air' : 'Stand by';
-      chip.classList.toggle('status-chip--air', playing);
-      chip.classList.toggle('status-chip--standby', !playing);
-    }
-    if (nowEl) {
-      if (d.track && (d.track.title || d.track.releaseTitle)) {
-        var line = d.track.artist ? d.track.artist + ' — ' : '';
-        line += d.track.title || d.track.releaseTitle;
-        nowEl.textContent = line;
-        nowEl.hidden = false;
-      } else {
-        nowEl.textContent = '';
-        nowEl.hidden = true;
-      }
+    if (!nowEl) return;
+    if (d.playing && d.track && (d.track.title || d.track.releaseTitle)) {
+      var line = d.track.artist ? d.track.artist + ' — ' : '';
+      line += d.track.title || d.track.releaseTitle;
+      nowEl.textContent = line;
+      nowEl.hidden = false;
+    } else {
+      nowEl.textContent = '';
+      nowEl.hidden = true;
     }
   });
 

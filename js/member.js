@@ -128,6 +128,18 @@
       '.nav-drawer a[href="#join"], .nav-drawer a[href="/#join"]'
     );
 
+    var account = document.getElementById('navAccount');
+    if (account) {
+      account.href = '/account';
+      account.classList.toggle('is-member', !!profile);
+      account.setAttribute(
+        'aria-label',
+        profile
+          ? 'Account, ' + levelLabel(profile.level) + (profile.memberNumber ? ' ' + profile.memberNumber : '')
+          : 'Account'
+      );
+    }
+
     if (!profile) {
       if (existing) existing.remove();
       document.body.classList.remove('is-member', 'is-club-member', 'is-premium-member');
@@ -153,24 +165,7 @@
       a.textContent = 'Club';
     });
 
-    if (!existing) {
-      existing = document.createElement('a');
-      existing.id = 'navMember';
-      existing.className = 'nav-member';
-      end.insertBefore(existing, end.firstChild);
-    }
-    // Members get a real profile page; guests land on the join anchor.
-    existing.href = '/account';
-    existing.setAttribute(
-      'aria-label',
-      'Member ' + profile.memberNumber + ', ' + levelLabel(profile.level) + ' — view account'
-    );
-    existing.innerHTML =
-      '<span class="nav-member-lcd">' +
-        '<span class="nav-member-level">' + levelLabel(profile.level) + '</span>' +
-        '<span class="nav-member-no">' + profile.memberNumber + '</span>' +
-      '</span>' +
-      '<span class="nav-member-wheel" aria-hidden="true"></span>';
+    if (existing) existing.remove();
   }
 
   function decorateReleasePricing(profile) {
