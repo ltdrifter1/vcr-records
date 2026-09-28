@@ -2522,9 +2522,24 @@ html body.archive-release.release-object #listen .ra-head h2 {
   html body.archive-release.release-object .ra-section:not(#listen) { grid-column: 1 / -1; }
 }
 @media (max-width: 999px) {
-  html body.archive-release.release-object .ra-hero-grid { gap: 20px; }
-  html body.archive-release.release-object .ra-stage { margin-inline: auto; }
-  html body.archive-release.release-object #listen .ra-head { padding-top: 20px; }
+  html body.archive-release.release-object .ra-hero-grid { gap: 16px; }
+  html body.archive-release.release-object .ra-stage {
+    width: min(260px, 68vw);
+    margin-inline: auto;
+  }
+  html body.archive-release.release-object .ra-hero-ctas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  html body.archive-release.release-object .ra-hero-ctas .btn {
+    flex: none;
+    width: auto;
+  }
+  html body.archive-release.release-object .ra-hero-ctas .btn.btn-steel--play {
+    grid-column: 1 / -1;
+  }
+  html body.archive-release.release-object #listen .ra-head { padding-top: 4px; }
 }
 
 /* Play stays the invert key. Digital and Cassette stay aluminum. */
