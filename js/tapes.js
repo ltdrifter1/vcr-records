@@ -161,13 +161,106 @@
     );
   }
 
+  function albumKey(t) {
+    var cover = String((t && t.cover) || "").replace(/-t\d+x\d+(\.[a-z0-9]+)$/i, "$1");
+    if (cover) return "c:" + cover;
+    var dek = String((t && t.dek) || "").trim().toLowerCase();
+    if (dek) return "d:" + dek;
+    var title = String((t && t.title) || "").toLowerCase();
+    if (/^loft music/.test(title)) return "t:loft";
+    if (/^volume\b/.test(title)) return "t:volume";
+    if (/^pirate radio/.test(title)) return "t:pirate";
+    return "t:" + title.replace(/[\s(].*$/, "");
+  }
+
+  function gridCols(grid) {
+    if (grid.classList.contains("tapes-grid--home")) {
+      if (window.matchMedia("(min-width: 760px)").matches) return 4;
+      if (window.matchMedia("(min-width: 640px)").matches) return 3;
+      return 2;
+    }
+    if (window.matchMedia("(min-width: 860px)").matches) return 3;
+    return 2;
+  }
+
+  function mixByAlbum(tapes, limit, cols, maxSame) {
+    var list = tapes || [];
+    var cap = maxSame > 0 ? maxSame : 2;
+    var row = cols > 0 ? cols : 4;
+    var max = limit > 0 ? Math.min(limit, list.length) : list.length;
+    var groups = {};
+    var keys = [];
+    var i;
+    for (i = 0; i < list.length; i++) {
+      var t = list[i];
+      var k = albumKey(t);
+      if (!groups[k]) {
+        groups[k] = [];
+        keys.push(k);
+      }
+      groups[k].push(t);
+    }
+    var cursor = {};
+    for (i = 0; i < keys.length; i++) cursor[keys[i]] = 0;
+
+    function remaining(k) {
+      return cursor[k] < groups[k].length;
+    }
+
+    function countInRow(out, key) {
+      var start = Math.floor(out.length / row) * row;
+      var n = 0;
+      var j;
+      for (j = start; j < out.length; j++) {
+        if (albumKey(out[j]) === key) n += 1;
+      }
+      return n;
+    }
+
+    function take(out, key) {
+      out.push(groups[key][cursor[key]]);
+      cursor[key] += 1;
+    }
+
+    var out = [];
+    var guard = 0;
+    while (out.length < max && guard < max * 8) {
+      guard += 1;
+      var picked = "";
+      var bestScore = 1e9;
+      var r;
+      for (r = 0; r < keys.length; r++) {
+        var idx = (out.length + r) % keys.length;
+        var key = keys[idx];
+        if (!remaining(key)) continue;
+        var inRow = countInRow(out, key);
+        if (inRow >= cap) continue;
+        var score = inRow * 100 + cursor[key];
+        if (score < bestScore) {
+          bestScore = score;
+          picked = key;
+        }
+      }
+      if (!picked) break;
+      take(out, picked);
+    }
+    return out;
+  }
+
   function paint(tapes) {
     lastTapes = tapes;
     var grids = document.querySelectorAll("[data-tapes-grid]");
     if (!grids.length) return;
     grids.forEach(function (grid) {
       var limit = parseInt(grid.getAttribute("data-tapes-limit") || "0", 10);
-      var slice = limit > 0 ? tapes.slice(0, limit) : tapes;
+      var mix = grid.getAttribute("data-tapes-mix");
+      var slice;
+      if (mix) {
+        var cap = parseInt(grid.getAttribute("data-tapes-row-cap") || "2", 10);
+        slice = mixByAlbum(tapes, limit, gridCols(grid), cap);
+      } else {
+        slice = limit > 0 ? tapes.slice(0, limit) : tapes;
+      }
       if (!slice.length) {
         grid.innerHTML = emptyHtml();
         return;
