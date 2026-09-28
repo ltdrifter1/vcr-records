@@ -43,7 +43,7 @@
     var dur = fmtDur(releaseDuration(rel));
     var cat = rel.catalogue || "";
     var legacy = /^VCR/i.test(cat);
-    var spec = [legacy ? cat + "  ·  legacy" : cat, rel.kind, dur].filter(Boolean).join("  ·  ");
+    var spec = [legacy ? "Legacy" : cat, rel.kind, dur].filter(Boolean).join("  ·  ");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";
     var play = cued

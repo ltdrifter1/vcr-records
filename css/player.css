@@ -1088,10 +1088,12 @@ body.vcr-stage-open .tabbar { display: none !important; }
   border-radius: 2px;
   box-shadow: 0 0 0 1px rgba(40,40,40,.28), 0 12px 28px rgba(26,26,26,.18);
 }
+.vcr-stage__sheet { text-align: left; }
 .vcr-stage__artist,
 .vcr-stage__credits,
 .vcr-stage__upnext,
 .vcr-stage__times { color: #5c5c5a; }
+.vcr-stage__artist { font-style: normal; font-family: Archivo, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .vcr-stage__title { color: #1a1a1a; font-family: Oswald, "Arial Narrow", sans-serif; font-weight: 500; }
 .vcr-stage__led .status-chip {
   background: transparent;
@@ -1138,11 +1140,9 @@ body.vcr-stage-open .tabbar { display: none !important; }
 }
 @media (max-width: 720px) {
   .vcr-stage__sheet {
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
+    border-radius: 4px;
     background: #e8e8e6;
-    min-height: 100%;
+    min-height: 0;
   }
 }
 @media (min-width: 721px) {

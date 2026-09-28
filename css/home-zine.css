@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Club Copy home — Click Wheel iPod on brushed steel
+   Club Copy home — steel listening plate and Night Shift
    Night Shift is the magazine block. Chrome matches the rest of the site.
    ========================================================================== */
 
@@ -984,39 +984,6 @@ body.home-zine :focus-visible {
   box-shadow: 0 0 0 5px var(--zine-stamp);
 }
 
-/* Mobile tab strip — magazine footer, not iOS Music ---------------------- */
-@media (max-width: 720px) {
-  body.home-zine .tabbar,
-  body.home-zine.hero-top .tabbar {
-    background: var(--zine-paper);
-    border-top: 1px solid var(--zine-ink);
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-  body.home-zine .tabbar a {
-    color: var(--zine-ink);
-    gap: 3px;
-  }
-  body.home-zine .tabbar a span {
-    font-family: var(--zine-gothic);
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-  }
-  body.home-zine .tabbar a.is-current {
-    color: var(--zine-ink);
-    background: var(--zine-stamp);
-  }
-  body.home-zine .hero-ticker {
-    bottom: var(--tabbar-h, 56px);
-  }
-  body.home-zine .hero.plate-hero .hero-ticker {
-    bottom: auto;
-  }
-}
-
 body.home-zine #listen,
 body.home-zine #tapes,
 body.home-zine #join,
@@ -1031,21 +998,13 @@ body.home-zine #mixtapes {
   body.home-zine .hero-ticker-track { animation: none; transition: none; }
 }
 
-/* Chapter cuts — one 4px bar + paper air. Hero ticker already closes the
-   first beat, so the catalogue bridge is air only. Night Shift / mixtapes
-   sit on paper-2 so each folio reads as its own page. -------------------- */
+/* Section eyebrows title the folio. No chapter-cut bars. */
 body.home-zine .wall-bridge,
 body.home-zine .news-bridge,
 body.home-zine .club-join-bridge,
-body.home-zine .mixtapes-bridge {
-  display: block;
-  height: 44px;
-  margin: 0;
-  pointer-events: none;
-  border: 0;
-  background:
-    linear-gradient(var(--zine-ink), var(--zine-ink)) 0 0 / 100% 4px no-repeat,
-    var(--zine-paper);
+body.home-zine .mixtapes-bridge,
+body.home-zine .ig-feed-bridge {
+  display: none;
 }
 body.home-zine .wall-bridge {
   height: 36px;

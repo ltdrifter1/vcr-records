@@ -990,88 +990,24 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
     rgba(255,255,255,.28) 100%);
 }
 .ra-deck > * { position: relative; z-index: 1; }
-.ra-stereo {
-  display: grid;
-  grid-template-columns: 110px 1fr 110px;
-  gap: 10px;
-  align-items: stretch;
-}
-.ra-stereo-unit {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.ra-stereo-brand {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0 6px 2px;
-  font-family: var(--callsign, "Oswald", sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: #4a5562;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .85);
-}
-.ra-stereo-brand span:last-child {
-  letter-spacing: .14em;
-  color: #7a8490;
-}
+
+
+
+
 
 /* Speakers — chrome rings on ice baffles */
-.ra-stereo-speaker {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 18px 10px;
-  border-radius: 22px;
-  background:
-    linear-gradient(180deg, #ffffff 0%, #eef2f6 46%, #d5dce4 100%);
-  box-shadow:
-    inset 0 1px 0 #fff,
-    inset 0 -2px 4px rgba(80, 96, 114, .16),
-    0 8px 16px rgba(30, 34, 40, .14);
-}
-.ra-stereo-driver {
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, #2a2a2e 0 12%, #111 13% 16%, transparent 17%),
-    repeating-radial-gradient(circle at 50% 50%, #242428 0 3px, #0c0c10 3px 6px);
-  box-shadow:
-    0 0 0 3px #f4f7fa,
-    0 0 0 6px #c5ced8,
-    0 0 0 10px #9aa6b4,
-    inset 0 8px 14px rgba(0, 0, 0, .7),
-    0 8px 12px rgba(0, 0, 0, .22);
-}
-.ra-stereo-driver--hi { width: 42%; aspect-ratio: 1; }
-.ra-stereo-driver--lo { width: 86%; aspect-ratio: 1; }
-.release-console.is-live .ra-stereo-driver {
-  animation: ra-speaker-thump 1.15s ease-in-out infinite;
-  box-shadow:
-    0 0 0 3px #f4f7fa,
-    0 0 0 6px #c5ced8,
-    0 0 0 10px #9aa6b4,
-    0 0 18px rgba(126, 246, 255, .35),
-    inset 0 8px 14px rgba(0, 0, 0, .7),
-    0 8px 12px rgba(0, 0, 0, .22);
-}
+
+
+
+
+
 @keyframes ra-speaker-thump {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.035); }
 }
 
 /* Dash: VFD + volume */
-.ra-stereo-dash {
-  display: grid;
-  grid-template-columns: 1fr 72px;
-  gap: 10px;
-  align-items: stretch;
-}
+
 
 /* Vacuum fluorescent display — glass LCD in a chrome bezel */
 .ra-vfd {
@@ -1213,55 +1149,12 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 }
 
 /* Volume knob */
-.ra-stereo-vol {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-.ra-stereo-vol-dial {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 28%, rgba(255,255,255,.85), transparent 42%),
-    conic-gradient(from 130deg, #ffffff, #c5ced8 38%, #f4f7fa 68%, #8b96a4 100%);
-  box-shadow:
-    inset 0 2px 0 #fff,
-    inset 0 -3px 4px rgba(80, 96, 114, .28),
-    0 0 0 3px #eef2f6,
-    0 0 0 5px #b7c2ce,
-    0 8px 14px rgba(30, 34, 40, .2);
-}
-.ra-stereo-vol-dial::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 11px;
-  width: 3px;
-  height: 14px;
-  margin-left: -1.5px;
-  border-radius: 1px;
-  background: #1a1c20;
-  transform: rotate(var(--rot, -40deg));
-  transform-origin: 50% 18px;
-}
-.ra-stereo-vol-dial { position: relative; }
-.ra-stereo-vol input[type="range"] {
-  position: absolute;
-  inset: 8px 4px 22px;
-  opacity: 0;
-  cursor: pointer;
-}
-.ra-stereo-vol-cap {
-  font-family: var(--callsign, "Oswald", sans-serif);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  color: #4a4e56;
-}
+
+
+
+
+
+
 
 /* waveform — recessed meter under the display */
 .ra-wave {
@@ -1439,10 +1332,7 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ra-reel,
-  .ra-tape-pancake,
-  .ra-vfd-eq i,
-  .ra-stereo-driver { animation: none; }
+  
   .ra-stage:hover .ra-cassette { transform: none; }
 }
 
@@ -2072,10 +1962,7 @@ body.archive-release .footer-form button {
 }
 
 /* Listen: ice Y2K stereo + iTunes track table -------------------------- */
-.ra-stereo-brand {
-  font-family: var(--sans, 'Archivo', sans-serif);
-  letter-spacing: .1em;
-}
+
 .ra-tracks {
   background:
     linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
@@ -2428,9 +2315,9 @@ body.archive-release .modal-close { color: #8e8e93; }
   .ra-hero-title { font-size: clamp(36px, 11vw, 56px); }
   .ra-hero-ctas .btn { flex: 1 1 100%; }
   .ra-deck { padding: 12px 10px 10px; }
-  .ra-stereo { grid-template-columns: 1fr; }
-  .ra-stereo-speaker { display: none; }
-  .ra-stereo-dash { grid-template-columns: 1fr 64px; }
+  
+  
+  
   .ra-tracks { padding: 4px 0 8px; }
   .ra-format { padding: 18px 16px 16px; }
   .ra-head { padding-top: 44px; margin-bottom: 22px; }
