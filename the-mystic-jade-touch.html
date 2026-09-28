@@ -109,12 +109,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Share+Tech+Mono&family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,600;0,100,700;1,100,400&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st25"/>
-  <link rel="stylesheet" href="css/player.css?v=st25"/>
+  <link rel="stylesheet" href="css/site.css?v=st29"/>
+  <link rel="stylesheet" href="css/player.css?v=st29"/>
   <link rel="stylesheet" href="css/release-archive.css?v=st20"/>
   <link rel="stylesheet" href="css/fx.css?v=st18"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st18"/>
-  <link rel="stylesheet" href="css/club-copy-os.css?v=st26"/>
+  <link rel="stylesheet" href="css/club-copy-os.css?v=st29"/>
 
 </head>
 <body class="archive-release release-object hero-top zine-surface nav-light">
@@ -207,7 +207,7 @@
     </div>
   </section>
 
-  <section class="ra-section" id="listen" aria-label="Listen">
+  <section class="ra-section" id="listen" data-release="the-mystic-jade-touch" aria-label="Listen">
     <div class="ra-wrap">
       <header class="ra-head ra-reveal">
         <div>
@@ -217,59 +217,9 @@
       </header>
       <div class="ra-player-grid">
 
-        <div class="ra-deck release-console ra-reveal ra-deck--display" role="region" aria-label="Mini hi-fi">
-          <div class="ra-stereo">
-            <div class="ra-stereo-speaker" aria-hidden="true">
-              <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
-              <span class="ra-stereo-driver ra-stereo-driver--lo"></span>
-            </div>
-            <div class="ra-stereo-unit">
-              <div class="ra-stereo-brand">
-                <span>CLUB COPY</span>
-                <span>CC-GX00</span>
-              </div>
-              <div class="ra-stereo-dash">
-                <div class="ra-vfd">
-                  <div class="ra-vfd-scan" aria-hidden="true"></div>
-                  <div class="ra-vfd-top">
-                    <span class="ra-vfd-mode">TAPE</span>
-                    <span class="live" id="ipTrackIndex">01 / 01</span>
-                    <span id="ipStampSide">Side A</span>
-                  </div>
-                  <div class="ra-vfd-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  <p class="ra-vfd-title" id="ipStampTitle">The Mystic / Jade Touch</p>
-                  <p class="name" id="ipTrackName">The Mystic / Jade Touch</p>
-                  <p class="ra-vfd-sub"><span id="ipArtist">Rainier</span> — <span id="ipRelease">The Mystic / Jade Touch</span></p>
-                  <div class="ra-vfd-times ra-vfd-times--idle">
-                    <span>TAPE</span>
-                    <span>STOP</span>
-                  </div>
-                </div>
-                <div class="ra-stereo-vol" aria-hidden="true">
-                  <span class="ra-stereo-vol-dial"></span>
-                  <span class="ra-stereo-vol-cap">VOL</span>
-                </div>
-              </div>
-              <div class="ra-transport">
-                <button type="button" class="ra-key" id="ipPrev" aria-label="Previous track">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2.2v12H6zm3.4 6 8.6 6.2V5.8z"/></svg>
-                </button>
-                <button type="button" class="ra-key ra-key--play" id="ipPlayConsole" aria-label="Preview — full track after checkout">
-                  <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                </button>
-                <button type="button" class="ra-key" id="ipNext" aria-label="Next track">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg>
-                </button>
-              </div>
-            </div>
-            <div class="ra-stereo-speaker ra-stereo-speaker--r" aria-hidden="true">
-              <span class="ra-stereo-driver ra-stereo-driver--hi"></span>
-              <span class="ra-stereo-driver ra-stereo-driver--lo"></span>
-            </div>
-          </div>
-          <div class="p-msg" id="pMsg" aria-live="polite"></div>
-        </div>
+        
 
+        <div class="p-msg" id="pMsg" aria-live="polite"></div>
         <div class="ra-tracks ra-reveal">
           <div class="track-row is-active" data-index="0">
             <span class="track-no">01</span>
@@ -282,7 +232,6 @@
       </div>
     </div>
   </section>
-
 
   <section class="ra-section" aria-label="About the release">
     <div class="ra-wrap">
@@ -344,7 +293,7 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="js/player.js?v=st25"></script>
-<script src="js/release-bind.js"></script>
+<script src="js/release-bind.js?v=st29"></script>
 <script src="js/tape-player.js"></script>
 <script>
 const $ = id => document.getElementById(id);

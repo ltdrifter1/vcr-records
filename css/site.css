@@ -28,8 +28,8 @@
   --lcd-ink: #1A1A1A;
   --lcd-sel: #2A2A28;
   --stamp: #B8B8B4;
-  --led: #C6F000;
-  --acid: #C6F000; /* LED / on-air / play pip only — never a fill */
+  --led: #E4E4E0;
+  --acid: #E4E4E0; /* pearl pip — invert play, never a fill */
   --acid-ink: #141414;
   --bondi: #9A9A96; /* steel alias; kept so older rules do not go missing */
   /* Chrome / liquid metal — brushed aluminum, not rave fill */
@@ -414,11 +414,10 @@ body.nav-on-dark:not(.nav-light) .nav-member-no { color: #1a1a1a; }
   text-decoration: none;
 }
 @media (max-width: 720px) {
-  :root { --tabbar-h: 56px; }
+  :root { --tabbar-h: 0px; }
   .nav-links { display: none; }
-  .nav-ham { display: none !important; }
-  .nav-join { display: inline-flex; }
-  body { padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 8px); }
+  .nav-ham { display: flex; }
+  .nav-join { display: none; }
 }
 body.has-vcr-player .tabbar {
   display: none !important;
@@ -450,61 +449,10 @@ body.has-vcr-player .tabbar {
 }
 .nav-drawer a:last-child { border-bottom: none; }
 
-/* App tab bar — iOS Music, mobile only ------------------------------------ */
-.tabbar {
-  display: none;
-}
-@media (max-width: 720px) {
-  .tabbar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    z-index: 480;
-    height: calc(var(--tabbar-h) + var(--safe-b));
-    padding: 4px 4px calc(4px + var(--safe-b));
-    background: #e8e8e6;
-    border-top: 1px solid rgba(40,40,40,.18);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-  .tabbar a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    min-height: 48px;
-    color: rgba(26,26,26,.45);
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .tabbar a svg {
-    width: 26px; height: 26px;
-  }
-  .tabbar a span {
-    font-size: 10px;
-    font-weight: 590;
-    letter-spacing: -.01em;
-    line-height: 1.1;
-  }
-  .tabbar a.is-current { color: #1a1a1a; }
-  .nav-drawer a[href="/"],
-  .nav-drawer a[href="/index.html"],
-  .nav-drawer a[href="#listen"],
-  .nav-drawer a[href="/#listen"],
-  .nav-drawer a[href="/library"],
-  .nav-drawer a[href="/artists"],
-  .nav-drawer a[href="/merch"],
-  .nav-drawer a[href="/news"],
-  .nav-drawer a[href="/tapes"],
-  .nav-drawer a[href="/mixtapes"],
-  .nav-drawer a.tabbar-dup {
-    display: none !important;
-  }
-}
-body.vcr-stage-open .tabbar {
+/* Retired iOS Music tab bar — hamburger + drawer is the mobile menu ------ */
+.tabbar,
+body.vcr-stage-open .tabbar,
+body.has-vcr-player .tabbar {
   display: none !important;
 }
 
@@ -1408,14 +1356,13 @@ body.shop-page .btn-ghost-on-dark {
   flex-shrink: 0;
 }
 .status-chip--air {
-  color: #1a1a1a;
+  color: #f4f4f2;
+  background: #1a1a1a;
 }
 .status-chip--air::before {
-  background: #C6F000;
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,.35),
-    0 0 8px rgba(198, 240, 0, .75);
-  animation: ledPulse 1.6s ease-in-out infinite;
+  background: #f4f4f2;
+  box-shadow: none;
+  animation: none;
 }
 .status-chip--standby {
   color: rgba(255,255,255,.55);

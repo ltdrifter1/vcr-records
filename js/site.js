@@ -111,72 +111,8 @@
       else container.appendChild(a);
     }
     document.querySelectorAll('.nav-links, .nav-drawer, .footer-links').forEach(insert);
-    var end = document.querySelector('.nav-end');
-    if (end && !end.querySelector('.nav-join')) {
-      var join = document.createElement('a');
-      join.className = 'nav-join';
-      join.href = document.body.classList.contains('home-zine') ? '#join' : '/#join';
-      join.textContent = 'Join';
-      var cart = end.querySelector('.nav-cart');
-      if (cart) end.insertBefore(join, cart);
-      else end.appendChild(join);
-    }
   }
   injectMixesNav();
-
-  function injectTabBar() {
-    if (document.getElementById('tabBar')) return;
-    var bar = document.createElement('nav');
-    bar.className = 'tabbar';
-    bar.id = 'tabBar';
-    bar.setAttribute('aria-label', 'App');
-    bar.innerHTML =
-      '<a href="/library" data-tab="library">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="4" y="5" width="7" height="7" rx="1.4"/><rect x="13" y="5" width="7" height="7" rx="1.4"/><rect x="4" y="14" width="7" height="7" rx="1.4"/><rect x="13" y="14" width="7" height="7" rx="1.4"/></svg>' +
-        '<span>Library</span></a>' +
-      '<a href="/tapes" data-tab="mixes">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="7" width="14" height="10" rx="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><path d="M9 10.4V8.6M15 10.4V8.6"/></svg>' +
-        '<span>Mixes</span></a>' +
-      '<a href="/news" data-tab="zine">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4.2" y="5" width="15.6" height="14" rx="1.6"/><path d="M7.4 9h9.2M7.4 12.2h6.6M7.4 15.4h8.2"/></svg>' +
-        '<span>Zine</span></a>' +
-      '<a href="/merch" data-tab="shop">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/><circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>' +
-        '<span>Shop</span></a>';
-    document.body.appendChild(bar);
-
-    function currentTab() {
-      var p = (location.pathname || '/').replace(/\/index\.html$/, '/');
-      if (p.indexOf('/library') === 0) return 'library';
-      if (p.indexOf('/tapes') === 0 || p.indexOf('/mixtapes') === 0) return 'mixes';
-      if (p.indexOf('/merch') === 0 || p.indexOf('/cart') === 0 || p.indexOf('/checkout') === 0) return 'shop';
-      if (p.indexOf('/news') === 0) return 'zine';
-      return '';
-    }
-
-    function syncTabs() {
-      var cur = currentTab();
-      bar.querySelectorAll('[data-tab]').forEach(function (a) {
-        var on = a.getAttribute('data-tab') === cur;
-        a.classList.toggle('is-current', on);
-        if (on) a.setAttribute('aria-current', 'page');
-        else a.removeAttribute('aria-current');
-      });
-    }
-
-    window.addEventListener('hashchange', syncTabs);
-    syncTabs();
-
-    if (drawer) {
-      drawer.querySelectorAll('a').forEach(function (a) {
-        var href = (a.getAttribute('href') || '').split('?')[0];
-        var dup = href === '/library' || href === '/merch' ||
-          href === '/news' || href === '/tapes' || href === '/mixtapes';
-        if (dup) a.classList.add('tabbar-dup');
-      });
-    }
-  }
-  injectTabBar();
 
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {

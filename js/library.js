@@ -45,10 +45,7 @@
     if (artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'rainier';
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
-    if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) {
-      viewMode = 'list';
-    }
-    if (view === 'covers' && viewMode !== 'list') viewMode = 'covers';
+    if (view === 'covers' || view === 'sleeves' || view === 'grid') viewMode = 'covers';
     if (view === 'list') viewMode = 'list';
     filters = { genre: genre, artist: artist };
   }
@@ -429,9 +426,10 @@
   function syncViewButtons() {
     var isCovers = viewMode === 'covers';
     list.classList.toggle('is-covers', isCovers);
-    list.hidden = isCovers && !!(flowRoot && flowTrack);
-    list.setAttribute('aria-hidden', isCovers ? 'true' : 'false');
-    if (flowRoot) flowRoot.hidden = !isCovers;
+    list.hidden = false;
+    list.removeAttribute('hidden');
+    list.setAttribute('aria-hidden', 'false');
+    if (flowRoot) flowRoot.hidden = true;
     document.body.classList.toggle('lib-covers-on', isCovers);
     document.body.classList.toggle('lib-filtered', !!(filters.genre || filters.artist));
     if (viewListBtn) {
@@ -663,15 +661,6 @@
       return;
     }
 
-    if (viewMode === 'covers' && flowRoot && flowTrack && window.ClubCopy && ClubCopy.flowSleeveHtml) {
-      list.hidden = true;
-      flowRoot.hidden = false;
-      flowTrack.innerHTML = releases.map(ClubCopy.flowSleeveHtml).join('');
-      mountLibFlow();
-      renderInspect(releases[0]);
-      return;
-    }
-
     list.hidden = false;
     if (flowRoot) flowRoot.hidden = true;
     list.innerHTML = releases.map(row).join('');
@@ -695,8 +684,7 @@
   if (artistSelect) artistSelect.addEventListener('change', onSelectChange);
 
   function setView(mode) {
-    if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) mode = 'list';
-    viewMode = mode === 'covers' ? 'covers' : 'list';
+    viewMode = (mode === 'covers' || mode === 'sleeves' || mode === 'grid') ? 'covers' : 'list';
     render();
   }
 
