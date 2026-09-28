@@ -242,7 +242,10 @@ body.vcr-stage-open.has-vcr-player {
   height: 14px;
   z-index: 2;
 }
-.vcr-player.is-playing .vcr-player__eq { display: flex; }
+.vcr-player__eq,
+.vcr-player.is-playing .vcr-player__eq {
+  display: none !important;
+}
 .vcr-player__eq i {
   width: 2px;
   height: 30%;

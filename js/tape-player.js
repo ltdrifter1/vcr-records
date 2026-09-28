@@ -34,6 +34,9 @@
     }
 
     function currentId() {
+      var listen = document.getElementById("listen");
+      var fromListen = listen && listen.getAttribute("data-release");
+      if (fromListen) return fromListen;
       var canvas = document.getElementById("raWave");
       var fromWave = canvas && canvas.getAttribute("data-release");
       if (fromWave) return fromWave;

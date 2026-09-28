@@ -41,7 +41,7 @@
     var full = rel.cover || thumb;
     var href = rel.page || "/library";
     var dur = fmtDur(releaseDuration(rel));
-    var spec = [rel.kind, dur].filter(Boolean).join("  ·  ");
+    var spec = [rel.catalogue, rel.kind, dur].filter(Boolean).join("  ·  ");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";
     var play = cued
@@ -113,7 +113,7 @@
         return String(b.catalogue || "").localeCompare(String(a.catalogue || ""));
       });
       if (!allReleases.length) return;
-      var WALL = window.matchMedia && window.matchMedia("(max-width: 720px)").matches ? 3 : 6;
+      var WALL = 6;
       grid.innerHTML = allReleases.slice(0, WALL).map(cardHtml).join("");
       grid.removeAttribute("aria-busy");
       if (window.VCRPlayer && VCRPlayer.getState) syncAir(VCRPlayer.getState());

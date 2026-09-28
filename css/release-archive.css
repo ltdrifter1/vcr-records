@@ -925,12 +925,32 @@ body.archive-release .nav-drawer a { color: #fff; border-bottom-color: rgba(255,
   display: grid;
   gap: 12px;
 }
+.ra-player-grid:not(:has(.ra-deck)) {
+  max-width: 640px;
+}
+.ra-player-grid--liner:not(:has(.ra-deck)) {
+  max-width: none;
+}
 @media (min-width: 960px) {
   .ra-player-grid {
     grid-template-columns: 1.45fr .7fr;
     gap: 14px;
     align-items: stretch;
   }
+  .ra-player-grid:not(:has(.ra-deck)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ra-player-grid--liner:not(:has(.ra-deck)) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.ra-player-grid > .p-msg {
+  grid-column: 1 / -1;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: #5c5c5a;
+  min-height: 1.2em;
 }
 
 .ra-deck {

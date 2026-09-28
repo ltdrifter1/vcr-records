@@ -239,6 +239,16 @@
 
     if (playBtn) playBtn.addEventListener("click", toggleOrStart);
     if (consolePlay) consolePlay.addEventListener("click", toggleOrStart);
+    var heroListen = $("heroListen");
+    if (heroListen) {
+      heroListen.addEventListener("click", function () {
+        toggleOrStart();
+        var tracks = document.querySelector(".ra-tracks");
+        if (tracks && tracks.scrollIntoView) {
+          tracks.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      });
+    }
 
     var prev = $("ipPrev");
     if (prev) {
