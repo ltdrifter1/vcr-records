@@ -71,11 +71,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,600;0,100,700;1,100,400&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st25"/>
+  <link rel="stylesheet" href="css/site.css?v=st28"/>
   <link rel="stylesheet" href="css/shop.css?v=st18"/>
   <link rel="stylesheet" href="css/fx.css?v=st18"/>
   <link rel="stylesheet" href="css/station.css?v=st18"/>
-  <link rel="stylesheet" href="css/player.css?v=st25"/>
+  <link rel="stylesheet" href="css/player.css?v=st26"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st18"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st18"/>
 
@@ -106,6 +106,23 @@
     .store-label {
       font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
       color: #7a8696;
+    }
+    @media (max-width: 720px) {
+      .store-bar-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .store-label { display: none; }
+      .store-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+      }
+      .store-filters .store-chip { flex: 0 0 auto; }
     }
     /* .store-chip → css/station.css (bezel chips), night steel on this bar */
     .store-bar .store-chip {

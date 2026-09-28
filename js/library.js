@@ -45,7 +45,11 @@
     if (artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'rainier';
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
-    if (view === 'covers' || view === 'list') viewMode = view;
+    if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) {
+      viewMode = 'list';
+    }
+    if (view === 'covers' && viewMode !== 'list') viewMode = 'covers';
+    if (view === 'list') viewMode = 'list';
     filters = { genre: genre, artist: artist };
   }
 
@@ -691,6 +695,7 @@
   if (artistSelect) artistSelect.addEventListener('change', onSelectChange);
 
   function setView(mode) {
+    if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) mode = 'list';
     viewMode = mode === 'covers' ? 'covers' : 'list';
     render();
   }

@@ -56,9 +56,27 @@
     return { src: onAir.cover, alt: onAir.title + " — " + onAir.artist };
   }
 
-  function playLabel() {
-    if (featured.playable) return "Play";
-    return "Play on air";
+  function playLabel(playing) {
+    if (playing) return "Pause";
+    return "Play";
+  }
+
+  function setPlayUi(playing) {
+    var label = playLabel(playing);
+    if (hitBtn) {
+      hitBtn.hidden = false;
+      hitBtn.classList.toggle("is-playing", !!playing);
+      hitBtn.setAttribute("aria-label", label);
+    }
+    if (playBtn) {
+      playBtn.textContent = label;
+      playBtn.classList.toggle("is-playing", !!playing);
+      playBtn.setAttribute("aria-label", label);
+    }
+    if (sleeve) sleeve.classList.toggle("is-live", !!playing);
+    if (plate) plate.classList.toggle("is-live", !!playing);
+    var plateRoot = plate && plate.querySelector(".listen-plate");
+    if (plateRoot) plateRoot.classList.toggle("is-live", !!playing);
   }
 
   function setStatus(html) {
@@ -80,18 +98,8 @@
   }
 
   function syncButtons() {
-    var label = playLabel();
-    var canHit = true;
-    if (!featured.playable) {
-      /* Sleeve is the on-air object; hit still plays. */
-      canHit = true;
-    }
-    showSleeveHit(canHit);
-    [playBtn, hitBtn].forEach(function (btn) {
-      if (!btn) return;
-      btn.setAttribute("aria-label", label);
-      if (btn === playBtn) btn.textContent = label;
-    });
+    showSleeveHit(true);
+    setPlayUi(false);
   }
 
   function soundingId(detail) {
@@ -99,9 +107,27 @@
     return track && track.releaseId ? track.releaseId : "";
   }
 
+  var fallingThrough = false;
+
   function playNow() {
     if (!window.VCRPlayer || !VCRPlayer.playRelease) return;
-    VCRPlayer.playRelease(playTarget(), null, { autoplay: true, stage: false });
+    var id = playTarget();
+    var st = VCRPlayer.getState && VCRPlayer.getState();
+    if (st && st.playing && st.track && (st.track.releaseId === id || st.track.releaseId === featured.id || st.track.releaseId === onAir.id)) {
+      VCRPlayer.toggle();
+      return;
+    }
+    setPlayUi(true);
+    VCRPlayer.playRelease(id, null, { autoplay: true, stage: false }).then(function (queued) {
+      if (queued) return;
+      if (featured.playable && onAir.id && onAir.id !== id && !fallingThrough) {
+        fallingThrough = true;
+        return VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
+      }
+      setPlayUi(false);
+    }).catch(function () {
+      setPlayUi(false);
+    });
   }
 
   function buyCassette() {
@@ -163,14 +189,13 @@
 
   window.addEventListener("vcr:player", function (e) {
     var d = e.detail || {};
-    var mine = soundingId(d) === playTarget();
+    var mine = soundingId(d) === playTarget() || soundingId(d) === featured.id || soundingId(d) === onAir.id;
     var live = !!(d.playing && mine);
-    if (sleeve) sleeve.classList.toggle("is-live", live);
-    if (plate) plate.classList.toggle("is-live", live);
-    var plateRoot = plate && plate.querySelector(".listen-plate");
-    if (plateRoot) plateRoot.classList.toggle("is-live", live);
-    if (hitBtn) hitBtn.classList.toggle("is-playing", live);
-    if (playBtn) playBtn.classList.toggle("is-playing", live);
+    setPlayUi(live);
+    if (d.error && d.track && d.track.releaseId === featured.id && onAir.id && onAir.id !== featured.id && !fallingThrough) {
+      fallingThrough = true;
+      VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
+    }
   });
 
   fetch("/data/catalog.json")
