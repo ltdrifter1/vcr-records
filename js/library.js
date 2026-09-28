@@ -324,9 +324,13 @@
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
-    var catNo = rel.catalogue
-      ? '<p class="cat-id">' + esc(rel.catalogue) + '</p>'
-      : '';
+    var catNo = "";
+    if (rel.catalogue) {
+      var legacy = /^VCR/i.test(String(rel.catalogue));
+      catNo = legacy
+        ? '<p class="cat-id cat-id--legacy"><span class="cat-id-legacy">Legacy</span>' + esc(rel.catalogue) + '</p>'
+        : '<p class="cat-id">' + esc(rel.catalogue) + '</p>';
+    }
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack));
     });
@@ -628,14 +632,7 @@
 
   function mountLibFlow() {
     if (!flowRoot) return;
-    if (flowRoot._coverFlow) flowRoot._coverFlow.refresh();
-    else if (window.ClubCopy && typeof ClubCopy.initCoverFlow === 'function') {
-      ClubCopy.initCoverFlow();
-    }
-    if (window.ClubCopy && ClubCopy.bindFlowPlay) ClubCopy.bindFlowPlay(flowRoot);
-    if (window.VCRPlayer && VCRPlayer.getState && window.ClubCopy && ClubCopy.syncFlowAir) {
-      ClubCopy.syncFlowAir(flowRoot, VCRPlayer.getState());
-    }
+    flowRoot.hidden = true;
   }
 
   function render() {

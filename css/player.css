@@ -1052,3 +1052,104 @@ body.vcr-stage-open .tabbar { display: none !important; }
     box-shadow: none;
   }
 }
+
+/* Now Playing — aluminum, same object as the dock */
+.vcr-stage {
+  color: #1a1a1a;
+  background: rgba(26, 26, 26, .28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.vcr-stage__bg,
+.vcr-stage__bg::after,
+.vcr-stage__handle { display: none; }
+.vcr-stage__sheet {
+  color: #1a1a1a;
+  background: linear-gradient(180deg, #f6f6f4 0%, #dcdcd8 46%, #c4c4c0 100%);
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(40, 40, 40, .14),
+    0 18px 48px rgba(26, 26, 26, .28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: none;
+}
+.vcr-stage__close {
+  color: #1a1a1a;
+  height: 44px;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+.vcr-stage__close::after { content: "Close"; }
+.vcr-stage__art {
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(40,40,40,.28), 0 12px 28px rgba(26,26,26,.18);
+}
+.vcr-stage__artist,
+.vcr-stage__credits,
+.vcr-stage__upnext,
+.vcr-stage__times { color: #5c5c5a; }
+.vcr-stage__title { color: #1a1a1a; font-family: Oswald, "Arial Narrow", sans-serif; font-weight: 500; }
+.vcr-stage__led .status-chip {
+  background: transparent;
+  color: #1a1a1a;
+  border: 1px solid rgba(26,26,26,.22);
+}
+.vcr-stage__led .status-chip--air {
+  background: #1a1a1a;
+  color: #f4f4f2;
+  border-color: #1a1a1a;
+}
+.vcr-stage__btn {
+  color: #1a1a1a;
+  background: transparent;
+  border: 1px solid rgba(26,26,26,.18);
+}
+.vcr-stage__btn--play {
+  background: #111;
+  color: #f4f4f2;
+  border-color: #111;
+  box-shadow: none;
+}
+.vcr-stage__scrub::-webkit-slider-runnable-track {
+  background:
+    linear-gradient(#1a1a1a, #1a1a1a) 0 / var(--scrub, 0%) 100% no-repeat,
+    rgba(26,26,26,.16);
+}
+.vcr-stage__scrub::-moz-range-track { background: rgba(26,26,26,.16); }
+.vcr-stage__scrub::-moz-range-progress { background: #1a1a1a; }
+.vcr-stage__fmt {
+  border: 1px solid rgba(26,26,26,.22);
+  background: transparent;
+  color: #1a1a1a;
+  border-radius: 3px;
+}
+.vcr-stage__fmt[data-format="digital"] {
+  background: #111;
+  color: #f4f4f2;
+  border-color: #111;
+}
+.vcr-stage__notes { color: #1a1a1a; }
+@media (hover:hover) {
+  .vcr-stage__notes:hover { color: #1a1a1a; opacity: .62; }
+}
+@media (max-width: 720px) {
+  .vcr-stage__sheet {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    background: #e8e8e6;
+    min-height: 100%;
+  }
+}
+@media (min-width: 721px) {
+  .vcr-stage__sheet {
+    border-radius: 4px;
+    background: linear-gradient(180deg, #f6f6f4 0%, #dcdcd8 46%, #c4c4c0 100%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
