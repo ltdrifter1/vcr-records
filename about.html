@@ -135,8 +135,8 @@
       color: #1A1A1A;
       color-scheme: light;
     }
-    html body.about-page .station-bumper,
-    html body.about-page .station-bumper--compact {
+    html body.about-page.zine-surface .page .station-bumper,
+    html body.about-page.zine-surface .page .station-bumper--compact {
       min-height: 0;
       background: transparent;
       color: #1A1A1A;
@@ -154,7 +154,7 @@
         padding-bottom: 36px;
       }
     }
-    html body.about-page .station-bumper__crumbs {
+    html body.about-page.zine-surface .page .station-bumper__crumbs {
       font-family: "IBM Plex Mono", ui-monospace, monospace;
       font-size: 11px;
       font-weight: 500;
@@ -162,8 +162,8 @@
       text-transform: none;
       color: #7A7A78;
     }
-    html body.about-page .station-bumper__crumbs a { color: #5C5C5A; }
-    html body.about-page .station-bumper__title {
+    html body.about-page.zine-surface .page .station-bumper__crumbs a { color: #5C5C5A; }
+    html body.about-page.zine-surface .page .station-bumper__title {
       margin: 0 0 12px;
       max-width: 18em;
       font-family: Oswald, "Arial Narrow", sans-serif;
@@ -175,9 +175,11 @@
       color: #1A1A1A;
       text-shadow: none;
     }
-    html body.about-page .station-bumper__lede {
+    html body.about-page.zine-surface .page .station-bumper__lede {
       max-width: 34em;
       font-family: Archivo, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-stretch: 100%;
+      font-style: normal;
       font-size: 16px;
       font-weight: 400;
       letter-spacing: -.018em;
@@ -351,6 +353,29 @@
       margin-top: 10px;
       font-size: 15px; color: #5C5C5A; line-height: 1.65;
       max-width: 40em;
+    }
+    html body.about-page.zine-surface .about-block h2,
+    html body.about-page.zine-surface .about-faq h2 {
+      font-family: Oswald, "Arial Narrow", sans-serif;
+      font-weight: 500;
+      letter-spacing: -.025em;
+      text-transform: none;
+      color: #1A1A1A;
+    }
+    html body.about-page.zine-surface .about-grid,
+    html body.about-page.zine-surface .about-faq,
+    html body.about-page.zine-surface .facts {
+      border-top-color: rgba(40, 40, 40, .16);
+    }
+    html body.about-page.zine-surface .fact {
+      box-shadow: inset 0 -1px 0 rgba(40, 40, 40, .12);
+    }
+    html body.about-page.zine-surface .about-faq details {
+      border-bottom-color: rgba(40, 40, 40, .14);
+    }
+    html body.about-page.zine-surface .about-sleeves img {
+      border: 0;
+      border-radius: 0;
     }
   </style>
 </head>
