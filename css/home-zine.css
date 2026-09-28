@@ -1161,13 +1161,20 @@ body.home-zine .zine-club.home-join #premiumAmount {
   }
 }
 @media (max-width: 720px) {
-  body.home-zine .news.zine,
   body.home-zine .mixtapes,
+  body.home-zine .news.zine,
   body.home-zine .ig-feed {
-    display: none !important;
+    display: block;
+  }
+  body.home-zine .zine--home .zine-logo,
+  body.home-zine .zine--home .zine-title a {
+    font-size: clamp(40px, 14vw, 72px);
+  }
+  body.home-zine .ig-feed .ig-card:nth-child(n + 5) {
+    display: none;
   }
   body.home-zine .wall {
-    padding-bottom: 32px;
+    padding-bottom: 28px;
   }
   body.home-zine .sleeve-index-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1202,7 +1209,7 @@ body.home-zine .zine--home .zine-nameplate {
 }
 body.home-zine .zine--home .zine-title a,
 body.home-zine .zine--home .zine-logo {
-  font-family: Anton, Impact, "Arial Narrow", sans-serif;
+  font-family: Oswald, "Arial Narrow", sans-serif;
   font-weight: 400;
   letter-spacing: .04em;
   line-height: .88;
@@ -1582,14 +1589,11 @@ body.home-zine .zine--home .zine-post-dek {
 }
 @media (min-width: 760px) {
   body.home-zine .zine-posts--home {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 640px);
   }
   body.home-zine .zine--home a.zine-post:nth-child(odd) {
-    border-right: 1px solid var(--zine-ink);
-    padding-right: 16px;
-  }
-  body.home-zine .zine--home a.zine-post:nth-child(even) {
-    padding-left: 16px;
+    border-right: 0;
+    padding-right: 0;
   }
 }
 
