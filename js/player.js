@@ -1300,6 +1300,13 @@
     hidePreviewError();
     scPosition = 0;
     scDuration = 0;
+    if (ui && ui.dock) {
+      setScrubUi(0);
+      var cEl = ui.dock.querySelector("[data-cur]");
+      var dEl = ui.dock.querySelector("[data-dur]");
+      if (cEl) cEl.textContent = "0:00";
+      if (dEl) dEl.textContent = "0:00";
+    }
     var frame = ensureScFrame();
     var src =
       "https://w.soundcloud.com/player/?url=" +
