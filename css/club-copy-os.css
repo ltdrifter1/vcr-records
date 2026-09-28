@@ -88,26 +88,15 @@ html body.hero-top:not(.archive-release):not(.surface-night) {
 /* Homepage hero — brushed steel cove, not Bondi ice ---------------------- */
 html body.home-zine .hero {
   --hero-ink: #111111;
-  background:
-    radial-gradient(ellipse 56% 42% at 36% 46%, rgba(255,255,255,.92), transparent 62%),
-    radial-gradient(ellipse 80% 55% at 72% 8%, rgba(236, 236, 234, .9), transparent 58%),
-    linear-gradient(180deg, #eeeeec 0%, #d4d4d2 38%, #c8c8c4 72%, #b4b4b0 100%) !important;
+  background: #E8E8E6 !important;
   color: #111111 !important;
 }
-html body.home-zine .hero::before {
-  background:
-    linear-gradient(118deg,
-      rgba(210,210,206,.28) 0%,
-      rgba(236,236,232,.1) 34%,
-      rgba(255,255,255,.2) 52%,
-      rgba(200,200,196,.12) 78%,
-      rgba(176,176,172,.18) 100%);
-}
+html body.home-zine .hero::before,
 html body.home-zine .hero::after {
-  background: radial-gradient(ellipse 90% 70% at 50% 40%, transparent 48%, rgba(90, 90, 88, .16) 100%);
+  display: none !important;
 }
 html body.home-zine .hero-ground {
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 28%, rgba(196, 196, 192, .55) 100%);
+  display: none !important;
 }
 html body.home-zine .nav,
 html body.home-zine .nav.scrolled,
@@ -173,7 +162,7 @@ html body.home-zine .plate-hero .listen-plate-actions .btn-steel,
 html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
 html body.home-zine .plate-hero .listen-plate-actions .btn-ghost,
 html body.home-zine .plate-hero .listen-plate-actions .btn-text {
-  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif !important;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 13px !important;
   font-weight: 500 !important;
   letter-spacing: 0 !important;
@@ -188,25 +177,19 @@ html body.home-zine .plate-hero .listen-plate-actions .btn-text {
 html body.home-zine .plate-hero .listen-plate-actions .btn-steel,
 html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel,
 html body.home-zine .plate-hero .listen-plate-actions .btn-ghost {
-  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%) !important;
+  background: transparent !important;
   color: #1a1a1a !important;
-  border: 1px solid rgba(40, 40, 40, .28) !important;
-  box-shadow:
-    inset 0 1px 0 #fff,
-    inset 0 -1px 0 rgba(40, 40, 40, .12),
-    0 1px 1px rgba(0, 0, 0, .08) !important;
+  border: 1px solid rgba(26, 26, 26, .22) !important;
+  box-shadow: none !important;
 }
 html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel--play,
 html body.home-zine .plate-hero .listen-plate-actions .btn-steel.btn-steel--play,
 html body.home-zine .plate-hero .listen-plate-actions .btn-fill,
 html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill {
-  background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%) !important;
+  background: #111111 !important;
   color: #f4f4f2 !important;
-  border: 1px solid #0e0e0e !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.22),
-    inset 0 -1px 0 rgba(0,0,0,.45),
-    0 1px 2px rgba(0,0,0,.28) !important;
+  border: 1px solid #111111 !important;
+  box-shadow: none !important;
 }
 html body.home-zine .plate-hero .listen-plate-actions a.btn-text {
   display: inline-flex;
@@ -224,14 +207,15 @@ html body.home-zine .plate-hero .listen-plate-actions a.btn-text {
 @media (hover: hover) {
   html body.home-zine .plate-hero .listen-plate-actions .btn-steel:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn-ghost:hover {
-    background: linear-gradient(180deg, #fff 0%, #e4e4e0 52%, #d0d0cc 100%) !important;
-    color: #1a1a1a !important;
+    background: #111111 !important;
+    color: #f4f4f2 !important;
+    border-color: #111111 !important;
   }
   html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel--play:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn-steel.btn-steel--play:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn-fill:hover,
   html body.home-zine .plate-hero .listen-plate-actions .btn.btn-fill:hover {
-    background: linear-gradient(180deg, #444442 0%, #161616 100%) !important;
+    background: #2a2a28 !important;
     color: #f4f4f2 !important;
   }
 }
@@ -447,7 +431,8 @@ html body.home-zine.hero-top .hero.plate-hero .hero-ticker {
   right: auto !important;
   bottom: auto !important;
   width: 100%;
-  height: var(--ticker-h, 32px);
+  height: auto;
+  min-height: var(--ticker-h, 40px);
   z-index: 3;
 }
 @media (max-width: 859px) {
