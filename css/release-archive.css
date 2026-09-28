@@ -2315,11 +2315,123 @@ body.archive-release .modal-close { color: #8e8e93; }
   .ra-hero-title { font-size: clamp(36px, 11vw, 56px); }
   .ra-hero-ctas .btn { flex: 1 1 100%; }
   .ra-deck { padding: 12px 10px 10px; }
-  
-  
-  
   .ra-tracks { padding: 4px 0 8px; }
   .ra-format { padding: 18px 16px 16px; }
   .ra-head { padding-top: 44px; margin-bottom: 22px; }
   #listen .ra-head { padding-top: 40px; margin-bottom: 18px; }
+}
+
+/* Steel object — this sheet owns the paint. Loaded before zine-pages,
+   so these selectors stay more specific than the interior-page rules. */
+html body.archive-release.release-object {
+  --ra-bg: #E8E8E6;
+  --ra-surface: #F4F4F2;
+  --ra-surface-hi: #D2D2D0;
+  --ra-ink: #1A1A1A;
+  --ra-muted: #5C5C5A;
+  --ra-dim: #7A7A78;
+  --ra-line: rgba(40, 40, 40, .16);
+  --ra-line-soft: rgba(40, 40, 40, .1);
+  background: #E8E8E6;
+  color: #1A1A1A;
+}
+html body.archive-release.release-object .nav,
+html body.archive-release.release-object .nav.scrolled {
+  background: #E8E8E6;
+  border-bottom: 1px solid rgba(40, 40, 40, .18);
+  box-shadow: none;
+}
+html body.archive-release.release-object .nav-links a,
+html body.archive-release.release-object .nav-cart,
+html body.archive-release.release-object .nav-drawer a {
+  color: #1A1A1A;
+}
+html body.archive-release.release-object .nav-links a:hover,
+html body.archive-release.release-object .nav-links a[aria-current="page"] {
+  color: #1A1A1A;
+  background: #B8B8B4;
+}
+html body.archive-release.release-object .nav-ham span { background: #1A1A1A; }
+html body.archive-release.release-object .nav-cart { background: transparent; }
+html body.archive-release.release-object .nav-drawer {
+  background: #E8E8E6;
+  border-bottom-color: rgba(40, 40, 40, .16);
+}
+html body.archive-release.release-object .ra-hero { background: transparent; }
+html body.archive-release.release-object .ra-hero-ambient {
+  filter: blur(48px) saturate(.6) brightness(1.1);
+  opacity: .35;
+}
+html body.archive-release.release-object .ra-hero-ambient::after {
+  background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(232, 232, 230, .2), rgba(232, 232, 230, .92) 70%);
+}
+html body.archive-release.release-object .ra-hero-title,
+html body.archive-release.release-object .ra-hero-meta,
+html body.archive-release.release-object .ra-hero-meta .artist,
+html body.archive-release.release-object .ra-hero-facts,
+html body.archive-release.release-object .ra-hero-info,
+html body.archive-release.release-object .ra-hero .crumbs,
+html body.archive-release.release-object .ra-hero-callsign,
+html body.archive-release.release-object .ra-head h2,
+html body.archive-release.release-object .ra-notes,
+html body.archive-release.release-object .ra-notes p,
+html body.archive-release.release-object .ra-series-list li,
+html body.archive-release.release-object .ra-series-press a,
+html body.archive-release.release-object .ra-about,
+html body.archive-release.release-object .ra-tracks-note,
+html body.archive-release.release-object .ra-more-title,
+html body.archive-release.release-object .ra-more-cc,
+html body.archive-release.release-object .ra-more-artist,
+html body.archive-release.release-object .ra-more a.head-note {
+  color: #1A1A1A;
+  -webkit-text-fill-color: #1A1A1A;
+  background-image: none;
+}
+html body.archive-release.release-object .ra-hero-title {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  filter: none;
+}
+html body.archive-release.release-object .ra-hero .crumbs,
+html body.archive-release.release-object .ra-hero .crumbs a,
+html body.archive-release.release-object .ra-more-cc,
+html body.archive-release.release-object .ra-more-artist,
+html body.archive-release.release-object .ra-more a.head-note {
+  color: #5C5C5A;
+  -webkit-text-fill-color: #5C5C5A;
+}
+html body.archive-release.release-object .ra-hero-meta span + span::before {
+  color: rgba(40, 40, 40, .35);
+}
+html body.archive-release.release-object .ra-hero-facts {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: none;
+  line-height: 1.55;
+}
+html body.archive-release.release-object .ra-notes p,
+html body.archive-release.release-object .ra-series-list a {
+  text-decoration-color: rgba(40, 40, 40, .28);
+}
+html body.archive-release.release-object .footer-logo { filter: none; opacity: 1; }
+html body.archive-release.release-object .scarce {
+  color: #3d6b2e;
+  -webkit-text-fill-color: #3d6b2e;
+}
+html body.archive-release.release-object .listen-sleeve {
+  width: min(420px, 86vw);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .92),
+    inset 0 -1px 0 rgba(40, 40, 40, .16),
+    0 0 0 1px rgba(255, 255, 255, .28),
+    0 18px 40px rgba(26, 26, 26, .22);
+}
+@media (max-width: 959px) {
+  html body.archive-release.release-object .listen-sleeve { width: min(280px, 72vw); }
+  html body.archive-release.release-object .ra-stage { padding: 8px 0 12px; }
 }
