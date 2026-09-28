@@ -112,6 +112,7 @@
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
     if (formats.length) bits.push(formats.join(' · '));
+    if (rel.catalogue && /^VCR/i.test(String(rel.catalogue))) bits.push(String(rel.catalogue));
     return bits.join(' · ');
   }
 
@@ -328,7 +329,7 @@
     if (rel.catalogue) {
       var legacy = /^VCR/i.test(String(rel.catalogue));
       catNo = legacy
-        ? '<p class="cat-id cat-id--legacy"><span class="cat-id-legacy">Legacy</span>' + esc(rel.catalogue) + '</p>'
+        ? '<p class="cat-id">Legacy</p>'
         : '<p class="cat-id">' + esc(rel.catalogue) + '</p>';
     }
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
@@ -576,10 +577,11 @@
     if (!inspect || !rel) return;
     var thumb = coverSrc(rel);
     var full = rel.cover || thumb;
+    var legacyCat = rel.catalogue && /^VCR/i.test(String(rel.catalogue));
     var catHtml = rel.catalogue
-      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(rel.catalogue) + '</span></p>'
+      ? '<p class="album-inspect__cat"><span class="chip-acetate">' + esc(legacyCat ? 'Legacy' : rel.catalogue) + '</span></p>'
       : '';
-    var meta = [rel.kind, rel.year, rel.genre].filter(Boolean).join(' · ');
+    var meta = [rel.kind, rel.year, rel.genre, legacyCat ? rel.catalogue : ''].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
     var hasPrev = tracks.some(function (t) {
       return !!(t && (t.preview || t.bandcampTrackId));

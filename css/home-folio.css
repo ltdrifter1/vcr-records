@@ -14,58 +14,13 @@ html body.home-zine {
   --folio-pearl: #F4F4F2;
 }
 
-/* Chapter cuts — thick ink + ice stripe, then air of the incoming page --- */
+/* Eyebrows title each section. Bridges stay out of the page. */
 html body.home-zine .wall-bridge,
 html body.home-zine .news-bridge,
 html body.home-zine .mixtapes-bridge,
 html body.home-zine .ig-feed-bridge,
 html body.home-zine .club-join-bridge {
-  display: block;
-  height: 52px;
-  margin: 0;
-  pointer-events: none;
-  border: 0;
-  background:
-    linear-gradient(var(--folio-ink), var(--folio-ink)) 0 0 / 100% 7px no-repeat,
-    linear-gradient(var(--folio-ice), var(--folio-ice)) 0 7px / 100% 5px no-repeat,
-    var(--folio-paper);
-}
-html body.home-zine .news-bridge,
-html body.home-zine .ig-feed-bridge {
-  background:
-    linear-gradient(var(--folio-ink), var(--folio-ink)) 0 0 / 100% 7px no-repeat,
-    linear-gradient(var(--folio-ice), var(--folio-ice)) 0 7px / 100% 5px no-repeat,
-    var(--folio-paper-2);
-}
-html body.home-zine .ig-feed-bridge {
-  background:
-    linear-gradient(var(--folio-ink), var(--folio-ink)) 0 0 / 100% 7px no-repeat,
-    linear-gradient(var(--folio-ice), var(--folio-ice)) 0 7px / 100% 5px no-repeat,
-    var(--folio-navy);
-}
-html body.home-zine .club-join-bridge {
-  background:
-    linear-gradient(var(--folio-ink), var(--folio-ink)) 0 0 / 100% 7px no-repeat,
-    linear-gradient(var(--folio-foil), var(--folio-foil)) 0 7px / 100% 5px no-repeat,
-    var(--folio-navy);
-}
-@media (min-width: 800px) {
-  html body.home-zine .wall-bridge,
-  html body.home-zine .news-bridge,
-  html body.home-zine .mixtapes-bridge,
-  html body.home-zine .ig-feed-bridge,
-  html body.home-zine .club-join-bridge {
-    height: 72px;
-  }
-}
-@media (max-width: 700px) {
-  html body.home-zine .wall-bridge,
-  html body.home-zine .news-bridge,
-  html body.home-zine .mixtapes-bridge,
-  html body.home-zine .ig-feed-bridge,
-  html body.home-zine .club-join-bridge {
-    height: 44px;
-  }
+  display: none;
 }
 
 html body.home-zine .wall {
