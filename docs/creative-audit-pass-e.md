@@ -2,6 +2,7 @@
 
 **Role:** Senior Creative Director, Brand Designer, UX/UI Designer (music / editorial / culture)  
 **Scope:** Repository `main` at `c8c554a` and the live dock as captured 18 September 2026. **No product UI was redesigned for this write-up.** Implementation that follows is scoped to the Continuity Deck only.  
+**Followed by:** [Pass F](creative-audit-pass-f.md) (full site, 81 / 100).  
 **Previous:** [Pass A](creative-audit.md) 67 · [Pass B](creative-audit-pass-b.md) 75 · [Pass C](creative-audit-pass-c.md) deploy RCA · [Pass D](creative-audit-pass-d.md) 80  
 **Constraint:** Preserve distinctive work. Smallest high-impact set. Reinterpret 1999–2005 digital culture; do not recreate it. No green.
 
