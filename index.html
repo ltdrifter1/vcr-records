@@ -411,10 +411,6 @@
             <h2 class="club-join-title" id="join-title">Get on the list</h2>
             <p class="club-join-dek" id="join-dek">Pick a level, leave an email. We write when a record comes out. Club and Premium unlock member price in the library — nothing ships until you order.</p>
           </header>
-
-          <div class="join-member-home" id="joinMemberHome" hidden>
-            <button type="button" class="btn club-join-btn" id="joinMemberManage">Upgrade</button>
-          </div>
         </div>
 
         <div class="join-desk">
@@ -676,13 +672,6 @@
     syncJoin();
 
     var joinSection = document.getElementById('join');
-    var joinTitle = document.getElementById('join-title');
-    var joinMemberHome = document.getElementById('joinMemberHome');
-    var joinMemberManage = document.getElementById('joinMemberManage');
-    var joinLevels = document.getElementById('joinLevels');
-    var joinPanel = document.getElementById('joinPanel');
-    var joinDek = document.getElementById('join-dek');
-    var joinDekDefault = joinDek ? joinDek.textContent : '';
     var managing = false;
 
     function fillFormFromProfile(profile) {
@@ -691,74 +680,24 @@
       if (joinName && !joinName.value && profile.displayName) joinName.value = profile.displayName;
     }
 
-    function hideJoinDesk() {
-      if (joinLevels) joinLevels.hidden = true;
-      if (collectors) collectors.hidden = true;
-      if (joinPanel) joinPanel.hidden = true;
-    }
-
+    // Signed-up members (free, club or premium) don't need the sign-up desk.
     function showMemberHome(profile) {
       if (!joinSection || !profile) return;
       managing = false;
       fillFormFromProfile(profile);
-      var paid = profile.level === 'club' || profile.level === 'premium';
-      joinSection.classList.add('is-member-home');
-      hideJoinDesk();
-      if (paid) {
-        joinSection.hidden = true;
-        if (joinMemberHome) joinMemberHome.hidden = true;
-        return;
-      }
-      joinSection.hidden = false;
-      if (joinMemberHome) joinMemberHome.hidden = false;
+      joinSection.hidden = true;
     }
 
-    function showJoinIntake(profile) {
+    function showJoinIntake() {
       managing = true;
-      if (joinSection) {
-        joinSection.hidden = false;
-        joinSection.classList.remove('is-member-home');
-      }
-      if (joinMemberHome) joinMemberHome.hidden = true;
-      if (joinLevels) joinLevels.hidden = false;
-      if (collectors) collectors.hidden = false;
-      if (joinPanel) joinPanel.hidden = false;
-      if (joinTitle) {
-        joinTitle.textContent = !profile
-          ? 'Get on the list'
-          : (profile.level === 'free' ? 'Upgrade' : 'Change your plan');
-      }
-      if (joinDek) {
-        joinDek.textContent = profile && profile.level === 'free'
-          ? 'Club is 30% off all music. Premium is 50% off, plus credit toward cassettes.'
-          : joinDekDefault;
-      }
-      levelBtns.forEach(function (b) {
-        var level = b.getAttribute('data-level');
-        b.hidden = !!(profile && profile.level === 'free' && level === 'free');
-      });
-      if (profile) {
-        fillFormFromProfile(profile);
-        if (profile.level === 'premium') state.level = 'premium';
-        else state.level = 'club';
-        levelBtns.forEach(function (b) {
-          b.setAttribute('aria-checked', b.getAttribute('data-level') === state.level ? 'true' : 'false');
-        });
-      }
+      if (joinSection) joinSection.hidden = false;
       syncJoin();
     }
 
     function syncMemberView() {
       var profile = window.ClubMember && ClubMember.readProfile();
       if (profile && !managing) showMemberHome(profile);
-      else if (!profile) showJoinIntake(null);
-    }
-
-    if (joinMemberManage) {
-      joinMemberManage.addEventListener('click', function () {
-        var profile = window.ClubMember && ClubMember.readProfile();
-        showJoinIntake(profile);
-      });
+      else if (!profile) showJoinIntake();
     }
 
     window.addEventListener('club:member', function () {
