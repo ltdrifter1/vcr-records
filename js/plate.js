@@ -140,6 +140,7 @@
       if (queued) return;
       if (featured.playable && onAir.id && onAir.id !== id && !fallingThrough) {
         fallingThrough = true;
+        if (statusEl) statusEl.textContent = "Stream unavailable. Playing " + onAir.title + " instead.";
         return VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
       }
       setPlayUi(false);

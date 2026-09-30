@@ -42,7 +42,10 @@
     var href = rel.page || "/library";
     var dur = fmtDur(releaseDuration(rel));
     var cat = rel.catalogue || "";
-    var spec = [cat, rel.kind, dur].filter(Boolean).join("  ·  ");
+    var trk = rel.tracksCount > 1 ? rel.tracksCount + " TRK" : "";
+    var spec = [cat, rel.kind, trk, dur].filter(Boolean).join("  ·  ");
+    var fm = rel.formats || {};
+    var glyphs = [fm.digital ? "DL" : "", fm.cassette ? "CS" : "", fm.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";
     var play = cued
@@ -65,7 +68,7 @@
           play +
         "</div>" +
         '<div class="sleeve-card-meta">' +
-          (spec ? '<p class="sleeve-card-spec">' + esc(spec) + "</p>" : "") +
+          (spec ? '<p class="sleeve-card-spec">' + esc(spec) + (glyphs ? ' <span class="sleeve-card-fmt">' + esc(glyphs) + "</span>" : "") + "</p>" : "") +
           '<h3 class="sleeve-card-title"><a href="' + esc(href) + '">' + esc(rel.title) + "</a></h3>" +
           '<p class="sleeve-card-artist">' + esc(rel.artist || "") + "</p>" +
         "</div>" +
@@ -98,6 +101,47 @@
     syncAir(e.detail || {});
   });
 
+  /* LCD status strip: replaces the static title marquee with catalogue metadata. */
+  function statusStrip(all, sorted) {
+    var copies = document.querySelectorAll(".hero-ticker-copy");
+    if (!copies.length) return;
+    var artists = {};
+    all.forEach(function (r) { if (r.artist) artists[r.artist] = 1; });
+    var last = sorted[0];
+    var bits = [
+      ["LIB " + all.length + " RELEASES"],
+      [Object.keys(artists).length + " ARTISTS"],
+      last ? ["LATEST " + (last.catalogue || ""), last.page, String(last.title).toUpperCase()] : null,
+      ["FORMATS DL / CS"],
+      ["PACIFIC NORTHWEST"],
+      ["RECORD CLUB", "#join"]
+    ].filter(Boolean);
+    var html = bits.map(function (b) {
+      var t = b.slice(2).join(" ");
+      var label = esc(b[0]) + (t ? " " + esc(t) : "");
+      return (b[1] ? '<a href="' + esc(b[1]) + '">' + label + "</a>" : "<span>" + label + "</span>") +
+        '<span class="hero-ticker-sep" aria-hidden="true">/</span>';
+    }).join("");
+    copies.forEach(function (c, i) {
+      c.innerHTML = html;
+      if (i) c.querySelectorAll("a").forEach(function (a) { a.tabIndex = -1; });
+    });
+  }
+
+  /* Roster strip: name plates, no photos. */
+  function artistStrip(all) {
+    var mount = document.getElementById("artistStrip");
+    if (!mount) return;
+    var map = {};
+    all.forEach(function (r) { if (r.artist) map[r.artist] = (map[r.artist] || 0) + 1; });
+    var slug = function (n) { return n.toLowerCase().replace(/\./g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); };
+    mount.innerHTML = Object.keys(map).sort().map(function (n, i) {
+      return '<a class="artist-plate" href="/artists/' + esc(slug(n)) + '"><span class="artist-plate-n">' +
+        String(i + 1).padStart(2, "0") + '</span><span class="artist-plate-name">' + esc(n) +
+        '</span><span class="artist-plate-c">' + map[n] + (map[n] === 1 ? " REL" : " RELS") + "</span></a>";
+    }).join("");
+  }
+
   fetch("/data/catalog.json")
     .then(function (r) {
       if (!r.ok) throw new Error("catalog");
@@ -118,6 +162,8 @@
       grid.innerHTML = allReleases.slice(0, WALL).map(cardHtml).join("");
       grid.removeAttribute("aria-busy");
       if (window.VCRPlayer && VCRPlayer.getState) syncAir(VCRPlayer.getState());
+      statusStrip(data.releases || [], allReleases);
+      artistStrip(data.releases || []);
     })
     .catch(function () {
       grid.removeAttribute("aria-busy");

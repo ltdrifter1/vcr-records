@@ -112,6 +112,7 @@
   <link rel="stylesheet" href="css/home-folio.css?v=st33"/>
   <link rel="stylesheet" href="css/mixtapes.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
+  <link rel="stylesheet" href="css/identity-pass.css?v=g1"/>
   <style id="club-copy-home-lock">
     /* Steel lock: grey field, no photo roster on home. Artists stays in nav. */
     html, html body, html body.home-zine {
@@ -123,7 +124,6 @@
       color: #1A1A1A !important;
     }
     html body.home-zine .home-artists,
-    html body.home-zine #artists,
     html body.home-zine .home-roster {
       display: none !important;
     }
@@ -300,6 +300,14 @@
     </div>
   </section>
 
+  <!-- Roster -->
+  <section class="artist-strip-wrap" aria-label="Artists">
+    <div class="band">
+      <header class="section-head"><div><p class="eyebrow">roster</p><h2>Artists</h2></div><a class="head-link" href="/artists">All artists</a></header>
+      <div class="artist-strip" id="artistStrip"></div>
+    </div>
+  </section>
+
   <!-- Mixtapes — live from SoundCloud @ltdrifta -->
   <section class="mixtapes" id="mixtapes" aria-labelledby="mixtapes-title">
     <div class="mixtapes-band">
@@ -368,7 +376,7 @@
         <div class="zine-mast">
           <div class="zine-mast-rail">
             <p class="zine-kicker">cover story</p>
-            <p class="zine-spec"><span>athens</span><span>house</span><span>signed 26</span></p>
+            <p class="zine-spec"><span>athens</span><span>house</span><span>signed 26</span><span>re: CC004</span></p>
           </div>
           <h3 class="visually-hidden"><a href="/news/riscape-on-club-copy">Riscape: Heads Down</a></h3>
           <p class="zine-pull"><a href="/news/riscape-on-club-copy">The Athens producer making peak-time house that still has a tune — packed rooms, late nights.</a></p>
@@ -400,6 +408,16 @@
     </div>
   </section>
 
+  <!-- The floor: contact sheet from the night -->
+  <section class="floor" id="floor" aria-labelledby="floor-title">
+    <div class="band">
+      <header class="section-head">
+        <div><p class="eyebrow">roll 01</p><h2 id="floor-title">The Floor</h2></div>
+        <div class="ig-feed-links"><a href="https://www.instagram.com/clubcopyrecords/" rel="noopener noreferrer" target="_blank">@clubcopyrecords</a><a href="https://www.instagram.com/ltdrifta/" rel="noopener noreferrer" target="_blank">@ltdrifta</a></div>
+      </header>
+      <div class="ig-grid" data-ig-grid aria-live="polite"></div>
+    </div>
+  </section>
   <!-- Record Club — membership desk -->
   <section class="zine-club club-join home-join club-join--luxe" id="join" aria-labelledby="join-title">
     <div class="club-luxe">
@@ -518,6 +536,7 @@
 <script src="js/plate.js?v=st33"></script>
 <script src="js/home-wall.js?v=st33"></script>
 <script src="js/tapes.js?v=st33"></script>
+<script src="js/ig-feed.js"></script>
 <script>
 (function () {
   var nav = document.getElementById('nav');

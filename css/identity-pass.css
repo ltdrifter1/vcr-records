@@ -1,0 +1,109 @@
+/* Club Copy — identity pass G. Loads after club-copy-os.css.
+   Adds: format glyphs, LCD status strip, roster plates, the floor (contact sheet),
+   pressed steel buttons, and stronger spec-text contrast. */
+
+/* Spec contrast + format glyphs */
+body.home-zine .sleeve-card-spec { color: #4a4a47; }
+.sleeve-card-fmt {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 5px 0;
+  border: 1px solid currentColor;
+  font-size: 9px;
+  letter-spacing: .1em;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.listen-plate-spec, .listen-plate-status { color: #3a3a38; }
+
+/* LCD status strip: mono caps, on the existing ticker */
+body.home-zine .plate-hero .hero-ticker-copy a,
+body.home-zine .plate-hero .hero-ticker-copy span {
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* Roster plates */
+.artist-strip-wrap { padding: 8px 0 56px; }
+.artist-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 20px;
+}
+.artist-plate {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 14px 12px;
+  color: #1a1a1a;
+  text-decoration: none;
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f4f4f2, #dededa);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(0, 0, 0, .08);
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+.artist-plate-n, .artist-plate-c { font-size: 10px; letter-spacing: .1em; color: #4a4a47; }
+.artist-plate-name { font-family: "Oswald", sans-serif; font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
+.artist-plate:hover { background: #1a1a1a; color: #f4f4f2; }
+.artist-plate:hover .artist-plate-n, .artist-plate:hover .artist-plate-c { color: #b8b8b4; }
+
+/* The floor: graphite contact sheet */
+html body.home-zine .floor {
+  background: #1f1f1e;
+  color: #e8e8e6;
+  padding: 0 0 64px;
+}
+html body.home-zine .floor .band { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
+html body.home-zine .floor .section-head { border-bottom: 1px solid rgba(232, 232, 230, .22); margin-bottom: 22px; padding-top: 48px; }
+html body.home-zine .floor h2 { color: #e8e8e6; font-family: "Oswald", sans-serif; font-weight: 500; font-size: clamp(32px, 4.8vw, 52px); margin: 0; }
+html body.home-zine .floor .eyebrow { color: #b8b8b4; font-family: "IBM Plex Mono", monospace; }
+html body.home-zine .floor .ig-feed-links a { color: #1a1a1a; background: #b8b8b4; }
+html body.home-zine .floor .ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+@media (min-width: 900px) { html body.home-zine .floor .ig-grid { grid-template-columns: repeat(6, 1fr); } }
+html body.home-zine .floor .ig-card { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: #111; }
+html body.home-zine .floor .ig-art, html body.home-zine .floor .ig-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+html body.home-zine .floor .ig-art img { filter: grayscale(.25) contrast(1.05); transition: filter .3s; }
+html body.home-zine .floor .ig-card:hover .ig-art img { filter: none; }
+html body.home-zine .floor .ig-meta {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 18px 6px 5px;
+  background: linear-gradient(180deg, transparent, rgba(17, 17, 17, .85));
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px; letter-spacing: .06em; color: #f4f4f2; text-transform: uppercase;
+}
+html body.home-zine .floor .ig-meta b { font-weight: 600; }
+html body.home-zine .floor .ig-empty { color: #b8b8b4; grid-column: 1 / -1; }
+html body.home-zine .floor .ig-empty a { color: #e8e8e6; }
+
+/* Pressed steel */
+.btn.btn-steel:active, .btn.btn-steel.is-pressed {
+  background: linear-gradient(180deg, #c4c4c0 0%, #d8d8d4 100%);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, .28);
+  transform: translateY(1px);
+}
+.sleeve-card-play:active { transform: translateY(1px) scale(.96); }
+
+/* Track-row contrast on release pages */
+html body.archive-release .track-no, html body.archive-release .track-dur { color: #3a3a38; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn.btn-steel:active, .sleeve-card-play:active { transform: none; }
+}
+
+/* Mobile: sleeve index is a snap rail, not a 1,500px grid */
+@media (max-width: 699px) {
+  body.home-zine .sleeve-index-grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 16px 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  body.home-zine .sleeve-index-grid .sleeve-card { flex: 0 0 62%; scroll-snap-align: start; }
+}

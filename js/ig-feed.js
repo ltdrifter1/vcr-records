@@ -12,7 +12,14 @@
       .replace(/"/g, "&quot;");
   }
 
-  function card(post) {
+  function stamp(post) {
+    var d = new Date((Number(post.takenAt) || 0) * 1000);
+    if (!post.takenAt || isNaN(d)) return "";
+    var p2 = function (n) { return String(n).padStart(2, "0"); };
+    return p2(d.getMonth() + 1) + "." + p2(d.getDate()) + "." + String(d.getFullYear()).slice(2);
+  }
+
+  function card(post, i) {
     var handle = esc(post.handle || "");
     var href = esc(post.href || "https://www.instagram.com/" + handle + "/");
     var src = String(post.image || post.thumb || "");
@@ -29,7 +36,7 @@
           video +
         "</span>" +
         '<span class="ig-meta">' +
-          "<b>@" + handle + "</b>" +
+          "<b>IMG_" + String(i + 1).padStart(4, "0") + "</b> " + esc(stamp(post)) + " @" + handle +
         "</span>" +
       "</a>"
     );
@@ -41,7 +48,7 @@
         '<p class="ig-empty">The floor is quiet. See <a href="https://www.instagram.com/ltdrifta/" rel="noopener noreferrer" target="_blank">@ltdrifta</a> and <a href="https://www.instagram.com/clubcopyrecords/" rel="noopener noreferrer" target="_blank">@clubcopyrecords</a>.</p>';
       return;
     }
-    root.innerHTML = posts.map(card).join("");
+    root.innerHTML = posts.slice(0, 12).map(card).join("");
     if (window.IntersectionObserver) {
       var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
