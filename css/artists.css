@@ -798,3 +798,11 @@ html body.zine-surface:has(main.roster-page) .roster-actions .btn:first-child {
 }
 .roster-play:focus-visible,
 .roster-actions .btn:focus-visible { outline: 2px solid #1A1A1A; outline-offset: 2px; }
+
+/* Mobile: keep the photo frame inside the column (was overflowing ~95px) */
+@media (max-width: 799px) {
+  .roster-photo { width: 100%; min-width: 0; }
+  .roster-photo { aspect-ratio: 1; min-height: 0 !important; }
+  .roster-photo img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; }
+  .roster-actions .btn { flex: 1 1 auto; justify-content: center; text-align: center; }
+}
