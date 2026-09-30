@@ -700,7 +700,8 @@
     var no = pad2(track && track.trackNum ? track.trackNum : 1);
     var of = track && track.tracksCount ? pad2(track.tracksCount) : "";
     var idx = of ? no + " / " + of : no;
-    if (track && track.catalogue) return idx + "  ·  " + track.catalogue;
+    /* Catalogue number leads so a narrow dock truncates the track count, not the CC number. */
+    if (track && track.catalogue) return track.catalogue + "  ·  " + idx;
     return idx;
   }
 

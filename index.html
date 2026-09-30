@@ -112,7 +112,8 @@
   <link rel="stylesheet" href="css/home-folio.css?v=st33"/>
   <link rel="stylesheet" href="css/mixtapes.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
-  <link rel="stylesheet" href="css/identity-pass.css?v=g1"/>
+  <link rel="stylesheet" href="css/steel.css?v=st34"/>
+  <link rel="stylesheet" href="css/identity-pass.css?v=st34"/>
   <style id="club-copy-home-lock">
     /* Steel lock: grey field, no photo roster on home. Artists stays in nav. */
     html, html body, html body.home-zine {
@@ -211,8 +212,10 @@
           </button>
         </div>
         <div class="listen-plate-copy">
-          <p class="listen-plate-spec">CC004 · EP · 15:02</p>
-          <p class="listen-plate-status" data-plate-status>Digital $9 · Cassette sold out.</p>
+          <div class="listen-plate-lcd">
+            <p class="listen-plate-spec">CC004 · EP · 15:02</p>
+            <p class="listen-plate-status" data-plate-status>Digital $9 · cassette backorder</p>
+          </div>
           <div class="listen-plate-actions">
             <button type="button" class="btn btn-steel btn-steel--play" id="platePlay">Play</button>
             <button type="button" class="btn btn-steel" id="plateBuyDigital">Digital · $9</button>
@@ -378,7 +381,7 @@
             <p class="zine-kicker">cover story</p>
             <p class="zine-spec"><span>athens</span><span>house</span><span>signed 26</span><span>re: CC004</span></p>
           </div>
-          <h3 class="visually-hidden"><a href="/news/riscape-on-club-copy">Riscape: Heads Down</a></h3>
+          <h3 class="zine-cover-title"><a href="/news/riscape-on-club-copy">Riscape: Heads Down</a></h3>
           <p class="zine-pull"><a href="/news/riscape-on-club-copy">The Athens producer making peak-time house that still has a tune — packed rooms, late nights.</a></p>
           <p class="zine-mast-credit"><span>posted by cj archer</span><time datetime="2026-08-04">04 aug 26</time></p>
         </div>
@@ -437,7 +440,7 @@
               <span class="join-level-dot" aria-hidden="true"></span>
               <span class="join-level-name">Free</span>
               <span class="join-level-price">$0</span>
-              <span class="join-level-blurb"></span>
+              <span class="join-level-blurb">Release alerts and the catalogue.</span>
             </button>
             <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
               <span class="join-plan-rec">Member price</span>
@@ -457,11 +460,11 @@
           <div class="join-stage">
             <div class="join-panel" id="joinPanel">
               <div class="join-panel-top">
-                <span class="join-wheel" aria-hidden="true"></span>
-                <div>
-                  <p class="join-panel-label">your card</p>
-               
-                </div>
+                <p class="join-panel-label">Club Copy · member card</p>
+              </div>
+              <div class="join-card-lcd" aria-hidden="true">
+                <span class="join-card-no" id="joinCardNo">No. ————</span>
+                <span class="join-card-tier" id="joinCardTier">Free</span>
               </div>
               <div class="join-fields">
                 <div class="join-field">
@@ -639,7 +642,19 @@
         "That's <strong>" + money(credit) + "</strong> toward cassettes.";
     }
 
+    var cardNo = document.getElementById('joinCardNo');
+    var cardTier = document.getElementById('joinCardTier');
+    function syncCard() {
+      if (cardTier) cardTier.textContent = state.level;
+      if (!cardNo) return;
+      var em = joinEmail && joinEmail.value.trim();
+      var ok = em && window.ClubMember && ClubMember.isValidEmail(em);
+      cardNo.textContent = 'No. ' + (ok ? ClubMember.memberNumberFromEmail(em) : '————');
+    }
+    if (joinEmail) joinEmail.addEventListener('input', syncCard);
+
     function syncJoin() {
+      syncCard();
       if (premiumBox) premiumBox.hidden = state.level !== 'premium';
       if (collectors && state.level === 'premium') collectors.open = true;
 

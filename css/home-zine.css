@@ -8,7 +8,7 @@ body.home-zine {
   --zine-paper-2: #D2D2D0;
   --zine-ink: #1A1A1A;
   --zine-muted: #5C5C5A;
-  --zine-dim: #7A7A78;
+  --zine-dim: #555553;
   --zine-rule: rgba(40, 40, 40, .16);
   --zine-stamp: #B8B8B4;
   --zine-magenta: var(--zine-muted);
@@ -1048,13 +1048,55 @@ body.home-zine .zine--home .zine-logo-shift {
   color: #111;
 }
 body.home-zine .zine--home .zine-lead {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
   padding-bottom: 8px;
   margin-bottom: 0;
   border-bottom: 0;
 }
+/* Cover story keeps its photograph and names the artist. */
 body.home-zine .zine--home .zine-polaroid {
-  display: none;
+  display: block;
+  position: relative;
+  max-width: none;
+}
+body.home-zine .zine--home .zine-polaroid .zine-tape { display: none; }
+body.home-zine .zine--home .zine-polaroid img {
+  aspect-ratio: 16 / 9;
+  object-position: 40% 32%;
+}
+body.home-zine .zine--home .zine-polaroid figcaption {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+body.home-zine .zine--home .zine-cover-title {
+  margin: 0 0 8px;
+  font-family: var(--zine-display);
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1;
+  text-transform: none;
+}
+body.home-zine .zine--home .zine-cover-title a {
+  color: var(--zine-ink);
+  text-decoration: none;
+}
+@media (hover: hover) {
+  body.home-zine .zine--home .zine-cover-title a:hover { opacity: .62; }
+}
+@media (min-width: 760px) {
+  body.home-zine .zine--home .zine-lead {
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    gap: 28px;
+  }
+  body.home-zine .zine--home .zine-polaroid img { aspect-ratio: 4 / 5; }
+  body.home-zine .zine--home .zine-lead > .zine-mast {
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
 }
 body.home-zine .zine--home .zine-copy { display: none; }
 body.home-zine .zine--home .zine-lead .zine-headline { display: none; }
