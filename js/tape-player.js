@@ -78,7 +78,6 @@
       var bits = [];
       if (rel.catalogue) bits.push(rel.catalogue);
       if (rel.kind) bits.push(rel.kind);
-      if (rel.tracksCount > 1) bits.push(rel.tracksCount + " TRK");
       var total = (rel.tracks || []).reduce(function (n, t) { return n + (Number(t.duration) || 0); }, 0);
       if (total) bits.push(fmtDur(total));
       return bits.join("  \u00b7  ");

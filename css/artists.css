@@ -806,3 +806,14 @@ html body.zine-surface:has(main.roster-page) .roster-actions .btn:first-child {
   .roster-photo img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; }
   .roster-actions .btn { flex: 1 1 auto; justify-content: center; text-align: center; }
 }
+
+/* Page title: same Oswald 500 mixed case as Library, Mixes and About. */
+html body .roster-page .section-head h1 {
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  text-transform: none;
+}
+/* The chrome script mark is built for dark grounds; on steel it smudges. The nav already carries the logo. */
+.roster-page .brand-lockup { display: none; }
