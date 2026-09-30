@@ -755,3 +755,46 @@ html body.zine-surface:has(main.roster-page) .roster-actions .btn:first-child {
     border-color: #0e0e0e;
   }
 }
+
+/* Roster: metadata strip + play control ----------------------------------- */
+.roster-meta {
+  display: grid;
+  gap: 0;
+  margin: 0 0 24px;
+  max-width: 28em;
+  border-top: 1px solid rgba(26,26,26,.22);
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.roster-meta > div {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(26,26,26,.12);
+}
+.roster-meta dt { color: #5C5C5A; margin: 0; }
+.roster-meta dd { color: #1A1A1A; margin: 0; overflow-wrap: anywhere; }
+.roster-actions .roster-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.roster-play-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 8px;
+  border-color: transparent transparent transparent currentColor;
+}
+.roster-play[aria-pressed="true"] .roster-play-icon {
+  width: 8px;
+  height: 10px;
+  border: 0;
+  background: linear-gradient(90deg, currentColor 0 3px, transparent 3px 5px, currentColor 5px 8px);
+}
+.roster-play:focus-visible,
+.roster-actions .btn:focus-visible { outline: 2px solid #1A1A1A; outline-offset: 2px; }
