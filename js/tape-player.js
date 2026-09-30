@@ -65,18 +65,47 @@
       return same.concat(other).slice(0, 5);
     }
 
+    function fmtDur(sec) {
+      sec = Math.max(0, Math.round(Number(sec) || 0));
+      var h = Math.floor(sec / 3600);
+      var m = Math.floor((sec % 3600) / 60);
+      var s = sec % 60;
+      var ss = (s < 10 ? "0" : "") + s;
+      return h ? h + ":" + (m < 10 ? "0" : "") + m + ":" + ss : m + ":" + ss;
+    }
+
+    function specLine(rel) {
+      var bits = [];
+      if (rel.catalogue) bits.push(rel.catalogue);
+      if (rel.kind) bits.push(rel.kind);
+      var total = (rel.tracks || []).reduce(function (n, t) { return n + (Number(t.duration) || 0); }, 0);
+      if (total) bits.push(fmtDur(total));
+      return bits.join("  \u00b7  ");
+    }
+
+    function fmtGlyphs(rel) {
+      var f = rel.formats || {};
+      var out = [];
+      if (f.digital) out.push("DL");
+      if (f.cassette) out.push("CS");
+      if (f.vinyl) out.push("LP");
+      return out.join(" / ");
+    }
+
     function card(rel) {
       var img = rel.coverThumb || rel.cover || "";
       var href = rel.page || ("/" + rel.id);
-      var alt = esc((rel.artist ? rel.artist + " — " : "") + (rel.title || ""));
+      var alt = esc((rel.artist ? rel.artist + " \u2014 " : "") + (rel.title || ""));
+      var glyphs = fmtGlyphs(rel);
       return (
         '<a class="ra-more-item" href="' + esc(href) + '">' +
           '<span class="ra-more-case">' +
             '<img src="' + esc(img) + '" alt="' + alt + '" width="480" height="480" loading="lazy"/>' +
           '</span>' +
-          '<span class="ra-more-cc">' + esc(rel.genre || "") + '</span>' +
-          '<span class="ra-more-artist">' + esc(rel.artist || "") + '</span>' +
+          '<span class="ra-more-cc">' + esc(specLine(rel)) +
+            (glyphs ? ' <span class="ra-more-fmt">' + esc(glyphs) + '</span>' : '') + '</span>' +
           '<span class="ra-more-title">' + esc(rel.title || "") + '</span>' +
+          '<span class="ra-more-artist">' + esc(rel.artist || "") + '</span>' +
         '</a>'
       );
     }

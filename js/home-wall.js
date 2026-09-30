@@ -42,8 +42,7 @@
     var href = rel.page || "/library";
     var dur = fmtDur(releaseDuration(rel));
     var cat = rel.catalogue || "";
-    var trk = rel.tracksCount > 1 ? rel.tracksCount + " TRK" : "";
-    var spec = [cat, rel.kind, trk, dur].filter(Boolean).join("  ·  ");
+    var spec = [cat, rel.kind, dur].filter(Boolean).join("  ·  ");
     var fm = rel.formats || {};
     var glyphs = [fm.digital ? "DL" : "", fm.cassette ? "CS" : "", fm.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
     var cued = hasCue(rel);

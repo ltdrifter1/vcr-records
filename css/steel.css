@@ -1,0 +1,251 @@
+/* ==========================================================================
+   Club Copy — shared steel layer
+   One instrument, one set of parts. Loaded by the homepage and every release
+   page, after the page's own sheets. Parts that used to live only in
+   identity-pass.css (home) or as release-archive.css overrides now live here:
+   LCD window, format glyph, pressed steel, nav, tracklist, specs, shelf.
+   ========================================================================== */
+
+/* --- LCD window ---------------------------------------------------------
+   Same recipe as the dock (.vcr-player__lcd in player.css). */
+.listen-plate-lcd,
+html body.archive-release.release-object .ra-hero-facts {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 420px;
+  padding: 9px 12px 10px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #d6d6d2 0%, #b4b4b0 100%);
+  border: 1px solid rgba(40, 40, 40, .28);
+  box-shadow:
+    inset 0 1px 3px rgba(40, 50, 60, .38),
+    inset 0 -1px 0 rgba(255, 255, 255, .22);
+  overflow: hidden;
+}
+.listen-plate-lcd::before,
+html body.archive-release.release-object .ra-hero-facts::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .1;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .75) 0 1px, transparent 1px 3px);
+}
+.listen-plate-lcd > * { position: relative; }
+
+/* --- Format glyph (DL / CS) ------------------------------------------- */
+.sleeve-card-fmt,
+.ra-more-fmt {
+  display: table;
+  margin: 5px 0 0;
+  padding: 1px 5px 0;
+  border: 1px solid currentColor;
+  font-size: 10px;
+  letter-spacing: .1em;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* --- Pressed steel ------------------------------------------------------ */
+.btn.btn-steel:active,
+.btn.btn-steel.is-pressed {
+  background: linear-gradient(180deg, #c4c4c0 0%, #d8d8d4 100%);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, .28);
+  transform: translateY(1px);
+}
+.sleeve-card-play:active { transform: translateY(1px) scale(.96); }
+@media (prefers-reduced-motion: reduce) {
+  .btn.btn-steel:active,
+  .sleeve-card-play:active { transform: none; }
+}
+
+/* Home plate buttons use the same aluminum keys as the release page. */
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel {
+  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%);
+  color: #1a1a1a;
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(40, 40, 40, .12);
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel.btn-steel--play {
+  background: linear-gradient(180deg, #3a3a38 0%, #1a1a1a 48%, #111 100%);
+  color: #f4f4f2;
+  border-color: #0e0e0e;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    inset 0 -1px 0 rgba(0, 0, 0, .45),
+    0 1px 2px rgba(0, 0, 0, .28);
+}
+@media (hover: hover) {
+  html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel:not(.btn-steel--play):hover {
+    background: linear-gradient(180deg, #fff 0%, #e4e4e0 52%, #d0d0cc 100%);
+  }
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel:active {
+  background: linear-gradient(180deg, #c4c4c0 0%, #d8d8d4 100%);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, .28);
+}
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel.btn-steel--play:active {
+  background: #111;
+}
+
+/* --- Release pages: same nav as the rest of the site ------------------- */
+html body.archive-release .nav-links a {
+  padding: 6px 9px;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-radius: 0;
+}
+html body.archive-release.release-object .nav-links a:hover,
+html body.archive-release.release-object .nav-links a[aria-current="page"] {
+  background: #B8B8B4;
+}
+
+/* --- Release hero: spec line, not chips --------------------------------- */
+html body.archive-release.release-object .ra-hero-meta {
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .04em;
+}
+html body.archive-release.release-object .ra-hero-meta span + span::before {
+  content: "·";
+  margin-right: .5em;
+}
+html body.archive-release.release-object .ra-hero-meta .artist {
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .01em;
+}
+html body.archive-release.release-object .ra-hero-meta .artist a { text-decoration: none; }
+html body.archive-release.release-object .ra-hero-facts {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  -webkit-text-fill-color: #1a1a1a;
+}
+html body.archive-release.release-object .ra-hero-facts > * { position: relative; }
+
+/* --- Tracklist: steel index, not a glass card --------------------------- */
+html body.archive-release.release-object .ra-tracks {
+  background: #F4F4F2;
+  color: #1a1a1a;
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 4px;
+  padding: 0;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(0, 0, 0, .08);
+  overflow: hidden;
+}
+html body.archive-release.release-object .ra-tracks .track-row {
+  padding: 11px 14px;
+  border-top: 1px solid rgba(40, 40, 40, .14);
+}
+html body.archive-release.release-object .ra-tracks .track-row:first-child { border-top: 0; }
+html body.archive-release.release-object .ra-tracks .track-row:hover { background: #E8E8E6; }
+html body.archive-release.release-object .ra-tracks .track-no,
+html body.archive-release.release-object .ra-tracks .track-dur {
+  font-size: 11px;
+  color: #3a3a38;
+}
+html body.archive-release.release-object .ra-tracks .track-title { color: #1a1a1a; }
+html body.archive-release.release-object .ra-tracks .track-row.is-active {
+  background: #1a1a1a;
+  border-top-color: #1a1a1a;
+}
+html body.archive-release.release-object .ra-tracks .track-row.is-active .track-no,
+html body.archive-release.release-object .ra-tracks .track-row.is-active .track-title,
+html body.archive-release.release-object .ra-tracks .track-row.is-active .track-dur { color: #f4f4f2; }
+html body.archive-release.release-object .ra-tracks-note {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: #3a3a38;
+  border-top: 1px solid rgba(40, 40, 40, .14);
+  padding: 9px 14px;
+  margin: 0;
+}
+
+/* --- About specs: steel table ------------------------------------------- */
+html body.archive-release.release-object .ra-specs {
+  background: #F4F4F2;
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(0, 0, 0, .08);
+}
+html body.archive-release.release-object .ra-specs > div { border-bottom-color: rgba(40, 40, 40, .14); }
+html body.archive-release.release-object .ra-specs dt {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #3a3a38;
+}
+html body.archive-release.release-object .ra-specs dd { color: #1a1a1a; }
+html body.archive-release.release-object .ra-specs a {
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* --- Also spinning: the same sleeve card as the home crate -------------- */
+html body.archive-release.release-object .ra-more-case {
+  border-radius: 0;
+  box-shadow: none;
+}
+html body.archive-release.release-object .ra-more-item { gap: 6px; }
+html body.archive-release.release-object .ra-more-cc {
+  order: 1;
+  margin-top: 4px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: #3a3a38;
+  -webkit-text-fill-color: #3a3a38;
+}
+html body.archive-release.release-object .ra-more-title {
+  order: 2;
+  font-family: "Oswald", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  line-height: 1.1;
+}
+html body.archive-release.release-object .ra-more-artist {
+  order: 3;
+  margin-top: 0;
+  font-size: 13px;
+  color: #4a4a47;
+  -webkit-text-fill-color: #4a4a47;
+}
+html body.archive-release.release-object .ra-more-case { order: 0; }
+
+/* --- Type floor ---------------------------------------------------------
+   Nothing under 10px. Catalogue specs (the identity carrier) are 11px.
+   Small text clears 4.5:1 on its own surface. */
+body.home-zine .sleeve-card-spec,
+body.home-zine .section-head .eyebrow { font-size: 11px; }
+html body.home-zine .floor .ig-meta,
+html body .mix-art-play { font-size: 10px; }
+body.home-zine .zine--home .zine-post-meta,
+body.home-zine .zine--home .zine-foot,
+body.home-zine .zine--home .zine-foot a,
+body.home-zine .zine--home .zine-mast-credit time,
+body.home-zine .zine--home .zine-post-kicker,
+body.home-zine .zine--home .zine-post-dek,
+body.home-zine .zine--home .zine-desk-kicker {
+  color: #4a4a47;
+}
+body.home-zine .zine--home .zine-post-meta,
+body.home-zine .zine--home .zine-foot,
+body.home-zine .zine--home .zine-mast-credit time,
+body.home-zine .zine--home .zine-post-kicker { font-size: 11px; }
+html body.archive-release.release-object .head-note,
+html body.archive-release.release-object .ra-head .head-note { color: #4a4a47; }
