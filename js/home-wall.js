@@ -100,31 +100,25 @@
     syncAir(e.detail || {});
   });
 
-  /* LCD status strip: replaces the static title marquee with catalogue metadata. */
+  /* Release ticker: newest first, catalogue number + title, each linking to its page. */
   function statusStrip(all, sorted) {
     var copies = document.querySelectorAll(".hero-ticker-copy");
     if (!copies.length) return;
-    var artists = {};
-    all.forEach(function (r) { if (r.artist) artists[r.artist] = 1; });
-    var last = sorted[0];
-    var bits = [
-      ["LIB " + all.length + " RELEASES"],
-      [Object.keys(artists).length + " ARTISTS"],
-      last ? ["LATEST " + (last.catalogue || ""), last.page, String(last.title).toUpperCase()] : null,
-      ["FORMATS DL / CS"],
-      ["PACIFIC NORTHWEST"],
-      ["RECORD CLUB", "#join"]
-    ].filter(Boolean);
-    var html = bits.map(function (b) {
-      var t = b.slice(2).join(" ");
-      var label = esc(b[0]) + (t ? " " + esc(t) : "");
-      return (b[1] ? '<a href="' + esc(b[1]) + '">' + label + "</a>" : "<span>" + label + "</span>") +
-        '<span class="hero-ticker-sep" aria-hidden="true">/</span>';
+    var items = sorted.filter(function (r) { return r.page && r.title; });
+    if (!items.length) return;
+    var html = items.map(function (r) {
+      return '<a href="' + esc(r.page) + '">' +
+        (r.catalogue ? '<b class="hero-ticker-cat">' + esc(r.catalogue) + "</b> " : "") +
+        esc(String(r.title).toUpperCase()) +
+        (r.artist ? ' <i class="hero-ticker-artist">' + esc(String(r.artist).toUpperCase()) + "</i>" : "") +
+        "</a>" + '<span class="hero-ticker-sep" aria-hidden="true">/</span>';
     }).join("");
     copies.forEach(function (c, i) {
       c.innerHTML = html;
       if (i) c.querySelectorAll("a").forEach(function (a) { a.tabIndex = -1; });
     });
+    var track = document.querySelector(".hero-ticker-track");
+    if (track) track.style.animationDuration = Math.max(30, items.length * 5) + "s";
   }
 
   /* Roster strip: name plates, no photos. */
