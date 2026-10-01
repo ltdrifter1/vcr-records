@@ -48,6 +48,7 @@
     digitalName: "Bridget In My Room — Digital",
     digitalImage: "bridget-in-my-room-cover.webp",
     cassetteBackorder: false,
+    cassetteOut: false,
   };
   var onAir = {
     id: "gorilla",
@@ -166,7 +167,7 @@
   }
 
   function buyCassette() {
-    if (!window.VCRCart || !featured.sku) return;
+    if (!window.VCRCart || !featured.sku || featured.cassetteOut) return;
     VCRCart.add({
       sku: featured.sku,
       name: featured.name,
@@ -260,6 +261,7 @@
           if (cassette.price != null) featured.price = Number(cassette.price);
           if (cassette.image) featured.image = cassette.image;
           featured.cassetteBackorder = !!cassette.backorder;
+          featured.cassetteOut = cassette.stock != null && Number(cassette.stock) <= 0;
         }
         featured.name = (feat.title || "Release") + " — Cassette";
         if (digital && digital.sku) {
@@ -273,7 +275,10 @@
         }
         if (buyBtn) {
           buyBtn.hidden = !featured.sku;
-          if (featured.sku) buyBtn.textContent = "Cassette · $" + featured.price;
+          if (featured.sku) {
+            buyBtn.textContent = featured.cassetteOut ? "Cassette · Sold out" : "Cassette · $" + featured.price;
+            buyBtn.disabled = !!featured.cassetteOut;
+          }
         }
         if (buyDigitalBtn && featured.digitalSku) {
           buyDigitalBtn.textContent = featured.digitalPrice != null
@@ -305,9 +310,11 @@
         setStatus(
           !featured.sku
             ? digitalBit
-            : featured.cassetteBackorder
-              ? digitalBit + " · cassette backorder"
-              : digitalBit + " · cassette $" + featured.price
+            : featured.cassetteOut
+              ? digitalBit + " · cassette sold out"
+              : featured.cassetteBackorder
+                ? digitalBit + " · cassette backorder"
+                : digitalBit + " · cassette $" + featured.price
         );
       } else {
         setStatus(
