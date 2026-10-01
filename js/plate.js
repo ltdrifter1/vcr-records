@@ -31,7 +31,7 @@
     digitalPrice: 9,
     digitalName: "You Are (Love) — Digital",
     digitalImage: "you-are-love-cover.webp",
-    cassetteBackorder: true,
+    cassetteOut: true,
   };
   var onAir = {
     id: "gorilla",
@@ -150,7 +150,7 @@
   }
 
   function buyCassette() {
-    if (!window.VCRCart || !featured.sku) return;
+    if (!window.VCRCart || !featured.sku || featured.cassetteOut) return;
     VCRCart.add({
       sku: featured.sku,
       name: featured.name,
@@ -242,7 +242,7 @@
           if (cassette.sku) featured.sku = cassette.sku;
           if (cassette.price != null) featured.price = Number(cassette.price);
           if (cassette.image) featured.image = cassette.image;
-          featured.cassetteBackorder = !!cassette.backorder;
+          featured.cassetteOut = cassette.stock != null && Number(cassette.stock) <= 0;
         }
         featured.name = (feat.title || "Release") + " — Cassette";
         if (digital && digital.sku) {
@@ -255,7 +255,8 @@
           buyDigitalBtn.hidden = true;
         }
         if (buyBtn) {
-          buyBtn.textContent = "Cassette · $" + featured.price;
+          buyBtn.textContent = featured.cassetteOut ? "Cassette · Sold out" : "Cassette · $" + featured.price;
+          buyBtn.disabled = !!featured.cassetteOut;
         }
         if (buyDigitalBtn && featured.digitalSku) {
           buyDigitalBtn.textContent = featured.digitalPrice != null
@@ -285,8 +286,8 @@
             ? "Digital $" + featured.digitalPrice
             : "Digital";
         setStatus(
-          featured.cassetteBackorder
-            ? digitalBit + " · cassette backorder"
+          featured.cassetteOut
+            ? digitalBit + " · cassette sold out"
             : digitalBit + " · cassette $" + featured.price
         );
       } else {

@@ -931,7 +931,10 @@
       } else if (format === "cassette") {
         var hasCassette = !!(track && track.cassetteSku);
         btn.hidden = !hasCassette;
-        btn.textContent = track && track.cassetteBackorder
+        var cassOutBtn = !!(track && track.cassetteSku && track.cassetteStock != null && track.cassetteStock <= 0);
+        btn.textContent = cassOutBtn
+          ? "Cassette · Sold out"
+          : track && track.cassetteBackorder
           ? (track.cassettePrice != null ? "Cassette backorder · $" + track.cassettePrice : "Cassette backorder")
           : (track && track.cassettePrice != null ? "Cassette · $" + track.cassettePrice : "Cassette");
         btn.disabled = !!(track && track.cassetteSku && track.cassetteStock != null && track.cassetteStock <= 0);

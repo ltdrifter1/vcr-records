@@ -58,7 +58,7 @@ assert.strictEqual(yal.status, "Available");
 assert.strictEqual(yal.previewTrackId, "yal-01");
 assert.ok(/riscape\.bandcamp\.com/.test(yal.bandcampUrl));
 assert.strictEqual(yal.formats.digital.sku, "dg-you-are-love");
-assert.strictEqual(yal.formats.cassette.backorder, true);
+assert.strictEqual(yal.formats.cassette.stock, 0);
 assert.strictEqual(bc.pickCueTrack(yal).id, "yal-01");
 assert.strictEqual(yal.tracks[3].title, "Day Like This");
 assert.strictEqual(yal.tracks[3].bandcampTrackId, 1221909968);
