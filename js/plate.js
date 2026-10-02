@@ -6,7 +6,7 @@
   var plate = document.querySelector("[data-listen-plate]");
   if (!plate) return;
 
-  var FEATURED_ID = plate.getAttribute("data-release") || "you-are-love";
+  var FEATURED_ID = plate.getAttribute("data-release") || "bridget-in-my-room";
   var playBtn = document.getElementById("platePlay");
   var hitBtn = document.getElementById("platePlayHit");
   var buyBtn = document.getElementById("plateBuy");
@@ -20,18 +20,18 @@
   var featured = {
     id: FEATURED_ID,
     playable: false,
-    sku: "cs-you-are-love",
-    price: 20,
-    name: "You Are (Love) — Cassette",
-    image: "you-are-love-jcard.webp",
-    cover: "you-are-love-cover.webp",
-    title: "You Are (Love)",
-    artist: "Riscape",
-    digitalSku: "dg-you-are-love",
-    digitalPrice: 9,
-    digitalName: "You Are (Love) — Digital",
-    digitalImage: "you-are-love-cover.webp",
-    cassetteBackorder: true,
+    sku: null,
+    price: null,
+    name: "",
+    image: "",
+    cover: "bridget-in-my-room-cover.webp",
+    title: "Bridget In My Room",
+    artist: "Rainier",
+    digitalSku: "dg-bridget-in-my-room",
+    digitalPrice: 8,
+    digitalName: "Bridget In My Room — Digital",
+    digitalImage: "bridget-in-my-room-cover.webp",
+    cassetteBackorder: false,
   };
   var onAir = {
     id: "gorilla",
@@ -238,6 +238,7 @@
         featured.cover = feat.cover || featured.cover;
         var cassette = feat.formats && feat.formats.cassette;
         var digital = feat.formats && feat.formats.digital;
+        featured.sku = null;
         if (cassette) {
           if (cassette.sku) featured.sku = cassette.sku;
           if (cassette.price != null) featured.price = Number(cassette.price);
@@ -255,7 +256,8 @@
           buyDigitalBtn.hidden = true;
         }
         if (buyBtn) {
-          buyBtn.textContent = "Cassette · $" + featured.price;
+          buyBtn.hidden = !featured.sku;
+          if (featured.sku) buyBtn.textContent = "Cassette · $" + featured.price;
         }
         if (buyDigitalBtn && featured.digitalSku) {
           buyDigitalBtn.textContent = featured.digitalPrice != null
@@ -285,9 +287,11 @@
             ? "Digital $" + featured.digitalPrice
             : "Digital";
         setStatus(
-          featured.cassetteBackorder
-            ? digitalBit + " · cassette backorder"
-            : digitalBit + " · cassette $" + featured.price
+          !featured.sku
+            ? digitalBit
+            : featured.cassetteBackorder
+              ? digitalBit + " · cassette backorder"
+              : digitalBit + " · cassette $" + featured.price
         );
       } else {
         setStatus(

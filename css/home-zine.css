@@ -1475,6 +1475,10 @@ body.home-zine .plate-hero .listen-plate-actions .btn-text {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
+/* A release without that format drops its button (hidden loses to .btn display). */
+body.home-zine .plate-hero .listen-plate-actions [hidden] {
+  display: none;
+}
 body.home-zine .plate-hero .listen-plate-actions .btn-steel,
 body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel,
 body.home-zine .plate-hero .listen-plate-actions .btn-ghost {
