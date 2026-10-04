@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css?v=st33"/>
   <link rel="stylesheet" href="css/player.css?v=st33"/>
-  <link rel="stylesheet" href="css/mixtapes.css?v=st33"/>
+  <link rel="stylesheet" href="css/mixtapes.css?v=st34"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
@@ -77,10 +77,27 @@
         <a class="mixtapes-head-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer" target="_blank">@ltdrifta</a>
       </header>
       <p class="tapes-now" data-tapes-now hidden></p>
-      <div class="tapes-grid" data-tapes-grid>
-        <span class="mix-skel" aria-hidden="true"></span>
-        <span class="mix-skel" aria-hidden="true"></span>
-        <span class="mix-skel" aria-hidden="true"></span>
+      <div class="mix-slot mix-slot--day" data-tapes-panel>
+        <header class="mix-slot-head">
+          <h2 class="mix-slot-title">Day</h2>
+          <p class="mix-slot-sub">Chill &middot; variety</p>
+        </header>
+        <div class="tapes-grid" data-tapes-grid data-tapes-slot="day">
+          <span class="mix-skel" aria-hidden="true"></span>
+          <span class="mix-skel" aria-hidden="true"></span>
+          <span class="mix-skel" aria-hidden="true"></span>
+        </div>
+      </div>
+      <div class="mix-slot mix-slot--night" data-tapes-panel>
+        <header class="mix-slot-head">
+          <h2 class="mix-slot-title">Night</h2>
+          <p class="mix-slot-sub">Heavy &middot; dance</p>
+        </header>
+        <div class="tapes-grid" data-tapes-grid data-tapes-slot="night">
+          <span class="mix-skel" aria-hidden="true"></span>
+          <span class="mix-skel" aria-hidden="true"></span>
+          <span class="mix-skel" aria-hidden="true"></span>
+        </div>
       </div>
     </div>
   </section>
@@ -108,6 +125,6 @@
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st33"></script>
-<script src="js/tapes.js?v=st33"></script>
+<script src="js/tapes.js?v=st34"></script>
 </body>
 </html>
