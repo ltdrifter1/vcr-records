@@ -161,6 +161,21 @@
     );
   }
 
+  // Day = chill / variety. Night = heavier / dance.
+  // A tape can pin itself with slot: "day" | "night" in the feed data; otherwise the first
+  // matching rule wins and anything unmatched lands in Day. Edit NIGHT_RULES to re-sort.
+  var NIGHT_RULES = [/loft music/i, /deep in the club/i];
+
+  function slotOf(t) {
+    var pinned = String((t && t.slot) || "").toLowerCase();
+    if (pinned === "day" || pinned === "night") return pinned;
+    var hay = String((t && t.title) || "") + " " + String((t && t.dek) || "");
+    for (var i = 0; i < NIGHT_RULES.length; i++) {
+      if (NIGHT_RULES[i].test(hay)) return "night";
+    }
+    return "day";
+  }
+
   function albumKey(t) {
     var cover = String((t && t.cover) || "").replace(/-t\d+x\d+(\.[a-z0-9]+)$/i, "$1");
     if (cover) return "c:" + cover;
@@ -254,15 +269,23 @@
     grids.forEach(function (grid) {
       var limit = parseInt(grid.getAttribute("data-tapes-limit") || "0", 10);
       var mix = grid.getAttribute("data-tapes-mix");
+      var slot = grid.getAttribute("data-tapes-slot");
+      var panel = slot ? grid.closest("[data-tapes-panel]") : null;
+      var pool = slot
+        ? tapes.filter(function (t) {
+            return slotOf(t) === slot;
+          })
+        : tapes;
       var slice;
       if (mix) {
         var cap = parseInt(grid.getAttribute("data-tapes-row-cap") || "2", 10);
-        slice = mixByAlbum(tapes, limit, gridCols(grid), cap);
+        slice = mixByAlbum(pool, limit, gridCols(grid), cap);
       } else {
-        slice = limit > 0 ? tapes.slice(0, limit) : tapes;
+        slice = limit > 0 ? pool.slice(0, limit) : pool;
       }
+      if (panel) panel.hidden = !slice.length;
       if (!slice.length) {
-        grid.innerHTML = emptyHtml();
+        if (!panel) grid.innerHTML = emptyHtml();
         return;
       }
       grid.innerHTML = slice.map(cardHtml).join("");
