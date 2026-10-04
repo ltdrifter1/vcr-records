@@ -164,7 +164,7 @@
   // Day = chill / variety. Night = heavier / dance.
   // A tape can pin itself with slot: "day" | "night" in the feed data; otherwise the first
   // matching rule wins and anything unmatched lands in Day. Edit NIGHT_RULES to re-sort.
-  var NIGHT_RULES = [/loft music/i, /deep in the club/i, /pirate radio/i];
+  var NIGHT_RULES = [/loft music/i, /deep in the club/i];
 
   function slotOf(t) {
     var pinned = String((t && t.slot) || "").toLowerCase();
