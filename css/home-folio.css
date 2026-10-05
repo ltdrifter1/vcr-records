@@ -246,169 +246,349 @@ html body.home-zine .club-join--luxe .club-join-title {
   text-transform: none;
   max-width: 9em;
 }
+/* The card is the only metal object on the desk (brushed steel, per the
+   README). Choices are paper: flat ink rules, no bevel. Type floor: nothing
+   under 10px, small text >= 4.5:1 — the card's finishes are tuned to hold it. */
+html body.home-zine .club-join--luxe {
+  --cc-ink: #1a1a1a;
+  --cc-ink-2: #3a3a38;
+  --cc-rule: rgba(26, 26, 26, .2);
+}
+/* Lede: what the club is. */
+html body.home-zine .club-join--luxe .club-join-dek {
+  margin: 16px 0 0;
+  max-width: 36em;
+  color: var(--cc-ink-2);
+  font: 400 clamp(16px, 1.4vw, 18px)/1.5 "Archivo", sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
 html body.home-zine .club-join--luxe .join-desk {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(300px, .88fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(18px, 3vw, 28px);
-  align-items: stretch;
+  align-items: start;
 }
-html body.home-zine .club-join--luxe .join-levels {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-  border: 0;
-  background: transparent;
-}
-html body.home-zine .club-join--luxe .join-level[hidden] { display: none !important; }
-html body.home-zine .club-join--luxe .join-levels:has(.join-level[hidden]) {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-html body.home-zine .club-join--luxe .join-level {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  min-height: 150px;
-  padding: 16px 14px 16px;
-  border-radius: 3px;
-  border: 1px solid rgba(40, 40, 40, .28);
-  background: linear-gradient(180deg, #f4f4f2, #dededa);
-  box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(0, 0, 0, .08);
-  color: #1a1a1a;
-  text-align: left;
-  cursor: pointer;
-}
-html body.home-zine .club-join--luxe .join-plan-rec {
-  display: inline-block;
-  margin: 0 28px 4px 0;
-  padding: 3px 6px 2px;
-  border: 1px solid currentColor;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-html body.home-zine .club-join--luxe .join-level-name {
-  display: block;
-  color: inherit;
-  font-family: "Oswald", sans-serif;
-  font-size: clamp(22px, 2.2vw, 28px);
-  font-weight: 500;
-  letter-spacing: -.01em;
-  text-transform: none;
-  margin: 0;
-}
-html body.home-zine .club-join--luxe .join-level-blurb {
-  display: block;
-  color: #3a3a38;
-  font-size: 13px;
-  line-height: 1.4;
-  max-width: none;
-  margin-top: auto;
-}
-html body.home-zine .club-join--luxe .join-level-price {
-  display: block;
-  color: #1a1a1a;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 0;
-  white-space: nowrap;
-}
-html body.home-zine .club-join--luxe .join-level-dot {
-  position: absolute;
-  top: 14px;
-  right: 12px;
-  width: 12px;
-  height: 12px;
-  margin: 0;
-  border-radius: 50%;
-  border: 1px solid #1a1a1a;
-  background: transparent;
-}
-/* Selected = inverted, the same grammar as the dock's current track. */
-html body.home-zine .club-join--luxe .join-level[aria-checked="true"] {
-  background: #1a1a1a;
-  border-color: #1a1a1a;
-  color: #f4f4f2;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
-}
-html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-blurb { color: #d2d2d0; }
-html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-price { color: #f4f4f2; }
-html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-dot {
-  background: #f4f4f2;
-  border-color: #f4f4f2;
-}
-@media (hover: hover) {
-  html body.home-zine .club-join--luxe .join-level:not([aria-checked="true"]):hover {
-    background: linear-gradient(180deg, #fff, #e8e8e6);
+@media (min-width: 901px) {
+  html body.home-zine .club-join--luxe .join-desk {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(36px, 5.5vw, 80px);
   }
 }
 
-/* The member card */
+/* Levels: a ruled tracklist — 01 Free / 02 Club / 03 Premium. */
+html body.home-zine .club-join--luxe .join-levels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 0;
+  border: 0;
+  border-top: 2px solid var(--cc-ink);
+  background: transparent;
+  counter-reset: tier;
+}
+html body.home-zine .club-join--luxe .join-level[hidden] { display: none !important; }
+html body.home-zine .club-join--luxe .join-level {
+  counter-increment: tier;
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "dot tag   tag"
+    "dot name  price"
+    "dot blurb blurb";
+  column-gap: 16px;
+  row-gap: 4px;
+  align-items: start;
+  min-height: 0;
+  padding: 26px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--cc-rule);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--cc-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+html body.home-zine .club-join--luxe .join-level-dot {
+  grid-area: dot;
+  position: static;
+  align-self: center;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--cc-ink);
+  background: transparent;
+  transition: background .15s ease, box-shadow .15s ease;
+}
+html body.home-zine .club-join--luxe .join-plan-rec {
+  grid-area: tag;
+  justify-self: start;
+  margin: 0 0 6px;
+  padding: 3px 7px 2px;
+  border: 0;
+  background: var(--cc-ink);
+  color: #f4f4f2;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+html body.home-zine .club-join--luxe .join-level-name {
+  grid-area: name;
+  align-self: baseline;
+  display: block;
+  margin: 0;
+  color: inherit;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.005em;
+  text-transform: none;
+}
+html body.home-zine .club-join--luxe .join-level-name::before {
+  content: counter(tier, decimal-leading-zero);
+  display: inline-block;
+  margin-right: 12px;
+  vertical-align: .62em;
+  color: #5c5c5a;
+  font: 500 11px "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .12em;
+}
+html body.home-zine .club-join--luxe .join-level-price {
+  grid-area: price;
+  display: block;
+  align-self: baseline;
+  padding: 0;
+  color: var(--cc-ink);
+  font: 600 clamp(14px, 1.3vw, 17px)/1.2 "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .02em;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+html body.home-zine .club-join--luxe .join-level-blurb {
+  grid-area: blurb;
+  display: block;
+  max-width: 40em;
+  margin: 8px 0 0;
+  color: var(--cc-ink-2);
+  font-size: 15px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+/* Selected = a ruled, lifted row. (It used to invert to a black slab, which
+   made the $0 tier the heaviest object on the page.) */
+html body.home-zine .club-join--luxe .join-level[aria-checked="true"] {
+  background: rgba(255, 255, 255, .62);
+  border-color: var(--cc-rule);
+  box-shadow: inset 4px 0 0 var(--cc-ink);
+  color: var(--cc-ink);
+}
+html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-blurb { color: var(--cc-ink-2); }
+html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-price { color: var(--cc-ink); }
+html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-dot {
+  background: var(--cc-ink);
+  border-color: var(--cc-ink);
+  box-shadow: inset 0 0 0 3px #f4f4f2;
+}
+html body.home-zine .club-join--luxe .join-level:focus-visible {
+  outline: 2px solid var(--cc-ink);
+  outline-offset: -2px;
+}
+@media (hover: hover) {
+  html body.home-zine .club-join--luxe .join-level:not([aria-checked="true"]):hover {
+    background: rgba(255, 255, 255, .34);
+  }
+}
+
+/* Desk mat: the panel carries no bevel, so the card above the fields is the
+   only physical object. */
 html body.home-zine .club-join--luxe .join-panel,
 html body.home-zine .club-join--luxe.zine-club .join-panel {
   position: relative;
-  border-radius: 4px;
-  padding: 18px 18px 18px;
-  border: 1px solid rgba(40, 40, 40, .28);
-  background: linear-gradient(180deg, #f4f4f2, #dededa);
-  box-shadow: inset 0 1px 0 #fff, 0 1px 1px rgba(0, 0, 0, .08), 0 14px 30px rgba(0, 0, 0, .1);
-  color: #1a1a1a;
-  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--cc-ink);
+  overflow: visible;
 }
 html body.home-zine .club-join--luxe .join-panel-top {
   position: relative;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 html body.home-zine .club-join--luxe .join-panel-label {
   margin: 0;
-  color: #3a3a38;
+  color: var(--cc-ink-2);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 10px;
   letter-spacing: .16em;
   text-transform: uppercase;
 }
+
+/* The member card — ID-1 proportion (1.586:1). Brushed aluminium for Free,
+   graphite for Club, chrome for Premium. The LCD number is the same
+   hash as api/club-member.js; the name mirrors the Name field. */
 html body.home-zine .club-join--luxe .join-card-lcd {
   position: relative;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 10px 12px 9px;
-  border-radius: 2px;
-  background: linear-gradient(180deg, #d6d6d2 0%, #b4b4b0 100%);
-  border: 1px solid rgba(40, 40, 40, .28);
-  box-shadow: inset 0 1px 3px rgba(40, 50, 60, .38), inset 0 -1px 0 rgba(255, 255, 255, .22);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  color: #1a1a1a;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "mark tier"
+    "gap  gap"
+    "no   no"
+    "name place";
+  align-items: end;
+  row-gap: 6px;
+  width: min(100%, 440px);
+  aspect-ratio: 1.586 / 1;
+  margin: 0 0 24px;
+  padding: clamp(18px, 2.4vw, 26px);
+  border: 0;
+  border-radius: 16px;
   overflow: hidden;
+  color: var(--cc-ink);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.30) 0 1px, rgba(0,0,0,.035) 1px 2px, transparent 2px 3px),
+    linear-gradient(115deg, #cdcdc9 0%, #ececE9 26%, #c3c3bf 50%, #e7e7e4 74%, #bcbcb8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -1px 0 rgba(0,0,0,.2),
+    0 2px 2px rgba(0,0,0,.16),
+    0 24px 36px -16px rgba(0,0,0,.4);
 }
+/* specular sweep (replaces the old LCD scanlines) */
 html body.home-zine .club-join--luxe .join-card-lcd::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: -1;
+  opacity: 1;
   pointer-events: none;
-  opacity: .1;
-  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .75) 0 1px, transparent 1px 3px);
+  background: linear-gradient(104deg, transparent 28%, rgba(255,255,255,.5) 41%, transparent 54%);
 }
-html body.home-zine .club-join--luxe .join-card-lcd > span { position: relative; }
-html body.home-zine .club-join--luxe .join-card-no { font-size: 20px; font-weight: 500; letter-spacing: .08em; }
+html body.home-zine .club-join--luxe .join-card-lcd::after {
+  content: "Pacific Northwest";
+  grid-area: place;
+  position: relative;
+  justify-self: end;
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity: .8;
+}
+html body.home-zine .club-join--luxe .join-card-mark {
+  grid-area: mark;
+  position: relative;
+  align-self: start;
+  justify-self: start;
+  height: clamp(44px, 5.2vw, 60px);
+  width: auto;
+}
 html body.home-zine .club-join--luxe .join-card-tier {
-  padding: 2px 6px 1px;
-  background: #1a1a1a;
+  grid-area: tier;
+  align-self: start;
+  justify-self: end;
+  padding: 3px 8px 2px;
+  background: var(--cc-ink);
   color: #f4f4f2;
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: .12em;
+  letter-spacing: .16em;
   text-transform: uppercase;
 }
+html body.home-zine .club-join--luxe .join-card-no {
+  grid-area: no;
+  display: block;
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 500;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+html body.home-zine .club-join--luxe .join-card-no::before {
+  content: "Copy";
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  opacity: .8;
+}
+html body.home-zine .club-join--luxe .join-card-name {
+  grid-area: name;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+html body.home-zine .club-join--luxe .join-card-name:empty::before {
+  content: "Your name here";
+  opacity: .8;
+}
+/* Finish follows the selected level — CSS only, via :has(). */
+html body.home-zine .club-join--luxe:has([data-level="club"][aria-checked="true"]) .join-card-lcd {
+  color: #ecece8;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.07) 0 1px, rgba(0,0,0,.14) 1px 2px, transparent 2px 3px),
+    linear-gradient(115deg, #1b1b1a 0%, #3b3b39 28%, #1e1e1d 54%, #393937 78%, #151514 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(0,0,0,.6),
+    0 2px 2px rgba(0,0,0,.25),
+    0 24px 36px -16px rgba(0,0,0,.55);
+  animation: cc-card-b .38s cubic-bezier(.2, .7, .2, 1);
+}
+html body.home-zine .club-join--luxe:has([data-level="club"][aria-checked="true"]) .join-card-lcd::before {
+  background: linear-gradient(104deg, transparent 28%, rgba(255,255,255,.16) 41%, transparent 54%);
+}
+html body.home-zine .club-join--luxe:has([data-level="club"][aria-checked="true"]) .join-card-mark { filter: invert(1); }
+html body.home-zine .club-join--luxe:has([data-level="club"][aria-checked="true"]) .join-card-tier {
+  background: #ecece8;
+  color: var(--cc-ink);
+}
+html body.home-zine .club-join--luxe:has([data-level="premium"][aria-checked="true"]) .join-card-lcd {
+  background:
+    linear-gradient(115deg, #fbfbf9 0%, #b0b0ac 17%, #f3f3f0 33%, #a2a29e 49%, #eaeae7 65%, #b8b8b4 81%, #f6f6f4 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(0,0,0,.3),
+    0 2px 2px rgba(0,0,0,.2),
+    0 24px 36px -16px rgba(0,0,0,.45);
+  animation: cc-card-c .38s cubic-bezier(.2, .7, .2, 1);
+}
+html body.home-zine .club-join--luxe:has([data-level="premium"][aria-checked="true"]) .join-card-lcd::before {
+  background: linear-gradient(104deg, transparent 30%, rgba(255,255,255,.7) 42%, transparent 54%);
+}
+/* Chrome's darkest band is the hardest ground for small type: full ink there. */
+html body.home-zine .club-join--luxe:has([data-level="premium"][aria-checked="true"]) .join-card-lcd::after,
+html body.home-zine .club-join--luxe:has([data-level="premium"][aria-checked="true"]) .join-card-no::before,
+html body.home-zine .club-join--luxe:has([data-level="premium"][aria-checked="true"]) .join-card-name:empty::before { opacity: 1; }
+@keyframes cc-card-b { from { transform: translateY(8px) rotate(-.7deg); filter: brightness(1.25); } to { transform: none; filter: none; } }
+@keyframes cc-card-c { from { transform: translateY(8px) rotate(.7deg);  filter: brightness(1.25); } to { transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html body.home-zine .club-join--luxe .join-card-lcd { animation: none !important; }
+  html body.home-zine .club-join--luxe .join-level,
+  html body.home-zine .club-join--luxe .join-level-dot { transition: none; }
+}
+
 html body.home-zine .club-join--luxe .join-optional {
   font-size: 10px;
   letter-spacing: .12em;
@@ -418,23 +598,30 @@ html body.home-zine .club-join--luxe .join-optional {
 html body.home-zine .club-join--luxe .join-fields {
   position: relative;
   display: grid;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 @media (min-width: 560px) {
   html body.home-zine .club-join--luxe .join-fields { grid-template-columns: 1.15fr .85fr; }
 }
-html body.home-zine .club-join--luxe .join-field label { color: #3a3a38; }
+html body.home-zine .club-join--luxe .join-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--cc-ink);
+  font: 600 10px "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
 html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="email"],
 html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="text"],
 html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="number"],
 html body.home-zine .zine-club.home-join.club-join--luxe .join-panel #premiumAmount {
-  height: 46px;
+  height: 48px;
   border-radius: 2px;
-  border: 1px solid rgba(40, 40, 40, .36) !important;
+  border: 1px solid rgba(26, 26, 26, .45) !important;
   background: #fbfbfa !important;
   color: #1a1a1a !important;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .14);
+  box-shadow: none;
   caret-color: #1a1a1a;
 }
 html body.home-zine .club-join--luxe .join-field input::placeholder,
@@ -448,9 +635,9 @@ html body.home-zine .club-join--luxe #premiumAmount:focus {
 }
 html body.home-zine .club-join--luxe .join-premium-amount { position: relative; padding: 4px 0 10px; }
 html body.home-zine .club-join--luxe .premium-preset {
-  border-radius: 3px;
-  border: 1px solid rgba(40, 40, 40, .36);
-  background: linear-gradient(180deg, #f4f4f2, #dededa);
+  border-radius: 2px;
+  border: 1px solid rgba(26, 26, 26, .45);
+  background: transparent;
   color: #1a1a1a;
   margin-right: 6px;
   margin-bottom: 6px;
@@ -475,7 +662,7 @@ html body.home-zine .club-join--luxe .club-join-btn.btn {
   height: 48px;
   min-height: 48px;
   margin-top: 4px;
-  border-radius: 3px;
+  border-radius: 2px;
   border: 1px solid #1a1a1a;
   background: #1a1a1a;
   color: #f4f4f2;
@@ -509,8 +696,20 @@ html body.home-zine .club-join--luxe .club-join-btn.btn:active {
   html body.home-zine .club-join--luxe .club-luxe {
     width: min(1240px, calc(100% - 2 * max(18px, var(--safe-l, 0px))));
   }
-  html body.home-zine .club-join--luxe .join-levels { grid-template-columns: 1fr; }
-  html body.home-zine .club-join--luxe .join-level { min-height: 0; padding: 14px 16px; }
+  html body.home-zine .club-join--luxe .join-level { padding: 18px 10px; column-gap: 12px; }
+  html body.home-zine .club-join--luxe .join-level-name { font-size: 28px; }
+  html body.home-zine .club-join--luxe .join-level-price { font-size: 13px; }
+  html body.home-zine .club-join--luxe .join-plan-rec { letter-spacing: .08em; }
+}
+@media (max-width: 420px) {
+  html body.home-zine .club-join--luxe .join-level {
+    grid-template-areas:
+      "dot tag   tag"
+      "dot name  name"
+      "dot price price"
+      "dot blurb blurb";
+  }
+  html body.home-zine .club-join--luxe .join-level-price { margin-top: 6px; text-align: left; }
 }
 @media (min-width: 800px) {
   html body.home-zine .ig-feed { padding-bottom: 80px; }
