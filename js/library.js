@@ -98,6 +98,11 @@
     return filter.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
   }
 
+  function cassetteLabel(c) {
+    if (c && c.stock != null && Number(c.stock) <= 0) return 'Cassette sold out';
+    return c && c.backorder ? 'Cassette backorder' : 'Cassette';
+  }
+
   function formatCue(rel) {
     var bits = [];
     var digital = rel.formats && rel.formats.digital;
@@ -110,7 +115,7 @@
     if (rel.genre) bits.push(rel.genre);
     var formats = [];
     if (rel.formats && rel.formats.cassette) {
-      formats.push(rel.formats.cassette.backorder ? 'Cassette backorder' : 'Cassette');
+      formats.push(cassetteLabel(rel.formats.cassette));
     }
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
@@ -123,7 +128,7 @@
   function formatSide(rel) {
     var formats = [];
     if (rel.formats && rel.formats.cassette) {
-      formats.push(rel.formats.cassette.backorder ? 'Cassette backorder' : 'Cassette');
+      formats.push(cassetteLabel(rel.formats.cassette));
     }
     if (rel.formats && rel.formats.vinyl) formats.push('12″');
     if (rel.formats && rel.formats.digital) formats.push('Digital');
@@ -167,7 +172,7 @@
   function otherFormatsLabel(rel) {
     var f = rel.formats || {};
     var other = [];
-    if (f.cassette) other.push('Cassette');
+    if (f.cassette) other.push(cassetteLabel(f.cassette));
     if (f.vinyl) other.push('Vinyl');
     return other;
   }
@@ -215,7 +220,9 @@
 
     var note = '';
     if (other.length) {
-      note = '<p class="cat-format-note">' + esc(other.join(' · ') + ' available') + '</p>';
+      var avail = other.filter(function (o) { return o.indexOf('sold out') < 0; });
+      var gone = other.filter(function (o) { return o.indexOf('sold out') > -1; });
+      note = '<p class="cat-format-note">' + esc(gone.concat(avail.length ? [avail.join(' · ') + ' available'] : []).join(' · ')) + '</p>';
     } else if (!hasDigital) {
       note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
     }

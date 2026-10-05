@@ -18,12 +18,12 @@
   </script>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Digital $9 CAD. Cassette $20 CAD backorder."/>
+  <meta name="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Digital $9 CAD. Cassette sold out."/>
   <meta name="theme-color" content="#E8E8E6"/>
   <link rel="canonical" href="https://www.clubcopy.ca/you-are-love"/>
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:title" content="Riscape — You Are (Love)"/>
-  <meta property="og:description" content="You Are (Love) — EP by Riscape. Four tracks. Digital $9 CAD. Cassette backorder $20 CAD."/>
+  <meta property="og:description" content="You Are (Love) — EP by Riscape. Four tracks. Digital $9 CAD. Cassette sold out."/>
   <meta property="og:type" content="music.album"/>
   <meta property="og:url" content="https://www.clubcopy.ca/you-are-love"/>
   <meta property="og:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
@@ -32,7 +32,7 @@
   <meta property="og:locale" content="en_CA"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Riscape — You Are (Love)"/>
-  <meta name="twitter:description" content="Four tracks. Digital $9 CAD. Cassette backorder $20 CAD."/>
+  <meta name="twitter:description" content="Four tracks. Digital $9 CAD. Cassette sold out."/>
   <meta name="twitter:image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
   <meta property="music:musician" content="https://www.clubcopy.ca/artists/riscape"/>
   <script type="application/ld+json">
@@ -81,7 +81,7 @@
         "url": "https://www.clubcopy.ca/you-are-love",
         "priceCurrency": "CAD",
         "price": "20.00",
-        "availability": "https://schema.org/BackOrder",
+        "availability": "https://schema.org/OutOfStock",
         "itemOffered": {"@type": "Product", "name": "You Are (Love) — Cassette"}
       }
     ]
@@ -142,7 +142,7 @@
 
 <main id="main" itemscope itemtype="https://schema.org/Product">
   <meta itemprop="name" content="You Are (Love)"/>
-  <meta itemprop="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Digital $9 CAD. Cassette $20 CAD backorder."/>
+  <meta itemprop="description" content="You Are (Love) — EP by Riscape. Four tracks on Club Copy. Digital $9 CAD. Cassette sold out."/>
   <meta itemprop="brand" content="Club Copy"/>
   <meta itemprop="image" content="https://www.clubcopy.ca/you-are-love-cover.webp"/>
 
@@ -169,7 +169,7 @@
         <h1 class="ra-hero-title">You Are (Love)</h1>
         <div class="ra-hero-facts">
           CC004 · four tracks · 15:02<br/>
-          Digital $9 · cassette backorder
+          Digital $9 · cassette sold out
         </div>
         <div class="ra-hero-ctas" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <meta itemprop="priceCurrency" content="CAD"/>
@@ -177,7 +177,7 @@
           <link itemprop="availability" href="https://schema.org/InStock"/>
           <button type="button" class="btn btn-steel btn-steel--play" id="heroListen">Play</button>
           <button type="button" class="btn btn-steel" id="buyDigitalBtn">Digital · $9</button>
-          <button type="button" class="btn btn-steel" id="buyBtn">Cassette · $20</button>
+          <button type="button" class="btn btn-steel" id="buyBtn" disabled>Cassette · Sold out</button>
         </div>
       </div>
     </div>
@@ -236,11 +236,11 @@
       </header>
       <div class="ra-about-grid">
         <div class="ra-notes ra-reveal">
-          <p>Riscape’s first Club Copy record is four tracks: piano in a kitchen with the windows open, house that still has a tune. Digital is live. Cassette is backorder — still taking orders, ships when the dubs land.</p>
+          <p>Riscape’s first Club Copy record is four tracks: piano in a kitchen with the windows open, house that still has a tune. Digital is live. The cassette is sold out.</p>
         </div>
         <dl class="ra-specs ra-reveal">
 <div><dt>Artist</dt><dd><a href="/artists/riscape">Riscape</a></dd></div>
-          <div><dt>Format</dt><dd>Digital EP · cassette backorder</dd></div>
+          <div><dt>Format</dt><dd>Digital EP · cassette sold out</dd></div>
           <div><dt>Released</dt><dd>September 18, 2026</dd></div>
           <div><dt>Published</dt><dd>Club Copy · Copy House Publishing</dd></div>
         </dl>
@@ -306,7 +306,6 @@ VCRReleaseBind({
     });
   }
 
-  bindBuy($("buyBtn"), "cassette");
   bindBuy($("buyDigitalBtn"), "digital");
 })();
 

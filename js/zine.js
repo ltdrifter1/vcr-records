@@ -105,7 +105,7 @@
     kicker: "CC004 · out now",
     title: "You Are (Love)",
     artist: "Riscape",
-    dek: "Four tracks. Digital is live. Cassette is backorder.",
+    dek: "Four tracks. Digital is live. Cassette is sold out.",
     image: "you-are-love-cover.webp",
     spec: ["CC004", "EP", "2026"]
   };
