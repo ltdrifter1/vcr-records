@@ -662,15 +662,71 @@ body.vcr-bumper-open { overflow: hidden; }
   .vcr-player__upnext { display: none; }
   .vcr-toast { display: none !important; }
 }
-.vcr-sc-frame {
+/* SoundCloud embed: 1px and silent while playback works; a visible tap-to-play card
+   when a phone blocks programmatic autoplay (see armScTap in player.js). */
+.vcr-sc-wrap {
   position: fixed;
+  left: 0;
+  bottom: 0;
   width: 1px;
   height: 1px;
-  left: -8px;
-  bottom: -8px;
+  overflow: hidden;
   opacity: 0.02;
   pointer-events: none;
+}
+.vcr-sc-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
   border: 0;
+}
+.vcr-sc-bar { display: none; }
+.vcr-sc-wrap.is-open {
+  left: 50%;
+  bottom: calc(var(--vcr-player-h, 76px) + 22px + env(safe-area-inset-bottom, 0px));
+  width: min(460px, calc(100vw - 20px));
+  height: auto;
+  overflow: hidden;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 560;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f4f4f2, #d8d8d4);
+  border: 1px solid rgba(40, 40, 40, .28);
+  box-shadow: inset 0 1px 0 #fff, 0 18px 44px rgba(0, 0, 0, .28);
+}
+.vcr-sc-wrap.is-open .vcr-sc-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px 8px 14px;
+  font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.vcr-sc-msg { flex: 1; min-width: 0; }
+.vcr-sc-open {
+  font-size: 12px;
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.vcr-sc-close {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+.vcr-sc-wrap.is-open .vcr-sc-frame {
+  height: 130px;
+  background: #fff;
 }
 
 /* Now Playing sheet — iOS Music × acetate --------------------------------- */

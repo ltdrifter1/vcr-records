@@ -32,6 +32,10 @@
   var scWidget = null;
   var scApi = null;
   var scPlaying = false;
+  var scReady = false;
+  var scLoaded = "";
+  var scSeq = 0;
+  var scTapTimer = 0;
   var scPosition = 0;
   var scDuration = 0;
 
@@ -1185,6 +1189,8 @@
 
   function pauseSoundCloud() {
     scPlaying = false;
+    scSeq += 1;
+    clearTimeout(scTapTimer);
     if (scWidget) {
       try {
         scWidget.pause();
@@ -1211,24 +1217,84 @@
     return scApi;
   }
 
+  function scEmbedSrc(permalink, autoplay) {
+    return (
+      "https://w.soundcloud.com/player/?url=" +
+      encodeURIComponent(permalink) +
+      "&color=%231a1a1a&auto_play=" +
+      (autoplay ? "true" : "false") +
+      "&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
+    );
+  }
+
+  // The SoundCloud embed lives in a wrapper that is 1px and invisible while playback works,
+  // and becomes a visible "tap play" card when a phone refuses programmatic autoplay.
   function ensureScFrame() {
     ensureUI();
     if (ui.scFrame) return ui.scFrame;
+    var wrap = document.createElement("div");
+    wrap.className = "vcr-sc-wrap";
+    wrap.setAttribute("data-sc-wrap", "");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.setAttribute("inert", "");
+    wrap.innerHTML =
+      '<div class="vcr-sc-bar">' +
+      '<span class="vcr-sc-msg">Tap play to start this mix</span>' +
+      '<a class="vcr-sc-open" target="_blank" rel="noopener noreferrer">SoundCloud</a>' +
+      '<button type="button" class="vcr-sc-close" aria-label="Close">&times;</button>' +
+      "</div>";
+    wrap.querySelector(".vcr-sc-close").addEventListener("click", hideScTap);
     var frame = document.createElement("iframe");
     frame.className = "vcr-sc-frame";
     frame.setAttribute("allow", "autoplay; encrypted-media");
     frame.setAttribute("scrolling", "no");
-    frame.setAttribute("title", "SoundCloud");
-    frame.setAttribute("aria-hidden", "true");
-    document.body.appendChild(frame);
+    frame.setAttribute("title", "SoundCloud player");
+    wrap.appendChild(frame);
+    document.body.appendChild(wrap);
+    ui.scWrap = wrap;
     ui.scFrame = frame;
     return frame;
   }
 
+  function showScTap(track) {
+    ensureScFrame();
+    if (!ui.scWrap) return;
+    var link = ui.scWrap.querySelector(".vcr-sc-open");
+    if (link && track && track.permalink) link.href = track.permalink;
+    ui.scWrap.classList.add("is-open");
+    ui.scWrap.removeAttribute("aria-hidden");
+    ui.scWrap.removeAttribute("inert");
+  }
+
+  function hideScTap() {
+    clearTimeout(scTapTimer);
+    if (ui && ui.scWrap) {
+      ui.scWrap.classList.remove("is-open");
+      ui.scWrap.setAttribute("aria-hidden", "true");
+      ui.scWrap.setAttribute("inert", "");
+    }
+  }
+
+  // Phones only start audio from a tap that lands on the player itself. If nothing is playing
+  // shortly after we asked, show the embed so one tap on its own play button works.
+  function armScTap(track, seq) {
+    clearTimeout(scTapTimer);
+    scTapTimer = setTimeout(function () {
+      if (seq === scSeq && !scPlaying) showScTap(track);
+    }, 1800);
+  }
+
   function bindScWidget(widget) {
+    widget.bind(SC.Widget.Events.READY, function () {
+      scReady = true;
+    });
     widget.bind(SC.Widget.Events.PLAY, function () {
       scPlaying = true;
+      hideScTap();
       hidePreviewError();
+      widget.getDuration(function (ms) {
+        scDuration = (ms || 0) / 1000;
+      });
       render();
       persist();
       emit();
@@ -1245,29 +1311,43 @@
     });
     widget.bind(SC.Widget.Events.PLAY_PROGRESS, function (data) {
       scPosition = ((data && data.currentPosition) || 0) / 1000;
-      if (data && data.relativePosition && scDuration) {
-        /* keep */
+      var dur = scDuration || 0;
+      var cur = scPosition || 0;
+      var ratio = dur ? Math.round((cur / dur) * 1000) : 0;
+      setScrubUi(ratio);
+      if (ui && ui.dock) {
+        var scrub = ui.dock.querySelector(".vcr-player__scrub");
+        if (scrub) scrub.value = String(ratio);
+        var cEl = ui.dock.querySelector("[data-cur]");
+        var dEl = ui.dock.querySelector("[data-dur]");
+        if (cEl) cEl.textContent = fmt(cur);
+        if (dEl) dEl.textContent = fmt(dur);
       }
-      widget.getDuration(function (ms) {
-        scDuration = (ms || 0) / 1000;
-        var dur = scDuration || 0;
-        var cur = scPosition || 0;
-        var ratio = dur ? Math.round((cur / dur) * 1000) : 0;
-        setScrubUi(ratio);
-        if (ui && ui.dock) {
-          var scrub = ui.dock.querySelector(".vcr-player__scrub");
-          if (scrub) scrub.value = String(ratio);
-          var cEl = ui.dock.querySelector("[data-cur]");
-          var dEl = ui.dock.querySelector("[data-dur]");
-          if (cEl) cEl.textContent = fmt(cur);
-          if (dEl) dEl.textContent = fmt(dur);
-        }
-      });
     });
     widget.bind(SC.Widget.Events.ERROR, function () {
       scPlaying = false;
       showPreviewError(previewErrorMessage(), current());
     });
+  }
+
+  function createScWidget(permalink, autoplay) {
+    var frame = ensureScFrame();
+    frame.src = scEmbedSrc(permalink, autoplay);
+    scLoaded = permalink;
+    scReady = false;
+    scWidget = SC.Widget(frame);
+    bindScWidget(scWidget);
+  }
+
+  // Fetch the SoundCloud API and build the embed ahead of the first tap, so a phone can
+  // start playback inside the tap instead of waiting on the network (which drops the gesture).
+  function warmSoundCloud(permalink) {
+    if (!permalink || scWidget) return Promise.resolve();
+    return loadScApi()
+      .then(function () {
+        if (!scWidget) createScWidget(permalink, false);
+      })
+      .catch(function () {});
   }
 
   function mixToTrack(item) {
@@ -1299,6 +1379,10 @@
       } catch (e) {}
     }
     hidePreviewError();
+    hideScTap();
+    scSeq += 1;
+    var seq = scSeq;
+    scPlaying = false;
     scPosition = 0;
     scDuration = 0;
     if (ui && ui.dock) {
@@ -1308,34 +1392,43 @@
       if (cEl) cEl.textContent = "0:00";
       if (dEl) dEl.textContent = "0:00";
     }
-    var frame = ensureScFrame();
-    var src =
-      "https://w.soundcloud.com/player/?url=" +
-      encodeURIComponent(track.permalink) +
-      "&color=%231a1a1a&auto_play=" +
-      (autoplay ? "true" : "false") +
-      "&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false";
     render();
     emit();
+    // Embed already holds this mix (warmed up): play right now, inside the tap.
+    if (scWidget && scReady && scLoaded === track.permalink) {
+      if (autoplay) {
+        try {
+          scWidget.play();
+        } catch (e) {}
+        armScTap(track, seq);
+      }
+      return Promise.resolve(current());
+    }
     return loadScApi()
       .then(function () {
+        if (seq !== scSeq) return current();
         if (scWidget) {
+          scLoaded = track.permalink;
+          scReady = false;
           scWidget.load(track.permalink, { auto_play: !!autoplay });
-          if (autoplay) scPlaying = true;
-          render();
-          emit();
-          return current();
+        } else {
+          createScWidget(track.permalink, !!autoplay);
         }
-        frame.src = src;
-        scWidget = SC.Widget(frame);
-        bindScWidget(scWidget);
-        if (autoplay) scPlaying = true;
+        if (autoplay) armScTap(track, seq);
         render();
         emit();
         return current();
       })
       .catch(function () {
-        showPreviewError(previewErrorMessage(), track);
+        // SoundCloud's script is blocked or offline: the plain embed may still load.
+        if (seq !== scSeq) return null;
+        try {
+          var frame = ensureScFrame();
+          frame.src = scEmbedSrc(track.permalink, false);
+          showScTap(track);
+        } catch (e) {
+          showPreviewError(previewErrorMessage(), track);
+        }
         return null;
       });
   }
@@ -1734,8 +1827,10 @@
     var track = current();
     if (!track) return;
     if (isScTrack(track)) {
-      if (scWidget) scWidget.play();
-      else loadSoundCloud(track, true);
+      if (scWidget && scReady && scLoaded === track.permalink) {
+        scWidget.play();
+        armScTap(track, scSeq);
+      } else loadSoundCloud(track, true);
       return;
     }
     ensureAudio();
@@ -1999,6 +2094,7 @@
   window.VCRPlayer = {
     playRelease: playRelease,
     playMix: playMix,
+    warmMix: warmSoundCloud,
     notify: notify,
     trackPlayable: trackPlayable,
     openStage: openStage,
