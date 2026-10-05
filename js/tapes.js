@@ -82,7 +82,8 @@
     var id = btn.getAttribute("data-tape-id");
     if (!permalink || !window.VCRPlayer || !VCRPlayer.playMix) return;
     var st = VCRPlayer.getState && VCRPlayer.getState();
-    if (st && st.playing && st.track && st.track.id === id) {
+    // Same mix again: pause, resume, or retry inside this tap (never restart it from scratch).
+    if (st && st.track && st.track.id === id) {
       VCRPlayer.toggle();
       return;
     }
@@ -134,8 +135,9 @@
       esc(t.title) +
       '">' +
       (cover
-        ? '<img src="' + esc(cover) + '" alt="" width="500" height="500" loading="lazy"/>'
+        ? '<img src="' + esc(cover) + '" alt="" width="500" height="500" loading="lazy" decoding="async"/>'
         : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
+      '<span class="mix-eq" aria-hidden="true"><i></i><i></i><i></i></span>' +
       '<span class="mix-art-play" data-mix-play-label>play</span>' +
       "</button>";
     return (
@@ -154,17 +156,37 @@
     );
   }
 
-  function emptyHtml() {
+  // Artwork that fails to load (offline, blocked, expired) becomes a plain sleeve, not a broken-image icon.
+  document.addEventListener(
+    "error",
+    function (e) {
+      var img = e.target;
+      if (!img || img.tagName !== "IMG" || !img.closest || !img.closest(".mix-art")) return;
+      var blank = document.createElement("span");
+      blank.className = "tape-sleeve--blank";
+      blank.setAttribute("aria-hidden", "true");
+      img.replaceWith(blank);
+    },
+    true
+  );
+
+  function emptyHtml(failed) {
     return (
-      '<p class="mix-soon">No mixes yet.</p>' +
-      '<p class="tape-dek" style="text-align:center"><a class="tape-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer" target="_blank">soundcloud.com/ltdrifta</a></p>'
+      '<div class="mix-empty">' +
+      '<p class="mix-soon">' +
+      (failed ? "Couldn&rsquo;t load the mixes." : "No mixes yet.") +
+      "</p>" +
+      '<p class="mix-empty-actions">' +
+      (failed ? '<button type="button" class="tape-link" data-tapes-retry>Try again</button>' : "") +
+      '<a class="tape-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer" target="_blank">soundcloud.com/ltdrifta</a>' +
+      "</p></div>"
     );
   }
 
   // Day = chill / variety. Night = heavier / dance.
   // A tape can pin itself with slot: "day" | "night" in the feed data; otherwise the first
   // matching rule wins and anything unmatched lands in Day. Edit NIGHT_RULES to re-sort.
-  var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i, /liquid love/i, /deep in th[ae]\s+jungle/i];
+  var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i, /liquid love/i, /deep[\s._-]+in[\s._-]+(th[ae]|da)[\s._-]+jungle/i];
 
   // Title-only keywords for dance mixes (not the description, and not "club": that is the label name).
   var NIGHT_TITLE_WORDS = /\b(house|techno|dance|rave|disco|garage|dnb|drum\s*(&|and|n)\s*bass|warehouse)\b/i;
@@ -197,175 +219,164 @@
     return "day";
   }
 
-  // "Nightshift (Vol.3)" and "Nightshift (Vol.2)" are one series even when the artwork differs per volume.
+  // One card per mix. "Nightshift (Vol.3)" and "Nightshift (Vol.2)", every "Deep in Tha Jungle"
+  // episode, and "Volume 1" ... "Volume 6" are one mix however the volumes are numbered or illustrated.
   var KNOWN_SERIES = [
     [/nightshift/i, "nightshift"],
     [/loft/i, "loft"],
-    [/liquid love/i, "liquid love"],
-    [/deep in th[ae]\s+jungle/i, "deep in the jungle"],
+    [/liquid[\s._-]+love/i, "liquid love"],
+    [/deep[\s._-]+in[\s._-]+(th[ae]|da)[\s._-]+jungle/i, "deep in the jungle"],
   ];
 
-  function seriesOf(title) {
-    var raw = String(title || "").toLowerCase();
-    for (var k = 0; k < KNOWN_SERIES.length; k++) {
-      if (KNOWN_SERIES[k][0].test(raw)) return KNOWN_SERIES[k][1];
-    }
-    var base = raw
-      .replace(/\(.*?\)/g, " ")
-      .replace(/\b(vol(ume)?|part|pt|no)\.?\s*\d+\b/g, " ")
+  // Title with volume / part / date / number noise removed. "" when nothing else is left ("Volume 6").
+  function baseOf(title) {
+    return String(title || "")
+      .toLowerCase()
+      .replace(/\(.*?\)|\[.*?\]/g, " ")
+      .replace(/\b(vol(ume)?s?|part|pt|no|ep|episode|chapter|side)\.?\s*[\divxl]+\b/g, " ")
       .replace(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\b/g, " ")
       .replace(/[\d#]+/g, " ")
       .replace(/[^a-z ]+/g, " ")
       .replace(/\s+/g, " ")
-      .replace(/( (mix|mixtape|pt|part|ep|episode))+$/, "")
+      .replace(/( (mix|mixtape|vol|volume|pt|part|ep|episode))+$/, "")
       .trim();
-    return base.length > 2 && base !== raw.trim() ? base : "";
   }
 
-  function albumKey(t) {
-    var series = seriesOf(t && t.title);
-    if (series) return "s:" + series;
-    var cover = String((t && t.cover) || "").replace(/-t\d+x\d+(\.[a-z0-9]+)$/i, "$1");
-    if (cover) return "c:" + cover;
-    var dek = String((t && t.dek) || "").trim().toLowerCase();
-    if (dek) return "d:" + dek;
-    var title = String((t && t.title) || "").toLowerCase();
-    if (/^loft music/.test(title)) return "t:loft";
-    if (/^volume\b/.test(title)) return "t:volume";
-    if (/^pirate radio/.test(title)) return "t:pirate";
-    return "t:" + title.replace(/[\s(].*$/, "");
-  }
-
-  function gridCols(grid) {
-    if (grid.classList.contains("tapes-grid--home")) {
-      if (window.matchMedia("(min-width: 760px)").matches) return 4;
-      if (window.matchMedia("(min-width: 640px)").matches) return 3;
-      return 2;
+  function seriesOf(title) {
+    var raw = String(title || "");
+    for (var k = 0; k < KNOWN_SERIES.length; k++) {
+      if (KNOWN_SERIES[k][0].test(raw)) return KNOWN_SERIES[k][1];
     }
-    if (window.matchMedia("(min-width: 860px)").matches) return 3;
-    return 2;
+    var base = baseOf(raw);
+    return base.length > 2 ? base : "";
   }
 
-  function mixByAlbum(tapes, limit, cols, maxSame) {
-    var list = tapes || [];
-    var cap = maxSame > 0 ? maxSame : 2;
-    var row = cols > 0 ? cols : 4;
-    var max = limit > 0 ? Math.min(limit, list.length) : list.length;
-    var groups = {};
-    var keys = [];
-    var i;
-    for (i = 0; i < list.length; i++) {
-      var t = list[i];
-      var k = albumKey(t);
-      if (!groups[k]) {
-        groups[k] = [];
-        keys.push(k);
+  function coverKey(t) {
+    return String((t && t.cover) || "")
+      .replace(/[?#].*$/, "")
+      .replace(/-t\d+x\d+(\.[a-z0-9]+)$/i, "$1")
+      .replace(/-original(\.[a-z0-9]+)$/i, "$1");
+  }
+
+  // Two tapes are the same mix when they share a series, or share artwork AND either the same
+  // description or the same bare title. (Artwork alone is not enough: SoundCloud hands the
+  // profile picture to every tape without art, and those are not one mix.)
+  function sameMix(a, b) {
+    var sa = seriesOf(a.title);
+    if (sa && sa === seriesOf(b.title)) return true;
+    var ca = coverKey(a);
+    if (!ca || ca !== coverKey(b)) return false;
+    var da = String(a.dek || "").trim().toLowerCase();
+    if (da && da === String(b.dek || "").trim().toLowerCase()) return true;
+    return baseOf(a.title) === baseOf(b.title);
+  }
+
+  // Keeps the first (newest) tape of every mix, in feed order.
+  function onePerMix(tapes) {
+    var kept = [];
+    (tapes || []).forEach(function (t) {
+      for (var i = 0; i < kept.length; i++) {
+        if (sameMix(kept[i], t)) return;
       }
-      groups[k].push(t);
-    }
-    var cursor = {};
-    for (i = 0; i < keys.length; i++) cursor[keys[i]] = 0;
-
-    function remaining(k) {
-      return cursor[k] < groups[k].length;
-    }
-
-    function countInRow(out, key) {
-      var start = Math.floor(out.length / row) * row;
-      var n = 0;
-      var j;
-      for (j = start; j < out.length; j++) {
-        if (albumKey(out[j]) === key) n += 1;
-      }
-      return n;
-    }
-
-    function take(out, key) {
-      out.push(groups[key][cursor[key]]);
-      cursor[key] += 1;
-    }
-
-    var out = [];
-    var guard = 0;
-    while (out.length < max && guard < max * 8) {
-      guard += 1;
-      var picked = "";
-      var bestScore = 1e9;
-      var r;
-      for (r = 0; r < keys.length; r++) {
-        var idx = (out.length + r) % keys.length;
-        var key = keys[idx];
-        if (!remaining(key)) continue;
-        var inRow = countInRow(out, key);
-        if (inRow >= cap) continue;
-        var score = inRow * 100 + cursor[key];
-        if (score < bestScore) {
-          bestScore = score;
-          picked = key;
-        }
-      }
-      if (!picked) break;
-      take(out, picked);
-    }
-    return out;
-  }
-
-  // Show at most `n` tapes of any one album/series, keeping feed order (newest first).
-  function capPerAlbum(tapes, n) {
-    if (!(n > 0)) return tapes;
-    var seen = {};
-    return tapes.filter(function (t) {
-      var k = albumKey(t);
-      seen[k] = (seen[k] || 0) + 1;
-      return seen[k] <= n;
+      kept.push(t);
     });
+    return kept;
   }
 
   function paint(tapes) {
-    lastTapes = tapes;
+    var mixes = onePerMix(tapes);
+    var shown = [];
     var grids = document.querySelectorAll("[data-tapes-grid]");
     if (!grids.length) return;
     grids.forEach(function (grid) {
       var limit = parseInt(grid.getAttribute("data-tapes-limit") || "0", 10);
-      var mix = grid.getAttribute("data-tapes-mix");
       var slot = grid.getAttribute("data-tapes-slot");
       var panel = slot ? grid.closest("[data-tapes-panel]") : null;
       var pool = slot
-        ? tapes.filter(function (t) {
+        ? mixes.filter(function (t) {
             return slotOf(t) === slot;
           })
-        : tapes;
-      var perAlbum = parseInt(grid.getAttribute("data-tapes-per-album") || "0", 10);
-      pool = capPerAlbum(pool, perAlbum);
-      var slice;
-      if (mix) {
-        var cap = parseInt(grid.getAttribute("data-tapes-row-cap") || "2", 10);
-        slice = mixByAlbum(pool, limit, gridCols(grid), cap);
-      } else {
-        slice = limit > 0 ? pool.slice(0, limit) : pool;
-      }
+        : mixes;
+      var slice = limit > 0 ? pool.slice(0, limit) : pool;
       if (panel) panel.hidden = !slice.length;
+      grid.removeAttribute("aria-busy");
       if (!slice.length) {
-        if (!panel) grid.innerHTML = emptyHtml();
+        if (!panel) grid.innerHTML = emptyHtml(false);
         return;
       }
       grid.innerHTML = slice.map(cardHtml).join("");
+      shown = shown.concat(slice);
       bind(grid);
     });
+    // Next / previous in the dock walk exactly what is on screen: one tape per mix.
+    lastTapes = shown;
     syncButtons();
+    warmWhenVisible();
+  }
+
+  // Build the SoundCloud embed just before a mix is tapped. Phones only allow playback that
+  // starts inside the tap, so the player must already be loaded by then.
+  function warmWhenVisible() {
+    if (!window.VCRPlayer || !VCRPlayer.warmMix || !lastTapes.length) return;
+    var first = lastTapes[0].permalink;
+    var grid = $("[data-tapes-grid]");
+    var go = function () {
+      VCRPlayer.warmMix(first);
+    };
+    if (!grid || !("IntersectionObserver" in window)) {
+      go();
+      return;
+    }
+    var io = new IntersectionObserver(
+      function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) {
+          io.disconnect();
+          go();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    io.observe(grid);
+  }
+
+  function fail() {
+    document.querySelectorAll("[data-tapes-grid]").forEach(function (grid) {
+      var panel = grid.getAttribute("data-tapes-slot") ? grid.closest("[data-tapes-panel]") : null;
+      grid.removeAttribute("aria-busy");
+      if (panel) panel.hidden = true;
+      else grid.innerHTML = emptyHtml(true);
+    });
+    var primary = $("[data-tapes-grid]");
+    var host = primary && primary.closest("[data-tapes-panel]");
+    if (host) {
+      host.hidden = false;
+      primary.innerHTML = emptyHtml(true);
+    }
   }
 
   function hydrate() {
     nowEl = $("[data-tapes-now]");
     if (!$("[data-tapes-grid]")) return;
     loadList(function (tapes) {
-      paint(
-        (tapes || []).filter(function (t) {
-          return t && t.permalink && !isRelease(t);
-        })
-      );
+      var usable = (tapes || []).filter(function (t) {
+        return t && t.permalink && !isRelease(t);
+      });
+      if (!usable.length && !(tapes && tapes.length)) {
+        fail();
+        return;
+      }
+      paint(usable);
     });
   }
+
+  document.addEventListener("click", function (e) {
+    var retry = e.target.closest && e.target.closest("[data-tapes-retry]");
+    if (!retry) return;
+    document.querySelectorAll("[data-tapes-grid]").forEach(function (g) {
+      g.setAttribute("aria-busy", "true");
+    });
+    hydrate();
+  });
 
   window.addEventListener("vcr:player", function () {
     syncButtons();

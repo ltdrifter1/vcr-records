@@ -17,10 +17,12 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://i1.sndcdn.com" crossorigin>
+  <link rel="dns-prefetch" href="https://w.soundcloud.com">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css?v=st33"/>
-  <link rel="stylesheet" href="css/player.css?v=st33"/>
-  <link rel="stylesheet" href="css/mixtapes.css?v=st34"/>
+  <link rel="stylesheet" href="css/player.css?v=st34"/>
+  <link rel="stylesheet" href="css/mixtapes.css?v=st35"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
@@ -73,16 +75,19 @@
         <a href="/">Home</a><span>/</span>Mixtapes
       </nav>
       <header class="mixtapes-head">
-        <h1 id="mixtapes-title">Mixes</h1>
-        <a class="mixtapes-head-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer" target="_blank">@ltdrifta</a>
+        <div class="mixtapes-head-copy">
+          <h1 id="mixtapes-title">Mixes</h1>
+          <p class="mixtapes-dek">Long sets from L.T. Drifta, streamed from SoundCloud. Tap a cover to play.</p>
+        </div>
+        <a class="mixtapes-head-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer" target="_blank">@ltdrifta on SoundCloud</a>
       </header>
-      <p class="tapes-now" data-tapes-now hidden></p>
+      <p class="tapes-now" data-tapes-now role="status" hidden></p>
       <div class="mix-slot mix-slot--day" data-tapes-panel>
         <header class="mix-slot-head">
           <h2 class="mix-slot-title">Day</h2>
           <p class="mix-slot-sub">Chill &middot; variety</p>
         </header>
-        <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-per-album="2">
+        <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" aria-busy="true">
           <span class="mix-skel" aria-hidden="true"></span>
           <span class="mix-skel" aria-hidden="true"></span>
           <span class="mix-skel" aria-hidden="true"></span>
@@ -93,12 +98,13 @@
           <h2 class="mix-slot-title">Nightshift</h2>
           <p class="mix-slot-sub">Heavy &middot; dance</p>
         </header>
-        <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-per-album="2">
+        <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" aria-busy="true">
           <span class="mix-skel" aria-hidden="true"></span>
           <span class="mix-skel" aria-hidden="true"></span>
           <span class="mix-skel" aria-hidden="true"></span>
         </div>
       </div>
+      <noscript><p class="mix-noscript">Mixes need JavaScript. Listen at <a class="tape-link" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">soundcloud.com/ltdrifta</a>.</p></noscript>
     </div>
   </section>
 </main>
@@ -124,7 +130,7 @@
 <script src="js/site.js?v=st33"></script>
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
-<script src="js/player.js?v=st33"></script>
-<script src="js/tapes.js?v=st44"></script>
+<script src="js/player.js?v=st34"></script>
+<script src="js/tapes.js?v=st45"></script>
 </body>
 </html>
