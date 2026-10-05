@@ -164,7 +164,13 @@
   // Day = chill / variety. Night = heavier / dance.
   // A tape can pin itself with slot: "day" | "night" in the feed data; otherwise the first
   // matching rule wins and anything unmatched lands in Day. Edit NIGHT_RULES to re-sort.
-  var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i];
+  var NIGHT_RULES = [
+    /loft/i,
+    /deep in the club/i,
+    /nightshift/i,
+    /liquid love/i,
+    /\b(house|techno|dance|club|rave|disco|garage|jungle|dnb|drum\s*(&|and|n)\s*bass|warehouse|afters)\b/i,
+  ];
 
   // Releases that were posted to SoundCloud but live in the catalogue (Bandcamp) — keep them out of Mixes.
   var RELEASE_RULES = [/molly\s*haze/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i];
@@ -187,7 +193,31 @@
     return "day";
   }
 
+  // "Nightshift (Vol.3)" and "Nightshift (Vol.2)" are one series even when the artwork differs per volume.
+  var KNOWN_SERIES = [
+    [/nightshift/i, "nightshift"],
+    [/loft/i, "loft"],
+    [/liquid love/i, "liquid love"],
+  ];
+
+  function seriesOf(title) {
+    var raw = String(title || "").toLowerCase();
+    for (var k = 0; k < KNOWN_SERIES.length; k++) {
+      if (KNOWN_SERIES[k][0].test(raw)) return KNOWN_SERIES[k][1];
+    }
+    var base = raw
+      .replace(/\(.*?\)/g, " ")
+      .replace(/\b(vol(ume)?|part|pt|no)\.?\s*\d+\b/g, " ")
+      .replace(/[\d#]+/g, " ")
+      .replace(/[^a-z ]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return base.length > 2 && base !== raw.trim() ? base : "";
+  }
+
   function albumKey(t) {
+    var series = seriesOf(t && t.title);
+    if (series) return "s:" + series;
     var cover = String((t && t.cover) || "").replace(/-t\d+x\d+(\.[a-z0-9]+)$/i, "$1");
     if (cover) return "c:" + cover;
     var dek = String((t && t.dek) || "").trim().toLowerCase();
