@@ -164,7 +164,18 @@
   // Day = chill / variety. Night = heavier / dance.
   // A tape can pin itself with slot: "day" | "night" in the feed data; otherwise the first
   // matching rule wins and anything unmatched lands in Day. Edit NIGHT_RULES to re-sort.
-  var NIGHT_RULES = [/loft music/i, /deep in the club/i, /nightshift/i];
+  var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i];
+
+  // Releases that were posted to SoundCloud but live in the catalogue (Bandcamp) — keep them out of Mixes.
+  var RELEASE_RULES = [/molly\s*haze/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i];
+
+  function isRelease(t) {
+    var hay = String((t && t.title) || "") + " " + String((t && t.dek) || "") + " " + String((t && t.permalink) || "");
+    for (var i = 0; i < RELEASE_RULES.length; i++) {
+      if (RELEASE_RULES[i].test(hay)) return true;
+    }
+    return false;
+  }
 
   function slotOf(t) {
     var pinned = String((t && t.slot) || "").toLowerCase();
@@ -313,7 +324,7 @@
     loadList(function (tapes) {
       paint(
         (tapes || []).filter(function (t) {
-          return t && t.permalink;
+          return t && t.permalink && !isRelease(t);
         })
       );
     });
