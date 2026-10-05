@@ -172,10 +172,16 @@
   // Releases that were posted to SoundCloud but live in the catalogue (Bandcamp) — keep them out of Mixes.
   var RELEASE_RULES = [/molly\s*haze/i, /molly\W{0,3}s?\s+hazy/i, /hazy\s+edit/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i];
 
+  // Mixes we do not want on the site at all.
+  var HIDE_RULES = [/dirt road radio/i];
+
   function isRelease(t) {
     var hay = String((t && t.title) || "") + " " + String((t && t.permalink) || "");
     for (var i = 0; i < RELEASE_RULES.length; i++) {
       if (RELEASE_RULES[i].test(hay)) return true;
+    }
+    for (var j = 0; j < HIDE_RULES.length; j++) {
+      if (HIDE_RULES[j].test(hay)) return true;
     }
     return false;
   }
