@@ -40,11 +40,16 @@
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var href = rel.page || "/library";
+    var onBandcamp = /^https?:\/\/[^/]*bandcamp\.com\//i.test(href);
     var dur = fmtDur(releaseDuration(rel));
     var cat = rel.catalogue || "";
-    var spec = [cat, rel.kind, dur].filter(Boolean).join("  ·  ");
+    var lead = [cat, rel.kind].filter(Boolean).join(" · ");
     var fm = rel.formats || {};
     var glyphs = [fm.digital ? "DL" : "", fm.cassette ? "CS" : "", fm.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
+    /* Right-hand slot of the spec row: formats on site, a leaving-the-site cue for Bandcamp-only releases. */
+    var tag = glyphs
+      ? '<span class="sleeve-card-fmt">' + esc(glyphs) + "</span>"
+      : (onBandcamp ? '<span class="sleeve-card-fmt sleeve-card-fmt--ext">Bandcamp ↗</span>' : "");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";
     var play = cued
@@ -61,15 +66,16 @@
     return (
       '<article class="sleeve-card" data-release="' + esc(rel.id) + '">' +
         '<div class="sleeve-card-art">' +
-          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + ' — view release">' +
-            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:640px) 46vw, (max-width:1100px) 22vw, 220px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
+          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + (onBandcamp ? " — listen on Bandcamp" : " — view release") + '">' +
+            '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:699px) 64vw, (max-width:1199px) 32vw, 210px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
           "</a>" +
           play +
         "</div>" +
         '<div class="sleeve-card-meta">' +
-          (spec ? '<p class="sleeve-card-spec">' + esc(spec) + (glyphs ? ' <span class="sleeve-card-fmt">' + esc(glyphs) + "</span>" : "") + "</p>" : "") +
+          '<p class="sleeve-card-spec"><span class="sleeve-card-id">' + esc(lead) + "</span>" + tag + "</p>" +
           '<h3 class="sleeve-card-title"><a href="' + esc(href) + '">' + esc(rel.title) + "</a></h3>" +
-          '<p class="sleeve-card-artist">' + esc(rel.artist || "") + "</p>" +
+          '<p class="sleeve-card-artist"><span class="sleeve-card-by">' + esc(rel.artist || "") + "</span>" +
+            (dur ? '<span class="sleeve-card-dur">' + esc(dur) + "</span>" : "") + "</p>" +
         "</div>" +
       "</article>"
     );
@@ -121,18 +127,49 @@
     if (track) track.style.animationDuration = Math.max(30, items.length * 5) + "s";
   }
 
-  /* Roster strip: name plates, no photos. */
-  function artistStrip(all) {
+  /* Roster: a ruled index of name plates, no photos. Artists with a release in the catalogue,
+     A to Z. The line under each name is `tagline` from catalog.json (artists[]); if an artist
+     has none it falls back to the genres on their releases, most common first. */
+  function artistStrip(data) {
     var mount = document.getElementById("artistStrip");
     if (!mount) return;
-    var map = {};
-    all.forEach(function (r) { if (r.artist) map[r.artist] = (map[r.artist] || 0) + 1; });
+    var all = data.releases || [];
+    var profiles = {};
+    (data.artists || []).forEach(function (a) { if (a && a.name) profiles[a.name] = a; });
+    var counts = {};
+    var genres = {};
+    all.forEach(function (r) {
+      if (!r.artist) return;
+      counts[r.artist] = (counts[r.artist] || 0) + 1;
+      if (r.genre) {
+        genres[r.artist] = genres[r.artist] || {};
+        genres[r.artist][r.genre] = (genres[r.artist][r.genre] || 0) + 1;
+      }
+    });
     var slug = function (n) { return n.toLowerCase().replace(/\./g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); };
-    mount.innerHTML = Object.keys(map).sort().map(function (n, i) {
-      return '<a class="artist-plate" href="/artists/' + esc(slug(n)) + '"><span class="artist-plate-n">' +
-        String(i + 1).padStart(2, "0") + '</span><span class="artist-plate-name">' + esc(n) +
-        '</span><span class="artist-plate-c">' + map[n] + (map[n] === 1 ? " REL" : " RELS") + "</span></a>";
+    var topGenres = function (n) {
+      var g = genres[n] || {};
+      return Object.keys(g).sort(function (a, b) { return g[b] - g[a] || a.localeCompare(b); }).slice(0, 2).join(" · ");
+    };
+    mount.innerHTML = Object.keys(counts).sort().map(function (n, i) {
+      var p = profiles[n] || {};
+      var href = p.slug || "/artists/" + slug(n);
+      var role = p.tagline || topGenres(n);
+      var c = counts[n];
+      return '<a class="artist-plate" href="' + esc(href) + '">' +
+        '<span class="artist-plate-n">' + String(i + 1).padStart(2, "0") + "</span>" +
+        '<span class="artist-plate-name">' + esc(n) + "</span>" +
+        (role ? '<span class="artist-plate-role">' + esc(role) + "</span>" : "") +
+        '<span class="artist-plate-c">' + c + (c === 1 ? " release" : " releases") + "</span>" +
+        '<span class="artist-plate-go" aria-hidden="true">→</span></a>';
     }).join("");
+  }
+
+  /* Foot of the sleeve index: how deep the catalogue goes. */
+  function wallCount(all) {
+    var el = document.querySelector("[data-wall-count]");
+    var n = all.length;
+    if (el && n) el.textContent = n + (n === 1 ? " release" : " releases");
   }
 
   fetch("/data/catalog.json")
@@ -156,7 +193,8 @@
       grid.removeAttribute("aria-busy");
       if (window.VCRPlayer && VCRPlayer.getState) syncAir(VCRPlayer.getState());
       statusStrip(data.releases || [], allReleases);
-      artistStrip(data.releases || []);
+      wallCount(data.releases || []);
+      artistStrip(data);
     })
     .catch(function () {
       grid.removeAttribute("aria-busy");

@@ -116,8 +116,52 @@
     });
   }
 
+  // Genre tags under each mix. A tape that carries its own `genres` (array or comma list, from the
+  // feed or the data file) uses those. Otherwise the rules below read the TITLE only (a description
+  // can say "Copy House Publishing" and mean nothing by it) and a mix that matches nothing shows no
+  // tags rather than a guess. To tag a series, add a rule: [/title regex/i, ["Tag", "Tag"]].
+  var GENRE_RULES = [
+    [/jungle/i, ["Jungle"]],
+    [/\b(drum\s*(&|and|n)\s*bass|dnb|d&b)\b/i, ["Drum & Bass"]],
+    [/\b(uk\s+)?garage\b/i, ["UK Garage"]],
+    [/\bhouse\b/i, ["House"]],
+    [/\btechno\b/i, ["Techno"]],
+    [/\bdisco\b/i, ["Disco"]],
+    [/\brave\b/i, ["Rave"]],
+    [/\bhip[\s-]*hop\b|\bboom[\s-]*bap\b/i, ["Hip Hop"]],
+    [/\bbreak(s|beats?)\b/i, ["Breaks"]],
+    [/\bjazz/i, ["Jazz"]],
+    [/\bfunk/i, ["Funk"]],
+    [/\bambient\b/i, ["Ambient"]],
+    [/\bdub\b/i, ["Dub"]],
+    [/\blo[\s-]*fi\b/i, ["Lo-fi"]],
+  ];
+
+  function genresOf(t) {
+    var out = [];
+    function add(g) {
+      var s = String(g || "").replace(/\s+/g, " ").trim();
+      if (!s) return;
+      for (var i = 0; i < out.length; i++) {
+        if (out[i].toLowerCase() === s.toLowerCase()) return;
+      }
+      out.push(s);
+    }
+    var given = t && (t.genres || t.genre);
+    if (given) {
+      (Array.isArray(given) ? given : String(given).split(/[,|]/)).forEach(add);
+    } else {
+      var title = String((t && t.title) || "");
+      GENRE_RULES.forEach(function (rule) {
+        if (rule[0].test(title)) rule[1].forEach(add);
+      });
+    }
+    return out.slice(0, 3);
+  }
+
   function cardHtml(t) {
     var cover = t.cover || "";
+    var genres = genresOf(t);
     var sleeve =
       '<button type="button" class="mix-art tape-play" data-sc-url="' +
       esc(t.permalink) +
@@ -152,7 +196,17 @@
       '<p class="tape-spec">' +
       (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
       (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
-      "</p></div></article>"
+      "</p>" +
+      (genres.length
+        ? '<ul class="mix-genres" aria-label="Genres">' +
+          genres
+            .map(function (g) {
+              return "<li>" + esc(g) + "</li>";
+            })
+            .join("") +
+          "</ul>"
+        : "") +
+      "</div></article>"
     );
   }
 
