@@ -17,6 +17,22 @@
   var sleeve = plate.querySelector(".listen-sleeve");
   var art = plate.querySelector("[data-plate-art]");
 
+  // Link-out feature: a release that lives on Bandcamp has no on-site cue or cart SKU,
+  // so the plate just shows its own sleeve and sends Play to the Bandcamp page.
+  var EXTERNAL_URL = plate.getAttribute("data-external-url");
+  if (EXTERNAL_URL) {
+    [playBtn, hitBtn].forEach(function (btn) {
+      if (!btn) return;
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.open(EXTERNAL_URL, "_blank", "noopener");
+      });
+    });
+    if (buyBtn) buyBtn.hidden = true;
+    if (buyDigitalBtn) buyDigitalBtn.hidden = true;
+    return;
+  }
+
   var featured = {
     id: FEATURED_ID,
     playable: false,
