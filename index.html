@@ -109,7 +109,7 @@
   <link rel="stylesheet" href="css/news.css?v=st33"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/home-zine.css?v=st35"/>
-  <link rel="stylesheet" href="css/home-folio.css?v=st33"/>
+  <link rel="stylesheet" href="css/home-folio.css?v=st34"/>
   <link rel="stylesheet" href="css/mixtapes.css?v=st35"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
   <link rel="stylesheet" href="css/steel.css?v=st34"/>
@@ -399,7 +399,7 @@
           <p class="zine-desk-kicker">record club</p>
           <header class="club-join-head">
             <h2 class="club-join-title" id="join-title">Join the club</h2>
-       
+            <p class="club-join-dek" id="join-dek">A member number, first listens, 30% or 50% off music — and Club Credit toward the pressings you choose. Nothing ships unless you pick it.</p>
           </header>
         </div>
 
@@ -409,20 +409,20 @@
               <span class="join-level-dot" aria-hidden="true"></span>
               <span class="join-level-name">Free</span>
               <span class="join-level-price">$0</span>
-              <span class="join-level-blurb">Release alerts and the catalogue.</span>
+              <span class="join-level-blurb">Release alerts, the catalogue and first listens.</span>
             </button>
             <button type="button" class="join-level" data-level="club" role="radio" aria-checked="false">
-              <span class="join-plan-rec">Member price</span>
+              <span class="join-plan-rec">Pays for itself at $17</span>
               <span class="join-level-dot" aria-hidden="true"></span>
               <span class="join-level-name">Club</span>
-              <span class="join-level-price">$5 / year</span>
-              <span class="join-level-blurb">30% off all music, plus credit toward cassette/vinyl.</span>
+              <span class="join-level-price">$5 CAD / year</span>
+              <span class="join-level-blurb">30% off all music — digital, cassette and vinyl.</span>
             </button>
             <button type="button" class="join-level" data-level="premium" role="radio" aria-checked="false">
               <span class="join-level-dot" aria-hidden="true"></span>
               <span class="join-level-name">Premium</span>
-              <span class="join-level-price">from $10 / year</span>
-              <span class="join-level-blurb">50% off all music, plus credit toward cassette/vinyl.</span>
+              <span class="join-level-price">from $10 CAD / year</span>
+              <span class="join-level-blurb">50% off all music, plus Club Credit: pay $10, get $25 toward cassette and vinyl.</span>
             </button>
           </div>
 
@@ -432,7 +432,9 @@
                 <p class="join-panel-label">Club Copy · member card</p>
               </div>
               <div class="join-card-lcd" aria-hidden="true">
+                <img class="join-card-mark" src="/club-copy-nav-ink.webp" alt="" width="901" height="418" loading="lazy" decoding="async"/>
                 <span class="join-card-no" id="joinCardNo">No. ————</span>
+                <span class="join-card-name" id="joinCardName"></span>
                 <span class="join-card-tier" id="joinCardTier">Free</span>
               </div>
               <div class="join-fields">
@@ -621,14 +623,17 @@
 
     var cardNo = document.getElementById('joinCardNo');
     var cardTier = document.getElementById('joinCardTier');
+    var cardName = document.getElementById('joinCardName');
     function syncCard() {
       if (cardTier) cardTier.textContent = state.level;
+      if (cardName) cardName.textContent = joinName ? joinName.value.trim() : '';
       if (!cardNo) return;
       var em = joinEmail && joinEmail.value.trim();
       var ok = em && window.ClubMember && ClubMember.isValidEmail(em);
       cardNo.textContent = 'No. ' + (ok ? ClubMember.memberNumberFromEmail(em) : '————');
     }
     if (joinEmail) joinEmail.addEventListener('input', syncCard);
+    if (joinName) joinName.addEventListener('input', syncCard);
 
     function syncJoin() {
       syncCard();

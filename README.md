@@ -7,7 +7,7 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 One world: brushed iPod steel, not Bondi ice. Night Shift is the magazine *inside* that world — same aluminum, same type.
 Homepage hero is a listening plate (sleeve + LCD + Play), not a Click Wheel replica: `css/listen-plate.css`.
 `css/club-copy-os.css` only reaffirms the steel tokens (grey, no cyan fills). `css/steel.css` is the shared instrument layer for the homepage and every release page: LCD window (plate + release hero, same recipe as the dock), format glyphs, pressed steel, nav, tracklist, specs table, and the type floor (nothing under 10px, catalogue specs 11px, small text ≥ 4.5:1).
-Record Club on the homepage is a steel member card: the LCD shows the member number as the email is typed (same hash as `api/club-member.js`). Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum LCD spec bar — invert play, pearl LED, no lime).
+Record Club on the homepage is a member card (ID-1 proportion, Club Copy mark) and it is the only metal object in that section: levels are a flat ruled tracklist. The card shows the member number as the email is typed (same hash as `api/club-member.js`) and the name as it is typed; its finish follows the selected level — brushed aluminium (Free), graphite (Club), chrome (Premium) — via `:has()`, no JS. Level copy must match `lib/catalog.js` `MEMBERSHIP` (only Premium earns Club Credit). Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum LCD spec bar — invert play, pearl LED, no lime).
 
 - Steel `#E8E8E6` · LCD ink `#1A1A1A` · Stamp `#B8B8B4` · Select `#2A2A28` · LED `#E4E4E0`
 - Type: Oswald display · Archivo body · Lucida Grande UI/LCD · IBM Plex Mono specs
