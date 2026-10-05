@@ -116,10 +116,15 @@
     });
   }
 
-  // Genre tags under each mix. A tape that carries its own `genres` (array or comma list, from the
-  // feed or the data file) uses those. Otherwise the rules below read the TITLE only (a description
-  // can say "Copy House Publishing" and mean nothing by it) and a mix that matches nothing shows no
-  // tags rather than a guess. To tag a series, add a rule: [/title regex/i, ["Tag", "Tag"]].
+  // Genre tags under each mix, first match wins:
+  //   1. SoundCloud's own genre + tags for that mix, snapshotted into data/mix-genres.json by
+  //      scripts/sync-soundcloud-genres.js (the RSS feed does not carry them);
+  //   2. a `genres` list (array or comma string) on the tape itself;
+  //   3. the rules below, which read the TITLE only (a description can say "Copy House Publishing"
+  //      and mean nothing by it). A mix that matches nothing shows no tags rather than a guess.
+  // To tag a series by hand, add a rule: [/title regex/i, ["Tag", "Tag"]].
+  var scTags = {};
+
   var GENRE_RULES = [
     [/jungle/i, ["Jungle"]],
     [/\b(drum\s*(&|and|n)\s*bass|dnb|d&b)\b/i, ["Drum & Bass"]],
@@ -147,7 +152,7 @@
       }
       out.push(s);
     }
-    var given = t && (t.genres || t.genre);
+    var given = (t && scTags[t.id]) || (t && (t.genres || t.genre));
     if (given) {
       (Array.isArray(given) ? given : String(given).split(/[,|]/)).forEach(add);
     } else {
@@ -408,18 +413,34 @@
     }
   }
 
+  // SoundCloud genre/tag snapshot. Optional: if it is missing or unreadable the cards just fall
+  // back to the title rules.
+  function loadTags(cb) {
+    fetch(asset("data/mix-genres.json"), { credentials: "same-origin" })
+      .then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+      .then(function (data) {
+        scTags = (data && data.tags) || {};
+      })
+      .catch(function () {})
+      .then(cb);
+  }
+
   function hydrate() {
     nowEl = $("[data-tapes-now]");
     if (!$("[data-tapes-grid]")) return;
-    loadList(function (tapes) {
-      var usable = (tapes || []).filter(function (t) {
-        return t && t.permalink && !isRelease(t);
+    loadTags(function () {
+      loadList(function (tapes) {
+        var usable = (tapes || []).filter(function (t) {
+          return t && t.permalink && !isRelease(t);
+        });
+        if (!usable.length && !(tapes && tapes.length)) {
+          fail();
+          return;
+        }
+        paint(usable);
       });
-      if (!usable.length && !(tapes && tapes.length)) {
-        fail();
-        return;
-      }
-      paint(usable);
     });
   }
 
