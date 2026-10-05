@@ -262,6 +262,17 @@
     return out;
   }
 
+  // Show at most `n` tapes of any one album/series, keeping feed order (newest first).
+  function capPerAlbum(tapes, n) {
+    if (!(n > 0)) return tapes;
+    var seen = {};
+    return tapes.filter(function (t) {
+      var k = albumKey(t);
+      seen[k] = (seen[k] || 0) + 1;
+      return seen[k] <= n;
+    });
+  }
+
   function paint(tapes) {
     lastTapes = tapes;
     var grids = document.querySelectorAll("[data-tapes-grid]");
@@ -276,6 +287,8 @@
             return slotOf(t) === slot;
           })
         : tapes;
+      var perAlbum = parseInt(grid.getAttribute("data-tapes-per-album") || "0", 10);
+      pool = capPerAlbum(pool, perAlbum);
       var slice;
       if (mix) {
         var cap = parseInt(grid.getAttribute("data-tapes-row-cap") || "2", 10);
