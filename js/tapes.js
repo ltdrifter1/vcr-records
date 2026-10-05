@@ -164,7 +164,7 @@
   // Day = chill / variety. Night = heavier / dance.
   // A tape can pin itself with slot: "day" | "night" in the feed data; otherwise the first
   // matching rule wins and anything unmatched lands in Day. Edit NIGHT_RULES to re-sort.
-  var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i, /liquid love/i];
+  var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i, /liquid love/i, /deep in th[ae]\s+jungle/i];
 
   // Title-only keywords for dance mixes (not the description, and not "club": that is the label name).
   var NIGHT_TITLE_WORDS = /\b(house|techno|dance|rave|disco|garage|dnb|drum\s*(&|and|n)\s*bass|warehouse)\b/i;
