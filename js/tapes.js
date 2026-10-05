@@ -167,7 +167,7 @@
   var NIGHT_RULES = [/loft/i, /deep in the club/i, /nightshift/i, /liquid love/i];
 
   // Title-only keywords for dance mixes (not the description, and not "club": that is the label name).
-  var NIGHT_TITLE_WORDS = /\b(house|techno|dance|rave|disco|garage|jungle|dnb|drum\s*(&|and|n)\s*bass|warehouse)\b/i;
+  var NIGHT_TITLE_WORDS = /\b(house|techno|dance|rave|disco|garage|dnb|drum\s*(&|and|n)\s*bass|warehouse)\b/i;
 
   // Releases that were posted to SoundCloud but live in the catalogue (Bandcamp) — keep them out of Mixes.
   var RELEASE_RULES = [/molly\s*haze/i, /molly\W{0,3}s?\s+hazy/i, /hazy\s+edit/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i];
@@ -196,6 +196,7 @@
     [/nightshift/i, "nightshift"],
     [/loft/i, "loft"],
     [/liquid love/i, "liquid love"],
+    [/deep in th[ae]\s+jungle/i, "deep in the jungle"],
   ];
 
   function seriesOf(title) {
@@ -206,9 +207,11 @@
     var base = raw
       .replace(/\(.*?\)/g, " ")
       .replace(/\b(vol(ume)?|part|pt|no)\.?\s*\d+\b/g, " ")
+      .replace(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\b/g, " ")
       .replace(/[\d#]+/g, " ")
       .replace(/[^a-z ]+/g, " ")
       .replace(/\s+/g, " ")
+      .replace(/( (mix|mixtape|pt|part|ep|episode))+$/, "")
       .trim();
     return base.length > 2 && base !== raw.trim() ? base : "";
   }
