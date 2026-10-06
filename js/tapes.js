@@ -116,8 +116,57 @@
     });
   }
 
+  // Genre tags under each mix, first match wins:
+  //   1. SoundCloud's own genre + tags for that mix, snapshotted into data/mix-genres.json by
+  //      scripts/sync-soundcloud-genres.js (the RSS feed does not carry them);
+  //   2. a `genres` list (array or comma string) on the tape itself;
+  //   3. the rules below, which read the TITLE only (a description can say "Copy House Publishing"
+  //      and mean nothing by it). A mix that matches nothing shows no tags rather than a guess.
+  // To tag a series by hand, add a rule: [/title regex/i, ["Tag", "Tag"]].
+  var scTags = {};
+
+  var GENRE_RULES = [
+    [/jungle/i, ["Jungle"]],
+    [/\b(drum\s*(&|and|n)\s*bass|dnb|d&b)\b/i, ["Drum & Bass"]],
+    [/\b(uk\s+)?garage\b/i, ["UK Garage"]],
+    [/\bhouse\b/i, ["House"]],
+    [/\btechno\b/i, ["Techno"]],
+    [/\bdisco\b/i, ["Disco"]],
+    [/\brave\b/i, ["Rave"]],
+    [/\bhip[\s-]*hop\b|\bboom[\s-]*bap\b/i, ["Hip Hop"]],
+    [/\bbreak(s|beats?)\b/i, ["Breaks"]],
+    [/\bjazz/i, ["Jazz"]],
+    [/\bfunk/i, ["Funk"]],
+    [/\bambient\b/i, ["Ambient"]],
+    [/\bdub\b/i, ["Dub"]],
+    [/\blo[\s-]*fi\b/i, ["Lo-fi"]],
+  ];
+
+  function genresOf(t) {
+    var out = [];
+    function add(g) {
+      var s = String(g || "").replace(/\s+/g, " ").trim();
+      if (!s) return;
+      for (var i = 0; i < out.length; i++) {
+        if (out[i].toLowerCase() === s.toLowerCase()) return;
+      }
+      out.push(s);
+    }
+    var given = (t && scTags[t.id]) || (t && (t.genres || t.genre));
+    if (given) {
+      (Array.isArray(given) ? given : String(given).split(/[,|]/)).forEach(add);
+    } else {
+      var title = String((t && t.title) || "");
+      GENRE_RULES.forEach(function (rule) {
+        if (rule[0].test(title)) rule[1].forEach(add);
+      });
+    }
+    return out.slice(0, 3);
+  }
+
   function cardHtml(t) {
     var cover = t.cover || "";
+    var genres = genresOf(t);
     var sleeve =
       '<button type="button" class="mix-art tape-play" data-sc-url="' +
       esc(t.permalink) +
@@ -152,7 +201,17 @@
       '<p class="tape-spec">' +
       (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
       (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
-      "</p></div></article>"
+      "</p>" +
+      (genres.length
+        ? '<ul class="mix-genres" aria-label="Genres">' +
+          genres
+            .map(function (g) {
+              return "<li>" + esc(g) + "</li>";
+            })
+            .join("") +
+          "</ul>"
+        : "") +
+      "</div></article>"
     );
   }
 
@@ -354,18 +413,34 @@
     }
   }
 
+  // SoundCloud genre/tag snapshot. Optional: if it is missing or unreadable the cards just fall
+  // back to the title rules.
+  function loadTags(cb) {
+    fetch(asset("data/mix-genres.json"), { credentials: "same-origin" })
+      .then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+      .then(function (data) {
+        scTags = (data && data.tags) || {};
+      })
+      .catch(function () {})
+      .then(cb);
+  }
+
   function hydrate() {
     nowEl = $("[data-tapes-now]");
     if (!$("[data-tapes-grid]")) return;
-    loadList(function (tapes) {
-      var usable = (tapes || []).filter(function (t) {
-        return t && t.permalink && !isRelease(t);
+    loadTags(function () {
+      loadList(function (tapes) {
+        var usable = (tapes || []).filter(function (t) {
+          return t && t.permalink && !isRelease(t);
+        });
+        if (!usable.length && !(tapes && tapes.length)) {
+          fail();
+          return;
+        }
+        paint(usable);
       });
-      if (!usable.length && !(tapes && tapes.length)) {
-        fail();
-        return;
-      }
-      paint(usable);
     });
   }
 

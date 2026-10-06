@@ -40,4 +40,27 @@ assert.ok(/before=1/.test(parsed.next));
 assert.strictEqual(sc.HANDLE, "ltdrifta");
 assert.ok(sc.PROFILE_URL.indexOf("ltdrifta") !== -1);
 
+// Track-page tags. SYNTHETIC fixture built from SoundCloud's documented `tag_list` format
+// (space separated, multi-word tags in double quotes) and the `__sc_hydration` block the site
+// embeds. It proves the parsing, not that live pages still look like this.
+assert.deepStrictEqual(sc.splitTagList('house "deep house" chill  "uk garage"'), ["house", "deep house", "chill", "uk garage"]);
+assert.deepStrictEqual(sc.splitTagList(""), []);
+const page = (data) =>
+  "<html><script>window.__sc_hydration = " +
+  JSON.stringify([{ hydratable: "anonymousId", data: "x" }, { hydratable: "sound", data }]) +
+  ";</script></html>";
+assert.deepStrictEqual(
+  sc.parseTrackPage(page({ id: 2408664969, genre: "House", tag_list: 'deep "Deep House" chill house' }), "2408664969"),
+  ["House", "deep", "Deep House", "chill"]
+);
+assert.deepStrictEqual(sc.parseTrackPage(page({ id: 1, genre: "", tag_list: "" }), "1"), []);
+assert.deepStrictEqual(sc.parseTrackPage(page({ id: 5, genre: "House", tag_list: "x" }), "6"), [], "wrong track gives no tags");
+assert.deepStrictEqual(sc.parseTrackPage("<html>consent wall</html>", "1"), [], "no hydration block gives no tags");
+assert.deepStrictEqual(sc.parseTrackPage("window.__sc_hydration = [nope</script>", "1"), [], "bad JSON gives no tags");
+assert.ok(
+  sc.parseTrackPage(page({ id: 1, genre: "x", tag_list: "a".repeat(40) + " ok" }), "1").indexOf("ok") !== -1 &&
+    sc.parseTrackPage(page({ id: 1, genre: "x", tag_list: "a".repeat(40) + " ok" }), "1").length === 2,
+  "over-long tags (sentences) are dropped"
+);
+
 console.log("ok");

@@ -21,6 +21,10 @@ Record Club on the homepage is a member card (ID-1 proportion, Club Copy mark) a
 - **Digital**: sold on-site (email delivery after Checkout).
 - On-site listening plays Bandcamp `mp3-128` streams through the Club Copy player (`/api/bandcamp-stream` 302s to the live file; `/api/preview` returns the same URL as JSON). Local `previews/` files are a fallback only. Unwired or dead cues surface an error in the player. The player does not attach Web Audio to those streams (Bandcamp has no CORS headers, and `MediaElementSource` would mute playback).
 
+### Mix genre tags
+
+The genre tags under each mix are SoundCloud's own genre + tags for that mix. The RSS feed doesn't carry them, so they are snapshotted from the track pages: `node scripts/sync-soundcloud-genres.js` writes `data/mix-genres.json` (run it when mixes are added or retagged, then commit the file). The summary line reports how many mixes came back with tags; it exits non-zero if none did. A mix with no SoundCloud tags falls back to genre words in its title (`GENRE_RULES` in `js/tapes.js`), and shows no tags if there are none.
+
 ### Stripe setup
 
 1. Set `STRIPE_SECRET_KEY` on Vercel (prefer a restricted key `rk_…`).
