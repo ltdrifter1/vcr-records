@@ -63,4 +63,29 @@ assert.ok(
   "over-long tags (sentences) are dropped"
 );
 
+// Real lists returned by the first live sync (SoundCloud genre first, then tag_list).
+assert.deepStrictEqual(
+  sc.cleanTags(["Dance & EDM", "deep", "jungle", "uk garage", "breakbeat", "lofi"]),
+  ["deep", "jungle", "uk garage", "breakbeat", "lofi", "Dance & EDM"],
+  "umbrella category goes last"
+);
+assert.deepStrictEqual(
+  sc.cleanTags(["Indie", "Alternative Rock", "Jazz & Blues", "dj mix", "chill", "mellow"]),
+  ["Indie", "Alternative Rock", "Jazz & Blues", "chill", "mellow"],
+  "format tag dropped"
+);
+assert.deepStrictEqual(
+  sc.cleanTags(["R&B & Soul", "neosoul", "chill", "#djmix", "altRnB", "bedroomsoul"]),
+  ["R&B & Soul", "neosoul", "chill", "altRnB", "bedroomsoul"],
+  "#djmix dropped"
+);
+assert.deepStrictEqual(
+  sc.cleanTags(["Drum & Bass", "liquid", "soulful", "atmospheric", "liquid drum & bass", "liquid dnb"]),
+  ["Drum & Bass", "liquid", "soulful", "atmospheric", "liquid drum & bass"],
+  "same genre under two names collapses"
+);
+assert.deepStrictEqual(sc.cleanTags(["Drum & Bass", "drum and bass", "dnb", "D&B"]), ["Drum & Bass"]);
+assert.deepStrictEqual(sc.cleanTags(["Electronic", "house"]), ["house", "Electronic"]);
+assert.deepStrictEqual(sc.cleanTags(null), []);
+
 console.log("ok");
