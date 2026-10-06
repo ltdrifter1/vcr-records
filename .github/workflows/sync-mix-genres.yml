@@ -1,0 +1,38 @@
+name: Sync mix genres
+
+# Copies SoundCloud's own genre + tags for each mix into data/mix-genres.json (shown under each
+# mix on the site). Runs daily and on demand; commits only when something changed, and Vercel
+# redeploys from that commit. See "Mix genre tags" in the README.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 9 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-mix-genres
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Read genres and tags from SoundCloud
+        run: node scripts/sync-soundcloud-genres.js
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/mix-genres.json; then
+            echo "mix-genres.json unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/mix-genres.json
+          git commit -m "Mixes: sync genre tags from SoundCloud"
+          git push

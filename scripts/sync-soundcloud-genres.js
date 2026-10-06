@@ -39,9 +39,16 @@ async function main() {
   let empty = 0;
   let failed = 0;
 
+  let diagnosed = 0;
   for (const tape of feed.tapes) {
     try {
-      const found = (await sc.fetchTrackTags(tape.permalink, tape.soundcloudId)).slice(0, MAX_TAGS);
+      const page = await sc.fetchTrackPage(tape.permalink);
+      if (!page.status || page.status >= 400) throw new Error("SoundCloud page " + page.status);
+      const found = sc.parseTrackPage(page.html, tape.soundcloudId).slice(0, MAX_TAGS);
+      if (!found.length && diagnosed < 2) {
+        diagnosed++;
+        process.stdout.write("  no tags read for " + JSON.stringify(tape.title) + ": " + JSON.stringify(sc.describeTrackPage(page)) + "\n");
+      }
       if (found.length) {
         tags[tape.id] = found;
         tagged++;
@@ -57,11 +64,12 @@ async function main() {
     await sleep(PAUSE_MS);
   }
 
+  const changed = JSON.stringify(tags) !== JSON.stringify(previous);
   const body = { source: "soundcloud-track-pages", handle: sc.HANDLE, fetchedAt: new Date().toISOString(), tags: tags };
-  fs.writeFileSync(DEST, JSON.stringify(body, null, 2) + "\n");
+  if (changed) fs.writeFileSync(DEST, JSON.stringify(body, null, 2) + "\n");
   process.stdout.write(
     "Mixes: " + feed.tapes.length + " · with tags: " + tagged + " · no tags on SoundCloud (or page unreadable): " + empty + " · fetch errors: " + failed + "\n" +
-    "Wrote " + DEST + "\n"
+    (changed ? "Wrote " : "No change to ") + DEST + "\n"
   );
   if (feed.tapes.length && !tagged) {
     process.stderr.write("No tags were read. Either none of the mixes are tagged on SoundCloud, or the page markup has changed.\n");
