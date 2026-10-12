@@ -341,7 +341,7 @@
       catNo = '<p class="cat-id">' + esc(rel.catalogue) + '</p>';
     }
     var hasPreview = Array.isArray(rel.tracks) && rel.tracks.some(function (t) {
-      return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack));
+      return !!(t && (t.preview || t.bandcampTrackId || t.previewTrack || t.soundcloud));
     });
     var playBtn = hasPreview
       ? (
@@ -591,7 +591,7 @@
     var meta = [rel.kind, rel.year, rel.genre, rel.legacyCatalogue || ''].filter(Boolean).join(' · ');
     var tracks = Array.isArray(rel.tracks) ? rel.tracks : [];
     var hasPrev = tracks.some(function (t) {
-      return !!(t && (t.preview || t.bandcampTrackId));
+      return !!(t && (t.preview || t.bandcampTrackId || t.soundcloud));
     });
     var play =
       '<button type="button" class="btn btn-chrome-on-dark" data-play-release="' +
@@ -603,7 +603,7 @@
     var trackHtml = tracks.length
       ? tracks.map(function (t, i) {
           var dur = fmtDur(t.duration);
-          var wired = !!(t && (t.preview || t.bandcampTrackId || t.bandcamp));
+          var wired = !!(t && (t.preview || t.bandcampTrackId || t.bandcamp || t.soundcloud));
           return (
             '<button type="button" class="inspect-track' + (wired ? '' : ' is-unwired') + '" data-play-release="' + esc(rel.id) + '"' +
               (t.id ? ' data-play-track="' + esc(t.id) + '"' : '') +
