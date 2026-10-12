@@ -309,6 +309,7 @@
     return !!(
       t &&
       (t.bandcampTrackId ||
+        t.soundcloud ||
         (release && (release.bandcampUrl || release.bandcamp)) ||
         t.preview)
     );
@@ -349,15 +350,19 @@
       .map(function (t, i) {
         var src = streamSrc(release, t);
         var fromBandcamp = /bandcamp-stream/.test(src);
+        var scPermalink = String((t && t.soundcloud) || "");
+        var viaSoundcloud = !!(scPermalink && !t.preview && !t.bandcampTrackId && !fromBandcamp);
         return {
           id: t.id,
           title: t.title,
-          src: src,
+          src: viaSoundcloud ? "" : src,
           filePreview: filePreviewSrc(t.preview),
           fromBandcamp: fromBandcamp,
           bandcampTrackId: t.bandcampTrackId || null,
-          isPreview: true,
-          previewDuration: fromBandcamp ? 0 : t.previewDuration || 90,
+          permalink: viaSoundcloud ? scPermalink : "",
+          isSoundcloud: viaSoundcloud,
+          isPreview: !viaSoundcloud,
+          previewDuration: viaSoundcloud || fromBandcamp ? 0 : t.previewDuration || 90,
           releaseId: release.id,
           releaseTitle: release.title,
           artist: release.artist,
@@ -1743,9 +1748,10 @@
     if (i < 0 || i >= queue.length) return Promise.resolve(null);
     clearBumper();
     hidePreviewError();
-    pauseSoundCloud();
     index = i;
     var track = queue[index];
+    if (isScTrack(track)) return loadSoundCloud(track, !!autoplay);
+    pauseSoundCloud();
     ensureAudio();
     var playSrc = track.src;
     if (!playSrc) {
