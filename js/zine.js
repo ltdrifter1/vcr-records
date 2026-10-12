@@ -372,13 +372,27 @@
     );
   }
 
+  function coverSlug() {
+    var link = document.querySelector(".zine--home .zine-cover-title a, .zine-lead .zine-headline a");
+    if (!link) return "";
+    var href = link.getAttribute("href") || "";
+    if (href.charAt(href.length - 1) === "/") href = href.slice(0, -1);
+    return href;
+  }
+
   function fillHomePosts(articles) {
     var root = document.querySelector("[data-zine-posts]");
     if (!root) return;
+    var lead = coverSlug();
     var list = (articles || [])
       .slice()
       .sort(function (a, b) {
         return (b.date || "").localeCompare(a.date || "");
+      })
+      .filter(function (a) {
+        var slug = a.slug || "";
+        if (slug.charAt(slug.length - 1) === "/") slug = slug.slice(0, -1);
+        return !lead || slug !== lead;
       })
       .slice(0, 3);
     if (!list.length) return;

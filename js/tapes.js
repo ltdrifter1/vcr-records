@@ -250,8 +250,8 @@
   // Title-only keywords for dance mixes (not the description, and not "club": that is the label name).
   var NIGHT_TITLE_WORDS = /\b(house|techno|dance|rave|disco|garage|dnb|drum\s*(&|and|n)\s*bass|warehouse)\b/i;
 
-  // Releases that were posted to SoundCloud but live in the catalogue (Bandcamp) — keep them out of Mixes.
-  var RELEASE_RULES = [/molly\s*haze/i, /molly\W{0,3}s?\s+hazy/i, /hazy\s+edit/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i];
+  // Releases that were posted to SoundCloud but live in the catalogue — keep them out of Mixes.
+  var RELEASE_RULES = [/molly\s*haze/i, /molly\W{0,3}s?\s+hazy/i, /hazy\s+edit/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i, /what'?s\s+luv/i, /\babsolutely\s+not\b/i];
 
   // Mixes we do not want on the site at all.
   var HIDE_RULES = [/dirt road radio/i];
