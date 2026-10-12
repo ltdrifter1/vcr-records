@@ -178,7 +178,7 @@
       return r.json();
     })
     .then(function (data) {
-      var FEATURED_ID = "l-t-drifta";
+      var FEATURED_ID = "thousand-knives";
       var allReleases = (data.releases || []).slice().sort(function (a, b) {
         if (a.id === FEATURED_ID) return -1;
         if (b.id === FEATURED_ID) return 1;
