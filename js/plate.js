@@ -42,7 +42,7 @@
     image: "",
     cover: "bridget-in-my-room-cover.webp",
     title: "Bridget In My Room",
-    artist: "Rainier",
+    artist: "Forsberg",
     digitalSku: "dg-bridget-in-my-room",
     digitalPrice: 8,
     digitalName: "Bridget In My Room — Digital",
