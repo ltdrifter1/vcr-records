@@ -42,7 +42,7 @@
     var p = params();
     var artist = String(p.get('artist') || p.get('artistId') || '').trim();
     var artistKey = artist.toLowerCase();
-    if (artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'rainier';
+    if (artistKey === 'rainier' || artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'forsberg';
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
     if (view === 'covers' || view === 'sleeves' || view === 'grid') viewMode = 'covers';
@@ -78,7 +78,7 @@
   function matchesArtist(rel, filter) {
     if (!filter) return true;
     var q = filter.toLowerCase();
-    if (q === 'inlet-knight' || q === 'rosco' || q === 'roscoe') q = 'rainier';
+    if (q === 'rainier' || q === 'inlet-knight' || q === 'rosco' || q === 'roscoe') q = 'forsberg';
     var id = String(rel.artistId || '').toLowerCase();
     var name = String(rel.artist || '').toLowerCase();
     return id === q || name === q || slugify(name) === q;
@@ -407,9 +407,13 @@
       seen[id] = true;
       out.push({ id: id, name: rel.artist || id });
     });
+    var rosterOrder = ['forsberg', 'lt-drifta', 'riscape', 'molly-haze'];
     out.sort(function (a, b) {
-      var pinLast = function (x) { return String(x.id || '').toLowerCase() === 'lt-drifta' ? 1 : 0; };
-      var d = pinLast(a) - pinLast(b);
+      var rank = function (x) {
+        var i = rosterOrder.indexOf(String(x.id || '').toLowerCase());
+        return i === -1 ? rosterOrder.length : i;
+      };
+      var d = rank(a) - rank(b);
       if (d) return d;
       return a.name.localeCompare(b.name);
     });

@@ -29,7 +29,7 @@ const PAGE_MAP = {
   'j-adore.html': '/j-adore',
   'letters-from-another-era.html': '/letters-from-another-era',
   'inlet-knight.html': '/inlet-knight',
-  'artists/rainier.html': '/artists/rainier',
+  'artists/forsberg.html': '/artists/forsberg',
   'news/j-adore.html': '/news/j-adore',
   'news/bridget-in-my-room.html': '/news/bridget-in-my-room',
   'news/need-you.html': '/news/need-you',
@@ -905,7 +905,7 @@ function patchIndex() {
           "https://planetmp3.net"
         ],
         "member": [
-          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/rainier", "name": "Rainier", "url": "https://www.clubcopy.ca/artists/rainier" },
+          { "@type": "MusicGroup", "@id": "https://www.clubcopy.ca/artists/forsberg", "name": "Forsberg", "url": "https://www.clubcopy.ca/artists/forsberg" },
           { "@type": "Person", "@id": "https://www.clubcopy.ca/artists/lt-drifta", "name": "L.T. Drifta", "url": "https://www.clubcopy.ca/artists/lt-drifta" }
         ]
       }`
@@ -914,7 +914,7 @@ function patchIndex() {
   // Fix empty news alts + place image
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-night.webp', 'Halftone face in negative — Welcome, Rainier'],
+    ['news-night.webp', 'Halftone face in negative — Welcome, Forsberg'],
   ];
   for (const [src, alt] of altMap) {
     html = html.replace(
@@ -923,8 +923,8 @@ function patchIndex() {
     );
   }
   html = html.replace(
-    /(<img class="place-img" src="artists\/rainier\.webp" )alt=""/,
-    '$1alt="Rainier — Club Copy artist"'
+    /(<img class="place-img" src="artists\/forsberg\.webp" )alt=""/,
+    '$1alt="Forsberg — Club Copy artist"'
   );
 
   // Twitter cards on homepage
@@ -948,7 +948,7 @@ function patchNewsIndex() {
   let html = fs.readFileSync(file, 'utf8');
   const altMap = [
     ['news-jadore.webp', "Fisheye photo of a blue car at dusk — j'adore"],
-    ['news-night.webp', 'Halftone face in negative — Welcome, Rainier'],
+    ['news-night.webp', 'Halftone face in negative — Welcome, Forsberg'],
   ];
   for (const [src, alt] of altMap) {
     html = html.replace(
@@ -963,7 +963,7 @@ function patchNewsIndex() {
       { name: 'Need U', url: ORIGIN + '/news/need-you' },
       { name: 'Bridget In My Room', url: ORIGIN + '/news/bridget-in-my-room' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
-      { name: 'Welcome, Rainier', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
+      { name: 'Welcome, Forsberg', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
     ];
     const ld = {
       '@context': 'https://schema.org',
@@ -1063,7 +1063,7 @@ function patchArtists() {
   let html = fs.readFileSync(file, 'utf8');
   if (!html.includes('ItemList')) {
     const items = [
-      { name: 'Rainier', url: ORIGIN + '/artists/rainier' },
+      { name: 'Forsberg', url: ORIGIN + '/artists/forsberg' },
       { name: 'L.T. Drifta', url: ORIGIN + '/artists/lt-drifta' },
     ];
     const ld = {
@@ -1104,12 +1104,12 @@ function patchArtists() {
 function patchArtistPages() {
   const pages = [
     {
-      file: 'artists/rainier.html',
-      name: 'Rainier',
+      file: 'artists/forsberg.html',
+      name: 'Forsberg',
       crumbs: [
         { name: 'Home', url: ORIGIN + '/' },
         { name: 'Artists', url: ORIGIN + '/artists' },
-        { name: 'Rainier', url: ORIGIN + '/artists/rainier' },
+        { name: 'Forsberg', url: ORIGIN + '/artists/forsberg' },
       ],
       alts: [
         ['j-adore-cover.webp', "j'adore — artwork"],
@@ -1148,9 +1148,9 @@ function patchArtistPages() {
 
 function patchReleaseBreadcrumbs() {
   const releases = [
-    { file: 'j-adore.html', name: "j'adore", artist: 'Rainier', artistUrl: '/artists/rainier', url: '/j-adore' },
-    { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Rainier', artistUrl: '/artists/rainier', url: '/letters-from-another-era' },
-    { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Rainier', artistUrl: '/artists/rainier', url: '/inlet-knight' },
+    { file: 'j-adore.html', name: "j'adore", artist: 'Forsberg', artistUrl: '/artists/forsberg', url: '/j-adore' },
+    { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Forsberg', artistUrl: '/artists/forsberg', url: '/letters-from-another-era' },
+    { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Forsberg', artistUrl: '/artists/forsberg', url: '/inlet-knight' },
   ];
   for (const r of releases) {
     const file = path.join(ROOT, r.file);
@@ -1193,7 +1193,7 @@ function patchNewsArticles() {
     { file: 'news/need-you.html', name: 'Need U', url: '/news/need-you' },
     { file: 'news/bridget-in-my-room.html', name: 'Bridget In My Room', url: '/news/bridget-in-my-room' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
-    { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Rainier', url: '/news/inlet-knight-on-club-copy' },
+    { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Forsberg', url: '/news/inlet-knight-on-club-copy' },
   ];
   for (const a of articles) {
     const file = path.join(ROOT, a.file);
@@ -1265,7 +1265,7 @@ function writeSitemap() {
     ['/', 1.0, 'weekly'],
     ['/library', 0.9, 'weekly'],
     ['/artists', 0.8, 'monthly'],
-    ['/artists/rainier', 0.85, 'monthly'],
+    ['/artists/forsberg', 0.85, 'monthly'],
     ['/merch', 0.85, 'weekly'],
     ...MERCH_PRODUCTS.map((p) => [`/merch/${p.slug}`, 0.7, 'weekly']),
     ['/news', 0.8, 'weekly'],

@@ -129,10 +129,10 @@
     if (track) track.style.animationDuration = Math.max(30, items.length * 5) + "s";
   }
 
-  /* Roster: a ruled index of name plates, no photos. Artists with a release in the catalogue,
-     A to Z, with L.T. Drifta pinned last. The line under each name is `tagline` from
-     catalog.json (artists[]); if an artist has none it falls back to the genres on their
-     releases, most common first. */
+  /* Roster: a ruled index of name plates, no photos. Forsberg first, Molly Haze last,
+     everyone else in between. The line under each name is `tagline` from catalog.json
+     (artists[]); if an artist has none it falls back to the genres on their releases,
+     most common first. */
   function artistStrip(data) {
     var mount = document.getElementById("artistStrip");
     if (!mount) return;
@@ -154,11 +154,14 @@
       var g = genres[n] || {};
       return Object.keys(g).sort(function (a, b) { return g[b] - g[a] || a.localeCompare(b); }).slice(0, 2).join(" · ");
     };
+    var rosterOrder = ["forsberg", "lt-drifta", "riscape", "molly-haze"];
+    var rosterRank = function (n) {
+      var key = String(n).replace(/\./g, "").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase();
+      var i = rosterOrder.indexOf(key);
+      return i === -1 ? rosterOrder.length : i;
+    };
     var names = Object.keys(counts).sort(function (a, b) {
-      var pinLast = function (n) {
-        return String(n).replace(/\./g, "").replace(/\s+/g, " ").trim().toLowerCase() === "lt drifta" ? 1 : 0;
-      };
-      var d = pinLast(a) - pinLast(b);
+      var d = rosterRank(a) - rosterRank(b);
       if (d) return d;
       return a.localeCompare(b);
     });
