@@ -407,7 +407,16 @@
       seen[id] = true;
       out.push({ id: id, name: rel.artist || id });
     });
-    out.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    var rosterOrder = ['forsberg', 'lt-drifta', 'riscape', 'molly-haze'];
+    out.sort(function (a, b) {
+      var rank = function (x) {
+        var i = rosterOrder.indexOf(String(x.id || '').toLowerCase());
+        return i === -1 ? rosterOrder.length : i;
+      };
+      var d = rank(a) - rank(b);
+      if (d) return d;
+      return a.name.localeCompare(b.name);
+    });
     return out;
   }
 
