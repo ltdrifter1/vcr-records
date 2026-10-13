@@ -109,6 +109,7 @@
     #acctLookup[hidden], #acctSignedIn[hidden] { display: none; }
     .acct-lookup-note { font-size: 13px; color: var(--dim); margin-top: 10px; line-height: 1.5; }
   </style>
+  <link rel="stylesheet" href="/css/graphic-pass.css?v=gp2"/>
 </head>
 <body id="top" class="surface-acetate has-station-bumper zine-surface nav-light">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -165,6 +166,11 @@
 
       <!-- Lookup: shown when there's no local profile yet (new device / cleared storage) -->
       <section class="card panel rv" id="acctLookup" aria-label="Find your membership" hidden>
+        <div class="acct-plate" aria-hidden="true">
+          <img src="club-copy-nav-ink.webp" alt="" width="901" height="418"/>
+          <span class="acct-plate-no">No. ————</span>
+          <span class="acct-plate-tier">Record club</span>
+        </div>
         <h2>Find your membership</h2>
         <p class="lead">Enter the email you joined with and we'll pull up your card.</p>
         <div class="field">

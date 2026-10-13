@@ -1842,14 +1842,14 @@ body.archive-release .footer-form button {
     radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.16), transparent 70%);
   border-radius: 4px;
 }
-@supports (-webkit-box-reflect: below) {
-  .ra-cover,
-  .ra-cassette,
-  .ra-vinyl {
-    -webkit-box-reflect: below 12px linear-gradient(to bottom, transparent 28%, rgba(255,255,255,.42));
-  }
-  .ra-reflect { display: none; }
+/* Reflection stays off. A Cover Flow ghost prints the label through the track index. */
+.ra-cover,
+.ra-cassette,
+.ra-vinyl,
+html body.archive-release.release-object .ra-cover {
+  -webkit-box-reflect: none;
 }
+.ra-reflect { display: none; }
 
 /* Hero — iTunes album header, not a glass HUD ------------------------------ */
 .ra-hero-info {
@@ -2519,6 +2519,19 @@ html body.archive-release.release-object #listen .ra-head h2 {
   html body.archive-release.release-object #listen .ra-head { grid-column: 2; grid-row: 2; }
   html body.archive-release.release-object #listen .p-msg { grid-column: 2; grid-row: 3; margin: 0; }
   html body.archive-release.release-object #listen .ra-tracks { grid-column: 2; grid-row: 4; }
+  /* Two sides share one cell when the liner is display:contents. Keep them side by side. */
+  html body.archive-release.release-object #listen .ra-player-grid--liner {
+    display: grid;
+    grid-column: 2;
+    grid-row: 4;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    align-items: start;
+  }
+  html body.archive-release.release-object #listen .ra-player-grid--liner > .ra-tracks {
+    grid-column: auto;
+    grid-row: auto;
+  }
   html body.archive-release.release-object .ra-section:not(#listen) { grid-column: 1 / -1; }
 }
 @media (max-width: 999px) {
