@@ -32,7 +32,7 @@
 
   function hasCue(rel) {
     return (rel.tracks || []).some(function (t) {
-      return t && (t.preview || t.bandcampTrackId || t.previewTrack);
+      return t && (t.preview || t.bandcampTrackId || t.previewTrack || t.soundcloud);
     });
   }
 
@@ -41,15 +41,17 @@
     var full = rel.cover || thumb;
     var href = rel.page || "/library";
     var onBandcamp = /^https?:\/\/[^/]*bandcamp\.com\//i.test(href);
+    var onSoundcloud = /^https?:\/\/(www\.)?soundcloud\.com\//i.test(href);
+    var ext = onBandcamp ? "Bandcamp" : onSoundcloud ? "SoundCloud" : "";
     var dur = fmtDur(releaseDuration(rel));
     var cat = rel.catalogue || "";
     var lead = [cat, rel.kind].filter(Boolean).join(" · ");
     var fm = rel.formats || {};
     var glyphs = [fm.digital ? "DL" : "", fm.cassette ? "CS" : "", fm.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
-    /* Right-hand slot of the spec row: formats on site, a leaving-the-site cue for Bandcamp-only releases. */
+    /* Right-hand slot of the spec row: formats on site, a leaving-the-site cue for Bandcamp or SoundCloud releases. */
     var tag = glyphs
       ? '<span class="sleeve-card-fmt">' + esc(glyphs) + "</span>"
-      : (onBandcamp ? '<span class="sleeve-card-fmt sleeve-card-fmt--ext">Bandcamp ↗</span>' : "");
+      : (ext ? '<span class="sleeve-card-fmt sleeve-card-fmt--ext">' + ext + " ↗</span>" : "");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";
     var play = cued
@@ -66,7 +68,7 @@
     return (
       '<article class="sleeve-card" data-release="' + esc(rel.id) + '">' +
         '<div class="sleeve-card-art">' +
-          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + (onBandcamp ? " — listen on Bandcamp" : " — view release") + '">' +
+          '<a href="' + esc(href) + '" aria-label="' + esc(rel.title) + (ext ? " — listen on " + ext : " — view release") + '">' +
             '<img src="' + esc(thumb) + '" srcset="' + esc(thumb) + ' 480w, ' + esc(full) + ' 1200w" sizes="(max-width:699px) 64vw, (max-width:1199px) 32vw, 210px" alt="' + esc(rel.title) + ' — artwork" width="1200" height="1200" loading="lazy"/>' +
           "</a>" +
           play +
@@ -178,7 +180,7 @@
       return r.json();
     })
     .then(function (data) {
-      var FEATURED_ID = "l-t-drifta";
+      var FEATURED_ID = "thousand-knives";
       var allReleases = (data.releases || []).slice().sort(function (a, b) {
         if (a.id === FEATURED_ID) return -1;
         if (b.id === FEATURED_ID) return 1;
