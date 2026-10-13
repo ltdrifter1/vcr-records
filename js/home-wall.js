@@ -130,8 +130,9 @@
   }
 
   /* Roster: a ruled index of name plates, no photos. Artists with a release in the catalogue,
-     A to Z. The line under each name is `tagline` from catalog.json (artists[]); if an artist
-     has none it falls back to the genres on their releases, most common first. */
+     A to Z, with L.T. Drifta pinned last. The line under each name is `tagline` from
+     catalog.json (artists[]); if an artist has none it falls back to the genres on their
+     releases, most common first. */
   function artistStrip(data) {
     var mount = document.getElementById("artistStrip");
     if (!mount) return;
@@ -153,7 +154,15 @@
       var g = genres[n] || {};
       return Object.keys(g).sort(function (a, b) { return g[b] - g[a] || a.localeCompare(b); }).slice(0, 2).join(" · ");
     };
-    mount.innerHTML = Object.keys(counts).sort().map(function (n, i) {
+    var names = Object.keys(counts).sort(function (a, b) {
+      var pinLast = function (n) {
+        return String(n).replace(/\./g, "").replace(/\s+/g, " ").trim().toLowerCase() === "lt drifta" ? 1 : 0;
+      };
+      var d = pinLast(a) - pinLast(b);
+      if (d) return d;
+      return a.localeCompare(b);
+    });
+    mount.innerHTML = names.map(function (n, i) {
       var p = profiles[n] || {};
       var href = p.slug || "/artists/" + slug(n);
       var role = p.tagline || topGenres(n);

@@ -407,7 +407,12 @@
       seen[id] = true;
       out.push({ id: id, name: rel.artist || id });
     });
-    out.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    out.sort(function (a, b) {
+      var pinLast = function (x) { return String(x.id || '').toLowerCase() === 'lt-drifta' ? 1 : 0; };
+      var d = pinLast(a) - pinLast(b);
+      if (d) return d;
+      return a.name.localeCompare(b.name);
+    });
     return out;
   }
 
