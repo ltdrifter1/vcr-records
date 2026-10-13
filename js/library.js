@@ -644,6 +644,39 @@
     flowRoot.hidden = true;
   }
 
+  function groupOf(rel) {
+    if (/^CC\d+/i.test(String(rel.catalogue || ''))) return 0;
+    if (rel.page && String(rel.page).charAt(0) === '/') return 1;
+    return 2;
+  }
+
+  function renderRows(releases) {
+    var titles = ['', 'On Club Copy', 'Elsewhere'];
+    var notes = [
+      '',
+      'On the site. Not in the numbered series yet.',
+      'Bandcamp and SoundCloud. Not sold here.'
+    ];
+    var html = [];
+    var seen = -1;
+    releases.forEach(function (rel) {
+      var g = groupOf(rel);
+      if (g !== seen) {
+        if (seen !== -1 && titles[g]) {
+          html.push(
+            '<div class="lib-split">' +
+              '<h2 class="lib-split-title">' + titles[g] + '</h2>' +
+              '<p class="lib-split-note">' + notes[g] + '</p>' +
+            '</div>'
+          );
+        }
+        seen = g;
+      }
+      html.push(row(rel));
+    });
+    return html.join('');
+  }
+
   function render() {
     writeUrl();
     syncSelectState(genreSelect, filters.genre);
@@ -669,7 +702,7 @@
 
     list.hidden = false;
     if (flowRoot) flowRoot.hidden = true;
-    list.innerHTML = releases.map(row).join('');
+    list.innerHTML = renderRows(releases);
     bindPlayButtons();
     bindAddButtons();
     observeReveals();
@@ -746,12 +779,16 @@
     })
     .then(function (data) {
       allReleases = (data.releases || []).slice().sort(function (a, b) {
+        var ag = /^CC\d+/i.test(String(a.catalogue || '')) ? 0 : (a.page && String(a.page).charAt(0) === '/' ? 1 : 2);
+        var bg = /^CC\d+/i.test(String(b.catalogue || '')) ? 0 : (b.page && String(b.page).charAt(0) === '/' ? 1 : 2);
+        if (ag !== bg) return ag - bg;
+        if (ag === 0) {
+          return String(b.catalogue || '').localeCompare(String(a.catalogue || ''), undefined, { numeric: true });
+        }
         var aDate = String(a.released || '');
         var bDate = String(b.released || '');
         if (aDate !== bDate) return bDate.localeCompare(aDate);
-        var yearDiff = (Number(b.year) || 0) - (Number(a.year) || 0);
-        if (yearDiff) return yearDiff;
-        return String(b.catalogue || '').localeCompare(String(a.catalogue || ''));
+        return String(a.title || '').localeCompare(String(b.title || ''));
       });
 
       renderSelect(genreSelect, uniqueGenres(allReleases), 'All genres', filters.genre);

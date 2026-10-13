@@ -105,9 +105,29 @@
 
   function fmtClock(sec) {
     sec = Math.max(0, Math.floor(Number(sec) || 0));
-    var m = Math.floor(sec / 60);
+    var h = Math.floor(sec / 3600);
+    var m = Math.floor((sec % 3600) / 60);
     var s = sec % 60;
+    if (h) return h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
     return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function releaseSeconds(rel) {
+    return (rel.tracks || []).reduce(function (sum, t) {
+      var d = Number(t && t.duration);
+      return sum + (isFinite(d) ? d : 0);
+    }, 0);
+  }
+
+  function specLine(rel) {
+    var n = rel.tracksCount || (rel.tracks || []).length;
+    var bits = [];
+    if (rel.catalogue) bits.push(rel.catalogue);
+    if (rel.kind) bits.push(rel.kind);
+    if (n) bits.push(n + (n === 1 ? " track" : " tracks"));
+    var total = releaseSeconds(rel);
+    if (total) bits.push(fmtClock(total));
+    return bits.join(" · ");
   }
 
   function lcdLine(detail) {
@@ -231,6 +251,13 @@
     if (specEl) {
       specEl.textContent = d.playing && d.track ? lcdLine(d) : specRest;
     }
+    var activeId = live && d.track ? d.track.id : "";
+    plate.querySelectorAll(".hero-track").forEach(function (row) {
+      var on = !!activeId && row.getAttribute("data-play-track") === activeId;
+      row.classList.toggle("is-active", on);
+      if (on) row.setAttribute("aria-current", "true");
+      else row.removeAttribute("aria-current");
+    });
     if (d.error && d.track && d.track.releaseId === featured.id && onAir.id && onAir.id !== featured.id && !fallingThrough) {
       fallingThrough = true;
       VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
@@ -250,6 +277,12 @@
       }
       if (feat) {
         featured.playable = hasCue(feat);
+        var built = specLine(feat);
+        if (built) {
+          specRest = built;
+          var already = window.VCRPlayer && VCRPlayer.getState && VCRPlayer.getState();
+          if (specEl && !(already && already.playing)) specEl.textContent = built;
+        }
         featured.title = feat.title || featured.title;
         featured.artist = feat.artist || featured.artist;
         featured.cover = feat.cover || featured.cover;
@@ -288,7 +321,7 @@
       }
       var dated = releases
         .filter(function (r) {
-          return r.id !== FEATURED_ID && hasCue(r);
+          return r.id !== FEATURED_ID && hasCue(r) && r.page && String(r.page).charAt(0) === "/";
         })
         .sort(function (a, b) {
           return String(b.released || "").localeCompare(String(a.released || ""));

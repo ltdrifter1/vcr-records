@@ -103,7 +103,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css?v=st33"/>
   <link rel="stylesheet" href="css/listen-object.css?v=st33"/>
-  <link rel="stylesheet" href="css/listen-plate.css?v=st33"/>
+  <link rel="stylesheet" href="css/listen-plate.css?v=st40"/>
   <link rel="stylesheet" href="css/fx.css?v=st33"/>
   <link rel="stylesheet" href="css/player.css?v=st34"/>
   <link rel="stylesheet" href="css/news.css?v=st33"/>
@@ -197,35 +197,46 @@
     <div class="hero-ground" aria-hidden="true"></div>
     <div class="hero-stage">
       <div class="listen-plate">
-        <header class="hero-lockup">
-          <p class="hero-lockup-kicker">Out now</p>
-          <p class="hero-lockup-artist"><a href="/artists/lt-drifta">L.T. Drifta</a></p>
-          <h1 class="hero-lockup-title"><a href="/thousand-knives">Thousand Knives</a></h1>
-        </header>
         <div class="listen-sleeve">
           <img data-plate-art src="thousand-knives-cover.webp" alt="Thousand Knives — L.T. Drifta" width="1200" height="1200"/>
-          <button type="button" class="listen-sleeve-hit" id="platePlayHit" aria-label="Play">
+          <button type="button" class="listen-sleeve-hit" id="platePlayHit" aria-label="Play Thousand Knives">
             <span class="listen-glyph">
               <svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
               <svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>
             </span>
           </button>
         </div>
-        <div class="listen-plate-copy">
-          <div class="listen-plate-lcd">
-            <p class="listen-plate-spec">Album · Out now</p>
-            <p class="listen-plate-status" data-plate-status>Digital $9</p>
+        <div class="hero-side">
+          <header class="hero-lockup">
+            <p class="hero-lockup-kicker">Out now · 12 Oct 2026</p>
+            <p class="hero-lockup-artist"><a href="/artists/lt-drifta">L.T. Drifta</a></p>
+            <h1 class="hero-lockup-title"><a href="/thousand-knives">Thousand Knives</a></h1>
+          </header>
+          <p class="hero-dek">Nineteen cuts. Written and produced by CJ Archer for Club Copy.</p>
+          <div class="listen-plate-copy">
+            <div class="listen-plate-lcd">
+              <p class="listen-plate-spec">Album · 19 tracks · 1:37:02</p>
+              <p class="listen-plate-status" data-plate-status>Digital $9</p>
+            </div>
+            <div class="listen-plate-actions">
+              <button type="button" class="btn btn-steel btn-steel--play" id="platePlay">Play</button>
+              <button type="button" class="btn btn-steel" id="plateBuyDigital">Digital · $9</button>
+              <button type="button" class="btn btn-steel" id="plateBuy" hidden>Cassette</button>
+            </div>
           </div>
-          <div class="listen-plate-actions">
-            <button type="button" class="btn btn-steel btn-steel--play" id="platePlay">Play</button>
-            <button type="button" class="btn btn-steel" id="plateBuyDigital">Digital · $9</button>
-            <button type="button" class="btn btn-steel" id="plateBuy" hidden>Cassette</button>
-     
-          </div>
+          <ol class="hero-tracks">
+            <li><button type="button" class="hero-track" data-play-release="thousand-knives" data-play-track="tk-01"><span class="ht-no">01</span><span class="ht-title">Thousand Knives</span><span class="ht-dur">5:23</span></button></li>
+            <li><button type="button" class="hero-track" data-play-release="thousand-knives" data-play-track="tk-02"><span class="ht-no">02</span><span class="ht-title">Another Level</span><span class="ht-dur">4:10</span></button></li>
+            <li><button type="button" class="hero-track" data-play-release="thousand-knives" data-play-track="tk-03"><span class="ht-no">03</span><span class="ht-title">Easy On Lad</span><span class="ht-dur">4:21</span></button></li>
+            <li><button type="button" class="hero-track" data-play-release="thousand-knives" data-play-track="tk-04"><span class="ht-no">04</span><span class="ht-title">Say That</span><span class="ht-dur">5:03</span></button></li>
+            <li><button type="button" class="hero-track" data-play-release="thousand-knives" data-play-track="tk-05"><span class="ht-no">05</span><span class="ht-title">You What Now?</span><span class="ht-dur">3:48</span></button></li>
+            <li><button type="button" class="hero-track" data-play-release="thousand-knives" data-play-track="tk-06"><span class="ht-no">06</span><span class="ht-title">Love On Acid</span><span class="ht-dur">5:06</span></button></li>
+          </ol>
+          <a class="hero-more" href="/thousand-knives#listen">All 19 tracks</a>
         </div>
       </div>
     </div>
-    <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and hip-hop. Featured: Thousand Knives by L.T. Drifta.</p>
+    <p class="visually-hidden">Club Copy is a Pacific Northwest label for house, jungle, and hip-hop. Featured: Thousand Knives by L.T. Drifta. Album, 19 tracks, 1:37:02. Digital $9.</p>
 
     <div class="hero-ticker" data-hero-ticker>
       <p class="hero-ticker-now" data-ticker-now hidden></p>
@@ -518,8 +529,8 @@
 <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st35"></script>
-<script src="js/plate.js?v=st34"></script>
-<script src="js/home-wall.js?v=st37"></script>
+<script src="js/plate.js?v=st39"></script>
+<script src="js/home-wall.js?v=st39"></script>
 <script src="js/tapes.js?v=st48"></script>
 <script src="js/ig-feed.js"></script>
 <script>
