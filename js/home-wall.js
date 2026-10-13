@@ -183,7 +183,7 @@
   function wallCount(all) {
     var el = document.querySelector("[data-wall-count]");
     var n = all.length;
-    if (el && n) el.textContent = n + (n === 1 ? " release" : " releases");
+    if (el && n) el.textContent = n + (n === 1 ? " release on the site" : " releases on the site");
   }
 
   fetch("/data/catalog.json")
@@ -192,22 +192,26 @@
       return r.json();
     })
     .then(function (data) {
-      var FEATURED_ID = "thousand-knives";
-      var allReleases = (data.releases || []).slice().sort(function (a, b) {
-        if (a.id === FEATURED_ID) return -1;
-        if (b.id === FEATURED_ID) return 1;
+      var plate = document.querySelector("[data-listen-plate]");
+      var FEATURED_ID = (plate && plate.getAttribute("data-release")) || "thousand-knives";
+      function onSite(r) {
+        return !!(r && r.page && String(r.page).charAt(0) === "/");
+      }
+      function byDate(a, b) {
         var aDate = String(a.released || "");
         var bDate = String(b.released || "");
         if (aDate !== bDate) return bDate.localeCompare(aDate);
-        return String(b.catalogue || "").localeCompare(String(a.catalogue || ""));
-      });
-      if (!allReleases.length) return;
+        return String(b.catalogue || "").localeCompare(String(a.catalogue || ""), undefined, { numeric: true });
+      }
+      var house = (data.releases || []).filter(onSite).slice().sort(byDate);
+      var wall = house.filter(function (r) { return r.id !== FEATURED_ID; });
+      if (!house.length) return;
       var WALL = 6;
-      grid.innerHTML = allReleases.slice(0, WALL).map(cardHtml).join("");
+      grid.innerHTML = wall.slice(0, WALL).map(cardHtml).join("");
       grid.removeAttribute("aria-busy");
       if (window.VCRPlayer && VCRPlayer.getState) syncAir(VCRPlayer.getState());
-      statusStrip(data.releases || [], allReleases);
-      wallCount(data.releases || []);
+      statusStrip(data.releases || [], house);
+      wallCount(house);
       artistStrip(data);
     })
     .catch(function () {

@@ -17,7 +17,7 @@ body.home-zine .hero.plate-hero {
   background: #E8E8E6;
 }
 
-.plate-hero .hero-stage {
+body.home-zine .hero.plate-hero .hero-stage {
   position: relative;
   z-index: 1;
   width: min(1120px, calc(100% - 40px));
@@ -32,18 +32,19 @@ body.home-zine .hero.plate-hero {
 .listen-plate {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas:
-    "sleeve"
-    "lockup"
-    "copy";
-  gap: 20px;
-  max-width: 420px;
+  gap: 28px;
+  max-width: 560px;
   margin: 0 auto;
   align-items: start;
 }
 
+.hero-side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
-  grid-area: lockup;
   width: auto;
   max-width: none;
   height: auto;
@@ -56,10 +57,20 @@ body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
 }
 
 .listen-plate .listen-sleeve {
-  grid-area: sleeve;
   width: 100%;
-  max-width: 400px;
+  max-width: 440px;
   justify-self: center;
+}
+
+body.home-zine .hero.plate-hero .hero-dek {
+  margin: 14px 0 0;
+  max-width: 38em;
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -.011em;
+  color: rgba(17, 17, 17, .72);
 }
 
 body.home-zine .hero.plate-hero .listen-sleeve {
@@ -75,11 +86,11 @@ body.home-zine .hero.plate-hero .listen-sleeve-hit {
 }
 
 .listen-plate-copy {
-  grid-area: copy;
   display: flex;
   flex-direction: column;
   gap: 10px;
   min-width: 0;
+  margin-top: 18px;
 }
 
 .listen-plate-spec,
@@ -170,9 +181,9 @@ body.home-zine .hero.plate-hero .hero-lockup-title {
   margin: 0;
   font-family: Oswald, var(--display), sans-serif;
   font-weight: 500;
-  font-size: clamp(40px, 6.4vw, 72px);
-  letter-spacing: -.04em;
-  line-height: .9;
+  font-size: clamp(40px, 5vw, 64px);
+  letter-spacing: -.035em;
+  line-height: .92;
   text-transform: none;
 }
 
@@ -200,8 +211,76 @@ body.home-zine .hero.plate-hero .hero-lockup-aside {
   }
 }
 
-body.home-zine .hero.plate-hero .hero-ground {
+body.home-zine .hero.plate-hero .hero-ground,
+body.home-zine .hero.plate-hero::before,
+body.home-zine .hero.plate-hero::after {
   display: none;
+}
+
+.hero-tracks {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(26, 26, 26, .14);
+}
+.hero-tracks li { margin: 0; padding: 0; }
+.hero-track {
+  display: grid;
+  grid-template-columns: 2.4em minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: baseline;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(26, 26, 26, .1);
+  background: transparent;
+  color: #1a1a1a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero-track .ht-no,
+.hero-track .ht-dur {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: #4a4a47;
+}
+.hero-track .ht-title {
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -.011em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hero-track.is-active {
+  background: #1a1a1a;
+  color: #f4f4f2;
+  border-bottom-color: #1a1a1a;
+}
+.hero-track.is-active .ht-no,
+.hero-track.is-active .ht-dur { color: rgba(244, 244, 242, .72); }
+@media (hover: hover) {
+  .hero-track:hover { background: rgba(26, 26, 26, .06); }
+  .hero-track.is-active:hover { background: #1a1a1a; }
+}
+.hero-more {
+  align-self: flex-start;
+  margin-top: 14px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #1a1a1a;
+}
+@media (hover: hover) {
+  .hero-more:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* Catalog ticker — full-bleed hairline, no radio bug. */
@@ -292,47 +371,38 @@ body.home-zine .hero.plate-hero .hero-ticker-sep {
 }
 
 @media (min-width: 860px) {
-  .plate-hero .hero-stage {
+  body.home-zine .hero.plate-hero .hero-stage {
+    width: min(1120px, calc(100% - 64px));
     padding-top: calc(var(--nav-h) + var(--safe-t) + 48px);
     padding-bottom: 48px;
   }
   .listen-plate {
     max-width: none;
-    grid-template-columns: minmax(320px, 480px) minmax(280px, 1fr);
-    grid-template-areas:
-      "sleeve lockup"
-      "sleeve copy";
-    column-gap: 72px;
-    row-gap: 18px;
-    align-items: center;
+    grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+    column-gap: 64px;
+    align-items: start;
   }
   .listen-plate .listen-sleeve {
     justify-self: stretch;
     max-width: none;
   }
-  .listen-plate .hero-lockup {
-    align-self: end;
-  }
-  .listen-plate-copy {
-    align-self: start;
-  }
   body.home-zine .hero.plate-hero .hero-lockup-title {
-    font-size: clamp(48px, 5.6vw, 76px);
+    font-size: clamp(46px, 4.4vw, 64px);
   }
 }
 
 @media (max-width: 859px) {
-  .plate-hero .hero-stage {
+  body.home-zine .hero.plate-hero .hero-stage {
     width: min(1180px, calc(100% - 28px));
     padding-top: calc(var(--nav-h) + var(--safe-t) + 20px);
-    padding-bottom: 24px;
+    padding-bottom: 28px;
   }
   .listen-plate {
-    gap: 16px;
-    max-width: 360px;
+    gap: 22px;
+    max-width: none;
   }
   .listen-plate .listen-sleeve {
-    max-width: min(320px, 78vw);
+    max-width: min(420px, 100%);
   }
   .listen-plate-actions {
     display: grid;
