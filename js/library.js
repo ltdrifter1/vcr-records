@@ -42,7 +42,7 @@
     var p = params();
     var artist = String(p.get('artist') || p.get('artistId') || '').trim();
     var artistKey = artist.toLowerCase();
-    if (artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'rainier';
+    if (artistKey === 'rainier' || artistKey === 'inlet-knight' || artistKey === 'rosco' || artistKey === 'roscoe') artist = 'forsberg';
     var genre = String(p.get('genre') || '').trim();
     var view = String(p.get('view') || '').trim().toLowerCase();
     if (view === 'covers' || view === 'sleeves' || view === 'grid') viewMode = 'covers';
@@ -78,7 +78,7 @@
   function matchesArtist(rel, filter) {
     if (!filter) return true;
     var q = filter.toLowerCase();
-    if (q === 'inlet-knight' || q === 'rosco' || q === 'roscoe') q = 'rainier';
+    if (q === 'rainier' || q === 'inlet-knight' || q === 'rosco' || q === 'roscoe') q = 'forsberg';
     var id = String(rel.artistId || '').toLowerCase();
     var name = String(rel.artist || '').toLowerCase();
     return id === q || name === q || slugify(name) === q;
