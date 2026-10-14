@@ -193,7 +193,7 @@
     })
     .then(function (data) {
       var plate = document.querySelector("[data-listen-plate]");
-      var FEATURED_ID = (plate && plate.getAttribute("data-release")) || "thousand-knives";
+      var FEATURED_ID = (plate && plate.getAttribute("data-release")) || "flowers";
       function onSite(r) {
         return !!(r && r.page && String(r.page).charAt(0) === "/");
       }
