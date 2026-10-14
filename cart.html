@@ -199,6 +199,7 @@
     .sum-row.credit { color: var(--ink); }
     .sum-row.credit[hidden] { display: none; }
   </style>
+  <link rel="stylesheet" href="/css/graphic-pass.css?v=gp2"/>
 </head>
 <body id="top" class="surface-acetate shop-ice has-station-bumper zine-surface nav-light">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -265,10 +266,15 @@
     <div class="cart-layout">
       <section aria-label="Cart items">
         <div id="cartLines" class="cart-lines"></div>
-        <div id="cartEmpty" class="empty" hidden>
-          <h2>Your cart is empty</h2>
-          <p>Browse the shop.</p>
-          <a class="btn btn-dark" href="/merch" style="max-width:220px;margin:0 auto;">Shop</a>
+        <div id="cartEmpty" class="empty cart-empty-plate" hidden>
+          <a class="cart-empty-sleeve" href="/thousand-knives"><img src="thousand-knives-cover-480.webp" alt="Thousand Knives — L.T. Drifta" width="320" height="320"/></a>
+          <p class="cart-empty-kicker">On the plate</p>
+          <h2>Your bag is empty</h2>
+          <p>Thousand Knives · L.T. Drifta · Album · Digital $9</p>
+          <div class="cart-empty-actions">
+            <a class="btn btn-dark" href="/thousand-knives">Open the record</a>
+            <a class="btn btn-ghost" href="/library">Library</a>
+          </div>
         </div>
         <div id="undoBar" class="undo-bar" hidden>
           <span id="undoMsg">Item removed</span>
