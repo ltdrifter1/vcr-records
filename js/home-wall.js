@@ -51,7 +51,7 @@
     /* Right-hand slot of the spec row: formats on site, a leaving-the-site cue for Bandcamp or SoundCloud releases. */
     var tag = glyphs
       ? '<span class="sleeve-card-fmt">' + esc(glyphs) + "</span>"
-      : (ext ? '<span class="sleeve-card-fmt sleeve-card-fmt--ext">' + ext + " ↗</span>" : "");
+      : (ext ? '<span class="sleeve-card-fmt sleeve-card-fmt--ext" title="Listen on ' + esc(ext) + '">↗</span>' : "");
     var cued = hasCue(rel);
     var preorder = String(rel.status || "").toLowerCase() === "pre-order";
     var play = cued

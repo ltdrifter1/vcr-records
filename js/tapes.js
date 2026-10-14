@@ -187,7 +187,7 @@
         ? '<img src="' + esc(cover) + '" alt="" width="500" height="500" loading="lazy" decoding="async"/>'
         : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
       '<span class="mix-eq" aria-hidden="true"><i></i><i></i><i></i></span>' +
-      '<span class="mix-art-play" data-mix-play-label>play</span>' +
+      '<span class="mix-art-play" data-mix-play-label aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>' +
       "</button>";
     return (
       '<article class="mix-card" data-tape="' +
