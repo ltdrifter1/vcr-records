@@ -1,0 +1,403 @@
+/* ==========================================================================
+   Club Copy — homepage banner
+   Loaded last. A photo bay and a spec sheet: the white label in a dark
+   window, the file beside it. Same steel, same type, no second skin.
+   ========================================================================== */
+
+html body.home-zine .hero.plate-hero {
+  --bay: #101010;
+  --bay-ink: #f4f4f2;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #e8e8e6;
+  overflow: hidden;
+}
+
+html body.home-zine .hero.plate-hero .hero-stage {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: calc(var(--nav-h) + var(--safe-t)) 0 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+html body.home-zine .hero.plate-hero .listen-plate {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 0;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+
+/* --- Photo bay: the label is the light --------------------------------- */
+html body.home-zine .hero.plate-hero .listen-well {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: clamp(28px, 4vh, 56px) clamp(28px, 4vw, 64px) clamp(22px, 3vh, 40px);
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 42%, #1a1a1a 0%, #101010 62%, #0c0c0c 100%);
+  color: var(--bay-ink);
+}
+
+html body.home-zine .hero.plate-hero .listen-well::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image: var(--zine-grain);
+  mix-blend-mode: overlay;
+}
+
+html body.home-zine .hero.plate-hero .listen-well .listen-sleeve {
+  position: relative;
+  z-index: 1;
+  width: min(460px, 78%, 62vh);
+  max-width: none;
+  justify-self: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    inset 0 -1px 0 rgba(0, 0, 0, .35),
+    0 0 0 1px rgba(255, 255, 255, .14),
+    0 28px 70px rgba(0, 0, 0, .55);
+}
+
+html body.home-zine .hero.plate-hero .listen-well-index {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(460px, 78%, 62vh);
+  margin: 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(244, 244, 242, .72);
+}
+
+html body.home-zine .hero.plate-hero .listen-plate.is-live .listen-well-index span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #f4f4f2;
+  box-shadow: 0 0 0 1px rgba(16, 16, 16, .9);
+  vertical-align: 1px;
+}
+
+/* --- Spec sheet -------------------------------------------------------- */
+html body.home-zine .hero.plate-hero .hero-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(28px, 4.5vh, 56px) clamp(28px, 4vw, 72px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .42) 0%, rgba(255, 255, 255, 0) 22%),
+    #e8e8e6;
+}
+
+html body.home-zine .hero.plate-hero .hero-side-inner {
+  width: min(520px, 100%);
+}
+
+html body.home-zine .hero.plate-hero .listen-plate .hero-lockup {
+  width: 100%;
+  max-width: none;
+}
+
+html body.home-zine .hero.plate-hero .hero-lockup-kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  width: 100%;
+  margin: 0 0 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(26, 26, 26, .22);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+html body.home-zine .hero.plate-hero .hero-lockup-artist,
+html body.home-zine .hero.plate-hero .hero-lockup-artist a {
+  margin: 0 0 2px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: rgba(17, 17, 17, .78);
+}
+
+html body.home-zine .hero.plate-hero .hero-lockup-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(64px, 6.6vw, 112px);
+  letter-spacing: -.045em;
+  line-height: .86;
+  text-wrap: balance;
+}
+
+html body.home-zine .hero.plate-hero .hero-dek {
+  margin: 16px 0 0;
+  max-width: 36em;
+  font-size: 16px;
+  line-height: 1.4;
+  color: rgba(17, 17, 17, .72);
+}
+
+html body.home-zine .hero.plate-hero .listen-plate-copy {
+  margin-top: 22px;
+  gap: 12px;
+}
+
+html body.home-zine .hero.plate-hero .listen-plate-lcd {
+  max-width: none;
+  width: 100%;
+  padding: 11px 14px 12px;
+}
+
+html body.home-zine .hero.plate-hero .listen-plate-actions {
+  margin-top: 0;
+  gap: 8px;
+}
+
+html body.home-zine .plate-hero .listen-plate-actions .btn,
+html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel {
+  height: 48px;
+  min-height: 48px;
+  min-width: 132px;
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+html body.home-zine .hero.plate-hero .hero-index-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 26px 0 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, .55);
+}
+
+html body.home-zine .hero.plate-hero .hero-tracks {
+  margin-top: 8px;
+}
+
+html body.home-zine .hero.plate-hero .hero-track {
+  padding: 11px 8px;
+  gap: 14px;
+}
+
+html body.home-zine .hero.plate-hero .hero-track .ht-no,
+html body.home-zine .hero.plate-hero .hero-track .ht-dur {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+html body.home-zine .hero.plate-hero .hero-track .ht-title {
+  font-size: 16px;
+}
+
+html body.home-zine .hero.plate-hero .hero-track:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: -2px;
+}
+
+html body.home-zine .hero.plate-hero .hero-more {
+  margin-top: 16px;
+}
+
+/* --- Catalogue chip ---------------------------------------------------- */
+html body.home-zine .hero.plate-hero .hero-ticker {
+  display: flex;
+  align-items: stretch;
+  flex: 0 0 44px;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+  background: #e8e8e6;
+  border-top: 1px solid rgba(26, 26, 26, .18);
+}
+
+html body.home-zine .hero.plate-hero .hero-ticker-label {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0 16px;
+  background: #1a1a1a;
+  color: #f4f4f2;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+html body.home-zine .hero.plate-hero .hero-ticker:has(.hero-ticker-now:not([hidden])) .hero-ticker-label {
+  display: none;
+}
+
+html body.home-zine .hero.plate-hero .hero-ticker-viewport {
+  flex: 1 1 auto;
+  min-height: 44px;
+  mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 28px), transparent);
+}
+
+@media (min-width: 860px) {
+  html body.home-zine .hero.plate-hero .hero-stage {
+    width: 100%;
+    padding: 0;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-title {
+    font-size: clamp(72px, 6.4vw, 112px);
+  }
+}
+
+/* Laptops: the banner stays in one screen. */
+@media (min-width: 860px) and (max-height: 820px) {
+  html body.home-zine .hero.plate-hero .listen-well {
+    padding: 18px 32px 14px;
+    gap: 12px;
+  }
+  html body.home-zine .hero.plate-hero .listen-well .listen-sleeve,
+  html body.home-zine .hero.plate-hero .listen-well-index {
+    width: min(380px, 54vh, 72%);
+  }
+  html body.home-zine .hero.plate-hero .hero-side {
+    padding: 16px 36px;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-kicker {
+    margin-bottom: 12px;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-title {
+    font-size: clamp(56px, 8vh, 80px);
+  }
+  html body.home-zine .hero.plate-hero .hero-dek {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  html body.home-zine .hero.plate-hero .listen-plate-copy {
+    margin-top: 14px;
+    gap: 8px;
+  }
+  html body.home-zine .hero.plate-hero .hero-index-label {
+    margin-top: 14px;
+  }
+  html body.home-zine .hero.plate-hero .hero-track {
+    padding: 7px 8px;
+  }
+  html body.home-zine .hero.plate-hero .hero-more {
+    margin-top: 10px;
+  }
+  html body.home-zine .plate-hero .listen-plate-actions .btn,
+  html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel {
+    height: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 859px) {
+  html body.home-zine .hero.plate-hero {
+    min-height: 0;
+  }
+  html body.home-zine .hero.plate-hero .listen-plate {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    margin: 0;
+  }
+  html body.home-zine .hero.plate-hero .listen-well {
+    padding: 22px 20px 16px;
+    gap: 12px;
+  }
+  html body.home-zine .hero.plate-hero .listen-well .listen-sleeve,
+  html body.home-zine .hero.plate-hero .listen-well-index {
+    width: min(340px, 84vw);
+  }
+  html body.home-zine .hero.plate-hero .hero-side {
+    padding: 22px 20px 28px;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-kicker {
+    margin-bottom: 14px;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-title {
+    font-size: clamp(56px, 15vw, 80px);
+  }
+  html body.home-zine .hero.plate-hero .listen-plate-copy {
+    margin-top: 16px;
+  }
+  html body.home-zine .hero.plate-hero .hero-stage {
+    width: 100%;
+    padding: 0;
+  }
+  html body.home-zine .plate-hero .listen-plate-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel,
+  html body.home-zine .plate-hero .listen-plate-actions .btn.btn-steel--play {
+    grid-column: auto;
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 859px) and (max-height: 740px) {
+  html body.home-zine .hero.plate-hero .listen-well {
+    padding: 12px 16px 10px;
+    gap: 8px;
+  }
+  html body.home-zine .hero.plate-hero .listen-well .listen-sleeve,
+  html body.home-zine .hero.plate-hero .listen-well-index {
+    width: min(236px, 62vw);
+  }
+  html body.home-zine .hero.plate-hero .hero-side {
+    padding: 14px 16px 18px;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-kicker {
+    margin-bottom: 8px;
+  }
+  html body.home-zine .hero.plate-hero .hero-dek {
+    margin-top: 8px;
+  }
+  html body.home-zine .hero.plate-hero .listen-plate-copy {
+    margin-top: 10px;
+  }
+  html body.home-zine .hero.plate-hero .hero-lockup-title {
+    font-size: clamp(48px, 13vw, 64px);
+  }
+}
+
+@media (max-width: 380px) {
+  html body.home-zine .hero.plate-hero .hero-ticker-label {
+    letter-spacing: .08em;
+    padding: 0 10px;
+  }
+}
