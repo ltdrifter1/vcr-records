@@ -43,14 +43,18 @@ assert.strictEqual(mixByNum.title, "soul bounce");
 
 const catalog = require("../data/catalog.json");
 const gorilla = catalog.releases.find((r) => r.id === "gorilla");
-const mixtape = catalog.releases.find((r) => r.id === "mixtape");
 assert.strictEqual(gorilla.previewTrackId, "gor-01");
 assert.ok(/mollyhaze\.bandcamp\.com/.test(gorilla.bandcampUrl));
-assert.strictEqual(mixtape.previewTrackId, "mix-02");
 assert.strictEqual(bc.pickCueTrack(gorilla).id, "gor-01");
-assert.strictEqual(bc.pickCueTrack(mixtape).id, "mix-02");
-assert.strictEqual(bc.pickCueTrack(mixtape, "mix-01").id, "mix-01");
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
+  ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
+);
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
+  ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
+);
 
 const yal = catalog.releases.find((r) => r.id === "you-are-love");
 assert.ok(yal);
@@ -60,6 +64,7 @@ assert.ok(/riscape\.bandcamp\.com/.test(yal.bandcampUrl));
 assert.strictEqual(yal.formats.digital.sku, "dg-you-are-love");
 assert.strictEqual(yal.formats.cassette.stock, 0);
 assert.strictEqual(bc.pickCueTrack(yal).id, "yal-01");
+assert.strictEqual(bc.pickCueTrack(yal, "yal-02").id, "yal-02");
 assert.strictEqual(yal.tracks[3].title, "Day Like This");
 assert.strictEqual(yal.tracks[3].bandcampTrackId, 1221909968);
 
