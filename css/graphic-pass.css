@@ -625,3 +625,20 @@ html body.miss-page .miss-plate em {
 html body.miss-page .miss-actions {
   justify-content: flex-start;
 }
+
+/* Landscape press frames: show the 3:2 photograph, don't portrait-crop it. */
+html body .news-article-hero.is-frame {
+  width: 100%;
+  max-width: none;
+}
+html body .news-article-hero.is-frame img,
+html body .news-figure.is-frame img,
+html body .zine-polaroid.is-frame img,
+html body.home-zine .zine--home .zine-polaroid.is-frame img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+  height: auto;
+  filter: none;
+  background: #111;
+}
