@@ -43,14 +43,14 @@ assert.strictEqual(mixByNum.title, "soul bounce");
 
 const catalog = require("../data/catalog.json");
 const gorilla = catalog.releases.find((r) => r.id === "gorilla");
-const flowers = catalog.releases.find((r) => r.id === "flowers");
 assert.strictEqual(gorilla.previewTrackId, "gor-01");
 assert.ok(/mollyhaze\.bandcamp\.com/.test(gorilla.bandcampUrl));
-assert.strictEqual(flowers.previewTrackId, "fl-01");
 assert.strictEqual(bc.pickCueTrack(gorilla).id, "gor-01");
-assert.strictEqual(bc.pickCueTrack(flowers).id, "fl-01");
-assert.strictEqual(bc.pickCueTrack(flowers, "fl-02").id, "fl-02");
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
+  ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
+);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
   ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
@@ -64,6 +64,7 @@ assert.ok(/riscape\.bandcamp\.com/.test(yal.bandcampUrl));
 assert.strictEqual(yal.formats.digital.sku, "dg-you-are-love");
 assert.strictEqual(yal.formats.cassette.stock, 0);
 assert.strictEqual(bc.pickCueTrack(yal).id, "yal-01");
+assert.strictEqual(bc.pickCueTrack(yal, "yal-02").id, "yal-02");
 assert.strictEqual(yal.tracks[3].title, "Day Like This");
 assert.strictEqual(yal.tracks[3].bandcampTrackId, 1221909968);
 
@@ -71,10 +72,15 @@ const forsberg = catalog.artists.find((a) => a.id === "forsberg");
 assert.ok(forsberg);
 assert.strictEqual(forsberg.name, "Forsberg");
 assert.strictEqual(forsberg.slug, "/artists/forsberg");
-const bridget = catalog.releases.find((r) => r.id === "bridget-in-my-room");
-assert.strictEqual(bridget.artist, "Forsberg");
-assert.strictEqual(bridget.artistId, "forsberg");
-assert.ok(/rainiershouse\.bandcamp\.com/.test(bridget.bandcampUrl));
+const jadore = catalog.releases.find((r) => r.id === "j-adore");
+assert.strictEqual(jadore.artist, "Forsberg");
+assert.strictEqual(jadore.artistId, "forsberg");
+assert.strictEqual(jadore.title, "j'adore");
+assert.ok(/rainiershouse\.bandcamp\.com/.test(jadore.bandcampUrl));
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
+  ["j-adore"]
+);
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));

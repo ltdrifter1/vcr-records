@@ -6,7 +6,7 @@
   var plate = document.querySelector("[data-listen-plate]");
   if (!plate) return;
 
-  var FEATURED_ID = plate.getAttribute("data-release") || "bridget-in-my-room";
+  var FEATURED_ID = plate.getAttribute("data-release") || "j-adore";
   var playBtn = document.getElementById("platePlay");
   var hitBtn = document.getElementById("platePlayHit");
   var buyBtn = document.getElementById("plateBuy");
@@ -40,13 +40,13 @@
     price: null,
     name: "",
     image: "",
-    cover: "flowers-cover.webp",
-    title: "Flowers",
+    cover: "j-adore-cover.webp",
+    title: "j'adore",
     artist: "Forsberg",
-    digitalSku: "dg-flowers",
-    digitalPrice: 9,
-    digitalName: "Flowers — Digital",
-    digitalImage: "flowers-cover.webp",
+    digitalSku: "dg-j-adore",
+    digitalPrice: 8,
+    digitalName: "j'adore — Digital",
+    digitalImage: "j-adore-cover.webp",
     cassetteBackorder: false,
     cassetteOut: false,
   };
