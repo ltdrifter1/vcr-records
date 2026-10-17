@@ -27,12 +27,8 @@ const PAGE_MAP = {
   'thank-you.html': '/thank-you',
   '404.html': '/404',
   'j-adore.html': '/j-adore',
-  'letters-from-another-era.html': '/letters-from-another-era',
-  'inlet-knight.html': '/inlet-knight',
   'artists/forsberg.html': '/artists/forsberg',
   'news/j-adore.html': '/news/j-adore',
-  'news/bridget-in-my-room.html': '/news/bridget-in-my-room',
-  'news/need-you.html': '/news/need-you',
   'news/inlet-knight-on-club-copy.html': '/news/inlet-knight-on-club-copy',
 };
 
@@ -217,32 +213,6 @@ const MERCH_PRODUCTS = [
     description:
       'Clear protective outer for records and sleeves. Keep the archive clean.',
     related: { label: 'Keep listening', href: '/library', text: 'Browse the library' },
-  },
-  {
-    slug: 'bundle-tee-inlet-cassette',
-    sku: 'bn-tee-inlet-cass',
-    name: 'Bundle: Micro Tee + Inlet Knight Cassette',
-    price: 60,
-    type: 'bundles',
-    category: 'Bundle',
-    image: '/merch/club-copy/bundle-tee-inlet-cass-black.webp',
-    images: {
-      Black: '/merch/club-copy/bundle-tee-inlet-cass-black.webp',
-      White: '/merch/club-copy/bundle-tee-inlet-cass-white.webp',
-    },
-    gallery: [
-      { src: '/merch/club-copy/bundle-tee-inlet-cass-black.webp', alt: 'Bundle tee black with cassette', colour: 'Black' },
-      { src: '/merch/club-copy/bundle-tee-inlet-cass-white.webp', alt: 'Bundle tee white with cassette', colour: 'White' },
-      { src: '/inlet-knight-cover.webp', alt: 'Inlet Knight cassette cover', cover: true },
-    ],
-    colours: ['Black', 'White'],
-    sizes: ['S', 'M', 'L', 'XL'],
-    fit: 'Regular fit · heavyweight cotton',
-    ships: 'Packed in BC · 2–4 business days',
-    description:
-      'Micro Tee plus the Inlet Knight cassette. Physical tape, label cotton — packed together in BC.',
-    includes: ['Micro Tee', 'Inlet Knight (cassette)'],
-    related: { label: 'Hear the release', href: '/inlet-knight', text: 'Inlet Knight' },
   },
 ];
 
@@ -768,8 +738,6 @@ function updateMerchShop() {
   if (!html.includes('ItemList')) {
     const musicItems = [
       { name: "j'adore", url: ORIGIN + '/j-adore' },
-      { name: 'Letters From Another Era', url: ORIGIN + '/letters-from-another-era' },
-      { name: 'Inlet Knight', url: ORIGIN + '/inlet-knight' },
     ];
     const merchItems = MERCH_PRODUCTS.map((p) => ({
       name: p.name,
@@ -960,8 +928,6 @@ function patchNewsIndex() {
   // Enrich CollectionPage ItemList if only CollectionPage
   if (!html.includes('ItemList')) {
     const items = [
-      { name: 'Need U', url: ORIGIN + '/news/need-you' },
-      { name: 'Bridget In My Room', url: ORIGIN + '/news/bridget-in-my-room' },
       { name: "j'adore", url: ORIGIN + '/news/j-adore' },
       { name: 'Welcome, Forsberg', url: ORIGIN + '/news/inlet-knight-on-club-copy' },
     ];
@@ -1020,8 +986,6 @@ function patchLibrary() {
   if (!html.includes('ItemList')) {
     const items = [
       { name: "j'adore", url: ORIGIN + '/j-adore' },
-      { name: 'Letters From Another Era', url: ORIGIN + '/letters-from-another-era' },
-      { name: 'Inlet Knight', url: ORIGIN + '/inlet-knight' },
     ];
     const ld = {
       '@context': 'https://schema.org',
@@ -1113,8 +1077,6 @@ function patchArtistPages() {
       ],
       alts: [
         ['j-adore-cover.webp', "j'adore — artwork"],
-        ['inlet-knight-cover.webp', 'Inlet Knight — artwork'],
-        ['letters-from-another-era-cover.webp', 'Letters From Another Era — artwork'],
       ],
     },
   ];
@@ -1149,8 +1111,6 @@ function patchArtistPages() {
 function patchReleaseBreadcrumbs() {
   const releases = [
     { file: 'j-adore.html', name: "j'adore", artist: 'Forsberg', artistUrl: '/artists/forsberg', url: '/j-adore' },
-    { file: 'letters-from-another-era.html', name: 'Letters From Another Era', artist: 'Forsberg', artistUrl: '/artists/forsberg', url: '/letters-from-another-era' },
-    { file: 'inlet-knight.html', name: 'Inlet Knight', artist: 'Forsberg', artistUrl: '/artists/forsberg', url: '/inlet-knight' },
   ];
   for (const r of releases) {
     const file = path.join(ROOT, r.file);
@@ -1190,8 +1150,6 @@ function patchReleaseBreadcrumbs() {
 
 function patchNewsArticles() {
   const articles = [
-    { file: 'news/need-you.html', name: 'Need U', url: '/news/need-you' },
-    { file: 'news/bridget-in-my-room.html', name: 'Bridget In My Room', url: '/news/bridget-in-my-room' },
     { file: 'news/j-adore.html', name: "j'adore", url: '/news/j-adore' },
     { file: 'news/inlet-knight-on-club-copy.html', name: 'Welcome, Forsberg', url: '/news/inlet-knight-on-club-copy' },
   ];
@@ -1269,13 +1227,9 @@ function writeSitemap() {
     ['/merch', 0.85, 'weekly'],
     ...MERCH_PRODUCTS.map((p) => [`/merch/${p.slug}`, 0.7, 'weekly']),
     ['/news', 0.8, 'weekly'],
-    ['/news/need-you', 0.7, 'monthly'],
-    ['/news/bridget-in-my-room', 0.7, 'monthly'],
     ['/news/j-adore', 0.7, 'monthly'],
     ['/news/inlet-knight-on-club-copy', 0.65, 'monthly'],
     ['/j-adore', 0.9, 'monthly'],
-    ['/letters-from-another-era', 0.9, 'monthly'],
-    ['/inlet-knight', 0.9, 'monthly'],
     ['/about', 0.5, 'yearly'],
     ['/contact', 0.5, 'yearly'],
     ['/shipping', 0.4, 'yearly'],
