@@ -129,11 +129,11 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,460;1,9..144,560&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css?v=st33"/>
   <link rel="stylesheet" href="css/station.css?v=st33"/>
   <link rel="stylesheet" href="css/fx.css?v=st33"/>
-  <link rel="stylesheet" href="css/news.css?v=st33"/>
+  <link rel="stylesheet" href="css/news.css?v=st34"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
@@ -265,25 +265,34 @@
         </div>
       </article>
 
-      <section class="zine-stars" id="stars" aria-labelledby="stars-title">
-        <p class="zine-desk-kicker">weekly horoscope</p>
+      <section class="zine-stars zine-stars--altar" id="stars" aria-labelledby="stars-title">
         <div class="zine-stars-head">
-          <h2 id="stars-title">Stars for the Floor</h2>
-          <a href="/news/stars-for-the-floor">full column →</a>
+          <p class="zine-desk-kicker">weekly horoscope</p>
+          <div class="zine-stars-mast">
+            <h2 id="stars-title">Stars for the Floor</h2>
+            <p class="zine-stars-whisper">For whoever is still in last night’s mascara.</p>
+          </div>
+          <a class="zine-stars-more" href="/news/stars-for-the-floor">full column →</a>
+          <svg class="zine-stars-moon" viewBox="0 0 200 160" aria-hidden="true">
+            <path fill="currentColor" d="M118 18c-28 8-48 32-48 62s20 54 48 62c-34-8-58-34-58-62s24-54 58-62z"/>
+            <path fill="currentColor" d="M30 34l2.4 7 7.2.2-5.7 4.4 2 7-5.9-4.1-5.9 4.1 2-7-5.7-4.4 7.2-.2z"/>
+            <path fill="currentColor" opacity=".72" d="M170 26l1.5 4.4 4.6.1-3.6 2.8 1.3 4.4-3.8-2.6-3.8 2.6 1.3-4.4-3.6-2.8 4.6-.1z"/>
+            <path fill="currentColor" opacity=".5" d="M156 78l1.2 3.4 3.6.1-2.8 2.2 1 3.4-3-2.1-3 2.1 1-3.4-2.8-2.2 3.6-.1z"/>
+          </svg>
         </div>
         <dl class="zine-stars-strip">
-          <div data-sign="aries"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Aries</dt><dd>Wear the thing that made you nervous in the hallway. If they clock it at the door, you’re in.</dd></div>
-          <div data-sign="taurus"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Taurus</dt><dd>Buy the cassette. Don’t explain the receipt to anyone who only streams.</dd></div>
-          <div data-sign="gemini"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Gemini</dt><dd>Two rooms, one outfit. Don’t text the first one from the bathroom of the second.</dd></div>
-          <div data-sign="cancer"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Cancer</dt><dd>Put Sade on before anyone asks. Afters are already happening in your kitchen. Act like you knew.</dd></div>
-          <div data-sign="leo"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Leo</dt><dd>You are the flyer. Stop waiting to be introduced to a night you already paid for.</dd></div>
-          <div data-sign="virgo"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Virgo</dt><dd>The playlist is fine. Stop adding one more. Go do your mouth.</dd></div>
-          <div data-sign="libra"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Libra</dt><dd>Let them pick the Uber aux. You picked last week and you played the same four songs.</dd></div>
-          <div data-sign="scorpio"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Scorpio</dt><dd>Don’t tell them the name of the night. If they should be there, they’ll find it.</dd></div>
-          <div data-sign="sagittarius"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Sagittarius</dt><dd>Leave before the lights. The sidewalk version of the night is almost always better.</dd></div>
-          <div data-sign="capricorn"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Capricorn</dt><dd>Pay for the cab. Keep the receipt in the jacket you are going to wear again on Thursday.</dd></div>
-          <div data-sign="aquarius"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Aquarius</dt><dd>The group chat is not a vote. Send the pin. Put your phone in your bra.</dd></div>
-          <div data-sign="pisces"><dt><span class="zine-star-glyph" aria-hidden="true"></span>Pisces</dt><dd>Glitter on the collarbone is a policy this week. Enforce it, even in the kitchen.</dd></div>
+          <div data-sign="aries" data-element="fire"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#aries">Aries</a><span class="zine-star-when">mar 21 – apr 19</span></span><span class="zine-star-element">fire</span></dt><dd>Wear the thing that made you nervous in the hallway. If they clock it at the door, you’re in.</dd></div>
+          <div data-sign="taurus" data-element="earth"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#taurus">Taurus</a><span class="zine-star-when">apr 20 – may 20</span></span><span class="zine-star-element">earth</span></dt><dd>Buy the cassette. Don’t explain the receipt to anyone who only streams.</dd></div>
+          <div data-sign="gemini" data-element="air"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#gemini">Gemini</a><span class="zine-star-when">may 21 – jun 20</span></span><span class="zine-star-element">air</span></dt><dd>Two rooms, one outfit. Don’t text the first one from the bathroom of the second.</dd></div>
+          <div data-sign="cancer" data-element="water"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#cancer">Cancer</a><span class="zine-star-when">jun 21 – jul 22</span></span><span class="zine-star-element">water</span></dt><dd>Put Sade on before anyone asks. Afters are already happening in your kitchen. Act like you knew.</dd></div>
+          <div data-sign="leo" data-element="fire"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#leo">Leo</a><span class="zine-star-when">jul 23 – aug 22</span></span><span class="zine-star-element">fire</span></dt><dd>You are the flyer. Stop waiting to be introduced to a night you already paid for.</dd></div>
+          <div data-sign="virgo" data-element="earth"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#virgo">Virgo</a><span class="zine-star-when">aug 23 – sep 22</span></span><span class="zine-star-element">earth</span></dt><dd>The playlist is fine. Stop adding one more. Go do your mouth.</dd></div>
+          <div data-sign="libra" data-element="air"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#libra">Libra</a><span class="zine-star-when">sep 23 – oct 22</span></span><span class="zine-star-element">air</span></dt><dd>Let them pick the Uber aux. You picked last week and you played the same four songs.</dd></div>
+          <div data-sign="scorpio" data-element="water"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#scorpio">Scorpio</a><span class="zine-star-when">oct 23 – nov 21</span></span><span class="zine-star-element">water</span></dt><dd>Don’t tell them the name of the night. If they should be there, they’ll find it.</dd></div>
+          <div data-sign="sagittarius" data-element="fire"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#sagittarius">Sagittarius</a><span class="zine-star-when">nov 22 – dec 21</span></span><span class="zine-star-element">fire</span></dt><dd>Leave before the lights. The sidewalk version of the night is almost always better.</dd></div>
+          <div data-sign="capricorn" data-element="earth"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#capricorn">Capricorn</a><span class="zine-star-when">dec 22 – jan 19</span></span><span class="zine-star-element">earth</span></dt><dd>Pay for the cab. Keep the receipt in the jacket you are going to wear again on Thursday.</dd></div>
+          <div data-sign="aquarius" data-element="air"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#aquarius">Aquarius</a><span class="zine-star-when">jan 20 – feb 18</span></span><span class="zine-star-element">air</span></dt><dd>The group chat is not a vote. Send the pin. Put your phone in your bra.</dd></div>
+          <div data-sign="pisces" data-element="water"><dt><span class="zine-star-glyph" aria-hidden="true"></span><span class="zine-star-id"><a class="zine-star-name" href="/news/stars-for-the-floor#pisces">Pisces</a><span class="zine-star-when">feb 19 – mar 20</span></span><span class="zine-star-element">water</span></dt><dd>Glitter on the collarbone is a policy this week. Enforce it, even in the kitchen.</dd></div>
         </dl>
       </section>
 
