@@ -1212,7 +1212,7 @@ function patchShippingOg() {
     html = html.replace(
       /<meta property="og:url"[^>]*>/,
       `<meta property="og:url" content="https://www.clubcopy.ca/shipping"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/gorilla-cover.webp"/>`
+  <meta property="og:image" content="https://www.clubcopy.ca/j-adore-cover.webp"/>`
     );
   }
   fs.writeFileSync(file, html);

@@ -51,10 +51,10 @@
     cassetteOut: false,
   };
   var onAir = {
-    id: "gorilla",
-    title: "Gorilla",
-    artist: "Molly Haze",
-    cover: "gorilla-cover.webp",
+    id: "j-adore",
+    title: "j'adore",
+    artist: "Forsberg",
+    cover: "j-adore-cover.webp",
   };
 
   function hasCue(rel) {

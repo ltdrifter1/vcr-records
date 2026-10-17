@@ -1855,7 +1855,7 @@
 
   function toggle() {
     if (!current()) {
-      playRelease("gorilla", null, { autoplay: true, stage: false });
+      playRelease("j-adore", null, { autoplay: true, stage: false });
       return;
     }
     if (isScTrack(current())) {
