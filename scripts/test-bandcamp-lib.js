@@ -67,10 +67,15 @@ const forsberg = catalog.artists.find((a) => a.id === "forsberg");
 assert.ok(forsberg);
 assert.strictEqual(forsberg.name, "Forsberg");
 assert.strictEqual(forsberg.slug, "/artists/forsberg");
-const bridget = catalog.releases.find((r) => r.id === "bridget-in-my-room");
-assert.strictEqual(bridget.artist, "Forsberg");
-assert.strictEqual(bridget.artistId, "forsberg");
-assert.ok(/rainiershouse\.bandcamp\.com/.test(bridget.bandcampUrl));
+const jadore = catalog.releases.find((r) => r.id === "j-adore");
+assert.strictEqual(jadore.artist, "Forsberg");
+assert.strictEqual(jadore.artistId, "forsberg");
+assert.strictEqual(jadore.title, "j'adore");
+assert.ok(/rainiershouse\.bandcamp\.com/.test(jadore.bandcampUrl));
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
+  ["j-adore"]
+);
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
