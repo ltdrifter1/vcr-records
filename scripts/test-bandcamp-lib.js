@@ -57,6 +57,30 @@ assert.deepStrictEqual(
   ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
 );
 
+const tellMe = catalog.releases.find((r) => r.id === "tell-me");
+assert.ok(tellMe);
+assert.strictEqual(tellMe.artist, "Riscape");
+assert.strictEqual(tellMe.artistId, "riscape");
+assert.strictEqual(tellMe.catalogue, "CC009");
+assert.strictEqual(tellMe.title, "Tell Me");
+assert.strictEqual(tellMe.kind, "EP");
+assert.strictEqual(tellMe.released, "2026-10-10");
+assert.strictEqual(tellMe.page, "/tell-me");
+assert.strictEqual(tellMe.previewTrackId, "tm-01");
+assert.strictEqual(tellMe.formats.digital.sku, "dg-tell-me");
+assert.strictEqual(tellMe.formats.digital.price, 4.99);
+assert.ok(/riscape\.bandcamp\.com\/album\/tell-me-ep/.test(tellMe.bandcampUrl));
+assert.deepStrictEqual(
+  tellMe.tracks.map((t) => [t.title, t.duration, t.bandcampTrackId]),
+  [
+    ["My Whole Life", 125, 682747105],
+    ["Tell Me Something", 112, 2146358393],
+    ["Tell Me Nothing", 239, 3789541219],
+  ]
+);
+assert.strictEqual(products["dg-tell-me"].unitAmount, 499);
+assert.strictEqual(bc.pickCueTrack(tellMe).id, "tm-01");
+
 const yal = catalog.releases.find((r) => r.id === "you-are-love");
 assert.ok(yal);
 assert.strictEqual(yal.status, "Available");
