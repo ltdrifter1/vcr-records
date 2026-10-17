@@ -42,10 +42,11 @@ assert.ok(mixByNum);
 assert.strictEqual(mixByNum.title, "soul bounce");
 
 const catalog = require("../data/catalog.json");
-const gorilla = catalog.releases.find((r) => r.id === "gorilla");
-assert.strictEqual(gorilla.previewTrackId, "gor-01");
-assert.ok(/mollyhaze\.bandcamp\.com/.test(gorilla.bandcampUrl));
-assert.strictEqual(bc.pickCueTrack(gorilla).id, "gor-01");
+const products = require("../lib/catalog").PRODUCTS;
+assert.ok(!catalog.releases.some((r) => r.id === "gorilla" || r.id === "m-a-s-s-i-v-e"));
+assert.ok(!catalog.releases.some((r) => r.artistId === "molly-haze" || r.artist === "Molly Haze"));
+assert.ok(!products["dg-gorilla"]);
+assert.ok(!products["dg-cherry-coloured-funk"]);
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),

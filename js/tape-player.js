@@ -182,7 +182,7 @@
   var canvas = document.getElementById("raWave");
   if (!canvas) return;
   var ctx = canvas.getContext("2d");
-  var RELEASE_ID = canvas.getAttribute("data-release") || "gorilla";
+  var RELEASE_ID = canvas.getAttribute("data-release") || "j-adore";
   var BARS = 96;
   var seedIdx = 0;
   var bars = buildBars(seedIdx);
