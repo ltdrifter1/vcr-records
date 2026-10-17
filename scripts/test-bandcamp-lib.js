@@ -97,6 +97,25 @@ const forsberg = catalog.artists.find((a) => a.id === "forsberg");
 assert.ok(forsberg);
 assert.strictEqual(forsberg.name, "Forsberg");
 assert.strictEqual(forsberg.slug, "/artists/forsberg");
+const pleaseWait = catalog.releases.find((r) => r.id === "please-wait");
+assert.ok(pleaseWait);
+assert.strictEqual(pleaseWait.artist, "Forsberg");
+assert.strictEqual(pleaseWait.artistId, "forsberg");
+assert.strictEqual(pleaseWait.catalogue, "CC010");
+assert.strictEqual(pleaseWait.title, "Please Wait");
+assert.strictEqual(pleaseWait.kind, "Single");
+assert.strictEqual(pleaseWait.released, "2026-10-17");
+assert.strictEqual(pleaseWait.page, "/please-wait");
+assert.strictEqual(pleaseWait.previewTrackId, "pw-01");
+assert.strictEqual(pleaseWait.formats.digital.sku, "dg-please-wait");
+assert.strictEqual(pleaseWait.formats.digital.price, 1.5);
+assert.ok(/forsberg\.bandcamp\.com\/track\/please-wait/.test(pleaseWait.bandcampUrl));
+assert.deepStrictEqual(
+  pleaseWait.tracks.map((t) => [t.title, t.duration, t.bandcampTrackId]),
+  [["Please Wait", 330, 1737504659]]
+);
+assert.strictEqual(products["dg-please-wait"].unitAmount, 150);
+assert.strictEqual(bc.pickCueTrack(pleaseWait).id, "pw-01");
 const jadore = catalog.releases.find((r) => r.id === "j-adore");
 assert.strictEqual(jadore.artist, "Forsberg");
 assert.strictEqual(jadore.artistId, "forsberg");
@@ -104,7 +123,7 @@ assert.strictEqual(jadore.title, "j'adore");
 assert.ok(/rainiershouse\.bandcamp\.com/.test(jadore.bandcampUrl));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
-  ["j-adore"]
+  ["please-wait", "j-adore"]
 );
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
