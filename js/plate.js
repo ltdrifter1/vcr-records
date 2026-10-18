@@ -6,7 +6,7 @@
   var plate = document.querySelector("[data-listen-plate]");
   if (!plate) return;
 
-  var FEATURED_ID = plate.getAttribute("data-release") || "please-wait";
+  var FEATURED_ID = plate.getAttribute("data-release") || "pitch-black";
   var playBtn = document.getElementById("platePlay");
   var hitBtn = document.getElementById("platePlayHit");
   var buyBtn = document.getElementById("plateBuy");
@@ -40,21 +40,21 @@
     price: null,
     name: "",
     image: "",
-    cover: "please-wait-cover.webp",
-    title: "Please Wait",
+    cover: "pitch-black-cover.webp",
+    title: "Pitch Black",
     artist: "Forsberg",
-    digitalSku: "dg-please-wait",
-    digitalPrice: 1.5,
-    digitalName: "Please Wait — Digital",
-    digitalImage: "please-wait-cover.webp",
+    digitalSku: "dg-pitch-black",
+    digitalPrice: 4,
+    digitalName: "Pitch Black — Digital",
+    digitalImage: "pitch-black-cover.webp",
     cassetteBackorder: false,
     cassetteOut: false,
   };
   var onAir = {
-    id: "please-wait",
-    title: "Please Wait",
+    id: "pitch-black",
+    title: "Pitch Black",
     artist: "Forsberg",
-    cover: "please-wait-cover.webp",
+    cover: "pitch-black-cover.webp",
   };
 
   function hasCue(rel) {

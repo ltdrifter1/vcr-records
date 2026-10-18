@@ -193,7 +193,7 @@
     })
     .then(function (data) {
       var plate = document.querySelector("[data-listen-plate]");
-      var FEATURED_ID = (plate && plate.getAttribute("data-release")) || "please-wait";
+      var FEATURED_ID = (plate && plate.getAttribute("data-release")) || "pitch-black";
       function onSite(r) {
         return !!(r && r.page && String(r.page).charAt(0) === "/");
       }

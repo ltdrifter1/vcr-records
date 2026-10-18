@@ -123,8 +123,49 @@ assert.strictEqual(jadore.title, "j'adore");
 assert.ok(/rainiershouse\.bandcamp\.com/.test(jadore.bandcampUrl));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
-  ["run-it-back", "please-wait", "j-adore"]
+  ["pitch-black", "try-to-love-again", "run-it-back", "please-wait", "j-adore"]
 );
+
+const pitchBlack = catalog.releases.find((r) => r.id === "pitch-black");
+assert.ok(pitchBlack);
+assert.strictEqual(pitchBlack.catalogue, "CC013");
+assert.strictEqual(pitchBlack.title, "Pitch Black");
+assert.strictEqual(pitchBlack.kind, "Album");
+assert.strictEqual(pitchBlack.released, "2026-10-18");
+assert.strictEqual(pitchBlack.page, "/pitch-black");
+assert.strictEqual(pitchBlack.previewTrackId, "pb-01");
+assert.strictEqual(pitchBlack.formats.digital.sku, "dg-pitch-black");
+assert.strictEqual(pitchBlack.formats.digital.price, 4);
+assert.strictEqual(pitchBlack.bandcampUrl, "https://forsberg.bandcamp.com/album/pitch-black");
+assert.deepStrictEqual(
+  pitchBlack.tracks.map((t) => [t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    ["pb-01", "Neighbourhood Spy", 185, 3106180149],
+    ["pb-02", "Primo", 134, 440450174],
+    ["pb-03", "Pitch Black", 360, 2277520901],
+  ]
+);
+assert.strictEqual(products["dg-pitch-black"].unitAmount, 400);
+assert.strictEqual(bc.pickCueTrack(pitchBlack).id, "pb-01");
+assert.strictEqual(bc.pickCueTrack(pitchBlack, "pb-03").id, "pb-03");
+
+const tryToLoveAgain = catalog.releases.find((r) => r.id === "try-to-love-again");
+assert.ok(tryToLoveAgain);
+assert.strictEqual(tryToLoveAgain.catalogue, "CC012");
+assert.strictEqual(tryToLoveAgain.title, "Try To Love Again");
+assert.strictEqual(tryToLoveAgain.kind, "Single");
+assert.strictEqual(tryToLoveAgain.released, "2026-10-18");
+assert.strictEqual(tryToLoveAgain.page, "/try-to-love-again");
+assert.strictEqual(tryToLoveAgain.previewTrackId, "ttla-01");
+assert.strictEqual(tryToLoveAgain.formats.digital.sku, "dg-try-to-love-again");
+assert.strictEqual(tryToLoveAgain.formats.digital.price, 1.5);
+assert.strictEqual(tryToLoveAgain.bandcampUrl, "https://forsberg.bandcamp.com/track/try-to-love-again");
+assert.deepStrictEqual(
+  tryToLoveAgain.tracks.map((t) => [t.id, t.title, t.duration, t.bandcampTrackId]),
+  [["ttla-01", "Try To Love Again", 360, 898873433]]
+);
+assert.strictEqual(products["dg-try-to-love-again"].unitAmount, 150);
+assert.strictEqual(bc.pickCueTrack(tryToLoveAgain).id, "ttla-01");
 
 const runItBack = catalog.releases.find((r) => r.id === "run-it-back");
 assert.ok(runItBack);
