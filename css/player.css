@@ -412,6 +412,44 @@ body.vcr-stage-open.has-vcr-player {
   min-width: 0;
   margin-top: 3px;
 }
+.vcr-player__wave {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2px;
+  width: 100%;
+  height: 12px;
+  pointer-events: none;
+}
+.vcr-player.is-waved .vcr-player__wave { display: block; }
+.vcr-player.is-waved .vcr-player__scrub::-webkit-slider-runnable-track {
+  background: transparent;
+  box-shadow: none;
+}
+.vcr-player.is-waved .vcr-player__scrub::-moz-range-track {
+  background: transparent;
+}
+.vcr-meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+  margin-left: auto;
+  flex: none;
+}
+.vcr-meter[hidden] { display: none !important; }
+.vcr-meter i {
+  display: block;
+  width: 3px;
+  height: 100%;
+  background: rgba(26, 26, 26, .22);
+}
+.vcr-meter i.is-on { background: #2a2a28; }
+.vcr-meter i.is-peak {
+  background: var(--acid-led, #C6F000);
+  box-shadow: 0 0 4px var(--acid-led, #C6F000);
+}
 
 .vcr-player__scrub,
 .vcr-stage__scrub {
@@ -1182,6 +1220,7 @@ body.vcr-stage-open .tabbar { display: none !important; }
   .vcr-player.is-tap-pulse .vcr-player__btn--play {
     animation: none;
   }
+  .vcr-meter i.is-peak { box-shadow: none; }
 }
 
 /* Now Playing — aluminum, same object as the dock */

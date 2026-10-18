@@ -6,7 +6,15 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { Readable } = require("stream");
 const bc = require("../lib/bandcamp");
+
+/* Each invocation returns at most this many bytes so a short function
+   budget can still feed a seeking <audio> element. The browser continues
+   with the next Range. */
+const PIPE_CHUNK = 256 * 1024;
+const PIPE_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
 const CACHE_MS = 4 * 60 * 1000;
 const cache = new Map();
@@ -43,6 +51,61 @@ function cacheKey(pageUrl, track) {
   return [pageUrl, track && (track.bandcampTrackId || track.id || track.title)].join("::");
 }
 
+function parseRange(header, fallbackEnd) {
+  const m = /^bytes=(\d+)-(\d*)$/i.exec(String(header || "").trim());
+  if (!m) return { start: 0, end: fallbackEnd };
+  const start = Number(m[1]);
+  const end = m[2] ? Number(m[2]) : fallbackEnd;
+  return { start: start, end: end };
+}
+
+async function pipeStream(req, res, streamUrl) {
+  if (!bc.streamAllowed(streamUrl)) {
+    return json(res, 502, { error: "Stream host not allowed." });
+  }
+  const requested = parseRange(req.headers.range, null);
+  const start = Number.isFinite(requested.start) ? requested.start : 0;
+  const capEnd = start + PIPE_CHUNK - 1;
+  const end = requested.end == null ? capEnd : Math.min(requested.end, capEnd);
+  const upstream = await fetch(streamUrl, {
+    method: "GET",
+    redirect: "follow",
+    headers: {
+      "User-Agent": PIPE_UA,
+      Accept: "*/*",
+      Range: "bytes=" + start + "-" + end,
+    },
+  });
+  let finalUrl = streamUrl;
+  try {
+    finalUrl = upstream.url || streamUrl;
+  } catch (err) {}
+  if (!bc.streamAllowed(finalUrl)) {
+    return json(res, 502, { error: "Unexpected stream host." });
+  }
+  if (upstream.status >= 400) {
+    return json(res, 502, { error: "Upstream stream " + upstream.status });
+  }
+  res.statusCode = upstream.status === 200 ? 200 : 206;
+  const pass = ["content-type", "content-length", "content-range", "accept-ranges"];
+  pass.forEach(function (name) {
+    const value = upstream.headers.get(name);
+    if (value) res.setHeader(name, value);
+  });
+  if (!res.getHeader("Accept-Ranges")) res.setHeader("Accept-Ranges", "bytes");
+  res.setHeader("Cache-Control", "private, max-age=60");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Referrer-Policy", "no-referrer");
+  if (req.method === "HEAD" || !upstream.body) return res.end();
+  await new Promise(function (resolve, reject) {
+    const body = Readable.fromWeb(upstream.body);
+    body.on("error", reject);
+    res.on("error", reject);
+    res.on("finish", resolve);
+    body.pipe(res);
+  });
+}
+
 module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -58,6 +121,7 @@ module.exports = async function handler(req, res) {
   const releaseId = url.searchParams.get("r") || url.searchParams.get("release") || "";
   const trackId = url.searchParams.get("t") || url.searchParams.get("track") || "";
   const asJson = url.searchParams.get("format") === "json";
+  const pipe = url.searchParams.get("pipe") === "1";
 
   if (!releaseId) {
     return json(res, 400, { error: "Missing release." });
@@ -97,6 +161,9 @@ module.exports = async function handler(req, res) {
         trackId: cue.track.id,
         title: stream.title || cue.track.title,
       });
+    }
+    if (pipe) {
+      return await pipeStream(req, res, stream.src);
     }
     res.statusCode = 302;
     res.setHeader("Location", stream.src);

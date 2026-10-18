@@ -27,6 +27,8 @@
   var analyser = null;
   var analyserBins = null;
   var energyRaf = 0;
+  var meterHeld = false;
+  var energyArmed = false;
   var lastPreviewError = "";
   var toastTimer = 0;
   var scWidget = null;
@@ -242,13 +244,9 @@
 
   function pumpEnergy() {
     if (!analyser || !analyserBins) return;
-    analyser.getByteFrequencyData(analyserBins);
-    var sum = 0;
-    var i;
-    for (i = 2; i < analyserBins.length; i++) sum += analyserBins[i];
-    var avg = sum / Math.max(1, analyserBins.length - 2) / 255;
-    var energy = Math.max(0.08, Math.min(1, Math.pow(avg, 0.72) * 1.15));
+    var energy = levelFromBins();
     document.documentElement.style.setProperty("--room-energy", energy.toFixed(3));
+    paintMeter(energy);
     if (audio && !audio.paused && !reduceMotion()) {
       energyRaf = requestAnimationFrame(pumpEnergy);
     } else {
@@ -256,19 +254,62 @@
     }
   }
 
-  function usesBandcampStream(track) {
-    if (track && track.fromBandcamp) return true;
+  function mediaOriginSafe() {
     var src = audio && (audio.currentSrc || audio.src);
-    return !!(src && /bandcamp-stream|bcbits\.com|bandcamp\.com/i.test(src));
+    if (!src) return false;
+    try {
+      var u = new URL(src, window.location.href);
+      if (u.origin !== window.location.origin) return false;
+      /* A 302 to bcbits is cross-origin once it settles. Only the pipe stays here. */
+      if (/bcbits\.com|bandcamp\.com/i.test(u.hostname)) return false;
+      if (/bandcamp-stream/i.test(u.pathname) && !/[?&]pipe=1(?:&|$)/.test(u.search)) return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function levelFromBins() {
+    if (!analyser || !analyserBins) return 0;
+    analyser.getByteFrequencyData(analyserBins);
+    var sum = 0;
+    var i;
+    for (i = 2; i < analyserBins.length; i++) sum += analyserBins[i];
+    var avg = sum / Math.max(1, analyserBins.length - 2) / 255;
+    return Math.max(0, Math.min(1, Math.pow(avg, 0.72) * 1.15));
+  }
+
+  function paintMeter(level) {
+    if (!ui || !ui.dock) return;
+    var meter = ui.dock.querySelector("[data-lcd-meter]");
+    if (!meter) return;
+    var bars = meter.querySelectorAll("i");
+    var lit = Math.round((Number(level) || 0) * bars.length);
+    if (lit < 1 && level > 0.04) lit = 1;
+    if (lit > bars.length) lit = bars.length;
+    var i;
+    for (i = 0; i < bars.length; i++) {
+      bars[i].classList.toggle("is-on", i < lit);
+      bars[i].classList.toggle("is-peak", lit > 0 && i === lit - 1);
+    }
+    meter.hidden = false;
+    ui.dock.classList.add("is-meter");
+  }
+
+  function hideMeter() {
+    if (!ui || !ui.dock) return;
+    ui.dock.classList.remove("is-meter");
+    var meter = ui.dock.querySelector("[data-lcd-meter]");
+    if (meter) meter.hidden = true;
   }
 
   function attachAnalyser() {
-    // Bandcamp mp3-128 URLs (and 302s to bcbits) are cross-origin without CORS.
-    // createMediaElementSource captures the element and then outputs silence.
-    if (analyser || !audio || reduceMotion()) return;
-    if (usesBandcampStream(current())) return;
+    // createMediaElementSource on a non-CORS cross-origin element plays silence.
+    // Only a same-origin pipe (or a same-origin file) may be tapped.
+    if (analyser || !audio) return false;
+    if (!mediaOriginSafe()) return false;
     var AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
+    if (!AC) return false;
     try {
       audioCtx = audioCtx || new AC();
       if (audioCtx.state === "suspended") audioCtx.resume();
@@ -279,20 +320,38 @@
       src.connect(analyser);
       analyser.connect(audioCtx.destination);
       analyserBins = new Uint8Array(analyser.frequencyBinCount);
+      return true;
     } catch (err) {
       analyser = null;
+      return false;
     }
   }
 
   function startEnergy() {
-    if (reduceMotion()) return;
-    if (usesBandcampStream(current())) {
-      document.documentElement.style.setProperty("--room-energy", "0.62");
+    if (!audio) return;
+    if (audio.readyState < 2) {
+      var arm = function () {
+        audio.removeEventListener("canplay", arm);
+        startEnergy();
+      };
+      audio.addEventListener("canplay", arm);
       return;
     }
-    attachAnalyser();
+    if (!mediaOriginSafe()) {
+      hideMeter();
+      return;
+    }
+    if (!attachAnalyser()) {
+      hideMeter();
+      return;
+    }
     if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-    if (!energyRaf && analyser) energyRaf = requestAnimationFrame(pumpEnergy);
+    if (reduceMotion()) {
+      var held = levelFromBins();
+      if (held > 0.02) paintMeter(held);
+      return;
+    }
+    if (!energyRaf) energyRaf = requestAnimationFrame(pumpEnergy);
   }
 
   function loadCatalog() {
@@ -389,7 +448,8 @@
         "/api/bandcamp-stream?r=" +
         encodeURIComponent(release.id) +
         "&t=" +
-        encodeURIComponent(t.id)
+        encodeURIComponent(t.id) +
+        "&pipe=1"
       );
     }
     return file;
@@ -680,13 +740,14 @@
       '<img class="vcr-player__art" alt="" width="56" height="56" />' +
       "</div>" +
       '<div class="vcr-player__lcd">' +
-      '<p class="vcr-player__bug"><span data-lcd-meta>01</span><span class="vcr-player__led" data-lcd-led>Standby</span></p>' +
+      '<p class="vcr-player__bug"><span data-lcd-meta>01</span><span class="vcr-player__led" data-lcd-led>STANDBY</span><span class="vcr-meter" data-lcd-meter hidden aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__err" data-player-err hidden></p>' +
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
       '<div class="vcr-player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
       '<div class="vcr-player__progress-wrap">' +
+      '<canvas class="vcr-player__wave" aria-hidden="true"></canvas>' +
       '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" aria-valuetext="0:00 of 0:00" />' +
       '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
       "</div>" +
@@ -833,6 +894,82 @@
     if (!ui || !ui.dock) return;
     var h = ui.dock.offsetHeight;
     if (h > 8) document.documentElement.style.setProperty("--dock-h", Math.ceil(h) + "px");
+  }
+
+  var peakCache = {};
+  var peakWant = "";
+
+  function clearDockPeaks() {
+    if (!ui || !ui.dock) return;
+    ui.dock.classList.remove("is-waved");
+    var canvas = ui.dock.querySelector(".vcr-player__wave");
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawDockPeaks(peaks, ratio) {
+    if (!ui || !ui.dock || !peaks || !peaks.length) {
+      clearDockPeaks();
+      return;
+    }
+    var canvas = ui.dock.querySelector(".vcr-player__wave");
+    if (!canvas) return;
+    var wrap = canvas.parentElement;
+    var w = (wrap && wrap.clientWidth) || 0;
+    var h = 12;
+    if (!w) return;
+    ui.dock.classList.add("is-waved");
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+    }
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    var n = peaks.length;
+    var bw = w / n;
+    var played = Math.max(0, Math.min(1, Number(ratio) || 0));
+    var i;
+    for (i = 0; i < n; i++) {
+      var amp = Number(peaks[i]);
+      if (!isFinite(amp)) amp = 0;
+      amp = Math.max(0.05, Math.min(1, amp));
+      var bh = Math.max(1, amp * (h - 1));
+      ctx.globalAlpha = i / Math.max(1, n - 1) <= played ? 1 : 0.3;
+      ctx.fillStyle = "#1a1a1a";
+      ctx.fillRect(i * bw, (h - bh) / 2, Math.max(1, bw - 0.35), bh);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function loadPeaks(track) {
+    if (!track || !track.id || track.isSoundcloud) {
+      peakWant = "";
+      clearDockPeaks();
+      return;
+    }
+    if (peakCache[track.id]) {
+      peakWant = track.id;
+      var ratio = audio && audio.duration ? (audio.currentTime || 0) / audio.duration : 0;
+      drawDockPeaks(peakCache[track.id], ratio);
+      return;
+    }
+    if (peakWant === track.id) return;
+    peakWant = track.id;
+    clearDockPeaks();
+    fetch("/data/peaks/" + encodeURIComponent(track.id) + ".json")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var peaks = data && data.peaks;
+        if (!Array.isArray(peaks) || !peaks.length) return;
+        peakCache[track.id] = peaks;
+        var now = current();
+        if (now && now.id === track.id) drawDockPeaks(peaks, 0);
+      })
+      .catch(function () {});
   }
 
   function notify(msg, isError) {
@@ -1220,6 +1357,7 @@
     renderRoom(track, playing && !signalLost);
     updateMediaSession(track, playing && !signalLost);
     announceTrack(track);
+    loadPeaks(track);
     measureDock();
   }
 
@@ -1284,6 +1422,14 @@
     }
     paintScrubA11y(cur, dur);
     publishPosition(cur, dur);
+    if (track && peakCache[track.id]) drawDockPeaks(peakCache[track.id], dur ? cur / dur : 0);
+    if (reduceMotion() && analyser && !meterHeld) {
+      var held = levelFromBins();
+      if (held > 0.02) {
+        meterHeld = true;
+        paintMeter(held);
+      }
+    }
     persist();
     emit();
   }
@@ -1721,6 +1867,19 @@
   function onAudioError() {
     var track = current();
     if (!track) return;
+    var played = (audio && (audio.currentSrc || audio.src)) || "";
+    if (track.fromBandcamp && !track._pipeFailed && /[?&]pipe=1(?:&|$)/.test(played)) {
+      track._pipeFailed = true;
+      track.src = String(track.src || played).replace(/[?&]pipe=1\b/, "").replace(/\?$/, "");
+      hideMeter();
+      ensureAudio();
+      try { audio.referrerPolicy = "no-referrer"; } catch (e) {}
+      audio.src = track.src;
+      signalLost = false;
+      render();
+      safePlay();
+      return;
+    }
     if (track.fromBandcamp && track.filePreview && !track._fellBack) {
       track._fellBack = true;
       track.src = track.filePreview;
@@ -2136,6 +2295,7 @@
     clearBumper();
     hidePreviewError();
     index = i;
+    meterHeld = false;
     var track = queue[index];
     if (isScTrack(track)) return loadSoundCloud(track, !!autoplay);
     pauseSoundCloud();
