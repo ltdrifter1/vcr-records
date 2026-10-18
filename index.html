@@ -148,6 +148,8 @@
 
   <link rel="stylesheet" href="/css/graphic-pass.css?v=gp3"/>
   <link rel="stylesheet" href="css/hero-banner.css?v=hb3"/>
+  <link rel="stylesheet" href="css/camera-roll.css?v=cr2"/>
+  <link rel="stylesheet" href="css/sleeve.css?v=sl3"/>
 </head>
 <body id="top" class="hero-top nav-light home-zine zine-surface">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -529,15 +531,24 @@
 
 <footer class="footer">
   <div class="band">
-    <div class="footer-top footer-top--brand">
+    <div class="footer-top">
       <div>
         <a class="footer-wordmark" href="/">Club Copy</a>
-        <p class="footer-manifesto"></p>
-        <p class="footer-publisher"><a href="/about">Copy House Publishing (c) 2026</a></p>
+        <p class="footer-publisher"><a href="/about">Copy House Publishing</a></p>
+        <p class="footer-mail"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></p>
+      </div>
+      <div>
+        <label for="footerEmail">Email updates</label>
+        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit">Join</button>
+        </form>
+        <p class="footer-note">Subscribe for updates.</p>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy"></p>
+      <p class="footer-copy">© 2026 Club Copy</p>
       <div class="footer-links">
         <a href="/library">Library</a>
         <a href="/artists">Artists</a>
@@ -558,6 +569,7 @@
 <script src="js/member.js"></script>
 <script src="js/player.js?v=st35"></script>
 <script src="js/plate.js?v=st39"></script>
+<script src="js/sleeve.js?v=sl1"></script>
 <script src="js/home-wall.js?v=gp1"></script>
 <script src="js/tapes.js?v=gp1"></script>
 <script src="js/ig-feed.js"></script>

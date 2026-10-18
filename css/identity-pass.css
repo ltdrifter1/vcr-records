@@ -122,7 +122,8 @@ html body.home-zine .artist-strip-wrap .section-head .head-link { background: #b
   .artist-plate-go { justify-self: end; }
 }
 
-/* The floor: graphite contact sheet */
+/* The floor frame, captions, and play key live in css/camera-roll.css.
+   This pass only keeps the section ink. */
 html body.home-zine .floor {
   background: #1f1f1e;
   color: #e8e8e6;
@@ -133,20 +134,6 @@ html body.home-zine .floor .section-head { border-bottom: 1px solid rgba(232, 23
 html body.home-zine .floor h2 { color: #e8e8e6; font-family: "Oswald", sans-serif; font-weight: 500; font-size: clamp(32px, 4.8vw, 52px); margin: 0; }
 html body.home-zine .floor .eyebrow { color: #b8b8b4; font-family: "IBM Plex Mono", monospace; }
 html body.home-zine .floor .ig-feed-links a { color: #1a1a1a; background: #b8b8b4; }
-html body.home-zine .floor .ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-@media (min-width: 900px) { html body.home-zine .floor .ig-grid { grid-template-columns: repeat(6, 1fr); } }
-html body.home-zine .floor .ig-card { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: #111; }
-html body.home-zine .floor .ig-art, html body.home-zine .floor .ig-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
-html body.home-zine .floor .ig-art img { filter: grayscale(.25) contrast(1.05); transition: filter .3s; }
-html body.home-zine .floor .ig-card:hover .ig-art img { filter: none; }
-html body.home-zine .floor .ig-meta {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 18px 6px 5px;
-  background: linear-gradient(180deg, transparent, rgba(17, 17, 17, .85));
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 10px; letter-spacing: .06em; color: #f4f4f2; text-transform: uppercase;
-}
-html body.home-zine .floor .ig-meta b { font-weight: 600; }
 html body.home-zine .floor .ig-empty { color: #b8b8b4; grid-column: 1 / -1; }
 html body.home-zine .floor .ig-empty a { color: #e8e8e6; }
 
