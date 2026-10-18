@@ -45,16 +45,27 @@ html body.library-index .cat-play.sleeve-play svg {
   fill: currentColor;
   display: block;
 }
-html body .sleeve-play .sc-pause,
-html body .sleeve-play .cp-pause { display: none; }
-html body .sleeve.is-audible .sleeve-play .sc-play,
-html body .sleeve.is-audible .sleeve-play .cp-play,
-html body .sleeve-play.is-playing .sc-play,
-html body .sleeve-play.is-playing .cp-play { display: none; }
-html body .sleeve.is-audible .sleeve-play .sc-pause,
-html body .sleeve.is-audible .sleeve-play .cp-pause,
-html body .sleeve-play.is-playing .sc-pause,
-html body .sleeve-play.is-playing .cp-pause { display: block; }
+html body .sleeve-play svg.sc-pause,
+html body .sleeve-play svg.cp-pause,
+html body.home-zine .sleeve-card-play svg.sc-pause,
+html body.library-index .cat-row .cat-play.sleeve-play svg.sc-pause,
+html body.library-index .cat-row .cat-play.sleeve-play svg.cp-pause { display: none; }
+html body .sleeve.is-audible .sleeve-play svg.sc-play,
+html body .sleeve.is-audible .sleeve-play svg.cp-play,
+html body .sleeve-play.is-playing svg.sc-play,
+html body .sleeve-play.is-playing svg.cp-play,
+html body.library-index .cat-row.is-audible .cat-play.sleeve-play svg.sc-play,
+html body.library-index .cat-row.is-audible .cat-play.sleeve-play svg.cp-play,
+html body.library-index .cat-row.is-now-playing.is-audible .cat-play.sleeve-play svg.sc-play,
+html body.library-index .cat-row.is-now-playing.is-audible .cat-play.sleeve-play svg.cp-play { display: none; }
+html body .sleeve.is-audible .sleeve-play svg.sc-pause,
+html body .sleeve.is-audible .sleeve-play svg.cp-pause,
+html body .sleeve-play.is-playing svg.sc-pause,
+html body .sleeve-play.is-playing svg.cp-pause,
+html body.library-index .cat-row.is-audible .cat-play.sleeve-play svg.sc-pause,
+html body.library-index .cat-row.is-audible .cat-play.sleeve-play svg.cp-pause,
+html body.library-index .cat-row.is-now-playing.is-audible .cat-play.sleeve-play svg.sc-pause,
+html body.library-index .cat-row.is-now-playing.is-audible .cat-play.sleeve-play svg.cp-pause { display: block; }
 html body .sleeve.is-audible .sleeve-play::after,
 html body .sleeve-play.is-playing::after {
   content: "";
