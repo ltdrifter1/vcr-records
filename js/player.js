@@ -330,7 +330,10 @@
   function startEnergy() {
     if (!audio) return;
     if (audio.readyState < 2) {
+      if (energyArmed) return;
+      energyArmed = true;
       var arm = function () {
+        energyArmed = false;
         audio.removeEventListener("canplay", arm);
         startEnergy();
       };

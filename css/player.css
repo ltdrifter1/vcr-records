@@ -1323,3 +1323,28 @@ body.vcr-stage-open .tabbar { display: none !important; }
     -webkit-backdrop-filter: none;
   }
 }
+
+/* The dock is one object across documents. The sleeve shares a name with
+   the jewel only for the frame #platePlay starts playback. */
+@view-transition {
+  navigation: auto;
+}
+#vcr-player {
+  view-transition-name: cc-dock;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+  #vcr-player,
+  #vcr-player .vcr-player__jewel,
+  .listen-sleeve {
+    view-transition-name: none !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation: none !important;
+  }
+}
