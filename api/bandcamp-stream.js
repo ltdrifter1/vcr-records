@@ -9,10 +9,6 @@ const path = require("path");
 const { Readable } = require("stream");
 const bc = require("../lib/bandcamp");
 
-/* Each invocation returns at most this many bytes so a short function
-   budget can still feed a seeking <audio> element. The browser continues
-   with the next Range. */
-const PIPE_CHUNK = 256 * 1024;
 const PIPE_UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -51,30 +47,21 @@ function cacheKey(pageUrl, track) {
   return [pageUrl, track && (track.bandcampTrackId || track.id || track.title)].join("::");
 }
 
-function parseRange(header, fallbackEnd) {
-  const m = /^bytes=(\d+)-(\d*)$/i.exec(String(header || "").trim());
-  if (!m) return { start: 0, end: fallbackEnd };
-  const start = Number(m[1]);
-  const end = m[2] ? Number(m[2]) : fallbackEnd;
-  return { start: start, end: end };
-}
-
 async function pipeStream(req, res, streamUrl) {
   if (!bc.streamAllowed(streamUrl)) {
     return json(res, 502, { error: "Stream host not allowed." });
   }
-  const requested = parseRange(req.headers.range, null);
-  const start = Number.isFinite(requested.start) ? requested.start : 0;
-  const capEnd = start + PIPE_CHUNK - 1;
-  const end = requested.end == null ? capEnd : Math.min(requested.end, capEnd);
+  /* Pass the client's Range through. Capping an open Range: bytes=0-
+     at 256KB made WebKit treat a full track as a 16s file and end it. */
+  const headers = {
+    "User-Agent": PIPE_UA,
+    Accept: "*/*",
+  };
+  if (req.headers.range) headers.Range = req.headers.range;
   const upstream = await fetch(streamUrl, {
     method: "GET",
     redirect: "follow",
-    headers: {
-      "User-Agent": PIPE_UA,
-      Accept: "*/*",
-      Range: "bytes=" + start + "-" + end,
-    },
+    headers: headers,
   });
   let finalUrl = streamUrl;
   try {

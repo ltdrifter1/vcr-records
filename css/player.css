@@ -15,6 +15,18 @@
 
 body.has-vcr-player {
   padding-bottom: calc(var(--dock-h, var(--vcr-player-h)) + env(safe-area-inset-bottom, 0px) + 16px) !important;
+  scroll-padding-bottom: calc(var(--dock-h, var(--vcr-player-h)) + env(safe-area-inset-bottom, 0px) + 16px);
+}
+/* Phone plate: a full-bleed sleeve puts Play / Digital under the fixed dock.
+   Shrink only the sleeve, and only while the dock is open, so that row
+   ends above the measured dock. The index below still scrolls clear. */
+@media (max-width: 859px) {
+  html body.home-zine.has-vcr-player .hero.plate-hero .listen-well .listen-sleeve {
+    width: min(100%, max(120px, calc(100dvh - var(--dock-h, 168px) - 362px)));
+  }
+  html body.home-zine.has-vcr-player .listen-plate-actions {
+    scroll-margin-bottom: calc(var(--dock-h, 168px) + env(safe-area-inset-bottom, 0px) + 12px);
+  }
 }
 body.has-vcr-player .tabbar {
   display: none !important;
