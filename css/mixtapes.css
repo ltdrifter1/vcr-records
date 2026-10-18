@@ -241,6 +241,8 @@
 }
 .mix-art img,
 .mix-art .tape-sleeve--blank {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -401,6 +403,19 @@
 .tape-play.is-live {
   background: #1a1a1a;
   color: var(--mix-lcd);
+}
+
+/* The cover is a .tape-play so the dock can bind it. That class is a text pill
+   (18px side padding, inline-flex), which letterboxes the sleeve. Frame, key,
+   and live LED belong to css/camera-roll.css. */
+html body .mix-art.tape-play {
+  display: block;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 0;
+  padding: 0;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .mix-skel {

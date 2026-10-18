@@ -252,6 +252,10 @@
   // Title-only keywords for dance mixes (not the description, and not "club": that is the label name).
   var NIGHT_TITLE_WORDS = /\b(house|techno|dance|rave|disco|garage|dnb|drum\s*(&|and|n)\s*bass|warehouse)\b/i;
 
+  // SoundCloud's genre + tags, when the title itself doesn't say the style
+  // ("ROLLIN' NICE", "r a i n i e r ' s house"). Umbrella words like "Electronic" are left out.
+  var NIGHT_GENRE = /\b(house|techno|dance|rave|disco|garage|jungle|drum\s*(&|and|n)\s*bass|d\s*&\s*b|dnb|breakbeat|breaks|footwork|rollers|bass|warehouse)\b/i;
+
   // Releases that were posted to SoundCloud but live in the catalogue — keep them out of Mixes.
   var RELEASE_RULES = [/molly\s*haze/i, /molly\W{0,3}s?\s+hazy/i, /hazy\s+edit/i, /\bm[\s._-]+a[\s._-]+s[\s._-]+s[\s._-]+i[\s._-]+v[\s._-]+e\b/i, /what'?s\s+luv/i, /\babsolutely\s+not\b/i];
 
@@ -272,11 +276,17 @@
   function slotOf(t) {
     var pinned = String((t && t.slot) || "").toLowerCase();
     if (pinned === "day" || pinned === "night") return pinned;
-    var hay = String((t && t.title) || "") + " " + String((t && t.dek) || "");
+    var title = String((t && t.title) || "");
+    var hay = title + " " + String((t && t.dek) || "");
     for (var i = 0; i < NIGHT_RULES.length; i++) {
       if (NIGHT_RULES[i].test(hay)) return "night";
     }
-    if (NIGHT_TITLE_WORDS.test(String((t && t.title) || ""))) return "night";
+    var given = (t && scTags[t.id]) || (t && (t.genres || t.genre));
+    if (given) {
+      var list = Array.isArray(given) ? given : String(given).split(/[,|]/);
+      if (NIGHT_GENRE.test(list.join(" "))) return "night";
+    }
+    if (NIGHT_TITLE_WORDS.test(title)) return "night";
     return "day";
   }
 
