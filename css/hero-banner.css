@@ -1,17 +1,52 @@
 /* ==========================================================================
    Club Copy — homepage banner
-   Loaded last. A photo bay and a spec sheet: the white label in a dark
-   window, the file beside it. Same steel, same type, no second skin.
+   Loaded last. The sleeve is glass over a blurred cover: a dark bay and
+   a light spec sheet, both frosted, sitting on the record.
    ========================================================================== */
 
 html body.home-zine .hero.plate-hero {
   --bay: #101010;
   --bay-ink: #f4f4f2;
+  --glass-line: rgba(255, 255, 255, .22);
+  position: relative;
+  isolation: isolate;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: #e8e8e6;
+  background: #0c0c0c;
   overflow: hidden;
+}
+
+html body.home-zine .hero.plate-hero .hero-glass-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+html body.home-zine .hero.plate-hero .hero-glass-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.18);
+  filter: blur(42px) saturate(1.45) brightness(.78);
+}
+
+html body.home-zine .hero.plate-hero .hero-glass-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 28% 42%, rgba(255, 255, 255, .14), transparent 58%),
+    linear-gradient(180deg, rgba(8, 8, 8, .18), rgba(8, 8, 8, .42));
+}
+
+html body.home-zine .hero.plate-hero .hero-stage,
+html body.home-zine .hero.plate-hero .hero-ticker,
+html body.home-zine .hero.plate-hero .visually-hidden {
+  position: relative;
+  z-index: 1;
 }
 
 html body.home-zine .hero.plate-hero .hero-stage {
@@ -29,10 +64,12 @@ html body.home-zine .hero.plate-hero .listen-plate {
   flex: 1 1 auto;
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-  gap: 0;
+  gap: 14px;
   max-width: none;
   width: 100%;
   margin: 0;
+  padding: 14px 14px 12px;
+  box-sizing: border-box;
   min-height: 0;
   align-items: stretch;
 }
@@ -48,8 +85,14 @@ html body.home-zine .hero.plate-hero .listen-well {
   gap: 18px;
   min-width: 0;
   padding: clamp(28px, 4vh, 56px) clamp(28px, 4vw, 64px) clamp(22px, 3vh, 40px);
-  background:
-    radial-gradient(ellipse 90% 70% at 50% 42%, #1a1a1a 0%, #101010 62%, #0c0c0c 100%);
+  border-radius: 28px;
+  background: rgba(12, 12, 12, .42);
+  border: 1px solid var(--glass-line);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, .32),
+    inset 0 1px 0 rgba(255, 255, 255, .16);
+  backdrop-filter: blur(26px) saturate(1.55);
+  -webkit-backdrop-filter: blur(26px) saturate(1.55);
   color: var(--bay-ink);
 }
 
@@ -111,9 +154,14 @@ html body.home-zine .hero.plate-hero .hero-side {
   justify-content: center;
   min-width: 0;
   padding: clamp(28px, 4.5vh, 56px) clamp(28px, 4vw, 72px);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .42) 0%, rgba(255, 255, 255, 0) 22%),
-    #e8e8e6;
+  border-radius: 28px;
+  background: rgba(244, 244, 242, .66);
+  border: 1px solid rgba(255, 255, 255, .62);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, .2),
+    inset 0 1px 0 rgba(255, 255, 255, .78);
+  backdrop-filter: blur(26px) saturate(1.4);
+  -webkit-backdrop-filter: blur(26px) saturate(1.4);
 }
 
 html body.home-zine .hero.plate-hero .hero-side-inner {
@@ -242,8 +290,14 @@ html body.home-zine .hero.plate-hero .hero-ticker {
   height: 44px;
   min-height: 44px;
   box-sizing: border-box;
-  background: #e8e8e6;
-  border-top: 1px solid rgba(26, 26, 26, .18);
+  margin: 0 14px 14px;
+  border-radius: 999px;
+  background: rgba(244, 244, 242, .55);
+  border: 1px solid rgba(255, 255, 255, .45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  overflow: hidden;
 }
 
 html body.home-zine .hero.plate-hero .hero-ticker-label {
@@ -252,6 +306,7 @@ html body.home-zine .hero.plate-hero .hero-ticker-label {
   flex: 0 0 auto;
   margin: 0;
   padding: 0 16px;
+  border-radius: 999px 0 0 999px;
   background: #1a1a1a;
   color: #f4f4f2;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -399,5 +454,35 @@ html body.home-zine .hero.plate-hero .hero-ticker-viewport {
   html body.home-zine .hero.plate-hero .hero-ticker-label {
     letter-spacing: .08em;
     padding: 0 10px;
+  }
+}
+
+html body.home-zine .hero.plate-hero .listen-well .listen-sleeve {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+html body.home-zine .hero.plate-hero .listen-well-index span {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .16);
+}
+
+html body.home-zine .hero.plate-hero .hero-track {
+  border-radius: 12px;
+}
+
+html body.home-zine .hero.plate-hero .hero-track:hover {
+  background: rgba(26, 26, 26, .06);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html body.home-zine .hero.plate-hero .listen-well {
+    background: #141414;
+  }
+  html body.home-zine .hero.plate-hero .hero-side,
+  html body.home-zine .hero.plate-hero .hero-ticker {
+    background: #e8e8e6;
   }
 }
