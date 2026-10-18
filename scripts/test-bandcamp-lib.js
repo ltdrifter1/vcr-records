@@ -123,8 +123,28 @@ assert.strictEqual(jadore.title, "j'adore");
 assert.ok(/rainiershouse\.bandcamp\.com/.test(jadore.bandcampUrl));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
-  ["please-wait", "j-adore"]
+  ["run-it-back", "please-wait", "j-adore"]
 );
+
+const runItBack = catalog.releases.find((r) => r.id === "run-it-back");
+assert.ok(runItBack);
+assert.strictEqual(runItBack.artist, "Forsberg");
+assert.strictEqual(runItBack.artistId, "forsberg");
+assert.strictEqual(runItBack.catalogue, "CC011");
+assert.strictEqual(runItBack.title, "Run It Back");
+assert.strictEqual(runItBack.kind, "Single");
+assert.strictEqual(runItBack.released, "2026-10-18");
+assert.strictEqual(runItBack.page, "/run-it-back");
+assert.strictEqual(runItBack.previewTrackId, "rib-01");
+assert.strictEqual(runItBack.formats.digital.sku, "dg-run-it-back");
+assert.strictEqual(runItBack.formats.digital.price, 1.5);
+assert.strictEqual(runItBack.bandcampUrl, "https://forsberg.bandcamp.com/track/run-it-back");
+assert.deepStrictEqual(
+  runItBack.tracks.map((t) => [t.id, t.title, t.duration, t.bandcampTrackId]),
+  [["rib-01", "Run It Back", 150, 2830265795]]
+);
+assert.strictEqual(products["dg-run-it-back"].unitAmount, 150);
+assert.strictEqual(bc.pickCueTrack(runItBack).id, "rib-01");
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
