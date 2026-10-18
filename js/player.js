@@ -687,7 +687,7 @@
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
       '<div class="vcr-player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
       '<div class="vcr-player__progress-wrap">' +
-      '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
+      '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" aria-valuetext="0:00 of 0:00" />' +
       '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
       "</div>" +
       "</div>" +
@@ -697,7 +697,8 @@
       '<button type="button" class="vcr-player__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
       '<button type="button" class="vcr-player__buy" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
-      '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player">&times;</button>';
+      '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player"><svg class="vcr-ico vcr-ico--close" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.1 6.2 8.2 5.1 12 8.9l3.8-3.8 1.1 1.1-3.8 3.8 3.8 3.8-1.1 1.1L12 11.1l-3.8 3.8-1.1-1.1 3.8-3.8z"/></svg></button>' +
+      '<p class="vcr-sr" data-player-live aria-live="polite"></p>';
 
     var bumper = document.createElement("div");
     bumper.className = "vcr-bumper";
@@ -745,7 +746,7 @@
       '<button type="button" class="vcr-stage__btn vcr-stage__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
       '<button type="button" class="vcr-stage__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
-      '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
+      '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" aria-valuetext="0:00 of 0:00" />' +
       '<div class="vcr-stage__times"><span data-stage-cur>0:00</span><span data-stage-dur>0:00</span></div>' +
       '<div class="vcr-stage__formats" data-stage-formats></div>' +
       '<a class="vcr-stage__notes" data-page href="#">Sleeve notes</a>' +
@@ -1218,6 +1219,7 @@
 
     renderRoom(track, playing && !signalLost);
     updateMediaSession(track, playing && !signalLost);
+    announceTrack(track);
     measureDock();
   }
 
@@ -1280,6 +1282,8 @@
       if (curEl) curEl.textContent = fmt(cur);
       if (durEl) durEl.textContent = fmt(dur);
     }
+    paintScrubA11y(cur, dur);
+    publishPosition(cur, dur);
     persist();
     emit();
   }
@@ -1486,6 +1490,8 @@
     var dEl = ui.dock.querySelector("[data-dur]");
     if (cEl) cEl.textContent = fmt(cur);
     if (dEl) dEl.textContent = fmt(dur);
+    paintScrubA11y(cur, dur);
+    publishPosition(cur, dur);
   }
 
   function startScPoll() {
@@ -1927,8 +1933,9 @@
     var tag = (e.target && e.target.tagName) || "";
     if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) return;
     var immersive = stageOpen || roomOpen;
+    var inDock = !!(e.target && e.target.closest && e.target.closest("#vcr-player"));
 
-    if (e.code === "Space" && (immersive || document.body.classList.contains("has-vcr-player"))) {
+    if (e.code === "Space" && (immersive || inDock || document.body.classList.contains("has-vcr-player"))) {
       e.preventDefault();
       if (bumperOpen) {
         clearBumper();
@@ -1936,12 +1943,9 @@
       } else {
         toggle();
       }
-    } else if (e.code === "ArrowRight" && immersive) {
+    } else if ((e.code === "ArrowRight" || e.code === "ArrowLeft") && (immersive || inDock)) {
       e.preventDefault();
-      if (audio) audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 5);
-    } else if (e.code === "ArrowLeft" && immersive) {
-      e.preventDefault();
-      if (audio) audio.currentTime = Math.max(0, audio.currentTime - 5);
+      seekBy(e.code === "ArrowRight" ? 5 : -5);
     } else if (e.code === "Escape" && bumperOpen) {
       clearBumper();
       next(true);
@@ -1957,28 +1961,161 @@
     }
   }
 
+  function artType(url) {
+    if (/\.png(\?|#|$)/i.test(url)) return "image/png";
+    if (/\.jpe?g(\?|#|$)/i.test(url)) return "image/jpeg";
+    return "image/webp";
+  }
+
+  function artworkFor(track) {
+    var items = [];
+    var seen = {};
+    function push(url, sizes) {
+      url = absoluteAsset(url);
+      if (!url || seen[sizes + url]) return;
+      seen[sizes + url] = true;
+      items.push({ src: url, sizes: sizes, type: artType(url) });
+    }
+    if (!track) return items;
+    push(track.coverThumb || track.cover, "480x480");
+    push(track.cover, "1200x1200");
+    push(track.coverPng, "1200x1200");
+    push(track.coverJpeg || track.coverJpg, "1200x1200");
+    return items;
+  }
+
+  function albumLine(track) {
+    var title = (track && (track.releaseTitle || track.title)) || "";
+    if (track && track.catalogue) return title + " · " + track.catalogue;
+    return title;
+  }
+
+  function paintScrubA11y(cur, dur) {
+    if (!ui) return;
+    var text = fmt(cur) + " of " + fmt(dur);
+    var nodes = [];
+    if (ui.dock) nodes.push(ui.dock.querySelector(".vcr-player__scrub"));
+    if (ui.stage) nodes.push(ui.stage.querySelector(".vcr-stage__scrub"));
+    var room = getRoom();
+    if (room) nodes.push(room.querySelector("[data-room-scrub]"));
+    nodes.forEach(function (el) {
+      if (!el) return;
+      el.setAttribute("aria-valuetext", text);
+    });
+  }
+
+  function announceTrack(track) {
+    if (!ui || !ui.dock || !track) return;
+    var live = ui.dock.querySelector("[data-player-live]");
+    if (!live) return;
+    var key = (track.releaseId || "") + ":" + (track.id || "");
+    if (live.getAttribute("data-announced") === key) return;
+    live.setAttribute("data-announced", key);
+    var n = Number(track.trackNum) || 1;
+    var of = Number(track.tracksCount) || 0;
+    var line = "Now playing " + (track.title || "track");
+    if (track.catalogue) line += " — " + track.catalogue;
+    if (of) line += ", track " + n + " of " + of;
+    live.textContent = line;
+  }
+
+  var mediaTrackKey = "";
+  var mediaHandlersBound = false;
+  var lastPositionAt = 0;
+
+  function seekBy(delta) {
+    var track = current();
+    delta = Number(delta) || 0;
+    if (isScTrack(track) && scWidget) {
+      var next = Math.max(0, (scPosition || 0) + delta);
+      if (scDuration) next = Math.min(scDuration, next);
+      scPosition = next;
+      try { scWidget.seekTo(next * 1000); } catch (e) {}
+      paintScClock();
+      return;
+    }
+    if (!audio) return;
+    var dur = audio.duration;
+    var cap = track && track.isPreview ? Number(track.previewDuration) || 0 : 0;
+    if (cap) dur = cap;
+    var t = (audio.currentTime || 0) + delta;
+    if (t < 0) t = 0;
+    if (isFinite(dur) && dur > 0 && t > dur) t = dur;
+    try { audio.currentTime = t; } catch (e) {}
+  }
+
+  function seekToSec(t) {
+    var track = current();
+    t = Math.max(0, Number(t) || 0);
+    if (isScTrack(track) && scWidget) {
+      if (scDuration) t = Math.min(scDuration, t);
+      scPosition = t;
+      try { scWidget.seekTo(t * 1000); } catch (e) {}
+      paintScClock();
+      return;
+    }
+    if (!audio) return;
+    var dur = audio.duration;
+    if (isFinite(dur) && dur > 0) t = Math.min(dur, t);
+    try { audio.currentTime = t; } catch (e) {}
+  }
+
+  function bindMediaSession() {
+    if (mediaHandlersBound || !("mediaSession" in navigator)) return;
+    mediaHandlersBound = true;
+    var ms = navigator.mediaSession;
+    function setHandler(name, fn) {
+      try { ms.setActionHandler(name, fn); } catch (e) {}
+    }
+    setHandler("play", function () { play(); });
+    setHandler("pause", function () { pause(); });
+    setHandler("previoustrack", function () { prev(); });
+    setHandler("nexttrack", function () { next(true); });
+    setHandler("seekto", function (details) {
+      if (details && details.seekTime != null) seekToSec(details.seekTime);
+    });
+    setHandler("seekbackward", function (details) {
+      seekBy(-((details && details.seekOffset) || 10));
+    });
+    setHandler("seekforward", function (details) {
+      seekBy((details && details.seekOffset) || 10);
+    });
+  }
+
+  function publishPosition(cur, dur) {
+    if (!("mediaSession" in navigator) || !navigator.mediaSession.setPositionState) return;
+    if (!isFinite(dur) || dur <= 0 || !isFinite(cur) || cur < 0) return;
+    var now = Date.now();
+    if (now - lastPositionAt < 1000) return;
+    lastPositionAt = now;
+    var pos = Math.min(cur, dur);
+    try {
+      navigator.mediaSession.setPositionState({
+        duration: dur,
+        playbackRate: audio && isFinite(audio.playbackRate) ? audio.playbackRate || 1 : 1,
+        position: pos,
+      });
+    } catch (e) {}
+  }
+
   function updateMediaSession(track, playing) {
     if (!("mediaSession" in navigator) || !track) return;
+    bindMediaSession();
     try {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: track.title,
-        artist: track.artist,
-        album: track.releaseTitle,
-        artwork: [{ src: track.cover, sizes: "1200x1200", type: "image/webp" }],
-      });
+      var key = (track.releaseId || "") + ":" + (track.id || "");
+      if (key !== mediaTrackKey) {
+        mediaTrackKey = key;
+        lastPositionAt = 0;
+        var art = artworkFor(track);
+        var metaInit = {
+          title: track.title || "",
+          artist: track.artist || "",
+          album: albumLine(track),
+        };
+        if (art.length) metaInit.artwork = art;
+        navigator.mediaSession.metadata = new MediaMetadata(metaInit);
+      }
       navigator.mediaSession.playbackState = playing ? "playing" : "paused";
-      navigator.mediaSession.setActionHandler("play", function () {
-        play();
-      });
-      navigator.mediaSession.setActionHandler("pause", function () {
-        pause();
-      });
-      navigator.mediaSession.setActionHandler("previoustrack", function () {
-        prev();
-      });
-      navigator.mediaSession.setActionHandler("nexttrack", function () {
-        next(true);
-      });
     } catch (err) {}
   }
 
@@ -2166,6 +2303,8 @@
   }
 
   function clearMediaSession() {
+    mediaTrackKey = "";
+    lastPositionAt = 0;
     if (!("mediaSession" in navigator)) return;
     try {
       navigator.mediaSession.metadata = null;
