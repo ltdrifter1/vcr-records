@@ -4,15 +4,17 @@
 
 :root {
   --vcr-player-h: 76px;
+  --dock-h: 76px;
   --room-a: 168, 168, 164;
   --room-b: 42, 42, 40;
   --room-c: 196, 196, 192;
   --room-energy: 0.18;
   --scrub: 0%;
+  --acid-led: #C6F000;
 }
 
 body.has-vcr-player {
-  padding-bottom: calc(var(--vcr-player-h) + env(safe-area-inset-bottom, 0px) + 16px) !important;
+  padding-bottom: calc(var(--dock-h, var(--vcr-player-h)) + env(safe-area-inset-bottom, 0px) + 16px) !important;
 }
 body.has-vcr-player .tabbar {
   display: none !important;
@@ -141,21 +143,43 @@ body.vcr-stage-open.has-vcr-player {
   letter-spacing: .08em;
 }
 .vcr-player.is-playing .vcr-player__led::before {
-  background: #f4f4f2;
-  box-shadow: 0 0 6px rgba(244, 244, 242, .7);
+  background: var(--acid-led, #C6F000);
+  box-shadow: 0 0 6px var(--acid-led, #C6F000);
+}
+.vcr-player.is-tap-pulse .vcr-player__btn--play {
+  animation: vcrTapPulse 1.15s ease 1;
+}
+@keyframes vcrTapPulse {
+  0% { box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 0 rgba(26,26,26,0); }
+  45% { box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 7px rgba(26,26,26,.18); }
+  100% { box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 0 rgba(26,26,26,0); }
 }
 
 .vcr-player.is-error .vcr-player__bug {
   color: #ffb4a8;
 }
 .vcr-player__err {
-  margin: 4px 0 0;
-  font-family: var(--ui, 'Archivo', sans-serif);
-  font-size: 12px;
+  margin: 2px 0 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
   font-weight: 500;
-  line-height: 1.35;
-  color: #ffb4a8;
+  letter-spacing: .02em;
+  line-height: 1.4;
+  color: #1a1a1a;
 }
+.vcr-player__err button,
+.vcr-player__err a {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.vcr-player__sub[hidden] { display: none !important; }
 .vcr-player__err[hidden] { display: none !important; }
 
 .vcr-player__upnext {
@@ -716,7 +740,7 @@ body.vcr-bumper-open { overflow: hidden; }
 .vcr-sc-bar { display: none; }
 .vcr-sc-wrap.is-open {
   left: 50%;
-  bottom: calc(var(--vcr-player-h, 76px) + 22px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--dock-h, var(--vcr-player-h, 76px)) + 12px + env(safe-area-inset-bottom, 0px));
   width: min(460px, calc(100vw - 20px));
   height: auto;
   overflow: hidden;
@@ -724,25 +748,28 @@ body.vcr-bumper-open { overflow: hidden; }
   pointer-events: auto;
   z-index: 560;
   transform: translateX(-50%);
-  border-radius: 10px;
-  background: linear-gradient(180deg, #f4f4f2, #d8d8d4);
-  border: 1px solid rgba(40, 40, 40, .28);
-  box-shadow: inset 0 1px 0 #fff, 0 18px 44px rgba(0, 0, 0, .28);
+  border-radius: 4px;
+  background: #2a2a28;
+  border: 1px solid rgba(244, 244, 242, .16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 44px rgba(0, 0, 0, .45);
+  color: #f4f4f2;
 }
 .vcr-sc-wrap.is-open .vcr-sc-bar {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 6px 8px 14px;
-  font-family: var(--ui, "Lucida Grande", Geneva, sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #f4f4f2;
 }
 .vcr-sc-msg { flex: 1; min-width: 0; }
 .vcr-sc-open {
-  font-size: 12px;
-  color: #1a1a1a;
+  font-size: 11px;
+  color: #c8c8c4;
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
@@ -752,14 +779,15 @@ body.vcr-bumper-open { overflow: hidden; }
   height: 44px;
   border: 0;
   background: transparent;
-  color: #1a1a1a;
+  color: #f4f4f2;
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
 }
 .vcr-sc-wrap.is-open .vcr-sc-frame {
-  height: 130px;
-  background: #fff;
+  height: 120px;
+  background: #1a1a1a;
+  filter: grayscale(1) contrast(1.05);
 }
 
 /* Now Playing sheet — iOS Music × acetate --------------------------------- */
@@ -1139,6 +1167,9 @@ body.vcr-stage-open .tabbar { display: none !important; }
   }
   .vcr-player.is-playing .vcr-player__led::before {
     box-shadow: none;
+  }
+  .vcr-player.is-tap-pulse .vcr-player__btn--play {
+    animation: none;
   }
 }
 
