@@ -6,7 +6,7 @@
   var plate = document.querySelector("[data-listen-plate]");
   if (!plate) return;
 
-  var FEATURED_ID = plate.getAttribute("data-release") || "j-adore";
+  var FEATURED_ID = plate.getAttribute("data-release") || "please-wait";
   var playBtn = document.getElementById("platePlay");
   var hitBtn = document.getElementById("platePlayHit");
   var buyBtn = document.getElementById("plateBuy");
@@ -40,21 +40,21 @@
     price: null,
     name: "",
     image: "",
-    cover: "j-adore-cover.webp",
-    title: "j'adore",
+    cover: "please-wait-cover.webp",
+    title: "Please Wait",
     artist: "Forsberg",
-    digitalSku: "dg-j-adore",
-    digitalPrice: 8,
-    digitalName: "j'adore — Digital",
-    digitalImage: "j-adore-cover.webp",
+    digitalSku: "dg-please-wait",
+    digitalPrice: 1.5,
+    digitalName: "Please Wait — Digital",
+    digitalImage: "please-wait-cover.webp",
     cassetteBackorder: false,
     cassetteOut: false,
   };
   var onAir = {
-    id: "j-adore",
-    title: "j'adore",
+    id: "please-wait",
+    title: "Please Wait",
     artist: "Forsberg",
-    cover: "j-adore-cover.webp",
+    cover: "please-wait-cover.webp",
   };
 
   function hasCue(rel) {
@@ -101,6 +101,13 @@
   function setStatus(html) {
     if (!statusEl) return;
     statusEl.innerHTML = html;
+  }
+
+  function money(n) {
+    var cents = Math.round(Number(n) * 100);
+    if (!isFinite(cents)) return "";
+    if (cents % 100 === 0) return String(cents / 100);
+    return (cents / 100).toFixed(2);
   }
 
   function fmtClock(sec) {
@@ -309,13 +316,13 @@
         if (buyBtn) {
           buyBtn.hidden = !featured.sku;
           if (featured.sku) {
-            buyBtn.textContent = featured.cassetteOut ? "Cassette · Sold out" : "Cassette · $" + featured.price;
+            buyBtn.textContent = featured.cassetteOut ? "Cassette · Sold out" : "Cassette · $" + money(featured.price);
             buyBtn.disabled = !!featured.cassetteOut;
           }
         }
         if (buyDigitalBtn && featured.digitalSku) {
           buyDigitalBtn.textContent = featured.digitalPrice != null
-            ? "Digital · $" + featured.digitalPrice
+            ? "Digital · $" + money(featured.digitalPrice)
             : "Digital";
         }
       }
@@ -338,7 +345,7 @@
       if (featured.playable) {
         var digitalBit =
           featured.digitalSku && featured.digitalPrice != null
-            ? "Digital $" + featured.digitalPrice
+            ? "Digital $" + money(featured.digitalPrice)
             : "Digital";
         setStatus(
           !featured.sku
@@ -347,7 +354,7 @@
               ? digitalBit + " · cassette sold out"
               : featured.cassetteBackorder
                 ? digitalBit + " · cassette backorder"
-                : digitalBit + " · cassette $" + featured.price
+                : digitalBit + " · cassette $" + money(featured.price)
         );
       } else {
         setStatus(
