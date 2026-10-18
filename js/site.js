@@ -88,7 +88,7 @@
 
     function injectMixesNav() {
     var href = '/tapes';
-    var label = 'Mixes';
+    var label = 'Mixtapes';
     function hasMix(container) {
       return !!(container && container.querySelector('a[href="/tapes"], a[href="/mixtapes"]'));
     }

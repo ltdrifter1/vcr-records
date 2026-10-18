@@ -95,11 +95,25 @@ html body .mix-art-play {
   font-size: 0 !important;
   letter-spacing: 0;
 }
-html body .mix-art-play svg {
-  width: 11px;
-  height: 11px;
-  fill: currentColor;
+html body .mix-art-play svg { display: none !important; }
+html body .mix-art-play::before {
+  content: "";
   display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 8px;
+  border-color: transparent transparent transparent currentColor;
+  margin-left: 1px;
+}
+html body .mix-art.is-live .mix-art-play::before {
+  width: 8px;
+  height: 9px;
+  margin-left: 0;
+  border: 0;
+  background:
+    linear-gradient(currentColor, currentColor) left center / 2.5px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) right center / 2.5px 100% no-repeat;
 }
 html body .mix-slot--night .mix-art-play {
   background: #1a1a1a;
