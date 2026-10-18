@@ -27,17 +27,17 @@
     var img = esc(src);
     var alt = esc(post.alt || "Instagram post from @" + handle);
     var video = post.isVideo
-      ? '<span class="ig-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>'
+      ? '<span class="ig-play roll-key" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg></span>'
       : "";
+    var who = handle ? "@" + String(post.handle || "").replace(/^@/, "") : "";
+    var cap = ["IMG_" + String(i + 1).padStart(4, "0"), stamp(post), who].filter(Boolean).join(" · ");
     return (
       '<a class="ig-card rv" href="' + href + '" rel="noopener noreferrer" target="_blank">' +
         '<span class="ig-art">' +
           '<img src="' + img + '" alt="' + alt + '" width="640" height="640" loading="lazy" decoding="async"/>' +
           video +
         "</span>" +
-        '<span class="ig-meta">' +
-          "<b>IMG_" + String(i + 1).padStart(4, "0") + "</b> " + esc(stamp(post)) + " @" + handle +
-        "</span>" +
+        '<span class="ig-meta">' + esc(cap) + "</span>" +
       "</a>"
     );
   }

@@ -67,8 +67,7 @@
       var live = btn.getAttribute("data-tape-id") === liveId;
       btn.classList.toggle("is-live", live);
       var label = btn.querySelector("[data-mix-play-label]");
-      if (label) label.textContent = live ? "pause" : "play";
-      else if (btn.classList.contains("tape-play") && !btn.classList.contains("mix-art")) {
+      if (!label && btn.classList.contains("tape-play") && !btn.classList.contains("mix-art")) {
         btn.textContent = live ? "pause" : "play";
       }
       btn.setAttribute("aria-label", (live ? "Pause " : "Play ") + (btn.getAttribute("data-tape-title") || "mix"));
@@ -187,7 +186,10 @@
         ? '<img src="' + esc(cover) + '" alt="" width="500" height="500" loading="lazy" decoding="async"/>'
         : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
       '<span class="mix-eq" aria-hidden="true"><i></i><i></i><i></i></span>' +
-      '<span class="mix-art-play" data-mix-play-label aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>' +
+      '<span class="mix-art-play" data-mix-play-label aria-hidden="true">' +
+      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
+      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+      "</span>" +
       "</button>";
     return (
       '<article class="mix-card" data-tape="' +

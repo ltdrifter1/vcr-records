@@ -1,0 +1,203 @@
+/* Camera roll — Mixes and The Floor.
+   Square crop, graphite frame, greyscale at rest, colour on hover/focus/live.
+   Steel play key. Acid (#C6F000) is the live LED only. */
+
+html body .mix-art,
+html body.home-zine .floor .ig-art,
+html body.home-zine .ig-card .ig-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid #3a3a38;
+  border-radius: 8px;
+  background: #2a2a28;
+  box-shadow: none;
+}
+
+html body .mix-art img,
+html body.home-zine .ig-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.08) brightness(.94);
+  transform: none;
+  transition: filter .35s ease;
+}
+
+html body .mix-art .tape-sleeve--blank {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (hover: hover) {
+  html body .mix-art:hover img,
+  html body.home-zine .ig-card:hover .ig-art img {
+    filter: none;
+    transform: none;
+  }
+}
+html body .mix-art:focus-visible img,
+html body.home-zine .ig-card:focus-visible .ig-art img,
+html body .mix-art.is-live img {
+  filter: none;
+}
+
+html body .mix-art-play,
+html body .tapes-grid .mix-art-play,
+html body .tapes-grid--home .mix-art-play,
+html body .ig-play.roll-key {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  border: 1px solid rgba(40, 40, 40, .45);
+  background: linear-gradient(180deg, #f4f4f2 0%, #c8c8c4 55%, #a6a6a2 100%);
+  color: #1a1a1a;
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0, 0, 0, .2);
+  font-size: 0;
+  line-height: 0;
+  letter-spacing: 0;
+  text-transform: none;
+  pointer-events: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body .mix-art-play svg,
+html body .tapes-grid .mix-art-play svg,
+html body .ig-play.roll-key svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  display: block;
+}
+html body .mix-art-play .mix-glyph--pause { display: none; }
+html body .mix-art.is-live .mix-art-play .mix-glyph--play { display: none; }
+html body .mix-art.is-live .mix-art-play .mix-glyph--pause { display: block; }
+html body .mix-art.is-live .mix-art-play::after,
+html body .tapes-grid .mix-art.is-live .mix-art-play::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C6F000;
+  box-shadow: 0 0 6px #C6F000;
+}
+
+html body .mix-slot--night .mix-art {
+  background: #2a2a28;
+}
+html body .mix-slot--night .mix-art-play,
+html body .mix-slot--night .mix-art.is-live .mix-art-play {
+  background: linear-gradient(180deg, #f4f4f2 0%, #c8c8c4 55%, #a6a6a2 100%);
+  color: #1a1a1a;
+}
+html body .mix-art.is-live {
+  border-color: #3a3a38;
+  box-shadow: none;
+}
+html body .mix-slot--night .mix-art.is-live { box-shadow: none; }
+
+html body .mix-eq {
+  left: 8px;
+  bottom: 12px;
+  height: 12px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+html body .mix-eq i { background: #C6F000; }
+
+/* Floor captions sit under the frame. No overlay, no ellipsis. */
+html body.home-zine .ig-card,
+html body.home-zine .floor .ig-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  aspect-ratio: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 0;
+}
+html body.home-zine .ig-art { height: auto; }
+html body.home-zine .ig-meta,
+html body.home-zine .floor .ig-meta {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  color: #c8c8c4;
+}
+html body.home-zine .floor .ig-meta b { font-weight: 400; }
+
+html body.home-zine .floor .ig-grid,
+html body.home-zine .ig-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 10px;
+}
+@media (min-width: 720px) {
+  html body.home-zine .floor .ig-grid,
+  html body.home-zine .ig-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+}
+@media (min-width: 1100px) {
+  html body.home-zine .floor .ig-grid,
+  html body.home-zine .ig-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body .mix-art img,
+  html body.home-zine .ig-art img,
+  html body .mix-art {
+    transition: none;
+  }
+  html body .mix-art:hover,
+  html body .mix-art:hover img,
+  html body.home-zine .ig-card:hover .ig-art img {
+    transform: none;
+  }
+  html body .mix-eq i { animation: none; transform: scaleY(.7); }
+  html body .mix-art.is-live .mix-art-play::after { box-shadow: none; }
+}
