@@ -105,6 +105,10 @@
   z-index: 0;
 }
 
+@media (max-width: 1259px) {
+  .news-index .zine-masthead::after { right: 0; }
+}
+
 .zine-slug {
   position: relative;
   z-index: 3;
@@ -2962,6 +2966,24 @@ body.news-story .news-page {
     grid-column: 1 / -1;
   }
   .news-story .news-body--essay { columns: 1; }
+  .news-story .news-article:not(:has(.news-article-hero)) {
+    display: block;
+    max-width: 680px;
+  }
+  .news-story .news-article:not(:has(.news-article-hero)) .news-kicker,
+  .news-story .news-article:not(:has(.news-article-hero)) .zine-headline,
+  .news-story .news-article:not(:has(.news-article-hero)) h1,
+  .news-story .news-article:not(:has(.news-article-hero)) .zine-dek,
+  .news-story .news-article:not(:has(.news-article-hero)) .zine-spec,
+  .news-story .news-article:not(:has(.news-article-hero)) .news-byline,
+  .news-story .news-article:not(:has(.news-article-hero)) .news-body {
+    padding-left: 0;
+    margin-left: 0;
+  }
+  .news-story .news-article:not(:has(.news-article-hero)) .zine-headline,
+  .news-story .news-article:not(:has(.news-article-hero)) h1 {
+    background: none;
+  }
 }
 .news-story .news-article-hero { position: relative; }
 .zine-story-folio {
