@@ -250,13 +250,14 @@
     return digitalOffer(rel) || cassetteOffer(rel);
   }
 
-  function addBtnHtml(rel) {
+  function addBtnHtml(rel, extraClass) {
     var d = digitalOffer(rel);
     var c = cassetteOffer(rel);
     var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var offer = d || c;
+    var cls = 'cat-add' + (extraClass ? ' ' + extraClass : '');
     if (!offer) {
-      return '<a class="cat-add cat-add--link" href="' + esc(rel.page || '#') + '">' +
+      return '<a class="' + cls + ' cat-add--link" href="' + esc(rel.page || '#') + '">' +
         (preorder ? 'Pre-order' : 'View release') +
         '</a>';
     }
@@ -266,7 +267,7 @@
       ? (rel.cover || rel.coverThumb || '')
       : (c.image || rel.cover || rel.coverThumb || '');
     return (
-      '<button type="button" class="cat-add" data-add-release="' + esc(rel.id) + '"' +
+      '<button type="button" class="' + cls + '" data-add-release="' + esc(rel.id) + '"' +
         ' data-sku="' + esc(offer.sku) + '"' +
         ' data-name="' + esc(fmtName) + '"' +
         ' data-price="' + esc(offer.price) + '"' +
@@ -333,6 +334,15 @@
   function row(rel) {
     var thumb = coverSrc(rel);
     var full = rel.cover || thumb;
+    if (window.ClubSleeve) {
+      return ClubSleeve.row(rel, {
+        extraClass: "rv",
+        attrs:
+          ' data-artist-id="' + esc(rel.artistId || "") + '" data-genre="' + esc(slugify(rel.genre)) + '"' +
+          (full ? ' style="--cover:' + cssUrl(full) + '"' : ""),
+        sideHtml: pricePanelHtml(rel) + addBtnHtml(rel)
+      });
+    }
     var href = rel.page || '#';
     var alt = esc(rel.title + ' — ' + rel.artist);
     var cue = formatCue(rel);
@@ -536,10 +546,11 @@
         if (!window.VCRPlayer) return;
         var id = el.getAttribute('data-play-release');
         var cur = VCRPlayer.current && VCRPlayer.current();
-        if (cur && cur.releaseId === id) {
+        var trackId = el.getAttribute('data-play-track');
+        if (cur && cur.releaseId === id && (!trackId || cur.id === trackId)) {
           VCRPlayer.toggle();
         } else {
-          VCRPlayer.playRelease(id, null, { autoplay: true });
+          VCRPlayer.playRelease(id, trackId || null, { autoplay: true });
         }
       });
     });
@@ -778,6 +789,38 @@
     if (allReleases.length) render();
   });
 
+  function renderShelf() {
+    var shelf = document.querySelector(".lib-shelf");
+    var grid = shelf && shelf.querySelector(".lib-shelf__grid");
+    if (!shelf || !grid || !window.ClubSleeve) return;
+    var rel = ClubSleeve.newest(allReleases);
+    if (!rel) return;
+    var thumb = coverSrc(rel);
+    var full = rel.cover || thumb;
+    var meta = [ClubSleeve.spec(rel), ClubSleeve.durBpm(rel), rel.artist || ""].filter(Boolean).join(" · ");
+    var add = addBtnHtml(rel, "btn btn-steel");
+    grid.innerHTML =
+      '<figure class="lib-shelf__art media-bezel">' +
+        '<a href="' + esc(rel.page || "#") + '"><img src="' + esc(thumb) + '" alt="' + esc(rel.title) + ' artwork" width="1200" height="1200"/></a>' +
+      "</figure>" +
+      "<div>" +
+        '<p class="lib-shelf__callsign">On the shelf</p>' +
+        '<h2 class="lib-shelf__title"><a href="' + esc(rel.page || "#") + '">' + esc(rel.title) + "</a></h2>" +
+        '<p class="lib-shelf__meta">' + esc(meta) + "</p>" +
+        '<div class="lib-shelf__actions">' +
+          '<button type="button" class="btn btn-steel btn-steel--play" data-play-release="' + esc(rel.id) + '"' +
+            (rel.previewTrackId ? ' data-play-track="' + esc(rel.previewTrackId) + '"' : "") +
+            ">Play</button>" +
+          add +
+          '<a class="btn btn-steel" href="' + esc(rel.page || "#") + '">Open</a>' +
+        "</div>" +
+      "</div>";
+    if (shelf.querySelector(".lib-shelf__ambient")) {
+      shelf.querySelector(".lib-shelf__ambient").style.backgroundImage = full ? cssUrl(full) : "";
+    }
+    bindAddButtons();
+  }
+
   readFiltersFromUrl();
   bindAddButtons();
 
@@ -802,6 +845,7 @@
 
       renderSelect(genreSelect, uniqueGenres(allReleases), 'All genres', filters.genre);
       renderSelect(artistSelect, uniqueArtists(allReleases), 'All artists', filters.artist);
+      renderShelf();
       render();
     })
     .catch(function () {

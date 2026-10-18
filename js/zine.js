@@ -167,7 +167,6 @@
     p.className = "zine-story-folio";
     p.innerHTML =
       "<span>vol. xxii · vancouver</span>" +
-      "<span data-zine-date></span>" +
       "<span>" + desk + "</span>";
     crumbs.after(p);
   }

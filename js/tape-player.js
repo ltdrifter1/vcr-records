@@ -93,6 +93,7 @@
     }
 
     function card(rel) {
+      if (window.ClubSleeve) return ClubSleeve.card(rel);
       var img = rel.coverThumb || rel.cover || "";
       var href = rel.page || ("/" + rel.id);
       var alt = esc((rel.artist ? rel.artist + " \u2014 " : "") + (rel.title || ""));
@@ -128,6 +129,9 @@
             '<div class="ra-more-rail">' + related.map(card).join("") + '</div>' +
           '</div>';
         main.appendChild(section);
+        if (window.ClubSleeve && window.VCRPlayer && VCRPlayer.getState) {
+          ClubSleeve.sync(section, VCRPlayer.getState());
+        }
         var head = section.querySelector(".ra-reveal");
         if (head) revealObs.observe(head);
       })

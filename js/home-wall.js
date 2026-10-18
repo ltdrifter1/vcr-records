@@ -37,6 +37,7 @@
   }
 
   function cardHtml(rel) {
+    if (window.ClubSleeve) return ClubSleeve.card(rel);
     var thumb = rel.coverThumb || rel.cover || "";
     var full = rel.cover || thumb;
     var href = rel.page || "/library";

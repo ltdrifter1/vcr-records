@@ -111,12 +111,13 @@ html body.home-zine .ig-grid {
 }
 html body.home-zine .ig-card {
   position: relative;
-  display: block;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: visible;
   color: inherit;
   text-decoration: none;
-  background: #111111;
-  aspect-ratio: 1 / 1;
+  background: transparent;
 }
 html body.home-zine .ig-art,
 html body.home-zine .ig-art img {
@@ -134,28 +135,33 @@ html body.home-zine .ig-art img {
   transition: transform .7s var(--ease, cubic-bezier(.2,.7,.2,1)), filter .7s ease;
 }
 html body.home-zine .ig-meta {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 28px 10px 9px;
-  background: linear-gradient(180deg, transparent, rgba(17, 17, 17, .82));
-  font-family: var(--zine-mono);
-  font-size: 10px;
-  letter-spacing: .08em;
-  color: var(--folio-pearl);
+  position: static;
+  display: block;
+  padding: 0;
+  background: none;
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: #c8c8c4;
 }
 html body.home-zine .ig-meta b { font-weight: 600; }
 html body.home-zine .ig-play {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(16, 22, 29, .55);
-  color: #fff;
+  right: 8px;
+  bottom: 8px;
+  top: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #f4f4f2 0%, #c8c8c4 55%, #a6a6a2 100%);
+  color: #1a1a1a;
   display: grid;
   place-items: center;
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(40, 40, 40, .45);
+  backdrop-filter: none;
 }
 html body.home-zine .ig-play svg {
   width: 12px;
@@ -722,4 +728,179 @@ html body.home-zine .club-join--luxe .club-join-btn.btn:active {
 html body.home-zine.hero-top .footer {
   border-top: 7px solid var(--folio-ink);
   box-shadow: inset 0 5px 0 var(--folio-ice);
+}
+
+/* ==========================================================================
+   Record Club on a phone. Compact plan rows (price stays on the right, the
+   $17 badge lives inside Club), acid only on the selected row, and a member
+   card that fits the 16px gutter at ID-1 proportion. Desktop is unchanged.
+   ========================================================================== */
+@media (max-width: 859px) {
+  html body.home-zine .zine-club.home-join.club-join--luxe {
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+    overflow-x: clip;
+    scroll-margin-top: calc(var(--nav-h, 56px) + var(--safe-t, 0px));
+  }
+  html body.home-zine .club-join--luxe .club-luxe {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 28px 16px 0;
+    box-sizing: border-box;
+  }
+  /* home-zine.css sizes .zine-sheet with a 24–40px inset that beats the
+     folio's width:100%. On a phone that leaves the card short of the gutter. */
+  html body.home-zine .zine-club.home-join.club-join--luxe .zine-sheet,
+  html body.home-zine .zine-club.home-join.club-join--luxe .club-luxe-sheet {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-panel {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+  html body.home-zine .club-join--luxe .club-join-inner {
+    gap: 16px;
+  }
+  html body.home-zine .club-join--luxe .zine-desk-kicker {
+    margin: 0 0 8px;
+    letter-spacing: .16em;
+  }
+  html body.home-zine .club-join--luxe .club-join-title {
+    font-size: 36px;
+    letter-spacing: -.03em;
+    line-height: .95;
+  }
+  html body.home-zine .club-join--luxe .club-join-dek {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  html body.home-zine .club-join--luxe .join-desk {
+    gap: 16px;
+  }
+
+  html body.home-zine .club-join--luxe .join-levels {
+    gap: 8px;
+    border-top: 0;
+  }
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-level {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "name  price"
+      "tag   tag"
+      "blurb blurb";
+    column-gap: 12px;
+    row-gap: 4px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid rgba(26, 26, 26, .16);
+    border-radius: 10px;
+    background: #f4f4f2;
+    box-shadow: none;
+  }
+  html body.home-zine .club-join--luxe .join-level-dot {
+    display: none;
+  }
+  html body.home-zine .club-join--luxe .join-level-name {
+    font-size: 22px;
+    line-height: 1;
+  }
+  html body.home-zine .club-join--luxe .join-level-name::before {
+    margin-right: 8px;
+    vertical-align: .55em;
+    font-size: 11px;
+    letter-spacing: .08em;
+  }
+  html body.home-zine .club-join--luxe .join-level-price {
+    margin: 0;
+    align-self: center;
+    font-size: 12px;
+    line-height: 1.2;
+    text-align: right;
+    white-space: nowrap;
+  }
+  html body.home-zine .club-join--luxe .join-plan-rec {
+    margin: 4px 0 0;
+    padding: 3px 6px 2px;
+    letter-spacing: .08em;
+    white-space: nowrap;
+    justify-self: start;
+  }
+  html body.home-zine .club-join--luxe .join-level-blurb {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-level[aria-checked="true"] {
+    background: #fff;
+    border-color: #1a1a1a;
+    box-shadow: inset 4px 0 0 #C6F000;
+    color: #1a1a1a;
+  }
+  html body.home-zine .club-join--luxe .join-level[aria-checked="true"] .join-level-name::before {
+    color: #1a1a1a;
+  }
+  html body.home-zine .club-join--luxe .join-level:focus-visible {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+  }
+
+  html body.home-zine .club-join--luxe .join-panel-top {
+    margin-bottom: 8px;
+  }
+  html body.home-zine .club-join--luxe .join-card-lcd {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1.586 / 1;
+    height: auto;
+    margin: 0 0 16px;
+    padding: 16px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .9),
+      inset 0 -1px 0 rgba(0, 0, 0, .2),
+      0 8px 16px -10px rgba(0, 0, 0, .4);
+  }
+  html body.home-zine .club-join--luxe .join-card-mark {
+    height: 36px;
+    max-width: 58%;
+    object-fit: contain;
+    object-position: left center;
+  }
+  html body.home-zine .club-join--luxe .join-card-no {
+    font-size: 22px;
+    letter-spacing: .04em;
+  }
+  html body.home-zine .club-join--luxe .join-card-name,
+  html body.home-zine .club-join--luxe .join-card-lcd::after {
+    font-size: 10px;
+    letter-spacing: .12em;
+  }
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="email"],
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="text"],
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-panel .join-field input[type="number"],
+  html body.home-zine .zine-club.home-join.club-join--luxe .join-panel #premiumAmount {
+    height: 44px;
+    border-radius: 8px;
+  }
+  html body.home-zine .club-join--luxe .premium-preset {
+    border-radius: 8px;
+    font-family: var(--ui, "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif);
+  }
+  html body.home-zine .club-join--luxe .club-join-btn.btn {
+    height: 44px;
+    min-height: 44px;
+    border-radius: 8px;
+    font-family: var(--ui, "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif);
+  }
 }

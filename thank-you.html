@@ -17,7 +17,9 @@
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
   <style>
-    body.surface-acetate { min-height: 100vh; display: grid; place-items: center; padding: 28px; }
+    body.surface-acetate { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 28px 28px 0; }
+    body.surface-acetate main { margin: auto; width: min(560px, 100%); }
+    body.surface-acetate .footer { width: 100%; }
     .confirm {
       width: min(560px, 100%);
       padding: 56px 32px;
@@ -131,6 +133,39 @@
       <a href="/contact">Contact</a>
     </div>
   </main>
+<footer class="footer">
+  <div class="band">
+    <div class="footer-top">
+      <div>
+        <a class="footer-wordmark" href="/">Club Copy</a>
+        <p class="footer-publisher"><a href="/about">Copy House Publishing</a></p>
+        <p class="footer-mail"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></p>
+      </div>
+      <div>
+        <label for="footerEmail">Email updates</label>
+        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
+          <button type="submit">Join</button>
+        </form>
+        <p class="footer-note">Subscribe for updates.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Club Copy</p>
+      <div class="footer-links">
+        <a href="/library">Library</a>
+        <a href="/artists">Artists</a>
+        <a href="/tapes">Mixes</a>
+        <a href="/news">Zine</a>
+        <a href="/merch">Shop</a>
+        <a href="/shipping">Shipping</a>
+        <a href="/planet">Planet MP3</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
   <script src="js/cart.js"></script>
 <script src="js/member.js"></script>
   <script>
