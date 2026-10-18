@@ -90,9 +90,12 @@ html body .ig-play.roll-key svg {
   fill: currentColor;
   display: block;
 }
-html body .mix-art-play .mix-glyph--pause { display: none; }
-html body .mix-art.is-live .mix-art-play .mix-glyph--play { display: none; }
-html body .mix-art.is-live .mix-art-play .mix-glyph--pause { display: block; }
+html body .mix-art-play svg.mix-glyph--pause,
+html body .tapes-grid .mix-art-play svg.mix-glyph--pause { display: none; }
+html body .mix-art.is-live .mix-art-play svg.mix-glyph--play,
+html body .tapes-grid .mix-art.is-live .mix-art-play svg.mix-glyph--play { display: none; }
+html body .mix-art.is-live .mix-art-play svg.mix-glyph--pause,
+html body .tapes-grid .mix-art.is-live .mix-art-play svg.mix-glyph--pause { display: block; }
 html body .mix-art.is-live .mix-art-play::after,
 html body .tapes-grid .mix-art.is-live .mix-art-play::after {
   content: "";
