@@ -50,11 +50,11 @@ assert.ok(!products["dg-cherry-coloured-funk"]);
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
+  ["champion-sound", "classic-jazz", "ep1", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "summer-madness"]
+  ["champion-sound", "classic-jazz", "ep1", "summer-madness", "three-4-zone"]
 );
 
 const tellMe = catalog.releases.find((r) => r.id === "tell-me");
@@ -186,6 +186,28 @@ assert.deepStrictEqual(
 );
 assert.strictEqual(products["dg-run-it-back"].unitAmount, 150);
 assert.strictEqual(bc.pickCueTrack(runItBack).id, "rib-01");
+
+const three4Zone = catalog.releases.find((r) => r.id === "three-4-zone");
+assert.ok(three4Zone);
+assert.strictEqual(three4Zone.artist, "L.T. Drifta");
+assert.strictEqual(three4Zone.artistId, "lt-drifta");
+assert.strictEqual(three4Zone.catalogue, "CC014");
+assert.strictEqual(three4Zone.title, "Three 4 Zone");
+assert.strictEqual(three4Zone.kind, "Single");
+assert.strictEqual(three4Zone.released, "2026-10-18");
+assert.strictEqual(three4Zone.page, "/three-4-zone");
+assert.strictEqual(three4Zone.previewTrackId, "t4z-01");
+assert.strictEqual(three4Zone.formats.digital.sku, "dg-three-4-zone");
+assert.strictEqual(three4Zone.formats.digital.price, 1.5);
+assert.strictEqual(three4Zone.bandcampUrl, "https://ltdrifta.bandcamp.com/track/three-4-zone");
+assert.deepStrictEqual(
+  three4Zone.tracks.map((t) => [t.id, t.title, t.duration, t.bandcampTrackId]),
+  [["t4z-01", "Three 4 Zone", 401, 3048030883]]
+);
+assert.strictEqual(products["dg-three-4-zone"].unitAmount, 150);
+assert.strictEqual(bc.pickCueTrack(three4Zone).id, "t4z-01");
+const lakeshore = catalog.releases.find((r) => r.id === "ep1");
+assert.strictEqual(lakeshore.bandcampUrl, "https://ltdrifta.bandcamp.com/album/lakeshore-west-23-55");
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
