@@ -120,7 +120,7 @@ const jadore = catalog.releases.find((r) => r.id === "j-adore");
 assert.strictEqual(jadore.artist, "Forsberg");
 assert.strictEqual(jadore.artistId, "forsberg");
 assert.strictEqual(jadore.title, "j'adore");
-assert.ok(/rainiershouse\.bandcamp\.com/.test(jadore.bandcampUrl));
+assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jadore");
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   ["pitch-black", "try-to-love-again", "run-it-back", "please-wait", "j-adore"]
@@ -207,7 +207,7 @@ assert.deepStrictEqual(
 assert.strictEqual(products["dg-three-4-zone"].unitAmount, 150);
 assert.strictEqual(bc.pickCueTrack(three4Zone).id, "t4z-01");
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
-assert.strictEqual(lakeshore.bandcampUrl, "https://ltdrifta.bandcamp.com/album/lakeshore-west-23-55");
+assert.ok(!lakeshore.bandcampUrl);
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
