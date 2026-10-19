@@ -340,7 +340,7 @@
   }
 
   function homePostHtml(a) {
-    var kicker = a.typeLabel || a.kicker || a.type || "";
+    var kicker = a.format || a.typeLabel || a.kicker || a.type || "";
     return (
       '<a class="zine-post rv in" href="' +
       esc(a.slug) +
@@ -381,7 +381,7 @@
 
   function fillHomePosts(articles) {
     var root = document.querySelector("[data-zine-posts]");
-    if (!root) return;
+    if (!root || root.querySelector(".zine-post")) return;
     var lead = coverSlug();
     var list = (articles || [])
       .slice()
@@ -389,6 +389,7 @@
         return (b.date || "").localeCompare(a.date || "");
       })
       .filter(function (a) {
+        if (a.archived || a.issue !== 1) return false;
         var slug = a.slug || "";
         if (slug.charAt(slug.length - 1) === "/") slug = slug.slice(0, -1);
         return !lead || slug !== lead;
