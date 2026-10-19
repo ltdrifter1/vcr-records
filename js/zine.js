@@ -158,7 +158,7 @@
 
   function ensureStoryFolio() {
     if (!document.body.classList.contains("news-story")) return;
-    if (document.querySelector(".zine-story-folio")) return;
+    if (document.querySelector(".story-meta, .zine-story-folio")) return;
     var crumbs = document.querySelector(".zine-story-crumbs");
     if (!crumbs) return;
     var kicker = document.querySelector(".news-kicker span");
@@ -166,7 +166,7 @@
     var p = document.createElement("p");
     p.className = "zine-story-folio";
     p.innerHTML =
-      "<span>vol. xxii · vancouver</span>" +
+      "<span>night shift</span>" +
       "<span>" + desk + "</span>";
     crumbs.after(p);
   }
@@ -188,6 +188,7 @@
     var pick = tonightPick();
     var slug = storySlug();
     var related = (articles || []).filter(function (a) {
+      if (a.archived) return false;
       return a.slug !== slug;
     });
     var typeEl = article.querySelector(".news-kicker span");
@@ -340,7 +341,7 @@
   }
 
   function homePostHtml(a) {
-    var kicker = a.typeLabel || a.kicker || a.type || "";
+    var kicker = a.format || a.typeLabel || a.kicker || a.type || "";
     return (
       '<a class="zine-post rv in" href="' +
       esc(a.slug) +
@@ -381,7 +382,7 @@
 
   function fillHomePosts(articles) {
     var root = document.querySelector("[data-zine-posts]");
-    if (!root) return;
+    if (!root || root.querySelector(".zine-post")) return;
     var lead = coverSlug();
     var list = (articles || [])
       .slice()
@@ -389,6 +390,7 @@
         return (b.date || "").localeCompare(a.date || "");
       })
       .filter(function (a) {
+        if (a.archived || a.issue !== 1) return false;
         var slug = a.slug || "";
         if (slug.charAt(slug.length - 1) === "/") slug = slug.slice(0, -1);
         return !lead || slug !== lead;
