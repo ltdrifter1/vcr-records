@@ -177,44 +177,215 @@
     return path;
   }
 
-  function listenCard(article) {
+  function catNo(value) {
+    var v = String(value || "").trim();
+    if (!v || /^mix$/i.test(v)) return "";
+    return v;
+  }
+
+  function cleanEmbed(src) {
+    return String(src || "")
+      .replace(/([?&])auto_play=true/gi, "$1auto_play=false")
+      .replace(/([?&])autoplay=true/gi, "$1autoplay=false")
+      .replace(/([?&])autoplay=1/gi, "$1autoplay=0");
+  }
+
+  function clock(seconds) {
+    if (seconds == null || seconds === "") return "";
+    var n = Number(seconds);
+    if (!isFinite(n) || n < 0) return "";
+    var s = Math.round(n);
+    var h = Math.floor(s / 3600);
+    var m = Math.floor((s % 3600) / 60);
+    var r = s % 60;
+    function pad(v) { return (v < 10 ? "0" : "") + v; }
+    if (h > 0) return h + ":" + pad(m) + ":" + pad(r);
+    return m + ":" + pad(r);
+  }
+
+  function isoLabel(iso) {
+    if (!iso) return "";
+    var parts = String(iso).split("-");
+    if (parts.length < 3) return String(iso);
+    var months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
+    var month = months[parseInt(parts[1], 10) - 1];
+    if (!month) return String(iso);
+    return String(parseInt(parts[2], 10)) + " " + month + " " + parts[0];
+  }
+
+  function normPath(value) {
+    return String(value || "").replace(/\/+$/, "").toLowerCase();
+  }
+
+  function matchRelease(article, catalog) {
     var listen = article && article.listen;
-    if (!listen || !listen.embed || !listen.url) return "";
+    if (!listen || !listen.embed || !listen.url) return null;
+    var releases = (catalog && catalog.releases) || [];
+    var cat = String(listen.catalogue || "").trim();
+    var page = normPath(listen.page);
+    var url = normPath(listen.url);
+    var byCat = null;
+    var byPage = null;
+    var byUrl = null;
+    for (var i = 0; i < releases.length; i++) {
+      var release = releases[i];
+      if (cat && !/^mix$/i.test(cat) && (release.catalogue === cat || release.legacyCatalogue === cat)) byCat = release;
+      if (page && page !== "/tapes" && normPath(release.page) === page) byPage = release;
+      if (url && release.bandcampUrl && normPath(release.bandcampUrl) === url) byUrl = release;
+    }
+    return byCat || byPage || byUrl || null;
+  }
+
+  function nowAttrs(title, artist, catalogue) {
+    return (
+      ' data-now-title="' + esc(title || "") +
+      '" data-now-artist="' + esc(artist || "") +
+      '" data-now-cat="' + esc(catNo(catalogue)) + '"'
+    );
+  }
+
+  function playerStage(listen, title, artist, catalogue) {
     var height = Number(listen.embedHeight) || (listen.kind === "mix" ? 166 : 120);
     var kind = listen.kind === "mix" ? "soundcloud" : "bandcamp";
-    var label = "Play " + (listen.title || "") + " by " + (listen.artist || "");
+    var label = "Play " + (title || "") + " by " + (artist || "");
     return (
-      '<div class="listen-card">' +
-      '<p class="zine-desk-kicker">listen</p>' +
-      '<div class="listen-card-stage" data-embed-kind="' +
-      esc(kind) +
-      '" style="height:' +
-      height +
-      'px">' +
-      '<button type="button" class="listen-card-hit" data-listen-play data-embed="' +
-      esc(listen.embed) +
-      '" aria-label="' +
-      esc(label) +
-      '">' +
+      '<div class="listen-card-stage" data-embed-kind="' + esc(kind) + '" style="height:' + height + 'px">' +
+      '<button type="button" class="listen-card-hit" data-listen-play data-embed="' + esc(listen.embed) + '"' +
+      nowAttrs(title, artist, catalogue) +
+      ' aria-label="' + esc(label) + '">' +
       '<span class="listen-card-meta">' +
-      '<span class="listen-card-cat">' +
-      esc(listen.catalogue || "") +
-      "</span>" +
-      "<strong>" +
-      esc(listen.title || "") +
-      "</strong>" +
-      "<em>" +
-      esc(listen.artist || "") +
-      "</em></span>" +
+      (catNo(catalogue) ? '<span class="listen-card-cat">' + esc(catNo(catalogue)) + "</span>" : "") +
+      "<strong>" + esc(title || "") + "</strong>" +
+      "<em>" + esc(artist || "") + "</em></span>" +
       '<span class="listen-card-cue">play</span>' +
       "</button></div>" +
       '<p class="listen-card-links">' +
-      '<a href="' +
-      esc(listen.url) +
-      '" rel="noopener noreferrer" target="_blank">the recording</a>' +
+      '<a href="' + esc(listen.url) + '" rel="noopener noreferrer" target="_blank">the recording</a>' +
       (listen.page ? '<a href="' + esc(listen.page) + '">catalogue</a>' : "") +
-      "</p></div>"
+      "</p>"
     );
+  }
+
+  function listenCard(article) {
+    var listen = article && article.listen;
+    if (!listen || !listen.embed || !listen.url) return "";
+    return (
+      '<div class="listen-card">' +
+      '<p class="zine-desk-kicker">listen</p>' +
+      playerStage(listen, listen.title, listen.artist, listen.catalogue) +
+      "</div>"
+    );
+  }
+
+  function releaseCard(article, release) {
+    var listen = article.listen;
+    var tracks = (release.tracks || []).slice().sort(function (a, b) {
+      return (Number(a.trackNum) || 0) - (Number(b.trackNum) || 0);
+    });
+    var trackHtml = "";
+    for (var i = 0; i < tracks.length; i++) {
+      if (!tracks[i].title) continue;
+      var time = clock(tracks[i].duration);
+      trackHtml += "<li><span>" + esc(tracks[i].title) + "</span>" + (time ? "<time>" + esc(time) + "</time>" : "") + "</li>";
+    }
+    var bits = [];
+    if (release.kind) bits.push(release.kind);
+    var formats = release.formats || {};
+    Object.keys(formats).forEach(function (name) {
+      var note = formats[name] && formats[name].note;
+      bits.push(note ? name + " (" + note + ")" : name);
+    });
+    var when = isoLabel(release.released);
+    var cover = release.coverThumb || release.cover || "";
+    var title = release.title || listen.title || "";
+    var artist = release.artist || listen.artist || "";
+    var catalogue = release.catalogue || listen.catalogue || "";
+    var alt = title && artist ? title + ", " + artist : (title || artist);
+    return (
+      '<article class="release-card">' +
+      '<p class="zine-desk-kicker">release</p>' +
+      '<div class="release-card-top">' +
+      (cover ? '<img class="release-card-sleeve" src="' + esc(asset(cover)) + '" alt="' + esc(alt) + '" width="480" height="480"/>' : "") +
+      '<div class="release-card-id">' +
+      (catalogue ? '<p class="release-card-cat">' + esc(catalogue) + "</p>" : "") +
+      "<h3>" + esc(title) + "</h3>" +
+      (artist ? "<p>" + esc(artist) + "</p>" : "") +
+      (when ? '<p class="release-card-meta">' + esc(when) + "</p>" : "") +
+      (bits.length ? '<p class="release-card-meta">' + esc(bits.join(" · ")) + "</p>" : "") +
+      "</div></div>" +
+      (trackHtml ? '<ol class="release-card-tracks">' + trackHtml + "</ol>" : "") +
+      playerStage(listen, title, artist, catalogue) +
+      "</article>"
+    );
+  }
+
+  function syncNowClearance() {
+    var spacer = document.querySelector(".zine-now-spacer");
+    var open = document.body.classList.contains("zine-now-on");
+    var docked = document.body.classList.contains("has-vcr-player");
+    if (open && docked) {
+      if (!spacer) {
+        spacer = document.createElement("div");
+        spacer.className = "zine-now-spacer";
+        spacer.setAttribute("aria-hidden", "true");
+        document.body.appendChild(spacer);
+      }
+    } else if (spacer) {
+      spacer.parentNode.removeChild(spacer);
+    }
+  }
+
+  function closeNow(restore) {
+    var bar = document.querySelector(".zine-now");
+    if (restore !== false && bar && bar._frame && bar._button && bar._stage && bar._frame.parentNode === bar._stage) {
+      try { bar._frame.src = "about:blank"; } catch (err) {}
+      bar._stage.replaceChild(bar._button, bar._frame);
+    }
+    if (bar) {
+      bar.hidden = true;
+      bar._frame = null;
+      bar._button = null;
+      bar._stage = null;
+    }
+    document.body.classList.remove("zine-now-on");
+    syncNowClearance();
+  }
+
+  function showNow(btn, stage, frame) {
+    var bar = document.querySelector(".zine-now");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.className = "zine-now";
+      bar.setAttribute("role", "status");
+      bar.setAttribute("aria-live", "polite");
+      bar.innerHTML = '<p class="zine-sr">Now playing</p><p class="zine-now-meta"></p><button type="button" class="zine-now-close">Close</button>';
+      bar.querySelector("button").addEventListener("click", function () { closeNow(true); });
+      document.body.appendChild(bar);
+      if (window.MutationObserver && !bar._watching) {
+        bar._watching = true;
+        new MutationObserver(function () {
+          if (document.body.classList.contains("zine-now-on")) syncNowClearance();
+        }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+      }
+    }
+    var meta = bar.querySelector(".zine-now-meta");
+    meta.textContent = "";
+    function add(tag, text) {
+      if (!text) return;
+      if (meta.childNodes.length) meta.appendChild(document.createTextNode(" · "));
+      var el = document.createElement(tag);
+      el.textContent = text;
+      meta.appendChild(el);
+    }
+    add("strong", btn.getAttribute("data-now-title") || "");
+    add("span", btn.getAttribute("data-now-artist") || "");
+    add("span", btn.getAttribute("data-now-cat") || "");
+    bar.hidden = false;
+    bar._button = btn;
+    bar._stage = stage;
+    bar._frame = frame;
+    document.body.classList.add("zine-now-on");
+    syncNowClearance();
   }
 
   function bindListen(root) {
@@ -224,17 +395,19 @@
         var btn = event.currentTarget;
         var stage = btn.parentNode;
         if (!stage || stage.querySelector("iframe")) return;
+        closeNow(true);
         var frame = document.createElement("iframe");
-        frame.src = btn.getAttribute("data-embed");
+        frame.src = cleanEmbed(btn.getAttribute("data-embed"));
         frame.title = btn.getAttribute("aria-label") || "Listen";
-        frame.setAttribute("allow", "autoplay; encrypted-media; fullscreen");
+        frame.setAttribute("allow", "encrypted-media; fullscreen");
         frame.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
         stage.replaceChild(frame, btn);
+        showNow(btn, stage, frame);
       });
     }
   }
 
-  function injectStoryDesk(articles) {
+  function injectStoryDesk(articles, catalog) {
     var article = document.querySelector("[data-zine-story]") || document.querySelector(".news-article");
     if (!article || document.querySelector(".zine-story-desk")) return;
     var nav = article.querySelector(".news-nav");
@@ -290,8 +463,9 @@
       if (articles[c].slug === slug) current = articles[c];
     }
 
+    var release = matchRelease(current, catalog);
     desk.innerHTML =
-      listenCard(current) +
+      (release ? releaseCard(current, release) : listenCard(current)) +
       '<div class="zine-also">' +
       '<p class="zine-desk-kicker">also on the desk</p>' +
       '<div class="zine-also-list">' +
@@ -465,7 +639,7 @@
       }
       function apply() {
         var terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-        var items = document.querySelectorAll(".issue-cover, .issue-toc li, .catalogue-list li, .start-here li");
+        var items = document.querySelectorAll(".issue-cover, .issue-toc li, .catalogue-list li, .start-here li, .library-files tbody tr");
         var seen = {};
         var shown = 0;
         for (var i = 0; i < items.length; i++) {
@@ -482,6 +656,7 @@
             }
           }
           el.classList.toggle("library-dim", !ok);
+          if (libraryInactive(el)) continue;
           if (ok && !seen[slug]) {
             seen[slug] = true;
             shown++;
@@ -505,18 +680,151 @@
     });
   }
 
+  function libraryInactive(el) {
+    var listMode = document.documentElement.classList.contains("library-list");
+    if (el.closest(".library-files")) return !listMode;
+    if (el.closest(".back-catalogue") && el.closest(".catalogue-list")) return listMode;
+    return false;
+  }
+
+  function compareLibraryRows(a, b, key, dir) {
+    var av = a.getAttribute("data-" + key) || "";
+    var bv = b.getAttribute("data-" + key) || "";
+    if (!av && !bv) return 0;
+    if (!av) return 1;
+    if (!bv) return -1;
+    var n = 0;
+    if (key === "date" || key === "read" || key === "issue") n = Number(av) - Number(bv);
+    else n = av.localeCompare(bv, undefined, { sensitivity: "base", numeric: true });
+    if (n === 0) return 0;
+    return dir === "asc" ? n : -n;
+  }
+
+  function bindLibrarySort(files) {
+    var buttons = files.querySelectorAll("[data-sort]");
+    var tbody = files.querySelector("tbody");
+    if (!buttons.length || !tbody) return;
+    var key = "date";
+    var dir = "desc";
+    try {
+      var saved = localStorage.getItem("cc-nightshift-sort") || "";
+      var parts = saved.split(":");
+      if (parts[0]) key = parts[0];
+      if (parts[1] === "asc" || parts[1] === "desc") dir = parts[1];
+    } catch (err) {}
+    function apply(nextKey, nextDir) {
+      key = nextKey;
+      dir = nextDir;
+      var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+      rows.sort(function (a, b) { return compareLibraryRows(a, b, key, dir); });
+      for (var i = 0; i < rows.length; i++) tbody.appendChild(rows[i]);
+      for (var h = 0; h < buttons.length; h++) {
+        var th = buttons[h].closest("th") || buttons[h];
+        var buttonKey = buttons[h].getAttribute("data-sort");
+        th.setAttribute("aria-sort", buttonKey === key ? (dir === "asc" ? "ascending" : "descending") : "none");
+      }
+      try { localStorage.setItem("cc-nightshift-sort", key + ":" + dir); } catch (err) {}
+    }
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", function (event) {
+        var nextKey = event.currentTarget.getAttribute("data-sort");
+        var nextDir;
+        if (nextKey !== key) nextDir = (nextKey === "date" || nextKey === "read" || nextKey === "issue") ? "desc" : "asc";
+        else nextDir = dir === "asc" ? "desc" : "asc";
+        apply(nextKey, nextDir);
+      });
+    }
+    apply(key, dir);
+  }
+
+  function bindLibraryView() {
+    var root = document.querySelector("[data-library-view]");
+    var files = document.querySelector("[data-library-files]");
+    if (!root || !files) return;
+    var buttons = root.querySelectorAll("[data-library-mode]");
+    function syncPressed() {
+      var list = document.documentElement.classList.contains("library-list");
+      for (var i = 0; i < buttons.length; i++) {
+        var on = buttons[i].getAttribute("data-library-mode") === (list ? "list" : "cards");
+        buttons[i].setAttribute("aria-pressed", on ? "true" : "false");
+      }
+    }
+    function setMode(mode) {
+      document.documentElement.classList.toggle("library-list", mode === "list");
+      try { localStorage.setItem("cc-nightshift-view", mode); } catch (err) {}
+      syncPressed();
+      var input = document.querySelector("[data-library-search] input");
+      if (input) input.dispatchEvent(new Event("input"));
+    }
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", function (event) {
+        setMode(event.currentTarget.getAttribute("data-library-mode") || "cards");
+      });
+    }
+    syncPressed();
+    bindLibrarySort(files);
+  }
+
+  function paintIssueRun() {
+    var index = document.querySelector("[data-issue-index]");
+    if (!index) return;
+    loadNews(function (articles) {
+      function paint() {
+        var cards = index.querySelectorAll(".issue-card");
+        for (var i = 0; i < cards.length; i++) {
+          var href = cards[i].getAttribute("href") || "";
+          var match = href.match(/issue-(\d+)/);
+          if (!match) continue;
+          var number = parseInt(match[1], 10);
+          var count = 0;
+          for (var a = 0; a < articles.length; a++) {
+            if (Number(articles[a].issue) === number && !articles[a].archived) count++;
+          }
+          var label = count === 1 ? "1 story" : count + " stories";
+          var el = cards[i].querySelector(".issue-count");
+          if (!el) {
+            el = document.createElement("span");
+            el.className = "issue-count";
+            var host = cards[i].querySelector("div") || cards[i];
+            var title = host.querySelector("span:not(.issue-count)");
+            if (title) host.insertBefore(el, title);
+            else host.appendChild(el);
+          }
+          if (el.textContent !== label) el.textContent = label;
+        }
+      }
+      paint();
+      if (window.MutationObserver) {
+        new MutationObserver(function () { paint(); }).observe(index, { childList: true });
+      }
+    });
+  }
+
+  function loadCatalog(cb) {
+    fetch(asset("data/catalog.json"), { credentials: "same-origin" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) { cb(data); })
+      .catch(function () { cb(null); });
+  }
+
   ensureStoryFolio();
   stampDates();
   fillTonight();
   ensureLettersOnIndex();
   bindLibrarySearch();
+  bindLibraryView();
+  paintIssueRun();
 
   var homePosts = document.querySelector("[data-zine-posts]");
   var story = document.body.classList.contains("news-story") || document.querySelector(".news-article");
   if (homePosts || story) {
     loadNews(function (articles) {
       if (homePosts) fillHomePosts(articles);
-      if (story) injectStoryDesk(articles);
+      if (story) {
+        loadCatalog(function (catalog) {
+          injectStoryDesk(articles, catalog);
+        });
+      }
     });
   }
 })();
