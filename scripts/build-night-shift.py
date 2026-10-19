@@ -116,7 +116,7 @@ FORMAT = {
 
 SECTION_ORDER = ["Feature", "Essay", "Interview", "Scene Report", "Review", "Release", "Mix", "Column"]
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
-COVER_ID = "romford-kept-the-receipts"
+COVER_ID = "deep-sleep"
 
 
 def esc(value):
@@ -418,7 +418,7 @@ def main():
         "coverSlug": cover["slug"],
         "coverImage": cover["image"],
         "coverImageAlt": cover.get("imageAlt") or cover["headline"],
-        "editorsNote": "Editor’s note to come.",
+        "editorsNote": "",
     }
     issues_doc = {"current": 1, "issues": [issue]}
     (ROOT / "data" / "issues.json").write_text(json.dumps(issues_doc, indent=2, ensure_ascii=False) + "\n")
