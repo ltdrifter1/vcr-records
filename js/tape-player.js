@@ -181,28 +181,52 @@
   }
 
   /* ---- Waveform ------------------------------------------------------------
-     Deterministic pseudo-waveform per track (no source analysis available for
-     streaming previews); progress driven by the shared player's events. */
+     Real peaks from /data/peaks/<trackId>.json. No file means a plain groove. */
   var canvas = document.getElementById("raWave");
+  if (!canvas) {
+    var listen = document.getElementById("listen");
+    var grid = listen && listen.querySelector(".ra-player-grid, .ra-wrap");
+    if (grid) {
+      canvas = document.createElement("canvas");
+      canvas.id = "raWave";
+      canvas.className = "ra-wave";
+      canvas.setAttribute("data-release", (listen && listen.getAttribute("data-release")) || "");
+      canvas.setAttribute("role", "img");
+      canvas.setAttribute("aria-label", "Waveform");
+      grid.insertBefore(canvas, grid.firstChild);
+    }
+  }
   if (!canvas) return;
   var ctx = canvas.getContext("2d");
   var RELEASE_ID = canvas.getAttribute("data-release") || "j-adore";
-  var BARS = 96;
-  var seedIdx = 0;
-  var bars = buildBars(seedIdx);
+  var bars = null;
+  var loadedId = "";
   var progress = 0;
   var playing = false;
+  var peakCache = {};
 
-  function buildBars(seed) {
-    var out = [];
-    var s = (seed + 1) * 9973;
-    for (var i = 0; i < BARS; i++) {
-      s = (s * 16807) % 2147483647;
-      var n = (s / 2147483647);
-      var envelope = 0.35 + 0.65 * Math.sin((i / BARS) * Math.PI);
-      out.push(Math.max(0.08, Math.min(1, (0.3 + n * 0.7) * envelope)));
+  function loadPeaks(trackId) {
+    if (!trackId || loadedId === trackId) return;
+    loadedId = trackId;
+    if (peakCache[trackId]) {
+      bars = peakCache[trackId];
+      draw();
+      return;
     }
-    return out;
+    bars = null;
+    draw();
+    fetch("/data/peaks/" + encodeURIComponent(trackId) + ".json")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var peaks = data && data.peaks;
+        if (!Array.isArray(peaks) || !peaks.length) return;
+        peakCache[trackId] = peaks;
+        if (loadedId === trackId) {
+          bars = peaks;
+          draw();
+        }
+      })
+      .catch(function () {});
   }
 
   function sizeCanvas() {
@@ -220,23 +244,25 @@
     var h = canvas.clientHeight;
     if (!w || !h) return;
     ctx.clearRect(0, 0, w, h);
-    var gap = 2;
-    var bw = (w - gap * (BARS - 1)) / BARS;
     var mid = h / 2;
-    for (var i = 0; i < BARS; i++) {
-      var frac = i / (BARS - 1);
-      var amp = bars[i];
-      if (playing && frac <= progress) {
-        // gentle shimmer on the live edge
-        var d = Math.abs(frac - progress);
-        if (d < 0.04) amp = Math.min(1, amp + (0.04 - d) * 3);
-      }
-      var bh = Math.max(2, amp * (h - 6));
-      ctx.fillStyle = frac <= progress
-        ? "rgba(126, 246, 255, 0.95)"
-        : "rgba(126, 246, 255, 0.22)";
-      ctx.fillRect(i * (bw + gap), mid - bh / 2, bw, bh);
+    if (!bars || !bars.length) {
+      ctx.fillStyle = "rgba(26, 26, 26, 0.28)";
+      ctx.fillRect(0, mid - 0.5, w, 1);
+      return;
     }
+    var n = bars.length;
+    var bw = w / n;
+    for (var i = 0; i < n; i++) {
+      var frac = i / Math.max(1, n - 1);
+      var amp = Number(bars[i]);
+      if (!isFinite(amp)) amp = 0;
+      amp = Math.max(0.04, Math.min(1, amp));
+      var bh = Math.max(1, amp * (h - 4));
+      ctx.globalAlpha = frac <= progress ? 1 : 0.3;
+      ctx.fillStyle = "#1a1a1a";
+      ctx.fillRect(i * bw, mid - bh / 2, Math.max(1, bw - 0.4), bh);
+    }
+    ctx.globalAlpha = 1;
   }
 
   canvas.addEventListener("click", function (e) {
@@ -256,13 +282,7 @@
       draw();
       return;
     }
-    var idx = 0;
-    var m = /(\d+)$/.exec(t.id || "");
-    if (m) idx = parseInt(m[1], 10) - 1;
-    if (idx !== seedIdx) {
-      seedIdx = idx;
-      bars = buildBars(seedIdx);
-    }
+    loadPeaks(t.id);
     playing = !!d.playing;
     progress = d.duration ? Math.max(0, Math.min(1, d.currentTime / d.duration)) : 0;
     draw();
@@ -275,4 +295,28 @@
 
   sizeCanvas();
   draw();
+
+  var primed = canvas.getAttribute("data-track");
+  if (primed) loadPeaks(primed);
+  else {
+    fetch("/data/catalog.json")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || loadedId) return;
+        var rel = null;
+        var i;
+        for (i = 0; i < (data.releases || []).length; i++) {
+          if (data.releases[i].id === RELEASE_ID) { rel = data.releases[i]; break; }
+        }
+        if (!rel || !rel.tracks || !rel.tracks.length) return;
+        var first = rel.tracks[0];
+        if (rel.previewTrackId) {
+          for (i = 0; i < rel.tracks.length; i++) {
+            if (rel.tracks[i].id === rel.previewTrackId) { first = rel.tracks[i]; break; }
+          }
+        }
+        if (first && first.id) loadPeaks(first.id);
+      })
+      .catch(function () {});
+  }
 })();

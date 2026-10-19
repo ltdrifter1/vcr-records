@@ -155,7 +155,7 @@
             <div><dt>Format</dt><dd>Album · 2026</dd></div>
           </dl>
           <div class="roster-actions">
-            <button type="button" class="btn btn-chrome-on-dark roster-play" data-play-release="pitch-black" data-play-track="pb-01" aria-pressed="false" aria-label="Play preview of Pitch Black"><span class="roster-play-icon" aria-hidden="true"></span><span class="roster-play-label">Play preview</span></button>
+            <button type="button" class="btn btn-chrome-on-dark roster-play" data-play-release="pitch-black" data-play-track="pb-01" aria-pressed="false" aria-label="Play Pitch Black"><span class="roster-play-icon" aria-hidden="true"></span><span class="roster-play-label">Play</span></button>
             <a class="btn btn-ghost-on-dark" href="/artists/forsberg">Artist page</a>
             <a class="btn btn-ghost-on-dark" href="/pitch-black">Latest release</a>
           </div>
@@ -177,7 +177,7 @@
             <div><dt>Format</dt><dd>Single · 2026</dd></div>
           </dl>
           <div class="roster-actions">
-            <button type="button" class="btn btn-chrome-on-dark roster-play" data-play-release="three-4-zone" data-play-track="t4z-01" aria-pressed="false" aria-label="Play preview of Three 4 Zone"><span class="roster-play-icon" aria-hidden="true"></span><span class="roster-play-label">Play preview</span></button>
+            <button type="button" class="btn btn-chrome-on-dark roster-play" data-play-release="three-4-zone" data-play-track="t4z-01" aria-pressed="false" aria-label="Play Three 4 Zone"><span class="roster-play-icon" aria-hidden="true"></span><span class="roster-play-label">Play</span></button>
             <a class="btn btn-ghost-on-dark" href="/artists/lt-drifta">Artist page</a>
             <a class="btn btn-ghost-on-dark" href="/three-4-zone">Latest release</a>
           </div>
@@ -274,7 +274,7 @@
     buttons.forEach(function (b) {
       var on = playing && st.track.releaseId === b.getAttribute("data-play-release");
       b.setAttribute("aria-pressed", on ? "true" : "false");
-      b.querySelector(".roster-play-label").textContent = on ? "Pause" : "Play preview";
+      b.querySelector(".roster-play-label").textContent = on ? "Pause" : "Play";
     });
   }
   function bind() {

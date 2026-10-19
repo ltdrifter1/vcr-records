@@ -27,6 +27,8 @@
   var analyser = null;
   var analyserBins = null;
   var energyRaf = 0;
+  var meterHeld = false;
+  var energyArmed = false;
   var lastPreviewError = "";
   var toastTimer = 0;
   var scWidget = null;
@@ -38,9 +40,39 @@
   var scTapTimer = 0;
   var scPosition = 0;
   var scDuration = 0;
+  var scPoll = 0;
+  var scPauseFromUs = false;
+  /* User's play/pause wish, stored apart from the element's paused flag.
+     Restore must not write this back as false while the new page is still loading. */
+  var playIntent = false;
+  var restoreLock = false;
+  var tapResume = false;
+  var signalLost = false;
+  var stallTimer = 0;
+  var pendingRestorePlay = false;
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
+  }
+
+  function absoluteAsset(src) {
+    if (!src) return "";
+    try {
+      return new URL(src, window.location.origin).href;
+    } catch (e) {
+      return String(src);
+    }
+  }
+
+  function escAttr(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;");
+  }
+
+  function stockOk(stock) {
+    return stock == null || !(Number(stock) <= 0);
   }
 
   function reduceMotion() {
@@ -212,13 +244,9 @@
 
   function pumpEnergy() {
     if (!analyser || !analyserBins) return;
-    analyser.getByteFrequencyData(analyserBins);
-    var sum = 0;
-    var i;
-    for (i = 2; i < analyserBins.length; i++) sum += analyserBins[i];
-    var avg = sum / Math.max(1, analyserBins.length - 2) / 255;
-    var energy = Math.max(0.08, Math.min(1, Math.pow(avg, 0.72) * 1.15));
+    var energy = levelFromBins();
     document.documentElement.style.setProperty("--room-energy", energy.toFixed(3));
+    paintMeter(energy);
     if (audio && !audio.paused && !reduceMotion()) {
       energyRaf = requestAnimationFrame(pumpEnergy);
     } else {
@@ -226,19 +254,62 @@
     }
   }
 
-  function usesBandcampStream(track) {
-    if (track && track.fromBandcamp) return true;
+  function mediaOriginSafe() {
     var src = audio && (audio.currentSrc || audio.src);
-    return !!(src && /bandcamp-stream|bcbits\.com|bandcamp\.com/i.test(src));
+    if (!src) return false;
+    try {
+      var u = new URL(src, window.location.href);
+      if (u.origin !== window.location.origin) return false;
+      /* A 302 to bcbits is cross-origin once it settles. Only the pipe stays here. */
+      if (/bcbits\.com|bandcamp\.com/i.test(u.hostname)) return false;
+      if (/bandcamp-stream/i.test(u.pathname) && !/[?&]pipe=1(?:&|$)/.test(u.search)) return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function levelFromBins() {
+    if (!analyser || !analyserBins) return 0;
+    analyser.getByteFrequencyData(analyserBins);
+    var sum = 0;
+    var i;
+    for (i = 2; i < analyserBins.length; i++) sum += analyserBins[i];
+    var avg = sum / Math.max(1, analyserBins.length - 2) / 255;
+    return Math.max(0, Math.min(1, Math.pow(avg, 0.72) * 1.15));
+  }
+
+  function paintMeter(level) {
+    if (!ui || !ui.dock) return;
+    var meter = ui.dock.querySelector("[data-lcd-meter]");
+    if (!meter) return;
+    var bars = meter.querySelectorAll("i");
+    var lit = Math.round((Number(level) || 0) * bars.length);
+    if (lit < 1 && level > 0.04) lit = 1;
+    if (lit > bars.length) lit = bars.length;
+    var i;
+    for (i = 0; i < bars.length; i++) {
+      bars[i].classList.toggle("is-on", i < lit);
+      bars[i].classList.toggle("is-peak", lit > 0 && i === lit - 1);
+    }
+    meter.hidden = false;
+    ui.dock.classList.add("is-meter");
+  }
+
+  function hideMeter() {
+    if (!ui || !ui.dock) return;
+    ui.dock.classList.remove("is-meter");
+    var meter = ui.dock.querySelector("[data-lcd-meter]");
+    if (meter) meter.hidden = true;
   }
 
   function attachAnalyser() {
-    // Bandcamp mp3-128 URLs (and 302s to bcbits) are cross-origin without CORS.
-    // createMediaElementSource captures the element and then outputs silence.
-    if (analyser || !audio || reduceMotion()) return;
-    if (usesBandcampStream(current())) return;
+    // createMediaElementSource on a non-CORS cross-origin element plays silence.
+    // Only a same-origin pipe (or a same-origin file) may be tapped.
+    if (analyser || !audio) return false;
+    if (!mediaOriginSafe()) return false;
     var AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
+    if (!AC) return false;
     try {
       audioCtx = audioCtx || new AC();
       if (audioCtx.state === "suspended") audioCtx.resume();
@@ -249,20 +320,41 @@
       src.connect(analyser);
       analyser.connect(audioCtx.destination);
       analyserBins = new Uint8Array(analyser.frequencyBinCount);
+      return true;
     } catch (err) {
       analyser = null;
+      return false;
     }
   }
 
   function startEnergy() {
-    if (reduceMotion()) return;
-    if (usesBandcampStream(current())) {
-      document.documentElement.style.setProperty("--room-energy", "0.62");
+    if (!audio) return;
+    if (audio.readyState < 2) {
+      if (energyArmed) return;
+      energyArmed = true;
+      var arm = function () {
+        energyArmed = false;
+        audio.removeEventListener("canplay", arm);
+        startEnergy();
+      };
+      audio.addEventListener("canplay", arm);
       return;
     }
-    attachAnalyser();
+    if (!mediaOriginSafe()) {
+      hideMeter();
+      return;
+    }
+    if (!attachAnalyser()) {
+      hideMeter();
+      return;
+    }
     if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-    if (!energyRaf && analyser) energyRaf = requestAnimationFrame(pumpEnergy);
+    if (reduceMotion()) {
+      var held = levelFromBins();
+      if (held > 0.02) paintMeter(held);
+      return;
+    }
+    if (!energyRaf) energyRaf = requestAnimationFrame(pumpEnergy);
   }
 
   function loadCatalog() {
@@ -281,19 +373,45 @@
   function persist() {
     try {
       var track = queue[index];
+      if (!track) return;
+      var prev = readPersist();
+      var intent = restoreLock && prev && typeof prev.intent === "boolean" ? prev.intent : !!playIntent;
+      var time = 0;
+      if (isScTrack(track)) time = scPosition || 0;
+      else if (audio && isFinite(audio.currentTime)) time = audio.currentTime || 0;
+      if (restoreLock && prev && time < 0.35 && Number(prev.time) > 0.5) time = Number(prev.time);
+      var payload = {
+        v: 2,
+        releaseId: track.releaseId,
+        trackId: track.id,
+        time: time,
+        intent: !!intent,
+        kind: isScTrack(track) ? "mix" : "release",
+        title: track.title || "",
+        artist: track.artist || "",
+        releaseTitle: track.releaseTitle || "",
+        cover: track.cover || "",
+        catalogue: track.catalogue || "",
+        trackNum: track.trackNum || 1,
+        tracksCount: track.tracksCount || 0,
+        permalink: track.permalink || "",
+        page: track.page || "",
+        year: track.year || "",
+      };
       if (isScTrack(track)) {
-        sessionStorage.removeItem(STORAGE_KEY);
-        return;
+        payload.queue = queue.filter(isScTrack).map(function (item) {
+          return {
+            id: item.id,
+            title: item.title,
+            artist: item.artist,
+            cover: item.cover,
+            permalink: item.permalink,
+            year: item.year || "",
+            page: item.page || "/tapes",
+          };
+        });
       }
-      sessionStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          releaseId: track && track.releaseId,
-          trackId: track && track.id,
-          time: audio ? audio.currentTime : 0,
-          playing: isPlayingNow(),
-        })
-      );
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (e) {}
   }
 
@@ -333,7 +451,8 @@
         "/api/bandcamp-stream?r=" +
         encodeURIComponent(release.id) +
         "&t=" +
-        encodeURIComponent(t.id)
+        encodeURIComponent(t.id) +
+        "&pipe=1"
       );
     }
     return file;
@@ -352,21 +471,28 @@
         var fromBandcamp = /bandcamp-stream/.test(src);
         var scPermalink = String((t && t.soundcloud) || "");
         var viaSoundcloud = !!(scPermalink && !t.preview && !t.bandcampTrackId && !fromBandcamp);
+        var filePreview = filePreviewSrc(t.preview);
+        /* Full Bandcamp streams are not previews. A bumper belongs only on a real 90s file preview. */
+        var truePreview = !!(filePreview && !fromBandcamp && !viaSoundcloud);
+        var cover = absoluteAsset(release.cover);
+        var coverThumb = absoluteAsset(release.coverThumb || release.cover);
         return {
           id: t.id,
           title: t.title,
           src: viaSoundcloud ? "" : src,
-          filePreview: filePreviewSrc(t.preview),
+          filePreview: filePreview,
           fromBandcamp: fromBandcamp,
           bandcampTrackId: t.bandcampTrackId || null,
+          bandcampUrl: release.bandcampUrl || release.bandcamp || "",
           permalink: viaSoundcloud ? scPermalink : "",
           isSoundcloud: viaSoundcloud,
-          isPreview: !viaSoundcloud,
-          previewDuration: viaSoundcloud || fromBandcamp ? 0 : t.previewDuration || 90,
+          isPreview: truePreview,
+          previewDuration: truePreview ? t.previewDuration || 90 : 0,
           releaseId: release.id,
           releaseTitle: release.title,
           artist: release.artist,
-          cover: release.cover,
+          cover: cover,
+          coverThumb: coverThumb,
           page: release.page,
           catalogue: release.catalogue || "",
           trackNum: t.trackNum || (i + 1),
@@ -378,15 +504,16 @@
           vinylSku: vinyl && vinyl.sku ? vinyl.sku : null,
           vinylPrice: vinyl && vinyl.price != null ? Number(vinyl.price) : null,
           vinylNote: vinyl && vinyl.note ? vinyl.note : null,
-          vinylImage: (vinyl && vinyl.image) || release.cover,
+          vinylImage: absoluteAsset((vinyl && vinyl.image) || release.cover),
           vinylStock: vinyl && vinyl.stock != null ? Number(vinyl.stock) : null,
           cassetteSku: cassette && cassette.sku ? cassette.sku : null,
           cassettePrice: cassette && cassette.price != null ? Number(cassette.price) : null,
-          cassetteImage: (cassette && cassette.image) || release.cover,
+          cassetteImage: absoluteAsset((cassette && cassette.image) || release.cover),
           cassetteStock: cassette && cassette.stock != null ? Number(cassette.stock) : null,
           cassetteBackorder: !!(cassette && cassette.backorder),
           digitalPrice: digital && digital.price != null ? Number(digital.price) : null,
           digitalSku: digital && digital.sku ? digital.sku : null,
+          digitalStock: digital && digital.stock != null ? Number(digital.stock) : null,
         };
       });
   }
@@ -483,6 +610,7 @@
     audio.addEventListener("pause", onPlayState);
     audio.addEventListener("loadedmetadata", onTime);
     audio.addEventListener("error", onAudioError);
+    audio.addEventListener("stalled", onAudioStall);
     return audio;
   }
 
@@ -543,8 +671,11 @@
     if (!current()) return Promise.resolve();
     var attempt = function () {
       return audio.play().then(function () {
+        pendingRestorePlay = false;
         hidePlayGate();
         hidePreviewError();
+        tapResume = false;
+        if (ui && ui.dock) ui.dock.classList.remove("is-tap-resume", "is-tap-pulse");
       });
     };
     return attempt().catch(function (err) {
@@ -572,8 +703,25 @@
           audio.addEventListener("canplay", done);
         });
       }
-      if (name === "NotAllowedError") showPlayGate();
+      if (name === "NotAllowedError") {
+        if (pendingRestorePlay) {
+          pendingRestorePlay = false;
+          showTapResume();
+        } else showPlayGate();
+      }
     });
+  }
+
+  function showTapResume() {
+    tapResume = true;
+    ensureUI();
+    if (!ui.dock) return;
+    ui.dock.classList.add("is-tap-resume");
+    ui.dock.classList.remove("is-tap-pulse");
+    void ui.dock.offsetWidth;
+    ui.dock.classList.add("is-tap-pulse");
+    updateDockLcd(current(), false);
+    setTogglePlaying(ui.dock.querySelector('[data-act="toggle"]'), false);
   }
 
   function setTogglePlaying(btn, playing) {
@@ -595,14 +743,15 @@
       '<img class="vcr-player__art" alt="" width="56" height="56" />' +
       "</div>" +
       '<div class="vcr-player__lcd">' +
-      '<p class="vcr-player__bug"><span data-lcd-meta>01</span><span class="vcr-player__led" data-lcd-led>Standby</span></p>' +
+      '<p class="vcr-player__bug"><span data-lcd-meta>01</span><span class="vcr-player__led" data-lcd-led>STANDBY</span><span class="vcr-meter" data-lcd-meter hidden aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></p>' +
       '<p class="vcr-player__title"></p>' +
       '<p class="vcr-player__sub"></p>' +
       '<p class="vcr-player__err" data-player-err hidden></p>' +
       '<p class="vcr-player__upnext" data-upnext hidden></p>' +
       '<div class="vcr-player__eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
       '<div class="vcr-player__progress-wrap">' +
-      '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
+      '<canvas class="vcr-player__wave" aria-hidden="true"></canvas>' +
+      '<input type="range" class="vcr-player__scrub" min="0" max="1000" value="0" aria-label="Seek" aria-valuetext="0:00 of 0:00" />' +
       '<div class="vcr-player__times"><span data-cur>0:00</span><span data-dur>0:00</span></div>' +
       "</div>" +
       "</div>" +
@@ -612,7 +761,8 @@
       '<button type="button" class="vcr-player__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
       '<button type="button" class="vcr-player__buy" data-act="buy-vinyl" data-label="Add vinyl">Add vinyl</button>' +
-      '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player">&times;</button>';
+      '<button type="button" class="vcr-player__btn vcr-player__close" data-act="close" aria-label="Close player"><svg class="vcr-ico vcr-ico--close" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.1 6.2 8.2 5.1 12 8.9l3.8-3.8 1.1 1.1-3.8 3.8 3.8 3.8-1.1 1.1L12 11.1l-3.8 3.8-1.1-1.1 3.8-3.8z"/></svg></button>' +
+      '<p class="vcr-sr" data-player-live aria-live="polite"></p>';
 
     var bumper = document.createElement("div");
     bumper.className = "vcr-bumper";
@@ -660,7 +810,7 @@
       '<button type="button" class="vcr-stage__btn vcr-stage__btn--play" data-act="toggle" aria-label="Play"><svg class="vcr-ico vcr-ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19.2 12z"/></svg><svg class="vcr-ico vcr-ico--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg></button>' +
       '<button type="button" class="vcr-stage__btn" data-act="next" aria-label="Next"><svg class="vcr-ico vcr-ico--next" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 6H18v12h-2.2zm-1.2 6L6 5.8v12.4z"/></svg></button>' +
       "</div>" +
-      '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" />' +
+      '<input type="range" class="vcr-stage__scrub" min="0" max="1000" value="0" aria-label="Seek" aria-valuetext="0:00 of 0:00" />' +
       '<div class="vcr-stage__times"><span data-stage-cur>0:00</span><span data-stage-dur>0:00</span></div>' +
       '<div class="vcr-stage__formats" data-stage-formats></div>' +
       '<a class="vcr-stage__notes" data-page href="#">Sleeve notes</a>' +
@@ -736,7 +886,93 @@
     var bug = ui.dock.querySelector(".vcr-player__bug");
     if (meta) meta.textContent = dockLcdMeta(track);
     else if (bug) bug.textContent = dockLcdMeta(track);
-    if (led) led.textContent = playing ? "On air" : "Standby";
+    if (led) {
+      if (signalLost) led.textContent = "NO SIGNAL";
+      else if (tapResume && !playing) led.textContent = "PAUSED · TAP";
+      else led.textContent = playing ? "ON AIR" : "STANDBY";
+    }
+  }
+
+  function measureDock() {
+    if (!ui || !ui.dock) return;
+    var h = ui.dock.offsetHeight;
+    if (h > 8) document.documentElement.style.setProperty("--dock-h", Math.ceil(h) + "px");
+  }
+
+  var peakCache = {};
+  var peakWant = "";
+
+  function clearDockPeaks() {
+    if (!ui || !ui.dock) return;
+    ui.dock.classList.remove("is-waved");
+    var canvas = ui.dock.querySelector(".vcr-player__wave");
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawDockPeaks(peaks, ratio) {
+    if (!ui || !ui.dock || !peaks || !peaks.length) {
+      clearDockPeaks();
+      return;
+    }
+    var canvas = ui.dock.querySelector(".vcr-player__wave");
+    if (!canvas) return;
+    var wrap = canvas.parentElement;
+    var w = (wrap && wrap.clientWidth) || 0;
+    var h = 12;
+    if (!w) return;
+    ui.dock.classList.add("is-waved");
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+    }
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    var n = peaks.length;
+    var bw = w / n;
+    var played = Math.max(0, Math.min(1, Number(ratio) || 0));
+    var i;
+    for (i = 0; i < n; i++) {
+      var amp = Number(peaks[i]);
+      if (!isFinite(amp)) amp = 0;
+      amp = Math.max(0.05, Math.min(1, amp));
+      var bh = Math.max(1, amp * (h - 1));
+      ctx.globalAlpha = i / Math.max(1, n - 1) <= played ? 1 : 0.3;
+      ctx.fillStyle = "#1a1a1a";
+      ctx.fillRect(i * bw, (h - bh) / 2, Math.max(1, bw - 0.35), bh);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function loadPeaks(track) {
+    if (!track || !track.id || track.isSoundcloud) {
+      peakWant = "";
+      clearDockPeaks();
+      return;
+    }
+    if (peakCache[track.id]) {
+      peakWant = track.id;
+      var ratio = audio && audio.duration ? (audio.currentTime || 0) / audio.duration : 0;
+      drawDockPeaks(peakCache[track.id], ratio);
+      return;
+    }
+    if (peakWant === track.id) return;
+    peakWant = track.id;
+    clearDockPeaks();
+    fetch("/data/peaks/" + encodeURIComponent(track.id) + ".json")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var peaks = data && data.peaks;
+        if (!Array.isArray(peaks) || !peaks.length) return;
+        peakCache[track.id] = peaks;
+        var now = current();
+        if (now && now.id === track.id) drawDockPeaks(peaks, 0);
+      })
+      .catch(function () {});
   }
 
   function notify(msg, isError) {
@@ -763,9 +999,52 @@
 
   function fmt(sec) {
     if (!isFinite(sec) || sec < 0) return "0:00";
-    var m = Math.floor(sec / 60);
-    var s = Math.floor(sec % 60);
-    return m + ":" + (s < 10 ? "0" : "") + s;
+    sec = Math.floor(sec);
+    var h = Math.floor(sec / 3600);
+    var m = Math.floor((sec % 3600) / 60);
+    var s = sec % 60;
+    var ss = (s < 10 ? "0" : "") + s;
+    if (h) return h + ":" + (m < 10 ? "0" : "") + m + ":" + ss;
+    return m + ":" + ss;
+  }
+
+  function buyOffer(track) {
+    if (!track || track.isSoundcloud) return null;
+    if (track.cassetteSku && stockOk(track.cassetteStock)) {
+      return {
+        act: "buy-cassette",
+        label: track.cassettePrice != null ? "Add cassette · $" + track.cassettePrice : "Add cassette",
+      };
+    }
+    if (track.vinylSku && stockOk(track.vinylStock)) {
+      return {
+        act: "buy-vinyl",
+        label: track.vinylPrice != null ? "Add vinyl · $" + track.vinylPrice : "Add vinyl",
+      };
+    }
+    if (track.digitalSku && stockOk(track.digitalStock)) {
+      return {
+        act: "buy-digital",
+        label: track.digitalPrice != null ? "Buy · $" + track.digitalPrice : "Buy",
+      };
+    }
+    if (track.page) return { act: "buy-page", label: "Shop" };
+    return null;
+  }
+
+  function applyBuyButton(el, track) {
+    if (!el) return;
+    var offer = signalLost ? null : buyOffer(track);
+    if (!offer) {
+      el.hidden = true;
+      return;
+    }
+    el.hidden = false;
+    el.setAttribute("data-act", offer.act);
+    if (el.textContent.indexOf("Added") < 0) {
+      el.textContent = offer.label;
+      el.setAttribute("data-label", offer.label);
+    }
   }
 
   function current() {
@@ -812,19 +1091,12 @@
           ? upNextLabel(nextTrack)
           : "End of preview · Add to cart";
       }
-      var buy = ui.bumper.querySelector('[data-act="buy-vinyl"]');
-      if (buy) {
-        if (track && track.cassetteSku) {
-          buy.setAttribute("data-act", "buy-cassette");
-          buy.textContent = track.cassettePrice != null
-            ? "Add cassette · $" + track.cassettePrice
-            : "Add cassette";
-          buy.hidden = false;
-        } else if (track && track.vinylSku) {
-          buy.setAttribute("data-act", "buy-vinyl");
-          buy.textContent = track.vinylPrice != null
-            ? "Add vinyl · $" + track.vinylPrice
-            : "Add vinyl";
+      var buy = ui.bumper.querySelector("[data-act]");
+      if (buy && buy.classList.contains("vcr-bumper__btn") && !buy.classList.contains("vcr-bumper__btn--ghost")) {
+        var offer = buyOffer(track);
+        if (offer && offer.act !== "buy-page") {
+          buy.setAttribute("data-act", offer.act);
+          buy.textContent = offer.label;
           buy.hidden = false;
         } else {
           buy.hidden = true;
@@ -956,9 +1228,7 @@
 
     var roomHint = room.querySelector(".hero-console-hint");
     if (roomHint && track) {
-      roomHint.textContent = track.fromBandcamp
-        ? "Streaming on site · bumper at end · Esc minimize"
-        : track.isPreview
+      roomHint.textContent = track.isPreview
         ? "90s preview · bumper at end · Esc minimize"
         : "Space play/pause · Esc minimize";
     }
@@ -1013,9 +1283,10 @@
 
     dock.classList.add("is-visible");
     document.body.classList.add("has-vcr-player");
-    dock.classList.toggle("is-playing", !!playing);
-    setAirState(playing);
-    if (playing) startEnergy();
+    dock.classList.toggle("is-playing", !!playing && !signalLost);
+    dock.classList.toggle("is-signal", !!signalLost);
+    setAirState(playing && !signalLost);
+    if (playing && !signalLost) startEnergy();
     var roomNow = getRoom();
     if (track && track.cover && !(roomNow && roomNow.hasAttribute("data-ipod"))) sampleCover(track.cover);
     syncDockAway();
@@ -1035,36 +1306,8 @@
         dockUp.textContent = "";
       }
     }
-    var buy = dock.querySelector(".vcr-player__buy");
-    if (buy) {
-      var physicalSku = track.cassetteSku || track.vinylSku;
-      var physicalPrice = track.cassetteSku ? track.cassettePrice : track.vinylPrice;
-      var physicalAct = track.cassetteSku ? "buy-cassette" : "buy-vinyl";
-      var physicalLabel = track.cassetteSku ? "Add cassette" : "Add vinyl";
-      buy.hidden = !!(track.isSoundcloud || lastPreviewError) || !(physicalSku || track.page);
-      if (physicalSku) {
-        buy.setAttribute("data-act", physicalAct);
-        if (!buy.getAttribute("data-label") || buy.textContent.indexOf("Added") < 0) {
-          buy.textContent = physicalPrice != null
-            ? physicalLabel + " · $" + physicalPrice
-            : physicalLabel;
-          buy.setAttribute("data-label", buy.textContent);
-        }
-      } else if (track.digitalSku) {
-        buy.removeAttribute("data-act");
-        buy.setAttribute("data-act", "buy-digital");
-        var digitalLabel = track.digitalPrice != null ? "Buy · $" + track.digitalPrice : "Buy";
-        if (buy.textContent.indexOf("Added") < 0) {
-          buy.textContent = digitalLabel;
-          buy.setAttribute("data-label", digitalLabel);
-        }
-      } else {
-        buy.removeAttribute("data-act");
-        buy.setAttribute("data-act", "buy-page");
-        buy.textContent = "Shop";
-        buy.setAttribute("data-label", "Shop");
-      }
-    }
+    applyBuyButton(dock.querySelector(".vcr-player__buy"), track);
+    paintSignal(track);
 
     stage.querySelector(".vcr-stage__art").src = track.cover;
     stage.querySelector(".vcr-stage__art").alt = track.releaseTitle + " — " + track.artist;
@@ -1111,11 +1354,41 @@
       }
     }
 
-    setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing);
-    setTogglePlaying(stage.querySelector('[data-act="toggle"]'), playing);
+    setTogglePlaying(dock.querySelector('[data-act="toggle"]'), playing && !signalLost);
+    setTogglePlaying(stage.querySelector('[data-act="toggle"]'), playing && !signalLost);
 
-    renderRoom(track, playing);
-    updateMediaSession(track, playing);
+    renderRoom(track, playing && !signalLost);
+    updateMediaSession(track, playing && !signalLost);
+    announceTrack(track);
+    loadPeaks(track);
+    measureDock();
+  }
+
+  function paintSignal(track) {
+    if (!ui || !ui.dock) return;
+    var errEl = ui.dock.querySelector("[data-player-err]");
+    var sub = ui.dock.querySelector(".vcr-player__sub");
+    if (!signalLost) {
+      if (errEl) {
+        errEl.hidden = true;
+        errEl.textContent = "";
+      }
+      if (sub) sub.hidden = false;
+      return;
+    }
+    if (sub) sub.hidden = true;
+    if (errEl) {
+      var href = track && track.bandcampUrl ? track.bandcampUrl : "";
+      errEl.hidden = false;
+      errEl.innerHTML =
+        'Stream unavailable · <button type="button" data-act="retry">Retry</button>' +
+        (href
+          ? ' · <a href="' + escAttr(href) + '" target="_blank" rel="noopener noreferrer">Bandcamp ↗</a>'
+          : "");
+    }
+    setTogglePlaying(ui.dock.querySelector('[data-act="toggle"]'), false);
+    var led = ui.dock.querySelector("[data-lcd-led]");
+    if (led) led.textContent = "NO SIGNAL";
   }
 
   function onTime() {
@@ -1149,6 +1422,16 @@
       var durEl = room.querySelector("[data-room-dur]");
       if (curEl) curEl.textContent = fmt(cur);
       if (durEl) durEl.textContent = fmt(dur);
+    }
+    paintScrubA11y(cur, dur);
+    publishPosition(cur, dur);
+    if (track && peakCache[track.id]) drawDockPeaks(peakCache[track.id], dur ? cur / dur : 0);
+    if (reduceMotion() && analyser && !meterHeld) {
+      var held = levelFromBins();
+      if (held > 0.02) {
+        meterHeld = true;
+        paintMeter(held);
+      }
     }
     persist();
     emit();
@@ -1198,6 +1481,7 @@
   function pauseSoundCloud() {
     scPlaying = false;
     scSeq += 1;
+    scPauseFromUs = true;
     clearTimeout(scTapTimer);
     if (scWidget) {
       try {
@@ -1229,9 +1513,9 @@
     return (
       "https://w.soundcloud.com/player/?url=" +
       encodeURIComponent(permalink) +
-      "&color=%231a1a1a&auto_play=" +
+      "&color=%23C8C8C4&auto_play=" +
       (autoplay ? "true" : "false") +
-      "&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
+      "&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false&show_artwork=false"
     );
   }
 
@@ -1298,6 +1582,8 @@
     });
     widget.bind(SC.Widget.Events.PLAY, function () {
       scPlaying = true;
+      playIntent = true;
+      tapResume = false;
       hideScTap();
       hidePreviewError();
       widget.getDuration(function (ms) {
@@ -1309,6 +1595,8 @@
     });
     widget.bind(SC.Widget.Events.PAUSE, function () {
       scPlaying = false;
+      if (scPauseFromUs) scPauseFromUs = false;
+      else if (!restoreLock) playIntent = false;
       render();
       persist();
       emit();
@@ -1334,8 +1622,68 @@
     });
     widget.bind(SC.Widget.Events.ERROR, function () {
       scPlaying = false;
-      showPreviewError(previewErrorMessage(), current());
+      showStreamFailure(current());
     });
+    startScPoll();
+  }
+
+  function paintScClock() {
+    if (!ui || !ui.dock) return;
+    var dur = scDuration || 0;
+    var cur = scPosition || 0;
+    var ratio = dur ? Math.round((cur / dur) * 1000) : 0;
+    setScrubUi(ratio);
+    var scrub = ui.dock.querySelector(".vcr-player__scrub");
+    if (scrub) scrub.value = String(ratio);
+    var cEl = ui.dock.querySelector("[data-cur]");
+    var dEl = ui.dock.querySelector("[data-dur]");
+    if (cEl) cEl.textContent = fmt(cur);
+    if (dEl) dEl.textContent = fmt(dur);
+    paintScrubA11y(cur, dur);
+    publishPosition(cur, dur);
+  }
+
+  function startScPoll() {
+    if (scPoll) return;
+    scPoll = setInterval(syncScFromWidget, 500);
+  }
+
+  function syncScFromWidget() {
+    if (!scWidget || !isScTrack(current())) return;
+    try {
+      scWidget.getDuration(function (ms) {
+        if (ms) scDuration = ms / 1000;
+      });
+      scWidget.getPosition(function (ms) {
+        var nextPos = (ms || 0) / 1000;
+        var moved = Math.abs(nextPos - scPosition) > 0.05;
+        scPosition = nextPos;
+        if (moved) paintScClock();
+        if (nextPos > 0.35 && !scPlaying) {
+          scPlaying = true;
+          playIntent = true;
+          hideScTap();
+          hidePreviewError();
+          render();
+          persist();
+          emit();
+        }
+      });
+      scWidget.isPaused(function (paused) {
+        var playing = !paused;
+        if (playing === scPlaying) return;
+        scPlaying = playing;
+        if (playing) {
+          hideScTap();
+          hidePreviewError();
+          playIntent = true;
+          tapResume = false;
+        }
+        render();
+        persist();
+        emit();
+      });
+    } catch (e) {}
   }
 
   function createScWidget(permalink, autoplay) {
@@ -1365,13 +1713,37 @@
       title: item.title,
       artist: item.dj || "L.T. Drifta",
       releaseTitle: "Mixtapes",
-      cover: item.cover || "",
+      cover: absoluteAsset(item.cover || ""),
       permalink: item.permalink,
       isSoundcloud: true,
       page: "/tapes",
       year: item.year || "",
       durationSec: 0,
     };
+  }
+
+  function startScNow(track, autoplay, seq) {
+    if (scWidget && scReady && scLoaded === track.permalink) {
+      if (autoplay) {
+        try { scWidget.play(); } catch (e) {}
+        armScTap(track, seq);
+      }
+      return;
+    }
+    if (scWidget) {
+      scLoaded = track.permalink;
+      scReady = false;
+      try {
+        scWidget.load(track.permalink, { auto_play: !!autoplay });
+      } catch (e) {
+        createScWidget(track.permalink, !!autoplay);
+      }
+    } else {
+      createScWidget(track.permalink, !!autoplay);
+    }
+    if (autoplay) armScTap(track, seq);
+    render();
+    emit();
   }
 
   function loadSoundCloud(track, autoplay) {
@@ -1391,9 +1763,11 @@
     scSeq += 1;
     var seq = scSeq;
     scPlaying = false;
-    scPosition = 0;
-    scDuration = 0;
-    if (ui && ui.dock) {
+    if (!restoreLock) {
+      scPosition = 0;
+      scDuration = 0;
+    }
+    if (ui && ui.dock && !restoreLock) {
       setScrubUi(0);
       var cEl = ui.dock.querySelector("[data-cur]");
       var dEl = ui.dock.querySelector("[data-dur]");
@@ -1402,29 +1776,15 @@
     }
     render();
     emit();
-    // Embed already holds this mix (warmed up): play right now, inside the tap.
-    if (scWidget && scReady && scLoaded === track.permalink) {
-      if (autoplay) {
-        try {
-          scWidget.play();
-        } catch (e) {}
-        armScTap(track, seq);
-      }
+    // Stay inside the tap. A promise tick drops the gesture on iOS and forces a second tap.
+    if (window.SC && window.SC.Widget) {
+      startScNow(track, autoplay, seq);
       return Promise.resolve(current());
     }
     return loadScApi()
       .then(function () {
         if (seq !== scSeq) return current();
-        if (scWidget) {
-          scLoaded = track.permalink;
-          scReady = false;
-          scWidget.load(track.permalink, { auto_play: !!autoplay });
-        } else {
-          createScWidget(track.permalink, !!autoplay);
-        }
-        if (autoplay) armScTap(track, seq);
-        render();
-        emit();
+        startScNow(track, autoplay, seq);
         return current();
       })
       .catch(function () {
@@ -1442,6 +1802,7 @@
   }
 
   function playMix(item, list) {
+    playIntent = true;
     unlockAudioFromGesture();
     pauseSoundCloud();
     if (audio) audio.pause();
@@ -1464,72 +1825,127 @@
 
   function hidePreviewError() {
     lastPreviewError = "";
+    signalLost = false;
     if (!ui || !ui.dock) return;
-    var errEl = ui.dock.querySelector("[data-player-err]");
-    if (errEl) {
-      errEl.hidden = true;
-      errEl.textContent = "";
-    }
-    ui.dock.classList.remove("is-error");
-  }
-
-  function showPreviewError(msg, track) {
-    lastPreviewError = previewErrorMessage();
-    ensureUI();
+    ui.dock.classList.remove("is-error", "is-signal");
     var errEl = ui.dock.querySelector("[data-player-err]");
     if (errEl) {
       errEl.hidden = true;
       errEl.textContent = "";
     }
     var sub = ui.dock.querySelector(".vcr-player__sub");
-    if (sub) sub.textContent = lastPreviewError;
-    ui.dock.classList.add("is-visible");
-    ui.dock.classList.remove("is-error");
-    document.body.classList.add("has-vcr-player");
-    updateDockLcd(track, false);
-    var led = ui.dock.querySelector("[data-lcd-led]");
-    if (led) led.textContent = "Standby";
-    var buy = ui.dock.querySelector(".vcr-player__buy");
-    if (buy) buy.hidden = true;
-    try {
-      window.dispatchEvent(
-        new CustomEvent("vcr:player", {
-          detail: {
-            track: track || current(),
-            nextTrack: peekNext(),
-            playing: false,
-            currentTime: 0,
-            duration: 0,
-            error: true,
-            errorMessage: lastPreviewError,
-            stageOpen: stageOpen,
-            roomOpen: roomOpen,
-            bumperOpen: bumperOpen,
-          },
-        })
-      );
-    } catch (e) {}
+    if (sub) sub.hidden = false;
+  }
+
+  function showStreamFailure(track) {
+    track = track || current();
+    signalLost = true;
+    tapResume = false;
+    lastPreviewError = "Stream unavailable";
+    clearTimeout(stallTimer);
+    if (audio && !audio.paused) {
+      try { audio.pause(); } catch (e) {}
+    }
+    if (isScTrack(track)) {
+      scPlaying = false;
+      try { if (scWidget) scWidget.pause(); } catch (e) {}
+    }
+    ensureUI();
+    if (ui.dock) ui.dock.classList.remove("is-tap-resume", "is-tap-pulse");
+    render();
+    emit();
+  }
+
+  function showPreviewError(msg, track) {
+    if (msg && msg !== previewErrorMessage()) {
+      lastPreviewError = msg;
+      ensureUI();
+      notify(msg, true);
+      emit();
+      return;
+    }
+    showStreamFailure(track);
   }
 
   function onAudioError() {
     var track = current();
-    if (track && track.fromBandcamp && track.filePreview && !track._fellBack) {
+    if (!track) return;
+    var played = (audio && (audio.currentSrc || audio.src)) || "";
+    if (track.fromBandcamp && !track._pipeFailed && /[?&]pipe=1(?:&|$)/.test(played)) {
+      track._pipeFailed = true;
+      track.src = String(track.src || played).replace(/[?&]pipe=1\b/, "").replace(/\?$/, "");
+      hideMeter();
+      ensureAudio();
+      try { audio.referrerPolicy = "no-referrer"; } catch (e) {}
+      audio.src = track.src;
+      signalLost = false;
+      render();
+      safePlay();
+      return;
+    }
+    if (track.fromBandcamp && track.filePreview && !track._fellBack) {
       track._fellBack = true;
       track.src = track.filePreview;
       track.fromBandcamp = false;
+      track.isPreview = true;
+      track.previewDuration = track.previewDuration || 90;
       ensureAudio();
       try {
         audio.referrerPolicy = "no-referrer";
       } catch (e) {}
       audio.src = track.filePreview;
+      signalLost = false;
       render();
       safePlay();
       return;
     }
-    if (track && track._fellBack && audio && /previews\//.test(audio.currentSrc || audio.src || "")) {
+    showStreamFailure(track);
+  }
+
+  function onAudioStall() {
+    if (!audio || signalLost || !current()) return;
+    var mark = audio.currentTime || 0;
+    clearTimeout(stallTimer);
+    stallTimer = setTimeout(function () {
+      if (!audio || signalLost || !current()) return;
+      if (!audio.paused && audio.readyState >= 3) return;
+      var stuck = Math.abs((audio.currentTime || 0) - mark) < 0.05;
+      if (audio.error || audio.networkState === audio.NETWORK_NO_SOURCE || (stuck && audio.readyState < 2)) {
+        onAudioError();
+      }
+    }, 2500);
+  }
+
+  function retryStream() {
+    var track = current();
+    if (!track) return;
+    hidePreviewError();
+    tapResume = false;
+    playIntent = true;
+    if (isScTrack(track)) {
+      loadSoundCloud(track, true);
       return;
     }
-    showPreviewError(previewErrorMessage(), track);
+    ensureAudio();
+    var src = track._fellBack && track.filePreview ? track.filePreview : track.src;
+    if (!src) {
+      showStreamFailure(track);
+      return;
+    }
+    track._fellBack = false;
+    if (track.filePreview && track.src && track.src !== track.filePreview) {
+      track.fromBandcamp = /bandcamp-stream/.test(track.src);
+      track.isPreview = false;
+    }
+    try {
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+    } catch (e) {}
+    var bust = src + (src.indexOf("?") >= 0 ? "&" : "?") + "retry=" + Date.now();
+    audio.src = bust;
+    render();
+    safePlay();
   }
 
   function onEnded() {
@@ -1599,9 +2015,11 @@
     } else if (act === "next") {
       clearBumper();
       next(true);
-    } else if (act === "close") {
+    } else     if (act === "close") {
       clearBumper();
       stop(true);
+    } else if (act === "retry") {
+      retryStream();
     } else if (act === "stage-close") closeStage();
     else if (act === "room-close") closeRoom();
     else if (act === "open-formats") {
@@ -1677,8 +2095,9 @@
     var tag = (e.target && e.target.tagName) || "";
     if (tag === "INPUT" || tag === "TEXTAREA" || e.target.isContentEditable) return;
     var immersive = stageOpen || roomOpen;
+    var inDock = !!(e.target && e.target.closest && e.target.closest("#vcr-player"));
 
-    if (e.code === "Space" && (immersive || document.body.classList.contains("has-vcr-player"))) {
+    if (e.code === "Space" && (immersive || inDock || document.body.classList.contains("has-vcr-player"))) {
       e.preventDefault();
       if (bumperOpen) {
         clearBumper();
@@ -1686,12 +2105,9 @@
       } else {
         toggle();
       }
-    } else if (e.code === "ArrowRight" && immersive) {
+    } else if ((e.code === "ArrowRight" || e.code === "ArrowLeft") && (immersive || inDock)) {
       e.preventDefault();
-      if (audio) audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 5);
-    } else if (e.code === "ArrowLeft" && immersive) {
-      e.preventDefault();
-      if (audio) audio.currentTime = Math.max(0, audio.currentTime - 5);
+      seekBy(e.code === "ArrowRight" ? 5 : -5);
     } else if (e.code === "Escape" && bumperOpen) {
       clearBumper();
       next(true);
@@ -1707,28 +2123,161 @@
     }
   }
 
+  function artType(url) {
+    if (/\.png(\?|#|$)/i.test(url)) return "image/png";
+    if (/\.jpe?g(\?|#|$)/i.test(url)) return "image/jpeg";
+    return "image/webp";
+  }
+
+  function artworkFor(track) {
+    var items = [];
+    var seen = {};
+    function push(url, sizes) {
+      url = absoluteAsset(url);
+      if (!url || seen[sizes + url]) return;
+      seen[sizes + url] = true;
+      items.push({ src: url, sizes: sizes, type: artType(url) });
+    }
+    if (!track) return items;
+    push(track.coverThumb || track.cover, "480x480");
+    push(track.cover, "1200x1200");
+    push(track.coverPng, "1200x1200");
+    push(track.coverJpeg || track.coverJpg, "1200x1200");
+    return items;
+  }
+
+  function albumLine(track) {
+    var title = (track && (track.releaseTitle || track.title)) || "";
+    if (track && track.catalogue) return title + " · " + track.catalogue;
+    return title;
+  }
+
+  function paintScrubA11y(cur, dur) {
+    if (!ui) return;
+    var text = fmt(cur) + " of " + fmt(dur);
+    var nodes = [];
+    if (ui.dock) nodes.push(ui.dock.querySelector(".vcr-player__scrub"));
+    if (ui.stage) nodes.push(ui.stage.querySelector(".vcr-stage__scrub"));
+    var room = getRoom();
+    if (room) nodes.push(room.querySelector("[data-room-scrub]"));
+    nodes.forEach(function (el) {
+      if (!el) return;
+      el.setAttribute("aria-valuetext", text);
+    });
+  }
+
+  function announceTrack(track) {
+    if (!ui || !ui.dock || !track) return;
+    var live = ui.dock.querySelector("[data-player-live]");
+    if (!live) return;
+    var key = (track.releaseId || "") + ":" + (track.id || "");
+    if (live.getAttribute("data-announced") === key) return;
+    live.setAttribute("data-announced", key);
+    var n = Number(track.trackNum) || 1;
+    var of = Number(track.tracksCount) || 0;
+    var line = "Now playing " + (track.title || "track");
+    if (track.catalogue) line += " — " + track.catalogue;
+    if (of) line += ", track " + n + " of " + of;
+    live.textContent = line;
+  }
+
+  var mediaTrackKey = "";
+  var mediaHandlersBound = false;
+  var lastPositionAt = 0;
+
+  function seekBy(delta) {
+    var track = current();
+    delta = Number(delta) || 0;
+    if (isScTrack(track) && scWidget) {
+      var next = Math.max(0, (scPosition || 0) + delta);
+      if (scDuration) next = Math.min(scDuration, next);
+      scPosition = next;
+      try { scWidget.seekTo(next * 1000); } catch (e) {}
+      paintScClock();
+      return;
+    }
+    if (!audio) return;
+    var dur = audio.duration;
+    var cap = track && track.isPreview ? Number(track.previewDuration) || 0 : 0;
+    if (cap) dur = cap;
+    var t = (audio.currentTime || 0) + delta;
+    if (t < 0) t = 0;
+    if (isFinite(dur) && dur > 0 && t > dur) t = dur;
+    try { audio.currentTime = t; } catch (e) {}
+  }
+
+  function seekToSec(t) {
+    var track = current();
+    t = Math.max(0, Number(t) || 0);
+    if (isScTrack(track) && scWidget) {
+      if (scDuration) t = Math.min(scDuration, t);
+      scPosition = t;
+      try { scWidget.seekTo(t * 1000); } catch (e) {}
+      paintScClock();
+      return;
+    }
+    if (!audio) return;
+    var dur = audio.duration;
+    if (isFinite(dur) && dur > 0) t = Math.min(dur, t);
+    try { audio.currentTime = t; } catch (e) {}
+  }
+
+  function bindMediaSession() {
+    if (mediaHandlersBound || !("mediaSession" in navigator)) return;
+    mediaHandlersBound = true;
+    var ms = navigator.mediaSession;
+    function setHandler(name, fn) {
+      try { ms.setActionHandler(name, fn); } catch (e) {}
+    }
+    setHandler("play", function () { play(); });
+    setHandler("pause", function () { pause(); });
+    setHandler("previoustrack", function () { prev(); });
+    setHandler("nexttrack", function () { next(true); });
+    setHandler("seekto", function (details) {
+      if (details && details.seekTime != null) seekToSec(details.seekTime);
+    });
+    setHandler("seekbackward", function (details) {
+      seekBy(-((details && details.seekOffset) || 10));
+    });
+    setHandler("seekforward", function (details) {
+      seekBy((details && details.seekOffset) || 10);
+    });
+  }
+
+  function publishPosition(cur, dur) {
+    if (!("mediaSession" in navigator) || !navigator.mediaSession.setPositionState) return;
+    if (!isFinite(dur) || dur <= 0 || !isFinite(cur) || cur < 0) return;
+    var now = Date.now();
+    if (now - lastPositionAt < 1000) return;
+    lastPositionAt = now;
+    var pos = Math.min(cur, dur);
+    try {
+      navigator.mediaSession.setPositionState({
+        duration: dur,
+        playbackRate: audio && isFinite(audio.playbackRate) ? audio.playbackRate || 1 : 1,
+        position: pos,
+      });
+    } catch (e) {}
+  }
+
   function updateMediaSession(track, playing) {
     if (!("mediaSession" in navigator) || !track) return;
+    bindMediaSession();
     try {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: track.title,
-        artist: track.artist,
-        album: track.releaseTitle,
-        artwork: [{ src: track.cover, sizes: "1200x1200", type: "image/webp" }],
-      });
+      var key = (track.releaseId || "") + ":" + (track.id || "");
+      if (key !== mediaTrackKey) {
+        mediaTrackKey = key;
+        lastPositionAt = 0;
+        var art = artworkFor(track);
+        var metaInit = {
+          title: track.title || "",
+          artist: track.artist || "",
+          album: albumLine(track),
+        };
+        if (art.length) metaInit.artwork = art;
+        navigator.mediaSession.metadata = new MediaMetadata(metaInit);
+      }
       navigator.mediaSession.playbackState = playing ? "playing" : "paused";
-      navigator.mediaSession.setActionHandler("play", function () {
-        play();
-      });
-      navigator.mediaSession.setActionHandler("pause", function () {
-        pause();
-      });
-      navigator.mediaSession.setActionHandler("previoustrack", function () {
-        prev();
-      });
-      navigator.mediaSession.setActionHandler("nexttrack", function () {
-        next(true);
-      });
     } catch (err) {}
   }
 
@@ -1749,6 +2298,7 @@
     clearBumper();
     hidePreviewError();
     index = i;
+    meterHeld = false;
     var track = queue[index];
     if (isScTrack(track)) return loadSoundCloud(track, !!autoplay);
     pauseSoundCloud();
@@ -1815,6 +2365,7 @@
 
   function playRelease(releaseId, trackId, opts) {
     opts = opts || {};
+    if (!restoreLock) playIntent = opts.autoplay !== false;
     pauseSoundCloud();
     // Keep the user-gesture chain intact for iOS Safari by creating Audio now
     // and applying a cached catalog synchronously when available.
@@ -1835,6 +2386,13 @@
   function play() {
     var track = current();
     if (!track) return;
+    playIntent = true;
+    tapResume = false;
+    if (ui && ui.dock) ui.dock.classList.remove("is-tap-resume", "is-tap-pulse");
+    if (signalLost && !isScTrack(track)) {
+      retryStream();
+      return;
+    }
     if (isScTrack(track)) {
       if (scWidget && scReady && scLoaded === track.permalink) {
         scWidget.play();
@@ -1848,8 +2406,12 @@
 
   function pause() {
     pauseSoundCloud();
+    if (!restoreLock) playIntent = false;
+    tapResume = false;
+    if (ui && ui.dock) ui.dock.classList.remove("is-tap-resume", "is-tap-pulse");
     if (audio) audio.pause();
     render();
+    persist();
     emit();
   }
 
@@ -1903,8 +2465,21 @@
     }
   }
 
+  function clearMediaSession() {
+    mediaTrackKey = "";
+    lastPositionAt = 0;
+    if (!("mediaSession" in navigator)) return;
+    try {
+      navigator.mediaSession.metadata = null;
+      navigator.mediaSession.playbackState = "none";
+    } catch (e) {}
+  }
+
   function stop(hide) {
     pauseSoundCloud();
+    playIntent = false;
+    tapResume = false;
+    signalLost = false;
     if (audio) {
       audio.pause();
       audio.removeAttribute("src");
@@ -1913,6 +2488,7 @@
     if (hide) {
       queue = [];
       index = -1;
+      clearMediaSession();
       try {
         sessionStorage.removeItem(STORAGE_KEY);
       } catch (e) {}
@@ -2053,21 +2629,160 @@
     });
   }
 
+  function paintSavedDock(saved) {
+    if (!saved || !saved.releaseId) return;
+    ensureUI();
+    var dock = ui.dock;
+    dock.classList.add("is-visible");
+    document.body.classList.add("has-vcr-player");
+    var art = dock.querySelector(".vcr-player__art");
+    if (art && saved.cover) {
+      art.src = absoluteAsset(saved.cover);
+      art.alt = "";
+    }
+    var title = dock.querySelector(".vcr-player__title");
+    if (title) title.textContent = saved.title || "";
+    var sub = dock.querySelector(".vcr-player__sub");
+    if (sub) {
+      sub.hidden = false;
+      sub.textContent = saved.artist && saved.releaseTitle
+        ? saved.artist + " — " + saved.releaseTitle
+        : (saved.artist || saved.releaseTitle || "");
+    }
+    var meta = dock.querySelector("[data-lcd-meta]");
+    if (meta) {
+      var fake = {
+        catalogue: saved.catalogue,
+        trackNum: saved.trackNum,
+        tracksCount: saved.tracksCount,
+      };
+      meta.textContent = dockLcdMeta(fake);
+    }
+    var led = dock.querySelector("[data-lcd-led]");
+    if (led) led.textContent = saved.intent ? "ON AIR" : "STANDBY";
+    if (saved.time) {
+      var cur = dock.querySelector("[data-cur]");
+      if (cur) cur.textContent = fmt(saved.time);
+    }
+    measureDock();
+  }
+
+  function seekWhenReady(time) {
+    if (!audio || !time) return Promise.resolve();
+    return new Promise(function (resolve) {
+      var done = false;
+      var apply = function () {
+        if (done) return;
+        done = true;
+        try {
+          var dur = audio.duration;
+          var t = Number(time) || 0;
+          if (isFinite(dur) && dur > 0) t = Math.min(t, Math.max(0, dur - 0.25));
+          audio.currentTime = t;
+        } catch (e) {}
+        resolve();
+      };
+      if (audio.readyState >= 1) apply();
+      else {
+        audio.addEventListener("loadedmetadata", apply, { once: true });
+        setTimeout(apply, 1600);
+      }
+    });
+  }
+
+  function savedIntent(saved) {
+    if (!saved) return false;
+    if (typeof saved.intent === "boolean") return saved.intent;
+    return !!saved.playing;
+  }
+
+  function finishRestore(saved) {
+    restoreLock = false;
+    if (!savedIntent(saved)) {
+      playIntent = false;
+      persist();
+      render();
+      return;
+    }
+    playIntent = true;
+    pendingRestorePlay = true;
+    var pending = safePlay();
+    if (pending && pending.then) {
+      pending.then(function () {
+        if (audio && audio.paused && !isScTrack(current())) showTapResume();
+        persist();
+      });
+    } else persist();
+  }
+
+  function restoreMix(saved) {
+    var list = saved.queue && saved.queue.length ? saved.queue : [saved];
+    queue = list.filter(function (item) {
+      return item && (item.permalink || saved.permalink);
+    }).map(function (item) {
+      return mixToTrack({
+        id: item.id || item.trackId || saved.trackId,
+        title: item.title || saved.title,
+        dj: item.artist || item.dj || saved.artist,
+        cover: item.cover || saved.cover,
+        permalink: item.permalink || saved.permalink,
+        year: item.year || saved.year,
+      });
+    });
+    if (!queue.length) {
+      restoreLock = false;
+      return Promise.resolve();
+    }
+    index = 0;
+    var i;
+    for (i = 0; i < queue.length; i++) {
+      if (queue[i].id === saved.trackId) index = i;
+    }
+    scPosition = Number(saved.time) || 0;
+    return loadSoundCloud(queue[index], false).then(function () {
+      var seekMix = function () {
+        if (!saved.time || !scWidget) return;
+        try { scWidget.seekTo(Number(saved.time) * 1000); } catch (e) {}
+      };
+      if (scReady) seekMix();
+      else setTimeout(seekMix, 700);
+      restoreLock = false;
+      if (savedIntent(saved)) {
+        playIntent = true;
+        play();
+      } else {
+        playIntent = false;
+        render();
+      }
+      persist();
+    });
+  }
+
   function hydrateFromURL() {
     var params = new URLSearchParams(window.location.search);
     var playId = params.get("play");
     var trackId = params.get("t");
     var stage = params.get("stage") === "1";
-    if (playId) {
-      return playRelease(playId, trackId, { autoplay: true, stage: stage }); // may show Tap to play on iOS
+    if (playId && playId !== "mixes") {
+      playIntent = true;
+      return playRelease(playId, trackId, { autoplay: true, stage: stage });
     }
     var saved = readPersist();
-    if (saved && saved.releaseId && saved.playing) {
-      return playRelease(saved.releaseId, saved.trackId, { autoplay: false }).then(function () {
-        if (audio && saved.time) audio.currentTime = saved.time;
-      });
+    if (!saved || !saved.releaseId) return Promise.resolve();
+    if (playId === "mixes" && saved.releaseId !== "mixes" && saved.kind !== "mix") {
+      return Promise.resolve();
     }
-    return Promise.resolve();
+    playIntent = savedIntent(saved);
+    restoreLock = true;
+    paintSavedDock(saved);
+    if (saved.kind === "mix" || saved.releaseId === "mixes" || playId === "mixes") {
+      return restoreMix(saved);
+    }
+    return playRelease(saved.releaseId, saved.trackId, { autoplay: false, stage: false }).then(function () {
+      return seekWhenReady(saved.time || 0);
+    }).then(function () {
+      finishRestore(saved);
+    });
   }
 
   function getState() {
@@ -2092,6 +2807,8 @@
     bindListenUI(document);
     // Prefetch catalog so the first tap can start playback in-gesture on iOS.
     loadCatalog().catch(function () {});
+    measureDock();
+    window.addEventListener("resize", measureDock);
     hydrateFromURL();
     var room = document.getElementById("room");
     if (!room || !room.hasAttribute("data-ipod")) {

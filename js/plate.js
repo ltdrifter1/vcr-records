@@ -228,11 +228,53 @@
     }, 1800);
   }
 
+  function withSleeveDrop(run) {
+    var sleeve = plate.querySelector(".listen-sleeve");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!sleeve || reduce || typeof document.startViewTransition !== "function") {
+      run();
+      return;
+    }
+    sleeve.style.viewTransitionName = "cc-sleeve";
+    var ran = false;
+    var once = function () {
+      if (ran) return;
+      ran = true;
+      run();
+    };
+    var clear = function () {
+      sleeve.style.viewTransitionName = "";
+      var jewel = document.querySelector("#vcr-player .vcr-player__jewel");
+      if (jewel) jewel.style.viewTransitionName = "";
+    };
+    try {
+      var vt = document.startViewTransition(function () {
+        sleeve.style.viewTransitionName = "none";
+        var dock = document.getElementById("vcr-player");
+        var jewel = dock && dock.querySelector(".vcr-player__jewel");
+        if (dock) {
+          dock.classList.add("is-visible");
+          document.body.classList.add("has-vcr-player");
+        }
+        if (jewel) jewel.style.viewTransitionName = "cc-sleeve";
+        once();
+      });
+      vt.finished.then(clear, clear);
+    } catch (err) {
+      clear();
+      once();
+    }
+  }
+
   [playBtn, hitBtn].forEach(function (btn) {
     if (!btn) return;
     btn.addEventListener("click", function (e) {
       e.preventDefault();
-      playNow();
+      var st = window.VCRPlayer && VCRPlayer.getState && VCRPlayer.getState();
+      var id = playTarget();
+      var same = st && st.track && (st.track.releaseId === id || st.track.releaseId === featured.id || st.track.releaseId === onAir.id);
+      if (st && st.playing && same) playNow();
+      else withSleeveDrop(playNow);
     });
   });
 
