@@ -39,7 +39,7 @@
       kicker: "sunday recovery",
       title: "Love Deluxe",
       artist: "Sade",
-      dek: "Sade, 1992. The record I leave on when people are still in the apartment.",
+      dek: "Sade's fourth album, Epic, 26 October 1992. Quiet, on this record, is a decision with a rhythm section under it.",
       image: "news-love-deluxe.webp",
       spec: ["1992", "epic", "lp"]
     },
@@ -48,7 +48,7 @@
       kicker: "monday rain",
       title: "Dummy",
       artist: "Portishead",
-      dek: "Portishead on a Cumberland afternoon, rain on the glass. I still start people here.",
+      dek: "Portishead's debut, Go! Beat, 22 August 1994: a Bristol album that made the sample feel like a voice.",
       image: "news-dummy.webp",
       spec: ["1994", "go! beat", "lp"]
     },
@@ -57,7 +57,7 @@
       kicker: "tuesday afters",
       title: "Nobody Asked What to Put On",
       artist: "Night Shift",
-      dek: "The club photo is a lie with good lighting. The night starts when somebody puts a record on and nobody takes a vote.",
+      dek: "The photograph is the brochure. The night that matters starts when someone plays a record and nobody votes on it.",
       image: "news-afters.webp",
       spec: ["afters", "no vote"]
     },
@@ -66,7 +66,7 @@
       kicker: "wednesday loops",
       title: "Donuts",
       artist: "J Dilla",
-      dek: "Put this on when your loops feel too clean, when everything lands on the grid like it was afraid to be late to its own party.",
+      dek: "J Dilla's Donuts, Stones Throw, 7 February 2006: thirty-one short instrumentals, released three days before he died.",
       image: "news-donuts.webp",
       spec: ["2006", "stones throw", "lp"]
     },
@@ -75,7 +75,7 @@
       kicker: "thursday cinema",
       title: "The Last Emperor",
       artist: "Ryuichi Sakamoto",
-      dek: "Sakamoto, off the movie. I put it on when the apartment needs a temperature, not a plot.",
+      dek: "Sakamoto, Byrne, and Cong Su scored The Last Emperor in 1987. The music holds up with the film turned off.",
       image: "news-last-emperor.webp",
       spec: ["1987", "virgin", "ost"]
     },
@@ -93,7 +93,7 @@
       kicker: "saturday door",
       title: "She Showed Up",
       artist: "Lorde",
-      dek: "Mary’s Underground threw a Lorde night, and then Lorde walked in and skipped the green room.",
+      dek: "On 25 May 2025 Lorde stood in the crowd at Mary's Underground in Sydney for a night of her own song.",
       image: "news-showed-up.webp",
       spec: ["live", "no green room"]
     }
