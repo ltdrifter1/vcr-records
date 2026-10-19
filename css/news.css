@@ -3994,3 +3994,142 @@ html body.news-story .archive-note {
   .issue-card img { max-height: none; aspect-ratio: 4 / 3; }
 }
 
+/* Listen card — click loads the player. The stage height is reserved. */
+.listen-card {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 28px;
+}
+.listen-card-stage {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: #f4f2ee;
+  border: 1px solid rgba(17, 17, 17, .18);
+}
+.listen-card-hit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.listen-card-meta { min-width: 0; }
+.listen-card-cat,
+.listen-card-cue,
+.listen-card-links,
+.listen-card-meta em {
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #5c5c5a;
+}
+.listen-card-cat { display: block; margin-bottom: 6px; }
+.listen-card-meta strong {
+  display: block;
+  font-family: var(--zine-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.listen-card-meta em { display: block; margin-top: 6px; }
+.listen-card-cue { flex: none; }
+.listen-card-stage iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.listen-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 8px 0 0;
+}
+.listen-card-links a { color: inherit; }
+
+.library-search,
+.start-here,
+.library-index {
+  width: min(820px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+.library-search { margin-top: 8px; margin-bottom: 28px; }
+.library-search label,
+.library-search-status {
+  display: block;
+  margin: 0 0 8px;
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #5c5c5a;
+}
+.library-search input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid #111;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--zine-body);
+  font-size: 18px;
+  line-height: 1.3;
+}
+.library-search input:focus { outline: 1px solid #111; outline-offset: 4px; }
+.library-search-status { margin-top: 8px; }
+.library-dim { display: none !important; }
+.start-here { margin-top: 56px; }
+.start-here > p,
+.library-index > p {
+  margin: 0 0 8px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.library-index h2 {
+  margin: 36px 0 0;
+  font-family: var(--zine-display);
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.zine--home .home-issue {
+  width: min(820px, 100%);
+  margin: 18px auto 8px;
+}
+.zine--home .home-issue .issue-contents { margin-top: 36px; }
+.start-here .issue-toc span,
+.home-issue .issue-toc span {
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #5c5c5a;
+}
+@media (max-width: 699px) {
+  .listen-card-meta strong { font-size: 18px; }
+  .listen-card-hit { gap: 10px; padding: 10px 12px; }
+}
+

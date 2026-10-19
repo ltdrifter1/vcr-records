@@ -177,6 +177,63 @@
     return path;
   }
 
+  function listenCard(article) {
+    var listen = article && article.listen;
+    if (!listen || !listen.embed || !listen.url) return "";
+    var height = Number(listen.embedHeight) || (listen.kind === "mix" ? 166 : 120);
+    var kind = listen.kind === "mix" ? "soundcloud" : "bandcamp";
+    var label = "Play " + (listen.title || "") + " by " + (listen.artist || "");
+    return (
+      '<div class="listen-card">' +
+      '<p class="zine-desk-kicker">listen</p>' +
+      '<div class="listen-card-stage" data-embed-kind="' +
+      esc(kind) +
+      '" style="height:' +
+      height +
+      'px">' +
+      '<button type="button" class="listen-card-hit" data-listen-play data-embed="' +
+      esc(listen.embed) +
+      '" aria-label="' +
+      esc(label) +
+      '">' +
+      '<span class="listen-card-meta">' +
+      '<span class="listen-card-cat">' +
+      esc(listen.catalogue || "") +
+      "</span>" +
+      "<strong>" +
+      esc(listen.title || "") +
+      "</strong>" +
+      "<em>" +
+      esc(listen.artist || "") +
+      "</em></span>" +
+      '<span class="listen-card-cue">play</span>' +
+      "</button></div>" +
+      '<p class="listen-card-links">' +
+      '<a href="' +
+      esc(listen.url) +
+      '" rel="noopener noreferrer" target="_blank">the recording</a>' +
+      (listen.page ? '<a href="' + esc(listen.page) + '">catalogue</a>' : "") +
+      "</p></div>"
+    );
+  }
+
+  function bindListen(root) {
+    var buttons = (root || document).querySelectorAll("[data-listen-play]");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", function (event) {
+        var btn = event.currentTarget;
+        var stage = btn.parentNode;
+        if (!stage || stage.querySelector("iframe")) return;
+        var frame = document.createElement("iframe");
+        frame.src = btn.getAttribute("data-embed");
+        frame.title = btn.getAttribute("aria-label") || "Listen";
+        frame.setAttribute("allow", "autoplay; encrypted-media; fullscreen");
+        frame.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+        stage.replaceChild(frame, btn);
+      });
+    }
+  }
+
   function injectStoryDesk(articles) {
     var article = document.querySelector("[data-zine-story]") || document.querySelector(".news-article");
     if (!article || document.querySelector(".zine-story-desk")) return;
@@ -185,7 +242,6 @@
     desk.className = "zine-story-desk";
     desk.setAttribute("aria-label", "Also on the desk");
 
-    var pick = tonightPick();
     var slug = storySlug();
     var related = (articles || []).filter(function (a) {
       if (a.archived) return false;
@@ -229,33 +285,13 @@
       })
       .join("");
 
+    var current = null;
+    for (var c = 0; c < (articles || []).length; c++) {
+      if (articles[c].slug === slug) current = articles[c];
+    }
+
     desk.innerHTML =
-      '<div class="zine-tonight zine-tonight--story" data-tonight>' +
-      '<p class="zine-desk-kicker">tonight\'s record</p>' +
-      '<a class="zine-tonight-card" data-tonight-link href="' +
-      pick.slug +
-      '">' +
-      '<img data-tonight-img src="' +
-      asset(pick.image) +
-      '" alt="" width="1400" height="1400"/>' +
-      "<div>" +
-      '<p class="zine-tonight-night" data-tonight-kicker>' +
-      pick.kicker +
-      "</p>" +
-      '<strong data-tonight-title>' +
-      pick.title +
-      "</strong>" +
-      '<em data-tonight-artist>' +
-      pick.artist +
-      "</em>" +
-      '<p class="zine-spec" data-tonight-spec>' +
-      specMarkup(pick.spec) +
-      "</p>" +
-      '<span data-tonight-dek>' +
-      pick.dek +
-      "</span>" +
-      "<b>put it on →</b>" +
-      "</div></a></div>" +
+      listenCard(current) +
       '<div class="zine-also">' +
       '<p class="zine-desk-kicker">also on the desk</p>' +
       '<div class="zine-also-list">' +
@@ -264,6 +300,7 @@
 
     if (nav) article.insertBefore(desk, nav);
     else article.appendChild(desk);
+    bindListen(desk);
 
     if (!article.querySelector(".zine-letters")) {
       article.insertBefore(lettersEl(), nav || null);
@@ -400,10 +437,79 @@
     root.innerHTML = list.map(homePostHtml).join("");
   }
 
+  function bindLibrarySearch() {
+    var form = document.querySelector("[data-library-search]");
+    if (!form) return;
+    var input = form.querySelector("input");
+    var status = document.querySelector("[data-library-status]");
+    if (!input) return;
+    loadNews(function (articles) {
+      var index = (articles || []).map(function (a) {
+        return {
+          slug: a.slug,
+          text: [a.headline, a.dek, a.format, a.kicker, (a.artists || []).join(" "), (a.places || []).join(" ")]
+            .join(" ")
+            .toLowerCase()
+        };
+      });
+      function rowFor(slug) {
+        for (var i = 0; i < index.length; i++) if (index[i].slug === slug) return index[i];
+        return null;
+      }
+      function slugOf(el) {
+        var link = el.querySelector("a[href*='/news/']");
+        if (!link) return "";
+        var href = link.getAttribute("href") || "";
+        if (href.charAt(href.length - 1) === "/") href = href.slice(0, -1);
+        return href;
+      }
+      function apply() {
+        var terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        var items = document.querySelectorAll(".issue-cover, .issue-toc li, .catalogue-list li, .start-here li");
+        var seen = {};
+        var shown = 0;
+        for (var i = 0; i < items.length; i++) {
+          var el = items[i];
+          var slug = slugOf(el);
+          if (!slug || slug === "/news" || slug.indexOf("/news/") !== 0) continue;
+          if (slug.indexOf("/news/archive") === 0 || slug.indexOf("/news/artists") === 0 || slug.indexOf("/news/places") === 0 || slug.indexOf("/news/series") === 0 || slug.indexOf("/news/issue") === 0) continue;
+          var row = rowFor(slug);
+          var ok = !terms.length;
+          if (!ok && row) {
+            ok = true;
+            for (var t = 0; t < terms.length; t++) {
+              if (row.text.indexOf(terms[t]) === -1) ok = false;
+            }
+          }
+          el.classList.toggle("library-dim", !ok);
+          if (ok && !seen[slug]) {
+            seen[slug] = true;
+            shown++;
+          }
+        }
+        var blocks = document.querySelectorAll(".issue-contents > section, .back-catalogue > section, .start-here");
+        for (var b = 0; b < blocks.length; b++) {
+          var live = blocks[b].querySelector("li:not(.library-dim)");
+          blocks[b].classList.toggle("library-dim", terms.length > 0 && !live);
+        }
+        if (status) {
+          status.hidden = !terms.length;
+          status.textContent = !terms.length ? "" : shown ? shown + " in the library" : "Nothing under that name.";
+        }
+      }
+      input.addEventListener("input", apply);
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        apply();
+      });
+    });
+  }
+
   ensureStoryFolio();
   stampDates();
   fillTonight();
   ensureLettersOnIndex();
+  bindLibrarySearch();
 
   var homePosts = document.querySelector("[data-zine-posts]");
   var story = document.body.classList.contains("news-story") || document.querySelector(".news-article");

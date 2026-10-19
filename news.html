@@ -117,7 +117,7 @@
   <link rel="stylesheet" href="css/site.css?v=st33"/>
   <link rel="stylesheet" href="css/station.css?v=st33"/>
   <link rel="stylesheet" href="css/fx.css?v=st33"/>
-  <link rel="stylesheet" href="css/news.css?v=st37"/>
+  <link rel="stylesheet" href="css/news.css?v=st38"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
@@ -195,11 +195,18 @@
         </div>
         <div class="zine-folio">
           <nav class="zine-cols" aria-label="In the issue">
-            <a href="/news/stars-for-the-floor">Stars</a>
+            <a href="/news/series/stars-for-the-floor">Stars</a>
+            <a href="/news/artists">Artists</a>
+            <a href="/news/places">Places</a>
             <a href="#desk">Write the Desk</a>
           </nav>
         </div>
       </header>
+    <form class="library-search" role="search" data-library-search action="/news">
+      <label for="library-q">Search the library</label>
+      <input id="library-q" type="search" name="q" placeholder="Headline, artist, city, format" autocomplete="off" enterkeyhint="search"/>
+      <p class="library-search-status" data-library-status hidden></p>
+    </form>
 
     <article class="issue-cover">
       <p class="issue-kicker">Night Shift · Issue 01 · October 2026</p>
@@ -369,6 +376,52 @@
         </form>
       </aside>
     </div>
+    <section class="start-here" aria-labelledby="start-here-title">
+      <h2 id="start-here-title">Start here</h2>
+      <p>Ten long reads worth keeping. The issue is above. This shelf is the library.</p>
+      <ol class="issue-toc">
+        <li>
+          <a href="/news/deep-sleep">Deep Sleep</a>
+          <span>Feature</span>
+        </li>
+        <li>
+          <a href="/news/rupture-at-twenty">Signals From the Heart of the Rave</a>
+          <span>Feature</span>
+        </li>
+        <li>
+          <a href="/news/the-skinny-last-issue">Last Issue</a>
+          <span>Feature</span>
+        </li>
+        <li>
+          <a href="/news/romford-kept-the-receipts">Romford Kept the Receipts</a>
+          <span>Feature</span>
+        </li>
+        <li>
+          <a href="/news/crystal-tears-on-the-westside">Crystal Tears on the Westside</a>
+          <span>Review</span>
+        </li>
+        <li>
+          <a href="/news/still-looking-for-the-warehouse">Still Looking for the Warehouse</a>
+          <span>Feature</span>
+        </li>
+        <li>
+          <a href="/news/radial-wants-the-midsize-room">Radial Wants the Midsize Room</a>
+          <span>Scene Report</span>
+        </li>
+        <li>
+          <a href="/news/the-missing-p">The Missing P</a>
+          <span>Review</span>
+        </li>
+        <li>
+          <a href="/news/they-settled-it-at-afterhours">They Settled It at Afterhours</a>
+          <span>Essay</span>
+        </li>
+        <li>
+          <a href="/news/cobalt-party-like-the-lease-is-ending">Party Like the Lease Is Ending</a>
+          <span>Scene Report</span>
+        </li>
+      </ol>
+    </section>
     <section class="back-catalogue" id="back-catalogue">
       <h2>Back Catalogue</h2>
       <p>Earlier pieces from the desk, grouped by year. They are not part of a numbered issue.</p>
@@ -643,7 +696,7 @@
         </ol>
       </section>
     </section>
-    <p class="issue-jump"><a href="/news/issues">All issues</a><a href="/news/archive">From the archive</a></p>
+    <p class="issue-jump"><a href="/news/issues">All issues</a><a href="/news/archive">From the archive</a><a href="/news/artists">Artists</a><a href="/news/places">Places</a><a href="/news/series/stars-for-the-floor">Stars</a></p>
   </div>
 </main>
 
@@ -681,7 +734,7 @@
   </div>
 </footer>
 
-<script src="js/zine.js"></script>
+<script src="js/zine.js?v=st38"></script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js?v=st35"></script>
