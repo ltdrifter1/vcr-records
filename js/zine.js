@@ -188,6 +188,7 @@
     var pick = tonightPick();
     var slug = storySlug();
     var related = (articles || []).filter(function (a) {
+      if (a.archived) return false;
       return a.slug !== slug;
     });
     var typeEl = article.querySelector(".news-kicker span");
