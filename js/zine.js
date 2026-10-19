@@ -166,7 +166,7 @@
     var p = document.createElement("p");
     p.className = "zine-story-folio";
     p.innerHTML =
-      "<span>vol. xxii · vancouver</span>" +
+      "<span>night shift</span>" +
       "<span>" + desk + "</span>";
     crumbs.after(p);
   }
