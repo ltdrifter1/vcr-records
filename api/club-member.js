@@ -13,6 +13,12 @@ const {
   redisConfig,
 } = require("../lib/credit-ledger");
 const { sendMail, welcomeEmail } = require("../lib/mailer");
+const {
+  resolveProfileWrite,
+  higherLevel,
+  layerForLevel,
+  normalizeLevel,
+} = require("../lib/membership");
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -65,12 +71,6 @@ function memberNumberFromEmail(email) {
   }
   const n = (hash % 9000) + 1000;
   return String(n).padStart(4, "0");
-}
-
-function layerForLevel(level) {
-  if (level === "premium") return "DIGITAL + PHYSICAL";
-  if (level === "club") return "DIGITAL";
-  return "CATALOG";
 }
 
 function profileFromCustomer(customer, email) {
@@ -134,6 +134,66 @@ async function redisGet(email) {
   }
 }
 
+/**
+ * Apply Club or Premium after Stripe has settled the Checkout Session.
+ * Never lowers an existing paid level.
+ */
+async function activatePaidMembership(secret, { email, customerId, level, displayName }) {
+  const incoming = normalizeLevel(level);
+  if (incoming !== "club" && incoming !== "premium") {
+    return { changed: false, level: "free", profile: null };
+  }
+  const customer = customerId
+    ? await stripeRequest(secret, "GET", `/customers/${customerId}`)
+    : await findOrCreateCustomer(secret, email);
+  const existing = normalizeLevel(customer.metadata && customer.metadata.club_level);
+  const applied = higherLevel(existing, incoming);
+  const memberNumber =
+    (customer.metadata && customer.metadata.club_member_number) ||
+    memberNumberFromEmail(email || customer.email);
+  const meta = {
+    "metadata[club_level]": applied,
+    "metadata[club_member]": "1",
+    "metadata[club_layer]": layerForLevel(applied),
+    "metadata[club_member_number]": memberNumber,
+  };
+  const name = String(displayName || "").trim().slice(0, 40);
+  if (name) meta["metadata[club_display_name]"] = name;
+  if (!(customer.metadata && customer.metadata.club_member_since)) {
+    meta["metadata[club_member_since]"] = new Date().toISOString();
+  }
+  const updated = await stripeRequest(secret, "POST", `/customers/${customer.id}`, meta);
+  const profileEmail = normalizeEmail(email || updated.email || customer.email);
+  const profile = profileFromCustomer(updated, profileEmail);
+  if (isValidEmail(profileEmail)) await redisGetSet(profileEmail, profile);
+  return { changed: applied !== existing, level: applied, profile };
+}
+
+/** Club is a yearly subscription. Ending it returns that customer to Free. */
+async function revokeClubSubscription(secret, subscription) {
+  const subLevel = subscription && subscription.metadata && subscription.metadata.club_level;
+  if (subLevel !== "club") return { changed: false };
+  const customerId =
+    typeof subscription.customer === "string"
+      ? subscription.customer
+      : subscription.customer && subscription.customer.id;
+  if (!customerId) return { changed: false };
+  const customer = await stripeRequest(secret, "GET", `/customers/${customerId}`);
+  if (normalizeLevel(customer.metadata && customer.metadata.club_level) !== "club") {
+    return { changed: false };
+  }
+  const updated = await stripeRequest(secret, "POST", `/customers/${customerId}`, {
+    "metadata[club_level]": "free",
+    "metadata[club_layer]": layerForLevel("free"),
+    "metadata[club_member]": "1",
+  });
+  const email = normalizeEmail(updated.email || "");
+  if (isValidEmail(email)) {
+    await redisGetSet(email, profileFromCustomer(updated, email));
+  }
+  return { changed: true, email };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -159,18 +219,20 @@ module.exports = async function handler(req, res) {
         });
       }
 
+      if (secret) {
+        const list = await stripeRequest(secret, "GET", "/customers", {
+          email,
+          limit: 1,
+        });
+        const customer = list.data && list.data[0];
+        const profile = profileFromCustomer(customer, email);
+        await redisGetSet(email, profile);
+        return json(res, 200, profile);
+      }
+
       const cached = await redisGet(email);
       if (cached) return json(res, 200, cached);
-
-      if (!secret) {
-        return json(res, 200, profileFromCustomer(null, email));
-      }
-      const list = await stripeRequest(secret, "GET", "/customers", {
-        email,
-        limit: 1,
-      });
-      const customer = list.data && list.data[0];
-      return json(res, 200, profileFromCustomer(customer, email));
+      return json(res, 200, profileFromCustomer(null, email));
     }
 
     if (req.method === "POST") {
@@ -195,15 +257,25 @@ module.exports = async function handler(req, res) {
       const displayName = String(body.displayName || "")
         .trim()
         .slice(0, 40);
-      const level = ["free", "club", "premium"].includes(body.level)
-        ? body.level
-        : "free";
       const memberNumber = memberNumberFromEmail(email);
 
       let customer = null;
       let isNewMember = true;
+      let level = "free";
       if (secret) {
         customer = await findOrCreateCustomer(secret, email);
+        const decision = resolveProfileWrite(
+          customer.metadata && customer.metadata.club_level,
+          body.level
+        );
+        if (!decision.ok) {
+          return json(res, 402, {
+            error: "Club and Premium start after checkout.",
+            code: decision.code,
+            level: decision.level,
+          });
+        }
+        level = decision.level;
         isNewMember = !(customer.metadata && customer.metadata.club_member_since);
         const meta = {
           "metadata[club_level]": level,
@@ -221,6 +293,16 @@ module.exports = async function handler(req, res) {
           `/customers/${customer.id}`,
           meta
         );
+      } else {
+        const decision = resolveProfileWrite("free", body.level);
+        if (!decision.ok) {
+          return json(res, 402, {
+            error: "Club and Premium start after checkout.",
+            code: decision.code,
+            level: decision.level,
+          });
+        }
+        level = decision.level;
       }
 
       const profile = profileFromCustomer(
@@ -264,3 +346,5 @@ module.exports = async function handler(req, res) {
 
 module.exports.memberNumberFromEmail = memberNumberFromEmail;
 module.exports.layerForLevel = layerForLevel;
+module.exports.activatePaidMembership = activatePaidMembership;
+module.exports.revokeClubSubscription = revokeClubSubscription;

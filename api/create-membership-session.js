@@ -96,10 +96,6 @@ async function resolveRecurringPrice(secret, sku, product, currency) {
   return null;
 }
 
-function layerForLevel(level) {
-  return level === "premium" ? "DIGITAL + PHYSICAL" : "DIGITAL";
-}
-
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -179,16 +175,13 @@ module.exports = async function handler(req, res) {
 
   try {
     const customer = await findOrCreateCustomer(secret, email);
-    const memberMeta = {
-      "metadata[club_level]": level,
-      "metadata[club_display_name]": displayName || "",
-      "metadata[club_member]": "1",
-      "metadata[club_layer]": layerForLevel(level),
-    };
-    if (!(customer.metadata && customer.metadata.club_member_since)) {
-      memberMeta["metadata[club_member_since]"] = new Date().toISOString();
+    // Member rate is written by the webhook after payment settles.
+    // Saving a display name here does not grant Club or Premium.
+    if (displayName) {
+      await stripeRequest(secret, "POST", `/customers/${customer.id}`, {
+        "metadata[club_display_name]": displayName,
+      });
     }
-    await stripeRequest(secret, "POST", `/customers/${customer.id}`, memberMeta);
 
     // —— Club: fixed $5 / year subscription ——
     if (level === "club") {
