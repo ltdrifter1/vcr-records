@@ -180,49 +180,77 @@
         'Your order is confirmed. Keep an eye on your inbox for the Stripe receipt.';
     }
 
-    if (isMember) {
-      document.getElementById('tyTitle').textContent = 'Your place is reserved.';
-      document.getElementById('msg').textContent =
-        level === 'premium'
-          ? 'Premium is active. 50% off all music on this email, plus Club Credit toward cassettes and pressings you choose. Nothing ships until you pick.'
-          : 'Club is active. 30% off all music in the library.';
-      document.getElementById('fulfillNote').textContent =
-        level === 'premium'
-          ? 'Browse the library, then apply Club Credit at checkout with the same email.'
-          : 'Renews yearly. Browse the library whenever you are ready — 30% off music.';
-      document.getElementById('tyPrimary').href = '/account';
-      document.getElementById('tyPrimary').textContent = 'View your account';
+    function storedEmail() {
+      var profile = window.ClubMember && ClubMember.readProfile();
+      if (profile && profile.email) return profile.email;
+      try {
+        return sessionStorage.getItem('club_checkout_email')
+          || localStorage.getItem('club_credit_email')
+          || '';
+      } catch (e) {
+        return '';
+      }
+    }
 
-      var profile = window.ClubMember ? ClubMember.readProfile() : null;
-      if (!profile) {
-        try { profile = JSON.parse(localStorage.getItem('club_member_profile') || 'null'); } catch (e) {}
-      }
-      if (profile && window.ClubMember) {
-        ClubMember.writeProfile({
-          email: profile.email,
-          displayName: profile.displayName || '',
-          level: level === 'premium' ? 'premium' : (level === 'club' ? 'club' : (profile.level || 'club')),
-          memberNumber: profile.memberNumber
-        });
-        profile = ClubMember.readProfile();
-      }
+    function storedName() {
+      var profile = window.ClubMember && ClubMember.readProfile();
+      if (profile && profile.displayName) return profile.displayName;
+      try { return sessionStorage.getItem('club_checkout_name') || ''; } catch (e) { return ''; }
+    }
+
+    function paintMember(profile, memberLevel) {
       var card = document.getElementById('tyCard');
       card.hidden = false;
-      document.getElementById('tyLevel').textContent = level === 'premium' ? 'PREMIUM' : 'CLUB';
-      document.getElementById('tyName').textContent =
-        String((profile && profile.displayName) || (profile && profile.email) || 'Member').toUpperCase();
-      var email = (profile && profile.email) || '';
+      var paid = memberLevel === 'premium' ? 'premium' : 'club';
+      document.getElementById('tyLevel').textContent = paid === 'premium' ? 'PREMIUM' : 'CLUB';
+      var email = (profile && profile.email) || storedEmail();
+      var name = (profile && profile.displayName) || storedName() || email || 'Member';
+      document.getElementById('tyName').textContent = String(name).toUpperCase();
       var number = (profile && profile.memberNumber) ||
-        (window.ClubMember ? ClubMember.memberNumberFromEmail(email || 'member') : '0000');
-      if (!profile || !profile.memberNumber) {
-        var hash = 0;
-        var s = email || 'member';
-        for (var i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
-        number = String((hash % 9000) + 1000).padStart(4, '0');
-      }
+        (window.ClubMember && email ? ClubMember.memberNumberFromEmail(email) : '0000');
       document.getElementById('tyNumber').textContent = number;
       document.getElementById('tyLayer').textContent =
-        level === 'premium' ? 'DIGITAL + PHYSICAL' : 'DIGITAL';
+        paid === 'premium' ? 'DIGITAL + PHYSICAL' : 'DIGITAL';
+    }
+
+    if (isMember && sid) {
+      var asked = level === 'premium' ? 'premium' : 'club';
+      document.getElementById('tyTitle').textContent = 'Your place is reserved.';
+      document.getElementById('msg').textContent =
+        'The member rate turns on for this email after Stripe confirms the payment.';
+      document.getElementById('fulfillNote').textContent =
+        asked === 'premium'
+          ? 'Premium is 50% off all music, plus Club Credit toward cassettes and pressings you choose.'
+          : 'Club is 30% off all music and renews yearly.';
+      document.getElementById('tyPrimary').href = '/account';
+      document.getElementById('tyPrimary').textContent = 'View your account';
+      paintMember(window.ClubMember && ClubMember.readProfile(), asked);
+
+      (async function confirmMembership() {
+        var email = storedEmail();
+        if (!email || !window.ClubMember) return;
+        var attempt;
+        for (attempt = 0; attempt < 8; attempt++) {
+          try {
+            var res = await fetch('/api/club-member?email=' + encodeURIComponent(email));
+            var data = await res.json().catch(function () { return null; });
+            if (data && (data.level === 'club' || data.level === 'premium')) {
+              ClubMember.writeProfile(data);
+              paintMember(data, data.level);
+              document.getElementById('msg').textContent =
+                data.level === 'premium'
+                  ? 'Premium is active. 50% off all music on this email, plus Club Credit toward cassettes and pressings you choose.'
+                  : 'Club is active. 30% off all music in the library.';
+              document.getElementById('fulfillNote').textContent =
+                data.level === 'premium'
+                  ? 'Browse the library, then apply Club Credit at checkout with the same email.'
+                  : 'Renews yearly. Browse the library whenever you are ready — 30% off music.';
+              return;
+            }
+          } catch (e) {}
+          await new Promise(function (resolve) { setTimeout(resolve, 1500); });
+        }
+      })();
     }
   </script>
 </body>

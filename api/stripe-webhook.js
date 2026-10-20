@@ -1,16 +1,27 @@
 /**
- * Stripe webhook — verify signature, handle checkout.session.completed.
+ * Stripe webhook — verify signature, then fulfill settled Checkout Sessions.
  *
  * Env: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
- * Configure endpoint in Dashboard → Developers → Webhooks:
- *   https://www.clubcopy.ca/api/stripe-webhook
- * Events: checkout.session.completed
+ * Endpoint: https://www.clubcopy.ca/api/stripe-webhook
+ * Events:
+ *   checkout.session.completed
+ *   checkout.session.async_payment_succeeded
+ *   checkout.session.async_payment_failed
+ *   customer.subscription.deleted
+ *   customer.subscription.updated
  *
+ * Club / Premium member rates are written here, after payment_status is paid.
  * Digital: log / forward for email fulfillment (download links).
  * Physical: packing notification (email inbox for now).
- * Club join: grant $25 Club Credit (idempotent).
+ * Premium: grant Club Credit (idempotent).
  * Club Credit spend: debit ledger when metadata.club_credit_cents is set.
  */
+const { sessionPaymentSettled } = require("../lib/membership");
+const {
+  activatePaidMembership,
+  revokeClubSubscription,
+  memberNumberFromEmail,
+} = require("./club-member");
 const crypto = require("crypto");
 const {
   CREDIT_GRANT_SKUS,
@@ -23,15 +34,6 @@ const {
   PREMIUM_MIN_CENTS,
 } = require("../lib/credit-ledger");
 const { sendMail, welcomeEmail } = require("../lib/mailer");
-
-function memberNumberFromEmail(email) {
-  let hash = 0;
-  const s = normalizeEmail(email);
-  for (let i = 0; i < s.length; i++) {
-    hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
-  }
-  return String((hash % 9000) + 1000).padStart(4, "0");
-}
 
 function timingSafeEqual(a, b) {
   const bufA = Buffer.from(a);
@@ -180,11 +182,42 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    if (event.type === "checkout.session.completed") {
+    const secret = process.env.STRIPE_SECRET_KEY;
+    const sessionEvents = new Set([
+      "checkout.session.completed",
+      "checkout.session.async_payment_succeeded",
+    ]);
+
+    if (sessionEvents.has(event.type)) {
       const session = event.data && event.data.object;
+      if (!sessionPaymentSettled(session)) {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        return res.end(JSON.stringify({ received: true, fulfilled: false }));
+      }
+
       const skus = (session.metadata && session.metadata.skus) || "";
       const hasPhysical =
         session.metadata && session.metadata.has_physical === "1";
+      const clubLevel = session.metadata && session.metadata.club_level;
+      const email = sessionEmail(session);
+      let activated = null;
+
+      if (
+        secret &&
+        (clubLevel === "club" || clubLevel === "premium") &&
+        isValidEmail(email)
+      ) {
+        const customerId =
+          typeof session.customer === "string" ? session.customer : "";
+        activated = await activatePaidMembership(secret, {
+          email,
+          customerId,
+          level: clubLevel,
+          displayName:
+            (session.metadata && session.metadata.club_display_name) || "",
+        });
+      }
 
       let credit = null;
       try {
@@ -203,26 +236,19 @@ module.exports = async function handler(req, res) {
         return res.end("Club Credit ledger error");
       }
 
-      // Confirmed Club / Premium membership → send the welcome email now
-      // that payment has actually cleared.
-      const clubLevel = session.metadata && session.metadata.club_level;
-      if ((clubLevel === "club" || clubLevel === "premium")) {
-        const email = sessionEmail(session);
-        if (isValidEmail(email)) {
-          const mail = welcomeEmail({
-            email,
-            displayName: (session.metadata && session.metadata.club_display_name) || "",
-            level: clubLevel,
-            memberNumber: memberNumberFromEmail(email),
-            creditCents: credit && credit.grant ? credit.grant.balanceCents : 0,
-          });
-          sendMail({ to: email, ...mail }).catch((e) => {
-            console.warn("welcome email failed", e && e.message);
-          });
-        }
+      if (activated && activated.changed && isValidEmail(email)) {
+        const mail = welcomeEmail({
+          email,
+          displayName: (session.metadata && session.metadata.club_display_name) || "",
+          level: activated.level,
+          memberNumber: memberNumberFromEmail(email),
+          creditCents: credit && credit.grant ? credit.grant.balanceCents : 0,
+        });
+        sendMail({ to: email, ...mail }).catch((e) => {
+          console.warn("welcome email failed", e && e.message);
+        });
       }
 
-      // Fulfillment hook: replace with email provider / packing queue.
       console.log(
         JSON.stringify({
           type: "fulfillment",
@@ -232,6 +258,8 @@ module.exports = async function handler(req, res) {
           hasPhysical,
           amountTotal: session.amount_total,
           currency: session.currency,
+          memberLevel: activated ? activated.level : null,
+          memberGranted: !!(activated && activated.changed),
           clubCredit: credit
             ? {
                 granted: credit.grant
@@ -245,6 +273,22 @@ module.exports = async function handler(req, res) {
         })
       );
     }
+
+    if (
+      secret &&
+      (event.type === "customer.subscription.deleted" ||
+        event.type === "customer.subscription.updated")
+    ) {
+      const subscription = event.data && event.data.object;
+      const status = subscription && subscription.status;
+      const ended =
+        event.type === "customer.subscription.deleted" ||
+        status === "canceled" ||
+        status === "unpaid" ||
+        status === "incomplete_expired";
+      if (ended) await revokeClubSubscription(secret, subscription);
+    }
+
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     return res.end(JSON.stringify({ received: true }));
@@ -252,4 +296,10 @@ module.exports = async function handler(req, res) {
     res.statusCode = 500;
     return res.end("Webhook handler error");
   }
+};
+
+module.exports.config = {
+  api: {
+    bodyParser: false,
+  },
 };
