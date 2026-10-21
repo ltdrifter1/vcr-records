@@ -281,6 +281,34 @@ const LISTEN_FOR = {
   "all-night-one-name": "nightshift3",
   "across-the-street": "nightshift1",
   "thirty-years-on-the-calendar": "radio",
+  "leftism": "pitch-black",
+  "jack-your-body": "pitch-black",
+  "dubnobasswithmyheadman": "pitch-black",
+  "aquarius-ep": "summer-madness",
+  "maxinquaye": "classic-jazz",
+  "geogaddi": "summer-madness",
+  "unfinished-sympathy": "summer-madness",
+  "shook-ones-part-ii": "classic-jazz",
+  "hymn-of-the-big-wheel": "summer-madness",
+  "madvillainy": "classic-jazz",
+  "selected-ambient-works-volume-ii": "bliss",
+  "black-secret-technology": "jungle94",
+  "the-thirty-first": "pitch-black",
+  "blue-lines": "summer-madness",
+  "illmatic": "classic-jazz",
+  "music-has-the-right-to-children": "summer-madness",
+  "the-infamous": "classic-jazz",
+  "the-cold-vein": "classic-jazz",
+  "share-the-fall": "jungle96",
+  "inferno-warp": "summer-madness",
+  "no-good-start-the-dance": "jungle94",
+  "new-forms": "jungle96",
+  "the-fat-of-the-land": "jungle94",
+  "tomorrows-harvest": "summer-madness",
+  "criminology": "classic-jazz",
+  "music-for-the-jilted-generation": "jungle94",
+  "funcrusher-plus": "classic-jazz",
+  "snivilisation": "pitch-black",
 };
 
 const ROTATION = [
@@ -605,7 +633,7 @@ const shell = function (opts) {
       <h1>${esc(opts.heading)}</h1>
     </header>
     ${opts.body}
-    <p class="issue-jump"><a href="/news">Issue 01</a><a href="/news/archive">From the archive</a><a href="/news/artists">Artists</a><a href="/news/places">Places</a><a href="/news/series/stars-for-the-floor">Stars</a></p>
+    <p class="issue-jump"><a href="/news">Vol. 10</a><a href="/news/issues">Volumes</a><a href="/news/archive">From the archive</a><a href="/news/artists">Artists</a><a href="/news/places">Places</a><a href="/news/series/stars-for-the-floor">Stars</a></p>
   </div>
 </main>
 <footer class="footer">

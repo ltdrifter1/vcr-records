@@ -591,6 +591,14 @@
     return href;
   }
 
+  function currentVolume(articles) {
+    var current = 0;
+    (articles || []).forEach(function (a) {
+      if (!a.archived && a.volume != null && a.volume !== "" && Number(a.volume) > current) current = Number(a.volume);
+    });
+    return current;
+  }
+
   function fillHomePosts(articles) {
     var root = document.querySelector("[data-zine-posts]");
     if (!root || root.querySelector(".zine-post")) return;
@@ -601,7 +609,7 @@
         return (b.date || "").localeCompare(a.date || "");
       })
       .filter(function (a) {
-        if (a.archived || a.issue !== 1) return false;
+        if (a.archived || Number(a.volume) !== currentVolume(articles)) return false;
         var slug = a.slug || "";
         if (slug.charAt(slug.length - 1) === "/") slug = slug.slice(0, -1);
         return !lead || slug !== lead;
@@ -646,7 +654,7 @@
           var el = items[i];
           var slug = slugOf(el);
           if (!slug || slug === "/news" || slug.indexOf("/news/") !== 0) continue;
-          if (slug.indexOf("/news/archive") === 0 || slug.indexOf("/news/artists") === 0 || slug.indexOf("/news/places") === 0 || slug.indexOf("/news/series") === 0 || slug.indexOf("/news/issue") === 0) continue;
+          if (slug.indexOf("/news/archive") === 0 || slug.indexOf("/news/artists") === 0 || slug.indexOf("/news/places") === 0 || slug.indexOf("/news/series") === 0 || slug.indexOf("/news/issue") === 0 || slug.indexOf("/news/vol-") === 0) continue;
           var row = rowFor(slug);
           var ok = !terms.length;
           if (!ok && row) {
@@ -694,7 +702,7 @@
     if (!av) return 1;
     if (!bv) return -1;
     var n = 0;
-    if (key === "date" || key === "read" || key === "issue") n = Number(av) - Number(bv);
+    if (key === "date" || key === "read" || key === "issue" || key === "volume") n = Number(av) - Number(bv);
     else n = av.localeCompare(bv, undefined, { sensitivity: "base", numeric: true });
     if (n === 0) return 0;
     return dir === "asc" ? n : -n;
@@ -729,7 +737,7 @@
       buttons[i].addEventListener("click", function (event) {
         var nextKey = event.currentTarget.getAttribute("data-sort");
         var nextDir;
-        if (nextKey !== key) nextDir = (nextKey === "date" || nextKey === "read" || nextKey === "issue") ? "desc" : "asc";
+        if (nextKey !== key) nextDir = (nextKey === "date" || nextKey === "read" || nextKey === "issue" || nextKey === "volume") ? "desc" : "asc";
         else nextDir = dir === "asc" ? "desc" : "asc";
         apply(nextKey, nextDir);
       });
@@ -773,12 +781,13 @@
         var cards = index.querySelectorAll(".issue-card");
         for (var i = 0; i < cards.length; i++) {
           var href = cards[i].getAttribute("href") || "";
-          var match = href.match(/issue-(\d+)/);
+          var match = href.match(/vol-(\d+)/) || href.match(/issue-(\d+)/);
           if (!match) continue;
           var number = parseInt(match[1], 10);
           var count = 0;
           for (var a = 0; a < articles.length; a++) {
-            if (Number(articles[a].issue) === number && !articles[a].archived) count++;
+            var vol = articles[a].volume != null && articles[a].volume !== "" ? Number(articles[a].volume) : Number(articles[a].issue);
+            if (vol === number && !articles[a].archived) count++;
           }
           var label = count === 1 ? "1 story" : count + " stories";
           var el = cards[i].querySelector(".issue-count");
