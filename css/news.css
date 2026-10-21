@@ -2942,15 +2942,17 @@ body.news-story .news-page {
   }
   .news-story .news-article .zine-dek,
   .news-story .news-article .zine-spec,
-  .news-story .news-article .news-byline:not(.news-byline--end),
   .news-story .news-body {
     padding-left: 56px;
+  }
+  .news-story .news-article .news-byline:not(.news-byline--end) {
+    padding-left: 0;
   }
   .news-story .news-article .zine-mast .zine-dek {
     padding-left: 56px;
     max-width: 36em;
   }
-  .news-story .news-byline--end { grid-column: 2; padding-left: 56px; }
+  .news-story .news-byline--end { grid-column: 2; padding-left: 0; }
   .news-story .news-nav,
   .news-story .zine-story-desk,
   .news-story .news-related,
@@ -3398,12 +3400,12 @@ body.hero-top.xerox-under-nav .nav-drawer a {
   align-items: center;
   margin: 0;
   color: var(--altar-ink);
-  font-family: Fraunces, "Iowan Old Style", Palatino, serif;
-  font-style: italic;
+  font-family: var(--zine-display);
+  font-style: normal;
   font-weight: 500;
-  font-size: 22px;
-  letter-spacing: -.03em;
-  text-transform: none;
+  font-size: 18px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
 }
 .zine-stars.zine-stars--altar .zine-stars-strip dt::before { content: none; }
 .zine-stars.zine-stars--altar .zine-star-glyph {
@@ -3420,15 +3422,15 @@ body.hero-top.xerox-under-nav .nav-drawer a {
   padding-right: 52px;
 }
 .zine-stars--altar .zine-star-name {
-  font-family: Fraunces, "Iowan Old Style", Palatino, serif;
-  font-style: italic;
-  font-weight: 560;
-  font-size: clamp(24px, 2vw, 28px);
-  line-height: .95;
-  letter-spacing: -.03em;
+  font-family: var(--zine-display);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(20px, 2vw, 24px);
+  line-height: 1;
+  letter-spacing: .03em;
   color: var(--altar-ink);
   text-decoration: none;
-  text-transform: none;
+  text-transform: uppercase;
 }
 .zine-stars--altar a.zine-star-name::after {
   content: "";
@@ -4163,6 +4165,11 @@ html body.news-story .archive-note {
   color: #1a1a1a;
   letter-spacing: .01em;
   overflow-wrap: anywhere;
+}
+.file-info a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Release artifact — one record, flat, with the click-to-load player inside. */
