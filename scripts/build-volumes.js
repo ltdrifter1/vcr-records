@@ -92,11 +92,51 @@ function listenLibrary(articles) {
   return out;
 }
 
-function articleFromPiece(piece, cues) {
+const REMOVED = new Set([
+  "aquarius-ep",
+  "geogaddi",
+  "unfinished-sympathy",
+  "shook-ones-part-ii",
+  "hymn-of-the-big-wheel",
+  "share-the-fall",
+  "no-good-start-the-dance",
+  "tomorrows-harvest",
+]);
+
+const BANNED = [
+  "this page",
+  "this piece",
+  "this essay",
+  "this volume",
+  "this magazine",
+  "this desk",
+  "listed as",
+  "the table",
+  "will not",
+  "the same site",
+  "discography",
+  "wikipedia",
+  "the page",
+  "does not give",
+  "song history",
+];
+
+function assertVoice(piece) {
   const words = wordsOf(piece.body);
-  if (piece.format === "Feature" && words < 900) {
-    throw new Error(piece.id + " is " + words + " words, under a long read");
-  }
+  if (words < 600) throw new Error(piece.id + " is " + words + " words");
+  const blob = [piece.headline, piece.dek]
+    .concat(piece.body.map((part) => (typeof part === "string" ? part : part.h2 || "")))
+    .join("\n")
+    .toLowerCase();
+  BANNED.forEach((phrase) => {
+    const re = new RegExp("\\b" + phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+    if (re.test(blob)) throw new Error(piece.id + " contains “" + phrase + "”");
+  });
+}
+
+function articleFromPiece(piece, cues) {
+  assertVoice(piece);
+  const words = wordsOf(piece.body);
   return {
     id: piece.id,
     slug: "/news/" + piece.id,
@@ -552,9 +592,26 @@ function sitemapUrl(loc, lastmod, extra) {
   return "  <url>\n    <loc>https://www.clubcopy.ca" + loc + "</loc>\n    <lastmod>" + lastmod + "</lastmod>\n" + (extra || "") + "  </url>\n";
 }
 
+function stripSlug(html, slugs) {
+  slugs.forEach((slug) => {
+    const escaped = slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    html = html.replace(new RegExp("\\s*<li\\b[^>]*>[\\s\\S]*?href=\"" + escaped + "\"[\\s\\S]*?</li>", "g"), "");
+    html = html.replace(new RegExp("\\s*<url>\\s*<loc>https://www\\.clubcopy\\.ca" + escaped + "</loc>[\\s\\S]*?</url>", "g"), "");
+  });
+  return html;
+}
+
 function main() {
   const drafted = pieces();
   const news = JSON.parse(read("data/news.json"));
+  const removedSlugs = [];
+  news.articles = news.articles.filter((article) => {
+    if (!REMOVED.has(article.id)) return true;
+    removedSlugs.push(article.slug);
+    const file = path.join(ROOT, "news", article.id + ".html");
+    if (fs.existsSync(file)) fs.unlinkSync(file);
+    return false;
+  });
   const cues = listenLibrary(news.articles);
   const built = drafted.map((piece) => articleFromPiece(piece, cues));
   const byId = new Map(news.articles.map((article) => [article.id, article]));
@@ -662,7 +719,10 @@ function main() {
   const ldMatch = front.match(/<script type="application\/ld\+json">\s*(\{[\s\S]*?"@type": "CollectionPage"[\s\S]*?\})\s*<\/script>/);
   if (!ldMatch) throw new Error("news.html collection json missing");
   const ld = JSON.parse(ldMatch[1]);
-  const have = new Set((ld.mainEntity.itemListElement || []).map((item) => item.url));
+  ld.mainEntity.itemListElement = (ld.mainEntity.itemListElement || []).filter((item) => {
+    return !removedSlugs.some((slug) => String(item.url || "").endsWith(slug));
+  });
+  const have = new Set(ld.mainEntity.itemListElement.map((item) => item.url));
   news.articles.forEach((article) => {
     if (article.archived) return;
     const url = "https://www.clubcopy.ca" + article.slug;
@@ -700,6 +760,12 @@ function main() {
   shell = shell.replace(/content="Issue \| Night Shift"/g, 'content="Volume | Night Shift"');
   write("news/issue.html", shell);
 
+  ["news/artists.html", "news/places.html"].forEach((rel) => write(rel, stripSlug(read(rel), removedSlugs)));
+  fs.readdirSync(path.join(ROOT, "news/series")).forEach((name) => {
+    if (!name.endsWith(".html")) return;
+    const rel = "news/series/" + name;
+    write(rel, stripSlug(read(rel), removedSlugs));
+  });
   mergeIndex("news/artists.html", news.articles, "artists");
   mergeIndex("news/places.html", news.articles, "places");
   fs.readdirSync(path.join(ROOT, "news/series")).forEach((name) => {
@@ -708,7 +774,7 @@ function main() {
     write(rel, read(rel).replace('<a href="/news">Issue 01</a>', '<a href="/news">Vol. 10</a><a href="/news/issues">Volumes</a>'));
   });
 
-  let map = read("sitemap.xml");
+  let map = stripSlug(read("sitemap.xml"), removedSlugs);
   map = map.replace(/(<loc>https:\/\/www\.clubcopy\.ca\/news<\/loc>\s*<lastmod>)[^<]+/, "$12026-10-21");
   map = map.replace(/(<loc>https:\/\/www\.clubcopy\.ca\/news\/issues<\/loc>\s*<lastmod>)[^<]+/, "$12026-10-21");
   const volXml = volumes.slice().reverse().map((record) => sitemapUrl("/news/vol-" + pad(record.number), PUBLISHED, "    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n")).join("");
@@ -739,10 +805,9 @@ function main() {
   write("vercel.json", vercel);
 
   let library = read("scripts/build-zine-library.js");
-  if (!library.includes('leftism: "pitch-black"')) {
-    const lines = built.map((article) => '  "' + article.id + '": "' + drafted.find((piece) => piece.id === article.id).listen + '",').join("\n");
-    library = library.replace('"thirty-years-on-the-calendar": "radio",\n};', '"thirty-years-on-the-calendar": "radio",\n' + lines + "\n};");
-  }
+  const listenLines = built.map((article) => '  "' + article.id + '": "' + drafted.find((piece) => piece.id === article.id).listen + '",').join("\n");
+  if (!/\n  "leftism":[\s\S]*?\n\};/.test(library)) throw new Error("LISTEN_FOR block missing");
+  library = library.replace(/\n  "leftism":[\s\S]*?\n\};/, "\n" + listenLines + "\n};");
   library = library.replace('<a href="/news">Issue 01</a>', '<a href="/news">Vol. 10</a><a href="/news/issues">Volumes</a>');
   write("scripts/build-zine-library.js", library);
 
@@ -758,6 +823,24 @@ function main() {
     if (!html.includes("Vol. " + pad(article.volume))) misses.push(article.id);
   });
   if (misses.length) throw new Error("Volume label missing on " + misses.join(", "));
+
+  const watch = ["Boards of Canada", "Massive Attack", "The Prodigy", "Mobb Deep", "Roni Size", "Tricky", "El-P"];
+  const caps = {};
+  news.articles.forEach((article) => {
+    if (article.archived) return;
+    (article.artists || []).forEach((name) => {
+      if (watch.indexOf(name) === -1) return;
+      if (!caps[name]) caps[name] = [];
+      caps[name].push(article.id);
+    });
+  });
+  Object.keys(caps).forEach((name) => {
+    if (caps[name].length > 2) throw new Error(name + " is on " + caps[name].join(", "));
+  });
+  removedSlugs.forEach((slug) => {
+    const id = slug.split("/").pop();
+    if (fs.existsSync(path.join(ROOT, "news", id + ".html"))) throw new Error(id + " was not removed");
+  });
 
   const report = volumes.map((record) => {
     const stories = storiesFor(news.articles, record.number);
