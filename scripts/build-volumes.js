@@ -724,7 +724,7 @@ function main() {
   if (!vercel.includes('"/news/issue-01"')) {
     vercel = vercel.replace(
       '"redirects": [',
-      '"redirects": [\n    {\n      "source": "/news/issue-01",\n      "destination": "/news/vol-10",\n      "permanent": true\n    },'
+      '"redirects": [\n    {\n      "source": "/news/issue-01",\n      "destination": "/news/vol-10",\n      "statusCode": 301\n    },'
     );
   }
   if (!vercel.includes("/news/vol-:number")) {
