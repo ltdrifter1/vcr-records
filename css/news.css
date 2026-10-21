@@ -4517,6 +4517,94 @@ body.zine-now-on {
     animation: none;
   }
 }
+/* Front page — quiet volume line, hairline around the wordmark, mono sections.
+   The NIGHT / SHIFT blocks stay as they are. Scoped so the home teaser does not move. */
+.news-index .zine-masthead::after { content: none; display: none; }
+.news-index .zine-stamp { display: none; }
+.news-index .zine-wordmark {
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 100%;
+  padding: 12px 14px 14px;
+  border: 1px solid rgba(26, 26, 26, .35);
+}
+.news-index .zine-slug {
+  display: block;
+  margin: 0 0 10px;
+  padding: 0;
+  background: transparent;
+  color: #3a3a38;
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.news-index .zine-slug::after { content: none; display: none; }
+.news-index .zine-slug > span {
+  display: inline;
+  padding: 0;
+  border: 0;
+  white-space: normal;
+}
+.news-index .zine-folio {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid rgba(26, 26, 26, .18);
+  margin-top: 14px;
+}
+.news-index .zine-cols {
+  font-family: var(--zine-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: #1a1a1a;
+}
+.news-index .zine-cols a,
+.news-index .zine-cols-current {
+  color: #1a1a1a;
+  background: transparent;
+  border: 0;
+  padding: 11px 16px 11px 0;
+}
+.news-index .zine-cols a::before { content: none; }
+.news-index .zine-cols-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.news-index .zine-led,
+.zine-led {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: #C6F000;
+  box-shadow: 0 0 6px #C6F000;
+}
+@media (hover: hover) {
+  .news-index .zine-cols a:hover {
+    color: #1a1a1a;
+    background: transparent;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .news-index .zine-cols a:hover::before { content: none; }
+}
+@media (max-width: 559px) {
+  .news-index .zine-wordmark { padding: 10px 10px 12px; }
+  .news-index .zine-slug { font-size: 10px; letter-spacing: .12em; }
+  .news-index .zine-cols { font-size: 10px; letter-spacing: .08em; }
+  .news-index .zine-cols a,
+  .news-index .zine-cols-current { padding: 10px 12px 10px 0; }
+}
+.news-index .library-search { margin-top: 28px; margin-bottom: 8px; }
+html body.news-listing .news-index .issue-contents .issue-toc a {
+  color: #1a1a1a;
+}
+
 @media (max-width: 699px) {
   .file-info { font-size: 10.5px; }
   .file-info div { grid-template-columns: 78px minmax(0, 1fr); gap: 6px; }
