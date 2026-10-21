@@ -123,7 +123,47 @@ assert.strictEqual(jadore.title, "j'adore");
 assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jadore");
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
-  ["pitch-black", "try-to-love-again", "run-it-back", "please-wait", "j-adore"]
+  [
+    "anything-you-can-do",
+    "safe-as",
+    "deeper",
+    "outta-this-mess",
+    "rose-rouge-edit",
+    "pitch-black",
+    "try-to-love-again",
+    "run-it-back",
+    "please-wait",
+    "j-adore",
+  ]
+);
+assert.deepStrictEqual(
+  ["anything-you-can-do", "safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
+    const r = catalog.releases.find((x) => x.id === id);
+    const t = r.tracks[0];
+    return [
+      r.catalogue,
+      r.title,
+      r.artistId,
+      r.kind,
+      r.released,
+      r.page,
+      r.previewTrackId,
+      r.formats.digital.price,
+      r.formats.digital.sku,
+      r.bandcampUrl,
+      t.id,
+      t.duration,
+      t.bandcampTrackId,
+      products[r.formats.digital.sku].unitAmount,
+    ];
+  }),
+  [
+    ["CC019", "Anything You Can Do", "forsberg", "Single", "2026-10-21", "/anything-you-can-do", "aycd-01", 1.5, "dg-anything-you-can-do", "https://forsberg.bandcamp.com/track/anything-you-can-do", "aycd-01", 308, 464578693, 150],
+    ["CC018", "Safe As", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
+    ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
+    ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
+    ["CC015", "Rose Rouge - St Germain (Molly's Hazy Edit) Jorja Smith Version", "forsberg", "Single", "2026-10-18", "/rose-rouge-edit", "rre-01", 1.5, "dg-rose-rouge-edit", "https://forsberg.bandcamp.com/track/rose-rouge-st-germain-mollys-hazy-edit-jorja-smith-version", "rre-01", 237, 4069133099, 150],
+  ]
 );
 
 const pitchBlack = catalog.releases.find((r) => r.id === "pitch-black");
