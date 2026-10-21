@@ -162,6 +162,22 @@ const CUES = {
     url: "https://ltdrifta.bandcamp.com/track/champion-sound",
     embed: bcTrack("24406599"),
   }),
+  "if-ya-want": release({
+    title: "If Ya Want",
+    artist: "L.T. Drifta",
+    catalogue: "CC021",
+    page: "/if-ya-want",
+    url: "https://ltdrifta.bandcamp.com/track/if-ya-want",
+    embed: bcTrack("3952714305"),
+  }),
+  "get-me-down": release({
+    title: "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)",
+    artist: "L.T. Drifta",
+    catalogue: "CC020",
+    page: "/get-me-down",
+    url: "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit",
+    embed: bcTrack("2636373644"),
+  }),
   "three-4-zone": release({
     title: "Three 4 Zone",
     artist: "L.T. Drifta",

@@ -50,11 +50,22 @@ assert.ok(!products["dg-cherry-coloured-funk"]);
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "summer-madness", "three-4-zone"]
+);
+assert.deepStrictEqual(
+  ["if-ya-want", "get-me-down"].map((id) => {
+    const r = catalog.releases.find((x) => x.id === id);
+    const t = r.tracks[0];
+    return [r.catalogue, r.title, r.artist, r.released, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
+  }),
+  [
+    ["CC021", "If Ya Want", "L.T. Drifta", "2026-10-21", "dg-if-ya-want", "https://ltdrifta.bandcamp.com/track/if-ya-want", "iyw-01", 501, 3952714305, 150],
+    ["CC020", "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)", "L.T. Drifta", "2026-10-19", "dg-get-me-down", "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit", "gmd-01", 324, 2636373644, 150],
+  ]
 );
 
 const tellMe = catalog.releases.find((r) => r.id === "tell-me");
