@@ -406,7 +406,6 @@ ${ctas}
 }
 
 const chain = [
-  { slug: "five-records-from-cumberland", headline: fresh["five-records-from-cumberland"].headline },
   { slug: "nightshift-vol-3", headline: fresh["nightshift-vol-3"].headline },
   { slug: "the-strait-is-not-a-scene", headline: fresh["the-strait-is-not-a-scene"].headline }
 ];
@@ -417,7 +416,7 @@ write(
   "news/stars-for-the-floor.html",
   stars.replace(
     '<a href="/news">all issues</a>',
-    `<a href="/news">all issues</a>\n        <a href="/news/five-records-from-cumberland">next: Five Records from Cumberland</a>`
+    `<a href="/news">all issues</a>\n        <a href="/news/nightshift-vol-3">next: NIGHTSHIFT, Vol. 3</a>`
   )
 );
 chain.forEach((item, i) => {
@@ -470,12 +469,10 @@ function insertBeforeLink(html, href, block) {
   if (!html.includes(needle)) throw new Error("toc anchor missing " + href);
   return html.replace(needle, block + needle);
 }
-const five = fresh["five-records-from-cumberland"];
 const mix = fresh["nightshift-vol-3"];
 const essay = fresh["the-strait-is-not-a-scene"];
 for (const which of ["news", "issue"]) {
   let html = which === "news" ? newsHtml : issueHtml;
-  html = insertBeforeLink(html, "/news/still-looking-for-the-warehouse", tocItem("five-records-from-cumberland", five.headline, five.dek));
   html = insertBeforeLink(html, "/news/they-settled-it-at-afterhours", tocItem("the-strait-is-not-a-scene", essay.headline, essay.dek));
   const mixSection = `      <section>
         <h3>Mix</h3>
@@ -509,10 +506,6 @@ function rebuildItemList(html) {
     if (i < 0) throw new Error("list missing " + urlSuffix);
     items.splice(i, 0, item);
   }
-  insertAfter("/news/deep-sleep", {
-    name: five.headline,
-    url: "https://www.clubcopy.ca/news/five-records-from-cumberland"
-  });
   insertBefore("/news/they-settled-it-at-afterhours", {
     name: essay.headline,
     url: "https://www.clubcopy.ca/news/the-strait-is-not-a-scene"
@@ -543,7 +536,7 @@ const siteBlock = `  <url>
     <priority>0.8</priority>
   </url>`;
 if (!sitemap.includes(siteBlock)) throw new Error("sitemap stars block missing");
-const extra = ["five-records-from-cumberland", "nightshift-vol-3", "the-strait-is-not-a-scene"]
+const extra = ["nightshift-vol-3", "the-strait-is-not-a-scene"]
   .map(
     (slug) => `  <url>
     <loc>https://www.clubcopy.ca/news/${slug}</loc>
