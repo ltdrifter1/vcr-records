@@ -659,7 +659,7 @@
   <link rel="stylesheet" href="css/site.css?v=st33"/>
   <link rel="stylesheet" href="css/station.css?v=st33"/>
   <link rel="stylesheet" href="css/fx.css?v=st33"/>
-  <link rel="stylesheet" href="css/news.css?v=st39"/>
+  <link rel="stylesheet" href="css/news.css?v=st44"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
@@ -722,15 +722,10 @@
             <p class="zine-slug">
               <span>Vol. 10 · October 2026</span>
             </p>
-            <h1 class="zine-title" id="news-title"><span class="zine-logo"><span class="zine-logo-night">Night</span><span class="zine-logo-shift">Shift</span></span></h1>
-          </div>
-          <div class="zine-plate-meta">
-            <p class="zine-credit">club copy</p>
-            <p class="zine-tagline">
-              <span>the floor</span>
-              <span>the fit</span>
-              <span>the afters</span>
-            </p>
+            <div class="zine-mark-row">
+              <h1 class="zine-title" id="news-title"><span class="zine-logo"><span class="zine-logo-night">Night</span><span class="zine-logo-shift">Shift</span></span></h1>
+              <p class="zine-tagline">The floor · The fit · The afters</p>
+            </div>
           </div>
         </div>
         <div class="zine-folio">
@@ -748,9 +743,12 @@
       <div class="zine-stars-pin-head">
         <p class="zine-stars-pin-kicker"><i class="zine-led" aria-hidden="true"></i>Stars</p>
         <h2 id="stars-pin-title">Stars for the Floor</h2>
-        <a href="/news/stars-for-the-floor">The chart</a>
+        <a class="zine-stars-pin-chart" href="/news/stars-for-the-floor">The chart</a>
       </div>
-      <p class="zine-stars-pin-dek">This week’s reading.</p>
+      <div class="zine-stars-pin-meta">
+        <p class="zine-stars-pin-dek">This week’s reading.</p>
+        <p class="zine-stars-pin-count" data-stars-count><span class="zine-stars-pin-swipe">Swipe · </span><span data-stars-index>1</span> / 12</p>
+      </div>
       <div class="zine-stars-pin-scroll">
         <ol>
         <li><a href="/news/stars-for-the-floor#aries"><span>Aries</span><em>mar 21 – apr 19</em><p>Wear the boots you’d climb a headland in, even to a basement. If the door looks twice, the fire saw you first.</p></a></li>
@@ -779,11 +777,6 @@
       <h2 class="issue-cover-headline"><a href="/news/deep-sleep">Deep Sleep</a></h2>
       <p class="issue-cover-dek">On 15 October 2026 Roni Size played a timber booth 1,375 feet under a Welsh slate mine. The world-record claim went out as a submission.</p>
     </article>
-    <form class="library-search" role="search" data-library-search action="/news">
-      <label for="library-q">Search the library</label>
-      <input id="library-q" type="search" name="q" placeholder="Headline, artist, city, format" autocomplete="off" enterkeyhint="search"/>
-      <p class="library-search-status" data-library-status hidden></p>
-    </form>
     <section class="issue-contents" aria-labelledby="contents-title">
       <h2 id="contents-title">Contents</h2>
       <section>
@@ -872,6 +865,11 @@
         </ol>
       </section>
     </section>
+    <form class="library-search" role="search" data-library-search action="/news">
+      <label for="library-q">Search the library</label>
+      <input id="library-q" type="search" name="q" placeholder="Headline, artist, city, format" autocomplete="off" enterkeyhint="search"/>
+      <p class="library-search-status" data-library-status hidden></p>
+    </form>
 <aside class="zine-letters" id="desk">
         <p class="zine-desk-kicker">write the desk</p>
         <h2>If it happened after two.</h2>
@@ -1234,7 +1232,7 @@
   </div>
 </footer>
 
-<script src="js/zine.js?v=st39"></script>
+<script src="js/zine.js?v=st42"></script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js?v=st35"></script>

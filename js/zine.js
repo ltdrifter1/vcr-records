@@ -816,8 +816,52 @@
       .catch(function () { cb(null); });
   }
 
+  function bindStarsPin() {
+    var root = document.querySelector(".zine-stars-pin");
+    if (!root) return;
+    var scroller = root.querySelector(".zine-stars-pin-scroll");
+    var items = root.querySelectorAll(".zine-stars-pin li");
+    var n = root.querySelector("[data-stars-index]");
+    if (!scroller || !items.length || !n) return;
+    function update() {
+      var edge = scroller.getBoundingClientRect().left;
+      var best = 0;
+      var bestDist = Infinity;
+      for (var i = 0; i < items.length; i++) {
+        var dist = Math.abs(items[i].getBoundingClientRect().left - edge);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      }
+      n.textContent = String(best + 1);
+    }
+    scroller.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  function bindListenKeys() {
+    function paint(detail) {
+      var track = detail && detail.track;
+      var id = track && track.id;
+      var on = !!(detail && detail.playing && id);
+      var keys = document.querySelectorAll(".listen-key");
+      for (var i = 0; i < keys.length; i++) {
+        var match = on && keys[i].getAttribute("data-play-track") === id;
+        keys[i].classList.toggle("is-playing", match);
+        keys[i].setAttribute("aria-pressed", match ? "true" : "false");
+      }
+    }
+    window.addEventListener("vcr:player", function (e) {
+      paint(e.detail || {});
+    });
+  }
+
   ensureStoryFolio();
   stampDates();
+  bindStarsPin();
+  bindListenKeys();
   fillTonight();
   ensureLettersOnIndex();
   bindLibrarySearch();
