@@ -75,12 +75,10 @@
     return '<span class="issue-month">' + esc(label || "") + '</span><span class="issue-month-short">' + esc(shortMonth(label)) + "</span>";
   }
 
-  function plateHtml(issue, count, article) {
-    var title = (article && article.headline) || issue.coverHeadline || "";
+  function plateHtml(issue, count) {
     var meta = [issue.dateLabel || "", storyLabel(count)].filter(Boolean).join(" · ");
     return (
       '<div class="cover-plate"><span class="cover-plate-num">' + esc(pad(issue.number)) + "</span>" +
-      (title ? '<span class="cover-plate-title">' + esc(title) + "</span>" : "") +
       '<span class="cover-plate-meta">' + esc(meta) + "</span></div>"
     );
   }
@@ -90,7 +88,7 @@
   }
 
   function figureHtml(issue, article, root, count) {
-    if (!issue.coverImage) return plateHtml(issue, count, article);
+    if (!issue.coverImage) return plateHtml(issue, count);
     var caption = article && article.credit ? "<figcaption>" + esc(article.credit) + "</figcaption>" : "";
     return (
       '<figure class="issue-cover-figure"><img src="' + esc(root + issue.coverImage) + '" alt="' +

@@ -4456,9 +4456,10 @@ html.library-list .back-catalogue > section { display: none; }
   width: 100%;
   max-width: 360px;
   margin: 0 0 22px;
-  padding: 0;
-  background: transparent;
+  padding: 20px 22px 22px;
+  background: #d9d9d6;
   border: 0;
+  box-shadow: none;
   overflow: hidden;
 }
 .cover-plate-num {
@@ -4470,18 +4471,8 @@ html.library-list .back-catalogue > section { display: none; }
   letter-spacing: -.04em;
   line-height: .85;
 }
-.cover-plate-title {
-  display: block;
-  max-width: 12em;
-  color: #161616;
-  font-family: var(--zine-display);
-  font-weight: 700;
-  font-size: clamp(28px, 3vw, 40px);
-  letter-spacing: -.02em;
-  line-height: .95;
-  text-transform: uppercase;
-}
-.cover-plate-rule { display: none; }
+.cover-plate-rule,
+.cover-plate-title { display: none; }
 .cover-plate-meta {
   display: block;
   margin-top: auto;
@@ -4501,8 +4492,9 @@ html.library-list .back-catalogue > section { display: none; }
   padding: 14px 12px;
   gap: 0;
   justify-content: flex-start;
-  background: #e4e4e2;
+  background: #d9d9d6;
   border: 0;
+  box-shadow: none;
 }
 .issue-card .cover-plate-num,
 .issue-face .cover-plate-num {
