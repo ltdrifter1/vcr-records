@@ -4698,9 +4698,14 @@ html body.news-listing .news-index .library-files button {
 }
 
 /* Stars, in document order under the masthead. Not a sticky overlay. */
+.news-index .issue-cover-figure { margin-bottom: 12px; }
+.news-index .issue-cover-figure img {
+  max-height: 220px;
+  aspect-ratio: 5 / 2;
+}
 .news-index .zine-stars-pin {
   margin: 18px 0 8px;
-  padding: 14px 16px 16px;
+  padding: 12px 16px 12px;
   background: #f4f4f2;
   color: #1a1a1a;
   border: 1px solid rgba(26, 26, 26, .28);
@@ -4728,7 +4733,7 @@ html body.news-listing .news-index .library-files button {
   flex: 1 1 10em;
   font-family: var(--zine-display);
   font-weight: 600;
-  font-size: clamp(26px, 3vw, 34px);
+  font-size: clamp(24px, 2.6vw, 30px);
   letter-spacing: -.02em;
   line-height: .95;
   text-transform: uppercase;
