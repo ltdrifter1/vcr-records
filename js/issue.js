@@ -65,17 +65,32 @@
     return credit.replace(/^(photo|image|artwork)\s*:\s*/i, "");
   }
 
-  function plateHtml(issue, count) {
+  function shortMonth(label) {
+    var parts = String(label || "").split(/\s+/);
+    if (parts.length < 2) return label || "";
+    return parts[0].slice(0, 3) + " " + parts[parts.length - 1];
+  }
+
+  function monthHtml(label) {
+    return '<span class="issue-month">' + esc(label || "") + '</span><span class="issue-month-short">' + esc(shortMonth(label)) + "</span>";
+  }
+
+  function plateHtml(issue, count, article) {
+    var title = (article && article.headline) || issue.coverHeadline || "";
     var meta = [issue.dateLabel || "", storyLabel(count)].filter(Boolean).join(" · ");
     return (
       '<div class="cover-plate"><span class="cover-plate-num">' + esc(pad(issue.number)) + "</span>" +
-      '<span class="cover-plate-rule" aria-hidden="true"></span>' +
+      (title ? '<span class="cover-plate-title">' + esc(title) + "</span>" : "") +
       '<span class="cover-plate-meta">' + esc(meta) + "</span></div>"
     );
   }
 
+  function shelfPlateHtml(issue) {
+    return '<div class="cover-plate"><span class="cover-plate-num">' + esc(pad(issue.number)) + "</span></div>";
+  }
+
   function figureHtml(issue, article, root, count) {
-    if (!issue.coverImage) return plateHtml(issue, count);
+    if (!issue.coverImage) return plateHtml(issue, count, article);
     var caption = article && article.credit ? "<figcaption>" + esc(article.credit) + "</figcaption>" : "";
     return (
       '<figure class="issue-cover-figure"><img src="' + esc(root + issue.coverImage) + '" alt="' +
@@ -223,7 +238,7 @@
       var current = Number(issue.number) === Number(issuesDoc.current);
       var visual = issue.coverImage
         ? '<img src="' + esc(root + issue.coverImage) + '" alt="' + esc(issue.coverImageAlt || "") + '"/>'
-        : plateHtml(issue, count);
+        : shelfPlateHtml(issue);
       var led = current ? '<i class="issue-led" aria-hidden="true"></i>' : "";
       var card = document.createElement("a");
       card.className = "issue-card" + (current ? " is-current" : "");
@@ -231,7 +246,7 @@
       card.innerHTML =
         '<div class="issue-face"><span class="issue-spine">' + esc(issue.title || ("Vol. " + pad(issue.number))) + "</span>" +
         led + visual + "</div>" +
-        "<div><strong>" + esc(issue.dateLabel || "") + "</strong>" +
+        "<div><strong>" + monthHtml(issue.dateLabel || "") + "</strong>" +
         '<span class="issue-count">' + esc(storyLabel(count)) + "</span>" +
         "<span>" + esc(cover ? cover.headline : "") + "</span></div>";
       host.insertBefore(card, host.firstChild);

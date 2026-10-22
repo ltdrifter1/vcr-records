@@ -4004,7 +4004,6 @@ html body.news-story .archive-note {
     aspect-ratio: 4 / 5;
     object-position: 50% 35%;
   }
-  .issue-cover .cover-plate { aspect-ratio: 4 / 5; }
 }
 
 /* Listen card — click loads the player. The stage height is reserved. */
@@ -4387,7 +4386,7 @@ html.library-list .back-catalogue > section { display: none; }
 /* Issues as a shelf: 3:4 cover, 14px graphite spine, one acid dot on the current volume. */
 .issue-index {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   align-items: start;
   gap: 40px 24px;
 }
@@ -4447,18 +4446,19 @@ html.library-list .back-catalogue > section { display: none; }
   object-position: 50% 35%;
 }
 .cover-plate {
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 3 / 4;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: flex-start;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
+  max-width: 360px;
   margin: 0 0 22px;
-  padding: 28px 24px;
-  background: #e4e4e2;
-  border: 1px solid #bdbdb9;
+  padding: 0;
+  background: transparent;
+  border: 0;
   overflow: hidden;
 }
 .cover-plate-num {
@@ -4466,18 +4466,25 @@ html.library-list .back-catalogue > section { display: none; }
   color: #2a2a2a;
   font-family: var(--zine-display);
   font-weight: 700;
-  font-size: clamp(96px, 14vw, 180px);
+  font-size: clamp(96px, 12vw, 140px);
   letter-spacing: -.04em;
   line-height: .85;
 }
-.cover-plate-rule {
+.cover-plate-title {
   display: block;
-  width: 100%;
-  height: 0;
-  border-top: 1px solid #bdbdb9;
+  max-width: 12em;
+  color: #161616;
+  font-family: var(--zine-display);
+  font-weight: 700;
+  font-size: clamp(28px, 3vw, 40px);
+  letter-spacing: -.02em;
+  line-height: .95;
+  text-transform: uppercase;
 }
+.cover-plate-rule { display: none; }
 .cover-plate-meta {
   display: block;
+  margin-top: auto;
   color: #5c5c5a;
   font-family: var(--zine-mono);
   font-size: 11px;
@@ -4489,9 +4496,13 @@ html.library-list .back-catalogue > section { display: none; }
 .issue-card .cover-plate,
 .issue-face .cover-plate {
   aspect-ratio: 3 / 4;
+  max-width: none;
   margin: 0;
-  padding: 16px 14px;
-  gap: 10px;
+  padding: 14px 12px;
+  gap: 0;
+  justify-content: flex-start;
+  background: #e4e4e2;
+  border: 0;
 }
 .issue-card .cover-plate-num,
 .issue-face .cover-plate-num {
@@ -4499,16 +4510,19 @@ html.library-list .back-catalogue > section { display: none; }
   font-size: clamp(48px, 5vw, 72px);
   line-height: .85;
 }
-.issue-card .cover-plate-rule {
+.issue-card .cover-plate-rule,
+.issue-card .cover-plate-meta,
+.issue-face .cover-plate-rule,
+.issue-face .cover-plate-meta { display: none; }
+.issue-card strong span {
+  display: inline;
   margin: 0;
-  font-size: 0;
-  line-height: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
 }
-.issue-card .cover-plate-meta {
-  margin: 0;
-  font-size: 11px;
-  line-height: 1.4;
-}
+.issue-month-short { display: none; }
 .issue-card div { padding-top: 0; }
 .issue-card .issue-count {
   margin-top: 4px;
@@ -4557,7 +4571,7 @@ html.library-list .back-catalogue > section { display: none; }
   font-size: 12px;
   line-height: 1.45;
   letter-spacing: .01em;
-  color: #1a1a1a;
+  color: #3a3a3a;
   overflow-wrap: anywhere;
 }
 .issue-colophon a {
@@ -4960,7 +4974,20 @@ html body.news-listing .news-index .library-files button {
   .issue-face .cover-plate-num {
     font-size: clamp(40px, 12vw, 56px);
   }
-  .issue-cover .cover-plate { aspect-ratio: 4 / 5; }
+  .issue-month { display: none; }
+  .issue-month-short { display: inline; }
+  .issue-card > div strong,
+  .issue-card > div .issue-count,
+  .issue-card > div > span {
+    margin-top: 3px;
+    font-family: var(--zine-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+  .issue-card > div strong { margin-top: 0; }
   html body.news-story .news-article-hero figcaption { margin-bottom: 32px; }
   html body.news-story .news-article .zine-dek,
   html body.news-story .news-article .zine-mast .zine-dek { margin-bottom: 28px; }
@@ -4992,5 +5019,18 @@ html body.news-listing .news-index .library-files button {
   line-height: 1.5;
   text-transform: uppercase;
   color: #5c5c5a;
+}
+/* The shelf and the back catalogue share the sheet, not the 820px story column. */
+@media (min-width: 700px) {
+  .issues-page .issues-head,
+  .issues-page .issue-index,
+  .issues-page .back-catalogue,
+  .issues-page .issue-jump {
+    width: 100%;
+    max-width: none;
+  }
+  .issues-page .issue-index {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 
