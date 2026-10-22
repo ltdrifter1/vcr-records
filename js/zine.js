@@ -158,7 +158,7 @@
 
   function ensureStoryFolio() {
     if (!document.body.classList.contains("news-story")) return;
-    if (document.querySelector(".story-meta, .zine-story-folio")) return;
+    if (document.querySelector(".story-meta, .zine-story-folio, [data-file-info]")) return;
     var crumbs = document.querySelector(".zine-story-crumbs");
     if (!crumbs) return;
     var kicker = document.querySelector(".news-kicker span");

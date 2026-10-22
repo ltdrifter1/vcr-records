@@ -655,11 +655,11 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,460;1,9..144,560&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css?v=st33"/>
   <link rel="stylesheet" href="css/station.css?v=st33"/>
   <link rel="stylesheet" href="css/fx.css?v=st33"/>
-  <link rel="stylesheet" href="css/news.css?v=st38"/>
+  <link rel="stylesheet" href="css/news.css?v=st39"/>
   <link rel="stylesheet" href="css/zine-pages.css?v=st33"/>
   <link rel="stylesheet" href="css/club-copy-os.css?v=st33"/>
 
@@ -717,14 +717,12 @@
     </nav>
     <div class="news-index-front">
       <header class="zine-masthead">
-        <p class="zine-slug">
-          <span>vol. 10</span>
-          <span>october 2026</span>
-        </p>
         <div class="zine-nameplate">
           <div class="zine-wordmark">
+            <p class="zine-slug">
+              <span>Vol. 10 · October 2026</span>
+            </p>
             <h1 class="zine-title" id="news-title"><span class="zine-logo"><span class="zine-logo-night">Night</span><span class="zine-logo-shift">Shift</span></span></h1>
-            <p class="zine-stamp">zine</p>
           </div>
           <div class="zine-plate-meta">
             <p class="zine-credit">club copy</p>
@@ -737,6 +735,7 @@
         </div>
         <div class="zine-folio">
           <nav class="zine-cols" aria-label="In the volume">
+            <span class="zine-cols-current"><i class="zine-led" aria-hidden="true"></i>Vol. 10</span>
             <a href="/news/series/stars-for-the-floor">Stars</a>
             <a href="/news/artists">Artists</a>
             <a href="/news/places">Places</a>
@@ -744,11 +743,31 @@
           </nav>
         </div>
       </header>
-    <form class="library-search" role="search" data-library-search action="/news">
-      <label for="library-q">Search the library</label>
-      <input id="library-q" type="search" name="q" placeholder="Headline, artist, city, format" autocomplete="off" enterkeyhint="search"/>
-      <p class="library-search-status" data-library-status hidden></p>
-    </form>
+
+    <aside class="zine-stars-pin" aria-labelledby="stars-pin-title">
+      <div class="zine-stars-pin-head">
+        <p class="zine-stars-pin-kicker"><i class="zine-led" aria-hidden="true"></i>Stars</p>
+        <h2 id="stars-pin-title">Stars for the Floor</h2>
+        <a href="/news/stars-for-the-floor">The chart</a>
+      </div>
+      <p class="zine-stars-pin-dek">This week’s reading.</p>
+      <div class="zine-stars-pin-scroll">
+        <ol>
+        <li><a href="/news/stars-for-the-floor#aries"><span>Aries</span><em>mar 21 – apr 19</em><p>Wear the boots you’d climb a headland in, even to a basement. If the door looks twice, the fire saw you first.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#taurus"><span>Taurus</span><em>apr 20 – may 20</em><p>Twelve dollars at the Saturday market, a ring with a crooked stone, and it’s yours. The one haggling on their phone doesn’t get that price, or that blessing.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#gemini"><span>Gemini</span><em>may 21 – jun 20</em><p>Two crystals in one pocket. The darker one is for the message you keep drafting and not sending.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#cancer"><span>Cancer</span><em>jun 21 – jul 22</em><p>Put the kettle on before you leave, with nettle or chamomile or whatever the garden gave you. The chipped mug is saved for whoever drifts home with you.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#leo"><span>Leo</span><em>jul 23 – aug 22</em><p>Your name’s on a list you wrote in your own hand. Walk in like the list was a prophecy someone overheard.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#virgo"><span>Virgo</span><em>aug 23 – sep 22</em><p>Let the crossed-out line on the set list stay. Do your face in the back seat by moonlight and trust the mirror less than the moon.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#libra"><span>Libra</span><em>sep 23 – oct 22</em><p>Pass the aux on the Malahat. You argued for that song for six switchbacks, and the mountain didn’t care.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#scorpio"><span>Scorpio</span><em>oct 23 – nov 21</em><p>If they ask who played, describe the hands and the smoke. Keep the name folded in your pocket with the lighter and the sage.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#sagittarius"><span>Sagittarius</span><em>nov 22 – dec 21</em><p>The last ferry is a rumour, but the rain is real. Walk the long way home while your hair still looks like you chose it.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#capricorn"><span>Capricorn</span><em>dec 22 – jan 19</em><p>Press last night’s wristband into your journal like a flower. Your memory of it will be softer than the paper.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#aquarius"><span>Aquarius</span><em>jan 20 – feb 18</em><p>Three of them are still typing, and you’re already barefoot at the tideline. Send the pin, not another poll.</p></a></li>
+        <li><a href="/news/stars-for-the-floor#pisces"><span>Pisces</span><em>feb 19 – mar 20</em><p>One drop of cedar oil behind the ear. The kitchen light doesn’t get a say in how you glow.</p></a></li>
+        </ol>
+      </div>
+    </aside>
 
             <article class="issue-cover">
       <p class="issue-kicker">Night Shift · Vol. 10 · October 2026</p>
@@ -760,16 +779,16 @@
       <h2 class="issue-cover-headline"><a href="/news/deep-sleep">Deep Sleep</a></h2>
       <p class="issue-cover-dek">On 15 October 2026 Roni Size played a timber booth 1,375 feet under a Welsh slate mine. The world-record claim went out as a submission.</p>
     </article>
+    <form class="library-search" role="search" data-library-search action="/news">
+      <label for="library-q">Search the library</label>
+      <input id="library-q" type="search" name="q" placeholder="Headline, artist, city, format" autocomplete="off" enterkeyhint="search"/>
+      <p class="library-search-status" data-library-status hidden></p>
+    </form>
     <section class="issue-contents" aria-labelledby="contents-title">
       <h2 id="contents-title">Contents</h2>
       <section>
         <h3>Feature</h3>
         <ol class="issue-toc">
-          <li>
-            <a href="/news/deep-sleep">Deep Sleep</a>
-            <span>On 15 October 2026 Roni Size played a timber booth 1,375 feet under a Welsh slate mine. The world-record claim went out as a submission.</span>
-            <time datetime="2026-10-17">17 Oct 2026</time>
-          </li>
           <li>
             <a href="/news/five-records-from-cumberland">Five Records from Cumberland</a>
             <span>Five L.T. Drifta titles on Club Copy, read against Bandcamp where the page and the sleeve disagree.</span>
@@ -1215,7 +1234,7 @@
   </div>
 </footer>
 
-<script src="js/zine.js?v=st38"></script>
+<script src="js/zine.js?v=st39"></script>
 <script src="js/site.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/player.js?v=st35"></script>
