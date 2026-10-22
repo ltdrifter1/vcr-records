@@ -54,30 +54,67 @@
     }).catch(function () {});
   }
 
-  function figureHtml(issue, article, root) {
-    if (!issue.coverImage) {
-      return (
-        '<div class="cover-plate"><span>' + esc(issue.title || "") + "</span><span>" +
-        esc(issue.dateLabel || "") + "</span><span>" + esc(article.headline || "") + "</span></div>"
-      );
-    }
-    var caption = article.credit ? "<figcaption>" + esc(article.credit) + "</figcaption>" : "";
+  function storyLabel(count) {
+    count = Number(count) || 0;
+    return count === 1 ? "1 story" : count + " stories";
+  }
+
+  function photographer(article) {
+    var credit = article && article.credit ? String(article.credit).trim() : "";
+    if (!credit) return "";
+    return credit.replace(/^(photo|image|artwork)\s*:\s*/i, "");
+  }
+
+  function plateHtml(issue, count) {
+    var meta = [issue.dateLabel || "", storyLabel(count)].filter(Boolean).join(" · ");
     return (
-      '<figure class="issue-cover-figure"><img src="' + esc(root + issue.coverImage) + '" alt="' +
-      esc(issue.coverImageAlt || article.imageAlt || "") + '"/>' + caption + "</figure>"
+      '<div class="cover-plate"><span class="cover-plate-num">' + esc(pad(issue.number)) + "</span>" +
+      '<span class="cover-plate-rule" aria-hidden="true"></span>' +
+      '<span class="cover-plate-meta">' + esc(meta) + "</span></div>"
     );
   }
 
-  function coverHtml(issue, article, root) {
-    var note = issue.editorsNote ? '<p class="issue-editors-note">' + esc(issue.editorsNote) + "</p>" : "";
+  function figureHtml(issue, article, root, count) {
+    if (!issue.coverImage) return plateHtml(issue, count);
+    var caption = article && article.credit ? "<figcaption>" + esc(article.credit) + "</figcaption>" : "";
+    return (
+      '<figure class="issue-cover-figure"><img src="' + esc(root + issue.coverImage) + '" alt="' +
+      esc(issue.coverImageAlt || (article && article.imageAlt) || "") + '"/>' + caption + "</figure>"
+    );
+  }
+
+  function mastheadHtml() {
+    return (
+      '<header class="zine-masthead zine-masthead--compact" aria-label="Night Shift">' +
+      '<div class="zine-nameplate"><div class="zine-wordmark">' +
+      '<h1 class="zine-title"><span class="zine-logo"><span class="zine-logo-night">Night</span><span class="zine-logo-shift">Shift</span></span></h1>' +
+      "</div></div></header>"
+    );
+  }
+
+  function metaLine(issue, article, count) {
+    var parts = [issue.title || ("Vol. " + pad(issue.number)), issue.dateLabel || "", storyLabel(count)].filter(Boolean);
+    var photo = photographer(article);
+    var line = parts.join(" · ");
+    if (photo) line += " · Cover: " + photo;
+    return '<p class="issue-cover-meta">' + esc(line) + "</p>";
+  }
+
+  function filedHtml(issue) {
+    if (!issue.filed) return "";
+    return '<p class="issue-filed">Filed ' + esc(issue.filed) + "</p>";
+  }
+
+  function coverHtml(issue, article, root, count) {
+    article = article || {};
     return (
       '<article class="issue-cover">' +
-      '<p class="issue-kicker">Night Shift · ' + esc(issue.title || ("Vol. " + pad(issue.number))) + " · " + esc(issue.dateLabel || "") + "</p>" +
-      figureHtml(issue, article, root) +
+      metaLine(issue, article, count) +
+      figureHtml(issue, article, root, count) +
       '<p class="issue-cover-format">' + esc(article.format || "") + "</p>" +
-      '<h2 class="issue-cover-headline"><a href="' + esc(article.slug) + '">' + esc(article.headline) + "</a></h2>" +
+      '<h2 class="issue-cover-headline"><a href="' + esc(article.slug || "#") + '">' + esc(article.headline || issue.coverHeadline || "") + "</a></h2>" +
       '<p class="issue-cover-dek">' + esc(article.dek || "") + "</p>" +
-      note +
+      filedHtml(issue) +
       "</article>"
     );
   }
@@ -85,16 +122,18 @@
   function contentsHtml(stories, coverSlug) {
     var groups = {};
     stories.forEach(function (article) {
+      if (coverSlug && article.slug === coverSlug) return;
       var name = article.format || "Essay";
       if (!groups[name]) groups[name] = [];
       groups[name].push(article);
     });
     var html = '<section class="issue-contents"><h2>Contents</h2>';
+    var any = false;
     ORDER.forEach(function (name) {
       var items = groups[name];
       if (!items || !items.length) return;
+      any = true;
       items.sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
-      items.sort(function (a, b) { return (a.slug === coverSlug ? 0 : 1) - (b.slug === coverSlug ? 0 : 1); });
       html += "<section><h3>" + esc(name) + '</h3><ol class="issue-toc">';
       items.forEach(function (article) {
         html +=
@@ -104,6 +143,7 @@
       });
       html += "</ol></section>";
     });
+    if (!any) return "";
     return html + "</section>";
   }
 
@@ -152,11 +192,13 @@
       if (articles[j].slug === issue.coverSlug) cover = articles[j];
     }
     if (!cover) cover = stories[0] || {};
+    var count = stories.length;
     host.innerHTML =
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Night Shift</a><span>/</span>' +
       esc(issue.title || ("Vol. " + pad(issue.number))) +
       "</nav>" +
-      coverHtml(issue, cover, prefix()) +
+      mastheadHtml() +
+      coverHtml(issue, cover, prefix(), count) +
       contentsHtml(stories, issue.coverSlug) +
       colophonHtml(stories) +
       '<p class="issue-jump"><a href="/news">Current volume</a> · <a href="/news/issues">All volumes</a></p>';
@@ -178,17 +220,19 @@
       for (var a = 0; a < articles.length; a++) {
         if (volumeOf(articles[a]) === Number(issue.number) && !articles[a].archived) count++;
       }
+      var current = Number(issue.number) === Number(issuesDoc.current);
       var visual = issue.coverImage
         ? '<img src="' + esc(root + issue.coverImage) + '" alt="' + esc(issue.coverImageAlt || "") + '"/>'
-        : '<div class="cover-plate"><span>' + esc(issue.title || "") + "</span><span>" + esc(issue.dateLabel || "") + "</span><span>" + esc(cover ? cover.headline : "") + "</span></div>";
+        : plateHtml(issue, count);
+      var led = current ? '<i class="issue-led" aria-hidden="true"></i>' : "";
       var card = document.createElement("a");
-      card.className = "issue-card";
+      card.className = "issue-card" + (current ? " is-current" : "");
       card.href = href;
       card.innerHTML =
-        visual +
-        "<div><p>" + esc(issue.title || ("Vol. " + pad(issue.number))) + "</p>" +
-        "<strong>" + esc(issue.dateLabel || "") + "</strong>" +
-        '<span class="issue-count">' + (count === 1 ? "1 story" : count + " stories") + "</span>" +
+        '<div class="issue-face"><span class="issue-spine">' + esc(issue.title || ("Vol. " + pad(issue.number))) + "</span>" +
+        led + visual + "</div>" +
+        "<div><strong>" + esc(issue.dateLabel || "") + "</strong>" +
+        '<span class="issue-count">' + esc(storyLabel(count)) + "</span>" +
         "<span>" + esc(cover ? cover.headline : "") + "</span></div>";
       host.insertBefore(card, host.firstChild);
     }
