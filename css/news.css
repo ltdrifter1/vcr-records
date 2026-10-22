@@ -4600,9 +4600,53 @@ body.zine-now-on {
   }
   .news-index .zine-cols a:hover::before { content: none; }
 }
+.news-index .zine-nameplate {
+  display: block;
+  padding: 4px 0 0;
+}
+.news-index .zine-mark-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 22px;
+}
+.news-index .zine-tagline {
+  display: block;
+  margin: 0;
+  padding: 0 0 7px;
+  max-width: none;
+  font-family: var(--zine-mono);
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: 100%;
+  letter-spacing: .04em;
+  line-height: 1.3;
+  text-transform: none;
+  color: #3a3a38;
+  white-space: nowrap;
+}
+@media (min-width: 1100px) {
+  .news-index .zine-mark-row { flex-wrap: nowrap; }
+}
+@media (max-width: 899px) {
+  .news-index .zine-wordmark { padding: 14px 14px 16px; }
+  .news-index .zine-slug { margin-bottom: 14px; }
+  .news-index .zine-mark-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .news-index .zine-tagline {
+    padding: 0;
+    font-size: 12px;
+    letter-spacing: .02em;
+  }
+  .news-index .zine-folio { margin-top: 20px; }
+  .news-index .issue-cover { margin-top: 36px; }
+}
 @media (max-width: 559px) {
-  .news-index .zine-wordmark { padding: 10px 10px 12px; }
-  .news-index .zine-slug { font-size: 10px; letter-spacing: .12em; }
+  .news-index .zine-wordmark { padding: 12px 12px 14px; }
+  .news-index .zine-slug { font-size: 10px; letter-spacing: .12em; margin-bottom: 12px; }
   .news-index .zine-cols { font-size: 10px; letter-spacing: .08em; }
   .news-index .zine-cols a,
   .news-index .zine-cols-current { padding: 10px 12px 10px 0; }
