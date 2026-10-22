@@ -841,9 +841,27 @@
     update();
   }
 
+  function bindListenKeys() {
+    function paint(detail) {
+      var track = detail && detail.track;
+      var id = track && track.id;
+      var on = !!(detail && detail.playing && id);
+      var keys = document.querySelectorAll(".listen-key");
+      for (var i = 0; i < keys.length; i++) {
+        var match = on && keys[i].getAttribute("data-play-track") === id;
+        keys[i].classList.toggle("is-playing", match);
+        keys[i].setAttribute("aria-pressed", match ? "true" : "false");
+      }
+    }
+    window.addEventListener("vcr:player", function (e) {
+      paint(e.detail || {});
+    });
+  }
+
   ensureStoryFolio();
   stampDates();
   bindStarsPin();
+  bindListenKeys();
   fillTonight();
   ensureLettersOnIndex();
   bindLibrarySearch();

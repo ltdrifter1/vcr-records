@@ -4171,6 +4171,37 @@ html body.news-story .archive-note {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+.file-info dd.file-listen {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.listen-key {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(40, 40, 40, .28);
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f7f7f5 0%, #d5d5d1 54%, #bdbdb8 100%);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(40, 40, 40, .16);
+  color: #1a1a1a;
+  cursor: pointer;
+}
+.listen-key svg { width: 11px; height: 11px; fill: currentColor; display: block; }
+.listen-key .listen-key-play { margin-left: 1px; }
+.listen-key .listen-key-pause { display: none; }
+.listen-key.is-playing {
+  background: linear-gradient(180deg, #c8c8c4 0%, #a6a6a2 100%);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, .28);
+}
+.listen-key.is-playing .listen-key-play { display: none; }
+.listen-key.is-playing .listen-key-pause { display: block; margin-left: 0; }
+.listen-key:focus-visible { outline: 1px solid #1a1a1a; outline-offset: 2px; }
 
 /* Release artifact — one record, flat, with the click-to-load player inside. */
 .release-card {
@@ -4651,9 +4682,19 @@ body.zine-now-on {
   .news-index .zine-cols a,
   .news-index .zine-cols-current { padding: 10px 12px 10px 0; }
 }
-.news-index .library-search { margin-top: 28px; margin-bottom: 8px; }
-html body.news-listing .news-index .issue-contents .issue-toc a {
+.news-index .library-search { margin-top: 18px; margin-bottom: 4px; }
+.news-index .library-search input { font-size: 16px; padding: 8px 0; }
+html body.news-listing .news-index .issue-contents .issue-toc a,
+html body.news-listing .news-index .issue-cover-headline,
+html body.news-listing .news-index .issue-cover-headline a,
+html body.news-listing .news-index .catalogue-list a,
+html body.news-listing .news-index .catalogue-list em,
+html body.news-listing .news-index .catalogue-list time,
+html body.news-listing .news-index .library-files td,
+html body.news-listing .news-index .library-files td a,
+html body.news-listing .news-index .library-files button {
   color: #1a1a1a;
+  -webkit-text-fill-color: #1a1a1a;
 }
 
 /* Stars, in document order under the masthead. Not a sticky overlay. */
