@@ -47,6 +47,8 @@ assert.ok(!catalog.releases.some((r) => r.id === "gorilla" || r.id === "m-a-s-s-
 assert.ok(!catalog.releases.some((r) => r.artistId === "molly-haze" || r.artist === "Molly Haze"));
 assert.ok(!products["dg-gorilla"]);
 assert.ok(!products["dg-cherry-coloured-funk"]);
+assert.ok(!catalog.releases.some((r) => r.id === "anything-you-can-do" || r.catalogue === "CC019"));
+assert.ok(!products["dg-anything-you-can-do"]);
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
@@ -135,7 +137,6 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
-    "anything-you-can-do",
     "safe-as",
     "deeper",
     "outta-this-mess",
@@ -148,7 +149,7 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["anything-you-can-do", "safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
+  ["safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [
@@ -169,7 +170,6 @@ assert.deepStrictEqual(
     ];
   }),
   [
-    ["CC019", "Anything You Can Do", "forsberg", "Single", "2026-10-21", "/anything-you-can-do", "aycd-01", 1.5, "dg-anything-you-can-do", "https://forsberg.bandcamp.com/track/anything-you-can-do", "aycd-01", 308, 464578693, 150],
     ["CC018", "Safe As", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
     ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
     ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
