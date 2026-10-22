@@ -58,14 +58,6 @@ const CUES = {
     url: "https://riscape.bandcamp.com/album/tell-me-ep",
     embed: bcAlbum("1173735553"),
   }),
-  "anything-you-can-do": release({
-    title: "Anything You Can Do",
-    artist: "Forsberg",
-    catalogue: "CC019",
-    page: "/anything-you-can-do",
-    url: "https://forsberg.bandcamp.com/track/anything-you-can-do",
-    embed: bcTrack("464578693"),
-  }),
   "safe-as": release({
     title: "Safe As",
     artist: "Forsberg",
