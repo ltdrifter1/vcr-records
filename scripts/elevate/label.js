@@ -9,12 +9,11 @@ module.exports = {
       `The seven titles, in the order the artist page prints them, are <em>If Ya Want</em> (CC021, a single, 21 October 2026), <em>Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)</em> (CC020, a single, 19 October 2026), <em>Three 4 Zone</em> (CC014, a single), <em>Lakeshore West 23:55</em> (CC008, an EP, VCR026D3), <em>Summer Madness</em> (CC006, an album, also marked VCR026D2), <em>Classic Jazz</em> (CC003, an album, VCR026D1), and <em>Champion Sound</em> (CC001, a single). The page says “Seven titles on Club Copy” and stops. It does not say who plays on them, whether the name is one person, or what the second codes mean. Those are questions for a conversation the desk is not going to invent. What a reader can do, without anyone’s permission, is read the seven release pages against the Bandcamp sleeves and notice what stays constant.`,
       `The constant is not a tempo. <em>Champion Sound</em> is filed on its own page as instrumental hip-hop. <em>Classic Jazz</em> is filed as jazz. <em>Summer Madness</em>, <em>Lakeshore West 23:55</em>, and <em>Three 4 Zone</em> are filed as electronic. Jungle, the word on the artist page and the roster, does not appear as the genre line on any of the five. A curious listener who does not spend their weekends inside genre arguments can take that at face value: the label is using “jungle” as a description of where the ears go, and using the release pages for what each object actually is. Hip-hop, jazz, and electronic music share a 20th-century habit of building new records out of older ones. The pages never say these five do that. They do keep naming tracks after music that already has a history. That pattern is legible. It does not require a myth.`,
       `The dates follow the numbers, and the tidy version is the one to memorize. Bandcamp, which is the sleeve a buyer outside this website actually sees, dates <em>Classic Jazz</em> to 4 October 2025, <em>Summer Madness</em> to 14 November 2025, <em>Champion Sound</em> to 9 July 2024, and <em>Three 4 Zone</em> to 18 October 2026. <em>Lakeshore West 23:55</em> is dated 10 December 2025 on clubcopy.ca and is not on the Bandcamp music list; the album URL in the label’s data returns a missing page. So the catalogue number CC001 is the same thing as “the record that reached the public first.” <em>Classic Jazz</em> and <em>Summer Madness</em> came after the record that opens the numbering. A label that wants to be read in five years has to leave that sequence visible. Retroactive origin stories are how small catalogues start lying to themselves.`,
-      `There is a second public half of the work, and it is not for sale. The mixes page on this site lists forty uploads from the L.T. Drifta SoundCloud. The titles run in series: <em>Deep in Tha Jungle</em> (with years in the names: 1993–96, 1994 hardcore, 1996 atmosphere), <em>Liquid Love</em>, <em>Loft Music</em>, <em>Café Après</em>, a shoegaze and dreampop run called <em>blissed out</em>, <em>Club Copy Radio</em>, and <em>NIGHTSHIFT</em>, which shares a name with this magazine. The records are the part with a price. The mixes are the part that shows the listening. Treating only the seven titles as the artist would be like reviewing a novelist from the bookshop and ignoring the library card. The full account of those titles is in <a href="/news/five-records-from-cumberland">Five Records from Cumberland</a>. This note is the index those records were missing when the desk first filed him, on 3 May 2024, in a paragraph that talked about temperature and said nothing about a catalogue number.`,
+      `There is a second public half of the work, and it is not for sale. The mixes page on this site lists forty uploads from the L.T. Drifta SoundCloud. The titles run in series: <em>Deep in Tha Jungle</em> (with years in the names: 1993–96, 1994 hardcore, 1996 atmosphere), <em>Liquid Love</em>, <em>Loft Music</em>, <em>Café Après</em>, a shoegaze and dreampop run called <em>blissed out</em>, <em>Club Copy Radio</em>, and <em>NIGHTSHIFT</em>, which shares a name with this magazine. The records are the part with a price. The mixes are the part that shows the listening. Treating only the seven titles as the artist would be like reviewing a novelist from the bookshop and ignoring the library card. This note is the index those records were missing when the desk first filed him, on 3 May 2024, in a paragraph that talked about temperature and said nothing about a catalogue number.`,
       `The critical point is modest and worth keeping. L.T. Drifta is not, on the evidence of the pages, a jungle producer who sometimes makes beats, or a beatmaker who sometimes says jungle. He is a Cumberland producer whose label has refused to pick one sentence, and whose public work splits cleanly into priced records and a much larger body of mixes. That split is more useful than a genre. It tells you where to start: the seven titles if you want the objects, the mixes if you want the map, and the disagreement between the sentences if you want to know how a small label actually describes someone it works with. The 2024 note mistook atmosphere for a biography. The biography, so far, is the discography.`
     ],
     ctas: [
       [`/artists/lt-drifta`, `Artist page`],
-      [`/news/five-records-from-cumberland`, `Five Records from Cumberland`],
       [`/tapes`, `Mixtapes`]
     ]
   },
@@ -33,7 +32,6 @@ module.exports = {
     ctas: [
       [`/champion-sound`, `Champion Sound`],
       [`/artists/lt-drifta`, `L.T. Drifta`],
-      [`/news/five-records-from-cumberland`, `The five records`]
     ]
   },
   "summer-madness": {
@@ -51,7 +49,6 @@ module.exports = {
     ctas: [
       [`/summer-madness`, `Summer Madness`],
       [`/artists/lt-drifta`, `L.T. Drifta`],
-      [`/news/five-records-from-cumberland`, `The five records`]
     ]
   },
   "inlet-knight-on-club-copy": {
@@ -157,7 +154,6 @@ module.exports = {
     ],
     ctas: [
       [`/artists/lt-drifta`, `L.T. Drifta`],
-      [`/news/five-records-from-cumberland`, `The five records`],
       [`/news/any-jungle`, `any jungle`]
     ]
   },
@@ -175,7 +171,6 @@ module.exports = {
     ],
     ctas: [
       [`/artists/lt-drifta`, `L.T. Drifta`],
-      [`/news/five-records-from-cumberland`, `The five records`],
       [`/tapes`, `Mixtapes`]
     ]
   },
