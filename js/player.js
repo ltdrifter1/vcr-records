@@ -303,16 +303,40 @@
     if (meter) meter.hidden = true;
   }
 
+  function ensureAudioContext() {
+    if (audioCtx) return audioCtx;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    try {
+      audioCtx = new AC();
+    } catch (e) {
+      audioCtx = null;
+      return null;
+    }
+    audioCtx.addEventListener("statechange", function () {
+      if (audioCtx && audioCtx.state === "running" && audio && !audio.paused) startEnergy();
+    });
+    return audioCtx;
+  }
+
+  function resumeAudioContext() {
+    if (!audioCtx || audioCtx.state !== "suspended") return;
+    var pending = audioCtx.resume();
+    if (pending && pending.catch) pending.catch(function () {});
+  }
+
   function attachAnalyser() {
-    // createMediaElementSource on a non-CORS cross-origin element plays silence.
-    // Only a same-origin pipe (or a same-origin file) may be tapped.
+    // createMediaElementSource disconnects the element from the speakers.
+    // A suspended context then plays silence for the rest of the session, so
+    // the meter may only tap a context that is already running. Cross-origin
+    // bcbits redirects are left on the element output as well.
     if (analyser || !audio) return false;
     if (!mediaOriginSafe()) return false;
-    var AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return false;
+    if (!audioCtx || audioCtx.state !== "running") {
+      resumeAudioContext();
+      return false;
+    }
     try {
-      audioCtx = audioCtx || new AC();
-      if (audioCtx.state === "suspended") audioCtx.resume();
       var src = audioCtx.createMediaElementSource(audio);
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 64;
@@ -595,15 +619,18 @@
 
   function ensureAudio() {
     if (audio) return audio;
-    audio = new Audio();
+    audio = document.createElement("audio");
     audio.preload = "auto";
     audio.volume = 0.8;
     audio.playsInline = true;
     audio.setAttribute("playsinline", "");
     audio.setAttribute("webkit-playsinline", "");
+    audio.setAttribute("aria-hidden", "true");
+    audio.style.cssText = "position:fixed;width:0;height:0;opacity:0;pointer-events:none";
     try {
       audio.referrerPolicy = "no-referrer";
     } catch (e) {}
+    if (document.body) document.body.appendChild(audio);
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnded);
     audio.addEventListener("play", onPlayState);
@@ -616,9 +643,11 @@
 
   function unlockAudioFromGesture() {
     ensureAudio();
-    // Do not attach Web Audio here. Bandcamp streams 302 to bcbits without CORS;
-    // MediaElementSource would mute the element for the rest of the session.
-    if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    // Open the context on the tap, before play(). Creating it later, from the
+    // play event, leaves Safari and Firefox suspended — and MediaElementSource
+    // then mutes every Bandcamp stream for the rest of the session.
+    ensureAudioContext();
+    resumeAudioContext();
     audioUnlocked = true;
   }
 
