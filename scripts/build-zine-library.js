@@ -170,14 +170,6 @@ const CUES = {
     url: "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix",
     embed: bcTrack("911399412"),
   }),
-  "if-ya-want": release({
-    title: "If Ya Want",
-    artist: "L.T. Drifta",
-    catalogue: "CC021",
-    page: "/if-ya-want",
-    url: "https://ltdrifta.bandcamp.com/track/if-ya-want",
-    embed: bcTrack("3952714305"),
-  }),
   "get-me-down": release({
     title: "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)",
     artist: "L.T. Drifta",
