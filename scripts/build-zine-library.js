@@ -154,6 +154,22 @@ const CUES = {
     url: "https://ltdrifta.bandcamp.com/track/champion-sound",
     embed: bcTrack("24406599"),
   }),
+  "renegade-snares": release({
+    title: "Omni Trio - Renegade Snares (L.T.'s VIP Mix)",
+    artist: "L.T. Drifta",
+    catalogue: "CC023",
+    page: "/renegade-snares",
+    url: "https://ltdrifta.bandcamp.com/track/omni-trio-renegade-snares-l-t-s-vip-mix",
+    embed: bcTrack("1492829470"),
+  }),
+  "i-give-everything": release({
+    title: "The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)",
+    artist: "Forsberg",
+    catalogue: "CC022",
+    page: "/i-give-everything",
+    url: "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix",
+    embed: bcTrack("911399412"),
+  }),
   "if-ya-want": release({
     title: "If Ya Want",
     artist: "L.T. Drifta",

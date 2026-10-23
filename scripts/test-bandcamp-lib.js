@@ -52,19 +52,20 @@ assert.ok(!products["dg-anything-you-can-do"]);
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "renegade-snares", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "renegade-snares", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
-  ["if-ya-want", "get-me-down"].map((id) => {
+  ["renegade-snares", "if-ya-want", "get-me-down"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artist, r.released, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
+    ["CC023", "Omni Trio - Renegade Snares (L.T.'s VIP Mix)", "L.T. Drifta", "2026-10-23", "dg-renegade-snares", "https://ltdrifta.bandcamp.com/track/omni-trio-renegade-snares-l-t-s-vip-mix", "rns-01", 288, 1492829470, 150],
     ["CC021", "If Ya Want", "L.T. Drifta", "2026-10-21", "dg-if-ya-want", "https://ltdrifta.bandcamp.com/track/if-ya-want", "iyw-01", 501, 3952714305, 150],
     ["CC020", "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)", "L.T. Drifta", "2026-10-19", "dg-get-me-down", "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit", "gmd-01", 324, 2636373644, 150],
   ]
@@ -137,6 +138,7 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
+    "i-give-everything",
     "safe-as",
     "deeper",
     "outta-this-mess",
@@ -149,7 +151,7 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
+  ["i-give-everything", "safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [
@@ -170,6 +172,7 @@ assert.deepStrictEqual(
     ];
   }),
   [
+    ["CC022", "The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)", "forsberg", "Single", "2026-10-23", "/i-give-everything", "ige-01", 1.5, "dg-i-give-everything", "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix", "ige-01", 165, 911399412, 150],
     ["CC018", "Safe As", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
     ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
     ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
