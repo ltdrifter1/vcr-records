@@ -49,25 +49,27 @@ assert.ok(!products["dg-gorilla"]);
 assert.ok(!products["dg-cherry-coloured-funk"]);
 assert.ok(!catalog.releases.some((r) => r.id === "anything-you-can-do" || r.catalogue === "CC019"));
 assert.ok(!products["dg-anything-you-can-do"]);
+assert.ok(!catalog.releases.some((r) => r.id === "if-ya-want" || r.catalogue === "CC021"));
+assert.ok(!products["dg-if-ya-want"]);
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "if-ya-want", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
-  ["renegade-snares", "if-ya-want", "get-me-down"].map((id) => {
+  ["renegade-snares", "get-me-down", "three-4-zone"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artist, r.released, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
     ["CC023", "Omni Trio - Renegade Snares (L.T.'s VIP Mix)", "L.T. Drifta", "2026-10-23", "dg-renegade-snares", "https://ltdrifta.bandcamp.com/track/omni-trio-renegade-snares-l-t-s-vip-mix", "rns-01", 288, 1492829470, 150],
-    ["CC021", "If Ya Want", "L.T. Drifta", "2026-10-21", "dg-if-ya-want", "https://ltdrifta.bandcamp.com/track/if-ya-want", "iyw-01", 501, 3952714305, 150],
     ["CC020", "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)", "L.T. Drifta", "2026-10-19", "dg-get-me-down", "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit", "gmd-01", 324, 2636373644, 150],
+    ["CC014", "Three 4 Zone", "L.T. Drifta", "2026-10-18", "dg-three-4-zone", "https://ltdrifta.bandcamp.com/track/three-4-zone", "t4z-01", 401, 3048030883, 150],
   ]
 );
 assert.deepStrictEqual(
