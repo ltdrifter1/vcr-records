@@ -51,40 +51,40 @@ assert.ok(!catalog.releases.some((r) => r.id === "anything-you-can-do" || r.cata
 assert.ok(!products["dg-anything-you-can-do"]);
 assert.ok(!catalog.releases.some((r) => r.id === "if-ya-want" || r.catalogue === "CC021"));
 assert.ok(!products["dg-if-ya-want"]);
+for (const id of ["whats-luv", "lifetime", "shaolin-style", "links", "renegade-snares"]) {
+  assert.ok(!catalog.releases.some((r) => r.id === id), id);
+  assert.ok(!products["dg-" + id], id);
+}
+assert.ok(!catalog.releases.some((r) => ["CC023", "CC024", "CC026", "CC027", "CC028"].includes(r.catalogue)));
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
-  ["renegade-snares", "get-me-down", "three-4-zone"].map((id) => {
+  ["get-me-down", "three-4-zone"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artist, r.released, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
-    ["CC023", "Omni Trio - Renegade Snares (L.T.'s VIP Mix)", "L.T. Drifta", "2026-10-23", "dg-renegade-snares", "https://ltdrifta.bandcamp.com/track/omni-trio-renegade-snares-l-t-s-vip-mix", "rns-01", 288, 1492829470, 150],
     ["CC020", "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)", "L.T. Drifta", "2026-10-19", "dg-get-me-down", "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit", "gmd-01", 324, 2636373644, 150],
     ["CC014", "Three 4 Zone", "L.T. Drifta", "2026-10-18", "dg-three-4-zone", "https://ltdrifta.bandcamp.com/track/three-4-zone", "t4z-01", 401, 3048030883, 150],
   ]
 );
 assert.deepStrictEqual(
-  ["freed-from", "shaolin-style", "whats-luv", "lifetime", "call-anytime", "links"].map((id) => {
+  ["freed-from", "call-anytime"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.previewTrackId, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
     ["CC029", "Freed From (Nanana)", "forsberg", "Single", "2026-10-24", "/freed-from", "ffn-01", 1.5, "dg-freed-from", "https://forsberg.bandcamp.com/track/freed-from-nanana", "ffn-01", 185, 3202179835, 150],
-    ["CC028", "Lavery - Shaolin Style (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-24", "/shaolin-style", "ssl-01", 1.5, "dg-shaolin-style", "https://ltdrifta.bandcamp.com/track/lavery-shaolin-style-l-t-s-vip-mix", "ssl-01", 278, 717888588, 150],
-    ["CC027", "w h a t ' s   l u v", "forsberg", "Single", "2026-10-24", "/whats-luv", "wlv-01", 1.5, "dg-whats-luv", "https://forsberg.bandcamp.com/track/w-h-a-t-s-l-u-v", "wlv-01", 218, 314453665, 150],
-    ["CC026", "l i f e t i m e", "forsberg", "Single", "2026-10-24", "/lifetime", "lft-01", 1.5, "dg-lifetime", "https://forsberg.bandcamp.com/track/l-i-f-e-t-i-m-e", "lft-01", 288, 2823529420, 150],
     ["CC025", "call anytime", "forsberg", "Single", "2026-10-23", "/call-anytime", "cal-01", 1.5, "dg-call-anytime", "https://forsberg.bandcamp.com/track/call-anytime", "cal-01", 237, 3110656434, 150],
-    ["CC024", "The Chameleon - Links (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/links", "lnk-01", 1.5, "dg-links", "https://ltdrifta.bandcamp.com/track/the-chameleon-links-l-t-s-vip-mix", "lnk-01", 297, 414441591, 150],
   ]
 );
 
@@ -156,8 +156,6 @@ assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
     "freed-from",
-    "whats-luv",
-    "lifetime",
     "call-anytime",
     "i-give-everything",
     "safe-as",
