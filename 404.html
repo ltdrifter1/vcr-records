@@ -3,81 +3,111 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Page not found — Club Copy</title>
+  <title>Not found — Club Copy</title>
+  <meta name="description" content="This page is not in the catalogue."/>
+  <meta name="theme-color" content="#0a0a0a"/>
+  <meta name="color-scheme" content="dark"/>
+  <link rel="canonical" href="https://www.clubcopy.ca/404"/>
   <meta name="robots" content="noindex"/>
-  <meta name="theme-color" content="#E8E8E6"/>
-  <link rel="icon" href="favicon.png" type="image/png"/>
-  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st41"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st41"/>
-
+  <meta property="og:site_name" content="Club Copy"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Not found"/>
+  <meta property="og:description" content="This page is not in the catalogue."/>
+  <meta property="og:url" content="https://www.clubcopy.ca/404"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/pitch-black-cover.webp"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="icon" href="/apple-touch-icon.png"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc1"/>
+  
+  
 </head>
-<body class="zine-surface nav-light miss-page">
+<body class="cc">
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
-      <a href="/news">Zine</a>
+      <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
-      <a href="/#join">Join</a>
+      <a href="/join">Join</a>
     </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
   </div>
 </header>
-  <main class="miss">
-    <p class="eyebrow">Catalogue</p>
-    <h1>This file isn&rsquo;t in the catalogue.</h1>
-    <p>The link is old, or the page moved.</p>
-    <a class="miss-plate" href="/champion-sound">
-      <img src="champion-sound-cover-480.webp" alt="Champion Sound" width="240" height="240"/>
-      <span>
-        <strong>Champion Sound</strong>
-        <em>L.T. Drifta · Single · Digital $1.50</em>
-      </span>
-    </a>
-    <div class="miss-actions">
-      <a class="btn btn-dark" href="/">Home</a>
-      <a class="btn btn-ghost" href="/library">Library</a>
-      <a class="btn btn-ghost" href="/merch">Shop</a>
-    </div>
-  </main>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/library">Library</a>
+  <a href="/artists">Artists</a>
+  <a href="/tapes">Mixtapes</a>
+  <a href="/news">Night Shift</a>
+  <a href="/merch">Shop</a>
+  <a href="/join">Join</a>
+  <a href="/account">Account</a>
+  <a href="/contact">Contact</a>
+  <a href="/cart">Cart</a>
+</div>
+<main id="main">
+
+<section class="sec miss">
+  <p class="mono sec-kicker">404</p>
+  <h1 class="page-title">This file isn't in the catalogue.</h1>
+  <p class="page-lede">The link is old, or the page moved.</p>
+  <a class="miss-plate row row--release" href="/champion-sound"><span class="row-main"><span class="mono row-meta"><span>CC001</span><span>Single</span><span>Digital $1.50</span></span><span class="row-artist">L.T. Drifta</span><span class="row-title">Champion Sound</span></span><span class="row-art"><img src="/champion-sound-cover-480.webp" alt="Champion Sound" width="480" height="480"/></span></a>
+  <div class="lead-actions"><a class="btn btn-solid" href="/">Home</a><a class="btn" href="/library">Library</a><a class="btn" href="/merch">Shop</a></div>
+</section>
+</main>
 <footer class="footer">
-  <div class="band">
-    <div class="footer-top">
-      <div>
-        <a class="footer-wordmark" href="/">Club Copy</a>
-        <p class="footer-publisher"><a href="/about">Copy House Publishing</a></p>
-        <p class="footer-mail"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></p>
-      </div>
-      <div>
-        <label for="footerEmail">Email updates</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-        <p class="footer-note">Subscribe for updates.</p>
-      </div>
+  <div class="footer-grid">
+    <div class="footer-col footer-col--mark">
+      <a class="footer-wordmark" href="/">Club Copy</a>
+      <p class="footer-fact">Independent record label · British Columbia, Canada<br/>Published by <a href="/about">Copy House Publishing</a> · © 2024 — 2026</p>
     </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Club Copy</p>
-      <div class="footer-links">
-        <a href="/library">Library</a>
-        <a href="/artists">Artists</a>
-        <a href="/tapes">Mixes</a>
-        <a href="/news">Zine</a>
-        <a href="/merch">Shop</a>
-        <a href="/shipping">Shipping</a>
-        <a href="/planet">Planet MP3</a>
-        <a href="/contact">Contact</a>
-      </div>
+    <div class="footer-col">
+      <p class="footer-label">Contact</p>
+      <p class="footer-fact"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a><br/>Press, bookings, demos: <a href="/contact">contact</a></p>
+      <p class="footer-label">Orders</p>
+      <p class="footer-fact">Ships to Canada and the United States · <a href="/shipping">Shipping &amp; returns</a></p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Newsletter</p>
+      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <label class="sr-only" for="footerEmail">Email</label>
+        <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="footer-fact">Release alerts and first listens. No noise.</p>
     </div>
   </div>
+  <div class="footer-bottom">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/library">Library</a>
+      <a href="/artists">Artists</a>
+      <a href="/tapes">Mixtapes</a>
+      <a href="/news">Night Shift</a>
+      <a href="/merch">Shop</a>
+      <a href="/join">Record Club</a>
+      <a href="/about">About</a>
+      <a href="/planet">Planet MP3</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-fact">Streaming on site via Bandcamp. Files after checkout.</p>
+  </div>
 </footer>
+<script src="/js/site.js?v=cc1"></script>
+<script src="/js/cart.js?v=cc1"></script>
+<script src="/js/member.js?v=cc1"></script>
+<script src="/js/player.js?v=cc1"></script>
+
 </body>
 </html>

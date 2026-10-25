@@ -4,834 +4,193 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Shop — Club Copy</title>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "@id": "https://www.clubcopy.ca/merch#page",
-  "name": "Shop — Club Copy",
-  "url": "https://www.clubcopy.ca/merch",
-  "description": "Apparel, slipmats, and label goods from Club Copy.",
-  "isPartOf": {
-    "@id": "https://www.clubcopy.ca/#website"
-  },
-  "mainEntity": {
-    "@type": "ItemList",
-    "numberOfItems": 8,
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Club Copy Hoodie", "url": "https://www.clubcopy.ca/merch/hoodie"},
-      {"@type": "ListItem", "position": 2, "name": "Club Copy Micro Tee", "url": "https://www.clubcopy.ca/merch/micro-tee"},
-      {"@type": "ListItem", "position": 3, "name": "Club Copy Long Sleeve", "url": "https://www.clubcopy.ca/merch/long-sleeve"},
-      {"@type": "ListItem", "position": 4, "name": "Club Copy Sleeve Tee", "url": "https://www.clubcopy.ca/merch/sleeve-tee"},
-      {"@type": "ListItem", "position": 5, "name": "Club Copy Crewneck", "url": "https://www.clubcopy.ca/merch/crewneck"},
-      {"@type": "ListItem", "position": 6, "name": "Club Copy Cap", "url": "https://www.clubcopy.ca/merch/cap"},
-      {"@type": "ListItem", "position": 7, "name": "Club Copy Bikini", "url": "https://www.clubcopy.ca/merch/bikini"},
-      {"@type": "ListItem", "position": 8, "name": "Club Copy Slipmat Pair", "url": "https://www.clubcopy.ca/merch/slipmat"}
-    ]
-  }
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://www.clubcopy.ca/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Shop",
-      "item": "https://www.clubcopy.ca/merch"
-    }
-  ]
-}
-  </script>
-  <meta name="description" content="Club Copy shop — apparel, slipmats, and label goods. Music lives in the Library."/>
-  <meta name="theme-color" content="#E8E8E6"/>
+  <meta name="description" content="Club Copy label goods: apparel, slipmats and sleeves. Ships to Canada and the US."/>
+  <meta name="theme-color" content="#0a0a0a"/>
+  <meta name="color-scheme" content="dark"/>
   <link rel="canonical" href="https://www.clubcopy.ca/merch"/>
+  
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Shop — Club Copy"/>
-  <meta property="og:description" content="Apparel, slipmats, and label goods from Club Copy. Music lives in the Library."/>
+  <meta property="og:title" content="Shop"/>
+  <meta property="og:description" content="Club Copy label goods: apparel, slipmats and sleeves. Ships to Canada and the US."/>
   <meta property="og:url" content="https://www.clubcopy.ca/merch"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/merch/club-copy/prod-hoodie.webp"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/pitch-black-cover.webp"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Shop — Club Copy"/>
-  <meta name="twitter:description" content="Apparel, slipmats, and label goods from Club Copy. Music lives in the Library."/>
-  <meta name="twitter:image" content="https://www.clubcopy.ca/merch/club-copy/prod-hoodie.webp"/>
-  <link rel="icon" href="favicon.png" type="image/png"/>
-  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st41"/>
-  <link rel="stylesheet" href="css/shop.css?v=st41"/>
-  <link rel="stylesheet" href="css/fx.css?v=st41"/>
-  <link rel="stylesheet" href="css/station.css?v=st41"/>
-  <link rel="stylesheet" href="css/player.css?v=st41"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st41"/>
-
-  <style>
-    /* Filter / sort bar — Stones Throw flow ------------------------------------ */
-    .store-bar {
-      position: sticky;
-      top: calc(var(--nav-h) + var(--safe-t));
-      z-index: 80;
-      background: rgba(22, 25, 30, .94);
-      backdrop-filter: saturate(180%) blur(16px);
-      -webkit-backdrop-filter: saturate(180%) blur(16px);
-      border-bottom: 1px solid rgba(200, 200, 196, .16);
-    }
-    .store-bar-inner {
-      max-width: var(--wrap);
-      margin: 0 auto;
-      padding: 14px max(24px, env(safe-area-inset-right, 0px)) 14px max(24px, env(safe-area-inset-left, 0px));
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      flex-wrap: wrap;
-    }
-    @media (min-width: 800px) {
-      .store-bar-inner { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
-    }
-    .store-filters, .store-sort {
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    }
-    .store-label {
-      font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
-      color: #7a8696;
-    }
-    @media (max-width: 720px) {
-      .store-bar-inner {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-      }
-      .store-label { display: none; }
-      .store-filters {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        gap: 8px;
-      }
-      .store-filters .store-chip { flex: 0 0 auto; }
-    }
-    /* .store-chip → css/station.css (bezel chips), night steel on this bar */
-    .store-bar .store-chip {
-      border-radius: 2px;
-      color: #a8b4c4;
-      background: rgba(255, 255, 255, .06);
-      border-color: rgba(200, 200, 196, .28);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
-    }
-    @media (hover: hover) {
-      .store-bar .store-chip:hover {
-        color: #e8e8e6;
-        border-color: rgba(232, 238, 244, .5);
-      }
-    }
-    .store-bar .store-chip.is-active,
-    .store-bar .store-chip[aria-pressed="true"] {
-      color: #16191e;
-      background: #e8e8e6;
-      border-color: #e8e8e6;
-      box-shadow: 2px 2px 0 #b0b0ac;
-    }
-    .store-sort select {
-      height: 34px; padding: 0 28px 0 12px;
-      border: 1px solid rgba(200, 200, 196, .28); border-radius: 2px;
-      background: #1c2128 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a8b4c4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 10px center;
-      color: #e8e8e6; font: inherit; font-size: 13px; font-weight: 500;
-      appearance: none; -webkit-appearance: none; cursor: pointer;
-    }
-
-    /* Product grid ------------------------------------------------------------- */
-    .store-grid-wrap {
-      max-width: var(--wrap);
-      margin: 0 auto;
-      padding: 36px max(24px, env(safe-area-inset-right, 0px)) 80px max(24px, env(safe-area-inset-left, 0px));
-    }
-    @media (min-width: 800px) {
-      .store-grid-wrap { padding: 48px max(40px, env(safe-area-inset-right, 0px)) 96px max(40px, env(safe-area-inset-left, 0px)); }
-    }
-    .store-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 40px 28px;
-      list-style: none; margin: 0; padding: 0;
-    }
-    @media (max-width: 980px) { .store-grid { grid-template-columns: 1fr 1fr; gap: 32px 18px; } }
-    @media (max-width: 560px) { .store-grid { grid-template-columns: 1fr; max-width: 420px; gap: 28px; } }
-
-    .product--featured.is-shown {
-      grid-column: 1 / -1;
-    }
-    @media (min-width: 700px) {
-      .product--featured.is-shown {
-        display: grid !important;
-        grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-        gap: 28px;
-        align-items: center;
-      }
-      .product--featured .product-visual {
-        max-width: min(420px, 100%);
-      }
-      .product--featured .product-title {
-        font-size: clamp(26px, 3.4vw, 36px);
-        letter-spacing: -.03em;
-      }
-    }
-
-    .product {
-      display: none;
-      flex-direction: column;
-      gap: 14px;
-      opacity: 0; transform: translateY(12px);
-      transition: opacity .55s var(--ease), transform .55s var(--ease);
-    }
-    .product.is-shown { display: flex; }
-    .product.in { opacity: 1; transform: none; }
-    .product.is-shown:nth-child(3n+2) { transition-delay: .04s; }
-    .product.is-shown:nth-child(3n+3) { transition-delay: .08s; }
-
-    .product-visual {
-      position: relative;
-      display: block; width: 100%; padding: 0; border: 0;
-      background: #0e1014;
-      aspect-ratio: 1;
-      overflow: hidden;
-      cursor: pointer;
-      text-align: left; color: inherit;
-      border-radius: 4px;
-    }
-    .product-badge {
-      position: absolute; top: 10px; left: 10px; z-index: 3;
-      background: rgba(8,8,10,.88); color: #fff;
-      font-family: var(--callsign);
-      font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-      padding: 6px 9px;
-      border: 1px solid rgba(200,200,196,.28);
-      border-radius: 2px;
-      pointer-events: none;
-    }
-    .product-visual img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      transition: transform .7s var(--ease);
-    }
-    @media (hover:hover) {
-      .product:hover .product-visual img { transform: scale(1.03); }
-    }
-
-    .product-title {
-      margin: 0;
-      font-family: var(--display);
-      font-size: 16px; font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
-    }
-    .product-title a,
-    .product-title button {
-      color: inherit; font: inherit; background: none; border: 0; padding: 0;
-      cursor: pointer; text-align: left;
-    }
-    @media (hover:hover) {
-      .product-title a:hover,
-      .product-title button:hover { opacity: .65; }
-    }
-
-    .store-empty {
-      display: none;
-      padding: 64px 0;
-      text-align: center;
-      color: var(--muted);
-      font-size: 15px;
-    }
-    .store-empty.is-visible { display: block; }
-
-    /* Product drawer (buy surface) -------------------------------------------- */
-    .product-drawer {
-      border: 0; padding: 0; width: min(420px, 100%); max-width: 100%; height: 100%; max-height: 100dvh;
-      margin: 0 0 0 auto; background: #f4f4f2; color: #1a1a1a;
-      box-shadow: 0 24px 64px rgba(17,17,17,.22);
-    }
-    .product-drawer::backdrop { background: rgba(17,17,17,.42); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-    .product-drawer[open] { display: flex; flex-direction: column; animation: drawerIn .35s var(--ease); }
-    @keyframes drawerIn { from { transform: translateX(12px); opacity: .6; } to { transform: none; opacity: 1; } }
-    .product-drawer__inner {
-      padding: max(28px, env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px)) max(40px, env(safe-area-inset-bottom, 0px)) 24px;
-      overflow: auto; position: relative;
-      display: flex; flex-direction: column; gap: 16px;
-    }
-    .product-drawer__close {
-      position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 999px;
-      border: 1px solid rgba(158,176,194,.45); background: #eaeae8; font-size: 22px; line-height: 1; cursor: pointer; color: #1a1a1a;
-    }
-    .product-drawer img {
-      width: 100%; aspect-ratio: 1; object-fit: contain; background: #eaeae8;
-      border-radius: var(--radius-lg); margin: 0;
-    }
-    .product-drawer h2 { font-size: 28px; letter-spacing: -.03em; margin: 0; }
-    .drawer-price { font-size: 18px; font-weight: 600; margin: 0; }
-    .opt-block { display: flex; flex-direction: column; gap: 8px; }
-    .opt-label {
-      font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-      color: #7a7a78;
-    }
-    .merch-options { display: flex; gap: 8px; flex-wrap: wrap; }
-    .merch-opt {
-      min-width: 40px; height: 34px; padding: 0 12px; border-radius: var(--bezel-r);
-      background: #eaeae8; color: #5c5c5a;
-      border: 1px solid rgba(158,176,194,.45);
-      font-size: 13px; font-weight: 500; cursor: pointer;
-      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-    }
-    @media (hover:hover) { .merch-opt:hover { color: #1a1a1a; border-color: #1a1a1a; } }
-    .merch-opt.selected,
-    .merch-opt[aria-pressed="true"] {
-      background: #1a1a1a; color: #f7f9fb; border-color: #1a1a1a;
-    }
-    .opt-error { font-size: 12px; color: #b42318; margin: 0; }
-    .merch-options[aria-invalid="true"] { outline: 1px solid rgba(180,35,24,.45); outline-offset: 4px; border-radius: 10px; }
-    .merch-add {
-      height: 48px; width: 100%;
-      border-radius: var(--bezel-r);
-      background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 42%), linear-gradient(180deg, #3a404c 0%, #1a1e26 48%, #12151a 100%);
-      color: #fff;
-      border: 1px solid rgba(200,200,196,.28);
-      font-size: 14px; font-weight: 600; letter-spacing: -.01em;
-      cursor: pointer;
-      transition: opacity var(--dur) var(--ease), transform 160ms var(--ease);
-    }
-    .merch-add:active { transform: scale(.98); }
-    .merch-add.is-added { opacity: .7; }
-    .merch-add:disabled { opacity: .45; cursor: not-allowed; }
-    .drawer-opts { display: flex; flex-direction: column; gap: 14px; }
-    .drawer-opts[hidden] { display: none !important; }
-
-    /* Toast -------------------------------------------------------------------- */
-    .toast {
-      position: fixed; left: 50%; bottom: calc(24px + var(--safe-b));
-      transform: translateX(-50%) translateY(20px);
-      z-index: 550; opacity: 0; pointer-events: none;
-      display: flex; align-items: center; gap: 14px;
-      background: #f4f4f2; color: #1a1a1a;
-      border: 1px solid rgba(158,176,194,.45);
-      padding: 12px 12px 12px 18px; border-radius: var(--bezel-r);
-      box-shadow: var(--shadow-lg);
-      transition: opacity .35s var(--ease), transform .35s var(--ease);
-    }
-    .toast.on { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-    body.has-vcr-player .toast {
-      bottom: calc(var(--vcr-player-h, 112px) + 26px + var(--safe-b));
-    }
-    .toast span { font-size: 13px; font-weight: 500; white-space: nowrap; }
-    .toast a {
-      min-height: 44px; height: auto; padding: 0 14px; border-radius: var(--bezel-r);
-      background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 42%), linear-gradient(180deg, #3a404c 0%, #1a1e26 100%);
-      color: #fff;
-      font-size: 12px; font-weight: 600;
-      display: inline-flex; align-items: center;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .product { opacity: 1; transform: none; transition: none; }
-      .product-visual img { transition: none; }
-    }
-  </style>
+  <link rel="icon" href="/apple-touch-icon.png"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc1"/>
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Club Copy shop","numberOfItems":9,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://www.clubcopy.ca/merch/hoodie","name":"Club Copy Hoodie"},{"@type":"ListItem","position":2,"url":"https://www.clubcopy.ca/merch/micro-tee","name":"Club Copy Micro Tee"},{"@type":"ListItem","position":3,"url":"https://www.clubcopy.ca/merch/long-sleeve","name":"Club Copy Long Sleeve"},{"@type":"ListItem","position":4,"url":"https://www.clubcopy.ca/merch/sleeve-tee","name":"Club Copy Sleeve Tee"},{"@type":"ListItem","position":5,"url":"https://www.clubcopy.ca/merch/crewneck","name":"Club Copy Crewneck"},{"@type":"ListItem","position":6,"url":"https://www.clubcopy.ca/merch/cap","name":"Club Copy Cap"},{"@type":"ListItem","position":7,"url":"https://www.clubcopy.ca/merch/bikini","name":"Club Copy Bikini"},{"@type":"ListItem","position":8,"url":"https://www.clubcopy.ca/merch/slipmat","name":"Club Copy Slipmat Pair"},{"@type":"ListItem","position":9,"url":"https://www.clubcopy.ca/merch/poly-outer","name":"Club Copy Poly Outer"}]}</script>
 </head>
-<body id="top" class="shop-page zine-surface nav-light">
+<body class="cc shop-page">
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-        <nav class="nav-links" aria-label="Primary">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Primary">
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
-      <a href="/news">Zine</a>
-      <a href="/merch">Shop</a>
-      <a href="/#join">Join</a>
+      <a href="/news">Night Shift</a>
+      <a href="/merch" aria-current="page">Shop</a>
+      <a href="/join">Join</a>
     </nav>
     <div class="nav-end">
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
-          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-        </svg>
-        <span class="nav-cart-count" data-cart-count hidden>0</span>
-      </a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
-
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
-  <a href="/news">Zine</a>
+  <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
-  <a href="/#join">Join</a>
+  <a href="/join">Join</a>
+  <a href="/account">Account</a>
   <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>
-
 <main id="main">
-  <section class="shop-hero" aria-labelledby="shop-title">
-    <div class="shop-hero__ambient" style="background-image:url('merch/club-copy/prod-hoodie.webp')" aria-hidden="true"></div>
-    <div class="shop-hero__inner">
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a><span>/</span>Shop
-      </nav>
-      <img class="shop-hero__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width="901" height="280"/>
-      <h1 id="shop-title" class="shop-hero__title">Label goods</h1>
-      <p class="shop-hero__lede">Label goods for the room. Music lives in the <a href="/library">Library</a>.</p>
-    </div>
-  </section>
-  <div class="store-bar" aria-label="Shop filters">
-    <div class="store-bar-inner">
-      <div class="store-filters">
-        <span class="store-label">Filters</span>
-        <button type="button" class="store-chip is-active" data-filter="all" aria-pressed="true">All</button>
-        <button type="button" class="store-chip" data-filter="clothing" aria-pressed="false">Apparel</button>
-        <button type="button" class="store-chip" data-filter="goods" aria-pressed="false">Goods</button>
-      </div>
-      <div class="store-sort">
-        <label class="store-label" for="storeSort">Sort</label>
-        <select id="storeSort">
-          <option value="newest">Catalog order</option>
-          <option value="oldest">Reverse catalog</option>
-          <option value="az">Alphabetically, A–Z</option>
-          <option value="za">Alphabetically, Z–A</option>
-        </select>
-      </div>
-    </div>
+
+<header class="page-head">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Shop</span></nav>
+  <h1 class="page-title">Shop</h1>
+  <p class="page-lede">Label goods. Music lives in the <a href="/library">library</a>. Ships to Canada and the United States.</p>
+</header>
+<section class="filters store-bar" aria-label="Shop filters">
+  <div class="store-filters filter" role="group" aria-label="Filter">
+    <span class="mono store-label">Filter</span>
+    <button type="button" class="store-chip is-active" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" class="store-chip" data-filter="clothing" aria-pressed="false">Apparel</button>
+    <button type="button" class="store-chip" data-filter="goods" aria-pressed="false">Goods</button>
   </div>
-
-  <div class="store-grid-wrap">
-    <ul class="store-grid" id="storeGrid" aria-label="Products">
-<li class="product merch-card product--featured is-shown" data-type="clothing" data-sku="sm-hoodie" data-name="Club Copy Hoodie" data-price="85" data-sort="87" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL">
-        <a class="product-visual media-bezel" href="/merch/hoodie" aria-label="Club Copy Hoodie">
-          <img src="merch/club-copy/prod-hoodie.webp" alt="Hoodie" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/hoodie">Club Copy Hoodie</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$85</span>
-          </div>
-        </div>
-      </li>
-
-
-
-
-
-      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-simple-tee" data-name="Club Copy Micro Tee" data-price="40" data-sort="90" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="80" data-colours="Black,White" data-sizes="S,M,L,XL" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
-        <a class="product-visual media-bezel" href="/merch/micro-tee" aria-label="Club Copy Micro Tee">
-          <img src="merch/club-copy/prod-simple-tee-black.jpg" alt="Micro Tee" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/micro-tee">Club Copy Micro Tee</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$40</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-longsleeve" data-name="Club Copy Long Sleeve" data-price="53" data-sort="89" data-fit="Regular fit · long sleeve" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="40" data-sizes="S,M,L,XL">
-        <a class="product-visual media-bezel" href="/merch/long-sleeve" aria-label="Club Copy Long Sleeve">
-          <img src="merch/club-copy/prod-longsleeve-white.jpg" alt="Long Sleeve" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/long-sleeve">Club Copy Long Sleeve</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$53</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-sleeve-tee" data-name="Club Copy Sleeve Tee" data-price="55" data-sort="88" data-fit="Regular fit · sleeve print only" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-sizes="S,M,L,XL">
-        <a class="product-visual media-bezel" href="/merch/sleeve-tee" aria-label="Club Copy Sleeve Tee">
-          <img src="merch/club-copy/prod-sleeve-tee.webp" alt="Sleeve Tee" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/sleeve-tee">Club Copy Sleeve Tee</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$55</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-crewneck" data-name="Club Copy Crewneck" data-price="73" data-sort="86" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL">
-        <a class="product-visual media-bezel" href="/merch/crewneck" aria-label="Club Copy Crewneck">
-          <img src="merch/club-copy/prod-crewneck.jpg" alt="Crewneck" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/crewneck">Club Copy Crewneck</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$73</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-cap" data-name="Club Copy Cap" data-price="45" data-sort="85" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="50">
-        <a class="product-visual media-bezel" href="/merch/cap" aria-label="Club Copy Cap">
-          <img src="merch/club-copy/prod-cap.webp" alt="Cap" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/cap">Club Copy Cap</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$45</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="clothing" data-sku="sm-bikini" data-name="Club Copy Bikini" data-price="60" data-sort="84" data-fit="True to size · stretch jersey" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="20" data-sizes="XS,S,M,L">
-        <a class="product-visual media-bezel" href="/merch/bikini" aria-label="Club Copy Bikini">
-          <img src="merch/club-copy/prod-bikini.jpg" alt="Bikini" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/bikini">Club Copy Bikini</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Apparel</span>
-            <span class="product-price">$60</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="goods" data-sku="sm-slipmat" data-name="Club Copy Slipmat Pair" data-price="22" data-sort="80" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="60">
-        <a class="product-visual media-bezel" href="/merch/slipmat" aria-label="Club Copy Slipmat Pair">
-          <img src="merch/club-copy/prod-slipmat.webp" alt="Slipmat Pair" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/slipmat">Club Copy Slipmat Pair</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Goods</span>
-            <span class="product-price">$22</span>
-          </div>
-        </div>
-      </li>
-
-      <li class="product merch-card is-shown" data-type="goods" data-sku="sm-poly-outer" data-name="Club Copy Poly Outer" data-price="5" data-sort="79" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="100">
-        <a class="product-visual media-bezel" href="/merch/poly-outer" aria-label="Club Copy Poly Outer">
-          <img src="merch/club-copy/prod-poly-outer.webp" alt="Poly Outer" loading="lazy"/>
-        </a>
-        <div class="product-info">
-          <h3 class="product-title"><a href="/merch/poly-outer">Club Copy Poly Outer</a></h3>
-          <div class="product-meta-row">
-            <span class="product-type">Goods</span>
-            <span class="product-price">$5</span>
-          </div>
-        </div>
-      </li>
-
-
-    </ul>
-    <p class="store-empty" id="storeEmpty" hidden>No products in this filter.</p>
+  <div class="store-sort filter">
+    <label class="mono store-label" for="storeSort">Sort</label>
+    <select id="storeSort">
+      <option value="newest">Catalogue order</option>
+      <option value="oldest">Reverse catalogue</option>
+      <option value="az">A–Z</option>
+      <option value="za">Z–A</option>
+    </select>
   </div>
+</section>
+<ul class="store-grid" id="storeGrid" aria-label="Products">
+<li class="product product--featured is-shown" data-type="clothing" data-sku="sm-hoodie" data-name="Club Copy Hoodie" data-price="85" data-sort="87" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL" >
+  <a class="product-visual" href="/merch/hoodie" aria-label="Club Copy Hoodie"><img src="/merch/club-copy/prod-hoodie.webp" alt="Club Copy Hoodie" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/hoodie">Club Copy Hoodie</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$85</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="clothing" data-sku="sm-simple-tee" data-name="Club Copy Micro Tee" data-price="40" data-sort="90" data-fit="Regular fit · heavyweight cotton" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="80" data-sizes="S,M,L,XL" data-colours="Black,White" data-img-black="merch/club-copy/prod-simple-tee-black.jpg" data-img-white="merch/club-copy/prod-simple-tee-white.jpg">
+  <a class="product-visual" href="/merch/micro-tee" aria-label="Club Copy Micro Tee"><img src="/merch/club-copy/prod-simple-tee-black.jpg" alt="Club Copy Micro Tee" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/micro-tee">Club Copy Micro Tee</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$40</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="clothing" data-sku="sm-longsleeve" data-name="Club Copy Long Sleeve" data-price="53" data-sort="89" data-fit="Regular fit · long sleeve" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="40" data-sizes="S,M,L,XL" >
+  <a class="product-visual" href="/merch/long-sleeve" aria-label="Club Copy Long Sleeve"><img src="/merch/club-copy/prod-longsleeve-white.jpg" alt="Club Copy Long Sleeve" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/long-sleeve">Club Copy Long Sleeve</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$53</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="clothing" data-sku="sm-sleeve-tee" data-name="Club Copy Sleeve Tee" data-price="55" data-sort="88" data-fit="Regular fit · sleeve print only" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="36" data-sizes="S,M,L,XL" >
+  <a class="product-visual" href="/merch/sleeve-tee" aria-label="Club Copy Sleeve Tee"><img src="/merch/club-copy/prod-sleeve-tee.webp" alt="Club Copy Sleeve Tee" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/sleeve-tee">Club Copy Sleeve Tee</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$55</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="clothing" data-sku="sm-crewneck" data-name="Club Copy Crewneck" data-price="73" data-sort="86" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL" >
+  <a class="product-visual" href="/merch/crewneck" aria-label="Club Copy Crewneck"><img src="/merch/club-copy/prod-crewneck.jpg" alt="Club Copy Crewneck" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/crewneck">Club Copy Crewneck</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$73</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="clothing" data-sku="sm-cap" data-name="Club Copy Cap" data-price="45" data-sort="85" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="50" >
+  <a class="product-visual" href="/merch/cap" aria-label="Club Copy Cap"><img src="/merch/club-copy/prod-cap.webp" alt="Club Copy Cap" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/cap">Club Copy Cap</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$45</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="clothing" data-sku="sm-bikini" data-name="Club Copy Bikini" data-price="60" data-sort="84" data-fit="True to size · stretch jersey" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="20" data-sizes="XS,S,M,L" >
+  <a class="product-visual" href="/merch/bikini" aria-label="Club Copy Bikini"><img src="/merch/club-copy/prod-bikini.jpg" alt="Club Copy Bikini" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/bikini">Club Copy Bikini</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Apparel</span><span class="product-price">$60</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="goods" data-sku="sm-slipmat" data-name="Club Copy Slipmat Pair" data-price="22" data-sort="80" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="60" >
+  <a class="product-visual" href="/merch/slipmat" aria-label="Club Copy Slipmat Pair"><img src="/merch/club-copy/prod-slipmat.webp" alt="Club Copy Slipmat Pair" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/slipmat">Club Copy Slipmat Pair</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Goods</span><span class="product-price">$22</span></p>
+  </div>
+</li>
+<li class="product is-shown" data-type="goods" data-sku="sm-poly-outer" data-name="Club Copy Poly Outer" data-price="5" data-sort="79" data-fit="One size" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="100" >
+  <a class="product-visual" href="/merch/poly-outer" aria-label="Club Copy Poly Outer"><img src="/merch/club-copy/prod-poly-outer.webp" alt="Club Copy Poly Outer" width="1200" height="1200" loading="lazy"/></a>
+  <div class="product-info">
+    <h3 class="product-title"><a href="/merch/poly-outer">Club Copy Poly Outer</a></h3>
+    <p class="mono product-meta-row"><span class="product-type">Goods</span><span class="product-price">$5</span></p>
+  </div>
+</li>
+</ul>
+<p class="page-lede" id="storeEmpty" hidden>Nothing in this filter yet.</p>
+
 </main>
-
-<dialog class="product-drawer" id="productDrawer" aria-labelledby="drawerTitle">
-  <div class="product-drawer__inner">
-    <button class="product-drawer__close" type="button" aria-label="Close">&times;</a>
-    <img id="drawerImage" alt=""/>
-    <h2 id="drawerTitle"></h2>
-    <div class="drawer-opts" id="drawerOpts">
-      <div class="opt-block" id="drawerColourBlock" hidden>
-        <span class="opt-label">Colour</span>
-        <div class="merch-options" id="drawerColours" role="group"></div>
-      </div>
-      <div class="opt-block" id="drawerSizeBlock" hidden>
-        <span class="opt-label">Size</span>
-        <div class="merch-options" id="drawerSizes" role="group" data-required="size"></div>
-        <p class="opt-error" id="drawerSizeError" role="alert" hidden>Select a size to continue.</p>
-      </div>
-      <button class="merch-add" id="drawerAdd" type="button">Add to cart</button>
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-col--mark">
+      <a class="footer-wordmark" href="/">Club Copy</a>
+      <p class="footer-fact">Independent record label · British Columbia, Canada<br/>Published by <a href="/about">Copy House Publishing</a> · © 2024 — 2026</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Contact</p>
+      <p class="footer-fact"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a><br/>Press, bookings, demos: <a href="/contact">contact</a></p>
+      <p class="footer-label">Orders</p>
+      <p class="footer-fact">Ships to Canada and the United States · <a href="/shipping">Shipping &amp; returns</a></p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Newsletter</p>
+      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <label class="sr-only" for="footerEmail">Email</label>
+        <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="footer-fact">Release alerts and first listens. No noise.</p>
     </div>
   </div>
-</dialog>
-
-<div class="toast" id="toast" role="status" aria-live="polite">
-  <span id="toastMsg">Added to cart</span>
-  <a href="/cart">View cart</a>
-</div>
-
-<footer class="footer">
-  <div class="band">
-    <div class="footer-top">
-      <div>
-        <a class="footer-wordmark" href="/">Club Copy</a>
-        <p class="footer-publisher"><a href="/about">Copy House Publishing</a></p>
-        <p class="footer-mail"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></p>
-      </div>
-      <div>
-        <label for="footerEmail">Email updates</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-        <p class="footer-note">Subscribe for updates.</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Club Copy</p>
-      <div class="footer-links">
-        <a href="/library">Library</a>
-        <a href="/artists">Artists</a>
-        <a href="/tapes">Mixtapes</a>
-        <a href="/news">Zine</a>
-        <a href="/merch">Shop</a>
-        <a href="/shipping">Shipping</a>
-        <a href="/planet">Planet MP3</a>
-        <a href="/contact">Contact</a>
-      </div>
-    </div>
+  <div class="footer-bottom">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/library">Library</a>
+      <a href="/artists">Artists</a>
+      <a href="/tapes">Mixtapes</a>
+      <a href="/news">Night Shift</a>
+      <a href="/merch">Shop</a>
+      <a href="/join">Record Club</a>
+      <a href="/about">About</a>
+      <a href="/planet">Planet MP3</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-fact">Streaming on site via Bandcamp. Files after checkout.</p>
   </div>
 </footer>
+<script src="/js/site.js?v=cc1"></script>
+<script src="/js/cart.js?v=cc1"></script>
+<script src="/js/member.js?v=cc1"></script>
+<script src="/js/player.js?v=cc1"></script>
+<script src="/js/shop.js?v=cc1"></script>
 
-<script src="js/site.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/member.js"></script>
-<script src="js/player.js?v=st41"></script>
-<script>
-(function () {
-  var grid = document.getElementById('storeGrid');
-  var empty = document.getElementById('storeEmpty');
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.store-chip[data-filter]'));
-  var sortSelect = document.getElementById('storeSort');
-  var activeFilter = 'all';
-
-  function products() {
-    return Array.prototype.slice.call(grid.querySelectorAll('.product'));
-  }
-
-  function typeRank(el) {
-    var type = el.dataset.type || '';
-    if (type === 'clothing') return 1;
-    if (type === 'goods') return 2;
-    if (type === 'bundles') return 3;
-    return 4;
-  }
-
-  function applyFilterSort() {
-    var items = products();
-    var sort = sortSelect.value;
-    items.sort(function (a, b) {
-      var af = a.classList.contains('product--featured') ? 0 : 1;
-      var bf = b.classList.contains('product--featured') ? 0 : 1;
-      if (af !== bf) return af - bf;
-
-      var an = (a.dataset.name || '').toLowerCase();
-      var bn = (b.dataset.name || '').toLowerCase();
-      if (sort === 'az') return an.localeCompare(bn);
-      if (sort === 'za') return bn.localeCompare(an);
-
-      var ar = typeRank(a);
-      var br = typeRank(b);
-      if (ar !== br) return sort === 'oldest' ? br - ar : ar - br;
-
-      var as = Number(a.dataset.sort || 0);
-      var bs = Number(b.dataset.sort || 0);
-      if (as !== bs) return sort === 'oldest' ? as - bs : bs - as;
-      return an.localeCompare(bn);
-    });
-    items.forEach(function (el) { grid.appendChild(el); });
-
-    var shown = 0;
-    items.forEach(function (el) {
-      var match = activeFilter === 'all' || el.dataset.type === activeFilter;
-      el.classList.toggle('is-shown', match);
-      if (match) {
-        shown += 1;
-        el.classList.remove('in');
-        requestAnimationFrame(function () { el.classList.add('in'); });
-      }
-    });
-    empty.hidden = shown > 0;
-    empty.classList.toggle('is-visible', shown === 0);
-  }
-
-  chips.forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      activeFilter = chip.dataset.filter;
-      chips.forEach(function (c) {
-        var on = c === chip;
-        c.classList.toggle('is-active', on);
-        c.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      applyFilterSort();
-    });
-  });
-  sortSelect.addEventListener('change', applyFilterSort);
-  applyFilterSort();
-
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
-    });
-  }, { threshold: .08, rootMargin: '0px 0px -20px 0px' });
-  products().forEach(function (el) { obs.observe(el); });
-})();
-
-(function productDrawer() {
-  var drawer = document.getElementById('productDrawer');
-  if (!drawer) return;
-  var opener = null;
-  var activeCard = null;
-  var colourBlock = document.getElementById('drawerColourBlock');
-  var sizeBlock = document.getElementById('drawerSizeBlock');
-  var colourHost = document.getElementById('drawerColours');
-  var sizeHost = document.getElementById('drawerSizes');
-  var sizeError = document.getElementById('drawerSizeError');
-  var addBtn = document.getElementById('drawerAdd');
-  var opts = document.getElementById('drawerOpts');
-
-  function makeOpt(label, selected) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'merch-opt' + (selected ? ' selected' : '');
-    btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
-    btn.textContent = label;
-    return btn;
-  }
-
-  function wireGroup(host, onPick) {
-    host.querySelectorAll('.merch-opt').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        host.querySelectorAll('.merch-opt').forEach(function (b) {
-          b.classList.remove('selected');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('selected');
-        btn.setAttribute('aria-pressed', 'true');
-        if (onPick) onPick(btn);
-        if (host === sizeHost) {
-          sizeHost.removeAttribute('aria-invalid');
-          sizeError.hidden = true;
-        }
-      });
-    });
-  }
-
-  function openFrom(card, trigger) {
-    opener = trigger || null;
-    activeCard = card;
-    var img = card.querySelector('.product-visual img');
-    document.getElementById('drawerImage').src = img ? img.src : '';
-    document.getElementById('drawerImage').alt = card.dataset.name || '';
-    document.getElementById('drawerTitle').textContent = card.dataset.name || '';
-
-    var colours = (card.dataset.colours || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-    var sizes = (card.dataset.sizes || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-
-    colourHost.innerHTML = '';
-    sizeHost.innerHTML = '';
-    sizeError.hidden = true;
-    sizeHost.removeAttribute('aria-invalid');
-
-    if (colours.length) {
-      colourBlock.hidden = false;
-      colours.forEach(function (c, i) { colourHost.appendChild(makeOpt(c, i === 0)); });
-      wireGroup(colourHost, function (btn) {
-        var map = {
-          Black: card.dataset.imgBlack,
-          White: card.dataset.imgWhite
-        };
-        var next = map[btn.textContent.trim()];
-        if (next) {
-          document.getElementById('drawerImage').src = next;
-          if (img) img.src = next;
-        }
-      });
-    } else {
-      colourBlock.hidden = true;
-    }
-
-    if (sizes.length) {
-      sizeBlock.hidden = false;
-      sizes.forEach(function (s) { sizeHost.appendChild(makeOpt(s, false)); });
-      wireGroup(sizeHost);
-    } else {
-      sizeBlock.hidden = true;
-    }
-
-    var sold = card.dataset.stockQty != null && Number(card.dataset.stockQty) <= 0;
-    addBtn.disabled = sold;
-    addBtn.textContent = sold ? 'Sold out' : 'Add to cart';
-    opts.hidden = false;
-
-    if (typeof drawer.showModal === 'function') drawer.showModal();
-  }
-
-  document.querySelectorAll('[data-open-product]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var card = el.closest('.merch-card');
-      if (card) openFrom(card, el);
-    });
-  });
-
-  var closeBtn = drawer.querySelector('.product-drawer__close');
-  if (closeBtn) closeBtn.addEventListener('click', function () { drawer.close(); });
-  drawer.addEventListener('click', function (e) { if (e.target === drawer) drawer.close(); });
-  drawer.addEventListener('close', function () { if (opener) try { opener.focus(); } catch (err) {} });
-
-  var toast = document.getElementById('toast');
-  var toastMsg = document.getElementById('toastMsg');
-  var toastTimer;
-  function showToast(name) {
-    toastMsg.textContent = name + ' added to cart';
-    toast.classList.add('on');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.classList.remove('on'); }, 3200);
-  }
-
-  addBtn.addEventListener('click', function () {
-    if (!activeCard || addBtn.disabled) return;
-    var colourBtn = colourHost.querySelector('.merch-opt[aria-pressed="true"]');
-    var sizeBtn = sizeHost.querySelector('.merch-opt[aria-pressed="true"]');
-    if (!sizeBlock.hidden && !sizeBtn) {
-      sizeHost.setAttribute('aria-invalid', 'true');
-      sizeError.hidden = false;
-      var first = sizeHost.querySelector('.merch-opt');
-      if (first) first.focus();
-      return;
-    }
-    var img = document.getElementById('drawerImage');
-    var item = {
-      sku: activeCard.dataset.sku,
-      name: activeCard.dataset.name,
-      price: Number(activeCard.dataset.price),
-      colour: colourBtn ? colourBtn.textContent.trim() : null,
-      size: sizeBtn ? sizeBtn.textContent.trim() : null,
-      image: img ? img.getAttribute('src') : '',
-      qty: 1
-    };
-    item.id = VCRCart.lineId(item);
-    VCRCart.add(item);
-    addBtn.classList.add('is-added');
-    addBtn.textContent = 'Added';
-    showToast(item.name);
-    setTimeout(function () {
-      addBtn.classList.remove('is-added');
-      addBtn.textContent = 'Add to cart';
-    }, 1400);
-  });
-})();
-</script>
 </body>
 </html>

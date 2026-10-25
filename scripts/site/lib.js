@@ -1,0 +1,276 @@
+/* Club Copy site generator — shared helpers and the page shell. */
+"use strict";
+
+const fs = require("fs");
+const path = require("path");
+
+const ROOT = path.join(__dirname, "..", "..");
+const ORIGIN = "https://www.clubcopy.ca";
+const VERSION = "cc1";
+
+function esc(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+function attr(value) {
+  return esc(value).replace(/'/g, "&#39;");
+}
+function money(n) {
+  const cents = Math.round(Number(n) * 100);
+  if (!isFinite(cents)) return "";
+  return cents % 100 === 0 ? String(cents / 100) : (cents / 100).toFixed(2);
+}
+function clock(sec) {
+  sec = Math.max(0, Math.floor(Number(sec) || 0));
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  const p = (v) => (v < 10 ? "0" : "") + v;
+  return h ? `${h}:${p(m)}:${p(s)}` : `${m}:${p(s)}`;
+}
+function slugify(s) {
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function parseISO(iso) {
+  const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? { y: +m[1], mo: +m[2], d: +m[3] } : null;
+}
+function dateLong(iso) {
+  const p = parseISO(iso);
+  return p ? `${p.d} ${MONTHS[p.mo - 1]} ${p.y}` : "";
+}
+function dateShort(iso) {
+  const p = parseISO(iso);
+  return p ? `${p.d} ${MONTHS_SHORT[p.mo - 1]} ${p.y}` : "";
+}
+function dateMono(iso) {
+  const p = parseISO(iso);
+  return p ? `${String(p.d).padStart(2, "0")}.${String(p.mo).padStart(2, "0")}.${String(p.y).slice(2)}` : "";
+}
+function asset(src) {
+  if (!src) return "";
+  if (/^(https?:)?\/\//.test(src) || src.startsWith("/") || src.startsWith("data:")) return src;
+  return "/" + src.replace(/^(\.\.\/)+/, "");
+}
+function releaseSeconds(rel) {
+  return (rel.tracks || []).reduce((sum, t) => sum + (isFinite(Number(t && t.duration)) ? Number(t.duration) : 0), 0);
+}
+function specLine(rel) {
+  const n = rel.tracksCount || (rel.tracks || []).length;
+  const bits = [];
+  if (rel.catalogue) bits.push(rel.catalogue);
+  if (rel.kind) bits.push(rel.kind);
+  if (n) bits.push(n + (n === 1 ? " track" : " tracks"));
+  const total = releaseSeconds(rel);
+  if (total) bits.push(clock(total));
+  return bits.join(" · ");
+}
+function formatGlyphs(rel) {
+  const f = rel.formats || {};
+  return [f.digital ? "DL" : "", f.cassette ? "CS" : "", f.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
+}
+function priceLine(rel) {
+  const f = rel.formats || {};
+  const bits = [];
+  if (f.digital && f.digital.price != null) bits.push("Digital $" + money(f.digital.price));
+  if (f.cassette) {
+    if (f.cassette.stock === 0 || f.cassette.soldOut) bits.push("Cassette sold out");
+    else if (f.cassette.price != null) bits.push("Cassette $" + money(f.cassette.price));
+  }
+  if (f.vinyl && f.vinyl.price != null) bits.push("Vinyl $" + money(f.vinyl.price));
+  return bits.join(" · ");
+}
+function hasCue(rel) {
+  return (rel.tracks || []).some((t) => t && (t.preview || t.bandcampTrackId || t.previewTrack || t.soundcloud));
+}
+function onSite(rel) {
+  return !!(rel && rel.page && String(rel.page).charAt(0) === "/");
+}
+function readJSON(rel) {
+  return JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+}
+function write(rel, html) {
+  const file = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, html);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Shell                                                                   */
+/* ---------------------------------------------------------------------- */
+
+const NAV = [
+  ["/library", "Library"],
+  ["/artists", "Artists"],
+  ["/tapes", "Mixtapes"],
+  ["/news", "Night Shift"],
+  ["/merch", "Shop"],
+  ["/join", "Join"],
+];
+
+function navHtml(current) {
+  const links = NAV.map(([href, label]) => {
+    const on = current && (current === href || (href !== "/" && current.startsWith(href + "/")));
+    return `<a href="${href}"${on ? ' aria-current="page"' : ""}>${label}</a>`;
+  }).join("\n      ");
+  return `<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Primary">
+      ${links}
+    </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  ${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join("\n  ")}
+  <a href="/account">Account</a>
+  <a href="/contact">Contact</a>
+  <a href="/cart">Cart</a>
+</div>`;
+}
+
+function footerHtml() {
+  const year = new Date().getFullYear();
+  return `<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-col--mark">
+      <a class="footer-wordmark" href="/">Club Copy</a>
+      <p class="footer-fact">Independent record label · British Columbia, Canada<br/>Published by <a href="/about">Copy House Publishing</a> · © 2024 — ${year}</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Contact</p>
+      <p class="footer-fact"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a><br/>Press, bookings, demos: <a href="/contact">contact</a></p>
+      <p class="footer-label">Orders</p>
+      <p class="footer-fact">Ships to Canada and the United States · <a href="/shipping">Shipping &amp; returns</a></p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Newsletter</p>
+      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <label class="sr-only" for="footerEmail">Email</label>
+        <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="footer-fact">Release alerts and first listens. No noise.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/library">Library</a>
+      <a href="/artists">Artists</a>
+      <a href="/tapes">Mixtapes</a>
+      <a href="/news">Night Shift</a>
+      <a href="/merch">Shop</a>
+      <a href="/join">Record Club</a>
+      <a href="/about">About</a>
+      <a href="/planet">Planet MP3</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-fact">Streaming on site via Bandcamp. Files after checkout.</p>
+  </div>
+</footer>`;
+}
+
+const BASE_SCRIPTS = ["site.js", "cart.js", "member.js", "player.js"];
+
+function scriptTags(list) {
+  return list.map((s) => `<script src="/js/${s}?v=${VERSION}"></script>`).join("\n");
+}
+
+/**
+ * page({ title, description, path, canonical, bodyClass, main, scripts, jsonld, image, noindex })
+ */
+function page(o) {
+  const title = o.title ? `${o.title} — Club Copy` : "Club Copy";
+  const canonical = o.canonical || ORIGIN + (o.path === "/index" ? "/" : o.path || "/");
+  const image = asset(o.image || "/pitch-black-cover.webp");
+  const ogImage = /^https?:/.test(image) ? image : ORIGIN + image;
+  const jsonld = (o.jsonld || [])
+    .map((obj) => `<script type="application/ld+json">${JSON.stringify(obj)}</script>`)
+    .join("\n  ");
+  const scripts = scriptTags(BASE_SCRIPTS.concat(o.scripts || []));
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>${esc(title)}</title>
+  <meta name="description" content="${attr(o.description || "Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette.")}"/>
+  <meta name="theme-color" content="#0a0a0a"/>
+  <meta name="color-scheme" content="dark"/>
+  <link rel="canonical" href="${canonical}"/>
+  ${o.noindex ? '<meta name="robots" content="noindex"/>' : ""}
+  <meta property="og:site_name" content="Club Copy"/>
+  <meta property="og:type" content="${o.ogType || "website"}"/>
+  <meta property="og:title" content="${attr(o.title || "Club Copy")}"/>
+  <meta property="og:description" content="${attr(o.description || "Independent record label from the Pacific Northwest.")}"/>
+  <meta property="og:url" content="${canonical}"/>
+  <meta property="og:image" content="${ogImage}"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="icon" href="/apple-touch-icon.png"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/cc.css?v=${VERSION}"/>
+  ${o.preload ? `<link rel="preload" as="image" href="${asset(o.preload)}" fetchpriority="high"/>` : ""}
+  ${jsonld}
+</head>
+<body class="${esc(["cc", o.bodyClass || ""].join(" ").trim())}"${o.bodyAttrs ? " " + o.bodyAttrs : ""}>
+<a class="skip-link" href="#main">Skip to content</a>
+${navHtml(o.nav || o.path)}
+<main id="main"${o.mainClass ? ` class="${o.mainClass}"` : ""}${o.mainAttrs ? " " + o.mainAttrs : ""}>
+${o.main}
+</main>
+${footerHtml()}
+${scripts}
+${o.inline ? `<script>${o.inline}</script>` : ""}
+</body>
+</html>
+`;
+}
+
+/* Shared fragments ------------------------------------------------------ */
+
+function playKey(rel, opts) {
+  opts = opts || {};
+  if (!hasCue(rel)) return "";
+  const track = rel.previewTrackId || (rel.tracks && rel.tracks[0] && rel.tracks[0].id) || "";
+  return `<button type="button" class="key key--play${opts.className ? " " + opts.className : ""}" data-play-release="${attr(rel.id)}"${track ? ` data-play-track="${attr(track)}"` : ""} aria-label="Play ${attr(rel.title)}"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>`;
+}
+
+function crumbs(items) {
+  return `<nav class="crumbs" aria-label="Breadcrumb">${items
+    .map(([href, label], i) => (href && i < items.length - 1 ? `<a href="${href}">${esc(label)}</a>` : `<span aria-current="page">${esc(label)}</span>`))
+    .join('<span class="crumbs-sep" aria-hidden="true">/</span>')}</nav>`;
+}
+
+function sectionHead(title, opts) {
+  opts = opts || {};
+  return `<header class="sec-head"${opts.id ? ` id="${opts.id}"` : ""}>
+  <h2 class="sec-title"${opts.titleId ? ` id="${opts.titleId}"` : ""}>${opts.kicker ? `<span class="sec-kicker">${esc(opts.kicker)}</span>` : ""}${esc(title)}</h2>
+  ${opts.link ? `<a class="sec-link" href="${opts.link[0]}">${esc(opts.link[1])}</a>` : ""}
+</header>`;
+}
+
+module.exports = {
+  ROOT, ORIGIN, VERSION, NAV,
+  esc, attr, money, clock, slugify, dateLong, dateShort, dateMono, asset,
+  releaseSeconds, specLine, formatGlyphs, priceLine, hasCue, onSite,
+  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, MONTHS, MONTHS_SHORT, parseISO,
+};

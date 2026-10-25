@@ -87,3 +87,12 @@ All output paths stay as they are, so `vercel.json`, `sitemap.xml` and every ext
 `node scripts/build-site.js` reads `data/*.json` and `content/news/*.html` and writes every page. No dependencies. The generated HTML is committed, so Vercel serves static files exactly as before. The three previous Night Shift builders and the SEO pass are retired; their outputs are produced by the one script.
 
 One-time migrations (committed with their outputs): release notes and specs out of the 27 release pages into `catalog.json`; story bodies out of `news/*.html` into `content/news/`; product data out of `merch.html` and `merch/*.html` into `data/merch.json`; page-bound inline scripts into `js/`.
+
+---
+
+## 5. Shipped (25 October 2026)
+
+- `scripts/build-site.js` + `scripts/site/` generate 200 pages: home, library, 27 release pages, artists index + 5 artist pages, Night Shift index, 128 stories, 10 volumes, volumes index, archive, artists, places, Stars series, mixtapes, shop + 9 products, cart, account, contact, shipping, thank-you, about, Planet MP3, Record Club, 404, sitemap.
+- `css/cc.css` replaces 21 stylesheets. `js/cc.js` added; `home-wall.js`, `ig-feed.js`, `tape-player.js`, `sleeve.js`, the three Night Shift builders, the SEO pass and the identity pass script are retired.
+- Verified: 22 page types rendered at 1440 and 390 px with no horizontal overflow and no script errors; 20 behaviour checks pass (dock from home, crate and release rows; library filters and sleeves view; add to cart from rows and the cart page; member card number; premium amount; stars scroller; story desk injection; archive search; shop filter; product size guard; mixtapes feed; phone drawer).
+- Dropped from the homepage: The Floor (Instagram contact sheet) and the catalogue ticker. The feed data and `api/instagram-*` functions remain in the repo and can be re-mounted as a row if wanted.

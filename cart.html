@@ -4,669 +4,137 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Cart — Club Copy</title>
-  <link rel="icon" href="favicon.png" type="image/png"/>
-  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <meta name="robots" content="noindex,nofollow"/>
-  <meta name="description" content="Your Club Copy cart."/>
-  <meta name="theme-color" content="#E8E8E6"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st41"/>
-  <link rel="stylesheet" href="css/surface-acetate.css?v=st41"/>
-  <link rel="stylesheet" href="css/shop.css?v=st41"/>
-  <link rel="stylesheet" href="css/station-bumper.css?v=st41"/>
-  <link rel="stylesheet" href="css/player.css?v=st41"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st41"/>
-
-  <style>
-    .page { padding: 0 0 100px; min-height: 70vh; }
-    .cart-body { padding-top: 28px; }
-    @media (min-width: 900px) { .cart-body { padding-top: 36px; } }
-
-    .cart-head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap; margin-bottom: 28px;
-    }
-    .cart-head h2 {
-      font-family: var(--display);
-      font-size: clamp(22px, 3vw, 28px);
-      font-weight: 600; letter-spacing: -.025em;
-    }
-    .cart-head .head-link {
-      font-family: var(--callsign);
-      font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
-      color: var(--muted);
-    }
-    @media (hover:hover) {
-      .cart-head .head-link:hover { color: var(--ink); }
-    }
-
-    .cart-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(300px, .8fr);
-      gap: 28px; align-items: start;
-    }
-    @media (max-width: 880px) { .cart-layout { grid-template-columns: 1fr; } }
-
-    .cart-lines { display: flex; flex-direction: column; gap: 16px; }
-    .cart-line {
-      display: grid;
-      grid-template-columns: 104px 1fr auto;
-      gap: 20px; padding: 20px;
-      align-items: center;
-      border-radius: var(--radius-lg);
-    }
-    @media (max-width: 560px) {
-      .cart-line { grid-template-columns: 76px 1fr; gap: 14px; }
-      .cart-line-side { grid-column: 2; justify-self: start; text-align: left; }
-    }
-    .cart-thumb {
-      width: 104px; height: 104px;
-      border-radius: var(--radius);
-      background: var(--soft);
-      border: 1px solid var(--line);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    @media (max-width: 560px) { .cart-thumb { width: 76px; height: 76px; } }
-    .cart-thumb img { width: 88%; height: auto; object-fit: contain; mix-blend-mode: multiply; }
-    .cart-name { font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
-    .cart-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .cart-price { font-size: 14px; color: var(--muted); margin-top: 10px; font-variant-numeric: tabular-nums; }
-
-    .qty {
-      display: inline-flex; align-items: center;
-      border: 1px solid var(--line); border-radius: var(--bezel-r); overflow: hidden;
-      background: var(--card);
-    }
-    .qty button {
-      width: 44px; height: 44px; font-size: 16px; color: var(--muted);
-      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
-    }
-    @media (hover:hover) { .qty button:hover { background: var(--fill); color: var(--ink); } }
-    .qty span {
-      min-width: 28px; text-align: center; font-size: 13px; font-weight: 600;
-      font-variant-numeric: tabular-nums;
-    }
-    .cart-remove {
-      display: inline-flex; align-items: center;
-      min-height: 44px; padding: 0 4px;
-      margin-top: 4px;
-      font-size: 12px; font-weight: 500; color: var(--dim);
-      transition: color var(--dur) var(--ease);
-    }
-    @media (hover:hover) { .cart-remove:hover { color: var(--ink); } }
-    .cart-line-side { text-align: right; }
-    .cart-line-total {
-      font-size: 16px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 12px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .empty {
-      padding: 56px 28px 64px; text-align: center;
-      border-radius: var(--radius-lg);
-    }
-    .empty-visual { display: none; }
-    .empty h2 {
-      font-family: var(--display);
-      font-size: 24px; font-weight: 600; letter-spacing: -.025em; margin-bottom: 10px;
-    }
-    .empty p { color: var(--muted); margin-bottom: 24px; max-width: 28em; margin-left: auto; margin-right: auto; font-size: 15px; }
-
-    .summary-panel {
-      border-radius: var(--radius-lg);
-      padding: 28px 24px;
-      position: sticky; top: calc(var(--nav-h) + var(--safe-t) + 18px);
-    }
-    .summary-panel h2 {
-      font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--dim); margin-bottom: 18px;
-    }
-    .sum-row {
-      display: flex; justify-content: space-between; gap: 12px;
-      font-size: 14px; margin-bottom: 10px; color: var(--muted);
-      font-variant-numeric: tabular-nums;
-    }
-    .sum-row.total {
-      margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
-      color: var(--ink); font-size: 18px; font-weight: 600; letter-spacing: -.02em;
-    }
-    .summary-note { margin: 16px 0 20px; font-size: 13px; color: var(--dim); line-height: 1.5; }
-    .summary-panel .btn { width: 100%; }
-    .summary-panel .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    .summary-error { color: var(--ink) !important; }
-    .undo-bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      padding: 12px 16px; margin-bottom: 12px;
-      border-radius: var(--radius);
-      font-size: 13px; color: var(--muted);
-    }
-    .undo-bar button {
-      font-size: 13px; font-weight: 600; color: var(--ink);
-      text-decoration: underline; text-underline-offset: 2px;
-    }
-    .ship-hint { font-size: 13px; color: var(--dim); margin-top: 6px; }
-
-    .credit-box {
-      margin: 0 0 18px;
-      padding: 16px 0 0;
-      border-top: 1px solid var(--line);
-    }
-    .credit-box label.credit-email-label {
-      display: block;
-      font-size: 12px; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--dim); margin-bottom: 8px;
-    }
-    .credit-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 8px;
-      align-items: stretch;
-    }
-    .credit-row input[type="email"] {
-      width: 100%; min-width: 0; height: 44px;
-      border: 1px solid var(--line); border-radius: var(--bezel-r);
-      padding: 0 12px; font: inherit; font-size: 15px;
-      background: var(--soft); color: var(--ink);
-    }
-    .credit-row input[type="email"]:focus {
-      outline: none; border-color: rgba(26,30,38,.35);
-      box-shadow: 0 0 0 3px rgba(26,30,38,.08);
-    }
-    .credit-row button {
-      height: 44px; padding: 0 14px;
-      border-radius: var(--bezel-r);
-      border: 1px solid var(--line);
-      background: var(--card); color: var(--ink);
-      font-size: 13px; font-weight: 600;
-    }
-    @media (hover:hover) {
-      .credit-row button:hover { background: var(--fill); }
-    }
-    .credit-status {
-      margin: 10px 0 0; font-size: 13px; color: var(--muted); line-height: 1.45;
-      min-height: 1.2em;
-    }
-    .credit-status.is-error { color: var(--ink); }
-    .credit-apply {
-      display: flex; align-items: flex-start; gap: 10px;
-      margin-top: 12px; font-size: 14px; color: var(--ink);
-    }
-    .credit-apply input { margin-top: 3px; }
-    .credit-apply[hidden] { display: none; }
-    .sum-row.credit { color: var(--ink); }
-    .sum-row.credit[hidden] { display: none; }
-  </style>
+  <meta name="description" content="Your Club Copy bag."/>
+  <meta name="theme-color" content="#0a0a0a"/>
+  <meta name="color-scheme" content="dark"/>
+  <link rel="canonical" href="https://www.clubcopy.ca/cart"/>
+  <meta name="robots" content="noindex"/>
+  <meta property="og:site_name" content="Club Copy"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Cart"/>
+  <meta property="og:description" content="Your Club Copy bag."/>
+  <meta property="og:url" content="https://www.clubcopy.ca/cart"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/pitch-black-cover.webp"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="icon" href="/apple-touch-icon.png"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc1"/>
+  
+  
 </head>
-<body id="top" class="surface-acetate shop-ice has-station-bumper zine-surface nav-light">
+<body class="cc cart-page">
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-        <nav class="nav-links" aria-label="Primary">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Primary">
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
-      <a href="/news">Zine</a>
+      <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
-      <a href="/#join">Join</a>
+      <a href="/join">Join</a>
     </nav>
     <div class="nav-end">
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
-          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-        </svg>
-        <span class="nav-cart-count" data-cart-count hidden>0</span>
-      </a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
-
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
-  <a href="/news">Zine</a>
+  <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
-  <a href="/#join">Join</a>
+  <a href="/join">Join</a>
+  <a href="/account">Account</a>
   <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>
+<main id="main">
 
-<main class="page" id="main">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Cart">
-    <div class="station-bumper__ambient" style="background-image:url('place-shop-y2k.webp')" aria-hidden="true"></div>
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Cart</nav>
-      <img class="station-bumper__brand" src="club-copy-logo-chrome-hero.webp" alt="Club Copy" width=" 1396" height=" 331" fetchpriority="high"/>
-      <h1 class="station-bumper__title">Cart</h1>
-      <p class="station-bumper__lede">Review your bag, apply Club Credit, and check out securely.</p>
-      <div class="station-bumper__ctas">
-        <a class="btn btn-ghost" href="/merch">Continue shopping</a>
-        <a class="btn btn-ghost" href="/library">Browse library</a>
-      </div>
+<header class="page-head">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Cart</span></nav>
+  <h1 class="page-title">Cart</h1>
+  <p class="page-lede">Review your bag, apply Club Credit, and check out securely with Stripe.</p>
+</header>
+<section class="sec cart-layout">
+  <section aria-label="Cart items" class="cart-items">
+    <div id="cartLines" class="cart-lines"></div>
+    <div id="cartEmpty" class="cart-empty" hidden>
+      <p class="mono">Your bag is empty</p>
+      <div class="lead-actions"><a class="btn btn-solid" href="/library">Library</a><a class="btn" href="/merch">Shop</a></div>
     </div>
+    <div id="undoBar" class="undo-bar mono" hidden><span id="undoMsg">Item removed</span><button type="button" id="undoBtn">Undo</button></div>
   </section>
-
-  <div class="band cart-body">
-    <div class="cart-head">
-      <h2>Your bag</h2>
-      <a class="head-link" href="/merch">Continue shopping</a>
+  <aside class="summary-panel panel" id="summaryPanel">
+    <h2 class="sec-title">Summary</h2>
+    <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
+    <div class="sum-row credit" id="sumCreditRow" hidden><span>Club Credit</span><span id="sumCredit">−$0.00</span></div>
+    <div class="sum-row"><span>Shipping</span><span id="sumShipping">CA $8 / US $14</span></div>
+    <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
+    <div class="credit-box">
+      <label class="mono credit-email-label" for="creditEmail">Club Credit</label>
+      <div class="credit-row"><input type="email" id="creditEmail" name="email" placeholder="Email used to join" autocomplete="email"/><button type="button" class="btn btn-small" id="creditCheckBtn">Check</button></div>
+      <p class="credit-status mono" id="creditStatus" role="status" aria-live="polite"></p>
+      <label class="credit-apply" id="creditApplyLabel" hidden><input type="checkbox" id="creditApply" checked/><span id="creditApplyText">Apply Club Credit at checkout</span></label>
     </div>
-
-    <div class="cart-layout">
-      <section aria-label="Cart items">
-        <div id="cartLines" class="cart-lines"></div>
-        <div id="cartEmpty" class="empty cart-empty-plate" hidden>
-          <a class="cart-empty-sleeve" href="/champion-sound"><img src="champion-sound-cover-480.webp" alt="Champion Sound — L.T. Drifta" width="320" height="320"/></a>
-          <p class="cart-empty-kicker">On the plate</p>
-          <h2>Your bag is empty</h2>
-          <p>Champion Sound · L.T. Drifta · Single · Digital $1.50</p>
-          <div class="cart-empty-actions">
-            <a class="btn btn-dark" href="/champion-sound">Open the record</a>
-            <a class="btn btn-ghost" href="/library">Library</a>
-          </div>
-        </div>
-        <div id="undoBar" class="undo-bar" hidden>
-          <span id="undoMsg">Item removed</span>
-          <button type="button" id="undoBtn">Undo</button>
-        </div>
-      </section>
-
-      <aside class="summary-panel" id="summaryPanel">
-        <h2>Summary</h2>
-        <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
-        <div class="sum-row credit" id="sumCreditRow" hidden><span>Club Credit</span><span id="sumCredit">−$0.00</span></div>
-        <div class="sum-row"><span>Shipping</span><span id="sumShipping">CA $8 / US $14</span></div>
-        <div class="sum-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
-
-        <div class="credit-box">
-          <label class="credit-email-label" for="creditEmail">Club Credit</label>
-          <div class="credit-row">
-            <input type="email" id="creditEmail" name="email" placeholder="Email used to join" autocomplete="email"/>
-            <button type="button" id="creditCheckBtn">Check</button>
-          </div>
-          <p class="credit-status" id="creditStatus" role="status" aria-live="polite"></p>
-          <label class="credit-apply" id="creditApplyLabel" hidden>
-            <input type="checkbox" id="creditApply" checked/>
-            <span id="creditApplyText">Apply Club Credit at checkout</span>
-          </label>
-        </div>
-
-        <p class="summary-note" id="checkoutNote">
-          Ships from British Columbia in 2–4 business days. Tracked. Canada $8 CAD · United States $14 CAD — choose at payment. We ship to CA & US.
-        </p>
-        <button class="btn btn-dark" id="checkoutBtn" type="button" disabled>Check out</button>
-        <a class="btn btn-soft" href="/merch" style="width:100%;margin-top:10px;">Continue shopping</a>
-        <p class="trust-line">
-          <span>Secure checkout via Stripe</span>
-          <a href="/shipping">Shipping &amp; returns</a>
-        </p>
-        <p class="summary-note summary-error" id="checkoutError" hidden role="alert" style="margin-top:14px;"></p>
-      </aside>
+    <p class="summary-note" id="checkoutNote">Ships from British Columbia in 2–4 business days, tracked. Canada $8 CAD · United States $14 CAD, chosen at payment.</p>
+    <button class="btn btn-solid btn-wide" id="checkoutBtn" type="button" disabled>Check out</button>
+    <a class="btn btn-wide" href="/merch">Continue shopping</a>
+    <p class="trust-line mono"><span>Secure checkout via Stripe</span><a href="/shipping">Shipping &amp; returns</a></p>
+    <p class="summary-note summary-error" id="checkoutError" hidden role="alert"></p>
+  </aside>
+</section>
+</main>
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-col--mark">
+      <a class="footer-wordmark" href="/">Club Copy</a>
+      <p class="footer-fact">Independent record label · British Columbia, Canada<br/>Published by <a href="/about">Copy House Publishing</a> · © 2024 — 2026</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Contact</p>
+      <p class="footer-fact"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a><br/>Press, bookings, demos: <a href="/contact">contact</a></p>
+      <p class="footer-label">Orders</p>
+      <p class="footer-fact">Ships to Canada and the United States · <a href="/shipping">Shipping &amp; returns</a></p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Newsletter</p>
+      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <label class="sr-only" for="footerEmail">Email</label>
+        <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="footer-fact">Release alerts and first listens. No noise.</p>
     </div>
   </div>
-</main>
-
-<footer class="footer">
-  <div class="band">
-    <div class="footer-top">
-      <div>
-        <a class="footer-wordmark" href="/">Club Copy</a>
-        <p class="footer-publisher"><a href="/about">Copy House Publishing</a></p>
-        <p class="footer-mail"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></p>
-      </div>
-      <div>
-        <label for="footerEmail">Email updates</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-        <p class="footer-note">Subscribe for updates.</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Club Copy</p>
-      <div class="footer-links">
-        <a href="/library">Library</a>
-        <a href="/artists">Artists</a>
-        <a href="/tapes">Mixtapes</a>
-        <a href="/news">Zine</a>
-        <a href="/merch">Shop</a>
-        <a href="/shipping">Shipping</a>
-        <a href="/planet">Planet MP3</a>
-        <a href="/contact">Contact</a>
-      </div>
-    </div>
+  <div class="footer-bottom">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/library">Library</a>
+      <a href="/artists">Artists</a>
+      <a href="/tapes">Mixtapes</a>
+      <a href="/news">Night Shift</a>
+      <a href="/merch">Shop</a>
+      <a href="/join">Record Club</a>
+      <a href="/about">About</a>
+      <a href="/planet">Planet MP3</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-fact">Streaming on site via Bandcamp. Files after checkout.</p>
   </div>
 </footer>
+<script src="/js/site.js?v=cc1"></script>
+<script src="/js/cart.js?v=cc1"></script>
+<script src="/js/member.js?v=cc1"></script>
+<script src="/js/player.js?v=cc1"></script>
+<script src="/js/cart-page.js?v=cc1"></script>
 
-<script src="js/site.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/member.js"></script>
-<script src="js/player.js?v=st41"></script>
-<script>
-(function () {
-  var nav = document.getElementById('nav');
-  if (nav) {
-    var ticking = false;
-    function syncNav() {
-      nav.classList.toggle('scrolled', window.scrollY > 24);
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(syncNav);
-    }, { passive: true });
-    syncNav();
-  }
-
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-  function isDigital(item) {
-    var sku = String(item.sku || '');
-    return sku.indexOf('dg-') === 0 || sku.indexOf('club-') === 0;
-  }
-
-  var creditState = {
-    email: '',
-    balanceCents: 0,
-    checked: false
-  };
-
-  function creditEligibleSubtotal(items) {
-    return items.reduce(function (n, i) {
-      if (String(i.sku || '').indexOf('club-') === 0) return n;
-      return n + (Number(i.price) || 0) * (i.qty || 0);
-    }, 0);
-  }
-
-  function applicableCreditCents(items) {
-    if (!creditState.checked) return 0;
-    var apply = document.getElementById('creditApply');
-    if (!apply || !apply.checked) return 0;
-    var eligible = Math.round(creditEligibleSubtotal(items) * 100);
-    return Math.min(creditState.balanceCents, eligible);
-  }
-
-  function moneyFromCents(cents) {
-    return VCRCart.money((Number(cents) || 0) / 100);
-  }
-
-  var creditEmail = document.getElementById('creditEmail');
-  var creditCheckBtn = document.getElementById('creditCheckBtn');
-  var creditStatus = document.getElementById('creditStatus');
-  var creditApply = document.getElementById('creditApply');
-  var creditApplyLabel = document.getElementById('creditApplyLabel');
-  var creditApplyText = document.getElementById('creditApplyText');
-
-  try {
-    var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
-    var savedEmail = (profile && profile.email) || localStorage.getItem('club_credit_email');
-    if (savedEmail && creditEmail) creditEmail.value = savedEmail;
-  } catch (e) {}
-
-  async function checkCredit() {
-    if (!creditEmail || !creditStatus) return;
-    var email = String(creditEmail.value || '').trim().toLowerCase();
-    creditStatus.classList.remove('is-error');
-    if (!email || email.indexOf('@') < 1) {
-      creditStatus.textContent = 'Enter the email you used to join.';
-      creditStatus.classList.add('is-error');
-      return;
-    }
-    creditCheckBtn.disabled = true;
-    creditCheckBtn.textContent = '…';
-    creditStatus.textContent = 'Checking…';
-    try {
-      var res = await fetch('/api/club-credit?email=' + encodeURIComponent(email));
-      var data = await res.json().catch(function () { return {}; });
-      if (!res.ok) {
-        creditStatus.textContent = data.error || 'Could not check credit.';
-        creditStatus.classList.add('is-error');
-        creditState.checked = false;
-        creditApplyLabel.hidden = true;
-        render();
-        return;
-      }
-      creditState.email = data.email || email;
-      creditState.balanceCents = Math.max(0, Number(data.balanceCents) || 0);
-      creditState.checked = true;
-      try { localStorage.setItem('club_credit_email', creditState.email); } catch (e) {}
-      if (creditState.balanceCents > 0) {
-        creditStatus.textContent = 'Balance: ' + moneyFromCents(creditState.balanceCents) + ' CAD';
-        creditApplyLabel.hidden = false;
-        creditApply.checked = true;
-        creditApplyText.textContent = 'Apply up to ' + moneyFromCents(creditState.balanceCents) + ' Club Credit';
-      } else {
-        creditStatus.textContent = 'No Club Credit on this email yet. Join for $10 to get $25.';
-        creditApplyLabel.hidden = true;
-      }
-      render();
-    } catch (e) {
-      creditStatus.textContent = 'Could not reach Club Credit. Try again.';
-      creditStatus.classList.add('is-error');
-    } finally {
-      creditCheckBtn.disabled = false;
-      creditCheckBtn.textContent = 'Check';
-    }
-  }
-
-  if (creditCheckBtn) creditCheckBtn.addEventListener('click', checkCredit);
-  if (creditEmail) {
-    creditEmail.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        checkCredit();
-      }
-    });
-  }
-  if (creditApply) creditApply.addEventListener('change', render);
-
-  function variantLabel(item) {
-    var bits = [];
-    if (item.colour) bits.push(item.colour);
-    if (item.size) bits.push('Size ' + item.size);
-    return bits.join(' · ');
-  }
-
-  var lastRemoved = null;
-  var undoTimer = null;
-  var undoBar = document.getElementById('undoBar');
-  var undoMsg = document.getElementById('undoMsg');
-
-  function showUndo(item) {
-    lastRemoved = item;
-    if (!undoBar) return;
-    undoMsg.textContent = item.name + ' removed';
-    undoBar.hidden = false;
-    clearTimeout(undoTimer);
-    undoTimer = setTimeout(function () {
-      undoBar.hidden = true;
-      lastRemoved = null;
-    }, 5000);
-  }
-
-  var undoBtn = document.getElementById('undoBtn');
-  if (undoBtn) {
-    undoBtn.addEventListener('click', function () {
-      if (!lastRemoved) return;
-      VCRCart.add(lastRemoved);
-      lastRemoved = null;
-      undoBar.hidden = true;
-      clearTimeout(undoTimer);
-      render();
-    });
-  }
-
-  function render() {
-    var items = VCRCart.load();
-    var lines = document.getElementById('cartLines');
-    var empty = document.getElementById('cartEmpty');
-    var checkoutBtn = document.getElementById('checkoutBtn');
-    var err = document.getElementById('checkoutError');
-
-    VCRCart.updateBadges();
-    var subtotal = VCRCart.subtotal(items);
-    var creditCents = applicableCreditCents(items);
-    var creditDollars = creditCents / 100;
-    var total = Math.max(0, subtotal - creditDollars);
-    document.getElementById('sumSubtotal').textContent = VCRCart.money(subtotal);
-    var creditRow = document.getElementById('sumCreditRow');
-    var creditEl = document.getElementById('sumCredit');
-    if (creditRow && creditEl) {
-      if (creditCents > 0) {
-        creditRow.hidden = false;
-        creditEl.textContent = '−' + moneyFromCents(creditCents);
-      } else {
-        creditRow.hidden = true;
-      }
-    }
-    document.getElementById('sumTotal').textContent = VCRCart.money(total);
-    var allDigital = items.length > 0 && items.every(function (i) { return isDigital(i); });
-    var shipEl = document.getElementById('sumShipping');
-    var noteEl = document.getElementById('checkoutNote');
-    if (shipEl) shipEl.textContent = allDigital ? 'Free — digital order' : 'CA $8 / US $14';
-    if (noteEl && !wasCanceled) {
-      noteEl.textContent = allDigital
-        ? 'Digital order — download links / membership are emailed after checkout. No shipping required.'
-        : 'Ships from British Columbia in 2–4 business days. Tracked. Canada $8 CAD · United States $14 CAD — choose at payment. We ship to CA & US.';
-    }
-    checkoutBtn.disabled = items.length === 0;
-    if (err) { err.hidden = true; err.textContent = ''; }
-    if (!items.length) {
-      lines.innerHTML = '';
-      empty.hidden = false;
-      return;
-    }
-    empty.hidden = true;
-    lines.innerHTML = items.map(function (item) {
-      return (
-        '<article class="cart-line" data-id="' + esc(item.id) + '">' +
-          '<div class="cart-thumb"><img src="' + esc(item.image) + '" alt=""/></div>' +
-          '<div>' +
-            '<div class="cart-name">' + esc(item.name) + '</div>' +
-            (variantLabel(item) ? '<div class="cart-meta">' + esc(variantLabel(item)) + '</div>' : '') +
-            '<div class="cart-price">' +
-              (Number(item.retail) > Number(item.price) + 0.001
-                ? '<s>' + VCRCart.money(item.retail) + '</s> ' + VCRCart.money(item.price) + ' · each'
-                : VCRCart.money(item.price) + ' · each') +
-            '</div>' +
-            '<p class="ship-hint">' + (isDigital(item) ? (String(item.sku || '').indexOf('club-') === 0 ? 'Membership' : 'Digital — link emailed after checkout') : 'Ships in 2–4 business days') + '</p>' +
-          '</div>' +
-          '<div class="cart-line-side">' +
-            '<div class="cart-line-total">' + VCRCart.money(item.price * item.qty) + '</div>' +
-            '<div class="qty" aria-label="Quantity">' +
-              '<button type="button" data-act="dec" aria-label="Decrease">−</button>' +
-              '<span aria-live="polite">' + item.qty + '</span>' +
-              '<button type="button" data-act="inc" aria-label="Increase">+</button>' +
-            '</div>' +
-            '<button type="button" class="cart-remove" data-act="remove">Remove</button>' +
-          '</div>' +
-        '</article>'
-      );
-    }).join('');
-  }
-
-  document.getElementById('cartLines').addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-act]');
-    if (!btn) return;
-    var line = btn.closest('.cart-line');
-    var id = line.dataset.id;
-    var item = VCRCart.load().find(function (i) { return i.id === id; });
-    if (!item) return;
-    if (btn.dataset.act === 'inc') VCRCart.setQty(id, item.qty + 1);
-    if (btn.dataset.act === 'dec') VCRCart.setQty(id, item.qty - 1);
-    if (btn.dataset.act === 'remove') {
-      showUndo(Object.assign({}, item));
-      VCRCart.remove(id);
-    }
-    render();
-  });
-
-  document.getElementById('checkoutBtn').addEventListener('click', async function () {
-    var items = VCRCart.load();
-    if (!items.length) return;
-    var btn = document.getElementById('checkoutBtn');
-    var err = document.getElementById('checkoutError');
-    btn.disabled = true;
-    btn.textContent = 'Redirecting…';
-    err.hidden = true;
-    try {
-      var res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          origin: window.location.origin,
-          email: (creditEmail && creditEmail.value) ||
-            creditState.email ||
-            (window.ClubMember && ClubMember.readProfile() && ClubMember.readProfile().email) ||
-            undefined,
-          applyCredit: !!(creditApply && creditApply.checked && creditState.checked && creditState.balanceCents > 0),
-          items: items.map(function (i) {
-            return {
-              sku: i.sku,
-              name: i.name,
-              colour: i.colour,
-              size: i.size,
-              qty: i.qty,
-              image: i.image ? new URL(i.image, window.location.origin).href : null
-            };
-          })
-        })
-      });
-      var data = await res.json().catch(function () { return {}; });
-      if (!res.ok || !data.url) {
-        var msg = data.error || 'Checkout unavailable right now.';
-        if (data.code === 'STRIPE_NOT_CONFIGURED') {
-          msg = 'Checkout is temporarily unavailable. Try again soon.';
-        }
-        if (data.code === 'OUT_OF_STOCK') {
-          msg = data.error || 'An item in your cart is sold out.';
-        }
-        err.textContent = msg;
-        err.hidden = false;
-        btn.disabled = false;
-        btn.textContent = 'Check out';
-        return;
-      }
-      window.location.href = data.url;
-    } catch (e) {
-      err.textContent = 'Could not reach checkout. Try again in a moment.';
-      err.hidden = false;
-      btn.disabled = false;
-      btn.textContent = 'Check out';
-    }
-  });
-
-  var wasCanceled = new URLSearchParams(location.search).get('canceled') === '1';
-  if (wasCanceled) {
-    var note = document.getElementById('checkoutNote');
-    if (note) note.textContent = 'Checkout canceled — your cart is still here.';
-  }
-  window.addEventListener('vcr:cart', render);
-  window.addEventListener('club:member', function () {
-    if (window.VCRCart && VCRCart.reprice) VCRCart.reprice();
-  });
-  if (window.VCRCart && VCRCart.reprice) VCRCart.reprice();
-  render();
-})();
-</script>
 </body>
 </html>

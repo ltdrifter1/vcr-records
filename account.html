@@ -3,503 +3,151 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Your Account — Club Copy</title>
-  <meta name="robots" content="noindex,nofollow"/>
-  <meta name="theme-color" content="#E8E8E6"/>
-  <link rel="icon" href="favicon.png" type="image/png"/>
-  <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75,400;0,100,400;0,100,500;0,100,600;0,100,700;1,100,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=st41"/>
-  <link rel="stylesheet" href="css/surface-acetate.css?v=st41"/>
-  <link rel="stylesheet" href="css/station-bumper.css?v=st41"/>
-  <link rel="stylesheet" href="css/player.css?v=st41"/>
-  <link rel="stylesheet" href="css/zine-pages.css?v=st41"/>
-
-  <style>
-    .page { padding: 0 0 40px; }
-    .account-body { padding-top: 32px; padding-bottom: 48px; }
-    @media (min-width: 800px) { .account-body { padding-top: 40px; } }
-
-    .account-grid {
-      display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-      gap: 24px;
-      align-items: start;
-    }
-    @media (max-width: 800px) { .account-grid { grid-template-columns: 1fr; } }
-
-    .panel { padding: 32px; }
-    @media (min-width: 800px) { .panel { padding: 40px; } }
-    .panel h2 { font-size: 20px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 6px; }
-    .panel .lead { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
-
-    /* Member card — mirrors the thank-you confirmation card */
-    .acct-card {
-      padding: 22px 20px;
-      border-radius: 14px;
-      background: linear-gradient(145deg, #2a303a, #12151a);
-      color: #fff;
-      box-shadow: 0 16px 36px rgba(17,17,17,.12);
-      margin-bottom: 20px;
-    }
-    .acct-card-top {
-      display: flex; justify-content: space-between; align-items: baseline;
-      margin-bottom: 16px;
-      font-family: var(--callsign);
-      font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(255,255,255,.65);
-    }
-    .acct-card-top strong { color: #fff; font-weight: 600; }
-    .acct-card-name {
-      font-family: "IBM Plex Mono", "Courier New", ui-monospace, monospace;
-      font-size: 20px; font-weight: 700; letter-spacing: .12em;
-      margin: 0 0 10px; line-height: 1.15;
-      text-transform: uppercase;
-    }
-    .acct-card-meta { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.5; }
-    .acct-card-meta b { color: rgba(255,255,255,.88); font-weight: 600; }
-
-    .acct-credit {
-      display: flex; align-items: baseline; justify-content: space-between;
-      padding: 16px 18px; border-radius: 12px;
-      background: var(--fill); margin-bottom: 18px;
-    }
-    .acct-credit-label { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .acct-credit-amount { font-size: 24px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-
-    .acct-entries { list-style: none; display: grid; gap: 10px; margin: 0 0 8px; }
-    .acct-entry {
-      display: flex; justify-content: space-between; gap: 12px;
-      font-size: 13px; padding-bottom: 10px; border-bottom: 1px solid rgba(170,170,166,.28);
-    }
-    .acct-entry:last-child { border-bottom: none; padding-bottom: 0; }
-    .acct-entry-reason { color: var(--ink); }
-    .acct-entry-date { color: var(--dim); font-size: 11px; }
-    .acct-entry-amount { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .acct-entry-amount.is-grant { color: #1c7a4a; }
-    .acct-entry-amount.is-spend { color: var(--muted); }
-    .acct-empty-note { font-size: 13px; color: var(--dim); }
-
-    .field { margin-bottom: 16px; }
-    .field label {
-      display: block; font-size: 13px; font-weight: 500; letter-spacing: -.01em;
-      color: var(--muted); margin-bottom: 8px;
-    }
-    .field input {
-      width: 100%; border-radius: var(--bezel-r); border: 1px solid rgba(150,150,146,.48);
-      background: #FFFFFF; color: var(--ink);
-      padding: 13px 16px; font: inherit; font-size: 15px; outline: none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.85);
-      transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-    }
-    .field input:focus {
-      border-color: rgba(88,88,86,.55);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 0 0 3px rgba(168,168,164,.2);
-    }
-    .field input::placeholder { color: var(--dim); }
-
-    .acct-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
-    .acct-status { font-size: 13px; color: var(--muted); margin-top: 12px; }
-    .acct-status.is-error { color: var(--ink); }
-    .acct-status[hidden] { display: none; }
-
-    #acctLookup[hidden], #acctSignedIn[hidden] { display: none; }
-    .acct-lookup-note { font-size: 13px; color: var(--dim); margin-top: 10px; line-height: 1.5; }
-  </style>
+  <title>Account — Club Copy</title>
+  <meta name="description" content="Your Club Copy record club card and Club Credit."/>
+  <meta name="theme-color" content="#0a0a0a"/>
+  <meta name="color-scheme" content="dark"/>
+  <link rel="canonical" href="https://www.clubcopy.ca/account"/>
+  <meta name="robots" content="noindex"/>
+  <meta property="og:site_name" content="Club Copy"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Account"/>
+  <meta property="og:description" content="Your Club Copy record club card and Club Credit."/>
+  <meta property="og:url" content="https://www.clubcopy.ca/account"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/pitch-black-cover.webp"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="icon" href="/apple-touch-icon.png"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc1"/>
+  
+  
 </head>
-<body id="top" class="surface-acetate has-station-bumper zine-surface nav-light">
+<body class="cc">
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-        <nav class="nav-links" aria-label="Primary">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Primary">
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
-      <a href="/news">Zine</a>
+      <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
-      <a href="/#join">Join</a>
+      <a href="/join">Join</a>
     </nav>
     <div class="nav-end">
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <path d="M6 8h15l-1.4 8.4a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.6L5 4H2"/>
-          <circle cx="10" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-          <circle cx="18" cy="20" r="1.2" fill="currentColor" stroke="none"/>
-        </svg>
-        <span class="nav-cart-count" data-cart-count hidden>0</span>
-      </a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
-
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
-  <a href="/news">Zine</a>
+  <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
-  <a href="/#join">Join</a>
+  <a href="/join">Join</a>
+  <a href="/account">Account</a>
   <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>
+<main id="main">
 
-<main id="main" class="page">
-  <section class="station-bumper station-bumper--acetate station-bumper--compact" aria-label="Your account">
-    <div class="band station-bumper__inner">
-      <nav class="station-bumper__crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Account</nav>
-      <h1 class="station-bumper__title">Your account</h1>
-      <p class="station-bumper__lede">Your record club card, Club Credit balance, and membership details.</p>
+<header class="page-head">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Your account</span></nav>
+  <h1 class="page-title">Your account</h1>
+  <p class="page-lede">Your record club card, Club Credit balance and membership details.</p>
+</header>
+<section class="sec account-grid">
+  <section class="panel" id="acctLookup" aria-label="Find your membership" hidden>
+    <div class="member-card acct-plate" aria-hidden="true">
+      <img class="member-card-mark" src="/club-copy-nav-ink.webp" alt="" width="901" height="418"/>
+      <span class="mono member-card-no acct-plate-no">No. ————</span>
+      <span class="mono member-card-tier acct-plate-tier">Record club</span>
     </div>
+    <h2 class="sec-title">Find your membership</h2>
+    <p class="page-lede">Enter the email you joined with and we'll pull up your card.</p>
+    <div class="field"><label for="acctLookupEmail">Email</label><input type="email" id="acctLookupEmail" placeholder="you@email.com" autocomplete="email"/></div>
+    <div class="lead-actions acct-actions"><button type="button" class="btn btn-solid" id="acctLookupBtn">Find my card</button><a class="btn" href="/join">Not a member yet? Join</a></div>
+    <p class="acct-status mono" id="acctLookupStatus" role="status" hidden></p>
+    <p class="acct-lookup-note">This site doesn't use passwords. Your card is looked up by email, so don't share this page publicly.</p>
   </section>
-
-  <div class="band account-body">
-    <div class="account-grid">
-
-      <!-- Lookup: shown when there's no local profile yet (new device / cleared storage) -->
-      <section class="card panel rv" id="acctLookup" aria-label="Find your membership" hidden>
-        <div class="acct-plate" aria-hidden="true">
-          <img src="club-copy-nav-ink.webp" alt="" width="901" height="418"/>
-          <span class="acct-plate-no">No. ————</span>
-          <span class="acct-plate-tier">Record club</span>
-        </div>
-        <h2>Find your membership</h2>
-        <p class="lead">Enter the email you joined with and we'll pull up your card.</p>
-        <div class="field">
-          <label for="acctLookupEmail">Email</label>
-          <input type="email" id="acctLookupEmail" placeholder="you@email.com" autocomplete="email"/>
-        </div>
-        <div class="acct-actions">
-          <button type="button" class="btn btn-dark" id="acctLookupBtn">Find my card</button>
-          <a class="btn btn-ghost" href="/#join">Not a member yet? Join</a>
-        </div>
-        <p class="acct-status" id="acctLookupStatus" role="status" hidden></p>
-        <p class="acct-lookup-note">This site doesn't use passwords — your card is looked up by email. Anyone with your email can view this page, so don't share it publicly.</p>
-      </section>
-
-      <!-- Signed-in view -->
-      <div id="acctSignedIn" hidden>
-        <section class="card panel rv" aria-label="Membership card">
-          <h2>Membership card</h2>
-          <p class="lead" id="acctLead">Loading your card…</p>
-
-          <div class="acct-card">
-            <div class="acct-card-top">
-              <span>Club Copy</span>
-              <strong id="acctLevel">FREE</strong>
-            </div>
-            <p class="acct-card-name" id="acctName">Member</p>
-            <p class="acct-card-meta">
-              MEMBER <b id="acctNumber">0000</b><br/>
-              <span id="acctLayer">CATALOG</span> · PACIFIC NORTHWEST
-              <span id="acctSince"></span>
-            </p>
-          </div>
-
-          <div class="acct-actions">
-            <a class="btn btn-dark" href="/library">Browse the library</a>
-            <a class="btn btn-ghost" href="/#join" id="acctChangePlan">Change plan</a>
-            <button type="button" class="btn btn-ghost" id="acctSignOut">Sign out on this device</button>
-          </div>
-        </section>
-
-        <section class="card panel rv" aria-label="Club Credit" style="margin-top:24px;">
-          <h2>Club Credit</h2>
-          <p class="lead">Credit toward cassettes &amp; vinyl, applied automatically at checkout on this email.</p>
-          <div class="acct-credit">
-            <span class="acct-credit-label">Available balance</span>
-            <span class="acct-credit-amount" id="acctBalance">$0.00</span>
-          </div>
-          <ul class="acct-entries" id="acctEntries"></ul>
-          <p class="acct-empty-note" id="acctEntriesEmpty" hidden>No Club Credit activity yet.</p>
-        </section>
-
-        <section class="card panel rv" aria-label="Update your details" style="margin-top:24px;">
-          <h2>Update your details</h2>
-          <p class="lead">Changes save to your card immediately.</p>
-          <div class="field">
-            <label for="acctDisplayName">Name on card</label>
-            <input type="text" id="acctDisplayName" maxlength="40" placeholder="Your name"/>
-          </div>
-          <div class="acct-actions">
-            <button type="button" class="btn btn-dark" id="acctSaveName">Save</button>
-          </div>
-          <p class="acct-status" id="acctSaveStatus" role="status" hidden></p>
-        </section>
+  <div id="acctSignedIn" hidden>
+    <section class="panel" aria-label="Membership card">
+      <h2 class="sec-title">Membership card</h2>
+      <p class="page-lede" id="acctLead">Loading your card…</p>
+      <div class="member-card acct-card">
+        <div class="acct-card-top mono"><span>Club Copy</span><strong id="acctLevel">FREE</strong></div>
+        <p class="acct-card-name member-card-name" id="acctName">Member</p>
+        <p class="acct-card-meta mono">MEMBER <b id="acctNumber">0000</b><br/><span id="acctLayer">CATALOG</span> · PACIFIC NORTHWEST <span id="acctSince"></span></p>
       </div>
-
+      <div class="lead-actions acct-actions"><a class="btn btn-solid" href="/library">Browse the library</a><a class="btn" href="/join" id="acctChangePlan">Change plan</a><button type="button" class="btn btn-text" id="acctSignOut">Sign out on this device</button></div>
+    </section>
+    <section class="panel" aria-label="Club Credit">
+      <h2 class="sec-title">Club Credit</h2>
+      <p class="page-lede">Credit toward cassettes and vinyl, applied automatically at checkout on this email.</p>
+      <div class="acct-credit"><span class="mono acct-credit-label">Available balance</span><span class="acct-credit-amount" id="acctBalance">$0.00</span></div>
+      <ul class="acct-entries" id="acctEntries"></ul>
+      <p class="acct-empty-note mono" id="acctEntriesEmpty" hidden>No Club Credit activity yet.</p>
+    </section>
+    <section class="panel" aria-label="Update your details">
+      <h2 class="sec-title">Update your details</h2>
+      <p class="page-lede">Changes save to your card immediately.</p>
+      <div class="field"><label for="acctDisplayName">Name on card</label><input type="text" id="acctDisplayName" maxlength="40" placeholder="Your name"/></div>
+      <div class="lead-actions acct-actions"><button type="button" class="btn btn-solid" id="acctSaveName">Save</button></div>
+      <p class="acct-status mono" id="acctSaveStatus" role="status" hidden></p>
+    </section>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-col--mark">
+      <a class="footer-wordmark" href="/">Club Copy</a>
+      <p class="footer-fact">Independent record label · British Columbia, Canada<br/>Published by <a href="/about">Copy House Publishing</a> · © 2024 — 2026</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Contact</p>
+      <p class="footer-fact"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a><br/>Press, bookings, demos: <a href="/contact">contact</a></p>
+      <p class="footer-label">Orders</p>
+      <p class="footer-fact">Ships to Canada and the United States · <a href="/shipping">Shipping &amp; returns</a></p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-label">Newsletter</p>
+      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <label class="sr-only" for="footerEmail">Email</label>
+        <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="footer-fact">Release alerts and first listens. No noise.</p>
     </div>
   </div>
-</main>
-
-<footer class="footer">
-  <div class="band">
-    <div class="footer-top">
-      <div>
-        <a class="footer-wordmark" href="/">Club Copy</a>
-        <p class="footer-publisher"><a href="/about">Copy House Publishing</a></p>
-        <p class="footer-mail"><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></p>
-      </div>
-      <div>
-        <label for="footerEmail">Email updates</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
-          <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
-          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
-          <button type="submit">Join</button>
-        </form>
-        <p class="footer-note">Subscribe for updates.</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Club Copy</p>
-      <div class="footer-links">
-        <a href="/library">Library</a>
-        <a href="/artists">Artists</a>
-        <a href="/tapes">Mixtapes</a>
-        <a href="/news">Zine</a>
-        <a href="/merch">Shop</a>
-        <a href="/shipping">Shipping</a>
-        <a href="/planet">Planet MP3</a>
-        <a href="/contact">Contact</a>
-      </div>
-    </div>
+  <div class="footer-bottom">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/library">Library</a>
+      <a href="/artists">Artists</a>
+      <a href="/tapes">Mixtapes</a>
+      <a href="/news">Night Shift</a>
+      <a href="/merch">Shop</a>
+      <a href="/join">Record Club</a>
+      <a href="/about">About</a>
+      <a href="/planet">Planet MP3</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-fact">Streaming on site via Bandcamp. Files after checkout.</p>
   </div>
 </footer>
+<script src="/js/site.js?v=cc1"></script>
+<script src="/js/cart.js?v=cc1"></script>
+<script src="/js/member.js?v=cc1"></script>
+<script src="/js/player.js?v=cc1"></script>
+<script src="/js/account-page.js?v=cc1"></script>
 
-<script src="js/site.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/member.js"></script>
-<script>
-(function () {
-  var nav = document.getElementById('nav');
-  var ticking = false;
-  function syncNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-    ticking = false;
-  }
-  window.addEventListener('scroll', function () {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(syncNav);
-  }, { passive: true });
-  syncNav();
-})();
-
-(function () {
-  var lookupSection = document.getElementById('acctLookup');
-  var lookupEmail = document.getElementById('acctLookupEmail');
-  var lookupBtn = document.getElementById('acctLookupBtn');
-  var lookupStatus = document.getElementById('acctLookupStatus');
-
-  var signedIn = document.getElementById('acctSignedIn');
-  var acctLead = document.getElementById('acctLead');
-  var acctLevel = document.getElementById('acctLevel');
-  var acctName = document.getElementById('acctName');
-  var acctNumber = document.getElementById('acctNumber');
-  var acctLayer = document.getElementById('acctLayer');
-  var acctSince = document.getElementById('acctSince');
-  var acctChangePlan = document.getElementById('acctChangePlan');
-  var acctSignOut = document.getElementById('acctSignOut');
-
-  var balanceEl = document.getElementById('acctBalance');
-  var entriesEl = document.getElementById('acctEntries');
-  var entriesEmpty = document.getElementById('acctEntriesEmpty');
-
-  var displayNameInput = document.getElementById('acctDisplayName');
-  var saveBtn = document.getElementById('acctSaveName');
-  var saveStatus = document.getElementById('acctSaveStatus');
-
-  function showStatus(el, msg, isError) {
-    if (!el) return;
-    el.hidden = false;
-    el.textContent = msg;
-    el.classList.toggle('is-error', !!isError);
-  }
-
-  function money(cents) {
-    return '$' + (Number(cents || 0) / 100).toFixed(2);
-  }
-
-  function levelLabel(level) {
-    if (level === 'premium') return 'PREMIUM';
-    if (level === 'club') return 'CLUB';
-    return 'FREE';
-  }
-
-  function layerLabel(level) {
-    if (level === 'premium') return 'DIGITAL + PHYSICAL';
-    if (level === 'club') return 'DIGITAL';
-    return 'CATALOG';
-  }
-
-  function renderCard(profile) {
-    acctLead.textContent = profile.level === 'free'
-      ? "You're on the list. Upgrade any time for member pricing."
-      : "You're a member. Thanks for backing the label.";
-    acctLevel.textContent = levelLabel(profile.level);
-    acctName.textContent = String(profile.displayName || profile.email || 'Member').toUpperCase();
-    acctNumber.textContent = profile.memberNumber || '0000';
-    acctLayer.textContent = layerLabel(profile.level);
-    acctSince.textContent = profile.memberSince
-      ? ' · since ' + new Date(profile.memberSince).getFullYear()
-      : '';
-    acctChangePlan.textContent = profile.level === 'free' ? 'Upgrade' : 'Change plan';
-    if (displayNameInput && !displayNameInput.value) {
-      displayNameInput.value = profile.displayName || '';
-    }
-  }
-
-  function renderCredit(account) {
-    balanceEl.textContent = money(account.balanceCents);
-    var entries = account.entries || [];
-    entriesEl.innerHTML = '';
-    entriesEmpty.hidden = entries.length > 0;
-    entries.forEach(function (e) {
-      var li = document.createElement('li');
-      li.className = 'acct-entry';
-      var left = document.createElement('div');
-      var reason = document.createElement('div');
-      reason.className = 'acct-entry-reason';
-      reason.textContent = e.reason || (e.type === 'grant' ? 'Club Credit grant' : 'Applied at checkout');
-      var date = document.createElement('div');
-      date.className = 'acct-entry-date';
-      date.textContent = e.createdAt ? new Date(e.createdAt).toLocaleDateString() : '';
-      left.appendChild(reason);
-      left.appendChild(date);
-      var amount = document.createElement('div');
-      amount.className = 'acct-entry-amount ' + (e.type === 'spend' ? 'is-spend' : 'is-grant');
-      amount.textContent = (e.type === 'spend' ? '-' : '+') + money(e.amountCents);
-      li.appendChild(left);
-      li.appendChild(amount);
-      entriesEl.appendChild(li);
-    });
-  }
-
-  async function fetchCredit(email) {
-    try {
-      var res = await fetch('/api/club-credit?email=' + encodeURIComponent(email));
-      if (!res.ok) return;
-      var data = await res.json();
-      renderCredit(data);
-    } catch (e) {
-      /* Club Credit is a bonus panel — a failed lookup shouldn't block the account page. */
-    }
-  }
-
-  async function refreshFromServer(email) {
-    try {
-      var res = await fetch('/api/club-member?email=' + encodeURIComponent(email));
-      if (!res.ok) return null;
-      var data = await res.json();
-      if (data && data.email && window.ClubMember) {
-        return ClubMember.writeProfile({
-          email: data.email,
-          displayName: data.displayName || '',
-          level: data.level || 'free',
-          memberNumber: data.memberNumber
-        });
-      }
-      return data;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function showSignedIn(profile) {
-    lookupSection.hidden = true;
-    signedIn.hidden = false;
-    renderCard(profile);
-    fetchCredit(profile.email);
-  }
-
-  function showLookup() {
-    signedIn.hidden = true;
-    lookupSection.hidden = false;
-  }
-
-  async function init() {
-    var profile = window.ClubMember ? ClubMember.readProfile() : null;
-    if (!profile) {
-      try {
-        var raw = JSON.parse(localStorage.getItem('club_member_profile') || 'null');
-        if (raw && raw.email) profile = raw;
-      } catch (e) {}
-    }
-
-    if (!profile) {
-      showLookup();
-      return;
-    }
-
-    showSignedIn(profile);
-    var updated = await refreshFromServer(profile.email);
-    if (updated) renderCard(updated);
-  }
-
-  if (lookupBtn) {
-    lookupBtn.addEventListener('click', async function () {
-      var email = (lookupEmail.value || '').trim();
-      if (!email || email.indexOf('@') < 1) {
-        showStatus(lookupStatus, 'Enter a valid email.', true);
-        lookupEmail.focus();
-        return;
-      }
-      lookupBtn.disabled = true;
-      lookupStatus.hidden = true;
-      var profile = await refreshFromServer(email);
-      lookupBtn.disabled = false;
-      if (!profile) {
-        showStatus(lookupStatus, "Couldn't find a card for that email. Try again or join below.", true);
-        return;
-      }
-      showSignedIn(profile);
-    });
-  }
-
-  if (acctSignOut) {
-    acctSignOut.addEventListener('click', function () {
-      if (window.ClubMember) ClubMember.clearProfile();
-      showLookup();
-    });
-  }
-
-  if (saveBtn) {
-    saveBtn.addEventListener('click', async function () {
-      var profile = window.ClubMember ? ClubMember.readProfile() : null;
-      if (!profile) return;
-      saveBtn.disabled = true;
-      saveStatus.hidden = true;
-      try {
-        var res = await fetch('/api/club-member', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: profile.email,
-            displayName: (displayNameInput.value || '').trim(),
-            level: profile.level
-          })
-        });
-        var data = await res.json().catch(function () { return {}; });
-        if (!res.ok) throw new Error(data.error || 'Save failed');
-        if (window.ClubMember) ClubMember.writeProfile(data);
-        renderCard(data);
-        showStatus(saveStatus, 'Saved.', false);
-      } catch (e) {
-        showStatus(saveStatus, "Couldn't save right now. Try again.", true);
-      } finally {
-        saveBtn.disabled = false;
-      }
-    });
-  }
-
-  init();
-})();
-</script>
 </body>
 </html>
