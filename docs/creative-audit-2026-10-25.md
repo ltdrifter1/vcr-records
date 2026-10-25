@@ -4,6 +4,8 @@
 
 **Brief:** a future-facing independent label that reinterprets 1999–2005 digital music culture (iPod-era interfaces, MP3 players, CD-ROM software, digital cameras, club graphics) without nostalgia or gimmick. Minimal, tactile, music-first, metadata-rich, collectible, unmistakably digital.
 
+**Implemented 25 October 2026 (same day, same branch):** closing recommendations 1, 3, 4 and 5 shipped. Recommendation 2 (catalogue metadata) is left for the label, since BPM, key and credits are not in the repository. Results: homepage stylesheets 17 → 13, with `graphic-pass`, `identity-pass` and `club-copy-os` folded into their owner sheets, four dead files removed and `fx.css` dropped from home (bytes moved more than they shrank: 420 KB → 413 KB on home; the ordering hazard is what went away); one `?v=st41` tag; the EP Play key is the graphite invert key; the plate no longer cues another release when a stream fails; headlines are mixed-case Oswald 500 sitewide except the NIGHT / SHIFT lockup; home is 5,790 px desktop and 6,763 px phone (from 7,837 / 8,285). Correction to the original text: the Play-key defect affected the EP page only, not all 27 release pages; the singles have no hero Play key.
+
 ---
 
 ## 1. Executive Summary
@@ -13,7 +15,7 @@ Club Copy already has an identity most independent labels never reach. The first
 Three things hold it back.
 
 1. **The metadata is a costume.** The site looks data-rich, but 0 of 49 tracks carry a BPM, genres collapse to three values, and 1 of 27 releases has credits. The LCD has nothing to report beyond what the title already says.
-2. **The CSS is fighting itself.** The homepage loads 19 stylesheets (420 KB), two of them "pass" layers that override the others with `html body` selectors; 149 `!important`s; three dead sheets. It has already produced a shipped defect: the Play key on every release page renders near-white text on a pale aluminium key (a specificity collision between `graphic-pass.css` and `release-archive.css`).
+2. **The CSS is fighting itself.** The homepage loads 19 stylesheets (420 KB), two of them "pass" layers that override the others with `html body` selectors; 149 `!important`s; three dead sheets. It has already produced a shipped defect: on the EP page (`/you-are-love`, the only release page with a hero Play key) the key renders near-white text on a pale aluminium key (a specificity collision between `graphic-pass.css` and `release-archive.css`).
 3. **Two display voices.** Home and Library speak in mixed-case Oswald; Artists, Night Shift and the 404 shout in all-caps Oswald. The label and its own zine look like two brands.
 
 Secondary: the home page is seven full-height sections (7,800 px desktop, 8,300 px phone); the era reference shows mostly as texture (brushed gradients, scanlines) rather than as behaviour; and the dock, under a failed stream, replaced the track the listener chose with a different release.
@@ -78,7 +80,7 @@ Secondary: the home page is seven full-height sections (7,800 px desktop, 8,300 
 **Evidence**
 - The spec line is the identity carrier and it is typeset identically everywhere at 11–12 px Plex Mono. The "type floor" rule in `steel.css` (nothing under 10 px) is a good discipline.
 - Home / Library / release pages: mixed-case Oswald 500 at tight tracking. Artists index, Night Shift headlines, 404: all-caps Oswald 700. Two voices.
-- **Shipped defect:** on all 27 release pages the Play key is unreadable. `graphic-pass.css:56` sets `#heroListen` to the light aluminium gradient with `color:#1a1a1a`, but `release-archive.css:2575` still applies `-webkit-text-fill-color:#f4f4f2`, so Chromium and WebKit paint near-white text on pale steel. Visible in the desktop and phone renders.
+- **Shipped defect:** on the EP page, the only release page that carries a hero Play key, the key is unreadable. `graphic-pass.css:56` sets `#heroListen` to the light aluminium gradient with `color:#1a1a1a`, but `release-archive.css:2575` still applies `-webkit-text-fill-color:#f4f4f2`, so Chromium and WebKit paint near-white text on pale steel. Visible in the desktop and phone renders. The 26 single pages carry only a Buy key and the sleeve hit, so they were not affected.
 - Release page desktop: the waveform canvas (`.ra-wave`, drawn by `js/tape-player.js`) sits orphaned ~200 px below the sleeve, detached from both the sleeve and the track index.
 - Buttons come in four finishes: graphite invert, aluminium, flat ink (home plate via `home-zine.css:1621`), and grey blocks (404). Two is enough.
 - Phone hero track titles render in mono while desktop uses Archivo.
@@ -202,7 +204,7 @@ Secondary: the home page is seven full-height sections (7,800 px desktop, 8,300 
 
 ## 6. P0 (Essential)
 
-1. **Fix the release-page Play key.** Make `#heroListen` the invert key (graphite, `#f4f4f2` text) in one rule, and remove the conflicting `-webkit-text-fill-color`. 27 pages, primary action.
+1. **Fix the release-page Play key.** Make `#heroListen` the invert key (graphite, `#f4f4f2` text) in one rule, and remove the conflicting `-webkit-text-fill-color`. One page today, and the template every future EP will use.
 2. **Hold the chosen track on stream failure.** NO SIGNAL on the selected row, Retry, Bandcamp link. No advance, no restore of another release over an explicit click. Confirm against production first.
 3. **Fill the catalogue metadata** (BPM, key, five-value genre taxonomy, credits, one-line note) and surface BPM · KEY on track rows, in the LCD and in the dock.
 4. **One display voice.** Mixed-case Oswald 500 for every heading; keep the inverted NIGHT / SHIFT lockup as the single exception.
@@ -235,7 +237,7 @@ Secondary: the home page is seven full-height sections (7,800 px desktop, 8,300 
 
 **If I could only implement five changes, they would be:**
 
-1. Fix the release-page Play key and make the dock hold the chosen track on failure. The primary action on 27 pages is currently unreadable, and the failure path can swap the listener's record.
+1. Fix the release-page Play key and make the dock hold the chosen track on failure. The primary action on the EP page is currently unreadable, and the failure path can swap the listener's record.
 2. Fill the catalogue with BPM, key, a real genre taxonomy, credits and a note per release, and show BPM · KEY on rows, LCD and dock. The rendering exists; the data does not.
 3. One display voice: mixed-case Oswald 500 sitewide, with the NIGHT / SHIFT lockup as the only exception.
 4. Collapse the stylesheet stack to core + one page sheet, delete the dead and pass layers, and set a CSS budget, so the next change does not create the next Play-key bug.
