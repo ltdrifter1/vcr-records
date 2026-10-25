@@ -197,7 +197,7 @@ Secondary: the home page is seven full-height sections (7,800 px desktop, 8,300 
 ## 5. Top 5 Creative Gaps
 
 1. **Metadata-poor under a metadata-rich skin.** 0 / 49 BPM, three genres, one credit. The LCD has nothing to say.
-2. **A cascade that fights itself.** 19 sheets, two override layers, 149 `!important`, dead files, and a shipped illegible Play key on every release page.
+2. **A cascade that fights itself.** 19 sheets, two override layers, 149 `!important`, dead files, and a shipped illegible Play key on the EP page.
 3. **Two display voices.** Mixed-case on home and library; all-caps on Artists, Night Shift and the 404.
 4. **Era as texture, not behaviour.** Gradients and scanlines carry the reference; the interactions (marquee, hover) are generic. Number-key index navigation, a reporting LCD, and a snap-redraw display would do more than another bezel.
 5. **A long home.** Seven full-height sections. The record is first, then the page becomes a magazine, a camera roll, a form and a roster.
