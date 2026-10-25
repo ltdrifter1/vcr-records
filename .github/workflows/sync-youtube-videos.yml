@@ -1,7 +1,7 @@
-name: Sync video mixtapes
+name: Sync video feed
 
 # Reads the public RSS feed of the L.T. Drifta YouTube channel into data/videos.json and
-# rebuilds the home page, which lists the latest videos under "Video mixtapes". Runs daily
+# rebuilds the home page, which lists the latest videos under "Video feed". Runs daily
 # and on demand; commits only when something changed, and Vercel redeploys from that commit.
 
 on:
@@ -37,5 +37,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/videos.json index.html
-          git commit -m "Video mixtapes: sync from YouTube"
+          git commit -m "Video feed: sync from YouTube"
           git push

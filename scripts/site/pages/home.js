@@ -3,6 +3,7 @@ const L = require("../lib");
 const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dateLong, playKey } = L;
 const { releaseRow } = require("./fragments");
 const { joinSection } = require("./join");
+const { artistRow } = require("./artists");
 
 function leadRelease(rel) {
   const digital = rel.formats && rel.formats.digital;
@@ -65,14 +66,7 @@ function zineRows(articles, issues) {
 }
 
 function artistList(artists, releases) {
-  const counts = {};
-  releases.forEach((r) => { counts[r.artistId] = (counts[r.artistId] || 0) + 1; });
-  return `<ol class="artist-list">${artists
-    .map((a) => {
-      const n = counts[a.id] || 0;
-      return `<li><a class="artist-line" href="/artists/${attr(a.id)}"><span class="artist-line-name">${esc(a.name)}</span><span class="mono artist-line-meta">${esc(a.tagline || "")}</span><span class="mono artist-line-count">${n ? n + (n === 1 ? " release" : " releases") : "Roster"}</span></a></li>`;
-    })
-    .join("")}</ol>`;
+  return `<div class="rows">${artists.map((a, i) => artistRow(a, i, releases)).join("\n")}</div>`;
 }
 
 function videoSection(feed) {
@@ -98,7 +92,7 @@ function videoSection(feed) {
     )
     .join("\n");
   return `<section class="sec" aria-labelledby="videos-title" id="videos">
-  ${L.sectionHead("Video mixtapes", { titleId: "videos-title", kicker: "YouTube · @ltdrifta", link: [channel, "Channel ↗"] })}
+  ${L.sectionHead("Video feed", { titleId: "videos-title", kicker: "YouTube · @ltdrifta", link: [channel, "Channel ↗"] })}
   <div class="rows">
     ${rows}
   </div>
