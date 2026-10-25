@@ -88,4 +88,14 @@ assert.deepStrictEqual(sc.cleanTags(["Drum & Bass", "drum and bass", "dnb", "D&B
 assert.deepStrictEqual(sc.cleanTags(["Electronic", "house"]), ["house", "Electronic"]);
 assert.deepStrictEqual(sc.cleanTags(null), []);
 
+assert.strictEqual(sc.runtimeSeconds("3:57"), 237);
+assert.strictEqual(sc.runtimeSeconds("40:00"), 2400);
+assert.strictEqual(sc.runtimeSeconds("1:05:22"), 3922);
+assert.strictEqual(sc.runtimeSeconds(""), 0);
+assert.strictEqual(sc.isLongMix({ runtime: "3:57" }), false);
+assert.strictEqual(sc.isLongMix({ runtime: "19:59" }), false);
+assert.strictEqual(sc.isLongMix({ runtime: "20:00" }), true);
+assert.strictEqual(sc.isLongMix({ runtime: "1:19:57" }), true);
+assert.strictEqual(sc.MIX_MIN_SECONDS, 20 * 60);
+
 console.log("ok");

@@ -51,19 +51,14 @@ assert.ok(!catalog.releases.some((r) => r.id === "anything-you-can-do" || r.cata
 assert.ok(!products["dg-anything-you-can-do"]);
 assert.ok(!catalog.releases.some((r) => r.id === "if-ya-want" || r.catalogue === "CC021"));
 assert.ok(!products["dg-if-ya-want"]);
-for (const id of ["whats-luv", "lifetime", "shaolin-style", "links", "renegade-snares"]) {
-  assert.ok(!catalog.releases.some((r) => r.id === id), id);
-  assert.ok(!products["dg-" + id], id);
-}
 assert.ok(!catalog.releases.some((r) => ["CC023", "CC024", "CC026", "CC027", "CC028"].includes(r.catalogue)));
 assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
+assert.ok(!catalog.releases.some((r) => r.id === "freed-from" || r.id === "call-anytime" || r.catalogue === "CC029"));
+assert.ok(!products["dg-freed-from"]);
+assert.ok(!products["dg-call-anytime"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "summer-madness", "three-4-zone"]
-);
-assert.deepStrictEqual(
-  catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "summer-madness", "three-4-zone"]
+  ["champion-sound", "classic-jazz", "ep1", "get-me-down", "high-low", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   ["get-me-down", "three-4-zone"].map((id) => {
@@ -77,14 +72,21 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["freed-from", "call-anytime"].map((id) => {
+  ["high-low", "dont-cry", "some-kinda-heaven", "whats-luv", "lifetime", "everyday", "shaolin-style", "links", "renegade-snares"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.previewTrackId, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
-    ["CC029", "Freed From (Nanana)", "forsberg", "Single", "2026-10-24", "/freed-from", "ffn-01", 1.5, "dg-freed-from", "https://forsberg.bandcamp.com/track/freed-from-nanana", "ffn-01", 185, 3202179835, 150],
-    ["CC025", "call anytime", "forsberg", "Single", "2026-10-23", "/call-anytime", "cal-01", 1.5, "dg-call-anytime", "https://forsberg.bandcamp.com/track/call-anytime", "cal-01", 237, 3110656434, 150],
+    ["CC037", "Lenzman, Redeyes - High & Low (Remix)", "lt-drifta", "Single", "2026-10-25", "/high-low", "hl-01", 1.5, "dg-high-low", "https://ltdrifta.bandcamp.com/track/lenzman-redeyes-high-low-remix", "hl-01", 267, 1473938968, 150],
+    ["CC036", "don't cry", "forsberg", "Single", "2026-10-24", "/dont-cry", "dc-01", 1.5, "dg-dont-cry", "https://forsberg.bandcamp.com/track/dont-cry-2", "dc-01", 255, 2215267394, 150],
+    ["CC035", "LT Memphis - Some Kinda Heaven (Forsberg Refix)", "forsberg", "Single", "2026-10-24", "/some-kinda-heaven", "skh-01", 1.5, "dg-some-kinda-heaven", "https://forsberg.bandcamp.com/track/lt-memphis-some-kinda-heaven-forsberg-refix", "skh-01", 230, 3330431147, 150],
+    ["CC033", "w h a t ' s   l u v", "forsberg", "Single", "2026-10-24", "/whats-luv", "wlv-01", 1.5, "dg-whats-luv", "https://forsberg.bandcamp.com/track/w-h-a-t-s-l-u-v", "wlv-01", 218, 314453665, 150],
+    ["CC032", "l i f e t i m e", "forsberg", "Single", "2026-10-24", "/lifetime", "lft-01", 1.5, "dg-lifetime", "https://forsberg.bandcamp.com/track/l-i-f-e-t-i-m-e", "lft-01", 288, 2823529420, 150],
+    ["CC025", "everyday", "forsberg", "Single", "2026-10-23", "/everyday", "evd-01", 1.5, "dg-everyday", "https://forsberg.bandcamp.com/track/everyday", "evd-01", 237, 3110656434, 150],
+    ["CC034", "Lavery - Shaolin Style (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-24", "/shaolin-style", "sha-01", 1.5, "dg-shaolin-style", "https://ltdrifta.bandcamp.com/track/lavery-shaolin-style-l-t-s-vip-mix", "sha-01", 278, 717888588, 150],
+    ["CC031", "The Chameleon - Links (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/links", "lnk-01", 1.5, "dg-links", "https://ltdrifta.bandcamp.com/track/the-chameleon-links-l-t-s-vip-mix", "lnk-01", 297, 414441591, 150],
+    ["CC030", "Omni Trio - Renegade Snares (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/renegade-snares", "rsn-01", 1.5, "dg-renegade-snares", "https://ltdrifta.bandcamp.com/track/omni-trio-renegade-snares-l-t-s-vip-mix", "rsn-01", 288, 1492829470, 150],
   ]
 );
 
@@ -155,8 +157,11 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
-    "freed-from",
-    "call-anytime",
+    "dont-cry",
+    "some-kinda-heaven",
+    "whats-luv",
+    "lifetime",
+    "everyday",
     "i-give-everything",
     "safe-as",
     "deeper",
@@ -192,7 +197,7 @@ assert.deepStrictEqual(
   }),
   [
     ["CC022", "The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)", "forsberg", "Single", "2026-10-23", "/i-give-everything", "ige-01", 1.5, "dg-i-give-everything", "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix", "ige-01", 165, 911399412, 150],
-    ["CC018", "Safe As", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
+    ["CC018", "safe as", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
     ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
     ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
     ["CC015", "Rose Rouge - St Germain (Molly's Hazy Edit) Jorja Smith Version", "forsberg", "Single", "2026-10-18", "/rose-rouge-edit", "rre-01", 1.5, "dg-rose-rouge-edit", "https://forsberg.bandcamp.com/track/rose-rouge-st-germain-mollys-hazy-edit-jorja-smith-version", "rre-01", 237, 4069133099, 150],
