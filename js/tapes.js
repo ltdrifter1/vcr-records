@@ -262,6 +262,21 @@
   // Mixes we do not want on the site at all.
   var HIDE_RULES = [/dirt road radio/i];
 
+  // Same cut as lib/soundcloud.js: a mix is at least 20 minutes. Shorter uploads are singles.
+  var MIX_MIN_SECONDS = 20 * 60;
+
+  function runtimeSeconds(raw) {
+    var parts = String(raw || "").trim().split(":");
+    if (!parts.length || parts.some(function (p) { return !/^\d+$/.test(p); })) return 0;
+    if (parts.length === 3) return (+parts[0]) * 3600 + (+parts[1]) * 60 + (+parts[2]);
+    if (parts.length === 2) return (+parts[0]) * 60 + (+parts[1]);
+    return +parts[0];
+  }
+
+  function isLongMix(t) {
+    return runtimeSeconds(t && t.runtime) >= MIX_MIN_SECONDS;
+  }
+
   function isRelease(t) {
     var hay = String((t && t.title) || "") + " " + String((t && t.permalink) || "");
     for (var i = 0; i < RELEASE_RULES.length; i++) {
@@ -445,7 +460,7 @@
     loadTags(function () {
       loadList(function (tapes) {
         var usable = (tapes || []).filter(function (t) {
-          return t && t.permalink && !isRelease(t);
+          return t && t.permalink && !isRelease(t) && isLongMix(t);
         });
         if (!usable.length && !(tapes && tapes.length)) {
           fail();
