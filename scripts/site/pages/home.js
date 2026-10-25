@@ -44,17 +44,19 @@ function leadRelease(rel) {
 
 function zineRows(articles, issues) {
   const current = issues.current;
+  // Pictured pieces lead, newest first; text pieces follow if the volume is short of pictures.
   const list = articles
     .filter((a) => !a.archived && Number(a.volume) === Number(current))
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .sort((a, b) => (a.image ? 0 : 1) - (b.image ? 0 : 1) || (b.date || "").localeCompare(a.date || ""))
     .slice(0, 4);
   return list
     .map(
       (a) => `<a class="row row--story" href="${attr(a.slug)}">
   <div class="row-main">
-    <p class="mono row-meta"><span>${esc(a.format || a.typeLabel || "")}</span><span>${esc(L.dateShort(a.date))}</span></p>
+    <p class="mono row-meta"><span>${esc(a.format || a.typeLabel || "")}</span><span>${esc(L.dateShort(a.date))}</span>${a.readMinutes ? `<span>${esc(a.readMinutes)} min</span>` : ""}</p>
     <h3 class="row-title">${esc(a.headline)}</h3>
     <p class="row-dek">${esc(a.dek || "")}</p>
+    <p class="mono row-read">Read →</p>
   </div>
   ${a.image ? `<div class="row-art row-art--wide"><img src="${asset(a.image)}" alt="${attr(a.imageAlt || "")}" width="1600" height="1066" loading="lazy"/></div>` : ""}
 </a>`

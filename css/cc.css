@@ -195,6 +195,8 @@ body.nav-open { overflow: hidden; }
 .row--video .row-fmt:hover { color: var(--ink); }
 .row--story .row-title { color: var(--ink); font-weight: 600; letter-spacing: -.03em; font-size: clamp(26px, 3.4vw, 52px); font-stretch: 110%; font-variation-settings: "wdth" 110; }
 .row--story:hover .row-title { color: var(--ink-2); }
+.row-read { margin-top: 18px; color: var(--ink-2); }
+.row--story:hover .row-read { color: var(--ink); }
 .row--artist .row-artist a { display: inline-block; }
 .row--artist:hover .row-artist a { color: var(--ink-2); }
 @media (max-width: 599px) {
@@ -577,16 +579,18 @@ body.nav-open { overflow: hidden; }
 @media (max-width: 859px) { .zine-story-desk { grid-template-columns: 1fr; } }
 
 /* Shop ------------------------------------------------------------------ */
-.store-grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 40px 24px; padding: 32px var(--gutter) 64px; }
+.store-grid { list-style: none; display: block; padding: 0 var(--gutter) 48px; }
 .sec .store-grid { padding: 24px 0 0; }
+.row--product { grid-template-columns: minmax(0, 1fr) clamp(120px, 16vw, 220px); }
 .product-visual { display: block; aspect-ratio: 1; background: var(--bg-2); overflow: hidden; }
 .product-visual img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: normal; transition: transform .35s var(--ease); }
 .product:hover .product-visual img { transform: scale(1.03); }
-.product-info { padding-top: 12px; }
-.product-title { font-size: 18px; font-weight: 500; letter-spacing: -.015em; }
-.product-meta-row { display: flex; justify-content: space-between; margin-top: 4px; }
-.product-meta-row > span + span::before { content: none; }
-.product:not(.is-shown) { display: none; }
+.product-title { margin: 0; }
+.product-title a:hover { text-decoration: none; color: var(--ink-2); }
+.product-meta-row { display: flex; flex-wrap: wrap; }
+.product:not(.is-shown) { display: none !important; }
+.row--product .row-fmt { color: var(--ink-3); }
+@media (max-width: 599px) { .row--product { grid-template-columns: minmax(0, 1fr) 120px; } .row--product .row-art { order: 0; max-width: none; } }
 .pdp-price { font-size: 16px; color: var(--ink); margin: 8px 0 4px; }
 .pdp-meta { color: var(--ink-2); }
 .pdp-block { margin-top: 20px; display: grid; gap: 8px; }

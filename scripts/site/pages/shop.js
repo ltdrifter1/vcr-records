@@ -20,12 +20,18 @@ function productCard(p) {
     .map(([k, v]) => `${k}="${attr(v)}"`)
     .join(" ");
   const colourImgs = Object.entries(p.imageByColour || {}).map(([k, v]) => `data-img-${attr(k)}="${attr(v)}"`).join(" ");
-  return `<li class="product${p.featured ? " product--featured" : ""} is-shown" ${dataAttrs} ${colourImgs}>
-  <a class="product-visual" href="/merch/${attr(p.slug)}" aria-label="${attr(p.name)}"><img src="${asset(p.image)}" alt="${attr(p.title)}" width="1200" height="1200" loading="lazy"/></a>
-  <div class="product-info">
-    <h3 class="product-title"><a href="/merch/${attr(p.slug)}">${esc(p.name)}</a></h3>
-    <p class="mono product-meta-row"><span class="product-type">${esc(p.typeLabel)}</span><span class="product-price">$${money(p.price)}</span></p>
+  const facts = [p.typeLabel, p.fit, p.stock].filter(Boolean);
+  return `<li class="product row row--product${p.featured ? " product--featured" : ""} is-shown" ${dataAttrs} ${colourImgs}>
+  <div class="product-info row-main">
+    <p class="mono row-meta product-meta-row">${facts.map((f) => `<span>${esc(f)}</span>`).join("")}</p>
+    <h3 class="product-title row-artist"><a href="/merch/${attr(p.slug)}">${esc(p.name)}</a></h3>
+    ${p.lede ? `<p class="row-dek">${esc(p.lede)}</p>` : ""}
+    <div class="row-actions">
+      <a class="btn btn-small" href="/merch/${attr(p.slug)}">View · $${money(p.price)}</a>
+      <span class="mono row-fmt product-type">${esc(p.typeLabel)}</span><span class="product-price sr-only">$${money(p.price)}</span>
+    </div>
   </div>
+  <a class="product-visual row-art" href="/merch/${attr(p.slug)}" aria-label="${attr(p.name)}"><img src="${asset(p.image)}" alt="${attr(p.title)}" width="1200" height="1200" loading="lazy"/></a>
 </li>`;
 }
 
