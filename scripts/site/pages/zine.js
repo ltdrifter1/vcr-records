@@ -69,6 +69,53 @@ function coverBlock(vol, article, zine) {
 </article>`;
 }
 
+/** Front page: the volume's cover photograph full width, then the cover story. */
+function frontCover(vol, article) {
+  if (!article) return "";
+  const count = vol.count;
+  const credit = (article.imageCredit || article.credit || "").replace(/^Photo:\s*/i, "");
+  return `<a class="front-cover" href="${attr(article.slug)}" aria-label="${attr(article.headline)}">
+  ${article.image ? `<span class="front-cover-art"><img src="${asset(article.image)}" alt="${attr(article.imageAlt || "")}" width="1600" height="1066" loading="eager" fetchpriority="high"/></span>` : ""}
+  <span class="front-cover-copy">
+    <span class="mono row-meta front-cover-meta"><span>${esc(volLabel(vol.number))}</span><span>${esc(vol.dateLabel)}</span><span>${count} ${count === 1 ? "story" : "stories"}</span><span>${esc(fmt(article))}</span>${credit ? `<span>Cover: ${esc(credit)}</span>` : ""}</span>
+    <span class="front-cover-main"><strong class="display front-cover-headline">${esc(article.headline)}</strong><span class="front-cover-dek">${esc(article.dek || "")}</span></span>
+    <span class="front-cover-read">Read →</span>
+  </span>
+</a>`;
+}
+
+/** The volume's stories as numbered rows with pictures where there are pictures. */
+function frontContents(list, opts) {
+  opts = opts || {};
+  const items = ORDER.flatMap((f) => list.filter((a) => fmt(a) === f && a.slug !== opts.excludeSlug).sort(byDateDesc));
+  if (!items.length) return "";
+  const pictured = items.filter((a) => a.image);
+  const text = items.filter((a) => !a.image);
+  let no = 0;
+  const num = () => String(++no).padStart(2, "0");
+  return `<section class="front-contents" aria-labelledby="contents-title">
+  <h2 id="contents-title">${esc(opts.title || "In this volume")}</h2>
+  ${pictured.length ? `<div class="front-grid">
+    ${pictured
+      .map(
+        (a) => `<a class="front-card" href="${attr(a.slug)}">
+  <span class="row-art row-art--wide"><img src="${asset(a.image)}" alt="${attr(a.imageAlt || "")}" width="1600" height="1066" loading="lazy"/></span>
+  <span class="mono row-meta"><span class="row-no">${num()}</span><span>${esc(fmt(a))}</span><span>${esc(dateShort(a.date))}</span></span>
+  <span class="front-card-main"><strong class="row-title">${esc(a.headline)}</strong><span class="row-dek">${esc(a.dek || "")}</span></span>
+</a>`
+      )
+      .join("\n    ")}
+  </div>` : ""}
+  ${text.length ? `<ol class="front-list">
+    ${text
+      .map(
+        (a) => `<li><a href="${attr(a.slug)}"><span class="front-list-no">${num()}</span><span class="front-list-title">${esc(a.headline)}</span><span class="front-list-meta">${esc(fmt(a))} · ${esc(dateShort(a.date))}</span><span class="front-list-dek">${esc(a.dek || "")}</span></a></li>`
+      )
+      .join("\n    ")}
+  </ol>` : ""}
+</section>`;
+}
+
 function starsPin(zine) {
   const stars = zine.stars || [];
   if (!stars.length) return "";
@@ -149,17 +196,17 @@ function zineIndex(data) {
   const vol = Object.assign({ count: inVolume(articles, cur).length }, volumeOf(issues, cur));
   const cover = articles.find((a) => a.slug === vol.coverSlug) || inVolume(articles, cur).sort(byDateDesc)[0];
   const start = (zine.startHere && zine.startHere.slugs ? zine.startHere.slugs : []).map((s) => articles.find((a) => a.slug === s)).filter(Boolean);
+  const back = backCatalogue(articles).sort(byDateDesc);
   const main = `
 ${zineHead(issues, zine, "Night Shift")}
 <div class="news-index-front">
-  ${coverBlock(vol, cover, zine)}
-  ${contents(inVolume(articles, cur), { excludeSlug: cover && cover.slug, title: "In this volume" })}
+  ${frontCover(vol, cover)}
+  ${frontContents(inVolume(articles, cur), { excludeSlug: cover && cover.slug, title: "In this volume" })}
   ${starsPin(zine)}
-  ${start.length ? `<section class="start-here" aria-labelledby="start-here-title"><h2 id="start-here-title">Start here</h2><p class="page-lede">${esc(zine.startHere.lead || "")}</p><ol class="issue-toc">${start.map(tocItem).join("\n")}</ol></section>` : ""}
   <section class="back-catalogue" id="back-catalogue" aria-labelledby="back-title">
-    <h2 id="back-title">Back catalogue</h2>
-    <p class="page-lede">Earlier pieces from the desk, grouped by year. They sit before the volumes.</p>
-    ${yearGroups(backCatalogue(articles)).map(([y, l]) => `<section><h3 class="mono">${esc(y)}</h3>${catalogueList(l)}</section>`).join("\n")}
+    <h2 id="back-title">Before the volumes</h2>
+    ${catalogueList(back.slice(0, 10))}
+    ${back.length > 10 ? `<p class="front-more mono"><span>${back.length} pieces before the volumes</span><a href="/news/issues#before">All of them →</a></p>` : ""}
   </section>
   <p class="issue-jump mono"><a href="/news/issues">All volumes</a><a href="/news/archive">From the archive</a><a href="/news/artists">Artists</a><a href="/news/places">Places</a><a href="/news/series/stars-for-the-floor">Stars</a></p>
   ${lettersBlock()}
@@ -205,6 +252,7 @@ ${contents(list, { excludeSlug: cover && cover.slug })}
 function issuesPage(data) {
   const { news, issues, zine } = data;
   const vols = issues.volumes.slice().sort((a, b) => b.number - a.number);
+  const start = (zine.startHere && zine.startHere.slugs ? zine.startHere.slugs : []).map((s) => news.articles.find((a) => a.slug === s)).filter(Boolean);
   const cards = vols
     .map((v) => {
       const list = inVolume(news.articles, v.number);
@@ -226,7 +274,13 @@ ${zineHead(issues, zine, "Volumes", { compact: true, crumbs: [["/", "Home"], ["/
 <div class="issue-index rows" data-issue-index>
 ${cards}
 </div>
-${issues.next ? `<p class="issue-jump mono"><span>Next: ${esc(volLabel(issues.next.number))} · ${esc(issues.next.dateLabel)}</span></p>` : ""}`;
+${issues.next ? `<p class="issue-jump mono"><span>Next: ${esc(volLabel(issues.next.number))} · ${esc(issues.next.dateLabel)}</span></p>` : ""}
+${start.length ? `<section class="start-here" aria-labelledby="start-here-title"><h2 id="start-here-title">Start here</h2><p class="page-lede">${esc(zine.startHere.lead || "")}</p><ol class="issue-toc">${start.map(tocItem).join("\n")}</ol></section>` : ""}
+<section class="back-catalogue" id="before" aria-labelledby="before-title">
+  <h2 id="before-title">Before the volumes</h2>
+  <p class="page-lede">Earlier pieces from the desk, grouped by year.</p>
+  ${yearGroups(backCatalogue(news.articles)).map(([y, l]) => `<section><h3 class="mono">${esc(y)}</h3>${catalogueList(l)}</section>`).join("\n")}
+</section>`;
   return L.page({ title: "Night Shift volumes", description: "Every monthly volume of Night Shift, the Club Copy magazine.", path: "/news/issues", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
 }
 

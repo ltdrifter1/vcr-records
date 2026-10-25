@@ -247,6 +247,19 @@ ${o.inline ? `<script>${o.inline}</script>` : ""}
 
 /* Shared fragments ------------------------------------------------------ */
 
+/** Display size for a two-line artist/title lockup, from the longer string. */
+function leadSize(title, artist) {
+  const n = Math.max(String(title || "").length, String(artist || "").length);
+  if (n <= 12) return ["clamp(44px, 7.6vw, 120px)", "clamp(40px, 12vw, 56px)"];
+  if (n <= 20) return ["clamp(40px, 6vw, 92px)", "clamp(36px, 10.5vw, 48px)"];
+  if (n <= 32) return ["clamp(36px, 4.6vw, 68px)", "clamp(30px, 8.6vw, 40px)"];
+  return ["clamp(32px, 3.9vw, 58px)", "clamp(28px, 7.6vw, 36px)"];
+}
+/** Typographic title: a spaced hyphen becomes an en dash. */
+function dashTitle(t) {
+  return String(t || "").replace(/\s-\s/g, " – ");
+}
+
 function playKey(rel, opts) {
   opts = opts || {};
   if (!hasCue(rel)) return "";
@@ -272,5 +285,5 @@ module.exports = {
   ROOT, ORIGIN, VERSION, NAV,
   esc, attr, money, clock, slugify, dateLong, dateShort, dateMono, asset,
   releaseSeconds, specLine, formatGlyphs, priceLine, hasCue, onSite,
-  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, MONTHS, MONTHS_SHORT, parseISO,
+  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, leadSize, dashTitle, MONTHS, MONTHS_SHORT, parseISO,
 };

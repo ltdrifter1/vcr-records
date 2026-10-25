@@ -126,3 +126,12 @@ Removed in this round, since it was a content request rather than a design one: 
 1. **The hero above, exactly as prototyped.** Generator (`scripts/site/pages/home.js`), about 90 lines of CSS replacing the `.lead*`, `.lcd` and `.listen-sleeve` rules, the clock and progress additions in `js/plate.js`, and the lead-selection rule. Half a day including verification at three widths and the on-air states.
 2. **Night Shift as a magazine** (section 3). Half a day.
 3. **Artist white, title grey, same size** on release rows and release pages too, so the hero's hierarchy is the site's. One CSS rule and a swap of two lines in `fragments.js` and `release.js`.
+
+---
+
+## 6. Shipped (25 October 2026)
+
+- The hero as prototyped, with the lead pinned to Pitch Black through `lead` in `data/catalog.json` (clear the field and the newest streamable release leads). Clock, on-air line and progress line live in `js/plate.js`.
+- Night Shift front page: the volume's cover full width, then the pictured stories as a three-across grid and the text pieces as a numbered list, stars in place, ten pieces from before the volumes with the full list and "Start here" moved to `/news/issues`. 6,280 px at 1440, from 7,700.
+- Artist in ink, title in the second ink, same size, on the hero, the release rows and the release page. The release page also loses the LCD box; its keys join into one strip like the hero's.
+- Verified: 20 behaviour checks pass; home, Night Shift and release pages render at 1440, 1024 and 390 with no overflow and no script errors; the on-air state paints the top line, the keys, the sleeve and the progress line.
