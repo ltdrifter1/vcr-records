@@ -678,3 +678,28 @@ body.mixtapes-page {
   .mix-art:hover,
   .mix-art:hover img { transform: none; }
 }
+
+/* --- Night mixes sit on steel, same as Day (formerly css/graphic-pass.css) --- */
+html body .mix-slot--night {
+  background: transparent;
+  color: #1a1a1a;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 8px 0 0;
+}
+html body .mix-slot--night .mix-slot-title,
+html body .mix-slot--night .mix-title,
+html body .mix-slot--night .tape-title,
+html body.home-zine .mix-slot--night .mix-slot-title,
+html body.home-zine .mix-slot--night .mix-title,
+html body.home-zine .mix-slot--night .tape-title {
+  color: #1a1a1a;
+}
+html body .mix-slot--night .mix-slot-sub,
+html body .mix-slot--night .tape-spec,
+html body .mix-slot--night .mix-genres li {
+  color: #5c5c5a;
+  border-color: rgba(40, 40, 40, .28);
+}
+/* Mix play key lives in css/camera-roll.css (steel key, visible glyph, acid LED). */
+

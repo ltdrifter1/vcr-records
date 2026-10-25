@@ -320,3 +320,44 @@ html body.library-index .cat-row.is-audible .sleeve-play.cat-play,
 html body.library-index .cat-row .sleeve-play.cat-play.is-playing {
   border-color: #1a1a1a;
 }
+
+/* --- New releases: one shelf line (formerly css/graphic-pass.css) --- */
+html body .sleeve-card-title,
+html body .sleeve-card-title a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+html body .sleeve-card-artist {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+html body .sleeve-card-fmt--ext {
+  letter-spacing: 0;
+  font-size: 11px;
+  opacity: .72;
+}
+
+
+/* --- Library shelf keys match the plate (formerly css/graphic-pass.css) --- */
+html body.library-index .lib-shelf__actions .btn {
+  border-radius: 3px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: Archivo, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-height: 40px;
+}
+html body.library-index .lib-shelf__actions .btn-chrome-on-dark {
+  background: #1a1a1a;
+  color: #f4f4f2;
+  border: 1px solid #111;
+}
+html body.library-index .lib-shelf__actions .btn-ghost-on-dark {
+  background: linear-gradient(180deg, #f8f8f6 0%, #d8d8d4 52%, #c4c4c0 100%);
+  color: #1a1a1a;
+  border: 1px solid rgba(40, 40, 40, .28);
+}
+

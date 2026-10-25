@@ -207,3 +207,9 @@ html body.home-zine .ig-grid {
   html body .mix-eq i { animation: none; transform: scaleY(.7); }
   html body .mix-art.is-live .mix-art-play::after { box-shadow: none; }
 }
+
+/* The Floor on home is one strip of six, on the crate's grid. */
+@media (min-width: 1100px) {
+  html body.home-zine .floor .ig-grid,
+  html body.home-zine .ig-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px 14px; }
+}

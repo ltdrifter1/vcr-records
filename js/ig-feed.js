@@ -48,7 +48,7 @@
         '<p class="ig-empty">The floor is quiet. See <a href="https://www.instagram.com/ltdrifta/" rel="noopener noreferrer" target="_blank">@ltdrifta</a> and <a href="https://www.instagram.com/clubcopyrecords/" rel="noopener noreferrer" target="_blank">@clubcopyrecords</a>.</p>';
       return;
     }
-    root.innerHTML = posts.slice(0, 12).map(card).join("");
+    root.innerHTML = posts.slice(0, 6).map(card).join("");
     if (window.IntersectionObserver) {
       var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
