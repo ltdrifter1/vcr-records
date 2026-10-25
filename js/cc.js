@@ -55,7 +55,7 @@
   });
 })();
 
-/* Video mixtapes: a click on a video row swaps its thumbnail for the YouTube embed
+/* Video feed: a click on a video row swaps its thumbnail for the YouTube embed
    (privacy-enhanced domain) and pauses the site player if it is sounding. */
 (function () {
   "use strict";

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Club Copy — video mixtapes.
+ * Club Copy — video feed.
  *
  *   node scripts/sync-youtube-videos.js
  *
