@@ -11,7 +11,7 @@ function releaseRow(rel, opts) {
   <div class="row-main">
     <p class="mono row-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span>${n ? `<span>${n} ${n === 1 ? "track" : "tracks"}</span>` : ""}<span>${esc(clock(L.releaseSeconds(rel)))}</span><span>${esc(dateShort(rel.released))}</span></p>
     <h3 class="row-artist">${opts.hideArtist ? "" : esc(rel.artist)}</h3>
-    <p class="row-title"><a href="${attr(rel.page)}">${esc(rel.title)}</a></p>
+    <p class="row-title"><a href="${attr(rel.page)}">${esc(L.dashTitle(rel.title))}</a></p>
     <div class="row-actions">
       ${playKey(rel)}
       ${digital && digital.sku ? `<button type="button" class="btn btn-small cat-add" data-add-release="${attr(rel.id)}" data-sku="${attr(digital.sku)}" data-name="${attr(rel.title + " — Digital")}" data-price="${attr(digital.price)}" data-image="${attr(asset(rel.cover))}">Digital · $${money(digital.price)}</button>` : ""}

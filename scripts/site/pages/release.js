@@ -39,17 +39,13 @@ module.exports = function release(rel, data) {
 
   const main = `
 <section class="ra-hero release-head" aria-label="${attr(rel.title)}">
-  <div class="release-copy">
+  <div class="release-copy" style="--lead-size:${L.leadSize(rel.title, rel.artist)[0]};--lead-size-s:${L.leadSize(rel.title, rel.artist)[1]}">
     ${L.crumbs([["/", "Home"], ["/library", "Library"], [null, rel.title]])}
     <p class="mono row-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span>${tracks.length} ${tracks.length === 1 ? "track" : "tracks"}</span><span>${total}</span><span>${esc(dateLong(rel.released))}</span></p>
     <p class="lead-artist"><a href="/artists/${attr(rel.artistId)}">${esc(rel.artist)}</a></p>
-    <h1 class="lead-title">${esc(rel.title)}</h1>
-    <div class="lcd ra-hero-facts">
-      <p>${esc(specLine(rel))}</p>
-      <p>${esc(priceLine(rel))}</p>
-    </div>
-    <div class="lead-actions ra-hero-ctas">
-      <button type="button" class="btn btn-solid" id="heroListen">Play</button>
+    <h1 class="lead-title">${esc(L.dashTitle(rel.title))}</h1>
+    <div class="ra-hero-ctas">
+      <button type="button" class="btn btn-solid" id="heroListen"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg>Play</button>
       ${digital && digital.sku ? `<button type="button" class="btn" id="buyDigitalBtn">Digital · $${money(digital.price)}</button>` : ""}
       ${cassette && cassette.sku ? `<button type="button" class="btn" id="buyBtn"${cassetteOut ? " disabled" : ""}>${cassetteOut ? "Cassette · Sold out" : "Cassette · $" + money(cassette.price)}</button>` : ""}
       ${rel.bandcampUrl ? `<a class="btn btn-text" href="${attr(rel.bandcampUrl)}" rel="noopener noreferrer">Bandcamp ↗</a>` : ""}

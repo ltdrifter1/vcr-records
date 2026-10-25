@@ -16,6 +16,10 @@
   var specRest = specEl ? specEl.textContent : "";
   var sleeve = plate.querySelector(".listen-sleeve");
   var art = plate.querySelector("[data-plate-art]");
+  var stateEl = plate.querySelector("[data-lead-state]");
+  var dateEl = plate.querySelector("[data-lead-date]");
+  var nowEl = plate.querySelector("[data-lead-now]");
+  var stateRest = stateEl ? stateEl.textContent : "";
 
   // Link-out feature: a release that lives on Bandcamp has no on-site cue or cart SKU,
   // so the plate just shows its own sleeve and sends Play to the Bandcamp page.
@@ -88,7 +92,9 @@
       hitBtn.setAttribute("aria-label", label);
     }
     if (playBtn) {
-      playBtn.textContent = label;
+      var labelEl = playBtn.querySelector(".btn-label");
+      if (labelEl) labelEl.textContent = label;
+      else playBtn.textContent = label;
       playBtn.classList.toggle("is-playing", !!playing);
       playBtn.setAttribute("aria-label", label);
     }
@@ -183,6 +189,7 @@
       // The chosen record stays on the plate. The dock reports the failure
       // (NO SIGNAL, Retry, Bandcamp); nothing else is cued in its place.
       if (statusEl) statusEl.textContent = "Stream unavailable.";
+      if (stateEl) { stateEl.textContent = "No signal"; stateEl.classList.add("is-on"); }
       setPlayUi(false);
     }).catch(function () {
       setPlayUi(false);
@@ -217,6 +224,13 @@
 
   function flashBuy(btn) {
     if (!btn) return;
+    var labelEl = btn.querySelector(".btn-label");
+    if (labelEl) {
+      var prevLabel = labelEl.textContent;
+      labelEl.textContent = "Added";
+      setTimeout(function () { labelEl.textContent = prevLabel; }, 1800);
+      return;
+    }
     var prev = btn.textContent;
     btn.textContent = "Added";
     setTimeout(function () {
@@ -302,8 +316,46 @@
       row.classList.toggle("is-active", on);
       if (on) row.setAttribute("aria-current", "true");
       else row.removeAttribute("aria-current");
+      var elapsed = row.querySelector("[data-track-elapsed]");
+      var dur = Number(row.getAttribute("data-duration")) || 0;
+      if (on) {
+        var t = Number(d.currentTime) || 0;
+        row.style.setProperty("--p", (dur ? Math.min(100, (t / dur) * 100) : 0).toFixed(2) + "%");
+        if (elapsed) elapsed.textContent = fmtClock(t) + " / ";
+      } else {
+        row.style.removeProperty("--p");
+        if (elapsed) elapsed.textContent = "";
+      }
     });
+    // Top line: LATEST · date becomes ON AIR · 01 · title while the lead is sounding.
+    if (stateEl) {
+      stateEl.textContent = live ? "On air" : stateRest;
+      stateEl.classList.toggle("is-on", live);
+    }
+    if (dateEl) dateEl.hidden = live;
+    if (nowEl) {
+      nowEl.hidden = !live;
+      if (live && d.track) {
+        var no = Number(d.track.trackNum) || 1;
+        nowEl.textContent = (no < 10 ? "0" : "") + no + " · " + (d.track.title || d.track.releaseTitle || "");
+      }
+    }
   });
+
+  // Label clock: the hour in British Columbia, so the page says where it is from.
+  (function () {
+    var el = plate.querySelector("[data-clock-time]");
+    if (!el || !window.Intl || !Intl.DateTimeFormat) return;
+    var fmt;
+    try {
+      fmt = new Intl.DateTimeFormat("en-GB", { timeZone: "America/Vancouver", hour: "2-digit", minute: "2-digit", hour12: false });
+    } catch (err) { return; }
+    function tick() {
+      try { el.textContent = fmt.format(new Date()); el.setAttribute("datetime", new Date().toISOString()); } catch (err) {}
+    }
+    tick();
+    setInterval(tick, 15000);
+  })();
 
   fetch("/data/catalog.json")
     .then(function (r) {

@@ -7,34 +7,38 @@ const { joinSection } = require("./join");
 function leadRelease(rel) {
   const digital = rel.formats && rel.formats.digital;
   const cassette = rel.formats && rel.formats.cassette;
-  const tracks = (rel.tracks || []).map((t, i) => `<li><button type="button" class="hero-track" data-play-release="${attr(rel.id)}" data-play-track="${attr(t.id)}"><span class="ht-no">${String(t.trackNum || i + 1).padStart(2, "0")}</span><span class="ht-title">${esc(t.title)}</span><span class="ht-dur">${clock(t.duration)}</span></button></li>`).join("\n");
-  return `<section class="lead" id="room" data-listen-plate data-release="${attr(rel.id)}" aria-label="${attr(rel.title)}">
-  <div class="listen-plate lead-grid">
+  const [big, small] = L.leadSize(rel.title, rel.artist);
+  const n = (rel.tracks || []).length;
+  const tracks = (rel.tracks || []).map((t, i) => `<li><button type="button" class="hero-track" data-play-release="${attr(rel.id)}" data-play-track="${attr(t.id)}" data-duration="${attr(t.duration || 0)}"><span class="ht-no">${String(t.trackNum || i + 1).padStart(2, "0")}</span><span class="ht-title">${esc(t.title)}</span><span class="ht-dur"><span data-track-elapsed></span>${clock(t.duration)}</span></button></li>`).join("\n        ");
+  const glyphs = `<svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>`;
+  return `<section class="lead" id="room" data-listen-plate data-release="${attr(rel.id)}" aria-label="${attr(rel.title)}" style="--lead-size:${big};--lead-size-s:${small}">
+  <p class="lead-top mono">
+    <span class="lead-top-left"><span class="lead-state" data-lead-state>Latest</span><span class="lead-date" data-lead-date>${esc(dateLong(rel.released))}</span><span class="lead-now" data-lead-now hidden></span></span>
+    <span class="lead-clock" data-clock><span>Cumberland, BC</span><span><time data-clock-time>··:··</time></span></span>
+  </p>
+  <div class="lead-body listen-plate">
     <div class="lead-copy">
-      <p class="mono lead-kicker"><span>Out now</span><span>${esc(dateLong(rel.released))}</span></p>
-      <p class="lead-artist"><a href="/artists/${attr(rel.artistId)}">${esc(rel.artist)}</a></p>
-      <h1 class="lead-title"><a href="${attr(rel.page)}">${esc(rel.title)}</a></h1>
-      <div class="lcd" aria-live="polite">
-        <p class="listen-plate-spec">${esc(specLine(rel))}</p>
-        <p class="listen-plate-status" data-plate-status>${esc(priceLine(rel))}</p>
+      <div class="lead-lockup">
+        <p class="lead-artist"><a href="/artists/${attr(rel.artistId)}">${esc(rel.artist)}</a></p>
+        <h1 class="lead-title"><a href="${attr(rel.page)}">${esc(L.dashTitle(rel.title))}</a></h1>
       </div>
-      <div class="lead-actions listen-plate-actions">
-        <button type="button" class="btn btn-solid" id="platePlay">Play</button>
-        ${digital ? `<button type="button" class="btn" id="plateBuyDigital">Digital · $${money(digital.price)}</button>` : ""}
-        <button type="button" class="btn" id="plateBuy"${cassette ? "" : " hidden"}>Cassette</button>
-        <a class="btn btn-text" href="${attr(rel.page)}">Release page</a>
-      </div>
-      <ol class="hero-tracks index" aria-label="Tracks">
+      <div class="lead-player">
+        <div class="lead-keys listen-plate-actions">
+          <button type="button" class="btn btn-solid" id="platePlay" aria-label="Play">${glyphs}<span class="btn-label">Play</span></button>
+          ${digital ? `<button type="button" class="btn" id="plateBuyDigital">Digital · $${money(digital.price)}</button>` : ""}
+          <button type="button" class="btn" id="plateBuy"${cassette ? "" : " hidden"}>Cassette</button>
+        </div>
+        <ol class="hero-tracks" aria-label="Tracks">
         ${tracks}
-      </ol>
-    </div>
-    <div class="lead-sleeve">
-      <div class="listen-sleeve">
-        <img data-plate-art src="${asset(rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="1200" height="1200" fetchpriority="high"/>
-        <button type="button" class="listen-sleeve-hit" id="platePlayHit" aria-label="Play ${attr(rel.title)}"><span class="listen-glyph"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></span></button>
+        </ol>
       </div>
+    </div>
+    <div class="lead-sleeve listen-sleeve">
+      <img data-plate-art src="${asset(rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="1200" height="1200" fetchpriority="high"/>
+      <button type="button" class="listen-sleeve-hit" id="platePlayHit" aria-label="Play ${attr(rel.title)}"><span class="listen-glyph">${glyphs}</span></button>
     </div>
   </div>
+  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span class="p-hide">${n} track${n === 1 ? "" : "s"}</span><span>${esc(Object.keys(rel.formats || {}).join(" + "))}</span></span><a href="${attr(rel.page)}">Release page →</a></p>
 </section>`;
 }
 
@@ -72,7 +76,9 @@ function artistList(artists, releases) {
 module.exports = function home(data) {
   const { catalog, news, issues } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
-  const featured = catalog.releases.find((r) => r.id === "pitch-black" && hasCue(r)) || releases.find(hasCue) || releases[0];
+  // The lead is catalog.lead when it names a streamable release on site; otherwise the newest with a stream.
+  const pinned = catalog.lead && releases.find((r) => r.id === catalog.lead && hasCue(r));
+  const featured = pinned || releases.find(hasCue) || releases[0];
   const rest = releases.filter((r) => r.id !== featured.id).slice(0, 8);
 
   const main = `

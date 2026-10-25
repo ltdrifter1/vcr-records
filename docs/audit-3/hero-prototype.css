@@ -1,0 +1,76 @@
+/* Hero v3 prototype — overrides on top of css/cc.css. Nothing here touches the site. */
+.lead3 { padding: var(--nav-h) var(--gutter) 0; min-height: 100svh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; border-bottom: 1px solid var(--line); }
+.lead3-top { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.lead3-top > span { display: inline-flex; gap: 0; white-space: nowrap; }
+.lead3-top > span + span::before { content: none; }
+.lead3-top span span + span::before { content: "·"; margin: 0 .7em; color: var(--ink-3); }
+.lead3-top .d-short { display: none; }
+.lead3-top .is-on { color: var(--signal); }
+.lead3-top .is-on::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--signal); margin-right: 10px; vertical-align: 1px; animation: cc-blink 1.4s steps(1) infinite; }
+@keyframes cc-blink { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .lead3-top .is-on::before { animation: none; } }
+
+.lead3-body { display: grid; grid-template-columns: minmax(0, 1fr) var(--sleeve); --sleeve: min(44vw, calc(100svh - var(--nav-h) - 170px)); gap: 0 clamp(32px, 5vw, 80px); align-items: end; padding: clamp(20px, 3vh, 36px) 0 clamp(20px, 3vh, 32px); }
+.lead3-copy { display: flex; flex-direction: column; justify-content: space-between; gap: clamp(24px, 4vh, 48px); min-width: 0; align-self: stretch; }
+.lead3-lockup { margin-top: 0; }
+.lead3-artist, .lead3-title { font-family: var(--sans); font-variation-settings: "wdth" var(--wide); font-stretch: 112%; font-weight: 600; letter-spacing: -.03em; line-height: .94; font-size: var(--lead-size, clamp(44px, 7vw, 112px)); margin: 0; text-wrap: balance; }
+.lead3-artist { color: var(--ink); }
+.lead3-title { color: var(--ink-2); }
+.lead3-title a:hover, .lead3-artist a:hover { text-decoration: none; color: var(--ink); }
+.lead3-title a:hover { color: var(--ink); }
+
+.lead3-player { border-top: 1px solid var(--line); }
+.lead3-keys { display: flex; }
+.lead3-keys .btn { min-height: 56px; padding: 0 22px; border-color: var(--line-2); border-top: 0; margin-right: -1px; }
+.lead3-keys .btn-solid { padding: 0 28px; gap: 12px; border-color: var(--ink); }
+.lead3-keys .btn-solid svg { width: 14px; height: 14px; fill: currentColor; }
+.lead3-keys .btn-solid .g-pause { display: none; }
+.lead3-keys .btn-solid.is-playing .g-pause { display: block; }
+.lead3-keys .btn-solid.is-playing .g-play { display: none; }
+.lead3-tracks { list-style: none; }
+.lead3-track { position: relative; display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto; gap: 14px; align-items: baseline; width: 100%; padding: 13px 0; border-top: 1px solid var(--line); text-align: left; color: var(--ink); }
+.lead3-track .ht-no, .lead3-track .ht-dur { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.lead3-track .ht-title { font-size: 17px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lead3-track:hover .ht-title { text-decoration: underline; text-underline-offset: .18em; }
+.lead3-track.is-active, .hero-track.lead3-track.is-active { background: none; color: var(--ink); border-bottom: 0; }
+.lead3-track.is-active .ht-no { color: var(--signal); }
+.lead3-track.is-active::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: var(--p, 0%); background: var(--signal); transition: width .5s linear; }
+.lead3-track.is-active .ht-dur { color: var(--ink); }
+
+.lead3-sleeve { position: relative; aspect-ratio: 1; background: var(--bg-2); overflow: hidden; align-self: end; }
+.lead3-sleeve img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lead3-hit { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink); }
+.lead3-hit .g { width: clamp(64px, 9vw, 112px); aspect-ratio: 1; display: grid; place-items: center; background: var(--bg); color: var(--ink); outline: 1px solid var(--ink); opacity: 0; transform: scale(.96); transition: opacity .18s var(--ease), transform .18s var(--ease), background .15s; }
+.lead3-hit .g svg { width: 36%; height: 36%; fill: currentColor; }
+.lead3-hit .g .g-pause { display: none; }
+.lead3-hit:hover .g, .lead3-hit:focus-visible .g, .lead3-sleeve.is-live .g { opacity: 1; transform: none; }
+.lead3-sleeve.is-live .g { background: var(--signal); color: var(--signal-ink); outline: 0; }
+.lead3-sleeve.is-live .g .g-play { display: none; }
+.lead3-sleeve.is-live .g .g-pause { display: block; }
+@media (hover: none) { .lead3-hit .g { opacity: 1; transform: none; place-self: end; margin: 12px; width: 56px; } .lead3-hit { display: grid; } }
+.lead3-sleeve.is-live::after { content: ""; position: absolute; top: 12px; left: 12px; width: 8px; height: 8px; background: var(--signal); }
+
+.lead3-foot { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0 14px; border-top: 1px solid var(--line); }
+.lead3-foot > span { display: inline-flex; white-space: nowrap; }
+.lead3-foot a { white-space: nowrap; }
+.lead3-foot span span + span::before { content: "·"; margin: 0 .7em; color: var(--ink-3); }
+.lead3-foot .cat { color: var(--ink); }
+.lead3-foot a { color: var(--ink-2); }
+.lead3-foot a:hover { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .lead3 { min-height: 0; }
+  .lead3-top { padding-top: 12px; }
+  .lead3-body { grid-template-columns: 1fr; --sleeve: auto; padding-top: 16px; gap: 20px 0; align-items: start; }
+  .lead3-sleeve { order: -1; }
+  .lead3-copy { gap: 20px; }
+  .lead3-artist, .lead3-title { font-size: var(--lead-size-s, clamp(36px, 11vw, 48px)); }
+  .lead3-keys .btn { flex: 1; min-height: 52px; padding: 0 14px; }
+  .lead3-keys .btn-solid { flex: 1.2; }
+  .lead3-foot { padding-bottom: 12px; }
+  .lead3-top .d-long { display: none; }
+  .lead3-top .d-short { display: none; }
+  .lead3-foot .p-hide { display: none; }
+  .lead3-foot .p-hide + span::before { content: "·"; margin: 0 .7em; color: var(--ink-3); }
+  .lead3-copy { justify-content: flex-start; }
+}
