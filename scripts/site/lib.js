@@ -275,8 +275,9 @@ function crumbs(items) {
 
 function sectionHead(title, opts) {
   opts = opts || {};
+  const H = opts.h || "h2";
   return `<header class="sec-head"${opts.id ? ` id="${opts.id}"` : ""}>
-  <h2 class="sec-title"${opts.titleId ? ` id="${opts.titleId}"` : ""}>${opts.kicker ? `<span class="sec-kicker">${esc(opts.kicker)}</span>` : ""}${esc(title)}</h2>
+  <${H} class="sec-title"${opts.titleId ? ` id="${opts.titleId}"` : ""}>${opts.kicker ? `<span class="sec-kicker">${esc(opts.kicker)}</span>` : ""}${esc(title)}</${H}>
   ${opts.link ? `<a class="sec-link" href="${opts.link[0]}">${esc(opts.link[1])}</a>` : ""}
 </header>`;
 }
