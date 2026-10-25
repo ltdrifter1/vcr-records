@@ -4,13 +4,24 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 
 ## Design
 
-One world: brushed iPod steel, not Bondi ice. Night Shift is the magazine *inside* that world — same aluminum, same type.
-Homepage hero is a listening plate (sleeve + LCD + Play), not a Click Wheel replica: `css/listen-plate.css`.
-`css/club-copy-os.css` only reaffirms the steel tokens (grey, no cyan fills). `css/steel.css` is the shared instrument layer for the homepage and every release page: LCD window (plate + release hero, same recipe as the dock), format glyphs, pressed steel, nav, tracklist, specs table, and the type floor (nothing under 10px, catalogue specs 11px, small text ≥ 4.5:1).
-Record Club on the homepage is a member card (ID-1 proportion, Club Copy mark) and it is the only metal object in that section: levels are a flat ruled tracklist. The card shows the member number as the email is typed (same hash as `api/club-member.js`) and the name as it is typed; its finish follows the selected level — brushed aluminium (Free), graphite (Club), chrome (Premium) — via `:has()`, no JS. Level copy must match `lib/catalog.js` `MEMBERSHIP` (only Premium earns Club Credit). Listening sleeve object: `css/listen-object.css`. Audio dock: `css/player.css` (aluminum LCD spec bar — invert play, pearl LED, no lime).
+Black ground, one grotesk, hairlines. The catalogue is the site. Direction and research in [`docs/redesign-2026-10.md`](docs/redesign-2026-10.md).
 
-- Steel `#E8E8E6` · LCD ink `#1A1A1A` · Stamp `#B8B8B4` · Select `#2A2A28` · LED `#E4E4E0`
-- Type: Oswald display · Archivo body · Lucida Grande UI/LCD · IBM Plex Mono specs
+- Type: **Archivo** (variable width; expanded for display, normal for body) and **IBM Plex Mono** for catalogue data. No second display face.
+- Colour: page `#0A0A0A`, ink `#F0EFEA`, second ink `#9A9A94`, hairline `rgba(255,255,255,.14)`, one signal `#FF4A1C` for state only (on air, active row, focus).
+- Layout: full-width rows separated by hairlines; release rows put the text left and the cover right; the Library is a dense list with genre and artist filters and a sleeves view.
+- One stylesheet: `css/cc.css`. No gradients, bezels, shadows, blur or radii above 2 px.
+
+## Build
+
+Every page is generated from the data files:
+
+```bash
+node scripts/build-site.js
+```
+
+Sources: `data/catalog.json` (releases, artists, notes, specs), `data/news.json` + `data/issues.json` + `data/zine.json` + `content/news/<id>.html` (Night Shift), `data/merch.json` (shop), `data/mixtapes.json` + `data/mix-genres.json` (mixtapes, read at runtime). Templates live in `scripts/site/`. The generated HTML is committed; Vercel serves it as static files, so run the build and commit the output after any data change. `scripts/migrate/` holds the one-time scripts that moved page-bound content into the data files.
+
+Page scripts keep their DOM contracts: `js/player.js` (dock, Now Playing, streams), `js/plate.js` (home lead release), `js/library.js` (filters, rows), `js/tapes.js` (SoundCloud mixes), `js/zine.js` (Night Shift), `js/cart.js` + `js/cart-page.js`, `js/member.js` + `js/join.js` + `js/account-page.js`, `js/shop.js` + `js/product.js`, `js/cc.js` (on-air state and add-to-cart on generated rows).
 
 ## Commerce
 
@@ -37,7 +48,7 @@ See `docs/stripe-integration-plan.md` for the full plan.
 ## Develop
 
 ```bash
-npx serve .
+node scripts/build-site.js && npx serve .
 ```
 
 ## Deploy

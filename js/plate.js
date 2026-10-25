@@ -169,8 +169,6 @@
     return track && track.releaseId ? track.releaseId : "";
   }
 
-  var fallingThrough = false;
-
   function playNow() {
     if (!window.VCRPlayer || !VCRPlayer.playRelease) return;
     var id = playTarget();
@@ -182,11 +180,9 @@
     setPlayUi(true);
     VCRPlayer.playRelease(id, null, { autoplay: true, stage: false }).then(function (queued) {
       if (queued) return;
-      if (featured.playable && onAir.id && onAir.id !== id && !fallingThrough) {
-        fallingThrough = true;
-        if (statusEl) statusEl.textContent = "Stream unavailable. Playing " + onAir.title + " instead.";
-        return VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
-      }
+      // The chosen record stays on the plate. The dock reports the failure
+      // (NO SIGNAL, Retry, Bandcamp); nothing else is cued in its place.
+      if (statusEl) statusEl.textContent = "Stream unavailable.";
       setPlayUi(false);
     }).catch(function () {
       setPlayUi(false);
@@ -307,10 +303,6 @@
       if (on) row.setAttribute("aria-current", "true");
       else row.removeAttribute("aria-current");
     });
-    if (d.error && d.track && d.track.releaseId === featured.id && onAir.id && onAir.id !== featured.id && !fallingThrough) {
-      fallingThrough = true;
-      VCRPlayer.playRelease(onAir.id, null, { autoplay: true, stage: false });
-    }
   });
 
   fetch("/data/catalog.json")
