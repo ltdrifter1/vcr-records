@@ -242,3 +242,68 @@ Secondary: the home page is seven full-height sections (7,800 px desktop, 8,300 
 3. One display voice: mixed-case Oswald 500 sitewide, with the NIGHT / SHIFT lockup as the only exception.
 4. Collapse the stylesheet stack to core + one page sheet, delete the dead and pass layers, and set a CSS budget, so the next change does not create the next Play-key bug.
 5. Shorten home to five beats under 5,500 px, so the page stays a record with a paper behind it rather than a magazine with a record on top.
+
+---
+
+# Round 2 — The hero banner (listening plate), 25 October 2026
+
+**Scope:** `index.html` hero markup, `css/hero-banner.css`, `css/listen-plate.css`, `css/listen-object.css`, `js/plate.js`, `js/home-wall.js` (ticker). Rendered at 1440, 1200, 1024, 860, 768 and 390 px; hover, keyboard-focus and a simulated on-air state (the stream itself is unreachable from the sandbox). Nothing changed in this round.
+
+## Score: 7.4 / 10
+
+| Lens | /10 | Evidence |
+|---|---:|---|
+| Identity | 7 | The object is right: sleeve in a bay, LCD, invert key, numbered index. The desktop *materials* are wrong: frosted glass cards (28 px radii, three `backdrop-filter`s, a 42 px blurred cover, SVG grain) on a site whose README says "brushed iPod steel, not Bondi ice". The phone hero is already steel. |
+| Music-first | 9 | Playable from the sleeve, the Play key and each track row; LCD, index and price in the first viewport. |
+| Visual language | 7 | Oswald title at 92 px, Plex spec, Archivo dek: correct. Chips `HOUSE · ALBUM · 11:19` under the sleeve repeat the LCD line (phone already hides them with the comment "Don't print them twice"). Pill chips and a pill ticker beside 2–4 px LCD and keys: two geometries in one frame. |
+| Interaction | 7 | Pressed keys, invert row, 42 px sleeve glyph, visible focus ring, Play → Pause. Eight interactive targets in the viewport plus 27 ticker links in the tab order after the hero. |
+| LCD and state | 8 | On air: `01 · Neighbourhood Spy · 1:03`, ON AIR pip, LED on the sleeve, row inverted. The catalogue number leaves the LCD while playing; no total or remaining time. `data-ticker-now` is never populated by any script. |
+| Motion | 7 | Ticker marquee (48 s loop, paused on hover, reduced-motion safe). Row invert snaps. |
+| Responsive | 6 | 768 px (tablet portrait) gets the phone rules: a 710 px sleeve, a 40 px title, a 1,274 px hero. 860 px gets the desktop grid with a 289 px sleeve in a tall empty bay. 390 px is good. |
+| Consistency | 6 | Desktop glass vs phone steel; phone track titles in Plex Mono vs desktop Archivo. |
+| Accessibility | 6 | Measured on the rendered panel: index label 3.6:1, ticker artist 3.0:1, chips 4.5:1, ticker title 4.5:1. The site's own rule is small text ≥ 4.5:1. |
+| Performance | 6 | The 1200 px cover decodes twice (sleeve and blurred background), plus three backdrop blurs and a turbulence overlay in the LCP viewport; the sleeve image has no `fetchpriority` or preload. |
+
+## Keep
+
+1. Sleeve + LCD + invert key + numbered index as the first screen.
+2. The live LCD line and the ON AIR pip; Play → Pause; row invert.
+3. The phone restatement: graphite bay, flat LCD, two keys, 8–10 px radii, 16 px gutters. It is the steel version of the hero already.
+4. Kicker `OUT NOW · 18 OCT 2026` and the spec line.
+
+## Gaps
+
+1. **Glass on a steel site.** The desktop hero is the only frosted surface on the site, and it is the first thing seen.
+2. **Duplicate chips** under the sleeve.
+3. **Two small-text contrasts under 4.5:1** (index label, ticker artist).
+4. **A soft 700–1,000 px band.** Tablet portrait gets a poster-sized sleeve and a small title; small laptops get a small sleeve in an empty bay.
+5. **Catalogue number drops out of the LCD** on air; ticker titles are forced to capitals by script; a dead `data-ticker-now` node and its `:has()` rule.
+6. **Heaviest paint on the site sits on the LCP viewport,** and the LCP image is not prioritised.
+
+## P0
+
+1. **Steel, not glass.** In `hero-banner.css`: bay = flat graphite `#141414` with a 1 px rule, spec sheet = steel `#E8E8E6`, ticker = flat strip, radii 10 px max, remove the three `backdrop-filter`s, the blurred cover and the grain. Keep the grid exactly as it is. This is the phone recipe applied to desktop.
+2. **Remove the three chips on desktop** (match phone). Reinstate later as `genre · BPM · key` once the catalogue carries them.
+3. **Contrast:** index label to `#4a4a47`; ticker artist to `rgba(26,26,26,.72)` or `#4a4a47`.
+4. **Tablet band:** 700–859 px keep the stacked layout but cap the sleeve at 440 px and set the title to `clamp(48px, 7vw, 64px)`; 860–1023 px reduce bay padding so the sleeve is at least 340 px.
+
+## P1
+
+5. **LCD keeps the catalogue number on air:** line 1 `CC013 · 01/03 · Neighbourhood Spy`, line 2 `1:03 / 3:05 · Digital $4` (`lcdLine` in `plate.js`).
+6. **Ticker:** mixed-case titles (drop `toUpperCase`), one item per 6–8 s, pause on focus as well as hover, `tabindex="-1"` on every ticker link with one visible "Full library" link; delete the dead `data-ticker-now` node and its rule.
+7. **LCP:** `fetchpriority="high"` and a `<link rel="preload">` for the sleeve image.
+8. Phone track titles in Archivo to match desktop.
+
+## P2
+
+9. Let 56 px of the crate peek above the fold on tall screens (`min-height: calc(100dvh - 56px)`).
+10. Drop the "Release page" text link; the title already links there, and the kicker can carry the catalogue number as the link.
+11. 120 ms transition on the row invert; segment-style redraw for the LCD text.
+
+**If I could only implement five changes on the hero, they would be:**
+
+1. Steel, not glass: flat graphite bay, steel spec sheet, 10 px radii, no backdrop blur, no blurred cover, no grain.
+2. Remove the duplicate chips and fix the two contrasts.
+3. Give the 700–1,000 px band a real layout.
+4. Keep the catalogue number on the LCD while on air, and calm the ticker (mixed case, slower, out of the tab order).
+5. Prioritise the sleeve image as the LCP element.
