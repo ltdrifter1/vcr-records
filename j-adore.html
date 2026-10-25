@@ -58,48 +58,48 @@
 </div>
 <main id="main">
 
-<section class="ra-hero release-head" aria-label="j&#39;adore">
-  <div class="release-copy" style="--lead-size:clamp(44px, 7.6vw, 120px);--lead-size-s:clamp(40px, 12vw, 56px)">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><a href="/library">Library</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">j'adore</span></nav>
-    <p class="mono row-meta"><span>CC007</span><span>Single</span><span>2 tracks</span><span>8:18</span><span>10 August 2026</span></p>
-    <p class="lead-artist"><a href="/artists/forsberg">Forsberg</a></p>
-    <h1 class="lead-title">j'adore</h1>
-    <div class="ra-hero-ctas">
-      <button type="button" class="btn btn-solid" id="heroListen"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg>Play</button>
-      <button type="button" class="btn" id="buyDigitalBtn">Digital · $8</button>
-      
-      <a class="btn btn-text" href="https://forsberg.bandcamp.com/album/jadore" rel="noopener noreferrer">Bandcamp ↗</a>
+<section class="lead lead--release" aria-label="j&#39;adore" data-release="j-adore" style="--lead-size:clamp(44px, 7.6vw, 120px);--lead-size-s:clamp(40px, 12vw, 56px)">
+  <p class="lead-top mono">
+    <span class="lead-top-left"><span><a href="/">Home</a></span><span><a href="/library">Library</a></span><span class="lead-cat">CC007</span></span>
+    <span class="lead-clock"><span class="p-hide">Released</span><span>10 August 2026</span></span>
+  </p>
+  <div class="lead-body listen-plate">
+    <div class="lead-copy">
+      <div class="lead-lockup">
+        <p class="lead-artist"><a href="/artists/forsberg">Forsberg</a></p>
+        <h1 class="lead-title">j'adore</h1>
+      </div>
+      <div class="lead-player">
+        <div class="lead-keys ra-hero-ctas">
+          <button type="button" class="btn btn-solid" id="heroListen" aria-label="Play"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg><span class="btn-label btn-label--play">Play</span><span class="btn-label btn-label--pause">Pause</span></button>
+          <button type="button" class="btn" id="buyDigitalBtn">Digital · $8</button>
+          
+        </div>
+        <div class="ra-tracks hero-tracks" role="list" aria-label="Tracks">
+          <div class="track-row" role="button" tabindex="0" data-index="0" data-duration="207"><span class="track-no">01</span><span class="track-title">don't cry</span><span class="track-dur"><span data-track-elapsed></span>3:27</span><button class="track-play-btn" type="button" aria-label="Play don&#39;t cry" tabindex="-1"></button></div>
+          <div class="track-row" role="button" tabindex="0" data-index="1" data-duration="291"><span class="track-no">02</span><span class="track-title">j'adore</span><span class="track-dur"><span data-track-elapsed></span>4:51</span><button class="track-play-btn" type="button" aria-label="Play j&#39;adore" tabindex="-1"></button></div>
+        </div>
+        <p class="mono p-msg ra-tracks-note" id="pMsg" aria-live="polite">Total 8:18 · streaming on site · files after checkout</p>
+      </div>
     </div>
-  </div>
-  <div class="release-sleeve ra-stage" id="artworkWrap">
-    <div class="listen-sleeve">
+    <div class="lead-sleeve listen-sleeve" id="artworkWrap">
       <img src="/j-adore-cover.webp" alt="j&#39;adore — Forsberg" width="1200" height="1200" fetchpriority="high"/>
-      <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause"><span class="listen-glyph"><svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></span></button>
+      <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause"><span class="listen-glyph"><svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg></span></button>
     </div>
   </div>
-</section>
-
-<section class="sec sec--tight" id="listen" data-release="j-adore" aria-label="Tracks">
-  <div class="ra-player-grid">
-    <p class="mono p-msg" id="pMsg" aria-live="polite"></p>
-    <div class="ra-tracks index" role="list">
-      <div class="track-row" role="button" tabindex="0" data-index="0"><span class="track-no">01</span><span class="track-title">don't cry</span><span class="track-dur">3:27</span><button class="track-play-btn" type="button" aria-label="Play don&#39;t cry" tabindex="-1"></button></div>
-      <div class="track-row" role="button" tabindex="0" data-index="1"><span class="track-no">02</span><span class="track-title">j'adore</span><span class="track-dur">4:51</span><button class="track-play-btn" type="button" aria-label="Play j&#39;adore" tabindex="-1"></button></div>
-      <p class="mono ra-tracks-note">Total 8:18 · streaming on site · files after checkout</p>
-    </div>
-  </div>
+  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">CC007</span><span>Single</span><span class="p-hide">2 tracks</span><span>DL</span></span><a href="https://forsberg.bandcamp.com/album/jadore" rel="noopener noreferrer">Bandcamp ↗</a></p>
 </section>
 
 <section class="sec release-about" aria-label="About the release">
-  <div class="release-notes"><p>Two tracks from Forsberg — soft pressure, late light, and a car ride that doesn’t end when the song does — produced for Club Copy and Copy House Publishing.</p></div>
-  <dl class="specs">
-    <div><dt class="mono">Artist</dt><dd><a href="/artists/forsberg">Forsberg</a></dd></div>
-    <div><dt class="mono">Catalogue</dt><dd>CC007</dd></div>
-    <div><dt class="mono">Format</dt><dd>Digital Single · 2 tracks</dd></div>
-    <div><dt class="mono">Released</dt><dd>10 August 2026</dd></div>
-    <div><dt class="mono">Genre</dt><dd>House</dd></div>
-    <div><dt class="mono">Published</dt><dd>Club Copy · Copy House Publishing</dd></div>
-  </dl>
+  <div class="fact-rows">
+    <div class="fact-row fact-row--notes"><p class="fact-label mono">Notes</p><div class="release-notes"><p>Two tracks from Forsberg — soft pressure, late light, and a car ride that doesn’t end when the song does — produced for Club Copy and Copy House Publishing.</p></div></div>
+    <div class="fact-row"><p class="fact-label mono">Artist</p><p class="fact-value"><a href="/artists/forsberg">Forsberg</a></p></div>
+    <div class="fact-row"><p class="fact-label mono">Catalogue</p><p class="fact-value">CC007</p></div>
+    <div class="fact-row"><p class="fact-label mono">Format</p><p class="fact-value">Digital Single · 2 tracks</p></div>
+    <div class="fact-row"><p class="fact-label mono">Released</p><p class="fact-value">10 August 2026</p></div>
+    <div class="fact-row"><p class="fact-label mono">Genre</p><p class="fact-value">House</p></div>
+    <div class="fact-row"><p class="fact-label mono">Published</p><p class="fact-value">Club Copy · Copy House Publishing</p></div>
+  </div>
 </section>
 
 <section class="sec" aria-labelledby="also-title"><header class="sec-head">

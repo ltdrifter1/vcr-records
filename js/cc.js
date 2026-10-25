@@ -28,6 +28,27 @@
       if (label) label.textContent = mine ? "Pause" : "Play";
     }
     document.body.classList.toggle("is-air", playing);
+    // Release page track rows: a progress line and elapsed time on the sounding row.
+    var rows = document.querySelectorAll(".track-row[data-duration]");
+    for (var r = 0; r < rows.length; r++) {
+      var row = rows[r];
+      var mineRow = playing && row.classList.contains("is-active");
+      var elapsed = row.querySelector("[data-track-elapsed]");
+      if (mineRow) {
+        var dur = Number(row.getAttribute("data-duration")) || 0;
+        var t = Number(d.currentTime) || 0;
+        row.style.setProperty("--p", (dur ? Math.min(100, (t / dur) * 100) : 0).toFixed(2) + "%");
+        if (elapsed) elapsed.textContent = fmtClock(t) + " / ";
+      } else {
+        row.style.removeProperty("--p");
+        if (elapsed) elapsed.textContent = "";
+      }
+    }
+  }
+  function fmtClock(sec) {
+    sec = Math.max(0, Math.floor(Number(sec) || 0));
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ":" + (s < 10 ? "0" : "") + s;
   }
   // Clicks on [data-play-release] are handled by player.js (document-level).
   window.addEventListener("vcr:player", function (e) { paint(e.detail); });

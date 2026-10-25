@@ -38,42 +38,42 @@ module.exports = function release(rel, data) {
 (function(){var F=${JSON.stringify(formats)};var t=null;function bind(id,k){var b=document.getElementById(id);if(!b)return;var label=b.textContent;b.addEventListener("click",function(){var f=F[k];if(!f||!window.VCRCart)return;VCRCart.add({sku:f.sku,name:f.name,price:f.price,image:f.image,qty:1,id:f.sku});b.textContent="Added";clearTimeout(t);t=setTimeout(function(){b.textContent=label;},2200);});}bind("buyDigitalBtn","digital");bind("buyBtn","cassette");})();`;
 
   const main = `
-<section class="ra-hero release-head" aria-label="${attr(rel.title)}">
-  <div class="release-copy" style="--lead-size:${L.leadSize(rel.title, rel.artist)[0]};--lead-size-s:${L.leadSize(rel.title, rel.artist)[1]}">
-    ${L.crumbs([["/", "Home"], ["/library", "Library"], [null, rel.title]])}
-    <p class="mono row-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span>${tracks.length} ${tracks.length === 1 ? "track" : "tracks"}</span><span>${total}</span><span>${esc(dateLong(rel.released))}</span></p>
-    <p class="lead-artist"><a href="/artists/${attr(rel.artistId)}">${esc(rel.artist)}</a></p>
-    <h1 class="lead-title">${esc(L.dashTitle(rel.title))}</h1>
-    <div class="ra-hero-ctas">
-      <button type="button" class="btn btn-solid" id="heroListen"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg>Play</button>
-      ${digital && digital.sku ? `<button type="button" class="btn" id="buyDigitalBtn">Digital · $${money(digital.price)}</button>` : ""}
-      ${cassette && cassette.sku ? `<button type="button" class="btn" id="buyBtn"${cassetteOut ? " disabled" : ""}>${cassetteOut ? "Cassette · Sold out" : "Cassette · $" + money(cassette.price)}</button>` : ""}
-      ${rel.bandcampUrl ? `<a class="btn btn-text" href="${attr(rel.bandcampUrl)}" rel="noopener noreferrer">Bandcamp ↗</a>` : ""}
+<section class="lead lead--release" aria-label="${attr(rel.title)}" data-release="${attr(rel.id)}" style="--lead-size:${L.leadSize(rel.title, rel.artist)[0]};--lead-size-s:${L.leadSize(rel.title, rel.artist)[1]}">
+  <p class="lead-top mono">
+    <span class="lead-top-left"><span><a href="/">Home</a></span><span><a href="/library">Library</a></span><span class="lead-cat">${esc(rel.catalogue || "")}</span></span>
+    <span class="lead-clock"><span class="p-hide">Released</span><span>${esc(dateLong(rel.released))}</span></span>
+  </p>
+  <div class="lead-body listen-plate">
+    <div class="lead-copy">
+      <div class="lead-lockup">
+        <p class="lead-artist"><a href="/artists/${attr(rel.artistId)}">${esc(rel.artist)}</a></p>
+        <h1 class="lead-title">${esc(L.dashTitle(rel.title))}</h1>
+      </div>
+      <div class="lead-player">
+        <div class="lead-keys ra-hero-ctas">
+          <button type="button" class="btn btn-solid" id="heroListen" aria-label="Play"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg><span class="btn-label btn-label--play">Play</span><span class="btn-label btn-label--pause">Pause</span></button>
+          ${digital && digital.sku ? `<button type="button" class="btn" id="buyDigitalBtn">Digital · $${money(digital.price)}</button>` : ""}
+          ${cassette && cassette.sku ? `<button type="button" class="btn" id="buyBtn"${cassetteOut ? " disabled" : ""}>${cassetteOut ? "Cassette · Sold out" : "Cassette · $" + money(cassette.price)}</button>` : ""}
+        </div>
+        <div class="ra-tracks hero-tracks" role="list" aria-label="Tracks">
+          ${tracks.map((t, i) => `<div class="track-row" role="button" tabindex="0" data-index="${i}" data-duration="${attr(t.duration || 0)}"><span class="track-no">${String(t.trackNum || i + 1).padStart(2, "0")}</span><span class="track-title">${esc(t.title)}</span><span class="track-dur"><span data-track-elapsed></span>${clock(t.duration)}</span><button class="track-play-btn" type="button" aria-label="Play ${attr(t.title)}" tabindex="-1"></button></div>`).join("\n          ")}
+        </div>
+        <p class="mono p-msg ra-tracks-note" id="pMsg" aria-live="polite">Total ${total} · streaming on site · files after checkout</p>
+      </div>
     </div>
-  </div>
-  <div class="release-sleeve ra-stage" id="artworkWrap">
-    <div class="listen-sleeve">
+    <div class="lead-sleeve listen-sleeve" id="artworkWrap">
       <img src="${asset(rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="1200" height="1200" fetchpriority="high"/>
-      <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause"><span class="listen-glyph"><svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></span></button>
+      <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause"><span class="listen-glyph"><svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg></span></button>
     </div>
   </div>
-</section>
-
-<section class="sec sec--tight" id="listen" data-release="${attr(rel.id)}" aria-label="Tracks">
-  <div class="ra-player-grid">
-    <p class="mono p-msg" id="pMsg" aria-live="polite"></p>
-    <div class="ra-tracks index" role="list">
-      ${tracks.map((t, i) => `<div class="track-row" role="button" tabindex="0" data-index="${i}"><span class="track-no">${String(t.trackNum || i + 1).padStart(2, "0")}</span><span class="track-title">${esc(t.title)}</span><span class="track-dur">${clock(t.duration)}</span><button class="track-play-btn" type="button" aria-label="Play ${attr(t.title)}" tabindex="-1"></button></div>`).join("\n      ")}
-      <p class="mono ra-tracks-note">Total ${total} · streaming on site · files after checkout</p>
-    </div>
-  </div>
+  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span class="p-hide">${tracks.length} ${tracks.length === 1 ? "track" : "tracks"}</span><span>${esc(formatGlyphs(rel) || Object.keys(rel.formats || {}).join(" + "))}</span></span>${rel.bandcampUrl ? `<a href="${attr(rel.bandcampUrl)}" rel="noopener noreferrer">Bandcamp ↗</a>` : `<a href="/library">Library →</a>`}</p>
 </section>
 
 <section class="sec release-about" aria-label="About the release">
-  <div class="release-notes">${notes || `<p>${esc(rel.kind)} from ${esc(rel.artist)} on Club Copy.</p>`}</div>
-  <dl class="specs">
-    ${specRows.map(([k, v]) => `<div><dt class="mono">${k}</dt><dd>${v}</dd></div>`).join("\n    ")}
-  </dl>
+  <div class="fact-rows">
+    <div class="fact-row fact-row--notes"><p class="fact-label mono">Notes</p><div class="release-notes">${notes || `<p>${esc(rel.kind)} from ${esc(rel.artist)} on Club Copy.</p>`}</div></div>
+    ${specRows.map(([k, v]) => `<div class="fact-row"><p class="fact-label mono">${k}</p><p class="fact-value">${v}</p></div>`).join("\n    ")}
+  </div>
 </section>
 
 ${others.length ? `<section class="sec" aria-labelledby="also-title">${L.sectionHead("Also by " + rel.artist, { titleId: "also-title", link: ["/artists/" + rel.artistId, "Artist page"] })}<div class="rows">${others.map((r) => releaseRow(r, { hideArtist: true })).join("\n")}</div></section>` : ""}
