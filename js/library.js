@@ -417,7 +417,7 @@
       seen[id] = true;
       out.push({ id: id, name: rel.artist || id });
     });
-    var rosterOrder = ['forsberg', 'lt-drifta', 'riscape', 'molly-haze'];
+    var rosterOrder = ['forsberg', 'lt-drifta', 'riscape'];
     out.sort(function (a, b) {
       var rank = function (x) {
         var i = rosterOrder.indexOf(String(x.id || '').toLowerCase());
