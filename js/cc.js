@@ -54,3 +54,33 @@
     btn._t = setTimeout(function () { btn.textContent = label; btn.classList.remove("is-added"); }, 2000);
   });
 })();
+
+/* Video mixtapes: a click on a video row swaps its thumbnail for the YouTube embed
+   (privacy-enhanced domain) and pauses the site player if it is sounding. */
+(function () {
+  "use strict";
+  document.addEventListener("click", function (e) {
+    var hit = e.target.closest("[data-video-embed]");
+    if (!hit) return;
+    var id = hit.getAttribute("data-video-embed");
+    var row = hit.closest("[data-video]");
+    var art = row && row.querySelector(".video-art");
+    if (!id || !art) return;
+    e.preventDefault();
+    if (art.querySelector("iframe")) return;
+    try { var st = window.VCRPlayer && VCRPlayer.getState && VCRPlayer.getState(); if (st && st.playing && VCRPlayer.pause) VCRPlayer.pause(); } catch (err) {}
+    var frame = document.createElement("iframe");
+    frame.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0";
+    frame.title = hit.getAttribute("aria-label") || "Video";
+    frame.allow = "autoplay; encrypted-media; picture-in-picture";
+    frame.allowFullscreen = true;
+    frame.setAttribute("loading", "eager");
+    var box = document.createElement("div");
+    box.className = "row-art row-art--wide video-art is-playing";
+    box.appendChild(frame);
+    art.replaceWith(box);
+    row.classList.add("is-playing");
+    var key = row.querySelector(".video-key");
+    if (key) { key.classList.add("is-playing"); key.setAttribute("aria-label", "Playing"); }
+  });
+})();

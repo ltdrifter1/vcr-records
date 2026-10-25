@@ -73,6 +73,36 @@ function artistList(artists, releases) {
     .join("")}</ol>`;
 }
 
+function videoSection(feed) {
+  const videos = (feed && feed.videos) || [];
+  if (!videos.length) return "";
+  const channel = (feed && feed.channelUrl) || "https://www.youtube.com/@ltdrifta";
+  const rows = videos
+    .slice(0, 4)
+    .map(
+      (v) => `<article class="row row--video" data-video="${attr(v.id)}">
+  <div class="row-main">
+    <p class="mono row-meta"><span>Video</span><span>${esc(L.dateShort(v.published))}</span><span>YouTube</span></p>
+    <h3 class="row-artist">L.T. Drifta</h3>
+    <p class="row-title"><a href="${attr(v.url)}" rel="noopener noreferrer" data-video-embed="${attr(v.id)}">${esc(L.dashTitle(v.title))}</a></p>
+    ${v.description ? `<p class="row-dek">${esc(v.description)}</p>` : ""}
+    <div class="row-actions">
+      <button type="button" class="key video-key" data-video-embed="${attr(v.id)}" aria-label="Play ${attr(v.title)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+      <a class="mono row-fmt" href="${attr(v.url)}" rel="noopener noreferrer">Watch on YouTube ↗</a>
+    </div>
+  </div>
+  <a class="row-art row-art--wide video-art" href="${attr(v.url)}" rel="noopener noreferrer" data-video-embed="${attr(v.id)}" aria-label="Play ${attr(v.title)}"><img src="${attr(v.thumbnail)}" alt="" width="480" height="360" loading="lazy"/></a>
+</article>`
+    )
+    .join("\n");
+  return `<section class="sec" aria-labelledby="videos-title" id="videos">
+  ${L.sectionHead("Video mixtapes", { titleId: "videos-title", kicker: "YouTube · @ltdrifta", link: [channel, "Channel ↗"] })}
+  <div class="rows">
+    ${rows}
+  </div>
+</section>`;
+}
+
 module.exports = function home(data) {
   const { catalog, news, issues } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
@@ -103,13 +133,15 @@ ${leadRelease(featured)}
   <p class="tapes-now mono" data-tapes-now hidden></p>
   <div class="mix-slot" data-tapes-panel>
     <p class="mono slot-label">Day</p>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="3" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
   </div>
   <div class="mix-slot" data-tapes-panel>
     <p class="mono slot-label">Night</p>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="3" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
   </div>
 </section>
+
+${videoSection(data.videos)}
 
 <section class="sec" aria-labelledby="artists-title">
   ${L.sectionHead("Artists", { titleId: "artists-title", link: ["/artists", "Roster"] })}
