@@ -17,7 +17,7 @@
   var sleeve = plate.querySelector(".listen-sleeve");
   var art = plate.querySelector("[data-plate-art]");
   var stateEl = plate.querySelector("[data-lead-state]");
-  var dateEl = plate.querySelector("[data-lead-date]");
+  var dateEl = plate.querySelector("[data-lead-idle], [data-lead-date]");
   var nowEl = plate.querySelector("[data-lead-now]");
   var stateRest = stateEl ? stateEl.textContent : "";
 

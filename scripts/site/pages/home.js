@@ -13,8 +13,8 @@ function leadRelease(rel) {
   const glyphs = `<svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>`;
   return `<section class="lead" id="room" data-listen-plate data-release="${attr(rel.id)}" aria-label="${attr(rel.title)}" style="--lead-size:${big};--lead-size-s:${small}">
   <p class="lead-top mono">
-    <span class="lead-top-left"><span class="lead-state" data-lead-state>Latest</span><span class="lead-date" data-lead-date>${esc(dateLong(rel.released))}</span><span class="lead-now" data-lead-now hidden></span></span>
-    <span class="lead-clock" data-clock><span>Cumberland, BC</span><span><time data-clock-time>··:··</time></span></span>
+    <span class="lead-top-left"><span class="lead-state" data-lead-state>Club Copy</span><span class="lead-place" data-lead-idle>Cumberland, BC</span><span class="lead-now" data-lead-now hidden></span></span>
+    <span class="lead-clock" data-clock><span><time data-clock-time>··:··</time></span></span>
   </p>
   <div class="lead-body listen-plate">
     <div class="lead-copy">
@@ -38,7 +38,7 @@ function leadRelease(rel) {
       <button type="button" class="listen-sleeve-hit" id="platePlayHit" aria-label="Play ${attr(rel.title)}"><span class="listen-glyph">${glyphs}</span></button>
     </div>
   </div>
-  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span class="p-hide">${n} track${n === 1 ? "" : "s"}</span><span>${esc(Object.keys(rel.formats || {}).join(" + "))}</span></span><a href="${attr(rel.page)}">Release page →</a></p>
+  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span class="p-hide">${esc(rel.kind || "")}</span><span class="lead-cat">${esc(dateLong(rel.released))}</span></span><a href="${attr(rel.page)}">Release page →</a></p>
 </section>`;
 }
 
@@ -84,11 +84,11 @@ module.exports = function home(data) {
   const main = `
 ${leadRelease(featured)}
 
-<section class="sec" aria-labelledby="releases-title" id="listen">
-  ${L.sectionHead("Releases", { titleId: "releases-title", link: ["/library", `All ${releases.length} releases`] })}
+<section class="sec sec--list" aria-label="Releases" id="listen">
   <div class="rows">
     ${rest.map((r) => releaseRow(r)).join("\n")}
   </div>
+  <p class="rows-more mono"><a href="/library">All ${releases.length} releases →</a></p>
 </section>
 
 <section class="sec" aria-labelledby="zine-title" id="news">
