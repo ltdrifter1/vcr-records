@@ -26,6 +26,7 @@ const data = {
   issues: L.readJSON("data/issues.json"),
   zine: L.readJSON("data/zine.json"),
   merch: L.readJSON("data/merch.json"),
+  videos: (() => { try { return L.readJSON("data/videos.json"); } catch (e) { return { videos: [] }; } })(),
 };
 
 const written = [];

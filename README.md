@@ -36,6 +36,10 @@ Page scripts keep their DOM contracts: `js/player.js` (dock, Now Playing, stream
 
 The genre tags under each mix are SoundCloud's own genre + tags for that mix. The RSS feed doesn't carry them, so they are snapshotted from the track pages: `node scripts/sync-soundcloud-genres.js` writes `data/mix-genres.json` (run it when mixes are added or retagged, then commit the file). The summary line reports how many mixes came back with tags; it exits non-zero if none did. A mix with no SoundCloud tags falls back to genre words in its title (`GENRE_RULES` in `js/tapes.js`), and shows no tags if there are none.
 
+### Video mixtapes
+
+The "Video mixtapes" rows on the home page come from the public RSS feed of the L.T. Drifta YouTube channel (no API key): `node scripts/sync-youtube-videos.js` writes `data/videos.json`, and `node scripts/build-site.js` renders the latest four as rows. The `Sync video mixtapes` workflow runs both daily and commits when the list changed. The feed carries the latest 15 uploads; older entries already in the file are kept. A click on a row swaps the thumbnail for the embed on `youtube-nocookie.com` and pauses the site player.
+
 ### Stripe setup
 
 1. Set `STRIPE_SECRET_KEY` on Vercel (prefer a restricted key `rk_…`).

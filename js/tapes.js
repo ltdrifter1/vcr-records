@@ -191,29 +191,49 @@
       '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
       "</span>" +
       "</button>";
+    // A second play control in the text column: same data, same handler (bind()), and a
+    // hidden label node so syncButtons() leaves the glyphs alone.
+    var key =
+      '<button type="button" class="key mix-key tape-play" data-sc-url="' +
+      esc(t.permalink) +
+      '" data-tape-id="' +
+      esc(t.id) +
+      '" data-tape-title="' +
+      esc(t.title) +
+      '" data-tape-dj="' +
+      esc(t.dj) +
+      '" data-tape-cover="' +
+      esc(cover) +
+      '" data-tape-year="' +
+      esc(t.year) +
+      '" aria-label="Play ' +
+      esc(t.title) +
+      '"><span data-mix-play-label hidden></span>' +
+      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
+      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+      "</button>";
     return (
       '<article class="mix-card" data-tape="' +
       esc(t.id) +
       '">' +
-      sleeve +
       '<div class="mix-body">' +
+      '<p class="tape-spec mono">' +
+      "<span>" + esc(t.dj || "L.T. Drifta") + "</span>" +
+      (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
+      (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
+      genres
+        .map(function (g) {
+          return "<span>" + esc(g) + "</span>";
+        })
+        .join("") +
+      "</p>" +
       "<h3 class=\"tape-title mix-title\">" +
       esc(t.title) +
       "</h3>" +
-      '<p class="tape-spec">' +
-      (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
-      (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
-      "</p>" +
-      (genres.length
-        ? '<ul class="mix-genres" aria-label="Genres">' +
-          genres
-            .map(function (g) {
-              return "<li>" + esc(g) + "</li>";
-            })
-            .join("") +
-          "</ul>"
-        : "") +
-      "</div></article>"
+      '<div class="mix-actions">' + key + "</div>" +
+      "</div>" +
+      sleeve +
+      "</article>"
     );
   }
 
