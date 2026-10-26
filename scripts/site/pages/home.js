@@ -1,6 +1,6 @@
 "use strict";
 const L = require("../lib");
-const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dateLong, playKey } = L;
+const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dateLong, playKey, freeDownload } = L;
 const { releaseRow } = require("./fragments");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
@@ -26,7 +26,7 @@ function leadRelease(rel) {
       <div class="lead-player">
         <div class="lead-keys listen-plate-actions">
           <button type="button" class="btn btn-solid" id="platePlay" aria-label="Play">${glyphs}<span class="btn-label">Play</span></button>
-          ${digital ? `<button type="button" class="btn" id="plateBuyDigital">Digital · $${money(digital.price)}</button>` : ""}
+          ${digital ? `<button type="button" class="btn" id="plateBuyDigital">${freeDownload(rel) ? "Free download" : "Digital · $" + money(digital.price)}</button>` : ""}
           <button type="button" class="btn" id="plateBuy"${cassette ? "" : " hidden"}>Cassette</button>
         </div>
         <ol class="hero-tracks" aria-label="Tracks">

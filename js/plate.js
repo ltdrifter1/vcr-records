@@ -210,6 +210,10 @@
   }
 
   function buyDigital() {
+    if (Number(featured.digitalPrice) === 0 && featured.id) {
+      window.location.href = "/api/bandcamp-stream?r=" + encodeURIComponent(featured.id) + "&t=" + encodeURIComponent(featured.previewTrackId || "") + "&download=1";
+      return;
+    }
     if (!window.VCRCart || !featured.digitalSku) return;
     VCRCart.add({
       sku: featured.digitalSku,
@@ -393,6 +397,7 @@
         if (digital && digital.sku) {
           featured.digitalSku = digital.sku;
           if (digital.price != null) featured.digitalPrice = Number(digital.price);
+          featured.previewTrackId = feat.previewTrackId || (feat.tracks && feat.tracks[0] && feat.tracks[0].id) || "";
           featured.digitalName = (feat.title || "Release") + " — Digital";
           featured.digitalImage = feat.cover || featured.cover;
           if (buyDigitalBtn) buyDigitalBtn.hidden = false;
@@ -407,9 +412,9 @@
           }
         }
         if (buyDigitalBtn && featured.digitalSku) {
-          buyDigitalBtn.textContent = featured.digitalPrice != null
-            ? "Digital · $" + money(featured.digitalPrice)
-            : "Digital";
+          buyDigitalBtn.textContent = Number(featured.digitalPrice) === 0
+            ? "Free download"
+            : (featured.digitalPrice != null ? "Digital · $" + money(featured.digitalPrice) : "Digital");
         }
       }
       var dated = releases

@@ -47,17 +47,35 @@ function cacheKey(pageUrl, track) {
   return [pageUrl, track && (track.bandcampTrackId || track.id || track.title)].join("::");
 }
 
-async function pipeStream(req, res, streamUrl) {
+function isFreeRelease(release) {
+  const digital = release && release.formats && release.formats.digital;
+  return !!(digital && (digital.free || Number(digital.price) === 0));
+}
+
+function downloadFilename(title) {
+  const base = String(title || "club-copy")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s.'()-]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 80) || "club-copy";
+  return base + ".mp3";
+}
+
+async function pipeStream(req, res, streamUrl, opts) {
+  opts = opts || {};
   if (!bc.streamAllowed(streamUrl)) {
     return json(res, 502, { error: "Stream host not allowed." });
   }
   /* Pass the client's Range through. Capping an open Range: bytes=0-
-     at 256KB made WebKit treat a full track as a 16s file and end it. */
+     at 256KB made WebKit treat a full track as a 16s file and end it.
+     A free-download attachment asks for the whole file. */
   const headers = {
     "User-Agent": PIPE_UA,
     Accept: "*/*",
   };
-  if (req.headers.range) headers.Range = req.headers.range;
+  if (!opts.downloadName && req.headers.range) headers.Range = req.headers.range;
   const upstream = await fetch(streamUrl, {
     method: "GET",
     redirect: "follow",
@@ -80,7 +98,16 @@ async function pipeStream(req, res, streamUrl) {
     if (value) res.setHeader(name, value);
   });
   if (!res.getHeader("Accept-Ranges")) res.setHeader("Accept-Ranges", "bytes");
-  res.setHeader("Cache-Control", "private, max-age=60");
+  if (opts.downloadName) {
+    const name = String(opts.downloadName).replace(/"/g, "");
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="' + name + "\"; filename*=UTF-8''" + encodeURIComponent(name)
+    );
+    res.setHeader("Cache-Control", "private, no-store");
+  } else {
+    res.setHeader("Cache-Control", "private, max-age=60");
+  }
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Referrer-Policy", "no-referrer");
   if (req.method === "HEAD" || !upstream.body) return res.end();
@@ -109,6 +136,7 @@ module.exports = async function handler(req, res) {
   const trackId = url.searchParams.get("t") || url.searchParams.get("track") || "";
   const asJson = url.searchParams.get("format") === "json";
   const pipe = url.searchParams.get("pipe") === "1";
+  const download = url.searchParams.get("download") === "1";
 
   if (!releaseId) {
     return json(res, 400, { error: "Missing release." });
@@ -129,6 +157,29 @@ module.exports = async function handler(req, res) {
     if (!pageUrl) {
       return json(res, 404, {
         error: "Preview unavailable — this title is not streaming from Bandcamp.",
+      });
+    }
+    if (download) {
+      if (!isFreeRelease(cue.release)) {
+        return json(res, 403, { error: "This release is not a free download." });
+      }
+      const fetched = await bc.fetchHtml(pageUrl);
+      if (fetched.status >= 400) {
+        return json(res, 502, { error: "Bandcamp page " + fetched.status });
+      }
+      const tralbum = bc.parseTralbum(fetched.body);
+      const freePage = bc.freeDownloadUrl(tralbum);
+      if (freePage) {
+        res.statusCode = 302;
+        res.setHeader("Location", freePage);
+        res.setHeader("Cache-Control", "private, no-store");
+        res.setHeader("Referrer-Policy", "no-referrer");
+        return res.end();
+      }
+      const stream = bc.pickStream(tralbum, cue.track);
+      if (!stream) return json(res, 502, { error: "No audio on this Bandcamp cue" });
+      return await pipeStream(req, res, stream.src, {
+        downloadName: downloadFilename(cue.track.title || cue.release.title),
       });
     }
     const key = cacheKey(pageUrl, cue.track);

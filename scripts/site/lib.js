@@ -79,10 +79,24 @@ function formatGlyphs(rel) {
   const f = rel.formats || {};
   return [f.digital ? "DL" : "", f.cassette ? "CS" : "", f.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
 }
+function freeDownload(rel) {
+  const d = rel && rel.formats && rel.formats.digital;
+  return !!(d && (d.free || Number(d.price) === 0));
+}
+function downloadHref(rel) {
+  const track = (rel && rel.previewTrackId) || (((rel && rel.tracks) || [])[0] && rel.tracks[0].id) || "";
+  return (
+    "/api/bandcamp-stream?r=" +
+    encodeURIComponent(rel && rel.id ? rel.id : "") +
+    "&t=" +
+    encodeURIComponent(track) +
+    "&download=1"
+  );
+}
 function priceLine(rel) {
   const f = rel.formats || {};
   const bits = [];
-  if (f.digital && f.digital.price != null) bits.push("Digital $" + money(f.digital.price));
+  if (f.digital && f.digital.price != null) bits.push(freeDownload(rel) ? "Free download" : "Digital $" + money(f.digital.price));
   if (f.cassette) {
     if (f.cassette.stock === 0 || f.cassette.soldOut) bits.push("Cassette sold out");
     else if (f.cassette.price != null) bits.push("Cassette $" + money(f.cassette.price));
@@ -291,6 +305,6 @@ function sectionHead(title, opts) {
 module.exports = {
   ROOT, ORIGIN, VERSION, NAV,
   esc, attr, money, clock, slugify, dateLong, dateShort, dateMono, asset,
-  releaseSeconds, specLine, formatGlyphs, priceLine, hasCue, onSite,
+  releaseSeconds, specLine, formatGlyphs, priceLine, freeDownload, downloadHref, hasCue, onSite,
   readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, leadSize, dashTitle, MONTHS, MONTHS_SHORT, parseISO,
 };

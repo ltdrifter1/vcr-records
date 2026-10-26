@@ -572,6 +572,7 @@
     }
     if (format === "digital") {
       if (!track.digitalSku) return false;
+      if (Number(track.digitalPrice) === 0) return false;
       window.VCRCart.add({
         sku: track.digitalSku,
         name: track.releaseTitle + " — Digital",
@@ -1052,6 +1053,9 @@
       };
     }
     if (track.digitalSku && stockOk(track.digitalStock)) {
+      if (Number(track.digitalPrice) === 0) {
+        return { act: "free-download", label: "Free download" };
+      }
       return {
         act: "buy-digital",
         label: track.digitalPrice != null ? "Buy · $" + track.digitalPrice : "Buy",
@@ -1250,7 +1254,9 @@
         btn.disabled = !!(track && track.cassetteSku && track.cassetteStock != null && track.cassetteStock <= 0);
       } else if (format === "digital") {
         btn.hidden = false;
-        btn.textContent = track && track.digitalPrice != null ? "Digital · $" + track.digitalPrice : "Digital";
+        btn.textContent = track && Number(track.digitalPrice) === 0
+          ? "Free download"
+          : (track && track.digitalPrice != null ? "Digital · $" + track.digitalPrice : "Digital");
         btn.disabled = false;
       }
     });
@@ -2060,6 +2066,10 @@
       var format = el ? el.getAttribute("data-format") : null;
       if (!fmtTrack || !format) return;
       if (format === "digital") {
+        if (Number(fmtTrack.digitalPrice) === 0) {
+          window.location.href = "/api/bandcamp-stream?r=" + encodeURIComponent(fmtTrack.releaseId) + "&t=" + encodeURIComponent(fmtTrack.id || "") + "&download=1";
+          return;
+        }
         if (addFormatToBag(fmtTrack, "digital")) {
           setRoomFormatsOpen(false);
           markFormatAdded("digital");
@@ -2109,8 +2119,17 @@
       }
       if (addFormatToBag(cassTrack, "cassette")) flashBuyLabel(el, true);
       else if (cassTrack && cassTrack.page) window.location.href = cassTrack.page;
+    } else if (act === "free-download") {
+      var freeTrack = current();
+      if (freeTrack && freeTrack.releaseId) {
+        window.location.href = "/api/bandcamp-stream?r=" + encodeURIComponent(freeTrack.releaseId) + "&t=" + encodeURIComponent(freeTrack.id || "") + "&download=1";
+      }
     } else if (act === "buy-digital") {
       var digTrack = current();
+      if (digTrack && Number(digTrack.digitalPrice) === 0 && digTrack.releaseId) {
+        window.location.href = "/api/bandcamp-stream?r=" + encodeURIComponent(digTrack.releaseId) + "&t=" + encodeURIComponent(digTrack.id || "") + "&download=1";
+        return;
+      }
       if (addFormatToBag(digTrack, "digital")) flashBuyLabel(el, true);
       else if (digTrack && digTrack.page) window.location.href = digTrack.page;
     } else if (act === "buy-page") {
@@ -2534,6 +2553,7 @@
 
   function formatPrice(n, sku) {
     if (n == null || !isFinite(Number(n))) return "";
+    if (Number(n) === 0) return "";
     var v = Number(n);
     if (window.ClubMember && typeof window.ClubMember.displayPrice === "function") {
       v = window.ClubMember.displayPrice(v, sku);
@@ -2551,8 +2571,11 @@
       return base;
     }
     if (track.digitalSku) {
+      var digitalLabel = Number(track.digitalPrice) === 0
+        ? "Free download"
+        : "Digital" + formatPrice(track.digitalPrice, track.digitalSku);
       html += '<button type="button" class="vcr-stage__fmt" data-act="buy-format" data-format="digital">' +
-        label("digital", "Digital" + formatPrice(track.digitalPrice, track.digitalSku)) + "</button>";
+        label("digital", digitalLabel) + "</button>";
     }
     if (track.cassetteSku) {
       var cassOut = track.cassetteStock != null && track.cassetteStock <= 0;

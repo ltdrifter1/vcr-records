@@ -340,6 +340,10 @@ async function main() {
   console.log("");
 
   for (const [sku, product] of skusToSync()) {
+    if (!(Number(product.unitAmount) > 0)) {
+      console.log(`· ${sku.padEnd(28)} free download — not synced to Stripe`);
+      continue;
+    }
     const p = await ensureProduct({
       name: product.name,
       sku,

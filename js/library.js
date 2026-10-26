@@ -103,11 +103,21 @@
     return c && c.backorder ? 'Cassette backorder' : 'Cassette';
   }
 
+  function isFreeDownload(rel) {
+    var d = rel && rel.formats && rel.formats.digital;
+    return !!(d && (d.free || Number(d.price) === 0));
+  }
+
+  function downloadHref(rel) {
+    var track = (rel && rel.previewTrackId) || ((rel && rel.tracks && rel.tracks[0] && rel.tracks[0].id) || "");
+    return "/api/bandcamp-stream?r=" + encodeURIComponent(rel.id) + "&t=" + encodeURIComponent(track) + "&download=1";
+  }
+
   function formatCue(rel) {
     var bits = [];
     var digital = rel.formats && rel.formats.digital;
     if (rel.kind && digital && digital.price != null) {
-      bits.push(rel.kind + ' · $' + money(digital.price));
+      bits.push(isFreeDownload(rel) ? rel.kind + ' · Free' : rel.kind + ' · $' + money(digital.price));
     } else if (rel.kind) bits.push(rel.kind);
     if (String(rel.status || '').toLowerCase() === 'pre-order') bits.push('Pre-order');
     if (rel.tracksCount) bits.push(rel.tracksCount + (rel.tracksCount === 1 ? ' track' : ' tracks'));
@@ -184,7 +194,16 @@
     var other = otherFormatsLabel(rel);
     var board = '';
 
-    if (hasDigital) {
+    if (hasDigital && isFreeDownload(rel)) {
+      board =
+        '<div class="cat-price">' +
+          '<p class="cat-price-line" aria-label="' +
+            esc((rel.title || 'Release') + ' free download') +
+          '">' +
+            '<span class="cat-price-amt">Free</span>' +
+          '</p>' +
+        '</div>';
+    } else if (hasDigital) {
       var retail = Number(f.digital.price);
       var mem = digitalMemberPrice(retail);
       if (mem == null) mem = retail;
@@ -256,6 +275,9 @@
     var preorder = String(rel.status || '').toLowerCase() === 'pre-order';
     var offer = d || c;
     var cls = 'cat-add' + (extraClass ? ' ' + extraClass : '');
+    if (d && isFreeDownload(rel)) {
+      return '<a class="' + cls + ' cat-add--link" href="' + esc(downloadHref(rel)) + '">Free download</a>';
+    }
     if (!offer) {
       return '<a class="' + cls + ' cat-add--link" href="' + esc(rel.page || '#') + '">' +
         (preorder ? 'Pre-order' : 'View release') +
@@ -492,7 +514,7 @@
       } else if (profile) {
         leadEl.innerHTML = 'You\'re on the list. Files and small-run formats — <a href="/#join">join</a> for 30% off music.';
       } else {
-        leadEl.innerHTML = 'Pacific Northwest house, jungle, and instrumental hip-hop. Files you keep, objects in small runs. <a href="/#join">Club 30% off music</a>';
+        leadEl.innerHTML = 'Pacific Northwest house, jungle, and instrumental hip-hop. Files you keep. Edits, remixes and bootlegs are free downloads. <a href="/#join">Club 30% off music</a>';
       }
       return;
     }
