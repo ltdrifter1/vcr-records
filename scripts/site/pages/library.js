@@ -13,7 +13,7 @@ module.exports = function library(data) {
 <header class="page-head">
   ${L.crumbs([["/", "Home"], [null, "Library"]])}
   <h1 class="page-title">Library</h1>
-  <p class="page-lede" id="libLead">The catalogue. Streamed on site, files after checkout. <a href="/join">Club members 30% off music</a>.</p>
+  <p class="page-lede" id="libLead">The catalogue. Streamed on site, with files after checkout. Edits, remixes and bootlegs are free downloads. <a href="/join">Club members 30% off music</a>.</p>
 </header>
 
 <section class="filters" aria-label="Library filters">

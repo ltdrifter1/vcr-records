@@ -1,6 +1,6 @@
 "use strict";
 const L = require("../lib");
-const { esc, attr, asset, money, clock, specLine, priceLine, formatGlyphs, dateLong, onSite } = L;
+const { esc, attr, asset, money, clock, specLine, priceLine, formatGlyphs, dateLong, onSite, freeDownload, downloadHref } = L;
 const { releaseRow } = require("./fragments");
 
 module.exports = function release(rel, data) {
@@ -30,9 +30,10 @@ module.exports = function release(rel, data) {
     previewTrackId: rel.previewTrackId || (tracks[0] && tracks[0].id) || null,
     tracks: tracks.map((t) => ({ id: t.id, title: t.title })),
   };
+  const free = freeDownload(rel);
   const formats = {};
   if (cassette && cassette.sku) formats.cassette = { sku: cassette.sku, name: rel.title + " — Cassette", price: cassette.price, image: asset(rel.cover) };
-  if (digital && digital.sku) formats.digital = { sku: digital.sku, name: rel.title + " — Digital (" + rel.kind + ")", price: digital.price, image: asset(rel.cover) };
+  if (digital && digital.sku && !free) formats.digital = { sku: digital.sku, name: rel.title + " — Digital (" + rel.kind + ")", price: digital.price, image: asset(rel.cover) };
 
   const inline = `VCRReleaseBind(${JSON.stringify(bind)});
 (function(){var F=${JSON.stringify(formats)};var t=null;function bind(id,k){var b=document.getElementById(id);if(!b)return;var label=b.textContent;b.addEventListener("click",function(){var f=F[k];if(!f||!window.VCRCart)return;VCRCart.add({sku:f.sku,name:f.name,price:f.price,image:f.image,qty:1,id:f.sku});b.textContent="Added";clearTimeout(t);t=setTimeout(function(){b.textContent=label;},2200);});}bind("buyDigitalBtn","digital");bind("buyBtn","cassette");})();`;
@@ -52,13 +53,13 @@ module.exports = function release(rel, data) {
       <div class="lead-player">
         <div class="lead-keys ra-hero-ctas">
           <button type="button" class="btn btn-solid" id="heroListen" aria-label="Play"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg><span class="btn-label btn-label--play">Play</span><span class="btn-label btn-label--pause">Pause</span></button>
-          ${digital && digital.sku ? `<button type="button" class="btn" id="buyDigitalBtn">Digital · $${money(digital.price)}</button>` : ""}
+          ${digital && digital.sku ? (free ? `<a class="btn" href="${attr(downloadHref(rel))}">Free download</a>` : `<button type="button" class="btn" id="buyDigitalBtn">Digital · $${money(digital.price)}</button>`) : ""}
           ${cassette && cassette.sku ? `<button type="button" class="btn" id="buyBtn"${cassetteOut ? " disabled" : ""}>${cassetteOut ? "Cassette · Sold out" : "Cassette · $" + money(cassette.price)}</button>` : ""}
         </div>
         <div class="ra-tracks hero-tracks" role="list" aria-label="Tracks">
           ${tracks.map((t, i) => `<div class="track-row" role="button" tabindex="0" data-index="${i}" data-duration="${attr(t.duration || 0)}"><span class="track-no">${String(t.trackNum || i + 1).padStart(2, "0")}</span><span class="track-title">${esc(t.title)}</span><span class="track-dur"><span data-track-elapsed></span>${clock(t.duration)}</span><button class="track-play-btn" type="button" aria-label="Play ${attr(t.title)}" tabindex="-1"></button></div>`).join("\n          ")}
         </div>
-        <p class="mono p-msg ra-tracks-note" id="pMsg" aria-live="polite">Total ${total} · streaming on site · files after checkout</p>
+        <p class="mono p-msg ra-tracks-note" id="pMsg" aria-live="polite">Total ${total} · streaming on site · ${free ? "free download" : "files after checkout"}</p>
       </div>
     </div>
     <div class="lead-sleeve listen-sleeve" id="artworkWrap">

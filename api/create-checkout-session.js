@@ -169,6 +169,16 @@ module.exports = async function handler(req, res) {
       res.setHeader("Content-Type", "application/json");
       return res.end(JSON.stringify({ error: `Unknown product: ${sku}` }));
     }
+    if (!(Number(product.unitAmount) > 0)) {
+      res.statusCode = 400;
+      res.setHeader("Content-Type", "application/json");
+      return res.end(
+        JSON.stringify({
+          error: `${product.name} is a free download.`,
+          code: "FREE_DOWNLOAD",
+        })
+      );
+    }
     if (!product.digital) hasPhysical = true;
     const qty = Math.min(20, Math.max(1, parseInt(raw.qty, 10) || 1));
     if (product.stock != null && qty > product.stock) {
