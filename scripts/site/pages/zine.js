@@ -120,9 +120,12 @@ function starsPin(zine) {
   const stars = zine.stars || [];
   if (!stars.length) return "";
   return `<aside class="zine-stars-pin" aria-labelledby="stars-pin-title">
-  <div class="zine-stars-pin-head sec-head">
-    <h2 class="sec-title" id="stars-pin-title"><span class="sec-kicker">Column</span>Stars for the Floor</h2>
-    <a class="sec-link zine-stars-pin-chart" href="/news/stars-for-the-floor">The chart</a>
+  <div class="zine-stars-pin-head">
+    <p class="zine-stars-kicker mono">Weekly</p>
+    <div class="zine-stars-pin-bar">
+      <h2 class="zine-stars-title" id="stars-pin-title">Stars for the Floor</h2>
+      <a class="sec-link zine-stars-pin-chart" href="/news/stars-for-the-floor">The chart</a>
+    </div>
   </div>
   <p class="mono zine-stars-pin-count" data-stars-count><span class="zine-stars-pin-swipe">Swipe · </span><span data-stars-index>1</span> / ${stars.length}</p>
   <div class="zine-stars-pin-scroll">
@@ -199,10 +202,10 @@ function zineIndex(data) {
   const back = backCatalogue(articles).sort(byDateDesc);
   const main = `
 ${zineHead(issues, zine, "Night Shift")}
+${starsPin(zine)}
 <div class="news-index-front">
   ${frontCover(vol, cover)}
   ${frontContents(inVolume(articles, cur), { excludeSlug: cover && cover.slug, title: "In this volume" })}
-  ${starsPin(zine)}
   <section class="back-catalogue" id="back-catalogue" aria-labelledby="back-title">
     <h2 id="back-title">Before the volumes</h2>
     ${catalogueList(back.slice(0, 10))}
