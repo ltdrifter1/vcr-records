@@ -3,8 +3,9 @@ const fs = require("fs");
 const path = require("path");
 const L = require("../lib");
 const { esc, attr, asset, dateShort, dateLong, slugify } = L;
+const { signGlyph, signChart } = require("../signs");
 
-const ORDER = ["Feature", "Essay", "Interview", "Scene Report", "Review", "Release", "Mix", "Column"];
+const ORDER = ["Feature", "Essay", "Interview", "Scene Report", "Review", "Release", "Mix", "Column", "Horoscope"];
 const byDateDesc = (a, b) => (b.date || "").localeCompare(a.date || "");
 
 function fmt(a) {
@@ -121,7 +122,7 @@ function starsPin(zine) {
   if (!stars.length) return "";
   return `<aside class="zine-stars-pin" aria-labelledby="stars-pin-title">
   <div class="zine-stars-pin-head">
-    <p class="zine-stars-kicker mono">Weekly</p>
+    <p class="zine-stars-kicker mono">Monthly horoscope</p>
     <div class="zine-stars-pin-bar">
       <h2 class="zine-stars-title" id="stars-pin-title">Stars for the Floor</h2>
       <a class="sec-link zine-stars-pin-chart" href="/news/stars-for-the-floor">The chart</a>
@@ -130,7 +131,7 @@ function starsPin(zine) {
   <p class="mono zine-stars-pin-count" data-stars-count><span class="zine-stars-pin-swipe">Swipe · </span><span data-stars-index>1</span> / ${stars.length}</p>
   <div class="zine-stars-pin-scroll">
     <ol>
-      ${stars.map((s) => `<li><a href="/news/stars-for-the-floor#${attr(s.id)}"><span>${esc(s.sign)}</span><em class="mono">${esc(s.dates)}</em><p>${esc(s.text)}</p></a></li>`).join("\n      ")}
+      ${stars.map((s) => `<li><a href="/news/stars-for-the-floor#${attr(s.id)}">${signGlyph(s.id)}<span class="sign-name">${esc(s.sign)}</span><em class="mono">${esc(s.dates)}</em><p>${esc(s.text)}</p></a></li>`).join("\n      ")}
     </ol>
   </div>
 </aside>`;
@@ -354,7 +355,7 @@ function seriesPage(data) {
 ${zineHead(issues, zine, "Stars", { compact: true, crumbs: [["/", "Home"], ["/news", "Night Shift"], [null, "Stars for the Floor"]] })}
 ${starsPin(zine)}
 <section class="back-catalogue" aria-labelledby="series-title"><h2 id="series-title">The column</h2>${catalogueList(list)}</section>`;
-  return L.page({ title: "Stars for the Floor", description: "Night Shift's horoscope for the dancefloor.", path: "/news/series/stars-for-the-floor", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
+  return L.page({ title: "Stars for the Floor", description: "Night Shift's monthly horoscope for the dancefloor.", path: "/news/series/stars-for-the-floor", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
 }
 
 function storyPage(a, data) {
@@ -372,6 +373,15 @@ function storyPage(a, data) {
     content = content.slice(heroMatch[0].length);
   }
   content = content.replace(/(src|href)="(\.\.\/)+/g, '$1="/');
+  if (a.id === "stars-for-the-floor") {
+    const stars = (data.zine && data.zine.stars) || [];
+    let n = 0;
+    content = content.replace(/<span class="zine-star-glyph" aria-hidden="true"><\/span>/g, () => {
+      const s = stars[n++];
+      return `<span class="zine-star-glyph" aria-hidden="true">${s ? signGlyph(s.id) : ""}</span>`;
+    });
+    hero = `<figure class="story-hero story-hero--signs">${signChart(stars, (s) => "#" + s.id)}<figcaption>Monthly horoscope · twelve signs</figcaption></figure>\n`;
+  }
 
   // neighbours within the same shelf
   const group = a.archived ? archived(articles) : a.volume ? inVolume(articles, a.volume) : backCatalogue(articles);
