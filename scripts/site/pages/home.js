@@ -117,8 +117,12 @@ ${leadRelease(featured)}
   <p class="rows-more mono"><a href="/library">All ${releases.length} releases →</a></p>
 </section>
 
-<section class="sec" aria-labelledby="zine-title" id="news">
-  ${L.sectionHead("Night Shift", { titleId: "zine-title", kicker: `Vol. ${String(issues.current).padStart(2, "0")} · ${issues.volumes.find((v) => v.number === issues.current)?.dateLabel || ""}`, link: ["/news", "The volume"] })}
+<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
+  <header class="sec-head sec-head--zine">
+    <p class="sec-kicker">Vol. ${String(issues.current).padStart(2, "0")} · ${esc(issues.volumes.find((v) => v.number === issues.current)?.dateLabel || "")}</p>
+    <a class="sec-link" href="/news">The volume</a>
+    <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
+  </header>
   <div class="rows">
     ${zineRows(news.articles, issues)}
   </div>

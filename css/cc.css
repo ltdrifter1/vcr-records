@@ -67,8 +67,8 @@ hr { border: 0; border-top: 1px solid var(--line); }
 .sec-kicker { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 400; color: var(--ink-2); margin-bottom: 10px; font-stretch: 100%; font-variation-settings: normal; }
 .page-lede { max-width: 56ch; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; color: var(--ink-2); }
 .page-lede a { color: var(--ink); text-decoration: underline; text-underline-offset: .18em; }
-/* Bios: a blank line in the source is a paragraph. The first line stays flush with the name; the next lines indent. */
-.bio p + p { margin-top: 1em; text-indent: 1.25em; }
+/* Bios: a blank line in the source is a paragraph. Flush left, with space between paragraphs. */
+.bio p + p { margin-top: 1em; }
 .prose p, .prose li { max-width: 64ch; font-size: 18px; line-height: 1.6; color: var(--ink); }
 .prose p + p { margin-top: 1em; }
 .prose h2 { margin: 48px 0 16px; }
@@ -434,11 +434,45 @@ body.nav-open { overflow: hidden; }
 
 /* Zine ------------------------------------------------------------------ */
 .zine-masthead .zine-slug { margin-bottom: 10px; color: var(--signal); font-size: 13px; letter-spacing: .14em; }
-.zine-title { font-size: clamp(72px, 12vw, 176px); line-height: .84; letter-spacing: -.045em; margin: 0 0 14px; }
+.zine-title { font-size: clamp(52px, 12.4vw, 176px); line-height: .84; letter-spacing: -.045em; margin: 0 0 14px; }
 .zine-title a:hover { text-decoration: none; color: var(--ink-2); }
-.zine-masthead--compact .zine-title { font-size: clamp(40px, 5vw, 72px); }
-.zine-masthead--compact .zine-slug { color: var(--ink-2); font-size: 12px; letter-spacing: .06em; }
+.zine-masthead--compact .zine-title { font-size: clamp(44px, 8vw, 84px); }
+.zine-masthead--compact .zine-slug { color: var(--signal); font-size: 12px; letter-spacing: .08em; }
 .zine-tagline { font-size: clamp(20px, 2vw, 28px); color: var(--ink); margin-bottom: 22px; }
+/* Nameplate: the wordmark sits on a light bar so it doesn't read as another story headline. */
+.zine-masthead { --plate: var(--ink); --plate-ink: var(--bg); }
+.zine-masthead:not(.page-head) { padding-left: var(--gutter); padding-right: var(--gutter); }
+.zine-masthead .zine-title {
+  background: var(--plate);
+  color: var(--plate-ink);
+  margin: 8px calc(-1 * var(--gutter)) 18px;
+  padding: 0.08em var(--gutter) 0.16em;
+}
+.zine-masthead .zine-title a,
+.zine-masthead .zine-title a:hover { color: var(--plate-ink); text-decoration: none; }
+.zine-masthead .zine-title a:hover .zine-logo-night { color: rgba(10, 10, 10, .55); }
+.zine-logo-shift { color: var(--signal); }
+/* Home: same flag, so the section doesn't sit at the same size as Mixtapes. */
+.sec--zine { padding-top: 0; border-top: 0; scroll-margin-top: var(--nav-h); }
+.sec-head--zine {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "kicker link" "title title";
+  align-items: end;
+  gap: 6px 16px;
+  background: var(--ink);
+  color: var(--bg);
+  margin: 0 calc(-1 * var(--gutter));
+  padding: clamp(28px, 4vw, 52px) var(--gutter) clamp(16px, 2vw, 24px);
+  border-bottom: 0;
+}
+.sec-head--zine .sec-kicker { grid-area: kicker; margin: 0; color: var(--signal); }
+.sec-head--zine .sec-link { grid-area: link; color: rgba(10, 10, 10, .55); }
+.sec-head--zine .sec-link:hover { color: var(--bg); }
+.sec-head--zine .zine-home-title { grid-area: title; margin: 4px 0 0; font-size: clamp(56px, 10vw, 140px); line-height: .84; letter-spacing: -.045em; font-weight: 600; font-stretch: 112%; font-variation-settings: "wdth" 112; }
+.sec-head--zine .zine-home-title a,
+.sec-head--zine .zine-home-title a:hover { color: var(--bg); text-decoration: none; }
+.sec-head--zine .zine-home-title a:hover .zine-logo-night { color: rgba(10, 10, 10, .55); }
 .zine-cols { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-top: 14px; border-top: 1px solid var(--line); }
 .zine-cols a:hover { color: var(--ink); }
 .zine-cols a:first-child { color: var(--signal); }
@@ -502,7 +536,7 @@ body.nav-open { overflow: hidden; }
 .back-catalogue section h3 { padding: 24px 0 4px; color: var(--ink-3); }
 .issue-jump { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-top: 28px; padding-bottom: 8px; }
 .issue-jump a:hover { color: var(--ink); }
-.zine-masthead + .zine-stars-pin { margin-top: 0; padding-top: 8px; padding-bottom: clamp(28px, 4vw, 44px); border-top: 0; border-bottom: 1px solid var(--line); }
+.zine-masthead + .zine-stars-pin { margin-top: 0; padding-top: clamp(28px, 4vw, 48px); padding-bottom: clamp(28px, 4vw, 44px); border-top: 0; border-bottom: 1px solid var(--line); }
 .zine-stars-kicker { color: var(--signal); letter-spacing: .16em; margin-bottom: 8px; }
 .zine-stars-pin-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 14px; }
 .zine-stars-title { font-family: var(--sans); font-variation-settings: "wdth" var(--wide); font-stretch: 112%; font-weight: 600; letter-spacing: -.035em; line-height: .9; font-size: clamp(40px, 5.4vw, 72px); }
