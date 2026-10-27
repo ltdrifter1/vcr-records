@@ -26,7 +26,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; background: var(--bg); }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); background: var(--bg); }
 body {
   font-family: var(--sans);
   font-size: 17px;
@@ -513,10 +513,36 @@ body.nav-open { overflow: hidden; }
 .zine-stars-pin-scroll li { flex: 0 0 min(320px, 78vw); scroll-snap-align: start; }
 .zine-stars-pin-scroll a { display: grid; gap: 6px; height: 100%; padding: 18px; border: 1px solid var(--line); }
 .zine-stars-pin-scroll a:hover { text-decoration: none; border-color: var(--line-2); }
-.zine-stars-pin-scroll span { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+.zine-stars-pin-scroll .sign-name { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+.zine-stars-pin-scroll .sign-glyph { width: 28px; height: 28px; }
 .zine-stars-pin-scroll p { font-size: 15px; line-height: 1.45; color: var(--ink-2); margin-top: 8px; }
 .zine-stars-pin-swipe { display: none; }
 @media (hover: none) { .zine-stars-pin-swipe { display: inline; } }
+.sign-glyph { display: block; overflow: visible; }
+.sign-glyph path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.home-stars { padding: 22px 0 28px; border-bottom: 1px solid var(--line); }
+.home-stars-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 24px; padding-bottom: 18px; }
+.home-stars-kicker { margin-bottom: 12px; }
+.home-stars-kicker span:first-child { color: var(--signal); }
+.home-stars-title { font-size: clamp(36px, 4.8vw, 68px); font-weight: 600; letter-spacing: -.035em; line-height: .9; font-stretch: 112%; font-variation-settings: "wdth" 112; }
+.home-stars-title a:hover { text-decoration: none; color: var(--ink-2); }
+.home-stars-dek { max-width: 36em; margin-top: 12px; font-size: 16px; line-height: 1.45; color: var(--ink-2); text-wrap: balance; }
+.home-stars-head .sec-link { padding-bottom: 4px; }
+.sign-chart { list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.sign-chart a { display: grid; align-content: start; gap: 8px; min-height: 132px; padding: 16px 12px 14px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); color: inherit; }
+.sign-chart a:hover { text-decoration: none; background: var(--bg-2); }
+.sign-chart a:hover .sign-name { color: var(--signal); }
+.sign-chart .sign-glyph { width: 32px; height: 32px; color: var(--ink); }
+.sign-chart .sign-name { font-size: 15px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
+.sign-chart em { font-style: normal; color: var(--ink-3); font-size: 11px; letter-spacing: .02em; white-space: nowrap; }
+@media (max-width: 899px) {
+  .home-stars-head { flex-wrap: wrap; }
+  .sign-chart { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 559px) {
+  .sign-chart { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sign-chart a { min-height: 112px; padding: 12px 10px 14px; }
+}
 .issue-face .cover-plate { aspect-ratio: 3 / 2; display: grid; place-items: center; background: var(--bg-2); }
 .cover-plate-num { font-size: clamp(40px, 6vw, 96px); font-weight: 600; letter-spacing: -.04em; color: var(--ink-3); font-stretch: 112%; font-variation-settings: "wdth" 112; }
 .issue-card.is-current .issue-spine { color: var(--signal); }
@@ -542,6 +568,23 @@ body.nav-open { overflow: hidden; }
 .news-article { display: grid; grid-template-columns: minmax(0, 1fr); }
 .story-hero { margin: 0 0 32px; }
 .story-hero img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--bg-2); }
+.story-hero--signs .sign-chart { margin-bottom: 0; }
+.zine-stars--essay { margin: 2.2em 0 1.4em; max-width: none; }
+.zine-stars-strip { display: grid; }
+.zine-stars-strip > div { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; grid-template-areas: "glyph id element" "glyph reading reading"; column-gap: 14px; row-gap: 6px; align-items: center; padding: 16px 0; border-top: 1px solid var(--line); }
+.zine-stars-strip > div:last-child { border-bottom: 1px solid var(--line); }
+.zine-stars-strip dt { display: contents; }
+.zine-star-glyph { grid-area: glyph; align-self: start; padding-top: 2px; color: var(--ink); }
+.zine-star-glyph .sign-glyph { width: 28px; height: 28px; }
+.zine-star-id { grid-area: id; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.zine-star-name { font-weight: 600; letter-spacing: -.02em; font-size: 20px; }
+.zine-star-when { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.zine-star-element { grid-area: element; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--signal); }
+.zine-stars-strip dd { grid-area: reading; margin: 0; color: var(--ink-2); font-size: 16px; line-height: 1.45; }
+@media (max-width: 559px) {
+  .zine-stars-strip > div { grid-template-columns: 32px minmax(0, 1fr); grid-template-areas: "glyph id" "glyph element" "reading reading"; }
+  .zine-star-element { justify-self: start; }
+}
 .story-hero.is-sleeve img { aspect-ratio: 1; max-width: 640px; }
 .story-hero figcaption, .news-figure figcaption { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--ink-3); padding-top: 10px; max-width: 60ch; }
 .news-kicker { margin-bottom: 14px; color: var(--signal); }
