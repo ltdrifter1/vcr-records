@@ -176,7 +176,7 @@ function zineHead(issues, zine, title, opts) {
   return `<header class="page-head zine-masthead${opts.compact ? " zine-masthead--compact" : ""}">
   ${L.crumbs(opts.crumbs || [["/", "Home"], [null, "Night Shift"]])}
   <p class="zine-slug mono"><span>${esc(volLabel(issues.current))}</span><span>${esc(vol ? vol.dateLabel : "")}</span></p>
-  <${opts.h || "h1"} class="page-title zine-title" id="news-title"><a class="zine-logo" href="/news">Night Shift</a></${opts.h || "h1"}>
+  <${opts.h || "h1"} class="page-title zine-title" id="news-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></${opts.h || "h1"}>
   <p class="zine-tagline">${esc(zine.tagline || "The floor · The fit · The afters")}</p>
   <nav class="zine-cols mono" aria-label="In the volume">
     <a href="/news">${esc(volLabel(issues.current))}</a>
