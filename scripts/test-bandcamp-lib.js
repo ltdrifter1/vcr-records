@@ -67,8 +67,8 @@ assert.deepStrictEqual(
     return [r.catalogue, r.title, r.artist, r.released, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
-    ["CC020", "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)", "L.T. Drifta", "2026-10-19", "dg-get-me-down", "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit", "gmd-01", 324, 2636373644, 0],
-    ["CC014", "Three 4 Zone", "L.T. Drifta", "2026-10-18", "dg-three-4-zone", "https://ltdrifta.bandcamp.com/track/three-4-zone", "t4z-01", 401, 3048030883, 150],
+    ["CC020", "Nia Archives - Get Me Down (Molly's Hazy Jungle Edit)", "LT Drifta", "2026-10-19", "dg-get-me-down", "https://ltdrifta.bandcamp.com/track/nia-archives-get-me-down-mollys-hazy-jungle-edit", "gmd-01", 324, 2636373644, 0],
+    ["CC014", "Three 4 Zone", "LT Drifta", "2026-10-18", "dg-three-4-zone", "https://ltdrifta.bandcamp.com/track/three-4-zone", "t4z-01", 401, 3048030883, 150],
   ]
 );
 assert.deepStrictEqual(
@@ -269,7 +269,7 @@ assert.strictEqual(bc.pickCueTrack(runItBack).id, "rib-01");
 
 const three4Zone = catalog.releases.find((r) => r.id === "three-4-zone");
 assert.ok(three4Zone);
-assert.strictEqual(three4Zone.artist, "L.T. Drifta");
+assert.strictEqual(three4Zone.artist, "LT Drifta");
 assert.strictEqual(three4Zone.artistId, "lt-drifta");
 assert.strictEqual(three4Zone.catalogue, "CC014");
 assert.strictEqual(three4Zone.title, "Three 4 Zone");

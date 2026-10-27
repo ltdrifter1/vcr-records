@@ -12,7 +12,7 @@ const xml = `<?xml version="1.0"?>
       <link>https://soundcloud.com/ltdrifta/volume-6-6</link>
       <itunes:duration>02:26:06</itunes:duration>
       <itunes:author>L.T. Drifta</itunes:author>
-      <itunes:summary>Volumes 1-6</itunes:summary>
+      <itunes:summary>Volumes 1-6 by L.T. Drifta</itunes:summary>
       <description>Volumes 1-6</description>
       <enclosure type="audio/mpeg" url="https://feeds.soundcloud.com/stream/2408664969-ltdrifta-volume-6-6.mp3" length="1"/>
       <itunes:image href="https://i1.sndcdn.com/artworks-Ax2gzzE8JzZLx4XL-zCk7Yw-t3000x3000.jpg"/>
@@ -25,12 +25,12 @@ assert.strictEqual(parsed.items.length, 1);
 assert.strictEqual(parsed.items[0].title, "Volume 6");
 assert.strictEqual(parsed.items[0].id, "sc-2408664969");
 assert.strictEqual(parsed.items[0].soundcloudId, "2408664969");
-assert.strictEqual(parsed.items[0].dj, "L.T. Drifta");
+assert.strictEqual(parsed.items[0].dj, "LT Drifta");
 assert.strictEqual(parsed.items[0].year, "2026");
 assert.strictEqual(parsed.items[0].runtime, "2:26:06");
 assert.strictEqual(sc.formatRuntime("00:59:50"), "59:50");
 assert.strictEqual(sc.formatRuntime("01:00:20"), "1:00:20");
-assert.strictEqual(parsed.items[0].dek, "Volumes 1-6");
+assert.strictEqual(parsed.items[0].dek, "Volumes 1-6 by LT Drifta");
 assert.strictEqual(
   parsed.items[0].permalink,
   "https://soundcloud.com/ltdrifta/volume-6-6"
