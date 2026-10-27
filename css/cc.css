@@ -503,7 +503,12 @@ body.nav-open { overflow: hidden; }
 .issue-jump { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-top: 28px; padding-bottom: 8px; }
 .issue-jump a:hover { color: var(--ink); }
 .zine-masthead + .zine-stars-pin { margin-top: 0; padding-top: 8px; padding-bottom: clamp(28px, 4vw, 44px); border-top: 0; border-bottom: 1px solid var(--line); }
+.sec .zine-stars-pin--home { margin: 28px 0 8px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.zine-stars-lockup { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.zine-stars-mark { width: 52px; height: 52px; color: var(--signal); flex: none; }
+.zine-stars-intro { max-width: 58ch; margin: 2px 0 18px; font-size: 17px; line-height: 1.5; color: var(--ink-2); }
 .zine-stars-kicker { color: var(--signal); letter-spacing: .16em; margin-bottom: 8px; }
+.zine-stars-pin--home .zine-stars-kicker { margin-bottom: 4px; }
 .zine-stars-pin-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 14px; }
 .zine-stars-title { font-family: var(--sans); font-variation-settings: "wdth" var(--wide); font-stretch: 112%; font-weight: 600; letter-spacing: -.035em; line-height: .9; font-size: clamp(40px, 5.4vw, 72px); }
 .zine-stars-pin-count { padding: 4px 0 14px; }
@@ -513,6 +518,11 @@ body.nav-open { overflow: hidden; }
 .zine-stars-pin-scroll li { flex: 0 0 min(320px, 78vw); scroll-snap-align: start; }
 .zine-stars-pin-scroll a { display: grid; gap: 6px; height: 100%; padding: 18px; border: 1px solid var(--line); }
 .zine-stars-pin-scroll a:hover { text-decoration: none; border-color: var(--line-2); }
+.zine-stars-pin--home .zine-stars-pin-scroll a { grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; align-items: start; }
+.zine-stars-pin-scroll .zine-stars-glyph { grid-row: 1 / span 2; align-self: center; font-size: 30px; line-height: 1; font-weight: 400; letter-spacing: 0; color: var(--signal); }
+.zine-stars-pin-scroll .zine-stars-sign { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+.zine-stars-pin--home .zine-stars-pin-scroll em { grid-column: 2; }
+.zine-stars-pin--home .zine-stars-pin-scroll p { grid-column: 1 / -1; }
 .zine-stars-pin-scroll span { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
 .zine-stars-pin-scroll p { font-size: 15px; line-height: 1.45; color: var(--ink-2); margin-top: 8px; }
 .zine-stars-pin-swipe { display: none; }

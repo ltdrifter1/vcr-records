@@ -116,21 +116,59 @@ function frontContents(list, opts) {
 </section>`;
 }
 
-function starsPin(zine) {
+const STAR_GLYPH = {
+  aries: "♈",
+  taurus: "♉",
+  gemini: "♊",
+  cancer: "♋",
+  leo: "♌",
+  virgo: "♍",
+  libra: "♎",
+  scorpio: "♏",
+  sagittarius: "♐",
+  capricorn: "♑",
+  aquarius: "♒",
+  pisces: "♓",
+};
+
+const MOON_MARK = `<svg class="zine-stars-mark" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" d="M40 7.5c-1.6 8-1.2 17.2 1.6 25.4 2.6 7.6 7.6 13.8 14.2 17.4-4.6 3.6-10.2 5.6-16.2 5.6C23.2 55.9 10 43.2 10 27.6 10 12.6 22.4 1.2 38.2 1.2c.6 0 1.2 0 1.8.1z"/><path fill="currentColor" d="M48.2 12.4l1.35 3.5 3.7 1.05-3.7 1.1-1.35 3.5-1.3-3.5-3.7-1.1 3.7-1.05z"/><circle cx="53" cy="27.5" r="1.25" fill="currentColor"/></svg>`;
+
+function starsPin(zine, opts) {
+  opts = opts || {};
   const stars = zine.stars || [];
   if (!stars.length) return "";
-  return `<aside class="zine-stars-pin" aria-labelledby="stars-pin-title">
-  <div class="zine-stars-pin-head">
+  const card = (s) => {
+    const glyph = opts.glyphs ? `<span class="zine-stars-glyph" aria-hidden="true">${STAR_GLYPH[s.id] || "✶"}</span>` : "";
+    const nameClass = opts.glyphs ? "zine-stars-sign" : "";
+    return `<li><a href="/news/stars-for-the-floor#${attr(s.id)}">${glyph}<span${nameClass ? ` class="${nameClass}"` : ""}>${esc(s.sign)}</span><em class="mono">${esc(s.dates)}</em><p>${esc(s.text)}</p></a></li>`;
+  };
+  const head = opts.home
+    ? `<div class="zine-stars-pin-head">
+    <div class="zine-stars-pin-bar">
+      <div class="zine-stars-lockup">
+        ${MOON_MARK}
+        <div>
+          <p class="zine-stars-kicker mono">${esc(opts.kicker || "This month")}</p>
+          <h3 class="zine-stars-title" id="stars-pin-title">Stars for the Floor</h3>
+        </div>
+      </div>
+      <a class="sec-link zine-stars-pin-chart" href="/news/stars-for-the-floor">The chart</a>
+    </div>
+    ${opts.intro ? `<p class="zine-stars-intro">${esc(opts.intro)}</p>` : ""}
+  </div>`
+    : `<div class="zine-stars-pin-head">
     <p class="zine-stars-kicker mono">Weekly</p>
     <div class="zine-stars-pin-bar">
       <h2 class="zine-stars-title" id="stars-pin-title">Stars for the Floor</h2>
       <a class="sec-link zine-stars-pin-chart" href="/news/stars-for-the-floor">The chart</a>
     </div>
-  </div>
+  </div>`;
+  return `<aside class="zine-stars-pin${opts.home ? " zine-stars-pin--home" : ""}" aria-labelledby="stars-pin-title">
+  ${head}
   <p class="mono zine-stars-pin-count" data-stars-count><span class="zine-stars-pin-swipe">Swipe · </span><span data-stars-index>1</span> / ${stars.length}</p>
   <div class="zine-stars-pin-scroll">
     <ol>
-      ${stars.map((s) => `<li><a href="/news/stars-for-the-floor#${attr(s.id)}"><span>${esc(s.sign)}</span><em class="mono">${esc(s.dates)}</em><p>${esc(s.text)}</p></a></li>`).join("\n      ")}
+      ${stars.map(card).join("\n      ")}
     </ol>
   </div>
 </aside>`;
@@ -429,4 +467,4 @@ ${content.trim()}
   });
 }
 
-module.exports = { zineIndex, volumePage, issuesPage, issueShell, archivePage, tagIndex, seriesPage, storyPage, inVolume };
+module.exports = { zineIndex, volumePage, issuesPage, issueShell, archivePage, tagIndex, seriesPage, storyPage, inVolume, starsPin };

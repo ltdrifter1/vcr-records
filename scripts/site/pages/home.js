@@ -4,6 +4,7 @@ const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dat
 const { releaseRow } = require("./fragments");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
+const { starsPin } = require("./zine");
 
 function leadRelease(rel) {
   const digital = rel.formats && rel.formats.digital;
@@ -46,10 +47,11 @@ function leadRelease(rel) {
 function zineRows(articles, issues) {
   const current = issues.current;
   // Pictured pieces lead, newest first; text pieces follow if the volume is short of pictures.
+  // Stars for the Floor is the pinned chart above these rows.
   const list = articles
-    .filter((a) => !a.archived && Number(a.volume) === Number(current))
+    .filter((a) => !a.archived && Number(a.volume) === Number(current) && a.id !== "stars-for-the-floor")
     .sort((a, b) => (a.image ? 0 : 1) - (b.image ? 0 : 1) || (b.date || "").localeCompare(a.date || ""))
-    .slice(0, 4);
+    .slice(0, 3);
   return list
     .map(
       (a) => `<a class="row row--story" href="${attr(a.slug)}">
@@ -63,6 +65,13 @@ function zineRows(articles, issues) {
 </a>`
     )
     .join("\n");
+}
+
+function starsMonth(articles) {
+  const column = (articles || []).find((a) => a.id === "stars-for-the-floor");
+  const long = column ? dateLong(column.date) : "";
+  const month = long.split(" ")[1] || "";
+  return month;
 }
 
 function artistList(artists, releases) {
@@ -119,6 +128,12 @@ ${leadRelease(featured)}
 
 <section class="sec" aria-labelledby="zine-title" id="news">
   ${L.sectionHead("Night Shift", { titleId: "zine-title", kicker: `Vol. ${String(issues.current).padStart(2, "0")} · ${issues.volumes.find((v) => v.number === issues.current)?.dateLabel || ""}`, link: ["/news", "The volume"] })}
+  ${starsPin(data.zine, {
+    home: true,
+    glyphs: true,
+    kicker: starsMonth(news.articles) || "This month",
+    intro: `${starsMonth(news.articles) || "This month"}’s reading. Twelve lines for whoever is going out. Take the one with your name on it, or borrow a neighbour’s.`,
+  })}
   <div class="rows">
     ${zineRows(news.articles, issues)}
   </div>
@@ -156,7 +171,7 @@ ${joinSection()}
     main,
     image: featured.cover,
     preload: featured.cover,
-    scripts: ["cc.js", "plate.js", "tapes.js", "join.js"],
+    scripts: ["cc.js", "plate.js", "tapes.js", "join.js", "zine.js"],
     jsonld: [
       {
         "@context": "https://schema.org",

@@ -817,28 +817,31 @@
   }
 
   function bindStarsPin() {
-    var root = document.querySelector(".zine-stars-pin");
-    if (!root) return;
-    var scroller = root.querySelector(".zine-stars-pin-scroll");
-    var items = root.querySelectorAll(".zine-stars-pin li");
-    var n = root.querySelector("[data-stars-index]");
-    if (!scroller || !items.length || !n) return;
-    function update() {
-      var edge = scroller.getBoundingClientRect().left;
-      var best = 0;
-      var bestDist = Infinity;
-      for (var i = 0; i < items.length; i++) {
-        var dist = Math.abs(items[i].getBoundingClientRect().left - edge);
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = i;
+    var roots = document.querySelectorAll(".zine-stars-pin");
+    for (var r = 0; r < roots.length; r++) {
+      (function (root) {
+        var scroller = root.querySelector(".zine-stars-pin-scroll");
+        var items = root.querySelectorAll(".zine-stars-pin li");
+        var n = root.querySelector("[data-stars-index]");
+        if (!scroller || !items.length || !n) return;
+        function update() {
+          var edge = scroller.getBoundingClientRect().left;
+          var best = 0;
+          var bestDist = Infinity;
+          for (var i = 0; i < items.length; i++) {
+            var dist = Math.abs(items[i].getBoundingClientRect().left - edge);
+            if (dist < bestDist) {
+              bestDist = dist;
+              best = i;
+            }
+          }
+          n.textContent = String(best + 1);
         }
-      }
-      n.textContent = String(best + 1);
+        scroller.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+      })(roots[r]);
     }
-    scroller.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    update();
   }
 
   function bindListenKeys() {
