@@ -94,7 +94,7 @@
       item = {
         id: id,
         title: btn.getAttribute("data-tape-title") || "",
-        dj: btn.getAttribute("data-tape-dj") || "L.T. Drifta",
+        dj: artistName(btn.getAttribute("data-tape-dj")),
         cover: btn.getAttribute("data-tape-cover") || "",
         permalink: permalink,
         year: btn.getAttribute("data-tape-year") || "",
@@ -163,8 +163,13 @@
     return out.slice(0, 3);
   }
 
+  function artistName(name) {
+    return String(name || "").replace(/L\.T\. Drifta/g, "LT Drifta") || "LT Drifta";
+  }
+
   function cardHtml(t) {
     var cover = t.cover || "";
+    var dj = artistName(t.dj);
     var genres = genresOf(t);
     var sleeve =
       '<button type="button" class="mix-art tape-play" data-sc-url="' +
@@ -174,7 +179,7 @@
       '" data-tape-title="' +
       esc(t.title) +
       '" data-tape-dj="' +
-      esc(t.dj) +
+      esc(dj) +
       '" data-tape-cover="' +
       esc(cover) +
       '" data-tape-year="' +
@@ -201,7 +206,7 @@
       '" data-tape-title="' +
       esc(t.title) +
       '" data-tape-dj="' +
-      esc(t.dj) +
+      esc(dj) +
       '" data-tape-cover="' +
       esc(cover) +
       '" data-tape-year="' +
@@ -218,7 +223,7 @@
       '">' +
       '<div class="mix-body">' +
       '<p class="tape-spec mono">' +
-      "<span>" + esc(t.dj || "L.T. Drifta") + "</span>" +
+      "<span>" + esc(dj) + "</span>" +
       (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
       (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
       genres

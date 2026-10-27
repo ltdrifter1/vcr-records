@@ -79,7 +79,7 @@ function videoSection(feed) {
       (v) => `<article class="row row--video" data-video="${attr(v.id)}">
   <div class="row-main">
     <p class="mono row-meta"><span>Video</span><span>${esc(L.dateShort(v.published))}</span><span>YouTube</span></p>
-    <h3 class="row-artist">L.T. Drifta</h3>
+    <h3 class="row-artist">LT Drifta</h3>
     <p class="row-title"><a href="${attr(v.url)}" rel="noopener noreferrer" data-video-embed="${attr(v.id)}">${esc(L.dashTitle(v.title))}</a></p>
     ${v.description ? `<p class="row-dek">${esc(v.description)}</p>` : ""}
     <div class="row-actions">
