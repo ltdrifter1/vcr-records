@@ -1,8 +1,9 @@
 name: Sync video feed
 
 # Reads the public RSS feed of the L.T. Drifta YouTube channel into data/videos.json and
-# rebuilds the home page, which lists the latest videos under "Video feed". Runs daily
-# and on demand; commits only when something changed, and Vercel redeploys from that commit.
+# rebuilds the home page, which lists the latest videos under "Video feed". A feed
+# shorter than 15 uploads replaces the list, so deleted videos come off the page.
+# Runs daily and on demand; commits only when something changed, and Vercel redeploys.
 
 on:
   workflow_dispatch:

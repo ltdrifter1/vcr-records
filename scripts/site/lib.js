@@ -293,6 +293,22 @@ function crumbs(items) {
     .join('<span class="crumbs-sep" aria-hidden="true">/</span>')}</nav>`;
 }
 
+/** Artist bios are plain text. A blank line starts a new paragraph. */
+function bioParagraphs(bio) {
+  return String(bio || "")
+    .split(/\n\s*\n/)
+    .map((s) => s.replace(/\s*\n\s*/g, " ").replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+}
+function bioText(bio) {
+  return bioParagraphs(bio).join(" ");
+}
+function bioBlock(bio, className) {
+  const parts = bioParagraphs(bio);
+  if (!parts.length) return "";
+  return `<div class="${className} bio">${parts.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`;
+}
+
 function sectionHead(title, opts) {
   opts = opts || {};
   const H = opts.h || "h2";
@@ -306,5 +322,5 @@ module.exports = {
   ROOT, ORIGIN, VERSION, NAV,
   esc, attr, money, clock, slugify, dateLong, dateShort, dateMono, asset,
   releaseSeconds, specLine, formatGlyphs, priceLine, freeDownload, downloadHref, hasCue, onSite,
-  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, leadSize, dashTitle, MONTHS, MONTHS_SHORT, parseISO,
+  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, leadSize, dashTitle, bioParagraphs, bioText, bioBlock, MONTHS, MONTHS_SHORT, parseISO,
 };

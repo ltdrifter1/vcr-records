@@ -67,6 +67,8 @@ hr { border: 0; border-top: 1px solid var(--line); }
 .sec-kicker { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 400; color: var(--ink-2); margin-bottom: 10px; font-stretch: 100%; font-variation-settings: normal; }
 .page-lede { max-width: 56ch; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; color: var(--ink-2); }
 .page-lede a { color: var(--ink); text-decoration: underline; text-underline-offset: .18em; }
+/* Bios: a blank line in the source is a paragraph. The first line stays flush with the name; the next lines indent. */
+.bio p + p { margin-top: 1em; text-indent: 1.25em; }
 .prose p, .prose li { max-width: 64ch; font-size: 18px; line-height: 1.6; color: var(--ink); }
 .prose p + p { margin-top: 1em; }
 .prose h2 { margin: 48px 0 16px; }

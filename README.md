@@ -38,7 +38,7 @@ The genre tags under each mix are SoundCloud's own genre + tags for that mix. Th
 
 ### Video feed
 
-The "Video feed" rows on the home page come from the public RSS feed of the L.T. Drifta YouTube channel (no API key): `node scripts/sync-youtube-videos.js` writes `data/videos.json`, and `node scripts/build-site.js` renders the latest four as rows. The `Sync video feed` workflow runs both daily and commits when the list changed. The feed carries the latest 15 uploads; older entries already in the file are kept. A click on a row swaps the thumbnail for the embed on `youtube-nocookie.com` and pauses the site player.
+The "Video feed" rows on the home page come from the public RSS feed of the L.T. Drifta YouTube channel (no API key): `node scripts/sync-youtube-videos.js` writes `data/videos.json`, and `node scripts/build-site.js` renders the latest four as rows. The `Sync video feed` workflow runs both daily and commits when the list changed. The feed carries the latest 15 uploads. When it returns fewer than 15, that is the whole channel and videos missing from it are removed. When it returns 15, older entries already in the file are kept, and a stored video new enough to have been inside that window but missing from it is removed. A click on a row swaps the thumbnail for the embed on `youtube-nocookie.com` and pauses the site player.
 
 ### Stripe setup
 
