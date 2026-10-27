@@ -100,7 +100,7 @@ function videoSection(feed) {
       (v) => `<article class="row row--video" data-video="${attr(v.id)}">
   <div class="row-main">
     <p class="mono row-meta"><span>Video</span><span>${esc(L.dateShort(v.published))}</span><span>YouTube</span></p>
-    <h3 class="row-artist">L.T. Drifta</h3>
+    <h3 class="row-artist">LT Drifta</h3>
     <p class="row-title"><a href="${attr(v.url)}" rel="noopener noreferrer" data-video-embed="${attr(v.id)}">${esc(L.dashTitle(v.title))}</a></p>
     ${v.description ? `<p class="row-dek">${esc(v.description)}</p>` : ""}
     <div class="row-actions">
@@ -138,8 +138,12 @@ ${leadRelease(featured)}
   <p class="rows-more mono"><a href="/library">All ${releases.length} releases →</a></p>
 </section>
 
-<section class="sec" aria-labelledby="zine-title" id="news">
-  ${L.sectionHead("Night Shift", { titleId: "zine-title", kicker: `Vol. ${String(issues.current).padStart(2, "0")} · ${issues.volumes.find((v) => v.number === issues.current)?.dateLabel || ""}`, link: ["/news", "The volume"] })}
+<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
+  <header class="sec-head sec-head--zine">
+    <p class="sec-kicker">Vol. ${String(issues.current).padStart(2, "0")} · ${esc(issues.volumes.find((v) => v.number === issues.current)?.dateLabel || "")}</p>
+    <a class="sec-link" href="/news">The volume</a>
+    <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
+  </header>
   ${starsHome(data.zine, issues, news.articles)}
   <div class="rows">
     ${zineRows(news.articles, issues)}

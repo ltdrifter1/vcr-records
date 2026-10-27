@@ -514,7 +514,7 @@
           previewDuration: truePreview ? t.previewDuration || 90 : 0,
           releaseId: release.id,
           releaseTitle: release.title,
-          artist: release.artist,
+          artist: artistLabel(release.artist),
           cover: cover,
           coverThumb: coverThumb,
           page: release.page,
@@ -1741,12 +1741,16 @@
       .catch(function () {});
   }
 
+  function artistLabel(name) {
+    return String(name || "").replace(/L\.T\. Drifta/g, "LT Drifta");
+  }
+
   function mixToTrack(item) {
     return {
       id: item.id,
       releaseId: "mixes",
       title: item.title,
-      artist: item.dj || "L.T. Drifta",
+      artist: artistLabel(item.dj) || "LT Drifta",
       releaseTitle: "Mixtapes",
       cover: absoluteAsset(item.cover || ""),
       permalink: item.permalink,
