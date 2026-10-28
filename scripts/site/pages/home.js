@@ -4,6 +4,7 @@ const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dat
 const { releaseRow } = require("./fragments");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
+const { signChart } = require("../signs");
 
 function leadRelease(rel) {
   const digital = rel.formats && rel.formats.digital;
@@ -43,11 +44,31 @@ function leadRelease(rel) {
 </section>`;
 }
 
+function starsHome(zine, issues, articles) {
+  const stars = (zine && zine.stars) || [];
+  if (!stars.length) return "";
+  const piece = (articles || []).find((a) => a.id === "stars-for-the-floor");
+  const vol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
+  const month = vol && vol.dateLabel ? vol.dateLabel : "";
+  const dek = (piece && piece.dek) || "A monthly horoscope.";
+  return `<article class="home-stars" aria-labelledby="home-stars-title">
+  <div class="home-stars-head">
+    <div>
+      <p class="mono home-stars-kicker"><span>Monthly horoscope</span>${month ? `<span>${esc(month)}</span>` : ""}</p>
+      <h3 class="home-stars-title" id="home-stars-title"><a href="/news/stars-for-the-floor">Stars for the Floor</a></h3>
+      <p class="home-stars-dek">${esc(dek)}</p>
+    </div>
+    <a class="sec-link" href="/news/stars-for-the-floor">The chart</a>
+  </div>
+  ${signChart(stars, (s) => "/news/stars-for-the-floor#" + s.id)}
+</article>`;
+}
+
 function zineRows(articles, issues) {
   const current = issues.current;
-  // Pictured pieces lead, newest first; text pieces follow if the volume is short of pictures.
+  // Pictured pieces lead, newest first. Stars for the Floor is the horoscope chart above, not a photo row.
   const list = articles
-    .filter((a) => !a.archived && Number(a.volume) === Number(current))
+    .filter((a) => !a.archived && Number(a.volume) === Number(current) && a.id !== "stars-for-the-floor")
     .sort((a, b) => (a.image ? 0 : 1) - (b.image ? 0 : 1) || (b.date || "").localeCompare(a.date || ""))
     .slice(0, 4);
   return list
@@ -123,6 +144,7 @@ ${leadRelease(featured)}
     <a class="sec-link" href="/news">The volume</a>
     <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
   </header>
+  ${starsHome(data.zine, issues, news.articles)}
   <div class="rows">
     ${zineRows(news.articles, issues)}
   </div>
