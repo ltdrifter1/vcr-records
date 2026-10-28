@@ -3,8 +3,6 @@
   var list = document.getElementById('catList');
   if (!list) return;
 
-  var genreSelect = document.getElementById('libGenreSelect');
-  var artistSelect = document.getElementById('libArtistSelect');
   var resetBtn = document.getElementById('libFilterReset');
   var countEl = document.getElementById('libCount');
   var leadEl = document.getElementById('libLead');
@@ -17,6 +15,7 @@
   var allReleases = [];
   var viewMode = 'list';
   var filters = { genre: '', artist: '' };
+  var catalogReady = false;
 
   function esc(s) {
     return String(s == null ? '' : s)
@@ -416,65 +415,71 @@
     );
   }
 
-  function uniqueGenres(releases) {
-    var seen = {};
+  function sourceReleases() {
+    if (allReleases.length) return allReleases;
     var out = [];
-    releases.forEach(function (rel) {
-      var g = String(rel.genre || '').trim();
-      var id = slugify(g);
-      if (!id || seen[id]) return;
-      seen[id] = true;
-      out.push({ id: id, name: g });
-    });
-    out.sort(function (a, b) { return a.name.localeCompare(b.name); });
-    return out;
-  }
-
-  function uniqueArtists(releases) {
-    var seen = {};
-    var out = [];
-    releases.forEach(function (rel) {
-      var id = String(rel.artistId || '').trim() || slugify(rel.artist);
-      if (!id || seen[id]) return;
-      seen[id] = true;
-      out.push({ id: id, name: rel.artist || id });
-    });
-    var rosterOrder = ['forsberg', 'lt-drifta', 'riscape'];
-    out.sort(function (a, b) {
-      var rank = function (x) {
-        var i = rosterOrder.indexOf(String(x.id || '').toLowerCase());
-        return i === -1 ? rosterOrder.length : i;
-      };
-      var d = rank(a) - rank(b);
-      if (d) return d;
-      return a.name.localeCompare(b.name);
+    list.querySelectorAll('.cat-row').forEach(function (row) {
+      out.push({
+        genre: row.getAttribute('data-genre') || '',
+        artistId: row.getAttribute('data-artist-id') || '',
+        artist: (row.querySelector('.cat-artist') || {}).textContent || ''
+      });
     });
     return out;
   }
 
-  function renderSelect(select, items, allLabel, activeValue) {
-    if (!select) return;
-    var html = '<option value="">' + esc(allLabel) + '</option>';
-    items.forEach(function (item) {
-      html += '<option value="' + esc(item.id) + '">' + esc(item.name) + '</option>';
-    });
-    select.innerHTML = html;
-    syncSelectState(select, activeValue);
+  function laneCount(kind, value) {
+    var rows = sourceReleases();
+    var n = 0;
+    for (var i = 0; i < rows.length; i++) {
+      var rel = rows[i];
+      if (kind === 'genre') {
+        if (matchesGenre(rel, value) && matchesArtist(rel, filters.artist)) n++;
+      } else if (matchesArtist(rel, value) && matchesGenre(rel, filters.genre)) n++;
+    }
+    return n;
   }
 
-  function syncSelectState(select, activeValue) {
-    if (!select) return;
-    var value = String(activeValue || '');
-    var match = false;
-    for (var i = 0; i < select.options.length; i++) {
-      if (String(select.options[i].value).toLowerCase() === value.toLowerCase()) {
-        select.selectedIndex = i;
-        match = true;
-        break;
+  function syncLanes() {
+    if (!window.ClubLanes) return;
+    var root = document.querySelector('.library-index .filters') || document.querySelector('.filters');
+    if (root) ClubLanes.sync(root, filters, laneCount);
+  }
+
+  function laneLabel(kind, value) {
+    if (!value) return '';
+    var seg = document.querySelector('.seg[data-filter="' + kind + '"]');
+    if (seg) {
+      var buttons = seg.querySelectorAll('button');
+      for (var i = 0; i < buttons.length; i++) {
+        if (String(buttons[i].getAttribute('data-value') || '').toLowerCase() === String(value).toLowerCase()) {
+          return buttons[i].getAttribute('data-label') || value;
+        }
       }
     }
-    if (!match) select.value = '';
-    select.classList.toggle('has-value', !!select.value);
+    if (kind === 'artist') return displayNameForArtist(value);
+    return String(value).replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function paintStatic() {
+    writeUrl();
+    syncViewButtons();
+    syncLanes();
+    var filtering = !!(filters.genre || filters.artist);
+    var shown = 0;
+    list.querySelectorAll('.cat-row').forEach(function (row) {
+      var rel = {
+        genre: row.getAttribute('data-genre') || '',
+        artistId: row.getAttribute('data-artist-id') || ''
+      };
+      var ok = matchesGenre(rel, filters.genre) && matchesArtist(rel, filters.artist);
+      row.hidden = filtering && !ok;
+      if (!row.hidden) shown++;
+    });
+    list.querySelectorAll('.lib-split').forEach(function (split) { split.hidden = filtering; });
+    if (resetBtn) resetBtn.hidden = !filtering;
+    setCount(shown);
+    if (filtering) setLead(new Array(shown));
   }
 
   function syncViewButtons() {
@@ -499,11 +504,8 @@
   function setLead(releases) {
     if (!leadEl) return;
     var bits = [];
-    if (filters.genre) {
-      var genreLabel = filters.genre.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
-      bits.push(genreLabel);
-    }
-    if (filters.artist) bits.push(displayNameForArtist(filters.artist));
+    if (filters.genre) bits.push(laneLabel('genre', filters.genre));
+    if (filters.artist) bits.push(laneLabel('artist', filters.artist));
 
     if (!bits.length) {
       var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
@@ -721,8 +723,7 @@
 
   function render() {
     writeUrl();
-    syncSelectState(genreSelect, filters.genre);
-    syncSelectState(artistSelect, filters.artist);
+    syncLanes();
     syncViewButtons();
 
     var releases = allReleases.filter(function (r) {
@@ -754,16 +755,6 @@
     }
   }
 
-  function onSelectChange(e) {
-    var select = e.target;
-    if (select === genreSelect) filters.genre = select.value || '';
-    if (select === artistSelect) filters.artist = select.value || '';
-    render();
-  }
-
-  if (genreSelect) genreSelect.addEventListener('change', onSelectChange);
-  if (artistSelect) artistSelect.addEventListener('change', onSelectChange);
-
   function setView(mode) {
     viewMode = (mode === 'covers' || mode === 'sleeves' || mode === 'grid') ? 'covers' : 'list';
     render();
@@ -782,7 +773,8 @@
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       filters = { genre: '', artist: '' };
-      render();
+      if (catalogReady) render();
+      else paintStatic();
     });
   }
 
@@ -843,7 +835,17 @@
     bindAddButtons();
   }
 
+  if (window.ClubLanes) {
+    ClubLanes.bind(document.querySelector('.filters'), function (next) {
+      filters.genre = next.genre || '';
+      filters.artist = next.artist || '';
+      if (catalogReady) render();
+      else paintStatic();
+    });
+  }
+
   readFiltersFromUrl();
+  paintStatic();
   bindAddButtons();
 
   fetch('/data/catalog.json')
@@ -865,21 +867,17 @@
         return String(a.title || '').localeCompare(String(b.title || ''));
       });
 
-      renderSelect(genreSelect, uniqueGenres(allReleases), 'All genres', filters.genre);
-      renderSelect(artistSelect, uniqueArtists(allReleases), 'All artists', filters.artist);
+      catalogReady = true;
       renderShelf();
       render();
     })
     .catch(function () {
       /* Keep statically embedded rows so release URLs stay crawlable. */
       if (list.querySelector('.cat-row')) {
+        paintStatic();
         bindPlayButtons();
         bindAddButtons();
         observeReveals();
-        if (countEl && !filters.genre && !filters.artist) {
-          var n = list.querySelectorAll('.cat-row').length;
-          countEl.textContent = n === 1 ? '1 release' : n + ' releases';
-        }
         return;
       }
       list.innerHTML = '<p class="page-lead">Could not load the library. <a href="/merch">Shop</a></p>';

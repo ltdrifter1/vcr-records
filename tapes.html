@@ -34,7 +34,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc4"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc7"/>
   
   
 </head>
@@ -89,6 +89,16 @@
   <h1 class="page-title">Mixtapes</h1>
   <p class="page-lede">Long sets from LT Drifta, streamed from SoundCloud. Tap a cover to play. <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">@ltdrifta ↗</a></p>
 </header>
+<div class="tape-filters" data-tape-filters hidden>
+  <div class="lane">
+    <span class="lane-label mono" id="tape-genre-label">Genre</span>
+    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
+      <span class="plate" aria-hidden="true"></span>
+    </div>
+  </div>
+  <p class="mono filter-count" data-tape-count aria-live="polite"></p>
+</div>
+<p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>
 <p class="tapes-now mono" data-tapes-now role="status" hidden></p>
 <section class="sec sec--tight mix-slot" data-tapes-panel aria-labelledby="day-title">
   <header class="sec-head">
@@ -151,12 +161,13 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc4"></script>
-<script src="/js/cart.js?v=cc4"></script>
-<script src="/js/member.js?v=cc4"></script>
-<script src="/js/player.js?v=cc4"></script>
-<script src="/js/cc.js?v=cc4"></script>
-<script src="/js/tapes.js?v=cc4"></script>
+<script src="/js/site.js?v=cc5"></script>
+<script src="/js/cart.js?v=cc5"></script>
+<script src="/js/member.js?v=cc5"></script>
+<script src="/js/player.js?v=cc5"></script>
+<script src="/js/cc.js?v=cc5"></script>
+<script src="/js/lanes.js?v=cc7"></script>
+<script src="/js/tapes.js?v=cc7"></script>
 
 </body>
 </html>

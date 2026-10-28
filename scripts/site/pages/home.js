@@ -1,48 +1,11 @@
 "use strict";
 const L = require("../lib");
-const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dateLong, playKey, freeDownload } = L;
-const { releaseRow } = require("./fragments");
+const { esc, attr, asset, onSite } = L;
+const { shelfCard } = require("./fragments");
+const { laneBar, tapeFilterBar } = require("../lanes");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
 const { signChart } = require("../signs");
-
-function leadRelease(rel) {
-  const digital = rel.formats && rel.formats.digital;
-  const cassette = rel.formats && rel.formats.cassette;
-  const [big, small] = L.leadSize(rel.title, rel.artist);
-  const n = (rel.tracks || []).length;
-  const tracks = (rel.tracks || []).map((t, i) => `<li><button type="button" class="hero-track" data-play-release="${attr(rel.id)}" data-play-track="${attr(t.id)}" data-duration="${attr(t.duration || 0)}"><span class="ht-no">${String(t.trackNum || i + 1).padStart(2, "0")}</span><span class="ht-title">${esc(t.title)}</span><span class="ht-dur"><span data-track-elapsed></span>${clock(t.duration)}</span></button></li>`).join("\n        ");
-  const glyphs = `<svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>`;
-  return `<section class="lead" id="room" data-listen-plate data-release="${attr(rel.id)}" aria-label="${attr(rel.title)}" style="--lead-size:${big};--lead-size-s:${small}">
-  <p class="lead-top mono">
-    <span class="lead-top-left"><span class="lead-state" data-lead-state>Club Copy</span><span class="lead-place" data-lead-idle>Cumberland, BC</span><span class="lead-now" data-lead-now hidden></span></span>
-    <span class="lead-clock" data-clock><span><time data-clock-time>··:··</time></span></span>
-  </p>
-  <div class="lead-body listen-plate">
-    <div class="lead-copy">
-      <div class="lead-lockup">
-        <p class="lead-artist"><a href="/artists/${attr(rel.artistId)}">${esc(rel.artist)}</a></p>
-        <h1 class="lead-title"><a href="${attr(rel.page)}">${esc(L.dashTitle(rel.title))}</a></h1>
-      </div>
-      <div class="lead-player">
-        <div class="lead-keys listen-plate-actions">
-          <button type="button" class="btn btn-solid" id="platePlay" aria-label="Play">${glyphs}<span class="btn-label">Play</span></button>
-          ${digital ? `<button type="button" class="btn" id="plateBuyDigital">${freeDownload(rel) ? "Free download" : "Digital · $" + money(digital.price)}</button>` : ""}
-          <button type="button" class="btn" id="plateBuy"${cassette ? "" : " hidden"}>Cassette</button>
-        </div>
-        <ol class="hero-tracks" aria-label="Tracks">
-        ${tracks}
-        </ol>
-      </div>
-    </div>
-    <div class="lead-sleeve listen-sleeve">
-      <img data-plate-art src="${asset(rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="1200" height="1200" fetchpriority="high"/>
-      <button type="button" class="listen-sleeve-hit" id="platePlayHit" aria-label="Play ${attr(rel.title)}"><span class="listen-glyph">${glyphs}</span></button>
-    </div>
-  </div>
-  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span class="p-hide">${esc(rel.kind || "")}</span><span class="lead-cat">${esc(dateLong(rel.released))}</span></span><a href="${attr(rel.page)}">Release page →</a></p>
-</section>`;
-}
 
 function starsHome(zine, issues) {
   const stars = (zine && zine.stars) || [];
@@ -84,7 +47,7 @@ function zineRows(articles, issues) {
 }
 
 function artistList(artists, releases) {
-  return `<div class="rows">${artists.map((a, i) => artistRow(a, i, releases)).join("\n")}</div>`;
+  return `<div class="rows">${artists.map((a, i) => artistRow(a, i, releases, { compact: true })).join("\n")}</div>`;
 }
 
 function videoSection(feed) {
@@ -120,19 +83,29 @@ function videoSection(feed) {
 module.exports = function home(data) {
   const { catalog, news, issues } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
-  // The lead is catalog.lead when it names a streamable release on site; otherwise the newest with a stream.
-  const pinned = catalog.lead && releases.find((r) => r.id === catalog.lead && hasCue(r));
-  const featured = pinned || releases.find(hasCue) || releases[0];
-  const rest = releases.filter((r) => r.id !== featured.id).slice(0, 8);
+  const teaser = releases.slice(0, 8);
+  const teaserIds = new Set(teaser.map((r) => r.id));
+  const featured = releases[0];
 
   const main = `
-${leadRelease(featured)}
-
-<section class="sec sec--list" aria-label="Releases" id="listen">
-  <div class="rows">
-    ${rest.map((r) => releaseRow(r)).join("\n")}
+<section class="sec sec--list" aria-labelledby="releases-title" id="listen">
+  <header class="home-sec-head">
+    <h1 class="home-sec-title" id="releases-title">Releases</h1>
+    <a class="sec-link" href="/library">Library</a>
+  </header>
+  ${laneBar({
+    releases,
+    artists: catalog.artists,
+    label: "Release filters",
+    countId: "listenCount",
+    countText: `${teaser.length} releases`,
+    extra: `<button type="button" class="btn btn-small" id="listenClear" hidden>Clear</button>`,
+  })}
+  <div class="home-shelf" id="listenRows">
+    ${releases.map((r, i) => shelfCard(r, { extra: !teaserIds.has(r.id), eager: i === 0 })).join("\n")}
   </div>
-  <p class="rows-more mono"><a href="/library">All ${releases.length} releases →</a></p>
+  <p class="listen-empty" id="listenEmpty" hidden>No releases match these filters.</p>
+  <p class="rows-more mono"><a href="/library" id="listenMore">All ${releases.length} releases →</a></p>
 </section>
 
 <section class="sec sec--zine" aria-labelledby="zine-title" id="news">
@@ -149,6 +122,7 @@ ${leadRelease(featured)}
 
 <section class="sec" aria-labelledby="mixtapes-title" id="mixtapes">
   ${L.sectionHead("Mixtapes", { titleId: "mixtapes-title", kicker: "Long sets · SoundCloud", link: ["/tapes", "All mixtapes"] })}
+  ${tapeFilterBar()}
   <p class="tapes-now mono" data-tapes-now hidden></p>
   <div class="mix-slot" data-tapes-panel>
     <p class="mono slot-label">Day</p>
@@ -177,9 +151,9 @@ ${joinSection()}
     canonical: L.ORIGIN + "/",
     bodyClass: "home",
     main,
-    image: featured.cover,
-    preload: featured.cover,
-    scripts: ["cc.js", "plate.js", "tapes.js", "join.js"],
+    image: featured && featured.cover,
+    preload: featured && (featured.coverThumb || featured.cover),
+    scripts: ["cc.js", "tapes.js", "join.js", "lanes.js"],
     jsonld: [
       {
         "@context": "https://schema.org",

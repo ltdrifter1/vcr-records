@@ -15,7 +15,8 @@ function releaseRow(rel, opts) {
   opts = opts || {};
   const digital = rel.formats && rel.formats.digital;
   const n = rel.tracksCount || (rel.tracks || []).length;
-  return `<article class="row row--release" data-release="${attr(rel.id)}">
+  const extra = opts.extra ? ' data-extra="" hidden' : "";
+  return `<article class="row row--release" data-release="${attr(rel.id)}" data-artist-id="${attr(rel.artistId || "")}" data-genre="${attr(L.slugify(rel.genre))}"${extra}>
   <div class="row-main">
     <p class="mono row-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span>${n ? `<span>${n} ${n === 1 ? "track" : "tracks"}</span>` : ""}<span>${esc(clock(L.releaseSeconds(rel)))}</span><span>${esc(dateShort(rel.released))}</span></p>
     <h3 class="row-artist">${opts.hideArtist ? "" : esc(rel.artist)}</h3>
@@ -48,4 +49,16 @@ function catRow(rel) {
   return `<article class="cat-row" data-release="${attr(rel.id)}" data-artist-id="${attr(rel.artistId || "")}" data-genre="${attr(L.slugify(rel.genre))}"><div class="cat-cover"><a href="${attr(href)}" tabindex="-1" aria-hidden="true"><img src="${asset(rel.coverThumb || rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="480" height="480" loading="lazy"/></a>${play}</div><div class="cat-main"><p class="cat-id">${esc(rel.catalogue || "")}</p><a class="cat-title" href="${attr(href)}">${esc(rel.title)}</a><span class="cat-artist">${esc(rel.artist)}</span><div class="cat-tags"><span class="cat-cue">${esc([rel.kind, formatGlyphs(rel), clock(L.releaseSeconds(rel))].filter(Boolean).join(" · "))}</span></div></div><div class="cat-side">${price}${add}</div></article>`;
 }
 
-module.exports = { releaseRow, catRow };
+/** Cover, title, artist. The home shelf. */
+function shelfCard(rel, opts) {
+  opts = opts || {};
+  const extra = opts.extra ? ' data-extra="" hidden' : "";
+  const href = rel.page || "#";
+  const eager = opts.eager ? ' fetchpriority="high"' : ' loading="lazy"';
+  return `<article class="shelf-card" data-release="${attr(rel.id)}" data-artist-id="${attr(rel.artistId || "")}" data-genre="${attr(L.slugify(rel.genre))}"${extra}>
+  <a class="shelf-art" href="${attr(href)}"><img src="${asset(rel.coverThumb || rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="480" height="480"${eager}/></a>
+  <p class="shelf-cap"><a class="shelf-title" href="${attr(href)}">${esc(L.dashTitle(rel.title))}</a><span class="shelf-by">${esc(rel.artist)}</span></p>
+</article>`;
+}
+
+module.exports = { releaseRow, catRow, shelfCard };

@@ -1,5 +1,6 @@
 "use strict";
 const L = require("../lib");
+const { tapeFilterBar } = require("../lanes");
 
 module.exports = function tapes(data) {
   const skel = '<span class="mix-skel" aria-hidden="true"></span>'.repeat(4);
@@ -9,6 +10,7 @@ module.exports = function tapes(data) {
   <h1 class="page-title">Mixtapes</h1>
   <p class="page-lede">Long sets from LT Drifta, streamed from SoundCloud. Tap a cover to play. <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">@ltdrifta ↗</a></p>
 </header>
+${tapeFilterBar()}
 <p class="tapes-now mono" data-tapes-now role="status" hidden></p>
 <section class="sec sec--tight mix-slot" data-tapes-panel aria-labelledby="day-title">
   ${L.sectionHead("Day", { titleId: "day-title", kicker: "Chill · variety" })}
@@ -26,6 +28,6 @@ module.exports = function tapes(data) {
     path: "/tapes",
     bodyClass: "mixtapes-page",
     main,
-    scripts: ["cc.js", "tapes.js"],
+    scripts: ["cc.js", "lanes.js", "tapes.js"],
   });
 };
