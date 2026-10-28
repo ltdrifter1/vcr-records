@@ -15,7 +15,8 @@ function releaseRow(rel, opts) {
   opts = opts || {};
   const digital = rel.formats && rel.formats.digital;
   const n = rel.tracksCount || (rel.tracks || []).length;
-  return `<article class="row row--release" data-release="${attr(rel.id)}">
+  const extra = opts.extra ? ' data-extra="" hidden' : "";
+  return `<article class="row row--release" data-release="${attr(rel.id)}" data-artist-id="${attr(rel.artistId || "")}" data-genre="${attr(L.slugify(rel.genre))}"${extra}>
   <div class="row-main">
     <p class="mono row-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span>${n ? `<span>${n} ${n === 1 ? "track" : "tracks"}</span>` : ""}<span>${esc(clock(L.releaseSeconds(rel)))}</span><span>${esc(dateShort(rel.released))}</span></p>
     <h3 class="row-artist">${opts.hideArtist ? "" : esc(rel.artist)}</h3>
