@@ -1,8 +1,8 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
    Night ground by default, paper by day. Archivo for text, Big Shoulders
-   Display for titles, Plex Mono for data. Rules are ink. The signal colour
-   is a hard second plate behind display titles, and a flat kicker.
+   Display for titles, Plex Mono for data. Rules are ink. Titles sit flat
+   in that ink. The signal colour marks state, not the header.
    ========================================================================== */
 
 :root {
@@ -20,7 +20,6 @@
   --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --display: "Big Shoulders Display", "Archivo", "Helvetica Neue", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --mis: 2px 2px 0 var(--signal);
   --gutter: clamp(16px, 2vw, 28px);
   --sky-h: 36px;
   --nav-h: 58px;
@@ -557,11 +556,11 @@ body.nav-open { overflow: hidden; }
 .tape-link { text-decoration: underline; text-underline-offset: .18em; }
 
 /* Zine ------------------------------------------------------------------ */
-.zine-masthead .zine-slug { margin-bottom: 10px; color: var(--signal); font-size: 13px; letter-spacing: .14em; }
+.zine-masthead .zine-slug { margin-bottom: 10px; color: var(--ink); font-size: 13px; letter-spacing: .12em; }
 .zine-title { font-size: clamp(52px, 12.4vw, 176px); line-height: .84; letter-spacing: -.045em; margin: 0 0 14px; }
 .zine-title a:hover { text-decoration: none; color: var(--ink-2); }
 .zine-masthead--compact .zine-title { font-size: clamp(44px, 8vw, 84px); }
-.zine-masthead--compact .zine-slug { color: var(--signal); font-size: 12px; letter-spacing: .08em; }
+.zine-masthead--compact .zine-slug { color: var(--ink); font-size: 12px; letter-spacing: .12em; }
 .zine-tagline { font-size: clamp(20px, 2vw, 28px); color: var(--ink); margin-bottom: 22px; }
 /* Nameplate: the wordmark sits on a light bar so it doesn't read as another story headline. */
 .zine-masthead { --plate: var(--ink); --plate-ink: var(--bg); }
@@ -575,7 +574,7 @@ body.nav-open { overflow: hidden; }
 .zine-masthead .zine-title a,
 .zine-masthead .zine-title a:hover { color: var(--plate-ink); text-decoration: none; }
 .zine-masthead .zine-title a:hover .zine-logo-night { color: color-mix(in srgb, var(--plate-ink) 55%, transparent); }
-.zine-logo-shift { color: var(--signal); }
+.zine-logo-shift { color: color-mix(in srgb, currentColor 68%, transparent); }
 /* Home: same flag, so the section doesn't sit at the same size as Mixtapes. */
 .sec--zine { padding-top: 0; border-top: 0; scroll-margin-top: var(--chrome-h); }
 .sec-head--zine {
@@ -590,7 +589,7 @@ body.nav-open { overflow: hidden; }
   padding: clamp(28px, 4vw, 52px) var(--gutter) clamp(16px, 2vw, 24px);
   border-bottom: 0;
 }
-.sec-head--zine .sec-kicker { grid-area: kicker; margin: 0; color: var(--signal); }
+.sec-head--zine .sec-kicker { grid-area: kicker; margin: 0; color: color-mix(in srgb, var(--bg) 72%, transparent); }
 .sec-head--zine .sec-link { grid-area: link; color: color-mix(in srgb, var(--bg) 62%, transparent); }
 .sec-head--zine .sec-link:hover { color: var(--bg); }
 .sec-head--zine .zine-home-title { grid-area: title; margin: 4px 0 0; font-size: clamp(56px, 10vw, 140px); line-height: .84; letter-spacing: -.045em; font-weight: 600; font-stretch: 112%; font-variation-settings: "wdth" 112; }
@@ -599,7 +598,7 @@ body.nav-open { overflow: hidden; }
 .sec-head--zine .zine-home-title a:hover .zine-logo-night { color: color-mix(in srgb, var(--bg) 55%, transparent); }
 .zine-cols { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-top: 14px; border-top: 1px solid var(--line); }
 .zine-cols a:hover { color: var(--ink); }
-.zine-cols a:first-child { color: var(--signal); }
+.zine-cols a:first-child { color: var(--ink); text-decoration: underline; text-underline-offset: .2em; }
 .news-index-front, .news-index > .issues-head, .news-index > .page-lede, .news-index > .library-search, .news-index > .back-catalogue, .news-index > .issue-index, .news-index > .issue-contents, .news-index > .issue-cover, .news-index > .issue-jump, .news-index > .zine-stars-pin, .news-index > .library-index { padding-left: var(--gutter); padding-right: var(--gutter); }
 .news-index > .page-lede { margin-bottom: 24px; }
 .issue-cover { margin-top: 0; }
@@ -661,7 +660,7 @@ body.nav-open { overflow: hidden; }
 .issue-jump { display: flex; flex-wrap: wrap; gap: 10px 24px; padding-top: 28px; padding-bottom: 8px; }
 .issue-jump a:hover { color: var(--ink); }
 .zine-masthead + .zine-stars-pin { margin-top: 0; padding-top: clamp(28px, 4vw, 48px); padding-bottom: clamp(28px, 4vw, 44px); border-top: 0; border-bottom: 1px solid var(--line); }
-.zine-stars-kicker { color: var(--signal); letter-spacing: .16em; margin-bottom: 8px; }
+.zine-stars-kicker { color: var(--ink); letter-spacing: .12em; margin-bottom: 8px; }
 .zine-stars-pin-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 14px; }
 .zine-stars-title { font-family: var(--sans); font-variation-settings: "wdth" var(--wide); font-stretch: 112%; font-weight: 600; letter-spacing: -.035em; line-height: .9; font-size: clamp(40px, 5.4vw, 72px); }
 .zine-stars-pin-count { padding: 4px 0 14px; }
@@ -681,7 +680,7 @@ body.nav-open { overflow: hidden; }
 .home-stars { padding: 22px 0 28px; border-bottom: 1px solid var(--line); }
 .home-stars-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 24px; padding-bottom: 18px; }
 .home-stars-kicker { margin-bottom: 12px; }
-.home-stars-kicker span:first-child { color: var(--signal); }
+.home-stars-kicker span:first-child { color: var(--ink); }
 .home-stars-title { font-size: clamp(36px, 4.8vw, 68px); font-weight: 600; letter-spacing: -.035em; line-height: .9; font-stretch: 112%; font-variation-settings: "wdth" 112; }
 .home-stars-title a:hover { text-decoration: none; color: var(--ink-2); }
 .home-stars-head .sec-link { padding-bottom: 4px; }
@@ -744,7 +743,7 @@ body.nav-open { overflow: hidden; }
 }
 .story-hero.is-sleeve img { aspect-ratio: 1; max-width: 640px; }
 .story-hero figcaption, .news-figure figcaption { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--ink-3); padding-top: 10px; max-width: 60ch; }
-.news-kicker { margin-bottom: 14px; color: var(--signal); }
+.news-kicker { margin-bottom: 14px; color: var(--ink); }
 .zine-headline { font-size: clamp(40px, 7vw, 112px); max-width: 14ch; margin-bottom: 20px; }
 .zine-dek { font-size: clamp(20px, 2.2vw, 30px); line-height: 1.3; letter-spacing: -.015em; color: var(--ink-2); max-width: 36ch; margin-bottom: 28px; font-weight: 400; }
 .file-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, max-content)); gap: 10px 32px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: clamp(32px, 5vw, 64px); }
@@ -911,7 +910,7 @@ html:not([data-theme="day"]) .member-card-mark { filter: invert(1); }
 .acct-entries li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
 .acct-lookup-note { font-size: 13px; color: var(--ink-3); }
 .confirm, .miss { max-width: 760px; }
-.confirm .sec-kicker { color: var(--signal); }
+.confirm .sec-kicker { color: var(--ink); }
 .ty-card { margin: 24px 0; }
 .ty-plate, .miss-plate { margin: 32px 0; }
 @media (max-width: 859px) { .cart-layout { grid-template-columns: 1fr; } }
@@ -1099,9 +1098,8 @@ main.news-index, .news-index-front { overflow-x: clip; }
   font-weight: 700;
   font-stretch: normal;
   font-variation-settings: normal;
-  letter-spacing: .01em;
-  line-height: .9;
-  text-shadow: var(--mis);
+  letter-spacing: -.02em;
+  line-height: .88;
 }
 .page-title { font-size: clamp(52px, 7.2vw, 108px); }
 .home-sec-title { font-size: clamp(48px, 5.6vw, 80px); }
@@ -1114,13 +1112,9 @@ main.news-index, .news-index-front { overflow-x: clip; }
   font-weight: 700;
   font-stretch: normal;
   font-variation-settings: normal;
-  letter-spacing: .01em;
-  line-height: .9;
-  text-shadow: var(--mis);
+  letter-spacing: -.03em;
+  line-height: .86;
 }
-.sec-head--zine .zine-home-title,
-.home .sec-head--zine .zine-home-title,
-.zine-masthead .zine-title { text-shadow: none; }
 .sec-head--zine .zine-home-title,
 .home .sec-head--zine .zine-home-title { font-size: clamp(64px, 11vw, 148px); }
 .home .sec--list .filters { border-bottom: 2px solid var(--rule); }
@@ -1129,12 +1123,29 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .sec-kicker,
 .home-stars-kicker span:first-child,
 .zine-masthead .zine-slug,
-.lane-label {
-  color: var(--signal);
+.zine-stars-kicker,
+.news-kicker {
+  color: var(--ink);
   letter-spacing: .12em;
   font-weight: 500;
   line-height: 1.35;
   text-shadow: none;
+}
+.sec-title > .sec-kicker,
+.news-kicker {
+  display: block;
+  width: fit-content;
+  margin-bottom: 10px;
+  padding: 4px 8px 3px;
+  background: var(--ink);
+  color: var(--bg);
+  letter-spacing: .14em;
+  line-height: 1.35;
+}
+.lane-label {
+  color: var(--ink-2);
+  letter-spacing: .08em;
+  font-weight: 400;
 }
 .sky,
 .nav {
