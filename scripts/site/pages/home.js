@@ -44,19 +44,16 @@ function leadRelease(rel) {
 </section>`;
 }
 
-function starsHome(zine, issues, articles) {
+function starsHome(zine, issues) {
   const stars = (zine && zine.stars) || [];
   if (!stars.length) return "";
-  const piece = (articles || []).find((a) => a.id === "stars-for-the-floor");
   const vol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
   const month = vol && vol.dateLabel ? vol.dateLabel : "";
-  const dek = (piece && piece.dek) || "A monthly horoscope.";
   return `<article class="home-stars" aria-labelledby="home-stars-title">
   <div class="home-stars-head">
     <div>
       <p class="mono home-stars-kicker"><span>Monthly horoscope</span>${month ? `<span>${esc(month)}</span>` : ""}</p>
       <h3 class="home-stars-title" id="home-stars-title"><a href="/news/stars-for-the-floor">Stars for the Floor</a></h3>
-      <p class="home-stars-dek">${esc(dek)}</p>
     </div>
     <a class="sec-link" href="/news/stars-for-the-floor">The chart</a>
   </div>
@@ -144,7 +141,7 @@ ${leadRelease(featured)}
     <a class="sec-link" href="/news">The volume</a>
     <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
   </header>
-  ${starsHome(data.zine, issues, news.articles)}
+  ${starsHome(data.zine, issues)}
   <div class="rows">
     ${zineRows(news.articles, issues)}
   </div>
