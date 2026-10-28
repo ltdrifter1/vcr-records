@@ -21,12 +21,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/cc.css?v=cc3"/>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f4f1ea" : "#0a0a0a");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", t === "day" ? "light" : "dark");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/cc.css?v=cc4"/>
   
   
 </head>
 <body class="cc news-listing">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="sky" id="sky" role="region" aria-label="Cumberland conditions">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span data-sky-moon>··</span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
@@ -211,12 +237,12 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc3"></script>
-<script src="/js/cart.js?v=cc3"></script>
-<script src="/js/member.js?v=cc3"></script>
-<script src="/js/player.js?v=cc3"></script>
-<script src="/js/cc.js?v=cc3"></script>
-<script src="/js/zine.js?v=cc3"></script>
+<script src="/js/site.js?v=cc4"></script>
+<script src="/js/cart.js?v=cc4"></script>
+<script src="/js/member.js?v=cc4"></script>
+<script src="/js/player.js?v=cc4"></script>
+<script src="/js/cc.js?v=cc4"></script>
+<script src="/js/zine.js?v=cc4"></script>
 
 </body>
 </html>

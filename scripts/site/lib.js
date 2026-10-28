@@ -6,7 +6,7 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc3";
+const VERSION = "cc4";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -132,12 +132,41 @@ const NAV = [
   ["/join", "Join"],
 ];
 
+const THEME_BOOT = `<script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f4f1ea" : "#0a0a0a");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", t === "day" ? "light" : "dark");
+      } catch (e) {}
+    })();
+  </script>`;
+
+const SKY = `<div class="sky" id="sky" role="region" aria-label="Cumberland conditions">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span data-sky-moon>··</span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>`;
+
 function navHtml(current) {
   const links = NAV.map(([href, label]) => {
     const on = current && (current === href || (href !== "/" && current.startsWith(href + "/")));
     return `<a href="${href}"${on ? ' aria-current="page"' : ""}>${label}</a>`;
   }).join("\n      ");
-  return `<header class="nav" id="nav">
+  return `${SKY}
+<header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
     <nav class="nav-links" aria-label="Primary">
@@ -247,6 +276,7 @@ function page(o) {
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  ${THEME_BOOT}
   <link rel="stylesheet" href="/css/cc.css?v=${VERSION}"/>
   ${o.preload ? `<link rel="preload" as="image" href="${asset(o.preload)}" fetchpriority="high"/>` : ""}
   ${jsonld}
