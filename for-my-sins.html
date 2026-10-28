@@ -21,12 +21,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/cc.css?v=cc3"/>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f4f1ea" : "#0a0a0a");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", t === "day" ? "light" : "dark");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/cc.css?v=cc4"/>
   <link rel="preload" as="image" href="/for-my-sins-cover.webp" fetchpriority="high"/>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicAlbum","name":"For My Sins","byArtist":{"@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta"},"albumReleaseType":"SingleRelease","datePublished":"2026-10-25","image":"https://www.clubcopy.ca/for-my-sins-cover.webp","recordLabel":{"@type":"Organization","name":"Club Copy"},"catalogNumber":"CC038","numTracks":1,"track":[{"@type":"MusicRecording","name":"For My Sins","position":1,"duration":"PT4M0S"}],"offers":[{"@type":"Offer","price":"1.5","priceCurrency":"CAD","availability":"https://schema.org/InStock","itemOffered":{"@type":"Product","name":"For My Sins — Digital"}}]}</script>
 </head>
 <body class="cc archive-release release-page">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="sky" id="sky" role="region" aria-label="Cumberland conditions">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span data-sky-moon>··</span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
@@ -202,12 +228,12 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc3"></script>
-<script src="/js/cart.js?v=cc3"></script>
-<script src="/js/member.js?v=cc3"></script>
-<script src="/js/player.js?v=cc3"></script>
-<script src="/js/cc.js?v=cc3"></script>
-<script src="/js/release-bind.js?v=cc3"></script>
+<script src="/js/site.js?v=cc4"></script>
+<script src="/js/cart.js?v=cc4"></script>
+<script src="/js/member.js?v=cc4"></script>
+<script src="/js/player.js?v=cc4"></script>
+<script src="/js/cc.js?v=cc4"></script>
+<script src="/js/release-bind.js?v=cc4"></script>
 <script>VCRReleaseBind({"releaseId":"for-my-sins","previewTrackId":"fms-01","tracks":[{"id":"fms-01","title":"For My Sins"}]});
 (function(){var F={"digital":{"sku":"dg-for-my-sins","name":"For My Sins — Digital (Single)","price":1.5,"image":"/for-my-sins-cover.webp"}};var t=null;function bind(id,k){var b=document.getElementById(id);if(!b)return;var label=b.textContent;b.addEventListener("click",function(){var f=F[k];if(!f||!window.VCRCart)return;VCRCart.add({sku:f.sku,name:f.name,price:f.price,image:f.image,qty:1,id:f.sku});b.textContent="Added";clearTimeout(t);t=setTimeout(function(){b.textContent=label;},2200);});}bind("buyDigitalBtn","digital");bind("buyBtn","cassette");})();</script>
 </body>
