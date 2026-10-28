@@ -27,7 +27,8 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --grain: url("/css/grain-night.png");
+  --grain: url("/css/grain-film.png");
+  --grain-size: 160px;
   color-scheme: dark;
 }
 /* Day is newsprint, not a borrowed peach. Night stays the label's black. */
@@ -42,7 +43,8 @@ html[data-theme="day"] {
   --line-2: rgba(26, 25, 22, .30);
   --signal: #e23b10;
   --signal-ink: #1a1916;
-  --grain: url("/css/grain-day.png");
+  --grain: url("/css/grain-paper.png");
+  --grain-size: 260px;
   color-scheme: light;
 }
 html:has(.sky) {
@@ -58,7 +60,7 @@ body {
   color: var(--ink);
   background-color: var(--bg);
   background-image: var(--grain);
-  background-size: 180px 180px;
+  background-size: var(--grain-size) var(--grain-size);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
   padding-bottom: var(--safe-b);
