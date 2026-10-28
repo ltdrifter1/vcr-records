@@ -7,6 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
 const VERSION = "cc8";
+const CSS_VERSION = "cc9";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -277,7 +278,7 @@ function page(o) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=Big+Shoulders+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   ${THEME_BOOT}
-  <link rel="stylesheet" href="/css/cc.css?v=${VERSION}"/>
+  <link rel="stylesheet" href="/css/cc.css?v=${CSS_VERSION}"/>
   ${o.preload ? `<link rel="preload" as="image" href="${asset(o.preload)}" fetchpriority="high"/>` : ""}
   ${jsonld}
 </head>
