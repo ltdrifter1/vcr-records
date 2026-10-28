@@ -2,7 +2,7 @@
    Club Copy — one stylesheet.
    Night ground by default, paper by day. Archivo for text, Big Shoulders
    Display for titles, Plex Mono for data. Rules are ink. The signal colour
-   is the misprint behind a title and the kicker, and it still marks state.
+   is a hard second plate behind display titles, and a flat kicker.
    ========================================================================== */
 
 :root {
@@ -20,7 +20,7 @@
   --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --display: "Big Shoulders Display", "Archivo", "Helvetica Neue", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --mis: 0.04em 0.04em 0 color-mix(in srgb, var(--signal) 70%, transparent);
+  --mis: 2px 2px 0 var(--signal);
   --gutter: clamp(16px, 2vw, 28px);
   --sky-h: 36px;
   --nav-h: 58px;
@@ -1105,7 +1105,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 .page-title { font-size: clamp(52px, 7.2vw, 108px); }
 .home-sec-title { font-size: clamp(48px, 5.6vw, 80px); }
-.sec-title { font-size: clamp(36px, 4vw, 56px); line-height: .84; }
+.sec-title { font-size: clamp(36px, 4vw, 56px); line-height: .92; }
 .footer-wordmark { font-size: clamp(56px, 8vw, 120px); }
 .sec-head--zine .zine-home-title,
 .home .sec-head--zine .zine-home-title,
@@ -1131,8 +1131,10 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .zine-masthead .zine-slug,
 .lane-label {
   color: var(--signal);
-  letter-spacing: .18em;
+  letter-spacing: .12em;
   font-weight: 500;
+  line-height: 1.35;
+  text-shadow: none;
 }
 .sky,
 .nav {
