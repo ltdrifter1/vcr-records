@@ -2,6 +2,7 @@
 const L = require("../lib");
 const { esc, attr, asset, money, clock, specLine, priceLine, hasCue, onSite, dateLong, playKey, freeDownload } = L;
 const { releaseRow } = require("./fragments");
+const { laneBar } = require("../lanes");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
 const { signChart } = require("../signs");
@@ -123,16 +124,26 @@ module.exports = function home(data) {
   // The lead is catalog.lead when it names a streamable release on site; otherwise the newest with a stream.
   const pinned = catalog.lead && releases.find((r) => r.id === catalog.lead && hasCue(r));
   const featured = pinned || releases.find(hasCue) || releases[0];
-  const rest = releases.filter((r) => r.id !== featured.id).slice(0, 8);
+  const teaser = releases.filter((r) => r.id !== featured.id).slice(0, 8);
+  const teaserIds = new Set(teaser.map((r) => r.id));
 
   const main = `
 ${leadRelease(featured)}
 
 <section class="sec sec--list" aria-label="Releases" id="listen">
-  <div class="rows">
-    ${rest.map((r) => releaseRow(r)).join("\n")}
+  ${laneBar({
+    releases,
+    artists: catalog.artists,
+    label: "Release filters",
+    countId: "listenCount",
+    countText: `${teaser.length} releases`,
+    extra: `<button type="button" class="btn btn-small" id="listenClear" hidden>Clear</button>`,
+  })}
+  <div class="rows" id="listenRows">
+    ${releases.map((r) => releaseRow(r, { extra: !teaserIds.has(r.id) })).join("\n")}
   </div>
-  <p class="rows-more mono"><a href="/library">All ${releases.length} releases →</a></p>
+  <p class="listen-empty" id="listenEmpty" hidden>No releases match these filters.</p>
+  <p class="rows-more mono"><a href="/library" id="listenMore">All ${releases.length} releases →</a></p>
 </section>
 
 <section class="sec sec--zine" aria-labelledby="zine-title" id="news">
@@ -179,7 +190,7 @@ ${joinSection()}
     main,
     image: featured.cover,
     preload: featured.cover,
-    scripts: ["cc.js", "plate.js", "tapes.js", "join.js"],
+    scripts: ["cc.js", "plate.js", "tapes.js", "join.js", "lanes.js"],
     jsonld: [
       {
         "@context": "https://schema.org",

@@ -34,7 +34,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc5"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc6"/>
   <link rel="preload" as="image" href="/pitch-black-cover.webp" fetchpriority="high"/>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"RecordLabel","name":"Club Copy","url":"https://www.clubcopy.ca/","logo":"https://www.clubcopy.ca/apple-touch-icon.png","email":"charlie@clubcopy.ca","foundingDate":"2024-02-12","foundingLocation":{"@type":"Place","name":"British Columbia, Canada"},"genre":["House","Jungle","UK Garage","Instrumental Hip Hop","Electronic"],"member":[{"@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg"},{"@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta"},{"@type":"MusicGroup","name":"Riscape","url":"https://www.clubcopy.ca/artists/riscape"},{"@type":"MusicGroup","name":"DW","url":"https://www.clubcopy.ca/artists/dw"}]}</script>
 </head>
@@ -117,8 +117,30 @@
 </section>
 
 <section class="sec sec--list" aria-label="Releases" id="listen">
-  <div class="rows">
-    <article class="row row--release" data-release="ipod-touch">
+  <section class="filters" aria-label="Release filters">
+  <div class="lanes">
+    <div class="lane">
+      <span class="lane-label mono" id="lane-genre">Genre</span>
+      <div class="seg" role="radiogroup" aria-labelledby="lane-genre" data-filter="genre">
+        <span class="plate" aria-hidden="true"></span>
+        <button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">30</span></button><button type="button" role="radio" data-value="electronic" data-label="Electronic" aria-checked="false" tabindex="-1">Electronic<span class="n">10</span></button><button type="button" role="radio" data-value="house" data-label="House" aria-checked="false" tabindex="-1">House<span class="n">19</span></button><button type="button" role="radio" data-value="jazz" data-label="Jazz" aria-checked="false" tabindex="-1">Jazz<span class="n">1</span></button>
+      </div>
+    </div>
+    <div class="lane">
+      <span class="lane-label mono" id="lane-artist">Artist</span>
+      <div class="seg" role="radiogroup" aria-labelledby="lane-artist" data-filter="artist">
+        <span class="plate" aria-hidden="true"></span>
+        <button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">30</span></button><button type="button" role="radio" data-value="forsberg" data-label="Forsberg" aria-checked="false" tabindex="-1">Forsberg<span class="n">17</span></button><button type="button" role="radio" data-value="lt-drifta" data-label="LT Drifta" aria-checked="false" tabindex="-1">LT Drifta<span class="n">11</span></button><button type="button" role="radio" data-value="riscape" data-label="Riscape" aria-checked="false" tabindex="-1">Riscape<span class="n">2</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="filter-meta">
+    <p class="mono filter-count" id="listenCount" aria-live="polite">8 releases</p>
+    <button type="button" class="btn btn-small" id="listenClear" hidden>Clear</button>
+  </div>
+</section>
+  <div class="rows" id="listenRows">
+    <article class="row row--release" data-release="ipod-touch" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC040</span><span>Single</span><span>1 track</span><span>3:53</span><span>25 Oct 2026</span></p>
     <h3 class="row-artist">Forsberg</h3>
@@ -131,7 +153,7 @@
   </div>
   <a class="row-art" href="/ipod-touch" aria-label="Ninajirachi - iPod Touch (Forsberg Bootleg)"><img src="/ipod-touch-cover-480.webp" srcset="/ipod-touch-cover-480.webp 480w, /ipod-touch-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Ninajirachi - iPod Touch (Forsberg Bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="so-good">
+<article class="row row--release" data-release="so-good" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC039</span><span>Single</span><span>1 track</span><span>3:38</span><span>25 Oct 2026</span></p>
     <h3 class="row-artist">Forsberg</h3>
@@ -144,7 +166,7 @@
   </div>
   <a class="row-art" href="/so-good" aria-label="Jhené Aiko - So Good (Forsberg Bootleg)"><img src="/so-good-cover-480.webp" srcset="/so-good-cover-480.webp 480w, /so-good-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Jhené Aiko - So Good (Forsberg Bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="for-my-sins">
+<article class="row row--release" data-release="for-my-sins" data-artist-id="lt-drifta" data-genre="electronic">
   <div class="row-main">
     <p class="mono row-meta"><span>CC038</span><span>Single</span><span>1 track</span><span>4:00</span><span>25 Oct 2026</span></p>
     <h3 class="row-artist">LT Drifta</h3>
@@ -157,7 +179,7 @@
   </div>
   <a class="row-art" href="/for-my-sins" aria-label="For My Sins"><img src="/for-my-sins-cover-480.webp" srcset="/for-my-sins-cover-480.webp 480w, /for-my-sins-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="For My Sins — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="high-low">
+<article class="row row--release" data-release="high-low" data-artist-id="lt-drifta" data-genre="electronic">
   <div class="row-main">
     <p class="mono row-meta"><span>CC037</span><span>Single</span><span>1 track</span><span>4:27</span><span>25 Oct 2026</span></p>
     <h3 class="row-artist">LT Drifta</h3>
@@ -170,7 +192,7 @@
   </div>
   <a class="row-art" href="/high-low" aria-label="Lenzman, Redeyes - High &amp; Low (Remix)"><img src="/high-low-cover-480.webp" srcset="/high-low-cover-480.webp 480w, /high-low-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Lenzman, Redeyes - High &amp; Low (Remix) — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="dont-cry">
+<article class="row row--release" data-release="dont-cry" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC036</span><span>Single</span><span>1 track</span><span>4:15</span><span>24 Oct 2026</span></p>
     <h3 class="row-artist">Forsberg</h3>
@@ -183,7 +205,7 @@
   </div>
   <a class="row-art" href="/dont-cry" aria-label="don&#39;t cry"><img src="/dont-cry-cover-480.webp" srcset="/dont-cry-cover-480.webp 480w, /dont-cry-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="don&#39;t cry — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="some-kinda-heaven">
+<article class="row row--release" data-release="some-kinda-heaven" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC035</span><span>Single</span><span>1 track</span><span>3:50</span><span>24 Oct 2026</span></p>
     <h3 class="row-artist">Forsberg</h3>
@@ -196,7 +218,7 @@
   </div>
   <a class="row-art" href="/some-kinda-heaven" aria-label="LT Memphis - Some Kinda Heaven (Forsberg Refix)"><img src="/some-kinda-heaven-cover-480.webp" srcset="/some-kinda-heaven-cover-480.webp 480w, /some-kinda-heaven-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="LT Memphis - Some Kinda Heaven (Forsberg Refix) — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="shaolin-style">
+<article class="row row--release" data-release="shaolin-style" data-artist-id="lt-drifta" data-genre="electronic">
   <div class="row-main">
     <p class="mono row-meta"><span>CC034</span><span>Single</span><span>1 track</span><span>4:38</span><span>24 Oct 2026</span></p>
     <h3 class="row-artist">LT Drifta</h3>
@@ -209,7 +231,7 @@
   </div>
   <a class="row-art" href="/shaolin-style" aria-label="Lavery - Shaolin Style (L.T.&#39;s VIP Mix)"><img src="/shaolin-style-cover-480.webp" srcset="/shaolin-style-cover-480.webp 480w, /shaolin-style-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Lavery - Shaolin Style (L.T.&#39;s VIP Mix) — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="whats-luv">
+<article class="row row--release" data-release="whats-luv" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC033</span><span>Single</span><span>1 track</span><span>3:38</span><span>24 Oct 2026</span></p>
     <h3 class="row-artist">Forsberg</h3>
@@ -222,8 +244,295 @@
   </div>
   <a class="row-art" href="/whats-luv" aria-label="w h a t &#39; s   l u v"><img src="/whats-luv-cover-480.webp" srcset="/whats-luv-cover-480.webp 480w, /whats-luv-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="w h a t &#39; s   l u v — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
+  <article class="row row--release" data-release="lifetime" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC032</span><span>Single</span><span>1 track</span><span>4:48</span><span>24 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/lifetime">l i f e t i m e</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="lifetime" data-play-track="lft-01" aria-label="Play l i f e t i m e"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="lifetime" data-sku="dg-lifetime" data-name="l i f e t i m e — Digital" data-price="1.5" data-image="/lifetime-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
   </div>
-  <p class="rows-more mono"><a href="/library">All 30 releases →</a></p>
+  <a class="row-art" href="/lifetime" aria-label="l i f e t i m e"><img src="/lifetime-cover-480.webp" srcset="/lifetime-cover-480.webp 480w, /lifetime-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="l i f e t i m e — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="links" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC031</span><span>Single</span><span>1 track</span><span>4:57</span><span>23 Oct 2026</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/links">The Chameleon – Links (L.T.'s VIP Mix)</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="links" data-play-track="lnk-01" aria-label="Play The Chameleon - Links (L.T.&#39;s VIP Mix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=links&amp;t=lnk-01&amp;download=1">Free download</a>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/links" aria-label="The Chameleon - Links (L.T.&#39;s VIP Mix)"><img src="/links-cover-480.webp" srcset="/links-cover-480.webp 480w, /links-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="The Chameleon - Links (L.T.&#39;s VIP Mix) — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="renegade-snares" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC030</span><span>Single</span><span>1 track</span><span>4:48</span><span>23 Oct 2026</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/renegade-snares">Omni Trio – Renegade Snares (L.T.'s VIP Mix)</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="renegade-snares" data-play-track="rsn-01" aria-label="Play Omni Trio - Renegade Snares (L.T.&#39;s VIP Mix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=renegade-snares&amp;t=rsn-01&amp;download=1">Free download</a>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/renegade-snares" aria-label="Omni Trio - Renegade Snares (L.T.&#39;s VIP Mix)"><img src="/renegade-snares-cover-480.webp" srcset="/renegade-snares-cover-480.webp 480w, /renegade-snares-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Omni Trio - Renegade Snares (L.T.&#39;s VIP Mix) — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="everyday" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC025</span><span>Single</span><span>1 track</span><span>3:57</span><span>23 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/everyday">everyday</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="everyday" data-play-track="evd-01" aria-label="Play everyday"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="everyday" data-sku="dg-everyday" data-name="everyday — Digital" data-price="1.5" data-image="/everyday-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/everyday" aria-label="everyday"><img src="/everyday-cover-480.webp" srcset="/everyday-cover-480.webp 480w, /everyday-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="everyday — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="i-give-everything" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC022</span><span>Single</span><span>1 track</span><span>2:45</span><span>23 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/i-give-everything">The Avalanches – I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="i-give-everything" data-play-track="ige-01" aria-label="Play The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=i-give-everything&amp;t=ige-01&amp;download=1">Free download</a>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/i-give-everything" aria-label="The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)"><img src="/i-give-everything-cover-480.webp" srcset="/i-give-everything-cover-480.webp 480w, /i-give-everything-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix) — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="safe-as" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC018</span><span>Single</span><span>1 track</span><span>5:08</span><span>20 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/safe-as">safe as</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="safe-as" data-play-track="sa-01" aria-label="Play safe as"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="safe-as" data-sku="dg-safe-as" data-name="safe as — Digital" data-price="1.5" data-image="/safe-as-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/safe-as" aria-label="safe as"><img src="/safe-as-cover-480.webp" srcset="/safe-as-cover-480.webp 480w, /safe-as-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="safe as — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="get-me-down" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC020</span><span>Single</span><span>1 track</span><span>5:24</span><span>19 Oct 2026</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/get-me-down">Nia Archives – Get Me Down (Molly's Hazy Jungle Edit)</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="get-me-down" data-play-track="gmd-01" aria-label="Play Nia Archives - Get Me Down (Molly&#39;s Hazy Jungle Edit)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=get-me-down&amp;t=gmd-01&amp;download=1">Free download</a>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/get-me-down" aria-label="Nia Archives - Get Me Down (Molly&#39;s Hazy Jungle Edit)"><img src="/get-me-down-cover-480.webp" srcset="/get-me-down-cover-480.webp 480w, /get-me-down-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Nia Archives - Get Me Down (Molly&#39;s Hazy Jungle Edit) — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="deeper" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC017</span><span>Single</span><span>1 track</span><span>5:30</span><span>19 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/deeper">Deeper</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="deeper" data-play-track="dee-01" aria-label="Play Deeper"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="deeper" data-sku="dg-deeper" data-name="Deeper — Digital" data-price="1.5" data-image="/deeper-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/deeper" aria-label="Deeper"><img src="/deeper-cover-480.webp" srcset="/deeper-cover-480.webp 480w, /deeper-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Deeper — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="outta-this-mess" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC016</span><span>Single</span><span>1 track</span><span>5:00</span><span>18 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/outta-this-mess">Outta This Mess</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="outta-this-mess" data-play-track="otm-01" aria-label="Play Outta This Mess"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="outta-this-mess" data-sku="dg-outta-this-mess" data-name="Outta This Mess — Digital" data-price="1.5" data-image="/outta-this-mess-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/outta-this-mess" aria-label="Outta This Mess"><img src="/outta-this-mess-cover-480.webp" srcset="/outta-this-mess-cover-480.webp 480w, /outta-this-mess-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Outta This Mess — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="rose-rouge-edit" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC015</span><span>Single</span><span>1 track</span><span>3:57</span><span>18 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/rose-rouge-edit">Rose Rouge – St Germain (Molly's Hazy Edit) Jorja Smith Version</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="rose-rouge-edit" data-play-track="rre-01" aria-label="Play Rose Rouge - St Germain (Molly&#39;s Hazy Edit) Jorja Smith Version"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=rose-rouge-edit&amp;t=rre-01&amp;download=1">Free download</a>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/rose-rouge-edit" aria-label="Rose Rouge - St Germain (Molly&#39;s Hazy Edit) Jorja Smith Version"><img src="/rose-rouge-edit-cover-480.webp" srcset="/rose-rouge-edit-cover-480.webp 480w, /rose-rouge-edit-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Rose Rouge - St Germain (Molly&#39;s Hazy Edit) Jorja Smith Version — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="three-4-zone" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC014</span><span>Single</span><span>1 track</span><span>6:41</span><span>18 Oct 2026</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/three-4-zone">Three 4 Zone</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="three-4-zone" data-play-track="t4z-01" aria-label="Play Three 4 Zone"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="three-4-zone" data-sku="dg-three-4-zone" data-name="Three 4 Zone — Digital" data-price="1.5" data-image="/three-4-zone-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/three-4-zone" aria-label="Three 4 Zone"><img src="/three-4-zone-cover-480.webp" srcset="/three-4-zone-cover-480.webp 480w, /three-4-zone-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Three 4 Zone — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="pitch-black" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC013</span><span>Album</span><span>3 tracks</span><span>11:19</span><span>18 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/pitch-black">Pitch Black</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="pitch-black" data-play-track="pb-01" aria-label="Play Pitch Black"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="pitch-black" data-sku="dg-pitch-black" data-name="Pitch Black — Digital" data-price="4" data-image="/pitch-black-cover.webp">Digital · $4</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/pitch-black" aria-label="Pitch Black"><img src="/pitch-black-cover-480.webp" srcset="/pitch-black-cover-480.webp 480w, /pitch-black-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Pitch Black — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="try-to-love-again" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC012</span><span>Single</span><span>1 track</span><span>6:00</span><span>18 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/try-to-love-again">Try To Love Again</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="try-to-love-again" data-play-track="ttla-01" aria-label="Play Try To Love Again"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="try-to-love-again" data-sku="dg-try-to-love-again" data-name="Try To Love Again — Digital" data-price="1.5" data-image="/try-to-love-again-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/try-to-love-again" aria-label="Try To Love Again"><img src="/try-to-love-again-cover-480.webp" srcset="/try-to-love-again-cover-480.webp 480w, /try-to-love-again-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Try To Love Again — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="run-it-back" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC011</span><span>Single</span><span>1 track</span><span>2:30</span><span>18 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/run-it-back">Run It Back</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="run-it-back" data-play-track="rib-01" aria-label="Play Run It Back"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="run-it-back" data-sku="dg-run-it-back" data-name="Run It Back — Digital" data-price="1.5" data-image="/run-it-back-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/run-it-back" aria-label="Run It Back"><img src="/run-it-back-cover-480.webp" srcset="/run-it-back-cover-480.webp 480w, /run-it-back-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Run It Back — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="please-wait" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC010</span><span>Single</span><span>1 track</span><span>5:30</span><span>17 Oct 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/please-wait">Please Wait</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="please-wait" data-play-track="pw-01" aria-label="Play Please Wait"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="please-wait" data-sku="dg-please-wait" data-name="Please Wait — Digital" data-price="1.5" data-image="/please-wait-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/please-wait" aria-label="Please Wait"><img src="/please-wait-cover-480.webp" srcset="/please-wait-cover-480.webp 480w, /please-wait-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Please Wait — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="tell-me" data-artist-id="riscape" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC009</span><span>EP</span><span>3 tracks</span><span>7:56</span><span>10 Oct 2026</span></p>
+    <h3 class="row-artist">Riscape</h3>
+    <p class="row-title"><a href="/tell-me">Tell Me</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="tell-me" data-play-track="tm-01" aria-label="Play Tell Me"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="tell-me" data-sku="dg-tell-me" data-name="Tell Me — Digital" data-price="4.99" data-image="/tell-me-cover.webp">Digital · $4.99</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/tell-me" aria-label="Tell Me"><img src="/tell-me-cover-480.webp" srcset="/tell-me-cover-480.webp 480w, /tell-me-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Tell Me — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="you-are-love" data-artist-id="riscape" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC004</span><span>EP</span><span>4 tracks</span><span>15:02</span><span>18 Sep 2026</span></p>
+    <h3 class="row-artist">Riscape</h3>
+    <p class="row-title"><a href="/you-are-love">You Are (Love)</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="you-are-love" data-play-track="yal-01" aria-label="Play You Are (Love)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="you-are-love" data-sku="dg-you-are-love" data-name="You Are (Love) — Digital" data-price="9" data-image="/you-are-love-cover.webp">Digital · $9</button>
+      <span class="mono row-fmt">DL / CS</span>
+    </div>
+  </div>
+  <a class="row-art" href="/you-are-love" aria-label="You Are (Love)"><img src="/you-are-love-cover-480.webp" srcset="/you-are-love-cover-480.webp 480w, /you-are-love-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="You Are (Love) — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="j-adore" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC007</span><span>Single</span><span>2 tracks</span><span>8:18</span><span>10 Aug 2026</span></p>
+    <h3 class="row-artist">Forsberg</h3>
+    <p class="row-title"><a href="/j-adore">j'adore</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="j-adore" data-play-track="ja-01" aria-label="Play j&#39;adore"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="j-adore" data-sku="dg-j-adore" data-name="j&#39;adore — Digital" data-price="8" data-image="/j-adore-cover.webp">Digital · $8</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/j-adore" aria-label="j&#39;adore"><img src="/j-adore-cover-480.webp" srcset="/j-adore-cover-480.webp 480w, /j-adore-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="j&#39;adore — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="ep1" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC008</span><span>EP</span><span>2 tracks</span><span>5:06</span><span>10 Dec 2025</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/ep1">Lakeshore West 23:55</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="ep1" data-play-track="ep1-01" aria-label="Play Lakeshore West 23:55"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="ep1" data-sku="dg-ep1" data-name="Lakeshore West 23:55 — Digital" data-price="3" data-image="/ep1-cover.webp">Digital · $3</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/ep1" aria-label="Lakeshore West 23:55"><img src="/ep1-cover-480.webp" srcset="/ep1-cover-480.webp 480w, /ep1-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Lakeshore West 23:55 — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="summer-madness" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC006</span><span>Album</span><span>8 tracks</span><span>20:41</span><span>14 Nov 2025</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/summer-madness">Summer Madness</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="summer-madness" data-play-track="suma-01" aria-label="Play Summer Madness"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="summer-madness" data-sku="dg-summer-madness" data-name="Summer Madness — Digital" data-price="9" data-image="/summer-madness-cover.webp">Digital · $9</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/summer-madness" aria-label="Summer Madness"><img src="/summer-madness-cover-480.webp" srcset="/summer-madness-cover-480.webp 480w, /summer-madness-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Summer Madness — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="classic-jazz" data-artist-id="lt-drifta" data-genre="jazz" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC003</span><span>Album</span><span>7 tracks</span><span>27:30</span><span>4 Oct 2025</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/classic-jazz">Classic Jazz</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="classic-jazz" data-play-track="cjz-01" aria-label="Play Classic Jazz"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="classic-jazz" data-sku="dg-classic-jazz" data-name="Classic Jazz — Digital" data-price="9" data-image="/classic-jazz-cover.webp">Digital · $9</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/classic-jazz" aria-label="Classic Jazz"><img src="/classic-jazz-cover-480.webp" srcset="/classic-jazz-cover-480.webp 480w, /classic-jazz-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Classic Jazz — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+<article class="row row--release" data-release="champion-sound" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+  <div class="row-main">
+    <p class="mono row-meta"><span>CC001</span><span>Single</span><span>1 track</span><span>4:53</span><span>9 Jul 2024</span></p>
+    <h3 class="row-artist">LT Drifta</h3>
+    <p class="row-title"><a href="/champion-sound">Champion Sound</a></p>
+    <div class="row-actions">
+      <button type="button" class="key key--play" data-play-release="champion-sound" data-play-track="cs-01" aria-label="Play Champion Sound"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="champion-sound" data-sku="dg-champion-sound" data-name="Champion Sound — Digital" data-price="1.5" data-image="/champion-sound-cover.webp">Digital · $1.50</button>
+      <span class="mono row-fmt">DL</span>
+    </div>
+  </div>
+  <a class="row-art" href="/champion-sound" aria-label="Champion Sound"><img src="/champion-sound-cover-480.webp" srcset="/champion-sound-cover-480.webp 480w, /champion-sound-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Champion Sound — artwork" width="1200" height="1200" loading="lazy"/></a>
+</article>
+  </div>
+  <p class="listen-empty" id="listenEmpty" hidden>No releases match these filters.</p>
+  <p class="rows-more mono"><a href="/library" id="listenMore">All 30 releases →</a></p>
 </section>
 
 <section class="sec sec--zine" aria-labelledby="zine-title" id="news">
@@ -510,6 +819,7 @@
 <script src="/js/plate.js?v=cc5"></script>
 <script src="/js/tapes.js?v=cc5"></script>
 <script src="/js/join.js?v=cc5"></script>
+<script src="/js/lanes.js?v=cc6"></script>
 
 </body>
 </html>
