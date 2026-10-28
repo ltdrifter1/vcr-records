@@ -8,14 +8,15 @@ function latestFor(artist, releases) {
 }
 
 /** One artist as a row: number, tagline, count, name, bio, play key for the latest release, photo. */
-function artistRow(a, i, releases) {
+function artistRow(a, i, releases, opts) {
+  opts = opts || {};
   const mine = releases.filter((r) => r.artistId === a.id);
   const latest = mine[0];
   return `<article class="row row--artist" id="${attr(a.id)}">
   <div class="row-main">
     <p class="mono row-meta"><span>${String(i + 1).padStart(2, "0")}</span><span>${esc(a.tagline || "")}</span>${mine.length ? `<span>${mine.length} ${mine.length === 1 ? "release" : "releases"}</span>` : ""}</p>
     <h2 class="row-artist"><a href="/artists/${attr(a.id)}">${esc(a.name)}</a></h2>
-    ${L.bioBlock(a.bio, "row-dek")}
+    ${opts.compact ? "" : L.bioBlock(a.bio, "row-dek")}
     <div class="row-actions">
   ${latest && L.hasCue(latest) ? `<button type="button" class="key key--play roster-play" data-play-release="${attr(latest.id)}" data-play-track="${attr(latest.previewTrackId || "")}" aria-pressed="false" aria-label="Play ${attr(latest.title)}"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>` : ""}
   <a class="btn btn-small" href="/artists/${attr(a.id)}">Artist page</a>

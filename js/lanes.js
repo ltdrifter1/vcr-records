@@ -179,7 +179,7 @@
   }
 
   function listRows() {
-    return [].slice.call(rows.querySelectorAll(".row--release"));
+    return [].slice.call(rows.querySelectorAll("[data-release]"));
   }
 
   function countFor(kind, value) {

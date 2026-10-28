@@ -4,6 +4,10 @@
 
   var nowEl = null;
   var lastTapes = [];
+  var mixes = [];
+  var tapeGenre = "";
+  var filtersBound = false;
+  var genreKey = "";
 
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -141,6 +145,36 @@
     [/\blo[\s-]*fi\b/i, ["Lo-fi"]],
   ];
 
+  function slugGenre(name) {
+    return String(name || "")
+      .toLowerCase()
+      .replace(/&/g, " and ")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  function readMix() {
+    try {
+      return String(new URLSearchParams(window.location.search || "").get("mix") || "").trim();
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function writeMix() {
+    try {
+      var url = new URL(window.location.href);
+      if (tapeGenre) url.searchParams.set("mix", tapeGenre);
+      else url.searchParams.delete("mix");
+      var next = url.pathname + (url.searchParams.toString() ? "?" + url.searchParams.toString() : "") + url.hash;
+      if (next !== window.location.pathname + window.location.search + window.location.hash) {
+        window.history.replaceState({}, "", next);
+      }
+    } catch (e) {}
+    var more = document.querySelector("#mixtapes .sec-link");
+    if (more) more.setAttribute("href", "/tapes" + (tapeGenre ? "?mix=" + encodeURIComponent(tapeGenre) : ""));
+  }
+
   function genresOf(t) {
     var out = [];
     function add(g) {
@@ -163,6 +197,37 @@
     return out.slice(0, 3);
   }
 
+  // Lanes use a short set of styles. SoundCloud tags are too fine ("neosoul", "1980s") to sit in the bar.
+  var FILTER_GENRES = [
+    ["House", /\bhouse\b/i],
+    ["Drum & Bass", /\b(drum\s*(&|and|n)\s*bass|dnb|d\s*&\s*b)\b/i],
+    ["Jungle", /\bjungle\b|\brollers\b/i],
+    ["UK Garage", /\b(uk\s*)?garage\b|\buk bass\b/i],
+    ["Hip Hop", /hip[\s-]*hop|\brap\b/i],
+    ["Breaks", /\bbreaks?\b|\bbreakbeat\b|\bbreatbeat\b/i],
+    ["Jazz", /\bjazz\b/i],
+    ["Soul", /\bsoul\b|\br\s*&\s*b\b|\brnb\b/i],
+    ["Ambient", /\bambient\b|\bdowntempo\b/i],
+    ["Techno", /\btechno\b/i],
+    ["Shoegaze", /shoegaze|dream\s*pop/i]
+  ];
+
+  function filterGenresOf(t) {
+    var hay = genresOf(t).concat([t && t.title, t && t.dek]).join(" ");
+    var given = (t && scTags[t.id]) || (t && (t.genres || t.genre));
+    if (given) hay += " " + (Array.isArray(given) ? given.join(" ") : String(given));
+    var out = [];
+    FILTER_GENRES.forEach(function (pair) {
+      if (pair[1].test(hay)) out.push(pair[0]);
+    });
+    return out;
+  }
+
+  function cardGenres(t) {
+    var grouped = filterGenresOf(t);
+    return (grouped.length ? grouped : genresOf(t)).slice(0, 3);
+  }
+
   function artistName(name) {
     return String(name || "").replace(/L\.T\. Drifta/g, "LT Drifta") || "LT Drifta";
   }
@@ -170,7 +235,7 @@
   function cardHtml(t) {
     var cover = t.cover || "";
     var dj = artistName(t.dj);
-    var genres = genresOf(t);
+    var genres = cardGenres(t);
     var sleeve =
       '<button type="button" class="mix-art tape-play" data-sc-url="' +
       esc(t.permalink) +
@@ -220,6 +285,8 @@
     return (
       '<article class="mix-card" data-tape="' +
       esc(t.id) +
+      '" data-genres="' +
+      esc(genres.map(slugGenre).filter(Boolean).join(" ")) +
       '">' +
       '<div class="mix-body">' +
       '<p class="tape-spec mono">' +
@@ -394,11 +461,94 @@
     return kept;
   }
 
+  function genreItems() {
+    var seen = {};
+    var items = [];
+    mixes.forEach(function (t) {
+      filterGenresOf(t).forEach(function (name) {
+        var id = slugGenre(name);
+        if (!id || seen[id]) return;
+        seen[id] = true;
+        items.push({ id: id, name: name });
+      });
+    });
+    items.sort(function (a, b) {
+      return genreCount(b.id) - genreCount(a.id) || a.name.localeCompare(b.name);
+    });
+    return items;
+  }
+
+  function genreCount(value) {
+    var n = 0;
+    mixes.forEach(function (t) {
+      if (!value) {
+        n++;
+        return;
+      }
+      if (filterGenresOf(t).some(function (g) { return slugGenre(g) === value; })) n++;
+    });
+    return n;
+  }
+
+  function renderGenreBar() {
+    var root = document.querySelector("[data-tape-filters]");
+    if (!root) return;
+    var items = genreItems();
+    if (!items.length) {
+      root.hidden = true;
+      return;
+    }
+    root.hidden = false;
+    var seg = root.querySelector(".seg");
+    var key = items.map(function (item) { return item.id; }).join("|");
+    if (seg && seg.getAttribute("data-key") !== key) {
+      var html = '<span class="plate" aria-hidden="true"></span>';
+      html += '<button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">0</span></button>';
+      items.forEach(function (item) {
+        html += '<button type="button" role="radio" data-value="' + esc(item.id) + '" data-label="' + esc(item.name) + '" aria-checked="false" tabindex="-1">' + esc(item.name) + '<span class="n">0</span></button>';
+      });
+      seg.innerHTML = html;
+      seg.setAttribute("data-key", key);
+    }
+    if (window.ClubLanes) ClubLanes.sync(root, { genre: tapeGenre, artist: "" }, function (kind, value) {
+      return kind === "genre" ? genreCount(value) : 0;
+    });
+  }
+
+  function ensureFilterBind() {
+    var root = document.querySelector("[data-tape-filters]");
+    if (!root || filtersBound) return;
+    filtersBound = true;
+    tapeGenre = readMix();
+    if (window.ClubLanes) {
+      ClubLanes.bind(root, function (next) {
+        tapeGenre = next.genre || "";
+        writeMix();
+        paintGrids();
+      });
+      return;
+    }
+    root.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest(".seg button");
+      if (!btn || !root.contains(btn)) return;
+      tapeGenre = btn.getAttribute("data-value") || "";
+      writeMix();
+      paintGrids();
+    });
+  }
+
   function paint(tapes) {
-    var mixes = onePerMix(tapes);
+    mixes = onePerMix(tapes);
+    ensureFilterBind();
+    renderGenreBar();
+    paintGrids();
+  }
+
+  function paintGrids() {
     var shown = [];
     var grids = document.querySelectorAll("[data-tapes-grid]");
     if (!grids.length) return;
+    var filtering = !!tapeGenre;
     grids.forEach(function (grid) {
       var limit = parseInt(grid.getAttribute("data-tapes-limit") || "0", 10);
       var slot = grid.getAttribute("data-tapes-slot");
@@ -408,10 +558,16 @@
             return slotOf(t) === slot;
           })
         : mixes;
-      var slice = limit > 0 ? pool.slice(0, limit) : pool;
+      if (filtering) {
+        pool = pool.filter(function (t) {
+          return filterGenresOf(t).some(function (g) { return slugGenre(g) === tapeGenre; });
+        });
+      }
+      var slice = !filtering && limit > 0 ? pool.slice(0, limit) : pool;
       if (panel) panel.hidden = !slice.length;
       grid.removeAttribute("aria-busy");
       if (!slice.length) {
+        grid.innerHTML = "";
         if (!panel) grid.innerHTML = emptyHtml(false);
         return;
       }
@@ -419,6 +575,12 @@
       shown = shown.concat(slice);
       bind(grid);
     });
+    var empty = document.querySelector("[data-tape-empty]");
+    if (empty) empty.hidden = shown.length > 0;
+    var countEl = document.querySelector("[data-tape-count]");
+    if (countEl) countEl.textContent = shown.length === 1 ? "1 mix" : shown.length + " mixes";
+    renderGenreBar();
+    writeMix();
     // Next / previous in the dock walk exactly what is on screen: one tape per mix.
     lastTapes = shown;
     syncButtons();
