@@ -51,4 +51,18 @@ function laneBar(opts) {
 </section>`;
 }
 
-module.exports = { laneBar, groups };
+/** Empty genre lane. tapes.js fills the buttons once the mixes load. */
+function tapeFilterBar() {
+  return `<div class="tape-filters" data-tape-filters hidden>
+  <div class="lane">
+    <span class="lane-label mono" id="tape-genre-label">Genre</span>
+    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
+      <span class="plate" aria-hidden="true"></span>
+    </div>
+  </div>
+  <p class="mono filter-count" data-tape-count aria-live="polite"></p>
+</div>
+<p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>`;
+}
+
+module.exports = { laneBar, groups, tapeFilterBar };
