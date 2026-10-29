@@ -121,32 +121,17 @@ module.exports = function home(data) {
 </section>
 
 <section class="sec sec--tapes" aria-labelledby="mixtapes-title" id="mixtapes">
-  <div class="mix-bay">
-    <header class="mix-marquee">
-      <p class="mix-ticket mono"><span>Listening station</span><span>LT Drifta</span><span>No late fees</span></p>
-      <div class="mix-marquee-row">
-        <h2 class="mix-word" id="mixtapes-title">Mixtapes</h2>
-        <a class="sec-link mix-all" href="/tapes">All mixtapes</a>
-      </div>
-      <p class="mix-dek">Long sets from SoundCloud. Take a case off the wall.</p>
-    </header>
-    ${tapeFilterBar()}
-    <p class="tapes-now" data-tapes-now role="status" hidden></p>
-    <section class="mix-bin" data-tapes-panel aria-labelledby="day-bin">
-      <header class="bin-tab">
-        <h3 class="bin-name" id="day-bin">Day</h3>
-        <p class="bin-note">Chill · variety</p>
-      </header>
-      <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-    </section>
-    <section class="mix-bin mix-bin--night" data-tapes-panel aria-labelledby="night-bin">
-      <header class="bin-tab">
-        <h3 class="bin-name" id="night-bin">Night</h3>
-        <p class="bin-note">Heavy · dance</p>
-      </header>
-      <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-    </section>
-  </div>
+  ${L.sectionHead("Mixtapes", { titleId: "mixtapes-title", kicker: "Long sets · SoundCloud", link: ["/tapes", "All mixtapes"] })}
+  ${tapeFilterBar()}
+  <p class="tapes-now mono" data-tapes-now role="status" hidden></p>
+  <section class="mix-bin" data-tapes-panel aria-labelledby="day-bin">
+    ${L.sectionHead("Day", { h: "h3", titleId: "day-bin", kicker: "Chill · variety" })}
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  </section>
+  <section class="mix-bin" data-tapes-panel aria-labelledby="night-bin">
+    ${L.sectionHead("Night", { h: "h3", titleId: "night-bin", kicker: "Heavy · dance" })}
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  </section>
 </section>
 
 ${videoSection(data.videos)}

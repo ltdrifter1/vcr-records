@@ -232,22 +232,7 @@
     return String(name || "").replace(/L\.T\. Drifta/g, "LT Drifta") || "LT Drifta";
   }
 
-  // Length for the price-gun sticker on the jewel case. "1:19:57" becomes "1h 20m".
-  function stickerTime(raw) {
-    var sec = runtimeSeconds(raw);
-    if (!sec) return "";
-    var h = Math.floor(sec / 3600);
-    var m = Math.round((sec % 3600) / 60);
-    if (m === 60) {
-      h += 1;
-      m = 0;
-    }
-    if (h && m) return h + "h " + m + "m";
-    if (h) return h + "h";
-    return m + "m";
-  }
-
-  // A staff note under the case, when the description isn't just the title repeated.
+  // A short note under the title, when the description isn't just the title repeated.
   function talker(t) {
     var dek = String((t && t.dek) || "").replace(/\s+/g, " ").trim();
     var title = String((t && t.title) || "").replace(/\s+/g, " ").trim();
@@ -264,8 +249,6 @@
     var cover = t.cover || "";
     var dj = artistName(t.dj);
     var genres = cardGenres(t);
-    var spine = t.year ? String(t.year) : "CC";
-    var sticker = stickerTime(t.runtime);
     var attrs =
       ' data-sc-url="' +
       esc(t.permalink) +
@@ -288,25 +271,17 @@
       '" data-genres="' +
       esc(genres.map(slugGenre).filter(Boolean).join(" ")) +
       '">' +
-      '<button type="button" class="mix-hit mix-art tape-play"' +
+      '<button type="button" class="mix-hit tape-play"' +
       attrs +
       ">" +
-      '<span class="mix-case">' +
-      '<span class="mix-spine" aria-hidden="true">' +
-      esc(spine) +
-      "</span>" +
-      '<span class="mix-insert">' +
+      '<span class="mix-art">' +
       (cover
         ? '<img src="' + esc(cover) + '" alt="" width="300" height="300" loading="lazy" decoding="async"/>'
         : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
-      '<span class="mix-sheen" aria-hidden="true"></span>' +
-      (sticker ? '<span class="mix-sticker">' + esc(sticker) + "</span>" : "") +
       '<span class="mix-art-play" data-mix-play-label aria-hidden="true">' +
       '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
       '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
       "</span></span>" +
-      '<span class="mix-lip" aria-hidden="true">Club Copy</span>' +
-      "</span>" +
       '<span class="tape-title mix-title">' +
       esc(t.title) +
       "</span></button>" +
@@ -314,6 +289,8 @@
       '<p class="tape-spec mono"><span>' +
       esc(dj) +
       "</span>" +
+      (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
+      (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
       genres
         .map(function (g) {
           return "<span>" + esc(g) + "</span>";
@@ -341,7 +318,7 @@
     return (
       '<div class="mix-empty">' +
       '<p class="mix-soon">' +
-      (failed ? "Couldn&rsquo;t load the mixes." : "Nothing on the wall yet.") +
+      (failed ? "Couldn&rsquo;t load the mixes." : "No mixes yet.") +
       "</p>" +
       '<p class="mix-empty-actions">' +
       (failed ? '<button type="button" class="tape-link" data-tapes-retry>Try again</button>' : "") +
@@ -592,7 +569,7 @@
     var empty = document.querySelector("[data-tape-empty]");
     if (empty) empty.hidden = shown.length > 0;
     var countEl = document.querySelector("[data-tape-count]");
-    if (countEl) countEl.textContent = shown.length === 1 ? "1 case" : shown.length + " cases";
+    if (countEl) countEl.textContent = shown.length === 1 ? "1 mix" : shown.length + " mixes";
     renderGenreBar();
     writeMix();
     // Next / previous in the dock walk exactly what is on screen: one tape per mix.

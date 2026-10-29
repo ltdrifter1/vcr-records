@@ -34,7 +34,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc11"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc12"/>
   
   
 </head>
@@ -84,43 +84,35 @@
 </div>
 <main id="main">
 
-<div class="mix-bay mix-bay--page">
-  <header class="mix-marquee">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Mixtapes</span></nav>
-    <p class="mix-ticket mono"><span>The wall</span><span>LT Drifta</span><span>No late fees</span></p>
-    <div class="mix-marquee-row">
-      <h1 class="mix-word">Mixtapes</h1>
-      <a class="mix-all" href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">@ltdrifta ↗</a>
+<header class="page-head">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Mixtapes</span></nav>
+  <h1 class="page-title">Mixtapes</h1>
+  <p class="page-lede">Long sets from LT Drifta, streamed from SoundCloud. Tap a cover to play. <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">@ltdrifta ↗</a></p>
+</header>
+<div class="tape-filters" data-tape-filters hidden>
+  <div class="lane">
+    <span class="lane-label mono" id="tape-genre-label">Genre</span>
+    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
+      <span class="plate" aria-hidden="true"></span>
     </div>
-    <p class="mix-dek">Long sets, streamed from SoundCloud. Day bin is the mellow wall. Night bin is the heavy one. Tap a case and it plays here.</p>
-  </header>
-  <div class="tape-filters" data-tape-filters hidden>
-    <div class="lane">
-      <span class="lane-label mono" id="tape-genre-label">Aisle</span>
-      <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
-        <span class="plate" aria-hidden="true"></span>
-      </div>
-    </div>
-    <p class="mono filter-count" data-tape-count aria-live="polite"></p>
   </div>
-  <p class="listen-empty" data-tape-empty hidden>Nothing in this aisle.</p>
-  <p class="tapes-now" data-tapes-now role="status" hidden></p>
-  <section class="mix-bin" data-tapes-panel aria-labelledby="day-title">
-    <header class="bin-tab">
-      <h2 class="bin-name" id="day-title">Day</h2>
-      <p class="bin-note">Chill · variety</p>
-    </header>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-  </section>
-  <section class="mix-bin mix-bin--night" data-tapes-panel aria-labelledby="night-title">
-    <header class="bin-tab">
-      <h2 class="bin-name" id="night-title">Night</h2>
-      <p class="bin-note">Heavy · dance</p>
-    </header>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-  </section>
-  <noscript><p class="mix-dek">Mixtapes need JavaScript. Listen at <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">soundcloud.com/ltdrifta</a>.</p></noscript>
+  <p class="mono filter-count" data-tape-count aria-live="polite"></p>
 </div>
+<p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>
+<p class="tapes-now mono" data-tapes-now role="status" hidden></p>
+<section class="sec sec--tight" data-tapes-panel aria-labelledby="day-title">
+  <header class="sec-head">
+  <h2 class="sec-title" id="day-title"><span class="sec-kicker">Chill · variety</span>Day</h2>
+</header>
+  <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+</section>
+<section class="sec sec--tight" data-tapes-panel aria-labelledby="night-title">
+  <header class="sec-head">
+  <h2 class="sec-title" id="night-title"><span class="sec-kicker">Heavy · dance</span>Night</h2>
+</header>
+  <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+</section>
+<noscript><p class="page-lede">Mixtapes need JavaScript. Listen at <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">soundcloud.com/ltdrifta</a>.</p></noscript>
 
 </main>
 <footer class="footer">
@@ -167,13 +159,13 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc10"></script>
+<script src="/js/site.js?v=cc11"></script>
 <script src="/js/cart.js?v=cc5"></script>
 <script src="/js/member.js?v=cc5"></script>
 <script src="/js/player.js?v=cc5"></script>
 <script src="/js/cc.js?v=cc5"></script>
 <script src="/js/lanes.js?v=cc7"></script>
-<script src="/js/tapes.js?v=cc11"></script>
+<script src="/js/tapes.js?v=cc12"></script>
 
 </body>
 </html>

@@ -55,14 +55,14 @@ function laneBar(opts) {
 function tapeFilterBar() {
   return `<div class="tape-filters" data-tape-filters hidden>
   <div class="lane">
-    <span class="lane-label mono" id="tape-genre-label">Aisle</span>
+    <span class="lane-label mono" id="tape-genre-label">Genre</span>
     <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
       <span class="plate" aria-hidden="true"></span>
     </div>
   </div>
   <p class="mono filter-count" data-tape-count aria-live="polite"></p>
 </div>
-<p class="listen-empty" data-tape-empty hidden>Nothing in this aisle.</p>`;
+<p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>`;
 }
 
 module.exports = { laneBar, groups, tapeFilterBar };
