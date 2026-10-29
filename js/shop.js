@@ -21,14 +21,20 @@
     var items = products();
     var sort = sortSelect.value;
     items.sort(function (a, b) {
-      var af = a.classList.contains('product--featured') ? 0 : 1;
-      var bf = b.classList.contains('product--featured') ? 0 : 1;
-      if (af !== bf) return af - bf;
-
       var an = (a.dataset.name || '').toLowerCase();
       var bn = (b.dataset.name || '').toLowerCase();
       if (sort === 'az') return an.localeCompare(bn);
       if (sort === 'za') return bn.localeCompare(an);
+      if (sort === 'price-asc' || sort === 'price-desc') {
+        var ap = Number(a.dataset.price || 0);
+        var bp = Number(b.dataset.price || 0);
+        if (ap !== bp) return sort === 'price-asc' ? ap - bp : bp - ap;
+        return an.localeCompare(bn);
+      }
+
+      var af = a.classList.contains('product--featured') ? 0 : 1;
+      var bf = b.classList.contains('product--featured') ? 0 : 1;
+      if (af !== bf) return af - bf;
 
       var ar = typeRank(a);
       var br = typeRank(b);

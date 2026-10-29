@@ -20,41 +20,36 @@ function productCard(p) {
     .map(([k, v]) => `${k}="${attr(v)}"`)
     .join(" ");
   const colourImgs = Object.entries(p.imageByColour || {}).map(([k, v]) => `data-img-${attr(k)}="${attr(v)}"`).join(" ");
-  const facts = [p.typeLabel, p.fit, p.stock].filter(Boolean);
-  return `<li class="product row row--product${p.featured ? " product--featured" : ""} is-shown" ${dataAttrs} ${colourImgs}>
-  <div class="product-info row-main">
-    <p class="mono row-meta product-meta-row">${facts.map((f) => `<span>${esc(f)}</span>`).join("")}</p>
-    <h3 class="product-title row-artist"><a href="/merch/${attr(p.slug)}">${esc(p.name)}</a></h3>
-    ${p.lede ? `<p class="row-dek">${esc(p.lede)}</p>` : ""}
-    <div class="row-actions">
-      <a class="btn btn-small" href="/merch/${attr(p.slug)}">View · $${money(p.price)}</a>
-      <span class="mono row-fmt product-type">${esc(p.typeLabel)}</span><span class="product-price sr-only">$${money(p.price)}</span>
-    </div>
-  </div>
-  <a class="product-visual row-art" href="/merch/${attr(p.slug)}" aria-label="${attr(p.name)}"><img src="${asset(p.image)}" alt="${attr(p.title)}" width="1200" height="1200" loading="lazy"/></a>
+  return `<li class="product${p.featured ? " product--featured" : ""} is-shown" ${dataAttrs} ${colourImgs}>
+  <a class="product-plate" href="/merch/${attr(p.slug)}">
+    <span class="product-visual"><img src="${asset(p.image)}" alt="" width="1200" height="1200" loading="lazy"/></span>
+    <span class="product-cap">
+      <span class="product-name">${esc(p.name)}</span>
+      <span class="product-price mono">$${money(p.price)}</span>
+    </span>
+  </a>
 </li>`;
 }
 
 function shopIndex(data) {
   const { merch } = data;
   const main = `
-<header class="page-head">
+<header class="page-head shop-head">
   ${L.crumbs([["/", "Home"], [null, "Shop"]])}
   <h1 class="page-title">Shop</h1>
-  <p class="page-lede">Label goods. Music lives in the <a href="/library">library</a>. Ships to Canada and the United States.</p>
 </header>
 <section class="filters store-bar" aria-label="Shop filters">
-  <div class="store-filters filter" role="group" aria-label="Filter">
-    <span class="mono store-label">Filter</span>
+  <div class="store-filters" role="group" aria-label="Filter">
     <button type="button" class="store-chip is-active" data-filter="all" aria-pressed="true">All</button>
     <button type="button" class="store-chip" data-filter="clothing" aria-pressed="false">Apparel</button>
     <button type="button" class="store-chip" data-filter="goods" aria-pressed="false">Goods</button>
   </div>
-  <div class="store-sort filter">
+  <div class="store-sort">
     <label class="mono store-label" for="storeSort">Sort</label>
     <select id="storeSort">
-      <option value="newest">Catalogue order</option>
-      <option value="oldest">Reverse catalogue</option>
+      <option value="newest">Featured</option>
+      <option value="price-asc">Price, low</option>
+      <option value="price-desc">Price, high</option>
       <option value="az">A–Z</option>
       <option value="za">Z–A</option>
     </select>
@@ -63,7 +58,7 @@ function shopIndex(data) {
 <ul class="store-grid" id="storeGrid" aria-label="Products">
 ${merch.products.map(productCard).join("\n")}
 </ul>
-<p class="page-lede" id="storeEmpty" hidden>Nothing in this filter yet.</p>
+<p class="store-empty" id="storeEmpty" hidden>Nothing in this filter yet.</p>
 `;
   return L.page({
     title: "Shop",
@@ -81,29 +76,30 @@ function productPage(p, data) {
   const related = (p.related || []).filter((s) => s !== p.slug).map((s) => merch.products.find((x) => x.slug === s)).filter(Boolean).slice(0, 3);
   const gallery = p.gallery && p.gallery.length ? p.gallery : [{ src: p.heroImage || asset(p.image), alt: p.heroAlt || p.title, colour: null, cover: false }];
   const imgMap = Object.keys(p.imageByColour || {}).length ? ` data-img-map='${JSON.stringify(p.imageByColour).replace(/'/g, "&#39;")}'` : "";
+  const stockNote = p.stock && p.stock !== "In stock" ? `<span>${esc(p.stock)}</span>` : "";
+  const facts = [p.fit, p.ships].filter(Boolean);
   const main = `
 <section class="release-head product-head" aria-label="${attr(p.name)}">
-  <div class="release-copy">
-    ${L.crumbs([["/", "Home"], ["/merch", "Shop"], [null, p.name]])}
-    <p class="mono row-meta"><span>${esc(p.typeLabel)}</span><span>${esc(p.stock || "")}</span></p>
-    <h1 class="lead-title">${esc(p.name)}</h1>
-    <p class="page-lede">${esc(p.description || p.lede || "")}</p>
-    <p class="mono pdp-price">$${money(p.price)} CAD</p>
-    ${(p.metaLines || []).map((m) => `<p class="mono pdp-meta">${esc(m)}</p>`).join("\n    ")}
-    ${p.colours.length ? `<div class="pdp-block"><span class="mono pdp-label">Colour</span><div class="pdp-opts" id="pdpColours" role="group">${p.colours.map((c, i) => `<button type="button" class="pdp-opt${i === 0 ? " is-active" : ""}" data-colour="${attr(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div></div>` : ""}
-    ${p.sizes.length ? `<div class="pdp-block"><span class="mono pdp-label">Size</span><div class="pdp-opts" id="pdpSizes" role="group">${p.sizes.map((s) => `<button type="button" class="pdp-opt" data-size="${attr(s)}" aria-pressed="false">${esc(s)}</button>`).join("")}</div><p class="pdp-error mono" id="pdpSizeError" hidden>Select a size to continue.</p></div>` : ""}
-    <div class="lead-actions pdp-actions">
-      <button type="button" class="btn btn-solid" id="pdpAdd" data-sku="${attr(p.sku)}" data-name="${attr(p.cartName || p.name)}" data-price="${attr(p.price)}" data-image="${attr(p.cartImage || asset(p.image))}" data-needs-size="${p.needsSize || p.sizes.length ? "1" : "0"}">Add to cart</button>
-      <a class="btn" href="/merch">Back to shop</a>
-      <a class="btn btn-text" href="/shipping">Shipping &amp; returns</a>
-    </div>
-  </div>
   <div class="release-sleeve pdp-gallery">
     <div class="pdp-art" id="pdpArt"><img id="pdpImage" src="${attr(gallery[0].src)}" alt="${attr(gallery[0].alt || p.title)}" width="1200" height="1200" fetchpriority="high"${imgMap}/></div>
     ${gallery.length > 1 ? `<div class="pdp-thumbs" id="pdpThumbs" role="group" aria-label="Product images">${gallery.map((g, i) => `<button type="button" class="pdp-thumb${i === 0 ? " is-active" : ""}" aria-pressed="${i === 0}" data-src="${attr(g.src)}" data-alt="${attr(g.alt || "")}"${g.colour ? ` data-colour="${attr(g.colour)}"` : ""}${g.cover ? ' data-cover="1"' : ""}><img src="${attr(g.src)}" alt="" loading="lazy"/></button>`).join("")}</div>` : ""}
   </div>
+  <div class="release-copy">
+    ${L.crumbs([["/", "Home"], ["/merch", "Shop"], [null, p.name]])}
+    <p class="mono row-meta"><span>${esc(p.typeLabel)}</span>${stockNote}</p>
+    <h1 class="lead-title">${esc(p.name)}</h1>
+    <p class="pdp-price"><span class="pdp-price-num">$${money(p.price)}</span> <span class="mono pdp-currency">CAD</span></p>
+    ${facts.length ? `<p class="mono pdp-meta">${facts.map((m) => `<span>${esc(m)}</span>`).join("")}</p>` : ""}
+    ${p.colours.length ? `<div class="pdp-block"><span class="mono pdp-label">Colour</span><div class="pdp-opts" id="pdpColours" role="group">${p.colours.map((c, i) => `<button type="button" class="pdp-opt${i === 0 ? " is-active" : ""}" data-colour="${attr(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div></div>` : ""}
+    ${p.sizes.length ? `<div class="pdp-block"><span class="mono pdp-label">Size</span><div class="pdp-opts" id="pdpSizes" role="group">${p.sizes.map((s) => `<button type="button" class="pdp-opt" data-size="${attr(s)}" aria-pressed="false">${esc(s)}</button>`).join("")}</div><p class="pdp-error mono" id="pdpSizeError" hidden>Select a size to continue.</p></div>` : ""}
+    <div class="lead-actions pdp-actions">
+      <button type="button" class="btn btn-solid" id="pdpAdd" data-sku="${attr(p.sku)}" data-name="${attr(p.cartName || p.name)}" data-price="${attr(p.price)}" data-image="${attr(p.cartImage || asset(p.image))}" data-needs-size="${p.needsSize || p.sizes.length ? "1" : "0"}">Add to cart</button>
+      <a class="btn btn-text" href="/shipping">Shipping &amp; returns</a>
+    </div>
+    ${p.description || p.lede ? `<p class="pdp-dek">${esc(p.description || p.lede || "")}</p>` : ""}
+  </div>
 </section>
-${related.length ? `<section class="sec" aria-labelledby="more-title">${L.sectionHead("More from the collection", { titleId: "more-title", link: ["/merch", "All goods"] })}<ul class="store-grid store-grid--related">${related.map(productCard).join("\n")}</ul></section>` : ""}
+${related.length ? `<section class="sec" aria-labelledby="more-title">${L.sectionHead("Also in the shop", { titleId: "more-title", link: ["/merch", "All goods"] })}<ul class="store-grid store-grid--related">${related.map(productCard).join("\n")}</ul></section>` : ""}
 `;
   return L.page({
     title: p.name,
