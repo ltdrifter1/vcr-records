@@ -6,8 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc9";
-const CSS_VERSION = "cc9";
+const VERSION = "cc10";
+const CSS_VERSION = "cc10";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -147,13 +147,13 @@ const THEME_BOOT = `<script>
     })();
   </script>`;
 
-const SKY = `<div class="sky" id="sky" role="region" aria-label="Cumberland conditions">
+const SKY = `<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
   <p class="sky-live">
     <a class="sky-home" href="/">clubcopy.ca</a>
     <span>Cumberland</span>
     <time data-sky-time>··:·· PT</time>
     <span data-sky-wx hidden>··</span>
-    <span data-sky-moon>··</span>
+    <span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>
   </p>
   <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
     <span class="sky-knob" aria-hidden="true"></span>

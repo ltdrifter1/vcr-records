@@ -185,11 +185,15 @@
     document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* Conditions bar: Cumberland time, weather, moon, and day or night.
-     Weather is Open-Meteo for Cumberland, BC. The moon is calculated here.
-     The choice of day or night is kept in this browser only. */
+  /* Conditions bar: Cumberland time and weather, Long Beach surf, day or night.
+     Cumberland weather stays on Open-Meteo. Long Beach is the Pacific Rim
+     beach west of Tofino — swell from the marine API, wind from the forecast
+     API. Day or night stays in this browser. */
   var SKY_TZ = "America/Vancouver";
   var SKY_WX = "https://api.open-meteo.com/v1/forecast?latitude=49.6186&longitude=-125.0285&current=temperature_2m,weather_code&timezone=America%2FVancouver&forecast_days=1";
+  var SURF_MARINE = "https://marine-api.open-meteo.com/v1/marine?latitude=49.059&longitude=-125.768&current=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction&hourly=swell_wave_height,swell_wave_period,wave_height,wave_period&timezone=America%2FVancouver&forecast_days=2&length_unit=imperial";
+  var SURF_WIND = "https://api.open-meteo.com/v1/forecast?latitude=49.059&longitude=-125.768&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kn&timezone=America%2FVancouver&forecast_days=1";
+  var COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
   function readTheme() {
     var t = document.documentElement.getAttribute("data-theme");
@@ -225,7 +229,7 @@
         '<span>Cumberland</span>' +
         '<time data-sky-time>··:·· PT</time>' +
         '<span data-sky-wx hidden>··</span>' +
-        '<span data-sky-moon>··</span>' +
+        '<span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>' +
       '</p>' +
       '<button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">' +
         '<span class="sky-knob" aria-hidden="true"></span>' +
@@ -243,7 +247,7 @@
     bar.id = "sky";
     bar.className = "sky";
     bar.setAttribute("role", "region");
-    bar.setAttribute("aria-label", "Cumberland conditions");
+    bar.setAttribute("aria-label", "Cumberland weather and Long Beach surf");
     bar.innerHTML = skyMarkup();
     header.parentNode.insertBefore(bar, header);
     return bar;
@@ -271,30 +275,6 @@
     }
     paint();
     setInterval(paint, 15000);
-  }
-
-  function moonName(date) {
-    var synodic = 29.530588853;
-    var known = Date.UTC(2000, 0, 6, 18, 14, 0);
-    var days = (date.getTime() - known) / 86400000;
-    var age = ((days % synodic) + synodic) % synodic;
-    var phase = age / synodic;
-    var bands = [
-      [0.033, "New moon"],
-      [0.216, "Waxing crescent"],
-      [0.283, "First quarter"],
-      [0.466, "Waxing gibbous"],
-      [0.533, "Full moon"],
-      [0.716, "Waning gibbous"],
-      [0.783, "Last quarter"],
-      [0.966, "Waning crescent"],
-      [1, "New moon"]
-    ];
-    var i;
-    for (i = 0; i < bands.length; i++) {
-      if (phase <= bands[i][0]) return bands[i][1];
-    }
-    return "New moon";
   }
 
   function weatherWords(code) {
@@ -344,12 +324,194 @@
       .catch(function () { paintWeather(el, null); });
   }
 
+  function compass(deg) {
+    var d = ((Number(deg) % 360) + 360) % 360;
+    if (!isFinite(d)) return "";
+    return COMPASS[Math.round(d / 45) % 8];
+  }
+
+  function oneDecimal(n) {
+    var v = Math.round(Number(n) * 10) / 10;
+    if (!isFinite(v)) return "";
+    return Math.abs(v - Math.round(v)) < 0.05 ? String(Math.round(v)) : v.toFixed(1);
+  }
+
+  /* Long Beach faces the Pacific, roughly west. Wind from the island is offshore. */
+  function windSide(deg, kn) {
+    if (!(kn >= 8)) return "";
+    var d = ((Number(deg) % 360) + 360) % 360;
+    if (d >= 30 && d <= 150) return "offshore";
+    if (d >= 210 && d <= 330) return "onshore";
+    return "cross";
+  }
+
+  function localStamp(date) {
+    try {
+      var parts = {};
+      new Intl.DateTimeFormat("en-CA", {
+        timeZone: SKY_TZ, year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+      }).formatToParts(date).forEach(function (p) { parts[p.type] = p.value; });
+      return parts.year + "-" + parts.month + "-" + parts.day + "T" + parts.hour + ":" + parts.minute;
+    } catch (e) { return ""; }
+  }
+
+  function primarySea(swellFt, swellPeriod, waveFt, wavePeriod, waveDir, swellDir) {
+    var swell = Number(swellFt);
+    var wave = Number(waveFt);
+    var useSwell = isFinite(swell) && (!isFinite(wave) || swell >= wave * 0.55);
+    var ft = useSwell ? swell : wave;
+    if (!isFinite(ft)) return null;
+    return {
+      ft: ft,
+      period: Number(useSwell ? swellPeriod : wavePeriod),
+      dir: Number(useSwell ? swellDir : waveDir),
+      kind: useSwell ? "swell" : "seas"
+    };
+  }
+
+  function forecastSlots(hourly, currentTime) {
+    if (!hourly || !hourly.time || !currentTime) return [];
+    var out = [];
+    var i;
+    for (i = 0; i < hourly.time.length; i++) {
+      if (hourly.time[i] <= currentTime) continue;
+      var hh = Number(hourly.time[i].slice(11, 13));
+      if (hh % 6 !== 0) continue;
+      var sea = primarySea(
+        hourly.swell_wave_height && hourly.swell_wave_height[i],
+        hourly.swell_wave_period && hourly.swell_wave_period[i],
+        hourly.wave_height && hourly.wave_height[i],
+        hourly.wave_period && hourly.wave_period[i],
+        null,
+        null
+      );
+      if (!sea) continue;
+      var hour = hourly.time[i].slice(11, 13);
+      out.push({
+        hour: hour,
+        ft: sea.ft,
+        period: sea.period,
+        label: hour + "h " + oneDecimal(sea.ft) + "ft"
+      });
+      if (out.length === 4) break;
+    }
+    return out;
+  }
+
+  function surfHost(sky) {
+    var el = sky.querySelector("[data-sky-surf]");
+    if (el) return el;
+    var moon = sky.querySelector("[data-sky-moon]");
+    el = document.createElement("span");
+    el.className = "sky-surf";
+    el.setAttribute("data-sky-surf", "");
+    el.hidden = true;
+    var nowSpan = document.createElement("span");
+    nowSpan.setAttribute("data-sky-surf-now", "");
+    var cast = document.createElement("span");
+    cast.className = "sky-surf-cast";
+    cast.setAttribute("data-sky-surf-cast", "");
+    el.appendChild(nowSpan);
+    el.appendChild(cast);
+    if (moon && moon.parentNode) moon.replaceWith(el);
+    else {
+      var live = sky.querySelector(".sky-live");
+      if (live) live.appendChild(el);
+    }
+    return el;
+  }
+
+  function paintSurf(host, pack) {
+    if (!host) return;
+    var nowEl = host.querySelector("[data-sky-surf-now]");
+    var castEl = host.querySelector("[data-sky-surf-cast]");
+    if (!pack || !pack.nowText) {
+      host.hidden = true;
+      return;
+    }
+    if (nowEl) nowEl.textContent = pack.nowText;
+    if (castEl) {
+      while (castEl.firstChild) castEl.removeChild(castEl.firstChild);
+      if (pack.cast && pack.cast.length) {
+        var lead = document.createElement("span");
+        lead.className = "sky-surf-next";
+        lead.textContent = "next";
+        castEl.appendChild(lead);
+        pack.cast.forEach(function (slot) {
+          var s = document.createElement("span");
+          if (slot.high) s.className = "is-high";
+          s.textContent = slot.label;
+          if (slot.title) s.title = slot.title;
+          castEl.appendChild(s);
+        });
+      }
+    }
+    host.hidden = false;
+    host.title = pack.title || pack.nowText;
+  }
+
+  function grabJSON(url) {
+    return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
+
+  function loadSurf(host) {
+    if (!host || !window.fetch) return;
+    var cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem("cc.surf") || "null"); } catch (e) {}
+    if (cached && cached.at && Date.now() - cached.at < 20 * 60 * 1000 && cached.nowText) {
+      paintSurf(host, cached);
+      return;
+    }
+    var now = new Date();
+    Promise.all([
+      grabJSON(SURF_MARINE),
+      grabJSON(SURF_WIND)
+    ]).then(function (all) {
+      var marine = all[0];
+      var wind = all[1];
+      var cur = marine && marine.current;
+      var sea = cur && primarySea(cur.swell_wave_height, cur.swell_wave_period, cur.wave_height, cur.wave_period, cur.wave_direction, cur.swell_wave_direction);
+      if (!sea) { paintSurf(host, null); return; }
+      var bits = ["Long Beach " + oneDecimal(sea.ft) + " ft " + Math.round(sea.period || 0) + "s " + compass(sea.dir)];
+      var windPhrase = "";
+      var windCur = wind && wind.current;
+      if (windCur && windCur.wind_speed_10m != null) {
+        var kn = Number(windCur.wind_speed_10m);
+        windPhrase = Math.round(kn) + " kn " + compass(windCur.wind_direction_10m);
+        var gust = Number(windCur.wind_gusts_10m);
+        if (isFinite(gust) && gust >= kn + 8) windPhrase += " gust " + Math.round(gust);
+        var side = windSide(windCur.wind_direction_10m, kn);
+        if (side) windPhrase += " " + side;
+        bits.push(windPhrase);
+      }
+      var slots = forecastSlots(marine.hourly, (cur && cur.time) || localStamp(now));
+      var maxFt = -1;
+      var maxI = -1;
+      slots.forEach(function (slot, idx) {
+        if (slot.ft > maxFt) { maxFt = slot.ft; maxI = idx; }
+      });
+      var cast = slots.map(function (slot, idx) {
+        return {
+          label: slot.label,
+          high: idx === maxI && slot.ft >= sea.ft + 0.4,
+          title: slot.hour + ":00 PT, " + oneDecimal(slot.ft) + " ft at " + Math.round(slot.period || 0) + "s"
+        };
+      });
+      var title = "Long Beach, Pacific Rim. " + (sea.kind === "swell" ? "Swell " : "Seas ") +
+        oneDecimal(sea.ft) + " ft at " + Math.round(sea.period || 0) + " seconds from the " + compass(sea.dir) + ".";
+      if (windPhrase) title += " Wind " + windPhrase + ".";
+      if (cast.length) title += " Next: " + cast.map(function (s) { return s.title; }).join("; ") + ".";
+      var pack = { at: Date.now(), nowText: bits.join(" · "), cast: cast, title: title };
+      try { sessionStorage.setItem("cc.surf", JSON.stringify(pack)); } catch (e) {}
+      paintSurf(host, pack);
+    }).catch(function () { paintSurf(host, null); });
+  }
+
   var sky = ensureSky();
   if (sky) {
-    if (!sky.getAttribute("role")) {
-      sky.setAttribute("role", "region");
-      sky.setAttribute("aria-label", "Cumberland conditions");
-    }
+    if (!sky.getAttribute("role")) sky.setAttribute("role", "region");
+    sky.setAttribute("aria-label", "Cumberland weather and Long Beach surf");
     applyTheme(readTheme(), false);
     var toggle = document.getElementById("themeToggle");
     if (toggle) {
@@ -368,13 +530,8 @@
       }
     } catch (e) {}
     tickClock(sky.querySelector("[data-sky-time]"));
-    var moon = sky.querySelector("[data-sky-moon]");
-    if (moon) {
-      var name = moonName(new Date());
-      moon.textContent = name;
-      moon.title = name;
-    }
     loadWeather(sky.querySelector("[data-sky-wx]"));
+    loadSurf(surfHost(sky));
   }
 
   window.ClubCopy = window.ClubCopy || {};

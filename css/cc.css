@@ -30,7 +30,7 @@
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
   --grain: url("/css/grain-film.png");
-  --grain-size: 160px;
+  --grain-size: 920px;
   color-scheme: dark;
 }
 /* Day is newsprint, not a borrowed peach. Night stays the label's black. */
@@ -47,7 +47,7 @@ html[data-theme="day"] {
   --signal: #e23b10;
   --signal-ink: #1a1916;
   --grain: url("/css/grain-paper.png");
-  --grain-size: 260px;
+  --grain-size: 980px;
   color-scheme: light;
 }
 html:has(.sky) {
@@ -146,6 +146,11 @@ main { display: block; }
 .sky-live > * { white-space: nowrap; color: var(--ink-2); }
 .sky-live > * + *::before { content: "·"; margin: 0 .7em; color: var(--ink-3); }
 .sky-live a:hover { color: var(--ink); text-decoration: none; }
+.sky-surf { display: inline-flex; align-items: baseline; }
+.sky-surf > * + *::before { content: "·"; margin: 0 .7em; color: var(--ink-3); }
+.sky-surf-cast { display: inline-flex; align-items: baseline; gap: .7em; color: var(--ink-3); }
+.sky-surf-cast:empty { display: none; }
+.sky-surf-cast .is-high { color: var(--signal); }
 .sky-theme {
   flex: none; display: inline-flex; align-items: center; gap: 8px;
   min-height: 28px; padding: 0;
@@ -164,7 +169,7 @@ html:not([data-theme="day"]) .sky-lab-day { display: none; }
   .sky { gap: 12px; }
   .sky-home { display: none; }
   .sky-home + *::before { content: none; margin: 0; }
-  .sky-live { flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; overflow-x: auto; line-height: 1; }
+  .sky-live { flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; overflow-x: auto; line-height: 1; letter-spacing: 0; }
   .sky-theme { min-height: 44px; flex: none; }
   .nav-account { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
   .nav-cart { min-height: 44px; }
