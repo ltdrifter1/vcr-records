@@ -232,12 +232,42 @@
     return String(name || "").replace(/L\.T\. Drifta/g, "LT Drifta") || "LT Drifta";
   }
 
+  // Length for the price-gun sticker on the jewel case. "1:19:57" becomes "1h 20m".
+  function stickerTime(raw) {
+    var sec = runtimeSeconds(raw);
+    if (!sec) return "";
+    var h = Math.floor(sec / 3600);
+    var m = Math.round((sec % 3600) / 60);
+    if (m === 60) {
+      h += 1;
+      m = 0;
+    }
+    if (h && m) return h + "h " + m + "m";
+    if (h) return h + "h";
+    return m + "m";
+  }
+
+  // A staff note under the case, when the description isn't just the title repeated.
+  function talker(t) {
+    var dek = String((t && t.dek) || "").replace(/\s+/g, " ").trim();
+    var title = String((t && t.title) || "").replace(/\s+/g, " ").trim();
+    if (!dek) return "";
+    if (title && dek.toLowerCase().indexOf(title.toLowerCase()) !== -1) return "";
+    if (dek.length > 80) {
+      var cut = dek.slice(0, 77).replace(/\s+\S*$/, "");
+      dek = (cut || dek.slice(0, 77)) + "…";
+    }
+    return '<p class="mix-talker">' + esc(dek) + "</p>";
+  }
+
   function cardHtml(t) {
     var cover = t.cover || "";
     var dj = artistName(t.dj);
     var genres = cardGenres(t);
-    var sleeve =
-      '<button type="button" class="mix-art tape-play" data-sc-url="' +
+    var spine = t.year ? String(t.year) : "CC";
+    var sticker = stickerTime(t.runtime);
+    var attrs =
+      ' data-sc-url="' +
       esc(t.permalink) +
       '" data-tape-id="' +
       esc(t.id) +
@@ -251,61 +281,45 @@
       esc(t.year) +
       '" aria-label="Play ' +
       esc(t.title) +
-      '">' +
-      (cover
-        ? '<img src="' + esc(cover) + '" alt="" width="500" height="500" loading="lazy" decoding="async"/>'
-        : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
-      '<span class="mix-eq" aria-hidden="true"><i></i><i></i><i></i></span>' +
-      '<span class="mix-art-play" data-mix-play-label aria-hidden="true">' +
-      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
-      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
-      "</span>" +
-      "</button>";
-    // A second play control in the text column: same data, same handler (bind()), and a
-    // hidden label node so syncButtons() leaves the glyphs alone.
-    var key =
-      '<button type="button" class="key mix-key tape-play" data-sc-url="' +
-      esc(t.permalink) +
-      '" data-tape-id="' +
-      esc(t.id) +
-      '" data-tape-title="' +
-      esc(t.title) +
-      '" data-tape-dj="' +
-      esc(dj) +
-      '" data-tape-cover="' +
-      esc(cover) +
-      '" data-tape-year="' +
-      esc(t.year) +
-      '" aria-label="Play ' +
-      esc(t.title) +
-      '"><span data-mix-play-label hidden></span>' +
-      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
-      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
-      "</button>";
+      '"';
     return (
       '<article class="mix-card" data-tape="' +
       esc(t.id) +
       '" data-genres="' +
       esc(genres.map(slugGenre).filter(Boolean).join(" ")) +
       '">' +
-      '<div class="mix-body">' +
-      '<p class="tape-spec mono">' +
-      "<span>" + esc(dj) + "</span>" +
-      (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
-      (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
+      '<button type="button" class="mix-hit mix-art tape-play"' +
+      attrs +
+      ">" +
+      '<span class="mix-case">' +
+      '<span class="mix-spine" aria-hidden="true">' +
+      esc(spine) +
+      "</span>" +
+      '<span class="mix-insert">' +
+      (cover
+        ? '<img src="' + esc(cover) + '" alt="" width="300" height="300" loading="lazy" decoding="async"/>'
+        : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
+      '<span class="mix-sheen" aria-hidden="true"></span>' +
+      (sticker ? '<span class="mix-sticker">' + esc(sticker) + "</span>" : "") +
+      '<span class="mix-art-play" data-mix-play-label aria-hidden="true">' +
+      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
+      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+      "</span></span>" +
+      '<span class="mix-lip" aria-hidden="true">Club Copy</span>' +
+      "</span>" +
+      '<span class="tape-title mix-title">' +
+      esc(t.title) +
+      "</span></button>" +
+      talker(t) +
+      '<p class="tape-spec mono"><span>' +
+      esc(dj) +
+      "</span>" +
       genres
         .map(function (g) {
           return "<span>" + esc(g) + "</span>";
         })
         .join("") +
-      "</p>" +
-      "<h3 class=\"tape-title mix-title\">" +
-      esc(t.title) +
-      "</h3>" +
-      '<div class="mix-actions">' + key + "</div>" +
-      "</div>" +
-      sleeve +
-      "</article>"
+      "</p></article>"
     );
   }
 
@@ -327,7 +341,7 @@
     return (
       '<div class="mix-empty">' +
       '<p class="mix-soon">' +
-      (failed ? "Couldn&rsquo;t load the mixes." : "No mixes yet.") +
+      (failed ? "Couldn&rsquo;t load the mixes." : "Nothing on the wall yet.") +
       "</p>" +
       '<p class="mix-empty-actions">' +
       (failed ? '<button type="button" class="tape-link" data-tapes-retry>Try again</button>' : "") +
@@ -578,7 +592,7 @@
     var empty = document.querySelector("[data-tape-empty]");
     if (empty) empty.hidden = shown.length > 0;
     var countEl = document.querySelector("[data-tape-count]");
-    if (countEl) countEl.textContent = shown.length === 1 ? "1 mix" : shown.length + " mixes";
+    if (countEl) countEl.textContent = shown.length === 1 ? "1 case" : shown.length + " cases";
     renderGenreBar();
     writeMix();
     // Next / previous in the dock walk exactly what is on screen: one tape per mix.
