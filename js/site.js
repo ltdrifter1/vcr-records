@@ -188,11 +188,15 @@
   /* Conditions bar: Cumberland time and weather, Long Beach surf, day or night.
      Cumberland weather stays on Open-Meteo. Long Beach is the Pacific Rim
      beach west of Tofino — swell from the marine API, wind from the forecast
-     API. Day or night stays in this browser. */
+     API, tide from the Tofino gauge via OpenWaters. Day or night stays in this browser. */
   var SKY_TZ = "America/Vancouver";
   var SKY_WX = "https://api.open-meteo.com/v1/forecast?latitude=49.6186&longitude=-125.0285&current=temperature_2m,weather_code&timezone=America%2FVancouver&forecast_days=1";
   var SURF_MARINE = "https://marine-api.open-meteo.com/v1/marine?latitude=49.059&longitude=-125.768&current=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction&hourly=swell_wave_height,swell_wave_period,wave_height,wave_period&timezone=America%2FVancouver&forecast_days=2&length_unit=imperial";
   var SURF_WIND = "https://api.open-meteo.com/v1/forecast?latitude=49.059&longitude=-125.768&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kn&timezone=America%2FVancouver&forecast_days=1";
+  /* Tofino gauge, the table Long Beach uses. Not the CHS host — that certificate does not load in Chrome. */
+  var TIDE_BASE = "https://api.openwaters.io/tides/";
+  var TIDE_LAT = "49.154";
+  var TIDE_LON = "-125.913";
   var COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
   function readTheme() {
@@ -345,6 +349,20 @@
     return "cross";
   }
 
+  function clockPT(date) {
+    try {
+      var h = "";
+      var m = "";
+      new Intl.DateTimeFormat("en-GB", {
+        timeZone: SKY_TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+      }).formatToParts(date).forEach(function (p) {
+        if (p.type === "hour") h = p.value;
+        if (p.type === "minute") m = p.value;
+      });
+      return h && m ? h + ":" + m : "";
+    } catch (e) { return ""; }
+  }
+
   function localStamp(date) {
     try {
       var parts = {};
@@ -397,6 +415,45 @@
       if (out.length === 4) break;
     }
     return out;
+  }
+
+  function tideQuery(start, end) {
+    return "latitude=" + TIDE_LAT + "&longitude=" + TIDE_LON +
+      "&start=" + encodeURIComponent(start.toISOString()) +
+      "&end=" + encodeURIComponent(end.toISOString());
+  }
+
+  function readTide(timeline, extremes, now) {
+    var points = timeline && timeline.timeline;
+    if (!points || !points.length) return null;
+    if (timeline.distance != null && Number(timeline.distance) > 30) return null;
+    var nowMs = now.getTime();
+    var best = points[0];
+    var bestDt = Infinity;
+    var i;
+    for (i = 0; i < points.length; i++) {
+      var dt = Math.abs(Date.parse(points[i].time) - nowMs);
+      if (dt < bestDt) { bestDt = dt; best = points[i]; }
+    }
+    var level = Number(best.level);
+    if (!isFinite(level)) return null;
+    var list = (extremes && extremes.extremes) || [];
+    var next = null;
+    for (i = 0; i < list.length; i++) {
+      if (Date.parse(list[i].time) > nowMs + 60 * 1000) { next = list[i]; break; }
+    }
+    var trend = "";
+    var kind = "";
+    var when = "";
+    if (next && isFinite(Number(next.level))) {
+      var nv = Number(next.level);
+      if (nv + 0.05 < level) trend = "falling";
+      else if (nv > level + 0.05) trend = "rising";
+      kind = next.high ? "high" : (next.low ? "low" : "");
+      when = clockPT(new Date(next.time));
+    }
+    var name = (timeline.station && timeline.station.name) || "Tofino";
+    return { m: level, trend: trend, kind: kind, when: when, station: name };
   }
 
   function surfHost(sky) {
@@ -458,15 +515,19 @@
   function loadSurf(host) {
     if (!host || !window.fetch) return;
     var cached = null;
-    try { cached = JSON.parse(sessionStorage.getItem("cc.surf") || "null"); } catch (e) {}
-    if (cached && cached.at && Date.now() - cached.at < 20 * 60 * 1000 && cached.nowText) {
+    try { cached = JSON.parse(sessionStorage.getItem("cc.surf.v2") || "null"); } catch (e) {}
+    if (cached && cached.at && Date.now() - cached.at < (cached.ttl || 20 * 60 * 1000) && cached.nowText) {
       paintSurf(host, cached);
       return;
     }
     var now = new Date();
+    var soon = new Date(now.getTime() + 20 * 60 * 1000);
+    var later = new Date(now.getTime() + 30 * 60 * 60 * 1000);
     Promise.all([
       grabJSON(SURF_MARINE),
-      grabJSON(SURF_WIND)
+      grabJSON(SURF_WIND),
+      grabJSON(TIDE_BASE + "timeline?" + tideQuery(now, soon)),
+      grabJSON(TIDE_BASE + "extremes?" + tideQuery(now, later))
     ]).then(function (all) {
       var marine = all[0];
       var wind = all[1];
@@ -485,6 +546,14 @@
         if (side) windPhrase += " " + side;
         bits.push(windPhrase);
       }
+      var tide = readTide(all[2], all[3], now);
+      var tidePhrase = "";
+      if (tide) {
+        tidePhrase = "tide " + oneDecimal(tide.m) + " m";
+        if (tide.trend) tidePhrase += " " + tide.trend;
+        if (tide.kind && tide.when) tidePhrase += " · " + tide.kind + " " + tide.when;
+        bits.push(tidePhrase);
+      }
       var slots = forecastSlots(marine.hourly, (cur && cur.time) || localStamp(now));
       var maxFt = -1;
       var maxI = -1;
@@ -501,9 +570,15 @@
       var title = "Long Beach, Pacific Rim. " + (sea.kind === "swell" ? "Swell " : "Seas ") +
         oneDecimal(sea.ft) + " ft at " + Math.round(sea.period || 0) + " seconds from the " + compass(sea.dir) + ".";
       if (windPhrase) title += " Wind " + windPhrase + ".";
+      if (tide) {
+        title += " Tide " + oneDecimal(tide.m) + " m at " + tide.station;
+        if (tide.trend) title += ", " + tide.trend;
+        if (tide.kind && tide.when) title += ", " + tide.kind + " at " + tide.when + " PT";
+        title += ". Heights from the Tofino gauge, TICON-4 via Slackwater and OpenWaters, CC BY 4.0.";
+      }
       if (cast.length) title += " Next: " + cast.map(function (s) { return s.title; }).join("; ") + ".";
-      var pack = { at: Date.now(), nowText: bits.join(" · "), cast: cast, title: title };
-      try { sessionStorage.setItem("cc.surf", JSON.stringify(pack)); } catch (e) {}
+      var pack = { at: Date.now(), ttl: tide ? 20 * 60 * 1000 : 5 * 60 * 1000, nowText: bits.join(" · "), cast: cast, title: title };
+      try { sessionStorage.setItem("cc.surf.v2", JSON.stringify(pack)); } catch (e) {}
       paintSurf(host, pack);
     }).catch(function () { paintSurf(host, null); });
   }
