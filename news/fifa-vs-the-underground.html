@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>FIFA vs the Underground — Club Copy</title>
   <meta name="description" content="Granville posted a record week and the warehouses posted shutdowns. Two nightlives, same city, same winter."/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="theme-color" content="#c5c7c3"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/news/fifa-vs-the-underground"/>
   
   <meta property="og:site_name" content="Club Copy"/>
@@ -25,16 +25,16 @@
     (function () {
       try {
         var t = localStorage.getItem("cc.theme");
-        if (t !== "day" && t !== "night") t = matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
+        if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f4f1ea" : "#0a0a0a");
+        if (m) m.setAttribute("content", t === "day" ? "#efefed" : "#c5c7c3");
         var s = document.querySelector('meta[name="color-scheme"]');
-        if (s) s.setAttribute("content", t === "day" ? "light" : "dark");
+        if (s) s.setAttribute("content", "light");
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc11"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc12"/>
   
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"FIFA vs the Underground","description":"Granville posted a record week and the warehouses posted shutdowns. Two nightlives, same city, same winter.","datePublished":"2026-09-12","author":{"@type":"Person","name":"CJ Archer"},"publisher":{"@type":"Organization","name":"Club Copy","logo":{"@type":"ImageObject","url":"https://www.clubcopy.ca/apple-touch-icon.png"}},"image":"https://www.clubcopy.ca/news-fifa-bc-place.webp","mainEntityOfPage":"https://www.clubcopy.ca/news/fifa-vs-the-underground","isPartOf":{"@type":"Periodical","name":"Night Shift"},"articleSection":"Scene Report","wordCount":859}</script>
 </head>
@@ -180,7 +180,7 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc11"></script>
+<script src="/js/site.js?v=cc12"></script>
 <script src="/js/cart.js?v=cc5"></script>
 <script src="/js/member.js?v=cc5"></script>
 <script src="/js/player.js?v=cc5"></script>
