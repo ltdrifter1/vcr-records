@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Night Shift Vol. 05 — May 2026 — Club Copy</title>
   <meta name="description" content="Night Shift Vol. 05, May 2026: 7 stories. Cover: The Cold Vein."/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="theme-color" content="#c5c7c3"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/news/vol-05"/>
   
   <meta property="og:site_name" content="Club Copy"/>
@@ -25,16 +25,16 @@
     (function () {
       try {
         var t = localStorage.getItem("cc.theme");
-        if (t !== "day" && t !== "night") t = matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
+        if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f4f1ea" : "#0a0a0a");
+        if (m) m.setAttribute("content", t === "day" ? "#efefed" : "#c5c7c3");
         var s = document.querySelector('meta[name="color-scheme"]');
-        if (s) s.setAttribute("content", t === "day" ? "light" : "dark");
+        if (s) s.setAttribute("content", "light");
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc11"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc12"/>
   
   
 </head>
@@ -192,7 +192,7 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc11"></script>
+<script src="/js/site.js?v=cc12"></script>
 <script src="/js/cart.js?v=cc5"></script>
 <script src="/js/member.js?v=cc5"></script>
 <script src="/js/player.js?v=cc5"></script>

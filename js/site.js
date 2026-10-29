@@ -202,19 +202,16 @@
   function readTheme() {
     var t = document.documentElement.getAttribute("data-theme");
     if (t === "day" || t === "night") return t;
-    try {
-      if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) return "night";
-    } catch (e) {}
-    return "day";
+    return "night";
   }
 
   function applyTheme(theme, persist) {
     if (theme !== "day" && theme !== "night") theme = "night";
     document.documentElement.setAttribute("data-theme", theme);
     var color = document.querySelector('meta[name="theme-color"]');
-    if (color) color.setAttribute("content", theme === "day" ? "#f4f1ea" : "#0a0a0a");
+    if (color) color.setAttribute("content", theme === "day" ? "#efefed" : "#c5c7c3");
     var scheme = document.querySelector('meta[name="color-scheme"]');
-    if (scheme) scheme.setAttribute("content", theme === "day" ? "light" : "dark");
+    if (scheme) scheme.setAttribute("content", "light");
     var btn = document.getElementById("themeToggle");
     if (btn) {
       var night = theme === "night";
@@ -594,16 +591,6 @@
         applyTheme(readTheme() === "night" ? "day" : "night", true);
       });
     }
-    try {
-      if (window.matchMedia) {
-        matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (ev) {
-          var stored = null;
-          try { stored = localStorage.getItem("cc.theme"); } catch (e) {}
-          if (stored === "day" || stored === "night") return;
-          applyTheme(ev.matches ? "night" : "day", false);
-        });
-      }
-    } catch (e) {}
     tickClock(sky.querySelector("[data-sky-time]"));
     loadWeather(sky.querySelector("[data-sky-wx]"));
     loadSurf(surfHost(sky));

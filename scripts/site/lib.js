@@ -6,8 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc11";
-const CSS_VERSION = "cc12";
+const VERSION = "cc12";
+const CSS_VERSION = "cc13";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -137,12 +137,12 @@ const THEME_BOOT = `<script>
     (function () {
       try {
         var t = localStorage.getItem("cc.theme");
-        if (t !== "day" && t !== "night") t = matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
+        if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f4f1ea" : "#0a0a0a");
+        if (m) m.setAttribute("content", t === "day" ? "#efefed" : "#c5c7c3");
         var s = document.querySelector('meta[name="color-scheme"]');
-        if (s) s.setAttribute("content", t === "day" ? "light" : "dark");
+        if (s) s.setAttribute("content", "light");
       } catch (e) {}
     })();
   </script>`;
@@ -261,8 +261,8 @@ function page(o) {
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>${esc(title)}</title>
   <meta name="description" content="${attr(o.description || "Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette.")}"/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="theme-color" content="#c5c7c3"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="${canonical}"/>
   ${o.noindex ? '<meta name="robots" content="noindex"/>' : ""}
   <meta property="og:site_name" content="Club Copy"/>
