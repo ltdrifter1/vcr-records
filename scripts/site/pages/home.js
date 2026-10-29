@@ -120,18 +120,18 @@ module.exports = function home(data) {
   </div>
 </section>
 
-<section class="sec" aria-labelledby="mixtapes-title" id="mixtapes">
+<section class="sec sec--tapes" aria-labelledby="mixtapes-title" id="mixtapes">
   ${L.sectionHead("Mixtapes", { titleId: "mixtapes-title", kicker: "Long sets · SoundCloud", link: ["/tapes", "All mixtapes"] })}
   ${tapeFilterBar()}
-  <p class="tapes-now mono" data-tapes-now hidden></p>
-  <div class="mix-slot" data-tapes-panel>
-    <p class="mono slot-label">Day</p>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="3" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-  </div>
-  <div class="mix-slot" data-tapes-panel>
-    <p class="mono slot-label">Night</p>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="3" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-  </div>
+  <p class="tapes-now mono" data-tapes-now role="status" hidden></p>
+  <section class="mix-bin" data-tapes-panel aria-labelledby="day-bin">
+    ${L.sectionHead("Day", { h: "h3", titleId: "day-bin", kicker: "Chill · variety" })}
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  </section>
+  <section class="mix-bin" data-tapes-panel aria-labelledby="night-bin">
+    ${L.sectionHead("Night", { h: "h3", titleId: "night-bin", kicker: "Heavy · dance" })}
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  </section>
 </section>
 
 ${videoSection(data.videos)}

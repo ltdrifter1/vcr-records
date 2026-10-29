@@ -232,12 +232,25 @@
     return String(name || "").replace(/L\.T\. Drifta/g, "LT Drifta") || "LT Drifta";
   }
 
+  // A short note under the title, when the description isn't just the title repeated.
+  function talker(t) {
+    var dek = String((t && t.dek) || "").replace(/\s+/g, " ").trim();
+    var title = String((t && t.title) || "").replace(/\s+/g, " ").trim();
+    if (!dek) return "";
+    if (title && dek.toLowerCase().indexOf(title.toLowerCase()) !== -1) return "";
+    if (dek.length > 80) {
+      var cut = dek.slice(0, 77).replace(/\s+\S*$/, "");
+      dek = (cut || dek.slice(0, 77)) + "…";
+    }
+    return '<p class="mix-talker">' + esc(dek) + "</p>";
+  }
+
   function cardHtml(t) {
     var cover = t.cover || "";
     var dj = artistName(t.dj);
     var genres = cardGenres(t);
-    var sleeve =
-      '<button type="button" class="mix-art tape-play" data-sc-url="' +
+    var attrs =
+      ' data-sc-url="' +
       esc(t.permalink) +
       '" data-tape-id="' +
       esc(t.id) +
@@ -251,46 +264,31 @@
       esc(t.year) +
       '" aria-label="Play ' +
       esc(t.title) +
-      '">' +
-      (cover
-        ? '<img src="' + esc(cover) + '" alt="" width="500" height="500" loading="lazy" decoding="async"/>'
-        : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
-      '<span class="mix-eq" aria-hidden="true"><i></i><i></i><i></i></span>' +
-      '<span class="mix-art-play" data-mix-play-label aria-hidden="true">' +
-      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
-      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
-      "</span>" +
-      "</button>";
-    // A second play control in the text column: same data, same handler (bind()), and a
-    // hidden label node so syncButtons() leaves the glyphs alone.
-    var key =
-      '<button type="button" class="key mix-key tape-play" data-sc-url="' +
-      esc(t.permalink) +
-      '" data-tape-id="' +
-      esc(t.id) +
-      '" data-tape-title="' +
-      esc(t.title) +
-      '" data-tape-dj="' +
-      esc(dj) +
-      '" data-tape-cover="' +
-      esc(cover) +
-      '" data-tape-year="' +
-      esc(t.year) +
-      '" aria-label="Play ' +
-      esc(t.title) +
-      '"><span data-mix-play-label hidden></span>' +
-      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
-      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
-      "</button>";
+      '"';
     return (
       '<article class="mix-card" data-tape="' +
       esc(t.id) +
       '" data-genres="' +
       esc(genres.map(slugGenre).filter(Boolean).join(" ")) +
       '">' +
-      '<div class="mix-body">' +
-      '<p class="tape-spec mono">' +
-      "<span>" + esc(dj) + "</span>" +
+      '<button type="button" class="mix-hit tape-play"' +
+      attrs +
+      ">" +
+      '<span class="mix-art">' +
+      (cover
+        ? '<img src="' + esc(cover) + '" alt="" width="300" height="300" loading="lazy" decoding="async"/>'
+        : '<span class="tape-sleeve--blank" aria-hidden="true"></span>') +
+      '<span class="mix-art-play" data-mix-play-label aria-hidden="true">' +
+      '<svg class="mix-glyph mix-glyph--play" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>' +
+      '<svg class="mix-glyph mix-glyph--pause" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>' +
+      "</span></span>" +
+      '<span class="tape-title mix-title">' +
+      esc(t.title) +
+      "</span></button>" +
+      talker(t) +
+      '<p class="tape-spec mono"><span>' +
+      esc(dj) +
+      "</span>" +
       (t.runtime ? "<span>" + esc(t.runtime) + "</span>" : "") +
       (t.year ? "<span>" + esc(t.year) + "</span>" : "") +
       genres
@@ -298,14 +296,7 @@
           return "<span>" + esc(g) + "</span>";
         })
         .join("") +
-      "</p>" +
-      "<h3 class=\"tape-title mix-title\">" +
-      esc(t.title) +
-      "</h3>" +
-      '<div class="mix-actions">' + key + "</div>" +
-      "</div>" +
-      sleeve +
-      "</article>"
+      "</p></article>"
     );
   }
 

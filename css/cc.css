@@ -1583,3 +1583,128 @@ main.news-index, .news-index-front { overflow-x: clip; }
     var(--grain);
   background-size: auto, 420px 420px;
 }
+
+/* Mixtape grid -----------------------------------------------------------
+   Same ink, type, and rules as the rest of the poster. The layout is the
+   difference: covers in a grid, split into a day bin and a night bin,
+   instead of another text row.
+   --------------------------------------------------------------------- */
+.mix-bin + .mix-bin { margin-top: 36px; }
+.mix-bin .sec-head { margin-top: 8px; }
+.tapes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 26px 18px;
+  padding: 18px 0 4px;
+}
+.home .sec--tapes .tapes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tapes-grid > .mix-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.tapes-grid .mix-skel {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0;
+  background: var(--bg-2);
+  box-shadow: 0 0 0 var(--rule);
+}
+.tapes-grid .mix-hit {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+}
+.tapes-grid .mix-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--bg-2);
+  box-shadow: 0 0 0 var(--rule);
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease);
+}
+.tapes-grid .mix-art img,
+.tapes-grid .tape-sleeve--blank {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+  transform: none;
+}
+.tapes-grid .tape-sleeve--blank { background: var(--bg-3); }
+.tapes-grid .mix-card:hover .mix-art {
+  transform: translate(-3px, -3px) rotate(-0.8deg);
+  box-shadow: 4px 4px 0 var(--rule);
+}
+.tapes-grid .mix-card:hover .mix-art img { filter: none; transform: none; }
+.tapes-grid .mix-card:has(.is-live) .mix-art { box-shadow: 4px 4px 0 var(--signal); }
+.tapes-grid .mix-art-play {
+  background: var(--bg);
+  color: var(--ink);
+  border: 2px solid var(--rule);
+  box-shadow: 2px 2px 0 var(--rule);
+}
+.tapes-grid .tape-play.is-live .mix-glyph--play { display: none; }
+.tapes-grid .tape-play.is-live .mix-glyph--pause { display: block; }
+.tapes-grid .tape-play.is-live .mix-art-play {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--signal-ink);
+  box-shadow: none;
+}
+.tapes-grid .mix-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-stretch: 100%;
+  font-variation-settings: "wdth" 100;
+  font-size: 15px;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.tapes-grid .mix-card:hover .mix-title { color: var(--ink-2); }
+.tapes-grid .mix-talker {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.tapes-grid .tape-spec { margin: 0; }
+.tapes-grid .mix-empty { grid-column: 1 / -1; color: var(--ink-2); }
+@media (max-width: 900px) {
+  .home .sec--tapes .tapes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 699px) {
+  .tapes-grid,
+  .home .sec--tapes .tapes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
+  .tapes-grid .mix-title { font-size: 14px; }
+}
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .tapes-grid .mix-art { transition: none; }
+  .tapes-grid .mix-card:hover .mix-art { transform: none; box-shadow: 0 0 0 var(--rule); }
+  .tapes-grid .mix-card:has(.is-live) .mix-art { box-shadow: 4px 4px 0 var(--signal); }
+}

@@ -34,7 +34,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc12"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc13"/>
   <link rel="preload" as="image" href="/ipod-touch-cover-480.webp" fetchpriority="high"/>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"RecordLabel","name":"Club Copy","url":"https://www.clubcopy.ca/","logo":"https://www.clubcopy.ca/apple-touch-icon.png","email":"charlie@clubcopy.ca","foundingDate":"2024-02-12","foundingLocation":{"@type":"Place","name":"British Columbia, Canada"},"genre":["House","Jungle","UK Garage","Instrumental Hip Hop","Electronic"],"member":[{"@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg"},{"@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta"},{"@type":"MusicGroup","name":"Riscape","url":"https://www.clubcopy.ca/artists/riscape"},{"@type":"MusicGroup","name":"DW","url":"https://www.clubcopy.ca/artists/dw"}]}</script>
 </head>
@@ -293,7 +293,7 @@
   </div>
 </section>
 
-<section class="sec" aria-labelledby="mixtapes-title" id="mixtapes">
+<section class="sec sec--tapes" aria-labelledby="mixtapes-title" id="mixtapes">
   <header class="sec-head">
   <h2 class="sec-title" id="mixtapes-title"><span class="sec-kicker">Long sets · SoundCloud</span>Mixtapes</h2>
   <a class="sec-link" href="/tapes">All mixtapes</a>
@@ -305,18 +305,22 @@
       <span class="plate" aria-hidden="true"></span>
     </div>
   </div>
-  <p class="mono filter-count" data-tape-count aria-live="polite"></p>
-</div>
-<p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>
-  <p class="tapes-now mono" data-tapes-now hidden></p>
-  <div class="mix-slot" data-tapes-panel>
-    <p class="mono slot-label">Day</p>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="3" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+    <p class="mono filter-count" data-tape-count aria-live="polite"></p>
   </div>
-  <div class="mix-slot" data-tapes-panel>
-    <p class="mono slot-label">Night</p>
-    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="3" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
-  </div>
+  <p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>
+  <p class="tapes-now mono" data-tapes-now role="status" hidden></p>
+  <section class="mix-bin" data-tapes-panel aria-labelledby="day-bin">
+    <header class="sec-head">
+  <h3 class="sec-title" id="day-bin"><span class="sec-kicker">Chill · variety</span>Day</h3>
+</header>
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  </section>
+  <section class="mix-bin" data-tapes-panel aria-labelledby="night-bin">
+    <header class="sec-head">
+  <h3 class="sec-title" id="night-bin"><span class="sec-kicker">Heavy · dance</span>Night</h3>
+</header>
+    <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  </section>
 </section>
 
 <section class="sec" aria-labelledby="videos-title" id="videos">
@@ -541,7 +545,7 @@
 <script src="/js/member.js?v=cc12"></script>
 <script src="/js/player.js?v=cc12"></script>
 <script src="/js/cc.js?v=cc12"></script>
-<script src="/js/tapes.js?v=cc12"></script>
+<script src="/js/tapes.js?v=cc13"></script>
 <script src="/js/join.js?v=cc12"></script>
 <script src="/js/lanes.js?v=cc12"></script>
 
