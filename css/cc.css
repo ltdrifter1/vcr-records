@@ -1,22 +1,25 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night ground by default, paper by day. Archivo for text, Big Shoulders
-   Display for titles, Plex Mono for data. Rules are ink. Titles sit flat
-   in that ink. The signal colour marks state, not the header.
+   Night is the default: a light concrete wall, spray, and a little chrome.
+   Day is the same wall bleached. Archivo for text, Big Shoulders Display
+   for titles, Plex Mono for data. Rules are ink. The signal colour marks
+   state, not the header.
    ========================================================================== */
 
 :root {
-  --bg: #0a0a0a;
-  --bg-2: #111110;
-  --bg-3: #181817;
-  --ink: #f0efea;
-  --ink-2: #9a9a94;
-  --ink-3: #5f5f5a;
-  --line: rgba(255, 255, 255, .14);
-  --line-2: rgba(255, 255, 255, .28);
+  --bg: #c5c7c3;
+  --bg-2: #b4b6b1;
+  --bg-3: #a3a59f;
+  --ink: #1a1c1e;
+  --ink-2: #3c4044;
+  --ink-3: #484c50;
+  --line: rgba(26, 28, 30, .16);
+  --line-2: rgba(26, 28, 30, .32);
   --rule: var(--ink);
-  --signal: #ff4a1c;
-  --signal-ink: #0a0a0a;
+  --signal: #e23b10;
+  --signal-ink: #1a1c1e;
+  --wall-lift: rgba(255, 255, 255, .28);
+  --wall-chrome: rgba(255, 255, 255, .22);
   --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --display: "Big Shoulders Display", "Archivo", "Helvetica Neue", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -30,24 +33,26 @@
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
   --grain: url("/css/grain-film.png");
-  --grain-size: 920px;
-  color-scheme: dark;
+  --grain-size: 768px;
+  color-scheme: light;
 }
-/* Day is newsprint, not a borrowed peach. Night stays the label's black. */
+/* Day is a paler sheet of the same grey. Less spray, more paper. */
 html[data-theme="day"] {
-  --bg: #f4f1ea;
-  --bg-2: #e7e2d6;
-  --bg-3: #dbd4c6;
-  --ink: #1a1916;
-  --ink-2: #5c5850;
-  --ink-3: #8a8478;
-  --line: rgba(26, 25, 22, .18);
-  --line-2: rgba(26, 25, 22, .34);
+  --bg: #efefed;
+  --bg-2: #e3e3e0;
+  --bg-3: #d4d4d0;
+  --ink: #1a1c1e;
+  --ink-2: #45494d;
+  --ink-3: #565a5e;
+  --line: rgba(26, 28, 30, .14);
+  --line-2: rgba(26, 28, 30, .28);
   --rule: var(--ink);
-  --signal: #e23b10;
-  --signal-ink: #1a1916;
+  --signal: #d23c10;
+  --signal-ink: #1a1c1e;
+  --wall-lift: rgba(255, 255, 255, .55);
+  --wall-chrome: rgba(255, 255, 255, .2);
   --grain: url("/css/grain-paper.png");
-  --grain-size: 980px;
+  --grain-size: 768px;
   color-scheme: light;
 }
 html:has(.sky) {
@@ -62,8 +67,12 @@ body {
   line-height: 1.5;
   color: var(--ink);
   background-color: var(--bg);
-  background-image: var(--grain);
-  background-size: var(--grain-size) var(--grain-size);
+  background-image:
+    radial-gradient(88% 46% at 50% -12%, var(--wall-lift), transparent 64%),
+    linear-gradient(118deg, transparent 36%, var(--wall-chrome) 47%, transparent 56%),
+    var(--grain);
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, var(--grain-size) var(--grain-size);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
   padding-bottom: var(--safe-b);
@@ -156,10 +165,16 @@ main { display: block; }
   min-height: 28px; padding: 0;
   font-family: var(--mono); font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink);
 }
-.sky-knob { width: 30px; height: 16px; border: 1px solid var(--line-2); border-radius: 99px; position: relative; }
+.sky-knob {
+  width: 30px; height: 16px; border: 1px solid var(--line-2); border-radius: 99px; position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .85), rgba(26, 28, 30, .16));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+}
 .sky-knob::after {
   content: ""; position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 50%;
-  background: var(--ink); transition: transform .2s var(--ease);
+  background: linear-gradient(180deg, #fff 0%, #d5d6d4 48%, #8d8f8c 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .9), 0 1px 1px rgba(26, 28, 30, .35);
+  transition: transform .2s var(--ease);
 }
 html:not([data-theme="day"]) .sky-knob::after { transform: translateX(14px); }
 html[data-theme="day"] .sky-lab-night { display: none; }
@@ -180,7 +195,6 @@ html:has(.sky) .nav { top: calc(var(--sky-h) + var(--safe-t)); }
 @supports (backdrop-filter: blur(1px)) { .nav { background: color-mix(in srgb, var(--bg) 78%, transparent); } }
 .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 0 var(--gutter); }
 .nav-logo img { height: 26px; width: auto; filter: none; }
-html:not([data-theme="day"]) .nav-logo img { filter: invert(1) brightness(1.1); }
 .nav-links { display: flex; gap: clamp(16px, 2.2vw, 32px); font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .nav-links a { color: var(--ink-2); padding: 6px 0; border-bottom: 1px solid transparent; }
 .nav-links a:hover { color: var(--ink); text-decoration: none; }
@@ -904,7 +918,6 @@ body.nav-open { overflow: hidden; }
 .join-card-art { aspect-ratio: auto; background: none; overflow: visible; }
 .member-card { position: relative; aspect-ratio: 1.586; width: 100%; padding: 20px; display: grid; grid-template-rows: auto 1fr auto; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--ink); }
 .member-card-mark { width: 96px; filter: none; opacity: .9; }
-html:not([data-theme="day"]) .member-card-mark { filter: invert(1); }
 .member-card-no { align-self: end; font-size: 18px; letter-spacing: .1em; color: var(--ink); }
 .member-card-name { font-size: 15px; font-weight: 500; min-height: 1.4em; letter-spacing: .02em; text-transform: uppercase; }
 .member-card-tier { position: absolute; top: 20px; right: 20px; color: var(--signal); }
@@ -1052,7 +1065,7 @@ body.vcr-dock-away .vcr-player.is-visible, body.vcr-stage-open .vcr-player.is-vi
 .vcr-play-gate button { background: var(--bg); color: var(--ink); min-height: 36px; padding: 0 14px; font-weight: 500; }
 .vcr-toast { position: fixed; left: 50%; bottom: calc(var(--dock-h) + 16px + var(--safe-b)); transform: translateX(-50%); z-index: 520; padding: 10px 16px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 500; max-width: calc(100% - 32px); }
 .vcr-toast[hidden] { display: none; }
-.vcr-bumper { position: fixed; inset: 0; z-index: 540; display: grid; place-items: center; background: rgba(10, 10, 10, .8); padding: 24px; }
+.vcr-bumper { position: fixed; inset: 0; z-index: 540; display: grid; place-items: center; background: color-mix(in srgb, var(--ink) 72%, transparent); padding: 24px; }
 .vcr-bumper[hidden] { display: none; }
 .vcr-bumper__card { background: var(--bg); border: 1px solid var(--line-2); padding: 28px; max-width: 420px; width: 100%; display: grid; gap: 10px; }
 .vcr-bumper__callsign { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
@@ -1063,7 +1076,7 @@ body.vcr-dock-away .vcr-player.is-visible, body.vcr-stage-open .vcr-player.is-vi
 .vcr-bumper__btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-2); }
 .vcr-stage { position: fixed; inset: 0; z-index: 530; display: grid; align-items: end; }
 .vcr-stage[hidden] { display: none; }
-.vcr-stage__bg { position: absolute; inset: 0; background: rgba(10, 10, 10, .86); }
+.vcr-stage__bg { position: absolute; inset: 0; background: color-mix(in srgb, var(--ink) 78%, transparent); }
 .vcr-stage__sheet { position: relative; background: var(--bg); border-top: 1px solid var(--line-2); padding: 16px var(--gutter) calc(32px + var(--safe-b)); display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 20px 40px; align-items: center; max-height: 92svh; overflow-y: auto; }
 .vcr-stage__close { grid-column: 1 / -1; justify-self: center; width: 60px; height: 24px; display: grid; place-items: center; }
 .vcr-stage__handle { width: 40px; height: 2px; background: var(--ink-3); display: block; }
@@ -1233,7 +1246,9 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 .sky,
 .nav {
-  background: var(--bg);
+  background-color: color-mix(in srgb, var(--bg) 86%, white);
+  background-image: var(--grain);
+  background-size: var(--grain-size) var(--grain-size);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border-bottom: 2px solid var(--rule);
@@ -1344,7 +1359,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .home-shelf { gap: 26px 18px; }
 .shelf-art { overflow: visible; background: transparent; }
 .shelf-art img { box-shadow: 0 0 0 var(--rule); }
-.shelf-card:hover .shelf-art img { transform: translate(-3px, -3px) rotate(-0.8deg); box-shadow: 4px 4px 0 var(--rule); }
+.shelf-card:hover .shelf-art img { transform: translate(-3px, -3px) rotate(-0.8deg); box-shadow: 4px 4px 0 var(--ink), 8px 8px 0 var(--signal); }
 .shelf-by { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
 .cat-list.is-covers .cat-cover img,
 .cat-list[data-view="covers"] .cat-cover img,
@@ -1529,4 +1544,42 @@ main.news-index, .news-index-front { overflow-x: clip; }
 @media (max-width: 380px) {
   .lead-keys .btn, .ra-hero-ctas .btn, .lead-actions .btn, .pdp-actions .btn { flex-basis: 100%; }
   .sign-chart .sign-name { font-size: 16px; }
+}
+
+/* Chrome and wheatpaste -------------------------------------------------
+   A gel highlight on the hardware, and a second colour when a sticker
+   lifts. The offset stays short. The misregister is the spray orange. */
+.btn:not(.btn-text),
+.nav-links a[aria-current="page"],
+.seg button[aria-checked="true"],
+.pdp-opt.is-active,
+.pdp-opt[aria-pressed="true"],
+.premium-preset[aria-pressed="true"],
+.footer-form button,
+.news-page .zine-letters-form button {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, 0) 46%);
+}
+.btn-solid,
+.btn.btn-solid,
+.btn-dark,
+.btn-chrome-on-dark,
+.vcr-stage__btn--play,
+.vcr-bumper__btn:not(.vcr-bumper__btn--ghost) {
+  background-color: var(--ink);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, .32), rgba(255, 255, 255, 0) 48%);
+}
+.btn:hover:not(.btn-text),
+.key:hover {
+  box-shadow: 3px 3px 0 var(--signal);
+}
+.btn:active:not(.btn-text),
+.key:active {
+  box-shadow: 0 0 0 var(--signal);
+}
+.member-card {
+  background-color: var(--bg-2);
+  background-image:
+    linear-gradient(155deg, rgba(255, 255, 255, .62) 0%, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0) 62%, rgba(255, 255, 255, .3) 100%),
+    var(--grain);
+  background-size: auto, 420px 420px;
 }
