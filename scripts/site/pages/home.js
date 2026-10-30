@@ -1,7 +1,7 @@
 "use strict";
 const L = require("../lib");
 const { esc, attr, asset, onSite } = L;
-const { shelfCard } = require("./fragments");
+const { releaseRow } = require("./fragments");
 const { laneBar, tapeFilterBar } = require("../lanes");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
@@ -101,8 +101,8 @@ module.exports = function home(data) {
     countText: `${teaser.length} releases`,
     extra: `<button type="button" class="btn btn-small" id="listenClear" hidden>Clear</button>`,
   })}
-  <div class="home-shelf" id="listenRows">
-    ${releases.map((r, i) => shelfCard(r, { extra: !teaserIds.has(r.id), eager: i === 0 })).join("\n")}
+  <div class="rows" id="listenRows">
+    ${releases.map((r, i) => releaseRow(r, { extra: !teaserIds.has(r.id), eager: i === 0, sizes: "(min-width: 860px) 108px, 96px" })).join("\n")}
   </div>
   <p class="listen-empty" id="listenEmpty" hidden>No releases match these filters.</p>
   <p class="rows-more mono"><a href="/library" id="listenMore">All ${releases.length} releases →</a></p>
