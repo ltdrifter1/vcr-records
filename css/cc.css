@@ -1,8 +1,8 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night is the default: concrete, with a few faint marks on it.
-   Short swings of a can, ink only, almost no colour. Day is the
-   same wall, faded further.
+   Night is the default: concrete, with simple tags on it.
+   A throwup, an arrow, a star, the word COPY. Ink, and one
+   orange misregister. Day is the same wall, faded further.
    Archivo for text, Big Shoulders Display
    for titles, Plex Mono for data. Rules are ink. The signal colour marks
    state, not the header.
@@ -36,8 +36,8 @@
   --ease: cubic-bezier(.2, .8, .2, 1);
   --grain: url("/css/grain-film.png?v=5");
   --grain-size: 768px;
-  --wall: url("/css/wall-graf.png?v=5");
-  --wall-size: 2000px 1700px;
+  --wall: url("/css/wall-graf.png?v=6");
+  --wall-size: 2000px 1600px;
   color-scheme: light;
 }
 /* Day is a paler sheet of the same grey. The same marks, faded. */
@@ -57,7 +57,7 @@ html[data-theme="day"] {
   --wall-chrome: rgba(255, 255, 255, .2);
   --grain: url("/css/grain-paper.png?v=5");
   --grain-size: 768px;
-  --wall: url("/css/wall-graf-day.png?v=5");
+  --wall: url("/css/wall-graf-day.png?v=6");
   color-scheme: light;
 }
 html:has(.sky) {
@@ -73,12 +73,13 @@ body {
   color: var(--ink);
   background-color: var(--bg);
   background-image:
-    radial-gradient(88% 46% at 50% -12%, var(--wall-lift), transparent 64%),
-    linear-gradient(118deg, transparent 36%, var(--wall-chrome) 47%, transparent 56%),
+    radial-gradient(78% 40% at 50% -16%, var(--wall-lift), transparent 70%),
+    radial-gradient(46% 34% at 100% 108%, rgba(26, 28, 30, .05), transparent 72%),
     var(--grain),
     var(--wall);
   background-repeat: no-repeat, no-repeat, repeat, repeat;
   background-size: auto, auto, var(--grain-size) var(--grain-size), var(--wall-size);
+  background-position: center top, right bottom, 0 0, 0 0;
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
   padding-bottom: var(--safe-b);
@@ -2049,4 +2050,137 @@ html[data-theme="day"] .sec-head--zine .sec-kicker {
   .lead-actions .btn,
   .pdp-actions .btn,
   .acct-actions .btn { flex-basis: 100%; }
+}
+
+/* Street wall ------------------------------------------------------------
+   The tags sit on the concrete. Reading and controls sit on a plate of
+   the same concrete, so a stroke never cuts a word. The paint stays
+   visible in the gaps: between sleeves, and in the margin between sections.
+   --------------------------------------------------------------------- */
+.shelf-cap,
+.row-main,
+.page-head,
+.zine-sheet,
+.sign-chart,
+.home-stars-head,
+.footer,
+.cat-row,
+.rows-more,
+.front-cover-copy,
+.lead,
+.home-sec-title,
+.sec-title,
+.page-title,
+.zine-headline,
+.sec-link,
+.seg,
+.filter-meta,
+.filter-count,
+.lane-label,
+.tapes-grid .mix-title,
+.tapes-grid .mix-talker,
+.tapes-grid .tape-spec {
+  background-color: var(--bg);
+  background-image: none;
+}
+.home-sec-title,
+.sec-title,
+.page-title,
+.zine-headline,
+.shelf-cap,
+.sec-link,
+.seg,
+.filter-meta,
+.lane-label,
+.tapes-grid .mix-title,
+.tapes-grid .mix-talker,
+.tapes-grid .tape-spec { box-shadow: 0 0 0 5px var(--bg); }
+.nav-drawer {
+  background-color: var(--bg);
+  background-image: var(--grain);
+  background-size: var(--grain-size) var(--grain-size);
+}
+.sec-head--zine .sec-link {
+  background: none;
+  background-image: none;
+  box-shadow: none;
+}
+
+/* Phone: posters on the wall. A gap of concrete between sections,
+   sleeves pasted with a short offset, the lead cover run to the edge. */
+@media (max-width: 699px) {
+  body {
+    background-size: auto, auto, 420px 420px, 1080px 864px;
+    background-position: center top, right bottom, 0 0, 48px 64px;
+  }
+  .home > .sec + .sec,
+  main > .page-head + .sec,
+  main > .sec + .sec { margin-top: 18px; }
+  .home .sec.sec--list { margin-top: 0; }
+
+  .home-shelf { gap: 22px 16px; }
+  .home-shelf .shelf-card:nth-child(1 of :not([hidden])) {
+    margin-left: calc(-1 * var(--gutter));
+    margin-right: calc(-1 * var(--gutter));
+  }
+  .home-shelf .shelf-card:nth-child(1 of :not([hidden])) .shelf-cap {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+  .home-shelf .shelf-art img,
+  .tapes-grid .mix-art {
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(-0.7deg);
+  }
+  .home-shelf .shelf-card:nth-child(2n of :not([hidden])) .shelf-art img,
+  .tapes-grid .mix-card:nth-child(2n) .mix-art {
+    box-shadow: 4px 4px 0 var(--signal);
+    transform: rotate(0.8deg);
+  }
+  .home-shelf .shelf-card:nth-child(1 of :not([hidden])) .shelf-art img {
+    transform: none;
+    box-shadow: 0 5px 0 var(--ink);
+  }
+
+  .sign-chart a,
+  .home .sign-chart a {
+    min-height: 0;
+    padding: 14px 12px 12px;
+    gap: 6px;
+  }
+  .sign-chart .sign-glyph { width: 26px; height: 26px; }
+  .sign-chart .sign-name { font-size: 16px; }
+  .sign-chart em { font-size: 10px; letter-spacing: 0; white-space: nowrap; }
+
+  .home .row--artist .row-actions { max-width: 100%; }
+  .home .row--artist .btn-text {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .footer-wordmark { font-size: clamp(52px, 15vw, 76px); line-height: .86; }
+  .sec-head, .home-sec-head { align-items: flex-end; }
+}
+
+@media (hover: none) and (max-width: 699px) {
+  .home-shelf .shelf-card:hover .shelf-art img,
+  .tapes-grid .mix-card:hover .mix-art {
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(-0.7deg);
+  }
+  .home-shelf .shelf-card:nth-child(2n of :not([hidden])):hover .shelf-art img,
+  .tapes-grid .mix-card:nth-child(2n):hover .mix-art {
+    box-shadow: 4px 4px 0 var(--signal);
+    transform: rotate(0.8deg);
+  }
+  .home-shelf .shelf-card:nth-child(1 of :not([hidden])):hover .shelf-art img {
+    transform: none;
+    box-shadow: 0 5px 0 var(--ink);
+  }
+}
+
+@media (max-width: 380px) {
+  .sign-chart em { white-space: normal; }
 }
