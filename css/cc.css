@@ -1217,28 +1217,6 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .home .sec--list .filters { border-bottom: 2px solid var(--rule); }
 .zine-title { font-size: clamp(64px, 12vw, 168px); }
 .front-cover-headline { font-size: clamp(48px, 7vw, 112px); }
-.sec-kicker,
-.home-stars-kicker span:first-child,
-.zine-masthead .zine-slug,
-.zine-stars-kicker,
-.news-kicker {
-  color: var(--ink);
-  letter-spacing: .12em;
-  font-weight: 500;
-  line-height: 1.35;
-  text-shadow: none;
-}
-.sec-title > .sec-kicker,
-.news-kicker {
-  display: block;
-  width: fit-content;
-  margin-bottom: 10px;
-  padding: 4px 8px 3px;
-  background: var(--ink);
-  color: var(--bg);
-  letter-spacing: .14em;
-  line-height: 1.35;
-}
 .lane-label {
   color: var(--ink-2);
   letter-spacing: .08em;
@@ -1512,7 +1490,9 @@ main.news-index, .news-index-front { overflow-x: clip; }
     margin-left: calc(-1 * var(--gutter));
     justify-self: stretch;
   }
-  .row--product.product--featured .product-title { font-size: clamp(36px, 10vw, 48px); }
+  .row--product.product--featured .row-art { order: 1; aspect-ratio: 4 / 3; }
+  .row--product.product--featured .product-title { font-size: clamp(32px, 9vw, 44px); }
+  .form.panel .btn { width: 100%; }
   .row--product { grid-template-columns: minmax(0, 1fr) 108px; align-items: center; }
   .row--product .row-art { width: 100%; }
   .row--product .row-dek { -webkit-line-clamp: 2; }
@@ -1707,4 +1687,360 @@ main.news-index, .news-index-front { overflow-x: clip; }
   .tapes-grid .mix-art { transition: none; }
   .tapes-grid .mix-card:hover .mix-art { transform: none; box-shadow: 0 0 0 var(--rule); }
   .tapes-grid .mix-card:has(.is-live) .mix-art { box-shadow: 4px 4px 0 var(--signal); }
+}
+
+/* Embossed label tape ----------------------------------------------------
+   The small line above a title is a strip of plastic tape, not another
+   mono caption. Two punches, so the page isn't one repeated sticker:
+   vinyl is Russo One pushed up out of black tape, clear is Bebas Neue
+   pressed into ivory tape.
+   --------------------------------------------------------------------- */
+:root {
+  --tape-vinyl: #16181a;
+  --tape-vinyl-ink: #e4e5e0;
+  --tape-clear: #e6e2d8;
+  --tape-clear-ink: #2a2c2e;
+}
+html[data-theme="day"] {
+  --tape-clear: #f4f1ea;
+  --tape-clear-ink: #1c1e20;
+}
+.sec-kicker,
+.sec-kicker *,
+.news-kicker,
+.news-kicker *,
+.zine-desk-kicker,
+.zine-desk-kicker *,
+.issue-cover-format,
+.issue-cover-format *,
+.confirm .sec-kicker,
+.confirm .sec-kicker * {
+  font-family: "Russo One", "Arial Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  font-synthesis: none;
+  font-variation-settings: normal;
+  font-size: 12px;
+  letter-spacing: .06em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--tape-vinyl-ink);
+  text-shadow:
+    -1px -1px 0 rgba(0, 0, 0, .85),
+    1px 1px 0 rgba(255, 255, 255, .28);
+}
+.sec-kicker,
+.news-kicker,
+.zine-desk-kicker,
+.issue-cover-format,
+.confirm .sec-kicker {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 10px;
+  padding: 6px 10px 5px;
+  justify-self: start;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(180deg, #3c4044 0%, var(--tape-vinyl) 48%, #0c0d0e 100%);
+  border: 1px solid #0a0b0c;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .38),
+    inset 0 -1px 0 rgba(0, 0, 0, .65),
+    0 1px 0 rgba(0, 0, 0, .22);
+}
+.zine-slug,
+.zine-slug *,
+.zine-stars-kicker,
+.zine-stars-kicker *,
+.home-stars-kicker,
+.home-stars-kicker *,
+.row-meta,
+.row-meta *,
+.front-card .row-meta,
+.front-card .row-meta *,
+.sec-head--zine .sec-kicker,
+.sec-head--zine .sec-kicker * {
+  font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  font-synthesis: none;
+  font-variation-settings: normal;
+  font-size: 17px;
+  letter-spacing: .08em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--tape-clear-ink);
+  text-shadow:
+    1px 1px 0 rgba(255, 255, 255, .72),
+    -1px -1px 0 rgba(0, 0, 0, .28);
+}
+.zine-slug,
+.zine-stars-kicker,
+.home-stars-kicker,
+.row-meta,
+.front-card .row-meta,
+.front-cover-meta,
+.sec-head--zine .sec-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 10px;
+  padding: 5px 9px 3px;
+  justify-self: start;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, #f7f4ee 0%, var(--tape-clear) 52%, #d4cfc4 100%);
+  border: 1px solid rgba(26, 28, 30, .28);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    inset 0 -1px 0 rgba(0, 0, 0, .16),
+    0 1px 0 rgba(26, 28, 30, .12);
+}
+.sec-head--zine .sec-kicker { margin: 0; }
+.zine-masthead .zine-slug,
+.zine-masthead--compact .zine-slug { margin-bottom: 12px; color: var(--tape-clear-ink); font-size: 17px; letter-spacing: .08em; }
+.row-meta > span + span::before,
+.zine-slug > span + span::before,
+.home-stars-kicker > span + span::before,
+.front-cover-meta > span + span::before {
+  color: rgba(26, 28, 30, .45);
+  text-shadow: none;
+}
+.news-kicker > span + span::before,
+.sec-kicker > span + span::before {
+  color: rgba(255, 255, 255, .45);
+  text-shadow: none;
+}
+.row-meta .join-level-state { color: var(--signal); text-shadow: none; }
+.home-stars-kicker span,
+.home-stars-kicker span:first-child { color: var(--tape-clear-ink); }
+.row.is-air .row-meta::before { color: var(--signal); text-shadow: none; }
+html[data-theme="day"] .zine-slug,
+html[data-theme="day"] .zine-stars-kicker,
+html[data-theme="day"] .home-stars-kicker,
+html[data-theme="day"] .row-meta,
+html[data-theme="day"] .front-card .row-meta,
+html[data-theme="day"] .front-cover-meta,
+html[data-theme="day"] .sec-head--zine .sec-kicker {
+  border-color: rgba(26, 28, 30, .4);
+}
+
+/* Phone, continued -------------------------------------------------------
+   Labels stay tapes. The rest of the small screen gets a column that
+   can actually be read: thumbs beside names, facts in two columns,
+   actions that fit a thumb, and nothing that scrolls sideways by accident.
+   --------------------------------------------------------------------- */
+@media (max-width: 859px) {
+  .page-title,
+  .sec-title,
+  .lead-title,
+  .lead-artist,
+  .zine-headline,
+  .row-title,
+  .row-artist,
+  .front-cover-headline {
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+  .lead-keys,
+  .ra-hero-ctas,
+  .lead-actions,
+  .pdp-actions,
+  .acct-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .nav-drawer.on { bottom: 0; }
+  .lead-keys .btn,
+  .ra-hero-ctas .btn,
+  .lead-actions .btn,
+  .pdp-actions .btn,
+  .acct-actions .btn {
+    flex: 1 1 calc(50% - 8px);
+    width: auto;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    min-height: 48px;
+    height: auto;
+    padding: 10px 10px;
+    font-size: 12px;
+    letter-spacing: .02em;
+  }
+  .lead-keys .btn-solid,
+  .ra-hero-ctas .btn-solid,
+  .lead-actions .btn-solid,
+  .pdp-actions .btn-solid,
+  .acct-actions .btn,
+  .lead-keys .btn-text,
+  .lead-actions .btn-text,
+  .pdp-actions .btn-text {
+    flex-basis: 100%;
+  }
+  .lead-actions:not(:has(.btn:nth-child(3))) .btn,
+  .pdp-actions:not(:has(.btn:nth-child(3))) .btn {
+    flex-basis: calc(50% - 8px);
+  }
+  .lead-actions:not(:has(.btn:nth-child(3))) .btn-text,
+  .pdp-actions:not(:has(.btn:nth-child(3))) .btn-text { flex-basis: 100%; }
+  .filters select,
+  .filter select,
+  .filters input[type="search"] { min-width: 0; width: 100%; max-width: 100%; }
+  .store-filters,
+  .store-sort,
+  .filter-view { flex-wrap: wrap; min-width: 0; max-width: 100%; }
+  .credit-row { flex-wrap: wrap; }
+  .credit-row .btn { flex: 1 1 120px; min-height: 44px; }
+}
+@media (max-width: 699px) {
+  .nav-inner { gap: 8px; padding-left: var(--gutter); padding-right: var(--gutter); }
+  .nav-logo img { height: 22px; }
+  .nav-end { gap: 2px; }
+  .page-title { font-size: clamp(46px, 13vw, 68px); }
+  .page-head { padding-bottom: 16px; }
+  .page-lede { font-size: 16px; }
+  .sec-kicker,
+  .sec-kicker *,
+  .news-kicker,
+  .news-kicker *,
+  .zine-desk-kicker,
+  .zine-desk-kicker *,
+  .issue-cover-format,
+  .issue-cover-format *,
+  .confirm .sec-kicker,
+  .confirm .sec-kicker * { font-size: 11px; letter-spacing: .04em; }
+  .sec-kicker,
+  .news-kicker,
+  .zine-desk-kicker,
+  .issue-cover-format,
+  .confirm .sec-kicker { padding: 5px 8px 4px; }
+  .zine-slug,
+  .zine-slug *,
+  .zine-stars-kicker,
+  .zine-stars-kicker *,
+  .home-stars-kicker,
+  .home-stars-kicker *,
+  .row-meta,
+  .row-meta *,
+  .front-card .row-meta,
+  .front-card .row-meta *,
+  .front-cover-meta,
+  .front-cover-meta *,
+  .sec-head--zine .sec-kicker,
+  .sec-head--zine .sec-kicker *,
+  .zine-masthead .zine-slug,
+  .zine-masthead .zine-slug * { font-size: 15px; letter-spacing: .06em; }
+  .zine-headline { max-width: none; font-size: clamp(36px, 11vw, 56px); text-wrap: balance; }
+  .zine-dek { font-size: 18px; max-width: none; }
+  .zine-sheet--story { padding-top: calc(var(--chrome-h) + 14px); padding-bottom: 36px; }
+  .file-info { grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+  .news-nav {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+  }
+  .news-nav a:nth-child(2) { grid-column: 1 / -1; grid-row: 1; text-align: left; }
+  .news-nav a:first-child { grid-row: 2; }
+  .news-nav a:last-child { grid-row: 2; text-align: right; overflow-wrap: anywhere; }
+  .zine-cols {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    gap: 0;
+    margin-left: calc(-1 * var(--gutter));
+    margin-right: calc(-1 * var(--gutter));
+    padding: 0 var(--gutter);
+    scrollbar-width: none;
+    border-top: 0;
+  }
+  .zine-cols::-webkit-scrollbar { display: none; }
+  .zine-cols a {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--rule);
+  }
+  .fact-row { grid-template-columns: 88px minmax(0, 1fr); gap: 6px 12px; padding: 12px 0; }
+  .fact-row--notes { grid-template-columns: 1fr; }
+  .specs > div,
+  .specs--wide > div { grid-template-columns: 1fr; gap: 2px 0; }
+  .issue-toc li {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "a" "s" "t";
+    gap: 4px;
+  }
+  .issue-toc li time { white-space: normal; padding-top: 2px; }
+  .catalogue-list li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .catalogue-list time,
+  .catalogue-list em { white-space: normal; }
+  .cat-main {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "id title" "artist artist" "tags tags";
+    column-gap: 10px;
+    row-gap: 2px;
+  }
+  .cat-list.is-covers .cat-main,
+  .cat-list[data-view="covers"] .cat-main,
+  .cat-list--covers .cat-main {
+    grid-template-columns: 1fr;
+    grid-template-areas: "id" "title" "artist" "tags";
+  }
+  .cat-title { font-size: 16px; line-height: 1.25; }
+  .cat-id { padding-top: 3px; }
+  .row--artist {
+    grid-template-columns: minmax(0, 1fr) 96px;
+    align-items: start;
+    gap: 8px 14px;
+  }
+  .row--artist .row-art {
+    order: 0;
+    width: 96px;
+    max-width: none;
+    aspect-ratio: 1;
+    justify-self: end;
+  }
+  .row--artist .row-artist { font-size: clamp(30px, 8vw, 42px); }
+  .row--artist .bio {
+    max-height: 6.4em;
+    overflow: hidden;
+  }
+  .release-head .release-sleeve:has(.artist-photo) {
+    max-width: 240px;
+    margin-right: auto;
+  }
+  .cart-line,
+  .cart-lines > .cart-line {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 8px 12px;
+    align-items: start;
+  }
+  .cart-thumb img { width: 64px; height: 64px; }
+  .cart-line-side {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    justify-items: start;
+    align-items: center;
+    gap: 8px 12px;
+  }
+  .footer-row--mark .footer-fact span { white-space: normal; }
+  .prose h2 { margin: 28px 0 10px; }
+  .prose summary { align-items: flex-start; }
+}
+@media (max-width: 380px) {
+  .lead-keys .btn,
+  .ra-hero-ctas .btn,
+  .lead-actions .btn,
+  .pdp-actions .btn,
+  .acct-actions .btn { flex-basis: 100%; }
 }

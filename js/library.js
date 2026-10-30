@@ -194,14 +194,7 @@
     var board = '';
 
     if (hasDigital && isFreeDownload(rel)) {
-      board =
-        '<div class="cat-price">' +
-          '<p class="cat-price-line" aria-label="' +
-            esc((rel.title || 'Release') + ' free download') +
-          '">' +
-            '<span class="cat-price-amt">Free</span>' +
-          '</p>' +
-        '</div>';
+      board = '';
     } else if (hasDigital) {
       var retail = Number(f.digital.price);
       var mem = digitalMemberPrice(retail);
@@ -245,10 +238,11 @@
       note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
     }
 
-    if (!board && !note) {
+    if (!board && !note && !(hasDigital && isFreeDownload(rel))) {
       note = '<p class="cat-format-note">' + esc(formatSide(rel)) + '</p>';
     }
 
+    if (!board && !note) return '';
     return '<div class="cat-side-pricing">' + board + note + '</div>';
   }
 
