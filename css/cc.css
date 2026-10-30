@@ -1,8 +1,8 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night is the default: concrete, with a few faint marks on it.
-   Short swings of a can, ink only, almost no colour. Day is the
-   same wall, faded further.
+   Night is the default: concrete, with the ghost of a can on it.
+   Overspray and a short drip, almost the colour of the wall.
+   Day is the same wall, faded further.
    Archivo for text, Big Shoulders Display
    for titles, Plex Mono for data. Rules are ink. The signal colour marks
    state, not the header.
@@ -36,8 +36,8 @@
   --ease: cubic-bezier(.2, .8, .2, 1);
   --grain: url("/css/grain-film.png?v=5");
   --grain-size: 768px;
-  --wall: url("/css/wall-graf.png?v=5");
-  --wall-size: 2000px 1700px;
+  --wall: url("/css/wall-graf.png?v=7");
+  --wall-size: 2000px 1600px;
   color-scheme: light;
 }
 /* Day is a paler sheet of the same grey. The same marks, faded. */
@@ -57,7 +57,7 @@ html[data-theme="day"] {
   --wall-chrome: rgba(255, 255, 255, .2);
   --grain: url("/css/grain-paper.png?v=5");
   --grain-size: 768px;
-  --wall: url("/css/wall-graf-day.png?v=5");
+  --wall: url("/css/wall-graf-day.png?v=7");
   color-scheme: light;
 }
 html:has(.sky) {
@@ -2049,4 +2049,21 @@ html[data-theme="day"] .sec-head--zine .sec-kicker {
   .lead-actions .btn,
   .pdp-actions .btn,
   .acct-actions .btn { flex-basis: 100%; }
+}
+
+/* Phone, the last pass ---------------------------------------------------
+   Keep the shelf flat. A long "latest" link ellipsizes, and the
+   wordmark stays inside the screen.
+   --------------------------------------------------------------------- */
+@media (max-width: 699px) {
+  .home .row--artist .row-actions { max-width: 100%; }
+  .home .row--artist .btn-text {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .footer-wordmark { font-size: clamp(52px, 15vw, 76px); line-height: .86; }
+  .sign-chart em { font-size: 10px; letter-spacing: 0; }
 }
