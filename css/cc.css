@@ -1,7 +1,9 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night is the default: a light concrete wall, spray, and a little chrome.
-   Day is the same wall bleached. Archivo for text, Big Shoulders Display
+   Night is the default: concrete, with a few faint marks on it.
+   Short swings of a can, ink only, almost no colour. Day is the
+   same wall, faded further.
+   Archivo for text, Big Shoulders Display
    for titles, Plex Mono for data. Rules are ink. The signal colour marks
    state, not the header.
    ========================================================================== */
@@ -32,11 +34,13 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --grain: url("/css/grain-film.png");
+  --grain: url("/css/grain-film.png?v=5");
   --grain-size: 768px;
+  --wall: url("/css/wall-graf.png?v=5");
+  --wall-size: 2000px 1700px;
   color-scheme: light;
 }
-/* Day is a paler sheet of the same grey. Less spray, more paper. */
+/* Day is a paler sheet of the same grey. The same marks, faded. */
 html[data-theme="day"] {
   --bg: #efefed;
   --bg-2: #e3e3e0;
@@ -51,8 +55,9 @@ html[data-theme="day"] {
   --signal-ink: #1a1c1e;
   --wall-lift: rgba(255, 255, 255, .55);
   --wall-chrome: rgba(255, 255, 255, .2);
-  --grain: url("/css/grain-paper.png");
+  --grain: url("/css/grain-paper.png?v=5");
   --grain-size: 768px;
+  --wall: url("/css/wall-graf-day.png?v=5");
   color-scheme: light;
 }
 html:has(.sky) {
@@ -70,9 +75,10 @@ body {
   background-image:
     radial-gradient(88% 46% at 50% -12%, var(--wall-lift), transparent 64%),
     linear-gradient(118deg, transparent 36%, var(--wall-chrome) 47%, transparent 56%),
-    var(--grain);
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: auto, auto, var(--grain-size) var(--grain-size);
+    var(--grain),
+    var(--wall);
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  background-size: auto, auto, var(--grain-size) var(--grain-size), var(--wall-size);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
   padding-bottom: var(--safe-b);
