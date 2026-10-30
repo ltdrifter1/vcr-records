@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """A concrete wall with the ghost of UK street paint.
 
-Overspray, a short drip, a partial arc. Nothing you can read.
+Overspray and a washed-out drip. Nothing you can read.
 Night is the mark; day is the same paint, faded further.
 """
 from __future__ import annotations
