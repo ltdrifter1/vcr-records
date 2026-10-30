@@ -1,7 +1,8 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night is the default: concrete with a throw-up on it. Orange fill,
-   a black keyline, drips, and a tag. Day is the same piece, faded.
+   Night is the default: concrete, with a few faint marks on it.
+   Short swings of a can, ink only, almost no colour. Day is the
+   same wall, faded further.
    Archivo for text, Big Shoulders Display
    for titles, Plex Mono for data. Rules are ink. The signal colour marks
    state, not the header.
@@ -33,13 +34,13 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --grain: url("/css/grain-film.png");
+  --grain: url("/css/grain-film.png?v=5");
   --grain-size: 768px;
-  --wall: url("/css/wall-graf.png");
+  --wall: url("/css/wall-graf.png?v=5");
   --wall-size: 2000px 1700px;
   color-scheme: light;
 }
-/* Day is a paler sheet of the same grey. The same piece, faded. */
+/* Day is a paler sheet of the same grey. The same marks, faded. */
 html[data-theme="day"] {
   --bg: #efefed;
   --bg-2: #e3e3e0;
@@ -54,9 +55,9 @@ html[data-theme="day"] {
   --signal-ink: #1a1c1e;
   --wall-lift: rgba(255, 255, 255, .55);
   --wall-chrome: rgba(255, 255, 255, .2);
-  --grain: url("/css/grain-paper.png");
+  --grain: url("/css/grain-paper.png?v=5");
   --grain-size: 768px;
-  --wall: url("/css/wall-graf-day.png");
+  --wall: url("/css/wall-graf-day.png?v=5");
   color-scheme: light;
 }
 html:has(.sky) {
@@ -83,9 +84,6 @@ body {
   padding-bottom: var(--safe-b);
 }
 body.has-vcr-player { padding-bottom: calc(var(--dock-h) + var(--safe-b)); }
-@media (max-width: 699px) {
-  body { background-position: 0 0, 0 0, 0 0, -780px 280px; }
-}
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; }
