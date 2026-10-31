@@ -7,7 +7,7 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 Black ground, one grotesk, hairlines. The catalogue is the site. Direction and research in [`docs/redesign-2026-10.md`](docs/redesign-2026-10.md).
 
 - Type: **Archivo** (variable width; expanded for display, normal for body) and **IBM Plex Mono** for catalogue data. No second display face.
-- Ground: dead wax, not a texture. Night `#CFC6B8`, day `#F3EFE6`, ink `#1A1C1E`. Five lock grooves sit fixed on every page: a red off-register ring (Underground Resistance), a long empty gap (Basic Channel), a doubled metal edge (Metalheadz), a soft band (Hyperdub), and an outer hairline with crop marks (Warp). The runout in the right margin reads `CC-LOCK 01–05`. It does not scroll or tile. Signal `#E23B10` is that red lock, and also state (on air, active row, focus).
+- Ground: a compact disc, tilted and cropped. Night `#CFC6B8`, day `#F3EFE6`, ink `#1A1C1E`. One chrome rim, a packed data band, a hub, and a signal-red ring pulled off register. The left margin reads `CC-96 DISC CHROME JUNGLE HOUSE BASS`. It does not scroll or tile. Signal `#E23B10` is that ring, and also state (on air, active row, focus).
 - Layout: full-width rows separated by one hairline; release rows put the text left and the cover right; the Library is a dense list with genre and artist filters and a sleeves view.
 - One stylesheet: `css/cc.css`. The wall is the only texture. No stamp shadows, gel highlights, or a second typeface.
 
