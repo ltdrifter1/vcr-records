@@ -1,14 +1,10 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night is the default. The ground is dead wax: five lock grooves.
-   The label of the disc is off the page. What you see is the runout.
-     01 REDACT  Underground Resistance — one red ring, pulled off register
-     02 REDUCE  Basic Channel — the long empty gap between rings
-     03 PRESS   Metalheadz — a doubled edge, like a metal stamp
-     04 NIGHT   Hyperdub — a soft band. The field is the picture
-     05 SPEC    Warp — the outer hairline, plus crop marks and a part line
-   Day is the same wax, bleached. Archivo for text, Plex Mono for data.
-   Signal marks state, and the red lock.
+   Night is the default. The ground is a compact disc, 1996, redrawn flat.
+   Tilted, cropped, one chrome rim, a packed data band, a hub.
+   The signal ring is the fluorescent plate, pulled off register.
+   Day is the same disc with the light up.
+   Archivo for text, Plex Mono for data. Signal marks state, and that ring.
    ========================================================================== */
 
 :root {
@@ -35,12 +31,14 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --groove: rgba(26, 28, 30, .62);
-  --groove-quiet: rgba(26, 28, 30, .28);
-  --groove-soft: rgba(26, 28, 30, .11);
+  --groove: rgba(26, 28, 30, .72);
+  --groove-quiet: rgba(26, 28, 30, .38);
+  --groove-soft: rgba(26, 28, 30, .07);
+  --glint: rgba(255, 252, 246, .95);
+  --rim: rgba(26, 28, 30, .88);
   --runout: rgba(26, 28, 30, .78);
-  --disc-x: 88%;
-  --disc-y: 112%;
+  --disc-x: 94%;
+  --disc-y: 70%;
   color-scheme: light;
 }
 /* Day is the same wax, with the light up. */
@@ -56,9 +54,11 @@ html[data-theme="day"] {
   --rule: var(--ink);
   --signal: #d23c10;
   --signal-ink: #1a1c1e;
-  --groove: rgba(26, 28, 30, .45);
-  --groove-quiet: rgba(26, 28, 30, .2);
-  --groove-soft: rgba(26, 28, 30, .07);
+  --groove: rgba(26, 28, 30, .5);
+  --groove-quiet: rgba(26, 28, 30, .26);
+  --groove-soft: rgba(26, 28, 30, .045);
+  --glint: rgba(255, 255, 255, .98);
+  --rim: rgba(26, 28, 30, .62);
   --runout: rgba(26, 28, 30, .62);
   color-scheme: light;
 }
@@ -80,7 +80,8 @@ body {
   min-height: 100svh;
   padding-bottom: var(--safe-b);
 }
-/* The disc does not scroll and does not repeat. Text paints over it. */
+/* The disc does not scroll and does not repeat. Text paints over it.
+   Ellipse, not a circle: a CD leaning back, the way a 90s sleeve render sat. */
 body::before {
   content: "";
   position: fixed;
@@ -89,23 +90,17 @@ body::before {
   pointer-events: none;
   background:
     linear-gradient(90deg, var(--signal) 0 5px, transparent 5px),
-    linear-gradient(var(--ink), var(--ink)) left 14px top calc(var(--chrome-h) + 14px) / 16px 1px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) left 14px top calc(var(--chrome-h) + 14px) / 1px 16px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) right 18px top calc(var(--chrome-h) + 14px) / 16px 1px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) right 18px top calc(var(--chrome-h) + 14px) / 1px 16px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) left 14px bottom 14px / 16px 1px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) left 14px bottom 14px / 1px 16px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) right 18px bottom 14px / 16px 1px no-repeat,
-    linear-gradient(var(--ink), var(--ink)) right 18px bottom 14px / 1px 16px no-repeat,
-    radial-gradient(circle at var(--disc-x) var(--disc-y), transparent 14vmin, var(--groove-soft) 18vmin, var(--groove-soft) 28vmin, transparent 34vmin),
-    radial-gradient(circle at var(--disc-x) var(--disc-y), transparent 30vmin, var(--groove) 30vmin calc(30vmin + 1.5px), transparent calc(30vmin + 1.5px)),
-    radial-gradient(circle at var(--disc-x) var(--disc-y), transparent calc(30vmin + 5px), var(--groove) calc(30vmin + 5px) calc(30vmin + 6.5px), transparent calc(30vmin + 6.5px)),
-    radial-gradient(circle at var(--disc-x) var(--disc-y), transparent 44vmin, var(--groove-quiet) 44vmin calc(44vmin + 1px), transparent calc(44vmin + 1px)),
-    radial-gradient(circle at var(--disc-x) var(--disc-y), transparent 54vmin, var(--groove) 54vmin calc(54vmin + 1.25px), transparent calc(54vmin + 1.25px)),
-    radial-gradient(circle at calc(var(--disc-x) + 9px) calc(var(--disc-y) + 6px), transparent 38vmin, var(--signal) 38vmin calc(38vmin + 3px), transparent calc(38vmin + 3px));
+    radial-gradient(ellipse 92vmin 34vmin at calc(var(--disc-x) + 22px) calc(var(--disc-y) + 10px), transparent calc(100% - 5px), var(--signal) calc(100% - 5px) calc(100% - 1px), transparent calc(100% - 1px)),
+    radial-gradient(ellipse 104vmin 38vmin at calc(var(--disc-x) - 8px) calc(var(--disc-y) - 6px), transparent calc(100% - 3px), var(--glint) calc(100% - 3px) calc(100% - 0.6px), transparent calc(100% - 0.6px)),
+    radial-gradient(ellipse 108vmin 40vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 5px), var(--rim) calc(100% - 5px) calc(100% - 1px), transparent calc(100% - 1px)),
+    radial-gradient(ellipse 64vmin 23.6vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
+    radial-gradient(ellipse 68vmin 25vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove-quiet) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
+    radial-gradient(ellipse 72vmin 26.5vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
+    radial-gradient(ellipse 76vmin 28vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove-quiet) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
+    radial-gradient(ellipse 108vmin 40vmin at var(--disc-x) var(--disc-y), var(--groove-soft) 0 58%, transparent 72%);
 }
 body::after {
-  content: "CC-LOCK   01 REDACT   02 REDUCE   03 PRESS   04 NIGHT   05 SPEC";
+  content: "CC-96   DISC   CHROME   JUNGLE   HOUSE   BASS";
   position: fixed;
   z-index: -1;
   top: calc(var(--chrome-h) + 44px);
@@ -224,7 +219,7 @@ html:not([data-theme="day"]) .sky-knob::after { transform: translateX(12px); }
 html[data-theme="day"] .sky-lab-night { display: none; }
 html:not([data-theme="day"]) .sky-lab-day { display: none; }
 @media (max-width: 719px) {
-  :root { --sky-h: 40px; --nav-h: 52px; --gutter: 22px; --disc-x: 112%; --disc-y: 96%; }
+  :root { --sky-h: 40px; --nav-h: 52px; --gutter: 22px; --disc-x: 148%; --disc-y: 108%; }
   main, .footer { margin-left: 0; }
   body::after { display: none; }
   .sky { gap: 12px; }
@@ -1336,7 +1331,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-/* Grooves show in the open wax. A row, a paragraph, or a card is paper,
+/* The disc runs under the page. A row, a paragraph, or a card is paper,
    the same colour as the ground, so a ring stops at the object instead of striking the type. */
 .page-title,
 .page-lede,
