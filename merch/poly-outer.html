@@ -34,9 +34,9 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc16"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc18"/>
   
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Club Copy Poly Outer","image":"https://www.clubcopy.ca/merch/club-copy/prod-poly-outer.webp","description":"Clear protective outer for records and sleeves. Keep the archive clean.","sku":"sm-poly-outer","brand":{"@type":"Brand","name":"Club Copy"},"offers":{"@type":"Offer","priceCurrency":"CAD","price":"5","availability":"https://schema.org/InStock","url":"https://www.clubcopy.ca/merch/poly-outer"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Club Copy Poly Outer","image":"https://www.clubcopy.ca/merch/club-copy/prod-poly-outer.webp","description":"Clear protective outer for records and sleeves. Keep the archive clean.","sku":"sm-poly-outer","brand":{"@type":"Brand","name":"Club Copy"},"offers":{"@type":"Offer","priceCurrency":"CAD","price":"5","availability":"https://schema.org/SoldOut","url":"https://www.clubcopy.ca/merch/poly-outer"}}</script>
 </head>
 <body class="cc shop-page pdp">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -87,7 +87,7 @@
 <section class="release-head product-head" aria-label="Club Copy Poly Outer">
   <div class="release-copy">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><a href="/merch">Shop</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Club Copy Poly Outer</span></nav>
-    <p class="mono row-meta"><span>Goods</span><span>In stock</span></p>
+    <p class="mono row-meta"><span>Goods</span><span class="is-sold">Sold out</span></p>
     <h1 class="lead-title">Club Copy Poly Outer</h1>
     <p class="page-lede">Clear protective outer for records and sleeves. Keep the archive clean.</p>
     <p class="mono pdp-price">$5 CAD</p>
@@ -96,10 +96,21 @@
     
     
     <div class="lead-actions pdp-actions">
-      <button type="button" class="btn btn-solid" id="pdpAdd" data-sku="sm-poly-outer" data-name="Poly Outer" data-price="5" data-image="/merch/club-copy/prod-poly-outer.webp" data-needs-size="0">Add to cart</button>
+      <button type="button" class="btn btn-solid" id="pdpAdd" data-sku="sm-poly-outer" data-name="Poly Outer" data-price="5" data-image="/merch/club-copy/prod-poly-outer.webp" data-needs-size="0" disabled>Sold out</button>
       <a class="btn" href="/merch">Back to shop</a>
       <a class="btn btn-text" href="/shipping">Shipping &amp; returns</a>
     </div>
+    <form class="pdp-restock" id="pdpRestock" data-sku="sm-poly-outer" data-name="Club Copy Poly Outer" data-fallback="https://formspree.io/f/xdkwjzzr" novalidate>
+    <p class="mono pdp-label">Back in stock</p>
+    <p class="pdp-restock-lede">Sold out. Leave your email and we'll write when it's back.</p>
+    <div class="field">
+      <label for="pdpRestockEmail">Email</label>
+      <input type="email" id="pdpRestockEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
+    </div>
+    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
+    <button type="submit" class="btn btn-solid" id="pdpRestockSubmit">Email me</button>
+    <p class="pdp-restock-status mono" id="pdpRestockStatus" role="status" hidden></p>
+  </form>
   </div>
   <div class="release-sleeve pdp-gallery">
     <div class="pdp-art" id="pdpArt"><img id="pdpImage" src="/merch/club-copy/prod-poly-outer.webp" alt="Poly Outer" width="1200" height="1200" fetchpriority="high"/></div>
@@ -109,13 +120,13 @@
 <section class="sec" aria-labelledby="more-title"><header class="sec-head">
   <h2 class="sec-title" id="more-title">More from the collection</h2>
   <a class="sec-link" href="/merch">All goods</a>
-</header><ul class="store-grid store-grid--related"><li class="product row row--product product--featured is-shown" data-type="clothing" data-sku="sm-hoodie" data-name="Club Copy Hoodie" data-price="85" data-sort="87" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="30" data-sizes="S,M,L,XL" >
+</header><ul class="store-grid store-grid--related"><li class="product row row--product product--featured product--sold is-shown" data-type="clothing" data-sku="sm-hoodie" data-name="Club Copy Hoodie" data-price="85" data-sort="87" data-fit="Relaxed fit · midweight fleece" data-ships="Packed in BC · 2–4 business days" data-stock="Sold out" data-stock-qty="0" data-sizes="S,M,L,XL" >
   <div class="product-info row-main">
-    <p class="mono row-meta product-meta-row"><span>Apparel</span><span>Relaxed fit · midweight fleece</span><span>In stock</span></p>
+    <p class="mono row-meta product-meta-row"><span>Apparel</span><span>Relaxed fit · midweight fleece</span><span>Sold out</span></p>
     <h3 class="product-title row-artist"><a href="/merch/hoodie">Club Copy Hoodie</a></h3>
     <p class="row-dek">Relaxed midweight fleece with a tonal Club Copy mark. Clean hood, no drawstrings — soft structure for late…</p>
     <div class="row-actions">
-      <a class="btn btn-small" href="/merch/hoodie">View · $85</a>
+      <a class="btn btn-small" href="/merch/hoodie">Sold out · $85</a>
       <span class="mono row-fmt product-type">Apparel</span><span class="product-price sr-only">$85</span>
     </div>
   </div>
@@ -133,13 +144,13 @@
   </div>
   <a class="product-visual row-art" href="/merch/micro-tee" aria-label="Club Copy Micro Tee"><img src="/merch/club-copy/prod-simple-tee-black.jpg" alt="Club Copy Micro Tee" width="1200" height="1200" loading="lazy"/></a>
 </li>
-<li class="product row row--product is-shown" data-type="clothing" data-sku="sm-cap" data-name="Club Copy Cap" data-price="45" data-sort="85" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="In stock" data-stock-qty="50" >
+<li class="product row row--product product--sold is-shown" data-type="clothing" data-sku="sm-cap" data-name="Club Copy Cap" data-price="45" data-sort="85" data-fit="One size · washed six-panel" data-ships="Packed in BC · 2–4 business days" data-stock="Sold out" data-stock-qty="0" >
   <div class="product-info row-main">
-    <p class="mono row-meta product-meta-row"><span>Apparel</span><span>One size · washed six-panel</span><span>In stock</span></p>
+    <p class="mono row-meta product-meta-row"><span>Apparel</span><span>One size · washed six-panel</span><span>Sold out</span></p>
     <h3 class="product-title row-artist"><a href="/merch/cap">Club Copy Cap</a></h3>
     <p class="row-dek">Washed six-panel. One size. The mark sits low and close.</p>
     <div class="row-actions">
-      <a class="btn btn-small" href="/merch/cap">View · $45</a>
+      <a class="btn btn-small" href="/merch/cap">Sold out · $45</a>
       <span class="mono row-fmt product-type">Apparel</span><span class="product-price sr-only">$45</span>
     </div>
   </div>
@@ -192,10 +203,10 @@
   </div>
 </footer>
 <script src="/js/site.js?v=cc12"></script>
-<script src="/js/cart.js?v=cc5"></script>
-<script src="/js/member.js?v=cc5"></script>
-<script src="/js/player.js?v=cc5"></script>
-<script src="/js/product.js?v=cc5"></script>
+<script src="/js/cart.js?v=cc12"></script>
+<script src="/js/member.js?v=cc12"></script>
+<script src="/js/player.js?v=cc12"></script>
+<script src="/js/product.js?v=cc12"></script>
 
 </body>
 </html>

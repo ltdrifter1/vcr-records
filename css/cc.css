@@ -886,6 +886,15 @@ body.nav-open { overflow: hidden; }
 .pdp-thumb { width: 64px; aspect-ratio: 1; border: 1px solid var(--line); background: var(--bg-2); padding: 0; }
 .pdp-thumb.is-active { border-color: var(--ink); }
 .pdp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.row-meta .is-sold,
+.product--sold .product-meta-row span:last-child { color: var(--signal); }
+.pdp-restock { margin-top: 28px; display: grid; gap: 12px; max-width: 28rem; }
+.pdp-restock .field { margin: 0; }
+.pdp-restock .btn { justify-self: start; }
+.pdp-restock-lede { margin: 0; color: var(--ink-2); max-width: 42ch; }
+.pdp-restock-status { margin: 0; color: var(--ink-2); }
+.pdp-restock-status.is-error { color: var(--signal); }
+@media (max-width: 859px) { .pdp-restock .btn { width: 100%; } }
 
 /* Forms, panels, cart, account ----------------------------------------- */
 .field { display: grid; gap: 6px; }
