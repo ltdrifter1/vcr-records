@@ -276,18 +276,22 @@
         (preorder ? 'Pre-order' : 'View release') +
         '</a>';
     }
-    var label = preorder && !d ? 'Pre-order' : 'Add to cart';
+    var priceLabel = '$' + money(offer.price);
+    var priced = !(preorder && !d);
+    var label = priced ? priceLabel : 'Pre-order';
+    if (priced) cls += ' cat-add--price';
     var fmtName = d ? (rel.title + ' — Digital') : (rel.title + ' — Cassette');
     var image = d
       ? (rel.cover || rel.coverThumb || '')
       : (c.image || rel.cover || rel.coverThumb || '');
+    var accessible = priced ? ('Add ' + rel.title + ' for ' + priceLabel) : (label + ' ' + rel.title);
     return (
       '<button type="button" class="' + cls + '" data-add-release="' + esc(rel.id) + '"' +
         ' data-sku="' + esc(offer.sku) + '"' +
         ' data-name="' + esc(fmtName) + '"' +
         ' data-price="' + esc(offer.price) + '"' +
         ' data-image="' + esc(image) + '"' +
-        ' aria-label="' + esc(label + ' ' + rel.title) + '">' +
+        ' aria-label="' + esc(accessible) + '">' +
         label +
       '</button>'
     );
