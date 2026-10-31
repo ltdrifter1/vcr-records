@@ -1,10 +1,10 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   One wall. Night concrete, with the grain in the cement and the ghost
-   of a single can (overspray, one drip). Day is that wall, faded.
-   The catalogue sits on the wall the way a label sits on black or white:
-   one grotesk (Archivo), Plex for the data, one hairline, colour from
-   the sleeve. Signal is state only.
+   Night is the default. The ground is board-formed concrete: the seam
+   the lumber left, a roller that did not match, a flyer pulled off,
+   a drip that dried. No spotlight on it. Day is the same wall, faded.
+   Archivo for text, Plex Mono for data. One hairline. The signal colour
+   marks state, not the header.
    ========================================================================== */
 
 :root {
@@ -19,8 +19,6 @@
   --rule: var(--ink);
   --signal: #e23b10;
   --signal-ink: #1a1c1e;
-  --wall-lift: rgba(255, 255, 255, .28);
-  --wall-chrome: rgba(255, 255, 255, .22);
   --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -33,9 +31,12 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --grain: url("/css/grain-concrete.png?v=8");
-  --grain-size: 320px;
-  --wall: url("/css/ghost-can.png?v=8");
+  --grain: url("/css/grain-film.png?v=5");
+  --grain-size: 768px;
+  --concrete: url("/css/wall-concrete.png?v=1");
+  --concrete-size: 800px;
+  --wall: url("/css/wall-graf.png?v=8");
+  --wall-size: 2000px 1500px;
   color-scheme: light;
 }
 /* Day is a paler sheet of the same grey. The same marks, faded. */
@@ -51,11 +52,10 @@ html[data-theme="day"] {
   --rule: var(--ink);
   --signal: #d23c10;
   --signal-ink: #1a1c1e;
-  --wall-lift: rgba(255, 255, 255, .55);
-  --wall-chrome: rgba(255, 255, 255, .2);
-  --grain: url("/css/grain-concrete.png?v=8");
-  --grain-size: 320px;
-  --wall: url("/css/ghost-can.png?v=8");
+  --grain: url("/css/grain-paper.png?v=5");
+  --grain-size: 768px;
+  --concrete: url("/css/wall-concrete-day.png?v=1");
+  --wall: url("/css/wall-graf-day.png?v=8");
   color-scheme: light;
 }
 html:has(.sky) {
@@ -71,37 +71,18 @@ body {
   font-size: 17px;
   line-height: 1.5;
   color: var(--ink);
-  background: transparent;
+  background-color: var(--bg);
+  background-image: var(--grain), var(--wall), var(--concrete);
+  background-repeat: repeat, no-repeat, repeat;
+  background-position: 0 0, 8% top, 0 0;
+  background-size:
+    var(--grain-size) var(--grain-size),
+    min(2000px, 132vw) auto,
+    var(--concrete-size) var(--concrete-size);
   -webkit-font-smoothing: antialiased;
   min-height: 100svh;
   padding-bottom: var(--safe-b);
 }
-/* The wall is fixed. Grain is multiplied into the concrete; the can is
-   one mark on top of it, not a second repeating film. */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-body::before {
-  z-index: -2;
-  background-color: var(--bg);
-  background-image: var(--grain);
-  background-repeat: repeat;
-  background-size: var(--grain-size) var(--grain-size);
-  background-blend-mode: multiply;
-}
-body::after {
-  z-index: -1;
-  background-image: var(--wall);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-}
-html[data-theme="day"] body::before { opacity: .5; }
-html[data-theme="day"] body::after { opacity: .4; }
 body.has-vcr-player { padding-bottom: calc(var(--dock-h) + var(--safe-b)); }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
@@ -206,6 +187,10 @@ html[data-theme="day"] .sky-lab-night { display: none; }
 html:not([data-theme="day"]) .sky-lab-day { display: none; }
 @media (max-width: 719px) {
   :root { --sky-h: 40px; --nav-h: 52px; }
+  body {
+    background-position: 0 0, left top, 0 0;
+    background-size: 520px 520px, 1100px auto, 520px 520px;
+  }
   .sky { gap: 12px; }
   .sky-home { display: none; }
   .sky-home + *::before { content: none; margin: 0; }
@@ -1141,8 +1126,7 @@ body.vcr-dock-away .vcr-player.is-visible, body.vcr-stage-open .vcr-player.is-vi
 }
 @media print {
   .sky, .nav, .nav-drawer, .footer, .vcr-player, .key, .btn { display: none !important; }
-  body { background: #fff; color: #000; }
-  body::before, body::after { display: none; }
+  body { background: #fff; color: #000; background-image: none; }
 }
 
 /* Fixes after first render ---------------------------------------------- */
