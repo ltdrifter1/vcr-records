@@ -13,6 +13,13 @@ assert.strictEqual(abs, "https://t4.bcbits.com/stream/abc/mp3-128/1");
 assert.ok(bc.streamAllowed(abs));
 assert.ok(bc.streamAllowed("//t4.bcbits.com/stream/abc/mp3-128/1"));
 assert.ok(!bc.streamAllowed("https://evil.example/x.mp3"));
+assert.strictEqual(
+  bc.publicPage({ bandcampUrl: "https://forsberg.bandcamp.com/track/a-ap-forever" }),
+  "https://forsberg.bandcamp.com/track/a-ap-forever"
+);
+assert.strictEqual(bc.publicPage({ bandcampUrl: "http://forsberg.bandcamp.com/track/x" }), null);
+assert.strictEqual(bc.publicPage({ bandcampUrl: "https://evil.example/track/x" }), null);
+assert.strictEqual(bc.publicPage({}), null);
 
 const picked = bc.pickStream(tralbum, { title: "Desire" });
 assert.ok(picked);

@@ -24,6 +24,18 @@ function json(res, status, body) {
   return res.end(JSON.stringify(body));
 }
 
+/** Browser-facing download links should land on the release, not a JSON error. */
+function redirectToPublicPage(res, release) {
+  const page = bc.publicPage(release);
+  if (!page) return false;
+  res.statusCode = 302;
+  res.setHeader("Location", page);
+  res.setHeader("Cache-Control", "private, no-store");
+  res.setHeader("Referrer-Policy", "no-referrer");
+  res.end();
+  return true;
+}
+
 function loadCatalog() {
   const now = Date.now();
   if (catalogCache && now - catalogAt < 60 * 1000) return catalogCache;
@@ -168,6 +180,10 @@ module.exports = async function handler(req, res) {
         return json(res, 502, { error: "Bandcamp page " + fetched.status });
       }
       const tralbum = bc.parseTralbum(fetched.body);
+      if (!tralbum) {
+        if (redirectToPublicPage(res, cue.release)) return;
+        return json(res, 502, { error: "No Bandcamp stream metadata" });
+      }
       const freePage = bc.freeDownloadUrl(tralbum);
       if (freePage) {
         res.statusCode = 302;
@@ -210,6 +226,7 @@ module.exports = async function handler(req, res) {
     res.setHeader("Referrer-Policy", "no-referrer");
     return res.end();
   } catch (err) {
+    if (download && redirectToPublicPage(res, cue && cue.release)) return;
     return json(res, 502, {
       error: "Could not play this preview.",
       detail: err && err.message ? err.message : "stream",
