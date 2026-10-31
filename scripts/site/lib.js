@@ -6,8 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc13";
-const CSS_VERSION = "cc19";
+const VERSION = "cc14";
+const CSS_VERSION = "cc20";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -140,7 +140,7 @@ const THEME_BOOT = `<script>
         if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#efefed" : "#c5c7c3");
+        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
       } catch (e) {}
@@ -261,7 +261,7 @@ function page(o) {
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>${esc(title)}</title>
   <meta name="description" content="${attr(o.description || "Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette.")}"/>
-  <meta name="theme-color" content="#c5c7c3"/>
+  <meta name="theme-color" content="#cfc6b8"/>
   <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="${canonical}"/>
   ${o.noindex ? '<meta name="robots" content="noindex"/>' : ""}

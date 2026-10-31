@@ -209,7 +209,7 @@
     if (theme !== "day" && theme !== "night") theme = "night";
     document.documentElement.setAttribute("data-theme", theme);
     var color = document.querySelector('meta[name="theme-color"]');
-    if (color) color.setAttribute("content", theme === "day" ? "#efefed" : "#c5c7c3");
+    if (color) color.setAttribute("content", theme === "day" ? "#f3efe6" : "#cfc6b8");
     var scheme = document.querySelector('meta[name="color-scheme"]');
     if (scheme) scheme.setAttribute("content", "light");
     var btn = document.getElementById("themeToggle");
