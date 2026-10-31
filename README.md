@@ -7,7 +7,7 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 Black ground, one grotesk, hairlines. The catalogue is the site. Direction and research in [`docs/redesign-2026-10.md`](docs/redesign-2026-10.md).
 
 - Type: **Archivo** (variable width; expanded for display, normal for body) and **IBM Plex Mono** for catalogue data. No second display face.
-- Ground: board-formed concrete. Night `#C5C7C3`, day `#EFEFED`, ink `#1A1C1E`. A repeating pour (`css/wall-concrete.png`), film grain, and one mark layer (`css/wall-graf.png`: a roller, a pulled flyer, a drip). Signal `#E23B10` is state only (on air, active row, focus).
+- Ground: the mark, printed once. Night `#C5C7C3`, day `#EFEFED`, ink `#1A1C1E`. One screened plate (`css/wall-graf.png`): the oval and star in halftone, signal red `#E23B10` only on the missed pass. It does not tile. Signal is also state (on air, active row, focus). Rebuild the plate with `python3 scripts/build-wall-graf.py`.
 - Layout: full-width rows separated by one hairline; release rows put the text left and the cover right; the Library is a dense list with genre and artist filters and a sleeves view.
 - One stylesheet: `css/cc.css`. The wall is the only texture. No stamp shadows, gel highlights, or a second typeface.
 
