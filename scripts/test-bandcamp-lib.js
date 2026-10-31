@@ -58,7 +58,7 @@ assert.ok(!products["dg-freed-from"]);
 assert.ok(!products["dg-call-anytime"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "renegade-snares", "shaolin-style", "summer-madness", "three-4-zone"]
+  ["artificial-intelligence", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "shaolin-style", "slims-return", "summer-madness", "three-4-zone"]
 );
 assert.deepStrictEqual(
   ["get-me-down", "three-4-zone"].map((id) => {
@@ -72,7 +72,7 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["high-low", "dont-cry", "some-kinda-heaven", "whats-luv", "lifetime", "everyday", "shaolin-style", "links", "renegade-snares"].map((id) => {
+  ["high-low", "dont-cry", "some-kinda-heaven", "whats-luv", "lifetime", "everyday", "shaolin-style", "links"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.previewTrackId, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
@@ -86,7 +86,6 @@ assert.deepStrictEqual(
     ["CC025", "everyday", "forsberg", "Single", "2026-10-23", "/everyday", "evd-01", 1.5, "dg-everyday", "https://forsberg.bandcamp.com/track/everyday", "evd-01", 237, 3110656434, 150],
     ["CC034", "Lavery - Shaolin Style (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-24", "/shaolin-style", "sha-01", 0, "dg-shaolin-style", "https://ltdrifta.bandcamp.com/track/lavery-shaolin-style-l-t-s-vip-mix", "sha-01", 278, 717888588, 0],
     ["CC031", "The Chameleon - Links (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/links", "lnk-01", 0, "dg-links", "https://ltdrifta.bandcamp.com/track/the-chameleon-links-l-t-s-vip-mix", "lnk-01", 297, 414441591, 0],
-    ["CC030", "Omni Trio - Renegade Snares (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/renegade-snares", "rsn-01", 0, "dg-renegade-snares", "https://ltdrifta.bandcamp.com/track/omni-trio-renegade-snares-l-t-s-vip-mix", "rsn-01", 288, 1492829470, 0],
   ]
 );
 
@@ -157,6 +156,7 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
+    "a-ap-forever",
     "ipod-touch",
     "so-good",
     "dont-cry",
@@ -198,7 +198,7 @@ assert.deepStrictEqual(
     ];
   }),
   [
-    ["CC022", "The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)", "forsberg", "Single", "2026-10-23", "/i-give-everything", "ige-01", 0, "dg-i-give-everything", "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix", "ige-01", 165, 911399412, 0],
+    ["CC022", "The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)", "forsberg", "Single", "2026-10-23", "/i-give-everything", "ige-01", 0, "dg-i-give-everything", "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix", "ige-01", 274, 911399412, 0],
     ["CC018", "safe as", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
     ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
     ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
@@ -298,7 +298,10 @@ assert.strictEqual(bc.freeDownloadUrl({}), null);
 for (const rel of catalog.releases) {
   const digital = rel.formats && rel.formats.digital;
   if (!digital) continue;
-  if (isFreeDownloadTitle(rel.title)) {
+  // Bandcamp name-your-price at $0 stays free. A bootleg title is not enough
+  // once Bandcamp sets a minimum (iPod Touch, So Good).
+  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good";
+  if ((isFreeDownloadTitle(rel.title) && !pricedDespiteTitle) || digital.free) {
     assert.strictEqual(digital.price, 0, rel.title);
     assert.strictEqual(digital.free, true, rel.title);
     assert.strictEqual(products[digital.sku].unitAmount, 0, rel.title);
@@ -316,11 +319,43 @@ assert.deepStrictEqual(
     return [r.catalogue, r.title, r.artistId, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
-    ["CC040", "Ninajirachi - iPod Touch (Forsberg Bootleg)", "forsberg", "2026-10-25", "/ipod-touch", 0, "dg-ipod-touch", "https://forsberg.bandcamp.com/track/ninajirachi-ipod-touch-forsberg-bootleg", "ipt-01", 233, 1326496516, 0],
-    ["CC039", "Jhené Aiko - So Good (Forsberg Bootleg)", "forsberg", "2026-10-25", "/so-good", 0, "dg-so-good", "https://forsberg.bandcamp.com/track/jhen-aiko-so-good-forsberg-bootleg", "sgd-01", 218, 2730846289, 0],
+    ["CC040", "Ninajirachi - iPod Touch (Forsberg Bootleg)", "forsberg", "2026-10-25", "/ipod-touch", 1.5, "dg-ipod-touch", "https://forsberg.bandcamp.com/track/ninajirachi-ipod-touch-forsberg-bootleg", "ipt-01", 233, 1326496516, 150],
+    ["CC039", "Jhené Aiko - So Good (Forsberg Bootleg)", "forsberg", "2026-10-25", "/so-good", 0.99, "dg-so-good", "https://forsberg.bandcamp.com/track/jhen-aiko-so-good-forsberg-bootleg", "sgd-01", 218, 2730846289, 99],
     ["CC038", "For My Sins", "lt-drifta", "2026-10-25", "/for-my-sins", 1.5, "dg-for-my-sins", "https://ltdrifta.bandcamp.com/track/for-my-sins", "fms-01", 240, 3491237466, 150],
   ]
 );
+
+assert.ok(!catalog.releases.some((r) => r.id === "renegade-snares" || r.catalogue === "CC030"));
+assert.ok(!products["dg-renegade-snares"]);
+assert.deepStrictEqual(
+  ["artificial-intelligence", "a-ap-forever", "slims-return"].map((id) => {
+    const r = catalog.releases.find((x) => x.id === id);
+    const t = r.tracks[0];
+    return [r.catalogue, r.title, r.artistId, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
+  }),
+  [
+    ["CC043", "Artificial Intelligence", "lt-drifta", "2026-10-30", "/artificial-intelligence", 1.5, "dg-artificial-intelligence", "https://ltdrifta.bandcamp.com/track/artificial-intelligence", "ari-01", 243, 1927802715, 150],
+    ["CC042", "A$AP FOREVER", "forsberg", "2026-10-30", "/a-ap-forever", 0, "dg-a-ap-forever", "https://forsberg.bandcamp.com/track/a-ap-forever", "aaf-01", 233, 2534897252, 0],
+    ["CC041", "Madlib - Slims' Return (LT's Jungle Edit)", "lt-drifta", "2026-10-29", "/slims-return", 0, "dg-slims-return", "https://ltdrifta.bandcamp.com/track/madlib-slims-return-lts-jungle-edit", "slr-01", 268, 1601527236, 0],
+  ]
+);
+const classicJazz = catalog.releases.find((r) => r.id === "classic-jazz");
+assert.deepStrictEqual(
+  classicJazz.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "cjz-01", "Naima", 280, 1160879306],
+    [2, "cjz-02", "My One and Only Love", 335, 1354942851],
+    [3, "cjz-03", "Sentimental Mood", 313, 968788690],
+    [4, "cjz-04", "Four", 232, 3543321373],
+    [5, "cjz-05", "Colors of You", 249, 2495793093],
+    [6, "cjz-07", "Variations In Fall", 305, 2845806792],
+    [7, "cjz-06", "Taste Honey", 254, 1897886972],
+  ]
+);
+const champion = catalog.releases.find((r) => r.id === "champion-sound");
+assert.strictEqual(champion.released, "2025-12-15");
+assert.strictEqual(catalog.releases.find((r) => r.id === "j-adore").formats.digital.price, 3);
+assert.strictEqual(products["dg-j-adore"].unitAmount, 300);
 
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
 assert.ok(!lakeshore.bandcampUrl);
