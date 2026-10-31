@@ -1,7 +1,7 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
    Night is the default. The ground is a compact disc, 1996, redrawn flat.
-   Tilted, cropped, one chrome rim, a packed data band, a hub.
+   Tilted, cropped, one chrome rim, a packed data band.
    The signal ring is the fluorescent plate, pulled off register.
    Day is the same disc with the light up.
    Archivo for text, Plex Mono for data. Signal marks state, and that ring.
@@ -514,20 +514,26 @@ body.nav-open { overflow: hidden; }
   .sleeve-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* Filters — counted lanes, one sliding plate per row (wavclub layout) -- */
+/* Filters — counted lanes. The active word is underlined. */
 .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; padding: 16px var(--gutter) 18px; border-bottom: 1px solid var(--line); }
 .lanes { display: grid; gap: 10px; flex: 1 1 560px; min-width: 0; }
 .lane { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
 .lane-label { min-width: 52px; color: var(--ink-3); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
-.seg { position: relative; isolation: isolate; display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line-2); max-width: 100%; }
-.seg .plate { position: absolute; z-index: 0; top: 0; left: 0; width: 0; height: 100%; background: var(--ink); pointer-events: none; transition: transform .22s var(--ease), width .22s var(--ease), height .22s var(--ease); }
-.seg button { position: relative; z-index: 1; padding: 8px 12px 7px; background: transparent; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.seg { position: relative; display: inline-flex; flex-wrap: wrap; gap: 0 2px; border: 0; max-width: 100%; }
+.seg .plate { display: none; }
+.seg button { position: relative; z-index: 1; padding: 6px 8px 5px; background: transparent; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
 .seg button .n { margin-left: 6px; opacity: .62; font-weight: 400; }
 .seg button.is-empty:not([aria-checked="true"]) { color: var(--ink-3); }
-.seg button[aria-checked="true"] { background: var(--ink); color: var(--bg); }
-.seg.is-ready button[aria-checked="true"] { background: transparent; }
+.seg button[aria-checked="true"],
+.seg.is-ready button[aria-checked="true"] {
+  background: transparent;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: .22em;
+  text-decoration-thickness: 1px;
+}
 .seg button:hover { color: var(--ink); }
-.seg button[aria-checked="true"]:hover { color: var(--bg); }
+.seg button[aria-checked="true"]:hover { color: var(--ink); }
 .filter { display: grid; gap: 6px; }
 .filter label, .store-label { color: var(--ink-3); }
 .filters select, .filter select, .filters input[type="search"] { appearance: none; -webkit-appearance: none; background: transparent; border: 0; border-bottom: 1px solid var(--line-2); padding: 8px 28px 8px 0; min-width: 200px; color: var(--ink); font-size: 17px; border-radius: 0; }
@@ -562,8 +568,8 @@ body.nav-open { overflow: hidden; }
   .seg button { flex: 0 0 auto; min-height: 44px; padding: 10px 14px; }
   .lib-view-btn, .store-chip { min-height: 44px; }
 }
-.lib-view-btn, .store-chip { padding: 9px 14px; border: 1px solid var(--line-2); margin-left: -1px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
-.lib-view-btn.is-active, .store-chip.is-active, .lib-view-btn[aria-pressed="true"], .store-chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); position: relative; z-index: 1; }
+.lib-view-btn, .store-chip { padding: 6px 0; margin-left: 16px; border: 0; background: transparent; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.lib-view-btn.is-active, .store-chip.is-active, .lib-view-btn[aria-pressed="true"], .store-chip[aria-pressed="true"] { background: transparent; color: var(--ink); border: 0; text-decoration: underline; text-underline-offset: .22em; text-decoration-thickness: 1px; }
 .store-filters .store-label { margin-right: 12px; }
 .store-filters .store-chip:first-of-type { margin-left: 0; }
 
@@ -586,6 +592,27 @@ body.nav-open { overflow: hidden; }
 .cat-artist { grid-area: artist; color: var(--ink-2); font-size: 15px; margin-top: 2px; }
 .cat-tags { grid-area: tags; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
 .cat-side { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
+.cat-side .cat-add {
+  padding: 0;
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cat-side .cat-add:hover { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: .18em; }
+.cat-side .cat-add.is-added { background: transparent; color: var(--signal); }
+.cat-side:has(.cat-add--price) .cat-price-amt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
 .cat-price-line { display: flex; flex-direction: column; align-items: flex-end; font-family: var(--mono); font-size: 13px; letter-spacing: .02em; }
 .cat-price-club, .price-member { color: var(--signal); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
 .cat-format-note { color: var(--ink-3); font-size: 11px; }
@@ -1260,9 +1287,8 @@ main.news-index, .news-index-front { overflow-x: clip; }
   .home .sec--list .filter-meta { margin: 0; padding-bottom: 8px; }
   .home .sec--list .filter-count { white-space: nowrap; }
 }
-/* Sleeves, not a split catalogue. The cover is the record. The title is
-   the name. Price and play sit on the sleeve so the caption stays one
-   credit and does not grow a second button row. */
+/* Sleeves. The cover is the record and the play key. Catalogue, date,
+   and price sit in the caption. The price is the buy control. */
 .release-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1289,31 +1315,17 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .sleeve-card:hover .sleeve-art { transform: none; box-shadow: none; }
 .sleeve-card.is-air .sleeve-art,
 .sleeve-card.is-air:hover .sleeve-art { box-shadow: none; outline: 1px solid var(--signal); outline-offset: 3px; }
-.sleeve-flag {
-  position: absolute;
-  z-index: 1;
-  top: 8px;
-  left: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 0 8px;
-  background: var(--bg);
-  border: 1px solid var(--line-2);
-  box-shadow: none;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .08em;
-  line-height: 1;
-  text-transform: uppercase;
+.sleeve-buy {
+  position: relative;
   color: var(--ink);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   text-decoration: none;
 }
-.sleeve-flag:hover { background: var(--ink); color: var(--bg); text-decoration: none; }
-.sleeve-flag:active { transform: none; }
-.sleeve-flag.is-added { background: var(--signal); color: var(--signal-ink); border-color: var(--rule); }
+.sleeve-buy::after { content: ""; position: absolute; inset: -12px -8px; }
+.sleeve-buy:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .18em; }
+.sleeve-buy.is-added { color: var(--signal); }
 .sleeve-key {
   position: absolute;
   z-index: 1;
@@ -1417,23 +1429,25 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 .sky,
 .nav { border-bottom: 1px solid var(--line); }
-.nav-links { gap: 4px; }
+.nav-links { gap: clamp(16px, 2.2vw, 28px); }
 .nav-links a {
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  color: var(--ink);
-  padding: 6px 9px;
-  border-bottom: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding: 6px 0;
+  background: transparent;
+  border-bottom: 1px solid transparent;
 }
-.nav-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .18em; }
+.nav-links a:hover { color: var(--ink); text-decoration: none; border-bottom-color: var(--ink); }
 .nav-links a[aria-current="page"] {
-  background: var(--ink);
-  color: var(--bg);
-  border-bottom: 0;
+  background: transparent;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
 }
-.nav-links a[aria-current="page"]:hover { color: var(--bg); }
+.nav-links a[aria-current="page"]:hover { color: var(--ink); }
 .nav-drawer a {
   font-family: var(--sans);
   font-stretch: 112%;
@@ -1460,7 +1474,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .footer-form { width: 100%; max-width: 420px; min-width: 0; border: 1px solid var(--line-2); }
 .footer-form input { width: 0; }
 .filters { border-bottom: 1px solid var(--line); }
-.seg { border: 1px solid var(--line-2); }
+.seg { border: 0; }
 .row,
 .cat-row,
 .mix-card,
@@ -1508,7 +1522,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 @media (prefers-reduced-motion: reduce) {
   .btn:hover, .btn:active, .key:hover, .key:active,
-  .sleeve-flag:hover, .sleeve-flag:active,
+  .sleeve-buy:hover, .sleeve-buy:active,
   .cat-list.is-covers .cat-row:hover .cat-cover img,
   .sleeve-card:hover .sleeve-art { transform: none; }
 }
