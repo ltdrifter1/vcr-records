@@ -154,14 +154,14 @@ main { display: block; }
 .sky-live a:hover { color: var(--ink); text-decoration: none; }
 .sky-surf { display: inline-flex; align-items: center; }
 .sky-surf > * + *::before { content: "·"; margin: 0 .7em; color: var(--ink-3); }
-.sky-surf-cast { display: inline-flex; align-items: center; color: var(--ink); }
+.sky-surf-cast { display: inline-flex; align-items: center; color: var(--ink-2); }
 .sky-surf-cast:empty { display: none; }
 .sky-surf-line {
-  display: block; width: 64px; height: 12px; flex: none;
+  display: block; width: 48px; height: 10px; flex: none;
 }
 .sky-surf-line polyline {
-  fill: none; stroke: currentColor; stroke-width: 1.25px;
-  stroke-linejoin: round; stroke-linecap: round;
+  fill: none; stroke: currentColor; stroke-width: 1px;
+  stroke-linejoin: miter; stroke-linecap: butt;
   vector-effect: non-scaling-stroke;
 }
 .sky-theme {

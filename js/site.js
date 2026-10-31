@@ -373,6 +373,8 @@
     return text;
   }
 
+  /* Heights sit on a fixed scale, so a two-foot day stays a little line.
+     The scale only grows when the water is actually bigger than that. */
   function waveLinePoints(heights) {
     var vals = [];
     var i;
@@ -381,25 +383,18 @@
       if (isFinite(n)) vals.push(n);
     }
     if (vals.length < 2) return "";
-    var min = vals[0];
-    var max = vals[0];
-    for (i = 1; i < vals.length; i++) {
-      if (vals[i] < min) min = vals[i];
+    var max = 8;
+    for (i = 0; i < vals.length; i++) {
       if (vals[i] > max) max = vals[i];
     }
-    var span = max - min;
-    if (span < 0.25) {
-      min -= (0.25 - span) / 2;
-      span = 0.25;
-    }
-    var w = 64;
-    var h = 16;
-    var padX = 1.5;
-    var padY = 2;
+    var w = 48;
+    var h = 12;
+    var padX = 0.5;
+    var padY = 1;
     var parts = [];
     for (i = 0; i < vals.length; i++) {
       var x = padX + (i / (vals.length - 1)) * (w - padX * 2);
-      var y = padY + (1 - (vals[i] - min) / span) * (h - padY * 2);
+      var y = padY + (1 - Math.max(0, vals[i]) / max) * (h - padY * 2);
       parts.push(x.toFixed(2) + "," + y.toFixed(2));
     }
     return parts.join(" ");
@@ -410,18 +405,18 @@
     if (!points) return null;
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "sky-surf-line");
-    svg.setAttribute("viewBox", "0 0 64 16");
-    svg.setAttribute("width", "64");
-    svg.setAttribute("height", "12");
+    svg.setAttribute("viewBox", "0 0 48 12");
+    svg.setAttribute("width", "48");
+    svg.setAttribute("height", "10");
     svg.setAttribute("role", "img");
     svg.setAttribute("aria-label", label || "Wave height over the next day");
     var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
     poly.setAttribute("points", points);
     poly.setAttribute("fill", "none");
     poly.setAttribute("stroke", "currentColor");
-    poly.setAttribute("stroke-width", "1.25");
-    poly.setAttribute("stroke-linejoin", "round");
-    poly.setAttribute("stroke-linecap", "round");
+    poly.setAttribute("stroke-width", "1");
+    poly.setAttribute("stroke-linejoin", "miter");
+    poly.setAttribute("stroke-linecap", "butt");
     svg.appendChild(poly);
     return svg;
   }
