@@ -185,12 +185,11 @@
     document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* Conditions bar: Cumberland time and weather, Long Beach surf, day or night.
-     Cumberland weather stays on Open-Meteo. Long Beach is the Pacific Rim
-     beach west of Tofino — swell from the marine API, wind from the forecast
-     API, tide from the Tofino gauge via OpenWaters. Day or night stays in this browser. */
+  /* Conditions bar: Cumberland time, Long Beach surf, day or night.
+     Long Beach is the Pacific Rim beach west of Tofino — swell from the
+     marine API, wind from the forecast API, tide from the Tofino gauge
+     via OpenWaters. Day or night stays in this browser. */
   var SKY_TZ = "America/Vancouver";
-  var SKY_WX = "https://api.open-meteo.com/v1/forecast?latitude=49.6186&longitude=-125.0285&current=temperature_2m,weather_code&timezone=America%2FVancouver&forecast_days=1";
   var SURF_MARINE = "https://marine-api.open-meteo.com/v1/marine?latitude=49.059&longitude=-125.768&current=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction&hourly=swell_wave_height,swell_wave_period,wave_height,wave_period&timezone=America%2FVancouver&forecast_days=2&length_unit=imperial";
   var SURF_WIND = "https://api.open-meteo.com/v1/forecast?latitude=49.059&longitude=-125.768&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kn&timezone=America%2FVancouver&forecast_days=1";
   /* Tofino gauge, the table Long Beach uses. Not the CHS host — that certificate does not load in Chrome. */
@@ -229,7 +228,6 @@
         '<a class="sky-home" href="/">clubcopy.ca</a>' +
         '<span>Cumberland</span>' +
         '<time data-sky-time>··:·· PT</time>' +
-        '<span data-sky-wx hidden>··</span>' +
         '<span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>' +
       '</p>' +
       '<button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">' +
@@ -248,7 +246,7 @@
     bar.id = "sky";
     bar.className = "sky";
     bar.setAttribute("role", "region");
-    bar.setAttribute("aria-label", "Cumberland weather and Long Beach surf");
+    bar.setAttribute("aria-label", "Cumberland time and Long Beach surf");
     bar.innerHTML = skyMarkup();
     header.parentNode.insertBefore(bar, header);
     return bar;
@@ -276,53 +274,6 @@
     }
     paint();
     setInterval(paint, 15000);
-  }
-
-  function weatherWords(code) {
-    var c = Number(code);
-    if (c === 0) return "Clear";
-    if (c === 1) return "Mainly clear";
-    if (c === 2) return "Partly cloudy";
-    if (c === 3) return "Overcast";
-    if (c === 45 || c === 48) return "Fog";
-    if (c >= 51 && c <= 57) return "Drizzle";
-    if (c >= 61 && c <= 67) return "Rain";
-    if (c >= 71 && c <= 77) return "Snow";
-    if (c >= 80 && c <= 82) return "Showers";
-    if (c === 85 || c === 86) return "Snow";
-    if (c >= 95) return "Thunder";
-    return "";
-  }
-
-  function paintWeather(el, data) {
-    if (!el || !data || data.temp == null) {
-      if (el) el.hidden = true;
-      return;
-    }
-    var words = weatherWords(data.code);
-    var text = Math.round(Number(data.temp)) + "°" + (words ? " " + words : "");
-    el.hidden = false;
-    el.textContent = text;
-    el.title = text + " in Cumberland, British Columbia";
-  }
-
-  function loadWeather(el) {
-    var cached = null;
-    try { cached = JSON.parse(sessionStorage.getItem("cc.wx") || "null"); } catch (e) {}
-    if (cached && cached.at && Date.now() - cached.at < 20 * 60 * 1000) {
-      paintWeather(el, cached);
-      return;
-    }
-    fetch(SKY_WX)
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        var cur = data && data.current;
-        if (!cur || cur.temperature_2m == null) { paintWeather(el, null); return; }
-        var next = { temp: cur.temperature_2m, code: cur.weather_code, at: Date.now() };
-        try { sessionStorage.setItem("cc.wx", JSON.stringify(next)); } catch (e) {}
-        paintWeather(el, next);
-      })
-      .catch(function () { paintWeather(el, null); });
   }
 
   function compass(deg) {
@@ -385,33 +336,94 @@
     };
   }
 
-  function forecastSlots(hourly, currentTime) {
+  /* Hourly heights for the next day, in the same series as the reading
+     on screen. Mixing swell and total sea makes the line jump. */
+  function forecastSlots(hourly, currentTime, kind) {
     if (!hourly || !hourly.time || !currentTime) return [];
+    var heights = kind === "seas" ? hourly.wave_height : hourly.swell_wave_height;
+    if (!heights) return [];
     var out = [];
     var i;
     for (i = 0; i < hourly.time.length; i++) {
       if (hourly.time[i] <= currentTime) continue;
-      var hh = Number(hourly.time[i].slice(11, 13));
-      if (hh % 6 !== 0) continue;
-      var sea = primarySea(
-        hourly.swell_wave_height && hourly.swell_wave_height[i],
-        hourly.swell_wave_period && hourly.swell_wave_period[i],
-        hourly.wave_height && hourly.wave_height[i],
-        hourly.wave_period && hourly.wave_period[i],
-        null,
-        null
-      );
-      if (!sea) continue;
-      var hour = hourly.time[i].slice(11, 13);
+      var ft = Number(heights[i]);
+      if (!isFinite(ft)) continue;
       out.push({
-        hour: hour,
-        ft: sea.ft,
-        period: sea.period,
-        label: hour + "h " + oneDecimal(sea.ft) + "ft"
+        hour: hourly.time[i].slice(11, 13),
+        ft: ft
       });
-      if (out.length === 4) break;
+      if (out.length === 24) break;
     }
     return out;
+  }
+
+  function aheadSummary(slots) {
+    if (!slots || !slots.length) return "";
+    var lo = slots[0].ft;
+    var hi = slots[0].ft;
+    var hiAt = slots[0];
+    var i;
+    for (i = 1; i < slots.length; i++) {
+      if (slots[i].ft < lo) lo = slots[i].ft;
+      if (slots[i].ft > hi) { hi = slots[i].ft; hiAt = slots[i]; }
+    }
+    var span = Math.abs(hi - lo) < 0.15 ? oneDecimal(hi) + " ft" : oneDecimal(lo) + "–" + oneDecimal(hi) + " ft";
+    var text = "Next day " + span;
+    if (hiAt.hour && hi > lo + 0.15) text += ", highest " + hiAt.hour + ":00 PT";
+    return text;
+  }
+
+  function waveLinePoints(heights) {
+    var vals = [];
+    var i;
+    for (i = 0; i < heights.length; i++) {
+      var n = Number(heights[i]);
+      if (isFinite(n)) vals.push(n);
+    }
+    if (vals.length < 2) return "";
+    var min = vals[0];
+    var max = vals[0];
+    for (i = 1; i < vals.length; i++) {
+      if (vals[i] < min) min = vals[i];
+      if (vals[i] > max) max = vals[i];
+    }
+    var span = max - min;
+    if (span < 0.25) {
+      min -= (0.25 - span) / 2;
+      span = 0.25;
+    }
+    var w = 64;
+    var h = 16;
+    var padX = 1.5;
+    var padY = 2;
+    var parts = [];
+    for (i = 0; i < vals.length; i++) {
+      var x = padX + (i / (vals.length - 1)) * (w - padX * 2);
+      var y = padY + (1 - (vals[i] - min) / span) * (h - padY * 2);
+      parts.push(x.toFixed(2) + "," + y.toFixed(2));
+    }
+    return parts.join(" ");
+  }
+
+  function waveLine(heights, label) {
+    var points = waveLinePoints(heights);
+    if (!points) return null;
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "sky-surf-line");
+    svg.setAttribute("viewBox", "0 0 64 16");
+    svg.setAttribute("width", "64");
+    svg.setAttribute("height", "12");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", label || "Wave height over the next day");
+    var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    poly.setAttribute("points", points);
+    poly.setAttribute("fill", "none");
+    poly.setAttribute("stroke", "currentColor");
+    poly.setAttribute("stroke-width", "1.25");
+    poly.setAttribute("stroke-linejoin", "round");
+    poly.setAttribute("stroke-linecap", "round");
+    svg.appendChild(poly);
+    return svg;
   }
 
   function tideQuery(start, end) {
@@ -487,19 +499,8 @@
     if (nowEl) nowEl.textContent = pack.nowText;
     if (castEl) {
       while (castEl.firstChild) castEl.removeChild(castEl.firstChild);
-      if (pack.cast && pack.cast.length) {
-        var lead = document.createElement("span");
-        lead.className = "sky-surf-next";
-        lead.textContent = "next";
-        castEl.appendChild(lead);
-        pack.cast.forEach(function (slot) {
-          var s = document.createElement("span");
-          if (slot.high) s.className = "is-high";
-          s.textContent = slot.label;
-          if (slot.title) s.title = slot.title;
-          castEl.appendChild(s);
-        });
-      }
+      var line = pack.line && waveLine(pack.line, pack.lineLabel);
+      if (line) castEl.appendChild(line);
     }
     host.hidden = false;
     host.title = pack.title || pack.nowText;
@@ -512,7 +513,7 @@
   function loadSurf(host) {
     if (!host || !window.fetch) return;
     var cached = null;
-    try { cached = JSON.parse(sessionStorage.getItem("cc.surf.v2") || "null"); } catch (e) {}
+    try { cached = JSON.parse(sessionStorage.getItem("cc.surf.v3") || "null"); } catch (e) {}
     if (cached && cached.at && Date.now() - cached.at < (cached.ttl || 20 * 60 * 1000) && cached.nowText) {
       paintSurf(host, cached);
       return;
@@ -551,19 +552,10 @@
         if (tide.kind && tide.when) tidePhrase += " · " + tide.kind + " " + tide.when;
         bits.push(tidePhrase);
       }
-      var slots = forecastSlots(marine.hourly, (cur && cur.time) || localStamp(now));
-      var maxFt = -1;
-      var maxI = -1;
-      slots.forEach(function (slot, idx) {
-        if (slot.ft > maxFt) { maxFt = slot.ft; maxI = idx; }
-      });
-      var cast = slots.map(function (slot, idx) {
-        return {
-          label: slot.label,
-          high: idx === maxI && slot.ft >= sea.ft + 0.4,
-          title: slot.hour + ":00 PT, " + oneDecimal(slot.ft) + " ft at " + Math.round(slot.period || 0) + "s"
-        };
-      });
+      var slots = forecastSlots(marine.hourly, (cur && cur.time) || localStamp(now), sea.kind);
+      var line = [sea.ft];
+      slots.forEach(function (slot) { line.push(slot.ft); });
+      var summary = aheadSummary(slots);
       var title = "Long Beach, Pacific Rim. " + (sea.kind === "swell" ? "Swell " : "Seas ") +
         oneDecimal(sea.ft) + " ft at " + Math.round(sea.period || 0) + " seconds from the " + compass(sea.dir) + ".";
       if (windPhrase) title += " Wind " + windPhrase + ".";
@@ -573,9 +565,16 @@
         if (tide.kind && tide.when) title += ", " + tide.kind + " at " + tide.when + " PT";
         title += ". Heights from the Tofino gauge, TICON-4 via Slackwater and OpenWaters, CC BY 4.0.";
       }
-      if (cast.length) title += " Next: " + cast.map(function (s) { return s.title; }).join("; ") + ".";
-      var pack = { at: Date.now(), ttl: tide ? 20 * 60 * 1000 : 5 * 60 * 1000, nowText: bits.join(" · "), cast: cast, title: title };
-      try { sessionStorage.setItem("cc.surf.v2", JSON.stringify(pack)); } catch (e) {}
+      if (summary) title += " " + summary + ".";
+      var pack = {
+        at: Date.now(),
+        ttl: tide ? 20 * 60 * 1000 : 5 * 60 * 1000,
+        nowText: bits.join(" · "),
+        line: line.length >= 2 ? line : [],
+        lineLabel: summary,
+        title: title
+      };
+      try { sessionStorage.setItem("cc.surf.v3", JSON.stringify(pack)); } catch (e) {}
       paintSurf(host, pack);
     }).catch(function () { paintSurf(host, null); });
   }
@@ -583,7 +582,7 @@
   var sky = ensureSky();
   if (sky) {
     if (!sky.getAttribute("role")) sky.setAttribute("role", "region");
-    sky.setAttribute("aria-label", "Cumberland weather and Long Beach surf");
+    sky.setAttribute("aria-label", "Cumberland time and Long Beach surf");
     applyTheme(readTheme(), false);
     var toggle = document.getElementById("themeToggle");
     if (toggle) {
@@ -592,7 +591,6 @@
       });
     }
     tickClock(sky.querySelector("[data-sky-time]"));
-    loadWeather(sky.querySelector("[data-sky-wx]"));
     loadSurf(surfHost(sky));
   }
 
