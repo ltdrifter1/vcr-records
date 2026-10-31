@@ -462,6 +462,32 @@
     return preview.charAt(0) === "/" ? preview : "/" + preview;
   }
 
+  function directStreamSrc(releaseId, trackId) {
+    if (!releaseId || !trackId) return "";
+    return (
+      "/api/bandcamp-stream?r=" +
+      encodeURIComponent(releaseId) +
+      "&t=" +
+      encodeURIComponent(trackId) +
+      "&pipe=1"
+    );
+  }
+
+  function primePlayback(releaseId, trackId) {
+    var src = directStreamSrc(releaseId, trackId);
+    if (!src) return;
+    ensureAudio();
+    try {
+      var abs = new URL(src, window.location.origin).href;
+      if (!audio.error && audio.src === abs) return;
+      audio.src = src;
+    } catch (e) {
+      audio.src = src;
+    }
+    var pending = audio.play();
+    if (pending && pending.catch) pending.catch(function () {});
+  }
+
   function streamSrc(release, t) {
     var file = filePreviewSrc(t.preview);
     var host = "";
@@ -1910,9 +1936,23 @@
     var track = current();
     if (!track) return;
     var played = (audio && (audio.currentSrc || audio.src)) || "";
+    if (track.fromBandcamp && /[?&]pipe=1(?:&|$)/.test(played) && (track._pipeTries || 0) < 2) {
+      track._pipeTries = (track._pipeTries || 0) + 1;
+      var again = String(track.src || played).replace(/([?&])retry=\d+/, "").replace(/\?$/, "");
+      again += (again.indexOf("?") >= 0 ? "&" : "?") + "retry=" + track._pipeTries;
+      track.src = again;
+      hideMeter();
+      ensureAudio();
+      try { audio.referrerPolicy = "no-referrer"; } catch (e) {}
+      audio.src = again;
+      signalLost = false;
+      render();
+      safePlay();
+      return;
+    }
     if (track.fromBandcamp && !track._pipeFailed && /[?&]pipe=1(?:&|$)/.test(played)) {
       track._pipeFailed = true;
-      track.src = String(track.src || played).replace(/[?&]pipe=1\b/, "").replace(/\?$/, "");
+      track.src = String(track.src || played).replace(/([?&])retry=\d+/, "").replace(/[?&]pipe=1\b/, "").replace(/\?$/, "");
       hideMeter();
       ensureAudio();
       try { audio.referrerPolicy = "no-referrer"; } catch (e) {}
@@ -1972,6 +2012,8 @@
       return;
     }
     track._fellBack = false;
+    track._pipeTries = 0;
+    track._pipeFailed = false;
     if (track.filePreview && track.src && track.src !== track.filePreview) {
       track.fromBandcamp = /bandcamp-stream/.test(track.src);
       track.isPreview = false;
@@ -2362,7 +2404,7 @@
     }
     try {
       var abs = new URL(playSrc, window.location.origin).href;
-      if (audio.src !== abs) audio.src = playSrc;
+      if (audio.error || audio.src !== abs) audio.src = playSrc;
     } catch (e) {
       audio.src = playSrc;
     }
@@ -2422,6 +2464,7 @@
     // Keep the user-gesture chain intact for iOS Safari by creating Audio now
     // and applying a cached catalog synchronously when available.
     unlockAudioFromGesture();
+    if (opts.autoplay !== false) primePlayback(releaseId, trackId);
     if (catalogCache) {
       return applyRelease(catalogCache, releaseId, trackId, opts);
     }

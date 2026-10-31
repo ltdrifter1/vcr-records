@@ -20,6 +20,9 @@ assert.strictEqual(
 assert.strictEqual(bc.publicPage({ bandcampUrl: "http://forsberg.bandcamp.com/track/x" }), null);
 assert.strictEqual(bc.publicPage({ bandcampUrl: "https://evil.example/track/x" }), null);
 assert.strictEqual(bc.publicPage({}), null);
+assert.strictEqual(bc.isClientChallenge("<html><title>Client Challenge</title></html>"), true);
+assert.strictEqual(bc.isClientChallenge("<html><title>Client Challenge</title>" + "x".repeat(9000) + "</html>"), false);
+assert.strictEqual(bc.isClientChallenge("<html><title>A real release</title></html>"), false);
 
 const picked = bc.pickStream(tralbum, { title: "Desire" });
 assert.ok(picked);
