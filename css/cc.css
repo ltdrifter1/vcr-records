@@ -1,10 +1,8 @@
 /* ==========================================================================
    Club Copy — one stylesheet.
-   Night is the default. The ground is a compact disc, 1996, redrawn flat.
-   Tilted, cropped, one chrome rim, a packed data band.
-   The signal ring is the fluorescent plate, pulled off register.
-   Day is the same disc with the light up.
-   Archivo for text, Plex Mono for data. Signal marks state, and that ring.
+   Night is the default. The ground is the paper colour, with the tooth
+   of that colour. Day is the same sheet with the light up.
+   Archivo for text, Plex Mono for data. Signal marks state.
    ========================================================================== */
 
 :root {
@@ -31,17 +29,10 @@
   --safe-t: env(safe-area-inset-top, 0px);
   --wide: 112;   /* Archivo width for display */
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --groove: rgba(26, 28, 30, .72);
-  --groove-quiet: rgba(26, 28, 30, .38);
-  --groove-soft: rgba(26, 28, 30, .07);
-  --glint: rgba(255, 252, 246, .95);
-  --rim: rgba(26, 28, 30, .88);
-  --runout: rgba(26, 28, 30, .78);
-  --disc-x: 94%;
-  --disc-y: 70%;
+  --paper: url("/css/paper.webp");
   color-scheme: light;
 }
-/* Day is the same wax, with the light up. */
+/* Day is the same sheet, with the light up. */
 html[data-theme="day"] {
   --bg: #f3efe6;
   --bg-2: #e5dfd1;
@@ -54,12 +45,6 @@ html[data-theme="day"] {
   --rule: var(--ink);
   --signal: #d23c10;
   --signal-ink: #1a1c1e;
-  --groove: rgba(26, 28, 30, .5);
-  --groove-quiet: rgba(26, 28, 30, .26);
-  --groove-soft: rgba(26, 28, 30, .045);
-  --glint: rgba(255, 255, 255, .98);
-  --rim: rgba(26, 28, 30, .62);
-  --runout: rgba(26, 28, 30, .62);
   color-scheme: light;
 }
 html:has(.sky) {
@@ -67,7 +52,16 @@ html:has(.sky) {
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--chrome-h) + 12px); background: var(--bg); }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--chrome-h) + 12px);
+  background-color: var(--bg);
+  background-image: var(--paper);
+  background-size: 280px 280px;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+}
 body {
   position: relative;
   z-index: 0;
@@ -80,43 +74,7 @@ body {
   min-height: 100svh;
   padding-bottom: var(--safe-b);
 }
-/* The disc does not scroll and does not repeat. Text paints over it.
-   Ellipse, not a circle: a CD leaning back, the way a 90s sleeve render sat. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, var(--signal) 0 5px, transparent 5px),
-    radial-gradient(ellipse 92vmin 34vmin at calc(var(--disc-x) + 22px) calc(var(--disc-y) + 10px), transparent calc(100% - 5px), var(--signal) calc(100% - 5px) calc(100% - 1px), transparent calc(100% - 1px)),
-    radial-gradient(ellipse 104vmin 38vmin at calc(var(--disc-x) - 8px) calc(var(--disc-y) - 6px), transparent calc(100% - 3px), var(--glint) calc(100% - 3px) calc(100% - 0.6px), transparent calc(100% - 0.6px)),
-    radial-gradient(ellipse 108vmin 40vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 5px), var(--rim) calc(100% - 5px) calc(100% - 1px), transparent calc(100% - 1px)),
-    radial-gradient(ellipse 64vmin 23.6vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
-    radial-gradient(ellipse 68vmin 25vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove-quiet) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
-    radial-gradient(ellipse 72vmin 26.5vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
-    radial-gradient(ellipse 76vmin 28vmin at var(--disc-x) var(--disc-y), transparent calc(100% - 1.25px), var(--groove-quiet) calc(100% - 1.25px) calc(100% - 0.3px), transparent calc(100% - 0.15px)),
-    radial-gradient(ellipse 108vmin 40vmin at var(--disc-x) var(--disc-y), var(--groove-soft) 0 58%, transparent 72%);
-}
-body::after {
-  content: "CC-96   DISC   CHROME   JUNGLE   HOUSE   BASS";
-  position: fixed;
-  z-index: -1;
-  top: calc(var(--chrome-h) + 44px);
-  left: 11px;
-  writing-mode: vertical-rl;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .2em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--runout);
-  pointer-events: none;
-  white-space: nowrap;
-}
 body.has-vcr-player { padding-bottom: calc(var(--dock-h) + var(--safe-b)); }
-main, .footer { margin-left: 20px; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; }
@@ -219,9 +177,7 @@ html:not([data-theme="day"]) .sky-knob::after { transform: translateX(12px); }
 html[data-theme="day"] .sky-lab-night { display: none; }
 html:not([data-theme="day"]) .sky-lab-day { display: none; }
 @media (max-width: 719px) {
-  :root { --sky-h: 40px; --nav-h: 52px; --gutter: 22px; --disc-x: 148%; --disc-y: 108%; }
-  main, .footer { margin-left: 0; }
-  body::after { display: none; }
+  :root { --sky-h: 40px; --nav-h: 52px; --gutter: 22px; }
   .sky { gap: 12px; }
   .sky-home { display: none; }
   .sky-home + *::before { content: none; margin: 0; }
@@ -1184,8 +1140,8 @@ body.vcr-dock-away .vcr-player.is-visible, body.vcr-stage-open .vcr-player.is-vi
 }
 @media print {
   .sky, .nav, .nav-drawer, .footer, .vcr-player, .key, .btn { display: none !important; }
+  html { background: #fff; background-image: none; }
   body { background: #fff; color: #000; }
-  body::before, body::after { display: none !important; }
 }
 
 /* Fixes after first render ---------------------------------------------- */
@@ -1336,32 +1292,6 @@ main.news-index, .news-index-front { overflow-x: clip; }
   background: var(--bg);
 }
 .sleeve-copy { display: flex; flex-direction: column; gap: 3px; padding-top: 10px; flex: 1; align-items: flex-start; }
-.sleeve-meta, .sleeve-title, .sleeve-by {
-  width: fit-content;
-  max-width: 100%;
-  background: var(--bg);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-/* The disc runs under the page. A row, a paragraph, or a card is paper,
-   the same colour as the ground, so a ring stops at the object instead of striking the type. */
-.page-title,
-.page-lede,
-.sec-title,
-.home-sec-title,
-.prose p,
-.prose li,
-.prose summary,
-.release-notes p,
-.bio p,
-.zine-tagline,
-.row,
-.cat-row,
-.specs > div,
-.zine-stars-pin-scroll a,
-.sign-chart a {
-  background-color: var(--bg);
-}
 .sleeve-meta { margin: 0; color: var(--ink-3); }
 .sleeve-meta, .sleeve-meta span { font-size: 11px; letter-spacing: .08em; color: var(--ink-3); }
 .sleeve-card.is-air .sleeve-meta::before {
@@ -1421,9 +1351,13 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 .sky,
 .nav,
-.nav-drawer {
+.nav-drawer,
+.vcr-player {
   background-color: var(--bg);
-  background-image: none;
+  background-image: var(--paper);
+  background-size: 280px 280px;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -1680,7 +1614,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
   .sign-chart .sign-name { font-size: 16px; }
 }
 
-/* Controls are flat. The wall already has a surface. */
+/* Controls are flat. The paper already has a surface. */
 .btn:not(.btn-text),
 .nav-links a[aria-current="page"],
 .seg button[aria-checked="true"],

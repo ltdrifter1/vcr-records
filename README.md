@@ -7,9 +7,9 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 Black ground, one grotesk, hairlines. The catalogue is the site. Direction and research in [`docs/redesign-2026-10.md`](docs/redesign-2026-10.md).
 
 - Type: **Archivo** (variable width; expanded for display, normal for body) and **IBM Plex Mono** for catalogue data. No second display face.
-- Ground: a compact disc, tilted and cropped. Night `#CFC6B8`, day `#F3EFE6`, ink `#1A1C1E`. One chrome rim, a packed data band, a hub, and a signal-red ring pulled off register. The left margin reads `CC-96 DISC CHROME JUNGLE HOUSE BASS`. It does not scroll or tile. Signal `#E23B10` is that ring, and also state (on air, active row, focus).
+- Ground: the paper colour. Night `#CFC6B8`, day `#F3EFE6`, ink `#1A1C1E`. The tooth is in the colour (`css/paper.webp`, overlaid). Signal `#E23B10` is state (on air, active row, focus).
 - Layout: full-width rows separated by one hairline; release rows put the text left and the cover right; the Library is a dense list with genre and artist filters and a sleeves view.
-- One stylesheet: `css/cc.css`. The wall is the only texture. No stamp shadows, gel highlights, or a second typeface.
+- One stylesheet: `css/cc.css`. The paper is the only texture. No stamp shadows, gel highlights, or a second typeface.
 
 ## Build
 
