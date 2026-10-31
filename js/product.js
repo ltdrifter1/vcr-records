@@ -72,7 +72,7 @@
   });
   wireGroup(document.getElementById('pdpSizes'));
 
-  addBtn.addEventListener('click', function () {
+  if (addBtn && !addBtn.disabled) addBtn.addEventListener('click', function () {
     var needsSize = addBtn.getAttribute('data-needs-size') === '1';
     var sizeBtn = document.querySelector('#pdpSizes .pdp-opt.is-active');
     if (needsSize && !sizeBtn) {
@@ -95,5 +95,96 @@
       VCRCart.add(item);
     }
     window.location.href = '/cart';
+  });
+
+  var form = document.getElementById('pdpRestock');
+  if (!form) return;
+  var status = document.getElementById('pdpRestockStatus');
+  var submit = document.getElementById('pdpRestockSubmit');
+  var emailInput = document.getElementById('pdpRestockEmail');
+
+  function showStatus(msg, isError) {
+    if (!status) return;
+    status.hidden = false;
+    status.textContent = msg;
+    status.classList.toggle('is-error', !!isError);
+  }
+
+  function picked(selector, key) {
+    var btn = document.querySelector(selector);
+    return btn ? (btn.getAttribute(key) || '') : '';
+  }
+
+  function postJson(url, payload) {
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        return { ok: res.ok, status: res.status, data: data || {} };
+      });
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = emailInput ? emailInput.value.trim() : '';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showStatus('Enter a valid email.', true);
+      if (emailInput) emailInput.focus();
+      return;
+    }
+    var gotcha = form.querySelector('[name="_gotcha"]');
+    var payload = {
+      email: email,
+      sku: form.getAttribute('data-sku'),
+      size: picked('#pdpSizes .pdp-opt.is-active', 'data-size'),
+      colour: picked('#pdpColours .pdp-opt.is-active', 'data-colour'),
+      _gotcha: gotcha ? gotcha.value : ''
+    };
+    if (submit) submit.disabled = true;
+    showStatus('Saving…', false);
+
+    function done(already) {
+      showStatus(already ? "You're already on the list." : "We'll email you when it's back.", false);
+      if (emailInput) emailInput.disabled = true;
+    }
+
+    function fail(result) {
+      var msg = (result && result.data && result.data.error) || "We couldn't save that. Email charlie@clubcopy.ca and we'll add you.";
+      showStatus(msg, true);
+      if (submit) submit.disabled = false;
+    }
+
+    postJson('/api/restock-notify', payload).catch(function () {
+      return { ok: false, status: 0, data: {} };
+    }).then(function (result) {
+      if (result.ok) {
+        done(!!(result.data && result.data.already));
+        return;
+      }
+      if (result.status && result.status < 500) {
+        fail(result);
+        return;
+      }
+      var fallback = form.getAttribute('data-fallback');
+      if (!fallback || payload._gotcha) {
+        fail(result);
+        return;
+      }
+      return postJson(fallback, {
+        email: email,
+        product: form.getAttribute('data-name') || '',
+        sku: payload.sku,
+        size: payload.size,
+        colour: payload.colour,
+        _subject: 'Restock: ' + (form.getAttribute('data-name') || 'Club Copy'),
+        message: email + ' wants to know when this is back in stock.'
+      }).then(function (formResult) {
+        if (formResult.ok) done(false);
+        else fail(result);
+      }).catch(function () { fail(result); });
+    });
   });
 })();
