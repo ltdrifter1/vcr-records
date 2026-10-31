@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""The mark, printed once, too big to be a logo.
+"""Retired plate generator.
 
-Not a wall texture. The oval and the star are screened like a two-colour
-pull: black at 15 degrees, the signal red only where the second pass
-missed. The top-left stays empty so the headline sits on the paper.
-Day is the same pull with the light up.
+The site ground is the dead-wax lock grooves in css/cc.css.
+This script still writes css/wall-graf.png; the stylesheet no longer loads it.
 """
 from __future__ import annotations
 
