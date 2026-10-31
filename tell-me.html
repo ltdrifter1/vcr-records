@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=Big+Shoulders+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Bebas+Neue&family=Russo+One&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <script>
     (function () {
       try {
@@ -34,7 +34,7 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc16"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc18"/>
   <link rel="preload" as="image" href="/tell-me-cover.webp" fetchpriority="high"/>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicAlbum","name":"Tell Me","byArtist":{"@type":"MusicGroup","name":"Riscape","url":"https://www.clubcopy.ca/artists/riscape"},"albumReleaseType":"EPRelease","datePublished":"2026-10-10","image":"https://www.clubcopy.ca/tell-me-cover.webp","recordLabel":{"@type":"Organization","name":"Club Copy"},"catalogNumber":"CC009","numTracks":3,"track":[{"@type":"MusicRecording","name":"My Whole Life","position":1,"duration":"PT2M5S"},{"@type":"MusicRecording","name":"Tell Me Something","position":2,"duration":"PT1M52S"},{"@type":"MusicRecording","name":"Tell Me Nothing","position":3,"duration":"PT3M59S"}],"offers":[{"@type":"Offer","price":"4.99","priceCurrency":"CAD","availability":"https://schema.org/InStock","itemOffered":{"@type":"Product","name":"Tell Me — Digital"}}]}</script>
 </head>
@@ -132,7 +132,7 @@
 <section class="sec" aria-labelledby="also-title"><header class="sec-head">
   <h2 class="sec-title" id="also-title">Also by Riscape</h2>
   <a class="sec-link" href="/artists/riscape">Artist page</a>
-</header><div class="rows"><article class="row row--release" data-release="you-are-love">
+</header><div class="rows"><article class="row row--release" data-release="you-are-love" data-artist-id="riscape" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC004</span><span>EP</span><span>4 tracks</span><span>15:02</span><span>18 Sep 2026</span></p>
     <h3 class="row-artist"></h3>
@@ -192,11 +192,11 @@
   </div>
 </footer>
 <script src="/js/site.js?v=cc12"></script>
-<script src="/js/cart.js?v=cc5"></script>
-<script src="/js/member.js?v=cc5"></script>
-<script src="/js/player.js?v=cc5"></script>
-<script src="/js/cc.js?v=cc5"></script>
-<script src="/js/release-bind.js?v=cc5"></script>
+<script src="/js/cart.js?v=cc12"></script>
+<script src="/js/member.js?v=cc12"></script>
+<script src="/js/player.js?v=cc12"></script>
+<script src="/js/cc.js?v=cc12"></script>
+<script src="/js/release-bind.js?v=cc12"></script>
 <script>VCRReleaseBind({"releaseId":"tell-me","previewTrackId":"tm-01","tracks":[{"id":"tm-01","title":"My Whole Life"},{"id":"tm-02","title":"Tell Me Something"},{"id":"tm-03","title":"Tell Me Nothing"}]});
 (function(){var F={"digital":{"sku":"dg-tell-me","name":"Tell Me — Digital (EP)","price":4.99,"image":"/tell-me-cover.webp"}};var t=null;function bind(id,k){var b=document.getElementById(id);if(!b)return;var label=b.textContent;b.addEventListener("click",function(){var f=F[k];if(!f||!window.VCRCart)return;VCRCart.add({sku:f.sku,name:f.name,price:f.price,image:f.image,qty:1,id:f.sku});b.textContent="Added";clearTimeout(t);t=setTimeout(function(){b.textContent=label;},2200);});}bind("buyDigitalBtn","digital");bind("buyBtn","cassette");})();</script>
 </body>
