@@ -31,6 +31,30 @@ function releaseRow(rel, opts) {
 </article>`;
 }
 
+/** Homepage sleeve: the cover is the record, the title is the name. */
+function releaseCard(rel, opts) {
+  opts = opts || {};
+  const digital = rel.formats && rel.formats.digital;
+  const extra = opts.extra ? ' data-extra="" hidden' : "";
+  const buy = !digital || !digital.sku
+    ? ""
+    : freeDownload(rel)
+      ? `<a class="sleeve-flag" href="${attr(downloadHref(rel))}" aria-label="Free download">Free</a>`
+      : `<button type="button" class="sleeve-flag" data-add-release="${attr(rel.id)}" data-sku="${attr(digital.sku)}" data-name="${attr(rel.title + " — Digital")}" data-price="${attr(digital.price)}" data-image="${attr(asset(rel.cover))}" aria-label="Add digital for $${money(digital.price)}">$${money(digital.price)}</button>`;
+  return `<article class="sleeve-card" data-release="${attr(rel.id)}" data-artist-id="${attr(rel.artistId || "")}" data-genre="${attr(L.slugify(rel.genre))}"${extra}>
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="${attr(rel.page)}" tabindex="-1" aria-hidden="true"><img src="${asset(rel.coverThumb || rel.cover)}" srcset="${asset(rel.coverThumb || rel.cover)} 480w, ${asset(rel.cover)} 1200w" sizes="${attr(opts.sizes || "(min-width: 1100px) 22vw, 46vw")}" alt="" width="1200" height="1200"${opts.eager ? ' fetchpriority="high"' : ' loading="lazy"'}/></a>
+    ${buy}
+    ${playKey(rel, { className: "sleeve-key" })}
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(dateShort(rel.released))}</span></p>
+    <h3 class="sleeve-title"><a href="${attr(rel.page)}">${esc(L.dashTitle(rel.title))}</a></h3>
+    ${opts.hideArtist ? "" : `<p class="sleeve-by row-artist">${esc(rel.artist)}</p>`}
+  </div>
+</article>`;
+}
+
 /** The catalogue row library.js also renders at runtime. Same classes. */
 function catRow(rel) {
   const digital = rel.formats && rel.formats.digital;
@@ -49,4 +73,4 @@ function catRow(rel) {
   return `<article class="cat-row" data-release="${attr(rel.id)}" data-artist-id="${attr(rel.artistId || "")}" data-genre="${attr(L.slugify(rel.genre))}"><div class="cat-cover"><a href="${attr(href)}" tabindex="-1" aria-hidden="true"><img src="${asset(rel.coverThumb || rel.cover)}" alt="${attr(rel.title + " — " + rel.artist)}" width="480" height="480" loading="lazy"/></a>${play}</div><div class="cat-main"><p class="cat-id">${esc(rel.catalogue || "")}</p><a class="cat-title" href="${attr(href)}">${esc(rel.title)}</a><span class="cat-artist">${esc(rel.artist)}</span><div class="cat-tags"><span class="cat-cue">${esc([rel.kind, formatGlyphs(rel), clock(L.releaseSeconds(rel))].filter(Boolean).join(" · "))}</span></div></div><div class="cat-side">${price}${add}</div></article>`;
 }
 
-module.exports = { releaseRow, catRow };
+module.exports = { releaseRow, releaseCard, catRow };
