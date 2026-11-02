@@ -246,7 +246,7 @@ Median of the stack is about **5–6**. The home rail is currently overweight on
 **P0 — the kit is showing**
 
 1. All canon listening that shares the liturgy closer (Untrue, Donuts, Love Deluxe, Homogenic, Mezzanine, Velvet Rope). Dummy stays closest to itself; still pass for rhythm.
-2. Owned-catalogue blurbs: Inlet Knight, Need U, Lions’ Gate, We Signed Forsberg, L.T. Drifta signing, Please / You Are (Love).
+2. Owned-catalogue blurbs: Inlet Knight, Need U, Lions’ Gate, We Signed Forsberg, LT Drifta signing, Please / You Are (Love).
 3. Strip banned phrases from the rest of the stack even where the piece is otherwise good.
 
 **P1 — make the bomb bombier**

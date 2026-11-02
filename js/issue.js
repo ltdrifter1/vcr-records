@@ -100,7 +100,7 @@
     return (
       '<header class="zine-masthead zine-masthead--compact" aria-label="Night Shift">' +
       '<div class="zine-nameplate"><div class="zine-wordmark">' +
-      '<h1 class="zine-title"><span class="zine-logo"><span class="zine-logo-night">Night</span><span class="zine-logo-shift">Shift</span></span></h1>' +
+      '<h1 class="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h1>' +
       "</div></div></header>"
     );
   }

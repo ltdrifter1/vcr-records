@@ -7,9 +7,9 @@ Static site for Club Copy, an independent record label from the Pacific Northwes
 Black ground, one grotesk, hairlines. The catalogue is the site. Direction and research in [`docs/redesign-2026-10.md`](docs/redesign-2026-10.md).
 
 - Type: **Archivo** (variable width; expanded for display, normal for body) and **IBM Plex Mono** for catalogue data. No second display face.
-- Colour: page `#0A0A0A`, ink `#F0EFEA`, second ink `#9A9A94`, hairline `rgba(255,255,255,.14)`, one signal `#FF4A1C` for state only (on air, active row, focus).
-- Layout: full-width rows separated by hairlines; release rows put the text left and the cover right; the Library is a dense list with genre and artist filters and a sleeves view.
-- One stylesheet: `css/cc.css`. No gradients, bezels, shadows, blur or radii above 2 px.
+- Ground: the paper colour. Night `#CFC6B8`, day `#F3EFE6`, ink `#1A1C1E`. The tooth is in the colour (`css/paper.webp`, overlaid). Signal `#E23B10` is state (on air, active row, focus).
+- Layout: full-width rows separated by one hairline; release rows put the text left and the cover right; the Library is a dense list with genre and artist filters and a sleeves view.
+- One stylesheet: `css/cc.css`. The paper is the only texture. No stamp shadows, gel highlights, or a second typeface.
 
 ## Build
 
@@ -38,7 +38,7 @@ The genre tags under each mix are SoundCloud's own genre + tags for that mix. Th
 
 ### Video feed
 
-The "Video feed" rows on the home page come from the public RSS feed of the L.T. Drifta YouTube channel (no API key): `node scripts/sync-youtube-videos.js` writes `data/videos.json`, and `node scripts/build-site.js` renders the latest four as rows. The `Sync video feed` workflow runs both daily and commits when the list changed. The feed carries the latest 15 uploads; older entries already in the file are kept. A click on a row swaps the thumbnail for the embed on `youtube-nocookie.com` and pauses the site player.
+The "Video feed" rows on the home page come from the public RSS feed of the LT Drifta YouTube channel (no API key): `node scripts/sync-youtube-videos.js` writes `data/videos.json`, and `node scripts/build-site.js` renders the latest four as rows. The `Sync video feed` workflow runs both daily and commits when the list changed. The feed carries the latest 15 uploads. When it returns fewer than 15, that is the whole channel and videos missing from it are removed. When it returns 15, older entries already in the file are kept, and a stored video new enough to have been inside that window but missing from it is removed. A click on a row swaps the thumbnail for the embed on `youtube-nocookie.com` and pauses the site player.
 
 ### Stripe setup
 

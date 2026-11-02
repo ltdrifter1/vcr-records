@@ -6,6 +6,7 @@
  * the player draws a plain groove when a file is missing.
  *
  *   node scripts/peaks.mjs
+ *   node scripts/peaks.mjs ipt-01 sgd-01   # only these track ids
  */
 import { createRequire } from "node:module";
 import { spawn } from "node:child_process";
@@ -116,10 +117,12 @@ async function mapPool(items, limit, fn) {
 }
 
 const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+const only = new Set(process.argv.slice(2));
 const jobs = [];
 (catalog.releases || []).forEach(function (release) {
   (release.tracks || []).forEach(function (track) {
     if (!track || !track.id) return;
+    if (only.size && !only.has(track.id) && !only.has(release.id)) return;
     jobs.push({ release: release, track: track });
   });
 });

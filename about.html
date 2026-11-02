@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>About — Club Copy</title>
   <meta name="description" content="Club Copy is an independent record label and record club from British Columbia. House, jungle and instrumental hip-hop."/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/about"/>
   
   <meta property="og:site_name" content="Club Copy"/>
@@ -21,12 +21,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/cc.css?v=cc2"/>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = "night";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", "light");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
   
   
 </head>
 <body class="cc">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
@@ -74,7 +100,7 @@
   <dl class="specs specs--wide">
     <div><dt class="mono">Based</dt><dd>Pacific Northwest · British Columbia</dd></div>
     <div><dt class="mono">Record club</dt><dd><a href="/join">Free · Club $5/yr · Premium from $10/yr</a></dd></div>
-    <div><dt class="mono">Roster</dt><dd><a href="/artists/forsberg">Forsberg</a> · <a href="/artists/lt-drifta">L.T. Drifta</a> · <a href="/artists/riscape">Riscape</a></dd></div>
+    <div><dt class="mono">Roster</dt><dd><a href="/artists/forsberg">Forsberg</a> · <a href="/artists/lt-drifta">LT Drifta</a> · <a href="/artists/riscape">Riscape</a> · <a href="/artists/dw">DW</a></dd></div>
     <div><dt class="mono">Listen</dt><dd><a href="/planet">Planet MP3</a></dd></div>
     <div><dt class="mono">Contact</dt><dd><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></dd></div>
     <div><dt class="mono">Orders</dt><dd><a href="/shipping">Shipping &amp; returns</a></dd></div>
@@ -85,14 +111,14 @@
   <h2 class="sec-title">Recent releases</h2>
   <a class="sec-link" href="/library">Library</a>
 </header>
-  <div class="sleeve-strip"><a href="/high-low"><img src="/high-low-cover-480.webp" alt="Lenzman, Redeyes - High &amp; Low (Remix)" width="480" height="480" loading="lazy"/></a><a href="/dont-cry"><img src="/dont-cry-cover-480.webp" alt="don&#39;t cry" width="480" height="480" loading="lazy"/></a><a href="/some-kinda-heaven"><img src="/some-kinda-heaven-cover-480.webp" alt="LT Memphis - Some Kinda Heaven (Forsberg Refix)" width="480" height="480" loading="lazy"/></a><a href="/shaolin-style"><img src="/shaolin-style-cover-480.webp" alt="Lavery - Shaolin Style (L.T.&#39;s VIP Mix)" width="480" height="480" loading="lazy"/></a><a href="/whats-luv"><img src="/whats-luv-cover-480.webp" alt="w h a t &#39; s   l u v" width="480" height="480" loading="lazy"/></a><a href="/lifetime"><img src="/lifetime-cover-480.webp" alt="l i f e t i m e" width="480" height="480" loading="lazy"/></a></div>
+  <div class="sleeve-strip"><a href="/artificial-intelligence"><img src="/artificial-intelligence-cover-480.webp" alt="Artificial Intelligence" width="480" height="480" loading="lazy"/></a><a href="/a-ap-forever"><img src="/a-ap-forever-cover-480.webp" alt="A$AP FOREVER" width="480" height="480" loading="lazy"/></a><a href="/slims-return"><img src="/slims-return-cover-480.webp" alt="Madlib - Slims&#39; Return (LT&#39;s Jungle Edit)" width="480" height="480" loading="lazy"/></a><a href="/ipod-touch"><img src="/ipod-touch-cover-480.webp" alt="Ninajirachi - iPod Touch (Forsberg Bootleg)" width="480" height="480" loading="lazy"/></a><a href="/so-good"><img src="/so-good-cover-480.webp" alt="Jhené Aiko - So Good (Forsberg Bootleg)" width="480" height="480" loading="lazy"/></a><a href="/for-my-sins"><img src="/for-my-sins-cover-480.webp" alt="For My Sins" width="480" height="480" loading="lazy"/></a></div>
 </section>
 <section class="sec prose" aria-labelledby="about-faq-title">
   <h2 class="sec-title" id="about-faq-title">Club Copy, explained</h2>
   <details><summary>What is Club Copy?</summary><p>An independent Pacific Northwest record label based in British Columbia. House, jungle, instrumental hip-hop on digital and cassette, small editions, plus a record club for collecting those releases.</p></details>
   <details><summary>Is Club Copy a record club?</summary><p>Yes, and a label. The imprint releases the music; the club is how you collect it. <a href="/join">Free</a> for alerts and first listens, <strong>Club</strong> ($5/yr) for 30% off all music, and <strong>Premium</strong> (from $10/yr) for 50% off all music plus Club Credit toward cassettes and limited pressings. Nothing ships unless you choose it.</p></details>
   <details><summary>Where is the label based?</summary><p>Pacific Northwest · British Columbia, Canada.</p></details>
-  <details><summary>Who is on the roster?</summary><p><a href="/artists/forsberg">Forsberg</a>, <a href="/artists/lt-drifta">L.T. Drifta</a>, <a href="/artists/riscape">Riscape</a>.</p></details>
+  <details><summary>Who is on the roster?</summary><p><a href="/artists/forsberg">Forsberg</a>, <a href="/artists/lt-drifta">LT Drifta</a>, <a href="/artists/riscape">Riscape</a>, <a href="/artists/dw">DW</a>.</p></details>
   <details><summary>Where do I buy releases?</summary><p>In the <a href="/library">library</a>: digital and cassette. Club members get 30% off all music; Premium gets 50% off. Merch and physical editions ship to Canada and the US.</p></details>
 </section>
 </main>
@@ -140,11 +166,11 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc2"></script>
-<script src="/js/cart.js?v=cc2"></script>
-<script src="/js/member.js?v=cc2"></script>
-<script src="/js/player.js?v=cc2"></script>
-<script src="/js/cc.js?v=cc2"></script>
+<script src="/js/site.js?v=cc15"></script>
+<script src="/js/cart.js?v=cc15"></script>
+<script src="/js/member.js?v=cc15"></script>
+<script src="/js/player.js?v=cc15"></script>
+<script src="/js/cc.js?v=cc15"></script>
 
 </body>
 </html>

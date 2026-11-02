@@ -39,11 +39,15 @@ function captionOf(node) {
   return String(((edges[0] || {}).node || {}).text || "");
 }
 
+function siteText(value) {
+  return String(value || "").replace(/L\.T\. Drifta/g, "LT Drifta");
+}
+
 function mapNode(node, handle, name) {
   const short = String(node.shortcode || "").trim();
   if (!short) return null;
-  const caption = captionOf(node);
-  const alt = String(node.accessibility_caption || caption || "Instagram post from @" + handle).slice(0, 180);
+  const caption = siteText(captionOf(node));
+  const alt = siteText(String(node.accessibility_caption || caption || "Instagram post from @" + handle)).slice(0, 180);
   return {
     id: String(node.id || short),
     shortcode: short,
@@ -56,7 +60,7 @@ function mapNode(node, handle, name) {
     takenAt: Number(node.taken_at_timestamp) || 0,
     isVideo: !!node.is_video,
     handle: handle,
-    name: name || handle,
+    name: siteText(name || handle),
   };
 }
 
@@ -66,7 +70,7 @@ function mixProfiles(payloads) {
     const handle = HANDLES[i];
     const user = ((data || {}).data || {}).user || {};
     const edges = ((user.edge_owner_to_timeline_media || {}).edges || []);
-    const name = user.full_name || handle;
+    const name = siteText(user.full_name || handle);
     edges.forEach(function (edge) {
       const mapped = mapNode(edge.node || {}, handle, name);
       if (mapped) posts.push(mapped);

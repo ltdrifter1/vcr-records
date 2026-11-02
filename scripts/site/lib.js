@@ -6,7 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc2";
+const VERSION = "cc15";
+const CSS_VERSION = "cc23";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -79,10 +80,24 @@ function formatGlyphs(rel) {
   const f = rel.formats || {};
   return [f.digital ? "DL" : "", f.cassette ? "CS" : "", f.vinyl ? "LP" : ""].filter(Boolean).join(" / ");
 }
+function freeDownload(rel) {
+  const d = rel && rel.formats && rel.formats.digital;
+  return !!(d && (d.free || Number(d.price) === 0));
+}
+function downloadHref(rel) {
+  const track = (rel && rel.previewTrackId) || (((rel && rel.tracks) || [])[0] && rel.tracks[0].id) || "";
+  return (
+    "/api/bandcamp-stream?r=" +
+    encodeURIComponent(rel && rel.id ? rel.id : "") +
+    "&t=" +
+    encodeURIComponent(track) +
+    "&download=1"
+  );
+}
 function priceLine(rel) {
   const f = rel.formats || {};
   const bits = [];
-  if (f.digital && f.digital.price != null) bits.push("Digital $" + money(f.digital.price));
+  if (f.digital && f.digital.price != null) bits.push(freeDownload(rel) ? "Free download" : "Digital $" + money(f.digital.price));
   if (f.cassette) {
     if (f.cassette.stock === 0 || f.cassette.soldOut) bits.push("Cassette sold out");
     else if (f.cassette.price != null) bits.push("Cassette $" + money(f.cassette.price));
@@ -118,12 +133,41 @@ const NAV = [
   ["/join", "Join"],
 ];
 
+const THEME_BOOT = `<script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = "night";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", "light");
+      } catch (e) {}
+    })();
+  </script>`;
+
+const SKY = `<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>`;
+
 function navHtml(current) {
   const links = NAV.map(([href, label]) => {
     const on = current && (current === href || (href !== "/" && current.startsWith(href + "/")));
     return `<a href="${href}"${on ? ' aria-current="page"' : ""}>${label}</a>`;
   }).join("\n      ");
-  return `<header class="nav" id="nav">
+  return `${SKY}
+<header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
     <nav class="nav-links" aria-label="Primary">
@@ -217,8 +261,8 @@ function page(o) {
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>${esc(title)}</title>
   <meta name="description" content="${attr(o.description || "Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette.")}"/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="${canonical}"/>
   ${o.noindex ? '<meta name="robots" content="noindex"/>' : ""}
   <meta property="og:site_name" content="Club Copy"/>
@@ -233,7 +277,8 @@ function page(o) {
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/cc.css?v=${VERSION}"/>
+  ${THEME_BOOT}
+  <link rel="stylesheet" href="/css/cc.css?v=${CSS_VERSION}"/>
   ${o.preload ? `<link rel="preload" as="image" href="${asset(o.preload)}" fetchpriority="high"/>` : ""}
   ${jsonld}
 </head>
@@ -279,6 +324,22 @@ function crumbs(items) {
     .join('<span class="crumbs-sep" aria-hidden="true">/</span>')}</nav>`;
 }
 
+/** Artist bios are plain text. A blank line starts a new paragraph. */
+function bioParagraphs(bio) {
+  return String(bio || "")
+    .split(/\n\s*\n/)
+    .map((s) => s.replace(/\s*\n\s*/g, " ").replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+}
+function bioText(bio) {
+  return bioParagraphs(bio).join(" ");
+}
+function bioBlock(bio, className) {
+  const parts = bioParagraphs(bio);
+  if (!parts.length) return "";
+  return `<div class="${className} bio">${parts.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`;
+}
+
 function sectionHead(title, opts) {
   opts = opts || {};
   const H = opts.h || "h2";
@@ -291,6 +352,6 @@ function sectionHead(title, opts) {
 module.exports = {
   ROOT, ORIGIN, VERSION, NAV,
   esc, attr, money, clock, slugify, dateLong, dateShort, dateMono, asset,
-  releaseSeconds, specLine, formatGlyphs, priceLine, hasCue, onSite,
-  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, leadSize, dashTitle, MONTHS, MONTHS_SHORT, parseISO,
+  releaseSeconds, specLine, formatGlyphs, priceLine, freeDownload, downloadHref, hasCue, onSite,
+  readJSON, write, page, navHtml, footerHtml, playKey, crumbs, sectionHead, leadSize, dashTitle, bioParagraphs, bioText, bioBlock, MONTHS, MONTHS_SHORT, parseISO,
 };

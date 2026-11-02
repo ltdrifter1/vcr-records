@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Not found — Club Copy</title>
   <meta name="description" content="This page is not in the catalogue."/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/404"/>
   <meta name="robots" content="noindex"/>
   <meta property="og:site_name" content="Club Copy"/>
@@ -21,12 +21,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/cc.css?v=cc2"/>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = "night";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", "light");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
   
   
 </head>
 <body class="cc">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
@@ -62,7 +88,7 @@
   <p class="mono sec-kicker">404</p>
   <h1 class="page-title">This file isn't in the catalogue.</h1>
   <p class="page-lede">The link is old, or the page moved.</p>
-  <a class="miss-plate row row--release" href="/champion-sound"><span class="row-main"><span class="mono row-meta"><span>CC001</span><span>Single</span><span>Digital $1.50</span></span><span class="row-artist">L.T. Drifta</span><span class="row-title">Champion Sound</span></span><span class="row-art"><img src="/champion-sound-cover-480.webp" alt="Champion Sound" width="480" height="480"/></span></a>
+  <a class="miss-plate row row--release" href="/champion-sound"><span class="row-main"><span class="mono row-meta"><span>CC001</span><span>Single</span><span>Digital $1.50</span></span><span class="row-artist">LT Drifta</span><span class="row-title">Champion Sound</span></span><span class="row-art"><img src="/champion-sound-cover-480.webp" alt="Champion Sound" width="480" height="480"/></span></a>
   <div class="lead-actions"><a class="btn btn-solid" href="/">Home</a><a class="btn" href="/library">Library</a><a class="btn" href="/merch">Shop</a></div>
 </section>
 </main>
@@ -110,10 +136,10 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc2"></script>
-<script src="/js/cart.js?v=cc2"></script>
-<script src="/js/member.js?v=cc2"></script>
-<script src="/js/player.js?v=cc2"></script>
+<script src="/js/site.js?v=cc15"></script>
+<script src="/js/cart.js?v=cc15"></script>
+<script src="/js/member.js?v=cc15"></script>
+<script src="/js/player.js?v=cc15"></script>
 
 </body>
 </html>

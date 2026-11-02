@@ -4,15 +4,15 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Mixtapes — Club Copy</title>
-  <meta name="description" content="Long DJ sets from L.T. Drifta: day and night mixes, streamed from SoundCloud through the Club Copy player."/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta name="color-scheme" content="dark"/>
+  <meta name="description" content="Long DJ sets from LT Drifta: day and night mixes, streamed from SoundCloud through the Club Copy player."/>
+  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/tapes"/>
   
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Mixtapes"/>
-  <meta property="og:description" content="Long DJ sets from L.T. Drifta: day and night mixes, streamed from SoundCloud through the Club Copy player."/>
+  <meta property="og:description" content="Long DJ sets from LT Drifta: day and night mixes, streamed from SoundCloud through the Club Copy player."/>
   <meta property="og:url" content="https://www.clubcopy.ca/tapes"/>
   <meta property="og:image" content="https://www.clubcopy.ca/pitch-black-cover.webp"/>
   <meta name="twitter:card" content="summary_large_image"/>
@@ -21,12 +21,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/cc.css?v=cc2"/>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cc.theme");
+        if (t !== "day" && t !== "night") t = "night";
+        document.documentElement.setAttribute("data-theme", t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        var s = document.querySelector('meta[name="color-scheme"]');
+        if (s) s.setAttribute("content", "light");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
   
   
 </head>
 <body class="cc mixtapes-page">
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+  <p class="sky-live">
+    <a class="sky-home" href="/">clubcopy.ca</a>
+    <span>Cumberland</span>
+    <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
+    <span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>
+  </p>
+  <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
+    <span class="sky-knob" aria-hidden="true"></span>
+    <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
+  </button>
+</div>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
@@ -61,22 +87,32 @@
 <header class="page-head">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Mixtapes</span></nav>
   <h1 class="page-title">Mixtapes</h1>
-  <p class="page-lede">Long sets from L.T. Drifta, streamed from SoundCloud. Tap a cover to play. <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">@ltdrifta ↗</a></p>
+  <p class="page-lede">Long sets from LT Drifta, streamed from SoundCloud. Tap a cover to play. <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">@ltdrifta ↗</a></p>
 </header>
+<div class="tape-filters" data-tape-filters hidden>
+  <div class="lane">
+    <span class="lane-label mono" id="tape-genre-label">Genre</span>
+    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
+      <span class="plate" aria-hidden="true"></span>
+    </div>
+  </div>
+  <p class="mono filter-count" data-tape-count aria-live="polite"></p>
+</div>
+<p class="listen-empty" data-tape-empty hidden>No mixes in this genre.</p>
 <p class="tapes-now mono" data-tapes-now role="status" hidden></p>
-<section class="sec sec--tight mix-slot" data-tapes-panel aria-labelledby="day-title">
+<section class="sec sec--tight" data-tapes-panel aria-labelledby="day-title">
   <header class="sec-head">
   <h2 class="sec-title" id="day-title"><span class="sec-kicker">Chill · variety</span>Day</h2>
   
 </header>
-  <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  <div class="tapes-grid" data-tapes-grid data-tapes-slot="day" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
 </section>
-<section class="sec sec--tight mix-slot" data-tapes-panel aria-labelledby="night-title">
+<section class="sec sec--tight" data-tapes-panel aria-labelledby="night-title">
   <header class="sec-head">
   <h2 class="sec-title" id="night-title"><span class="sec-kicker">Heavy · dance</span>Night</h2>
   
 </header>
-  <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
+  <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
 </section>
 <noscript><p class="page-lede">Mixtapes need JavaScript. Listen at <a href="https://soundcloud.com/ltdrifta" rel="noopener noreferrer">soundcloud.com/ltdrifta</a>.</p></noscript>
 
@@ -125,12 +161,13 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc2"></script>
-<script src="/js/cart.js?v=cc2"></script>
-<script src="/js/member.js?v=cc2"></script>
-<script src="/js/player.js?v=cc2"></script>
-<script src="/js/cc.js?v=cc2"></script>
-<script src="/js/tapes.js?v=cc2"></script>
+<script src="/js/site.js?v=cc15"></script>
+<script src="/js/cart.js?v=cc15"></script>
+<script src="/js/member.js?v=cc15"></script>
+<script src="/js/player.js?v=cc15"></script>
+<script src="/js/cc.js?v=cc15"></script>
+<script src="/js/lanes.js?v=cc15"></script>
+<script src="/js/tapes.js?v=cc15"></script>
 
 </body>
 </html>
