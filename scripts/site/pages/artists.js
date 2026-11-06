@@ -80,7 +80,7 @@ ${releases.length ? `<section class="sec" aria-labelledby="rel-title">${L.sectio
     main,
     image: artist.photo,
     scripts: ["cc.js"],
-    jsonld: [{ "@context": "https://schema.org", "@type": "MusicGroup", name: artist.name, url: L.ORIGIN + "/artists/" + artist.id, image: artist.photo ? L.ORIGIN + asset(artist.photo) : undefined, description: L.bioText(artist.bio), memberOf: { "@type": "Organization", name: "Club Copy" } }],
+    jsonld: [{ "@context": "https://schema.org", "@type": "MusicGroup", name: artist.name, url: L.ORIGIN + "/artists/" + artist.id, image: artist.photo ? L.ORIGIN + asset(artist.photo) : undefined, description: L.bioText(artist.bio) || undefined, memberOf: { "@type": "Organization", name: "Club Copy" } }],
   });
 }
 
