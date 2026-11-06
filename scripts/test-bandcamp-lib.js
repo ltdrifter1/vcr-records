@@ -66,9 +66,11 @@ assert.ok(!catalog.releases.some((r) => r.id === "l-t-drifta"));
 assert.ok(!catalog.releases.some((r) => r.id === "freed-from" || r.id === "call-anytime" || r.catalogue === "CC029"));
 assert.ok(!products["dg-freed-from"]);
 assert.ok(!products["dg-call-anytime"]);
+assert.ok(!catalog.releases.some((r) => r.id === "i-give-everything" || r.catalogue === "CC022"));
+assert.ok(!products["dg-i-give-everything"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["artificial-intelligence", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "shaolin-style", "slims-return", "summer-madness", "three-4-zone"]
+  ["artificial-intelligence", "carry-me-home", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "lt-invades-blue-note", "shaolin-style", "slims-return", "summer-madness", "three-4-zone", "why-is-my-heart-so-heavy"]
 );
 assert.deepStrictEqual(
   ["get-me-down", "three-4-zone"].map((id) => {
@@ -166,6 +168,8 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
+    "outta-tha-woods",
+    "skin-to-skin",
     "a-ap-forever",
     "ipod-touch",
     "so-good",
@@ -174,7 +178,6 @@ assert.deepStrictEqual(
     "whats-luv",
     "lifetime",
     "everyday",
-    "i-give-everything",
     "safe-as",
     "deeper",
     "outta-this-mess",
@@ -187,7 +190,7 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["i-give-everything", "safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
+  ["safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [
@@ -208,11 +211,10 @@ assert.deepStrictEqual(
     ];
   }),
   [
-    ["CC022", "The Avalanches - I Give Everything I Have 2 U (ft. Loaded Honey) (Forsberg Refix)", "forsberg", "Single", "2026-10-23", "/i-give-everything", "ige-01", 0, "dg-i-give-everything", "https://forsberg.bandcamp.com/track/the-avalanches-i-give-everything-i-have-2-u-ft-loaded-honey-forsberg-refix", "ige-01", 274, 911399412, 0],
     ["CC018", "safe as", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
     ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
     ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
-    ["CC015", "Rose Rouge - St Germain (Molly's Hazy Edit) Jorja Smith Version", "forsberg", "Single", "2026-10-18", "/rose-rouge-edit", "rre-01", 0, "dg-rose-rouge-edit", "https://forsberg.bandcamp.com/track/rose-rouge-st-germain-mollys-hazy-edit-jorja-smith-version", "rre-01", 237, 4069133099, 0],
+    ["CC015", "Rose Rouge - St Germain (Molly's Hazy Edit) (Jorja Smith Version)", "forsberg", "Single", "2026-10-18", "/rose-rouge-edit", "rre-01", 0, "dg-rose-rouge-edit", "https://forsberg.bandcamp.com/track/rose-rouge-st-germain-mollys-hazy-edit-jorja-smith-version", "rre-01", 237, 4069133099, 0],
   ]
 );
 
@@ -310,7 +312,7 @@ for (const rel of catalog.releases) {
   if (!digital) continue;
   // Bandcamp name-your-price at $0 stays free. A bootleg title is not enough
   // once Bandcamp sets a minimum (iPod Touch, So Good).
-  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good";
+  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "skin-to-skin";
   if ((isFreeDownloadTitle(rel.title) && !pricedDespiteTitle) || digital.free) {
     assert.strictEqual(digital.price, 0, rel.title);
     assert.strictEqual(digital.free, true, rel.title);
@@ -346,7 +348,7 @@ assert.deepStrictEqual(
   [
     ["CC043", "Artificial Intelligence", "lt-drifta", "2026-10-30", "/artificial-intelligence", 1.5, "dg-artificial-intelligence", "https://ltdrifta.bandcamp.com/track/artificial-intelligence", "ari-01", 243, 1927802715, 150],
     ["CC042", "A$AP FOREVER", "forsberg", "2026-10-30", "/a-ap-forever", 0, "dg-a-ap-forever", "https://forsberg.bandcamp.com/track/a-ap-forever", "aaf-01", 233, 2534897252, 0],
-    ["CC041", "Madlib - Slims' Return (LT's Jungle Edit)", "lt-drifta", "2026-10-29", "/slims-return", 0, "dg-slims-return", "https://ltdrifta.bandcamp.com/track/madlib-slims-return-lts-jungle-edit", "slr-01", 268, 1601527236, 0],
+    ["CC041", "Slims' Return (LT's Jungle Edit)", "lt-drifta", "2026-10-29", "/slims-return", 0, "dg-slims-return", "https://ltdrifta.bandcamp.com/track/slims-return-lts-jungle-edit", "slr-01", 268, 1601527236, 0],
   ]
 );
 const classicJazz = catalog.releases.find((r) => r.id === "classic-jazz");
@@ -369,6 +371,29 @@ assert.strictEqual(products["dg-j-adore"].unitAmount, 300);
 
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
 assert.ok(!lakeshore.bandcampUrl);
+assert.deepStrictEqual(
+  ["wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
+    const r = catalog.releases.find((x) => x.id === id);
+    const t = r.tracks[0];
+    return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
+  }),
+  [
+    ["CC049", "Wake Up Mr. Mac", "archie", "Single", "2026-11-06", "/wake-up-mr-mac", 1.5, "dg-wake-up-mr-mac", "https://archie4ever.bandcamp.com/track/wake-up-mr-mac", "wum-01", 188, 4002056174, 150],
+    ["CC048", "LT Invades Blue Note: Tracks From Shades of Blue", "lt-drifta", "Album", "2026-11-06", "/lt-invades-blue-note", 3, "dg-lt-invades-blue-note", "https://ltdrifta.bandcamp.com/album/lt-invades-blue-note-tracks-from-shades-of-blue", "lbn-01", 292, 108853771, 300],
+    ["CC047", "Outta Tha Woods", "forsberg", "Single", "2026-11-05", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://forsberg.bandcamp.com/track/outta-tha-woods", "otw-01", 162, 1323990476, 150],
+    ["CC046", "Why Is My Heart So Heavy", "lt-drifta", "Single", "2026-11-03", "/why-is-my-heart-so-heavy", 1.5, "dg-why-is-my-heart-so-heavy", "https://ltdrifta.bandcamp.com/track/why-is-my-heart-so-heavy", "wih-01", 257, 2291011584, 150],
+    ["CC045", "Anile - Carry Me Home (LT's Bootleg)", "lt-drifta", "Single", "2026-10-31", "/carry-me-home", 0, "dg-carry-me-home", "https://ltdrifta.bandcamp.com/track/anile-carry-me-home-lts-bootleg", "cmh-01", 243, 2056516668, 0],
+    ["CC044", "MPH & Megra - Skin to Skin (forsberg bootleg)", "forsberg", "Single", "2026-10-31", "/skin-to-skin", 1.5, "dg-skin-to-skin", "https://forsberg.bandcamp.com/track/mph-megra-skin-to-skin-forsberg-bootleg", "skn-01", 245, 3773477706, 150],
+  ]
+);
+const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
+assert.deepStrictEqual(
+  blueNote.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "lbn-01", "Please Set Me At Ease", 292, 108853771],
+    [2, "lbn-02", "Mystic Bounce", 186, 266144003],
+  ]
+);
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
