@@ -275,6 +275,7 @@
       el.setAttribute("datetime", new Date().toISOString());
     }
     paint();
+    labelSky();
     setInterval(paint, 15000);
   }
 
@@ -294,16 +295,40 @@
     return "";
   }
 
+  function labelSky() {
+    var bar = document.getElementById("sky");
+    if (!bar) return;
+    var time = bar.querySelector("[data-sky-time]");
+    var wx = bar.querySelector("[data-sky-wx]");
+    var surf = bar.querySelector("[data-sky-surf-now]");
+    var bits = ["Cumberland"];
+    if (time && time.textContent && time.textContent.indexOf("·") < 0) bits.push(time.textContent.trim());
+    if (wx && !wx.hidden && wx.textContent) bits.push(wx.textContent.replace(/\s+/g, " ").trim());
+    if (surf && surf.textContent) bits.push(surf.textContent.replace(/\s+/g, " ").trim());
+    bar.setAttribute("aria-label", bits.filter(Boolean).join(". "));
+  }
+
   function paintWeather(el, data) {
     if (!el || !data || data.temp == null) {
       if (el) el.hidden = true;
       return;
     }
     var words = weatherWords(data.code);
-    var text = Math.round(Number(data.temp)) + "°" + (words ? " " + words : "");
+    var temp = Math.round(Number(data.temp)) + "°";
     el.hidden = false;
-    el.textContent = text;
-    el.title = text + " in Cumberland, British Columbia";
+    el.textContent = "";
+    var t = document.createElement("span");
+    t.className = "sky-temp";
+    t.textContent = temp;
+    el.appendChild(t);
+    if (words) {
+      var w = document.createElement("span");
+      w.className = "sky-wx-words";
+      w.textContent = words;
+      el.appendChild(w);
+    }
+    el.title = temp + (words ? " " + words : "") + " in Cumberland, British Columbia";
+    labelSky();
   }
 
   function loadWeather(el) {
@@ -503,6 +528,7 @@
     }
     host.hidden = false;
     host.title = pack.title || pack.nowText;
+    labelSky();
   }
 
   function grabJSON(url) {
