@@ -57,7 +57,7 @@ function contact() {
 ${head("Contact", 'Press, bookings, demos and general inquiries. <a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a>')}
 <section class="sec">
   <div class="join-grid">
-    <form class="form panel" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-label="Contact form">
+    <form class="form panel" action="https://formspree.io/f/mqppveoj" method="POST" aria-label="Contact form">
       <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required placeholder="Your name"/></div>
       <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@email.com"/></div>
       <div class="field"><label for="subject">Subject</label><input id="subject" name="subject" type="text" required placeholder="Press / booking / demo"/></div>

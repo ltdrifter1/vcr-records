@@ -145,7 +145,7 @@ function lettersBlock() {
       <h2 class="sec-title" id="desk-title">If it happened after two.</h2>
       <p class="page-lede">Gossip, corrections, what you wore, what you played. We read it. The good ones get printed.</p>
     </div>
-    <form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+    <form class="zine-letters-form" action="https://formspree.io/f/mqppveoj" method="POST">
       <input type="hidden" name="_subject" value="Night Shift desk letter"/>
       <div class="field"><label for="zine-letter-email">Email</label><input id="zine-letter-email" type="email" name="email" placeholder="your email" required autocomplete="email"/></div>
       <div class="field"><label for="zine-letter-body">Letter</label><textarea id="zine-letter-body" name="letter" rows="4" placeholder="what happened / what you wore / what you played" required></textarea></div>

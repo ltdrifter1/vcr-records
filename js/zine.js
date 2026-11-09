@@ -489,7 +489,7 @@
       '<p class="zine-desk-kicker">write the desk</p>' +
       "<h2>If it happened after two.</h2>" +
       "<p>Gossip, corrections, what you wore, what you played. We read it. The good ones get xeroxed.</p>" +
-      '<form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">' +
+      '<form class="zine-letters-form" action="https://formspree.io/f/mqppveoj" method="POST">' +
       '<input type="hidden" name="_subject" value="Night Shift desk letter"/>' +
       '<label class="sr-only" for="zine-letter-email">Email</label>' +
       '<input id="zine-letter-email" type="email" name="email" placeholder="your email" required autocomplete="email"/>' +
