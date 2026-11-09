@@ -370,23 +370,32 @@ assert.strictEqual(products["dg-j-adore"].unitAmount, 300);
 
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
 assert.ok(!lakeshore.bandcampUrl);
-assert.ok(!catalog.releases.some((r) => r.id === "outta-tha-woods" || r.catalogue === "CC047"));
-assert.ok(!products["dg-outta-tha-woods"]);
 assert.deepStrictEqual(
-  ["were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
+  ["give-everything", "were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
-    ["CC051", "We're All Mad Here", "archie", "Single", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 2693901462, 150],
+    ["CC052", "Give Everything", "archie", "Single", "2026-11-09", "/give-everything", 1.5, "dg-give-everything", "https://archie4ever.bandcamp.com/track/give-everything", "gev-01", 223, 2354268309, 150],
+    ["CC051", "We're All Mad Here", "archie", "Single", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150],
     ["CC050", "02. Just Can't Take", "lt-drifta", "Single", "2026-11-09", "/02-just-cant-take", 1.5, "dg-02-just-cant-take", "https://ltdrifta.bandcamp.com/track/02-just-cant-take", "jct-01", 209, 1699937414, 150],
     ["CC049", "Wake Up Mr. Mac", "archie", "Single", "2026-11-06", "/wake-up-mr-mac", 1.5, "dg-wake-up-mr-mac", "https://archie4ever.bandcamp.com/track/wake-up-mr-mac", "wum-01", 188, 4002056174, 150],
     ["CC048", "LT Invades Blue Note: Tracks From Shades of Blue", "lt-drifta", "Album", "2026-11-06", "/lt-invades-blue-note", 3, "dg-lt-invades-blue-note", "https://ltdrifta.bandcamp.com/album/lt-invades-blue-note-tracks-from-shades-of-blue", "lbn-01", 292, 108853771, 300],
+    ["CC047", "Outta Tha Woods", "archie", "Single", "2026-11-09", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://archie4ever.bandcamp.com/track/outta-tha-woods", "otw-01", 287, 1458289628, 150],
     ["CC046", "Why Is My Heart So Heavy", "lt-drifta", "Single", "2026-11-03", "/why-is-my-heart-so-heavy", 1.5, "dg-why-is-my-heart-so-heavy", "https://ltdrifta.bandcamp.com/track/why-is-my-heart-so-heavy", "wih-01", 257, 2291011584, 150],
     ["CC045", "Anile - Carry Me Home (LT's Bootleg)", "lt-drifta", "Single", "2026-10-31", "/carry-me-home", 0, "dg-carry-me-home", "https://ltdrifta.bandcamp.com/track/anile-carry-me-home-lts-bootleg", "cmh-01", 243, 2056516668, 0],
     ["CC044", "MPH & Megra - Skin to Skin (forsberg bootleg)", "forsberg", "Single", "2026-10-31", "/skin-to-skin", 1.5, "dg-skin-to-skin", "https://forsberg.bandcamp.com/track/mph-megra-skin-to-skin-forsberg-bootleg", "skn-01", 245, 3773477706, 150],
   ]
+);
+const madHere = catalog.releases.find((r) => r.id === "were-all-mad-here");
+assert.deepStrictEqual(
+  [madHere.catalogue, madHere.title, madHere.artistId, madHere.kind, madHere.genre, madHere.released, madHere.page, madHere.formats.digital.price, madHere.formats.digital.sku, madHere.bandcampUrl, madHere.tracks[0].id, madHere.tracks[0].duration, madHere.tracks[0].bandcampTrackId, products[madHere.formats.digital.sku].unitAmount],
+  ["CC051", "We're All Mad Here", "archie", "Single", "UK Garage", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150]
+);
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
+  ["give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods"]
 );
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
 assert.deepStrictEqual(
