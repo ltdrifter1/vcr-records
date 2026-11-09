@@ -3,7 +3,7 @@ const L = require("../lib");
 const { esc, attr, asset, money } = L;
 
 /** Same inbox as the footer list. Subject marks these as restock requests. */
-const RESTOCK_FORM = "https://formspree.io/f/xdkwjzzr";
+const RESTOCK_FORM = "https://formspree.io/f/mqppveoj";
 
 function soldOut(p) {
   return p.stockQty != null && Number(p.stockQty) <= 0;
