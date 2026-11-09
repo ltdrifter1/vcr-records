@@ -168,7 +168,6 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
-    "outta-tha-woods",
     "skin-to-skin",
     "a-ap-forever",
     "ipod-touch",
@@ -380,11 +379,20 @@ assert.deepStrictEqual(
   [
     ["CC049", "Wake Up Mr. Mac", "archie", "Single", "2026-11-06", "/wake-up-mr-mac", 1.5, "dg-wake-up-mr-mac", "https://archie4ever.bandcamp.com/track/wake-up-mr-mac", "wum-01", 188, 4002056174, 150],
     ["CC048", "LT Invades Blue Note: Tracks From Shades of Blue", "lt-drifta", "Album", "2026-11-06", "/lt-invades-blue-note", 3, "dg-lt-invades-blue-note", "https://ltdrifta.bandcamp.com/album/lt-invades-blue-note-tracks-from-shades-of-blue", "lbn-01", 292, 108853771, 300],
-    ["CC047", "Outta Tha Woods", "forsberg", "Single", "2026-11-05", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://forsberg.bandcamp.com/track/outta-tha-woods", "otw-01", 162, 1323990476, 150],
+    ["CC047", "Outta Tha Woods", "archie", "Single", "2026-11-09", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://archie4ever.bandcamp.com/track/outta-tha-woods", "otw-01", 287, 1458289628, 150],
     ["CC046", "Why Is My Heart So Heavy", "lt-drifta", "Single", "2026-11-03", "/why-is-my-heart-so-heavy", 1.5, "dg-why-is-my-heart-so-heavy", "https://ltdrifta.bandcamp.com/track/why-is-my-heart-so-heavy", "wih-01", 257, 2291011584, 150],
     ["CC045", "Anile - Carry Me Home (LT's Bootleg)", "lt-drifta", "Single", "2026-10-31", "/carry-me-home", 0, "dg-carry-me-home", "https://ltdrifta.bandcamp.com/track/anile-carry-me-home-lts-bootleg", "cmh-01", 243, 2056516668, 0],
     ["CC044", "MPH & Megra - Skin to Skin (forsberg bootleg)", "forsberg", "Single", "2026-10-31", "/skin-to-skin", 1.5, "dg-skin-to-skin", "https://forsberg.bandcamp.com/track/mph-megra-skin-to-skin-forsberg-bootleg", "skn-01", 245, 3773477706, 150],
   ]
+);
+const madHere = catalog.releases.find((r) => r.id === "were-all-mad-here");
+assert.deepStrictEqual(
+  [madHere.catalogue, madHere.title, madHere.artistId, madHere.kind, madHere.genre, madHere.released, madHere.page, madHere.formats.digital.price, madHere.formats.digital.sku, madHere.bandcampUrl, madHere.tracks[0].id, madHere.tracks[0].duration, madHere.tracks[0].bandcampTrackId, products[madHere.formats.digital.sku].unitAmount],
+  ["CC050", "We're All Mad Here", "archie", "Single", "UK Garage", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wam-01", 282, 63309943, 150]
+);
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
+  ["were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods"]
 );
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
 assert.deepStrictEqual(
