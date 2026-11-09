@@ -372,7 +372,7 @@ ${ctas}
       </div>
       <div>
         <label for="footerEmail">Email updates</label>
-        <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+        <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
           <input type="email" id="footerEmail" name="email" placeholder="Email" required autocomplete="email"/>
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px"/>
           <button type="submit">Join</button>
