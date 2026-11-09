@@ -6,8 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc15";
-const CSS_VERSION = "cc23";
+const VERSION = "cc16";
+const CSS_VERSION = "cc24";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -131,6 +131,7 @@ const NAV = [
   ["/news", "Night Shift"],
   ["/merch", "Shop"],
   ["/join", "Join"],
+  ["/contact", "Contact"],
 ];
 
 const THEME_BOOT = `<script>
@@ -183,7 +184,6 @@ function navHtml(current) {
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   ${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join("\n  ")}
   <a href="/account">Account</a>
-  <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>`;
 }
