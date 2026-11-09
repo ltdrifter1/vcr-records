@@ -131,6 +131,7 @@ const NAV = [
   ["/news", "Night Shift"],
   ["/merch", "Shop"],
   ["/join", "Join"],
+  ["/contact", "Contact"],
 ];
 
 const THEME_BOOT = `<script>
@@ -183,7 +184,6 @@ function navHtml(current) {
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
   ${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join("\n  ")}
   <a href="/account">Account</a>
-  <a href="/contact">Contact</a>
   <a href="/cart">Cart</a>
 </div>`;
 }
