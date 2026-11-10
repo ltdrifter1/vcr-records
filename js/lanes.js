@@ -79,10 +79,11 @@
     if (!root) return;
     ["genre", "artist"].forEach(function (kind) {
       var seg = root.querySelector('.seg[data-filter="' + kind + '"]');
-      if (!seg) return;
+      var pick = root.querySelector('select.lane-pick[data-filter="' + kind + '"]');
+      if (!seg && !pick) return;
       var active = String((filters && filters[kind]) || "");
-      var buttons = seg.querySelectorAll("button");
       var matched = !active;
+      var buttons = seg ? seg.querySelectorAll("button") : [];
       for (var i = 0; i < buttons.length; i++) {
         var value = buttons[i].getAttribute("data-value") || "";
         if (active && value.toLowerCase() === active.toLowerCase()) matched = true;
@@ -99,6 +100,29 @@
         buttons[j].setAttribute("aria-checked", on ? "true" : "false");
         buttons[j].tabIndex = on ? 0 : -1;
       }
+      if (pick) {
+        var pickMatched = !active;
+        [].slice.call(pick.options).forEach(function (opt) {
+          var ov = opt.value || "";
+          if (active && ov.toLowerCase() === active.toLowerCase()) pickMatched = true;
+          if (countFor) {
+            var oc = countFor(kind, ov);
+            var label = opt.getAttribute("data-label") || opt.textContent.replace(/\s+\d+$/, "").trim() || ov || "All";
+            opt.textContent = label + " " + oc;
+            opt.disabled = oc === 0 && ov !== "";
+          }
+        });
+        var nextValue = "";
+        if (pickMatched && active) {
+          for (var k = 0; k < pick.options.length; k++) {
+            if ((pick.options[k].value || "").toLowerCase() === active.toLowerCase()) {
+              nextValue = pick.options[k].value;
+              break;
+            }
+          }
+        }
+        pick.value = nextValue;
+      }
     });
     if (watched.indexOf(root) === -1) watched.push(root);
     requestAnimationFrame(function () { place(root); });
@@ -108,7 +132,10 @@
     var out = { genre: "", artist: "" };
     ["genre", "artist"].forEach(function (kind) {
       var on = root.querySelector('.seg[data-filter="' + kind + '"] [aria-checked="true"]');
-      out[kind] = on ? (on.getAttribute("data-value") || "") : "";
+      var pick = root.querySelector('select.lane-pick[data-filter="' + kind + '"]');
+      if (on) out[kind] = on.getAttribute("data-value") || "";
+      else if (pick) out[kind] = pick.value || "";
+      else out[kind] = "";
     });
     return out;
   }
@@ -124,6 +151,15 @@
       if (kind !== "genre" && kind !== "artist") return;
       var next = checkedFilters(root);
       next[kind] = btn.getAttribute("data-value") || "";
+      onChange(next);
+    });
+    root.addEventListener("change", function (e) {
+      var pick = e.target && e.target.matches && e.target.matches("select.lane-pick") ? e.target : null;
+      if (!pick || !root.contains(pick)) return;
+      var kind = pick.getAttribute("data-filter");
+      if (kind !== "genre" && kind !== "artist") return;
+      var next = checkedFilters(root);
+      next[kind] = pick.value || "";
       onChange(next);
     });
     root.addEventListener("keydown", function (e) {
