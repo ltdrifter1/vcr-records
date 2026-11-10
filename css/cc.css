@@ -531,24 +531,58 @@ body.nav-open { overflow: hidden; }
 .sec .filters { padding: 18px 0 16px; }
 .listen-empty { margin: 0; padding: 28px 0; color: var(--ink-2); }
 @media (max-width: 719px) {
-  .filters, .tape-filters {
+  /* One-line scroll lanes: label left, chips swipe right. No wrap sprawl. */
+  .filters,
+  .sec .filters,
+  .tape-filters {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
-    gap: 14px;
+    gap: 6px;
+    min-width: 0;
+    max-width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .filter-meta { margin-left: 0; width: 100%; gap: 8px 12px; }
+  .lanes {
+    gap: 2px;
     min-width: 0;
     max-width: 100%;
   }
-  .filter-meta { margin-left: 0; width: 100%; }
-  .lanes, .lane, .seg { min-width: 0; max-width: 100%; }
-  .lane { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .seg {
-    width: 100%;
-    flex-wrap: wrap;
-    overflow: visible;
-    row-gap: 2px;
+  .lane {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 8px;
+    min-width: 0;
+    max-width: 100%;
   }
-  .seg button { flex: 0 0 auto; min-height: 44px; padding: 8px 10px; }
+  .lane-label {
+    min-width: 0;
+    line-height: 1.1;
+  }
+  .seg {
+    display: flex;
+    flex-wrap: nowrap;
+    width: auto;
+    max-width: none;
+    margin-right: calc(-1 * var(--gutter));
+    padding-right: var(--gutter);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg button {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 6px 8px;
+    letter-spacing: .06em;
+    white-space: nowrap;
+  }
+  .seg button .n { margin-left: 4px; }
   .lib-view-btn, .store-chip { min-height: 44px; }
 }
 .lib-view-btn, .store-chip { padding: 6px 0; margin-left: 16px; border: 0; background: transparent; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
@@ -1574,7 +1608,9 @@ main.news-index, .news-index-front { overflow-x: clip; }
   .tape-spec > span,
   .lead-top span span,
   .lead-foot span span { white-space: nowrap; }
-  .home .sec--list .filters { padding-top: 14px; }
+  .home .sec--list .filters { padding-top: 8px; padding-bottom: 6px; }
+  .home .sec--list .filter-meta { padding-bottom: 2px; }
+  .home .sec--list .release-grid { padding-top: 12px; }
 
   .home .row { padding: 14px 0; }
   .home .row--story .row-title, .home .row--video .row-title { font-size: clamp(22px, 5.8vw, 28px); }
