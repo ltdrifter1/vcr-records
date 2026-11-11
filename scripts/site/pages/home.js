@@ -81,11 +81,13 @@ function videoSection(feed) {
 }
 
 module.exports = function home(data) {
-  const { catalog, news, issues } = data;
+  const { catalog, news, issues, zine } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
   const teaser = releases.slice(0, 8);
   const teaserIds = new Set(teaser.map((r) => r.id));
   const featured = releases[0];
+  const currentVol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
+  const zineTag = (zine && zine.tagline) || "The floor · The fit · The afters";
 
   const main = `
 <section class="sec sec--list" aria-labelledby="releases-title" id="listen">
@@ -110,9 +112,10 @@ module.exports = function home(data) {
 
 <section class="sec sec--zine" aria-labelledby="zine-title" id="news">
   <header class="sec-head sec-head--zine">
-    <p class="sec-kicker">Vol. ${String(issues.current).padStart(2, "0")} · ${esc(issues.volumes.find((v) => v.number === issues.current)?.dateLabel || "")}</p>
-    <a class="sec-link" href="/news">The volume</a>
+    <p class="sec-kicker"><span class="zine-kind">A zine</span><span>Vol. ${String(issues.current).padStart(2, "0")}${currentVol && currentVol.dateLabel ? ` · ${esc(currentVol.dateLabel)}` : ""}</span></p>
+    <a class="sec-link" href="/news">This issue</a>
     <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
+    <p class="zine-home-tag">${esc(zineTag)}</p>
   </header>
   ${starsHome(data.zine, issues)}
   <div class="rows">
