@@ -398,8 +398,8 @@ assert.deepStrictEqual(
 );
 const sayIt = catalog.releases.find((r) => r.id === "say-it");
 assert.deepStrictEqual(
-  [sayIt.catalogue, sayIt.title, sayIt.artistId, sayIt.kind, sayIt.genre, sayIt.released, sayIt.page, sayIt.formats.digital.price, sayIt.formats.digital.sku, sayIt.soundcloudUrl, sayIt.tracks[0].id, sayIt.tracks[0].duration, sayIt.tracks[0].soundcloud, products[sayIt.formats.digital.sku].unitAmount],
-  ["CC054", "say it", "archie", "Single", "UK Garage", "2026-11-11", "/say-it", 1.5, "dg-say-it", "https://soundcloud.com/ltdrifta/say-it", "say-01", 257, "https://soundcloud.com/ltdrifta/say-it", 150]
+  [sayIt.catalogue, sayIt.title, sayIt.artistId, sayIt.kind, sayIt.genre, sayIt.released, sayIt.page, sayIt.formats.digital.price, sayIt.formats.digital.sku, sayIt.soundcloudUrl, sayIt.tracks[0].id, sayIt.tracks[0].duration, sayIt.tracks[0].soundcloud, sayIt.tracks[0].soundcloudTrackId, products[sayIt.formats.digital.sku].unitAmount],
+  ["CC054", "say it", "archie", "Single", "UK Garage", "2026-11-11", "/say-it", 1.5, "dg-say-it", "https://soundcloud.com/ltdrifta/say-it", "say-01", 257, "https://soundcloud.com/ltdrifta/say-it", "2435880900", 150]
 );
 assert.ok(!sayIt.bandcampUrl);
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
