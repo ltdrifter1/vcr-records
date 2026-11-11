@@ -308,8 +308,8 @@ for (const rel of catalog.releases) {
   const digital = rel.formats && rel.formats.digital;
   if (!digital) continue;
   // Bandcamp name-your-price at $0 stays free. A bootleg title is not enough
-  // once Bandcamp sets a minimum (iPod Touch, So Good).
-  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "skin-to-skin";
+  // once Bandcamp sets a minimum (iPod Touch, So Good, the Archie Rose Rouge edit).
+  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "skin-to-skin" || rel.id === "st-germain-rose-rouge";
   if ((isFreeDownloadTitle(rel.title) && !pricedDespiteTitle) || digital.free) {
     assert.strictEqual(digital.price, 0, rel.title);
     assert.strictEqual(digital.free, true, rel.title);
@@ -369,12 +369,13 @@ assert.strictEqual(products["dg-j-adore"].unitAmount, 300);
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
 assert.ok(!lakeshore.bandcampUrl);
 assert.deepStrictEqual(
-  ["give-everything", "were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
+  ["st-germain-rose-rouge", "give-everything", "were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
+    ["CC053", "St Germain - Rose Rouge (Molly's Hazy Edit: Jorja Smith Version)", "archie", "Single", "2026-11-10", "/st-germain-rose-rouge", 1.5, "dg-st-germain-rose-rouge", "https://archie4ever.bandcamp.com/track/st-germain-rose-rouge-mollys-hazy-edit-jorja-smith-version", "srr-01", 238, 3125623343, 150],
     ["CC052", "Give Everything", "archie", "Single", "2026-11-09", "/give-everything", 1.5, "dg-give-everything", "https://archie4ever.bandcamp.com/track/give-everything", "gev-01", 223, 2354268309, 150],
     ["CC051", "We're All Mad Here", "archie", "Single", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150],
     ["CC050", "02. Just Can't Take", "lt-drifta", "Single", "2026-11-09", "/02-just-cant-take", 1.5, "dg-02-just-cant-take", "https://ltdrifta.bandcamp.com/track/02-just-cant-take", "jct-01", 209, 1699937414, 150],
@@ -393,7 +394,7 @@ assert.deepStrictEqual(
 );
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
-  ["give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
+  ["st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
 );
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
 assert.deepStrictEqual(
