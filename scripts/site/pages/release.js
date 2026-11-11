@@ -67,7 +67,7 @@ module.exports = function release(rel, data) {
       <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause"><span class="listen-glyph"><svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg></span></button>
     </div>
   </div>
-  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span class="p-hide">${tracks.length} ${tracks.length === 1 ? "track" : "tracks"}</span><span>${esc(formatGlyphs(rel) || Object.keys(rel.formats || {}).join(" + "))}</span></span>${rel.bandcampUrl ? `<a href="${attr(rel.bandcampUrl)}" rel="noopener noreferrer">Bandcamp ↗</a>` : `<a href="/library">Library →</a>`}</p>
+  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">${esc(rel.catalogue || "")}</span><span>${esc(rel.kind || "")}</span><span class="p-hide">${tracks.length} ${tracks.length === 1 ? "track" : "tracks"}</span><span>${esc(formatGlyphs(rel) || Object.keys(rel.formats || {}).join(" + "))}</span></span>${rel.bandcampUrl ? `<a href="${attr(rel.bandcampUrl)}" rel="noopener noreferrer">Bandcamp ↗</a>` : rel.soundcloudUrl ? `<a href="${attr(rel.soundcloudUrl)}" rel="noopener noreferrer">SoundCloud ↗</a>` : `<a href="/library">Library →</a>`}</p>
 </section>
 
 <section class="sec release-about" aria-label="About the release">
