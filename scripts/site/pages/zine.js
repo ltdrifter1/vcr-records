@@ -174,9 +174,10 @@ function catalogueList(list) {
 function zineHead(issues, zine, title, opts) {
   opts = opts || {};
   const vol = volumeOf(issues, issues.current);
+  const filed = vol && vol.dateLabel ? `<span>${esc(vol.dateLabel)}</span>` : "";
   return `<header class="page-head zine-masthead${opts.compact ? " zine-masthead--compact" : ""}">
   ${L.crumbs(opts.crumbs || [["/", "Home"], [null, "Night Shift"]])}
-  <p class="zine-slug mono"><span>${esc(volLabel(issues.current))}</span><span>${esc(vol ? vol.dateLabel : "")}</span></p>
+  <p class="zine-slug mono"><span>A zine</span><span>${esc(volLabel(issues.current))}</span>${filed}</p>
   <${opts.h || "h1"} class="page-title zine-title" id="news-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></${opts.h || "h1"}>
   <p class="zine-tagline">${esc(zine.tagline || "The floor · The fit · The afters")}</p>
   <nav class="zine-cols mono" aria-label="In the volume">
@@ -217,7 +218,7 @@ ${starsPin(zine)}
 </div>`;
   return L.page({
     title: "Night Shift",
-    description: `Night Shift is the Club Copy magazine: the floor, the fit, the afters. ${volLabel(cur)}, ${vol.dateLabel}.`,
+    description: `Night Shift is the Club Copy zine: the floor, the fit, the afters. ${volLabel(cur)}, ${vol.dateLabel}.`,
     path: "/news",
     bodyClass: "news-listing",
     mainClass: "news-index",
@@ -285,7 +286,7 @@ ${start.length ? `<section class="start-here" aria-labelledby="start-here-title"
   <p class="page-lede">Earlier pieces from the desk, grouped by year.</p>
   ${yearGroups(backCatalogue(news.articles)).map(([y, l]) => `<section><h3 class="mono">${esc(y)}</h3>${catalogueList(l)}</section>`).join("\n")}
 </section>`;
-  return L.page({ title: "Night Shift volumes", description: "Every monthly volume of Night Shift, the Club Copy magazine.", path: "/news/issues", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
+  return L.page({ title: "Night Shift volumes", description: "Every monthly volume of Night Shift, the Club Copy zine.", path: "/news/issues", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
 }
 
 function issueShell(data) {
