@@ -84,15 +84,13 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["high-low", "dont-cry", "some-kinda-heaven", "whats-luv", "lifetime", "everyday", "shaolin-style", "links"].map((id) => {
+  ["high-low", "whats-luv", "lifetime", "everyday", "shaolin-style", "links"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.previewTrackId, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
     ["CC037", "Lenzman, Redeyes - High & Low (Remix)", "lt-drifta", "Single", "2026-10-25", "/high-low", "hl-01", 0, "dg-high-low", "https://ltdrifta.bandcamp.com/track/lenzman-redeyes-high-low-remix", "hl-01", 267, 1473938968, 0],
-    ["CC036", "don't cry", "forsberg", "Single", "2026-10-24", "/dont-cry", "dc-01", 1.5, "dg-dont-cry", "https://forsberg.bandcamp.com/track/dont-cry-2", "dc-01", 255, 2215267394, 150],
-    ["CC035", "LT Memphis - Some Kinda Heaven (Forsberg Refix)", "forsberg", "Single", "2026-10-24", "/some-kinda-heaven", "skh-01", 0, "dg-some-kinda-heaven", "https://forsberg.bandcamp.com/track/lt-memphis-some-kinda-heaven-forsberg-refix", "skh-01", 230, 3330431147, 0],
     ["CC033", "w h a t ' s   l u v", "forsberg", "Single", "2026-10-24", "/whats-luv", "wlv-01", 1.5, "dg-whats-luv", "https://forsberg.bandcamp.com/track/w-h-a-t-s-l-u-v", "wlv-01", 218, 314453665, 150],
     ["CC032", "l i f e t i m e", "forsberg", "Single", "2026-10-24", "/lifetime", "lft-01", 1.5, "dg-lifetime", "https://forsberg.bandcamp.com/track/l-i-f-e-t-i-m-e", "lft-01", 288, 2823529420, 150],
     ["CC025", "everyday", "forsberg", "Single", "2026-10-23", "/everyday", "evd-01", 1.5, "dg-everyday", "https://forsberg.bandcamp.com/track/everyday", "evd-01", 237, 3110656434, 150],
@@ -168,10 +166,7 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
-    "skin-to-skin",
     "a-ap-forever",
-    "dont-cry",
-    "some-kinda-heaven",
     "whats-luv",
     "lifetime",
     "everyday",
@@ -309,7 +304,7 @@ for (const rel of catalog.releases) {
   if (!digital) continue;
   // Bandcamp name-your-price at $0 stays free. A bootleg title is not enough
   // once Bandcamp sets a minimum (iPod Touch, So Good, the Archie Rose Rouge edit).
-  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "skin-to-skin" || rel.id === "st-germain-rose-rouge";
+  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "st-germain-rose-rouge";
   if ((isFreeDownloadTitle(rel.title) && !pricedDespiteTitle) || digital.free) {
     assert.strictEqual(digital.price, 0, rel.title);
     assert.strictEqual(digital.free, true, rel.title);
@@ -369,7 +364,7 @@ assert.strictEqual(products["dg-j-adore"].unitAmount, 300);
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
 assert.ok(!lakeshore.bandcampUrl);
 assert.deepStrictEqual(
-  ["st-germain-rose-rouge", "give-everything", "were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
+  ["st-germain-rose-rouge", "give-everything", "were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
@@ -384,9 +379,14 @@ assert.deepStrictEqual(
     ["CC047", "Outta Tha Woods", "archie", "Single", "2026-11-09", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://archie4ever.bandcamp.com/track/outta-tha-woods", "otw-01", 287, 1458289628, 150],
     ["CC046", "Why Is My Heart So Heavy", "lt-drifta", "Single", "2026-11-03", "/why-is-my-heart-so-heavy", 1.5, "dg-why-is-my-heart-so-heavy", "https://ltdrifta.bandcamp.com/track/why-is-my-heart-so-heavy", "wih-01", 257, 2291011584, 150],
     ["CC045", "Anile - Carry Me Home (LT's Bootleg)", "lt-drifta", "Single", "2026-10-31", "/carry-me-home", 0, "dg-carry-me-home", "https://ltdrifta.bandcamp.com/track/anile-carry-me-home-lts-bootleg", "cmh-01", 243, 2056516668, 0],
-    ["CC044", "MPH & Megra - Skin to Skin (forsberg bootleg)", "forsberg", "Single", "2026-10-31", "/skin-to-skin", 1.5, "dg-skin-to-skin", "https://forsberg.bandcamp.com/track/mph-megra-skin-to-skin-forsberg-bootleg", "skn-01", 245, 3773477706, 150],
   ]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "skin-to-skin" || r.catalogue === "CC044"));
+assert.ok(!catalog.releases.some((r) => r.id === "dont-cry" || r.catalogue === "CC036"));
+assert.ok(!catalog.releases.some((r) => r.id === "some-kinda-heaven" || r.catalogue === "CC035"));
+assert.ok(!products["dg-skin-to-skin"]);
+assert.ok(!products["dg-dont-cry"]);
+assert.ok(!products["dg-some-kinda-heaven"]);
 const madHere = catalog.releases.find((r) => r.id === "were-all-mad-here");
 assert.deepStrictEqual(
   [madHere.catalogue, madHere.title, madHere.artistId, madHere.kind, madHere.genre, madHere.released, madHere.page, madHere.formats.digital.price, madHere.formats.digital.sku, madHere.bandcampUrl, madHere.tracks[0].id, madHere.tracks[0].duration, madHere.tracks[0].bandcampTrackId, products[madHere.formats.digital.sku].unitAmount],
