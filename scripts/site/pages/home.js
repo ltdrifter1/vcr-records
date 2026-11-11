@@ -164,7 +164,7 @@ ${joinSection()}
         email: "charlie@clubcopy.ca",
         foundingDate: "2024-02-12",
         foundingLocation: { "@type": "Place", name: "British Columbia, Canada" },
-        genre: ["House", "Jungle", "UK Garage", "Instrumental Hip Hop", "Electronic"],
+        genre: ["House", "Jungle", "UK Garage", "Instrumental Hip Hop", "Drum & Bass"],
         member: catalog.artists.map((a) => ({ "@type": "MusicGroup", name: a.name, url: L.ORIGIN + "/artists/" + a.id })),
       },
     ],
