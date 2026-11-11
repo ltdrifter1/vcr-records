@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const { Readable } = require("stream");
 const bc = require("../lib/bandcamp");
+const sc = require("../lib/soundcloud");
 
 const PIPE_UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
@@ -77,7 +78,8 @@ function downloadFilename(title) {
 
 async function pipeStream(req, res, streamUrl, opts) {
   opts = opts || {};
-  if (!bc.streamAllowed(streamUrl)) {
+  const allow = opts.allow || bc.streamAllowed;
+  if (!allow(streamUrl)) {
     return json(res, 502, { error: "Stream host not allowed." });
   }
   /* Pass the client's Range through. Capping an open Range: bytes=0-
@@ -97,7 +99,7 @@ async function pipeStream(req, res, streamUrl, opts) {
   try {
     finalUrl = upstream.url || streamUrl;
   } catch (err) {}
-  if (!bc.streamAllowed(finalUrl)) {
+  if (!allow(finalUrl)) {
     return json(res, 502, { error: "Unexpected stream host." });
   }
   if (upstream.status >= 400) {
@@ -167,9 +169,16 @@ module.exports = async function handler(req, res) {
   try {
     const pageUrl = await bc.resolvePageUrl(cue.release, cue.catalog);
     if (!pageUrl) {
-      return json(res, 404, {
-        error: "Preview unavailable — this title is not streaming from Bandcamp.",
-      });
+      const scUrl = sc.feedStreamUrl(cue.track);
+      if (!scUrl) {
+        return json(res, 404, {
+          error: "Preview unavailable — this title is not streaming from Bandcamp.",
+        });
+      }
+      if (download) {
+        return json(res, 403, { error: "This release is not a free download." });
+      }
+      return await pipeStream(req, res, scUrl, { allow: sc.streamHostOk });
     }
     if (download) {
       if (!isFreeRelease(cue.release)) {
