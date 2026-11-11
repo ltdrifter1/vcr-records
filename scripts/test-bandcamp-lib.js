@@ -83,17 +83,18 @@ assert.deepStrictEqual(
     ["CC014", "Three 4 Zone", "LT Drifta", "2026-10-18", "dg-three-4-zone", "https://ltdrifta.bandcamp.com/track/three-4-zone", "t4z-01", 401, 3048030883, 150],
   ]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "whats-luv" || r.id === "everyday" || r.catalogue === "CC033" || r.catalogue === "CC025"));
+assert.ok(!products["dg-whats-luv"]);
+assert.ok(!products["dg-everyday"]);
 assert.deepStrictEqual(
-  ["high-low", "whats-luv", "lifetime", "everyday", "shaolin-style", "links"].map((id) => {
+  ["high-low", "lifetime", "shaolin-style", "links"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.previewTrackId, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
     ["CC037", "Lenzman, Redeyes - High & Low (Remix)", "lt-drifta", "Single", "2026-10-25", "/high-low", "hl-01", 0, "dg-high-low", "https://ltdrifta.bandcamp.com/track/lenzman-redeyes-high-low-remix", "hl-01", 267, 1473938968, 0],
-    ["CC033", "w h a t ' s   l u v", "forsberg", "Single", "2026-10-24", "/whats-luv", "wlv-01", 1.5, "dg-whats-luv", "https://forsberg.bandcamp.com/track/w-h-a-t-s-l-u-v", "wlv-01", 218, 314453665, 150],
     ["CC032", "l i f e t i m e", "forsberg", "Single", "2026-10-24", "/lifetime", "lft-01", 1.5, "dg-lifetime", "https://forsberg.bandcamp.com/track/l-i-f-e-t-i-m-e", "lft-01", 288, 2823529420, 150],
-    ["CC025", "everyday", "forsberg", "Single", "2026-10-23", "/everyday", "evd-01", 1.5, "dg-everyday", "https://forsberg.bandcamp.com/track/everyday", "evd-01", 237, 3110656434, 150],
     ["CC034", "Lavery - Shaolin Style (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-24", "/shaolin-style", "sha-01", 0, "dg-shaolin-style", "https://ltdrifta.bandcamp.com/track/lavery-shaolin-style-l-t-s-vip-mix", "sha-01", 278, 717888588, 0],
     ["CC031", "The Chameleon - Links (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/links", "lnk-01", 0, "dg-links", "https://ltdrifta.bandcamp.com/track/the-chameleon-links-l-t-s-vip-mix", "lnk-01", 297, 414441591, 0],
   ]
@@ -167,9 +168,7 @@ assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
     "a-ap-forever",
-    "whats-luv",
     "lifetime",
-    "everyday",
     "safe-as",
     "deeper",
     "outta-this-mess",
@@ -392,16 +391,17 @@ assert.deepStrictEqual(
   [madHere.catalogue, madHere.title, madHere.artistId, madHere.kind, madHere.genre, madHere.released, madHere.page, madHere.formats.digital.price, madHere.formats.digital.sku, madHere.bandcampUrl, madHere.tracks[0].id, madHere.tracks[0].duration, madHere.tracks[0].bandcampTrackId, products[madHere.formats.digital.sku].unitAmount],
   ["CC051", "We're All Mad Here", "archie", "Single", "UK Garage", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "say-it" || r.catalogue === "CC054"));
+assert.ok(!products["dg-say-it"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
-  ["say-it", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
+  ["w-h-a-t-s-l-u-v", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
 );
-const sayIt = catalog.releases.find((r) => r.id === "say-it");
+const whatsLuv = catalog.releases.find((r) => r.id === "w-h-a-t-s-l-u-v");
 assert.deepStrictEqual(
-  [sayIt.catalogue, sayIt.title, sayIt.artistId, sayIt.kind, sayIt.genre, sayIt.released, sayIt.page, sayIt.formats.digital.price, sayIt.formats.digital.sku, sayIt.soundcloudUrl, sayIt.tracks[0].id, sayIt.tracks[0].duration, sayIt.tracks[0].soundcloud, sayIt.tracks[0].soundcloudTrackId, products[sayIt.formats.digital.sku].unitAmount],
-  ["CC054", "say it", "archie", "Single", "UK Garage", "2026-11-11", "/say-it", 1.5, "dg-say-it", "https://soundcloud.com/ltdrifta/say-it", "say-01", 257, "https://soundcloud.com/ltdrifta/say-it", "2435880900", 150]
+  [whatsLuv.catalogue, whatsLuv.title, whatsLuv.artistId, whatsLuv.kind, whatsLuv.genre, whatsLuv.released, whatsLuv.page, whatsLuv.formats.digital.price, whatsLuv.formats.digital.sku, whatsLuv.bandcampUrl, whatsLuv.tracks[0].id, whatsLuv.tracks[0].duration, whatsLuv.tracks[0].bandcampTrackId, products[whatsLuv.formats.digital.sku].unitAmount],
+  ["CC055", "w h a t ' s l u v ?", "archie", "Single", "UK Garage", "2026-11-11", "/w-h-a-t-s-l-u-v", 1.5, "dg-w-h-a-t-s-l-u-v", "https://archie4ever.bandcamp.com/track/w-h-a-t-s-l-u-v", "wlu-01", 223, 1497341930, 150]
 );
-assert.ok(!sayIt.bandcampUrl);
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
 assert.deepStrictEqual(
   blueNote.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
