@@ -6,6 +6,7 @@ const { laneBar, tapeFilterBar } = require("../lanes");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
 const { signChart } = require("../signs");
+const { nameplate } = require("./zine");
 
 function starsHome(zine, issues) {
   const stars = (zine && zine.stars) || [];
@@ -86,9 +87,6 @@ module.exports = function home(data) {
   const teaser = releases.slice(0, 8);
   const teaserIds = new Set(teaser.map((r) => r.id));
   const featured = releases[0];
-  const currentVol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
-  const zineTag = (zine && zine.tagline) || "The floor · The fit · The afters";
-
   const main = `
 <section class="sec sec--list" aria-labelledby="releases-title" id="listen">
   <header class="home-sec-head">
@@ -112,10 +110,7 @@ module.exports = function home(data) {
 
 <section class="sec sec--zine" aria-labelledby="zine-title" id="news">
   <header class="sec-head sec-head--zine">
-    <p class="sec-kicker"><span class="zine-kind">A zine</span><span>Vol. ${String(issues.current).padStart(2, "0")}${currentVol && currentVol.dateLabel ? ` · ${esc(currentVol.dateLabel)}` : ""}</span></p>
-    <a class="sec-link" href="/news">This issue</a>
-    <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
-    <p class="zine-home-tag">${esc(zineTag)}</p>
+    ${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}
   </header>
   ${starsHome(data.zine, issues)}
   <div class="rows">
