@@ -178,7 +178,6 @@ assert.deepStrictEqual(
     "safe-as",
     "deeper",
     "outta-this-mess",
-    "rose-rouge-edit",
     "pitch-black",
     "try-to-love-again",
     "run-it-back",
@@ -187,7 +186,7 @@ assert.deepStrictEqual(
   ]
 );
 assert.deepStrictEqual(
-  ["safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
+  ["safe-as", "deeper", "outta-this-mess"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [
@@ -211,9 +210,10 @@ assert.deepStrictEqual(
     ["CC018", "safe as", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
     ["CC017", "deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
     ["CC016", "outta this mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
-    ["CC015", "Rose Rouge - St Germain (Molly's Hazy Edit) (Jorja Smith Version)", "forsberg", "Single", "2026-10-18", "/rose-rouge-edit", "rre-01", 0, "dg-rose-rouge-edit", "https://forsberg.bandcamp.com/track/rose-rouge-st-germain-mollys-hazy-edit-jorja-smith-version", "rre-01", 237, 4069133099, 0],
   ]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "rose-rouge-edit" || r.catalogue === "CC015"));
+assert.ok(!products["dg-rose-rouge-edit"]);
 
 const pitchBlack = catalog.releases.find((r) => r.id === "pitch-black");
 assert.ok(pitchBlack);
