@@ -715,61 +715,179 @@ body.nav-open { overflow: hidden; }
 .mix-empty-actions { display: flex; gap: 16px; margin-top: 10px; }
 .tape-link { text-decoration: underline; text-underline-offset: .18em; }
 
-/* Zine ------------------------------------------------------------------ */
-.zine-masthead .zine-slug { margin-bottom: 10px; color: var(--ink); font-size: 13px; letter-spacing: .12em; }
-.zine-title { font-size: clamp(52px, 12.4vw, 176px); line-height: .84; letter-spacing: -.045em; margin: 0 0 14px; }
-.zine-title a:hover { text-decoration: none; color: var(--ink-2); }
-.zine-masthead--compact .zine-title { font-size: clamp(44px, 8vw, 84px); }
-.zine-masthead--compact .zine-slug { color: var(--ink); font-size: 12px; letter-spacing: .12em; }
-.zine-tagline { font-size: clamp(20px, 2vw, 28px); color: var(--ink); margin-bottom: 22px; }
-/* Nameplate: the wordmark sits on a light bar so it doesn't read as another story headline. */
-.zine-masthead { --plate: var(--ink); --plate-ink: var(--bg); }
-.zine-masthead:not(.page-head) { padding-left: var(--gutter); padding-right: var(--gutter); }
-.zine-masthead .zine-title {
-  background: var(--plate);
-  color: var(--plate-ink);
-  margin: 8px calc(-1 * var(--gutter)) 18px;
-  padding: 0.08em var(--gutter) 0.16em;
-}
-.zine-masthead .zine-title a,
-.zine-masthead .zine-title a:hover { color: var(--plate-ink); text-decoration: none; }
-.zine-masthead .zine-title a:hover .zine-logo-night { color: color-mix(in srgb, var(--plate-ink) 55%, transparent); }
-.zine-logo-shift { color: color-mix(in srgb, currentColor 86%, transparent); }
-/* Home: same flag, so the section doesn't sit at the same size as Mixtapes. */
-.sec--zine { padding-top: 0; border-top: 0; scroll-margin-top: var(--chrome-h); }
-.sec-head--zine {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: "kicker link" "title title" "tag tag";
-  align-items: end;
-  gap: 6px 16px;
-  background: var(--ink);
-  color: var(--bg);
+/* Zine ------------------------------------------------------------------
+   The nameplate is the issue, printed on the paper: a folio number,
+   the name, the month, and the three beats. Inside pages keep a
+   running head. Nothing is reversed out of a black bar. */
+.zine-title { font-size: clamp(48px, 7.2vw, 112px); line-height: .8; letter-spacing: -.045em; margin: 0; }
+.zine-title a:hover { text-decoration: none; color: var(--signal); }
+.zine-logo-night,
+.zine-logo-shift { color: inherit; }
+.sec--zine { padding-top: 0; scroll-margin-top: var(--chrome-h); }
+.sec-head.sec-head--zine {
+  display: block;
   margin: 0 calc(-1 * var(--gutter));
-  padding: clamp(28px, 4vw, 52px) var(--gutter) clamp(18px, 2.2vw, 28px);
-  border-bottom: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  border: 0;
 }
-.sec-head--zine .sec-kicker { grid-area: kicker; margin: 0; color: color-mix(in srgb, var(--bg) 72%, transparent); }
-.sec-head--zine .sec-link { grid-area: link; align-self: start; color: color-mix(in srgb, var(--bg) 78%, transparent); }
-.sec-head--zine .sec-link:hover { color: var(--bg); }
-.sec-head--zine .zine-home-title { grid-area: title; margin: 4px 0 0; font-size: clamp(56px, 10vw, 140px); line-height: .84; letter-spacing: -.045em; font-weight: 600; font-stretch: 112%; font-variation-settings: "wdth" 112; }
-.sec-head--zine .zine-home-tag {
-  grid-area: tag;
-  margin: 10px 0 0;
-  max-width: 36em;
+.zine-plate {
+  display: grid;
+  grid-template-columns: clamp(132px, 16vw, 210px) minmax(0, 1fr);
+  grid-template-areas:
+    "num name"
+    "rule date"
+    "beats beats";
+  color: inherit;
+  text-decoration: none;
+}
+.zine-plate:hover,
+.zine-plate:focus-visible { text-decoration: none; }
+.page-head .zine-plate { margin: 20px calc(-1 * var(--gutter)) 0; border-top: 1px solid var(--ink); }
+.zine-plate-num {
+  grid-area: num;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 0;
+  padding: 16px var(--gutter) 0;
+  border-right: 1px solid var(--ink);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-stretch: 112%;
+  font-variation-settings: "wdth" 112;
+  font-size: clamp(72px, 8.4vw, 132px);
+  letter-spacing: -.06em;
+  line-height: .76;
+  color: var(--ink);
+}
+.zine-plate-vol {
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 400;
   font-stretch: 100%;
   font-variation-settings: normal;
-  letter-spacing: .1em;
-  line-height: 1.4;
+  letter-spacing: .16em;
+  line-height: 1;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--bg) 68%, transparent);
+  color: var(--ink-2);
 }
-.sec-head--zine .zine-home-title a,
-.sec-head--zine .zine-home-title a:hover { color: var(--bg); text-decoration: none; }
-.sec-head--zine .zine-home-title a:hover .zine-logo-night { color: color-mix(in srgb, var(--bg) 55%, transparent); }
+a.zine-plate:hover .zine-plate-num,
+a.zine-plate:focus-visible .zine-plate-num { color: var(--signal); }
+a.zine-plate:hover .zine-plate-vol,
+a.zine-plate:focus-visible .zine-plate-vol { color: var(--ink-2); }
+.zine-plate .zine-home-title,
+.zine-plate .zine-title,
+.zine-plate .page-title {
+  grid-area: name;
+  align-self: end;
+  min-width: 0;
+  margin: 0;
+  padding: 16px var(--gutter) 0 clamp(18px, 2vw, 28px);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-stretch: 112%;
+  font-variation-settings: "wdth" 112;
+  font-size: clamp(44px, 6.8vw, 108px);
+  letter-spacing: -.045em;
+  line-height: .8;
+  color: var(--ink);
+}
+.zine-plate .zine-logo,
+.zine-plate .zine-logo:hover { color: inherit; text-decoration: none; }
+.zine-plate .zine-logo:hover { color: var(--signal); }
+.zine-plate-rule { grid-area: rule; border-right: 1px solid var(--ink); }
+.zine-plate-filed {
+  grid-area: date;
+  align-self: start;
+  margin: 0;
+  padding: 8px var(--gutter) 14px clamp(18px, 2vw, 28px);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.zine-plate-beats {
+  grid-area: beats;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 46px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.zine-plate-beats > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 12px 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.zine-plate-beats > span:first-child { padding-left: var(--gutter); }
+.zine-plate-beats > span:not(.zine-plate-open):has(+ span:not(.zine-plate-open))::after {
+  content: "·";
+  margin: 0 .85em;
+  color: var(--ink-3);
+  letter-spacing: 0;
+}
+.zine-plate-open { margin-left: auto; padding-right: var(--gutter); letter-spacing: .14em; }
+a.zine-plate:hover .zine-plate-open,
+a.zine-plate:focus-visible .zine-plate-open { color: var(--signal); }
+.zine-running {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ink);
+}
+.zine-running-name {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-stretch: 112%;
+  font-variation-settings: "wdth" 112;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -.03em;
+  line-height: .9;
+}
+.zine-running .zine-logo:hover { color: var(--signal); text-decoration: none; }
+.zine-running .zine-slug { margin: 0; color: var(--ink-2); }
+.zine-masthead--compact .zine-cols,
+.zine-plate + .zine-cols { border-top: 0; padding-top: 14px; }
+@media (max-width: 759px) {
+  .zine-plate { grid-template-columns: 96px minmax(0, 1fr); }
+  .zine-plate-num { font-size: 56px; gap: 4px; padding: 12px 12px 0 var(--gutter); }
+  .zine-plate .zine-home-title,
+  .zine-plate .zine-title,
+  .zine-plate .page-title { font-size: clamp(34px, 10vw, 48px); padding: 12px var(--gutter) 0 14px; }
+  .zine-plate-filed { padding: 6px var(--gutter) 12px 14px; letter-spacing: .08em; }
+  .zine-plate-beats > span { letter-spacing: .08em; }
+  .zine-plate-open {
+    flex: 1 1 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    padding-left: var(--gutter);
+    border-top: 1px solid var(--line);
+  }
+  .zine-running { flex-wrap: wrap; }
+  .zine-running-name { font-size: 26px; }
+}
 .zine-cols { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-top: 14px; border-top: 1px solid var(--line); }
 .zine-cols a:hover { color: var(--ink); }
 .zine-cols a:first-child { color: var(--ink); text-decoration: underline; text-underline-offset: .2em; }
@@ -1270,11 +1388,11 @@ a.row .row-main { display: block; }
 }
 .home .sec { padding-top: clamp(72px, 9vw, 128px); padding-bottom: clamp(64px, 8vw, 112px); }
 .home .sec.sec--list { padding-top: calc(var(--chrome-h) + clamp(28px, 4vw, 52px)); }
-.home .sec.sec--zine { padding-top: clamp(72px, 9vw, 128px); border-top: 1px solid var(--line); }
+.home .sec.sec--zine { padding-top: 0; border-top: 1px solid var(--ink); }
 .home-sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 28px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
 .home-sec-title { margin: 0; font-size: clamp(44px, 6vw, 76px); font-weight: 600; letter-spacing: -.04em; line-height: .86; font-stretch: 112%; font-variation-settings: "wdth" 112; }
 .home .sec--list .filters { border-bottom: 0; padding: 18px 0 8px; }
-.home .sec-head--zine .zine-home-title { font-size: clamp(48px, 8vw, 104px); }
+.home .sec-head--zine .zine-home-title { font-size: clamp(44px, 6.8vw, 108px); }
 .home .home-stars { padding: 40px 0 44px; }
 .home .sign-chart a { min-height: 156px; padding: 22px 16px 18px; }
 .home .row { padding: clamp(36px, 4.6vw, 64px) 0; }
@@ -1330,7 +1448,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
   line-height: .86;
 }
 .sec-head--zine .zine-home-title,
-.home .sec-head--zine .zine-home-title { font-size: clamp(64px, 11vw, 148px); }
+.home .sec-head--zine .zine-home-title { font-size: clamp(44px, 6.8vw, 108px); }
 .home .sec--list .filters { border-bottom: 1px solid var(--line); }
 @media (min-width: 720px) {
   .home .sec--list .filters {
@@ -1442,7 +1560,8 @@ main.news-index, .news-index-front { overflow-x: clip; }
   .sleeve-title { font-size: 15px; }
   .sleeve-key { width: 44px; height: 44px; }
 }
-.zine-title { font-size: clamp(64px, 12vw, 168px); }
+.zine-plate .zine-title,
+.zine-plate .zine-home-title { font-size: clamp(44px, 6.8vw, 108px); line-height: .8; letter-spacing: -.045em; }
 .front-cover-headline { font-size: clamp(48px, 7vw, 112px); }
 .lane-label {
   color: var(--ink-2);
@@ -1501,7 +1620,7 @@ main.news-index, .news-index-front { overflow-x: clip; }
 .home-sec-head { border-bottom: 1px solid var(--line); }
 .home .sec { padding-top: clamp(32px, 4vw, 52px); padding-bottom: clamp(28px, 3.6vw, 48px); }
 .home .sec.sec--list { padding-top: calc(var(--chrome-h) + clamp(22px, 3vw, 36px)); padding-bottom: clamp(28px, 4vw, 48px); }
-.home .sec.sec--zine { padding-top: clamp(28px, 4vw, 44px); border-top: 1px solid var(--line); }
+.home .sec.sec--zine { padding-top: 0; border-top: 1px solid var(--ink); }
 .footer { border-top: 1px solid var(--line); padding-top: clamp(28px, 4vw, 48px); padding-bottom: clamp(28px, 4vw, 40px); }
 .footer-row--mark { border-bottom: 1px solid var(--line); }
 .footer-row--end { border-top: 1px solid var(--line); }
@@ -1962,7 +2081,8 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 .sec-head--zine .sec-kicker .zine-kind { color: var(--bg); }
 .zine-masthead .zine-slug,
-.zine-masthead--compact .zine-slug { margin-bottom: 12px; color: var(--ink); font-size: 12px; letter-spacing: .12em; }
+.zine-masthead--compact .zine-slug,
+.zine-running .zine-slug { margin: 0; color: var(--ink-2); font-size: 12px; letter-spacing: .12em; }
 .row-meta > span:has(+ span)::after,
 .zine-slug > span:has(+ span)::after,
 .home-stars-kicker > span:has(+ span)::after,
