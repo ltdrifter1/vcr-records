@@ -84,7 +84,8 @@ function videoSection(feed) {
 module.exports = function home(data) {
   const { catalog, news, issues, zine } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
-  const teaser = releases.slice(0, 8);
+  // Three rows of four on the desktop grid. The rest stay in the markup for filters.
+  const teaser = releases.slice(0, 12);
   const teaserIds = new Set(teaser.map((r) => r.id));
   const featured = releases[0];
   const main = `
@@ -108,16 +109,6 @@ module.exports = function home(data) {
   <p class="rows-more mono"><a href="/library" id="listenMore">All ${releases.length} releases →</a></p>
 </section>
 
-<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
-  <header class="sec-head sec-head--zine">
-    ${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}
-  </header>
-  ${starsHome(data.zine, issues)}
-  <div class="rows">
-    ${zineRows(news.articles, issues)}
-  </div>
-</section>
-
 <section class="sec sec--tapes" aria-labelledby="mixtapes-title" id="mixtapes">
   ${L.sectionHead("Mixtapes", { titleId: "mixtapes-title", kicker: "Long sets · SoundCloud", link: ["/tapes", "All mixtapes"] })}
   ${tapeFilterBar()}
@@ -130,6 +121,16 @@ module.exports = function home(data) {
     ${L.sectionHead("Night", { h: "h3", titleId: "night-bin", kicker: "Heavy · dance" })}
     <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
   </section>
+</section>
+
+<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
+  <header class="sec-head sec-head--zine">
+    ${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}
+  </header>
+  ${starsHome(data.zine, issues)}
+  <div class="rows">
+    ${zineRows(news.articles, issues)}
+  </div>
 </section>
 
 ${videoSection(data.videos)}
