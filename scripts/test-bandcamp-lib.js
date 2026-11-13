@@ -395,10 +395,15 @@ assert.ok(!catalog.releases.some((r) => r.id === "say-it" || r.catalogue === "CC
 assert.ok(!products["dg-say-it"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
-  ["get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
+  ["call-ur-name-girl", "get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
 );
 assert.ok(!catalog.releases.some((r) => r.id === "w-h-a-t-s-l-u-v" || r.catalogue === "CC055"));
 assert.ok(!products["dg-w-h-a-t-s-l-u-v"]);
+const callUrName = catalog.releases.find((r) => r.id === "call-ur-name-girl");
+assert.deepStrictEqual(
+  [callUrName.catalogue, callUrName.title, callUrName.artistId, callUrName.kind, callUrName.genre, callUrName.released, callUrName.page, callUrName.formats.digital.price, callUrName.formats.digital.sku, callUrName.bandcampUrl, callUrName.tracks[0].id, callUrName.tracks[0].duration, callUrName.tracks[0].bandcampTrackId, products[callUrName.formats.digital.sku].unitAmount],
+  ["CC058", "call ur name, girl", "archie", "Single", "UK Garage", "2026-11-13", "/call-ur-name-girl", 1.5, "dg-call-ur-name-girl", "https://archie4ever.bandcamp.com/track/call-ur-name-girl", "cun-01", 219, 2583621297, 150]
+);
 const getUNow = catalog.releases.find((r) => r.id === "get-u-now");
 assert.deepStrictEqual(
   [getUNow.catalogue, getUNow.title, getUNow.artistId, getUNow.kind, getUNow.genre, getUNow.released, getUNow.page, getUNow.formats.digital.price, getUNow.formats.digital.sku, getUNow.bandcampUrl, getUNow.tracks[0].id, getUNow.tracks[0].duration, getUNow.tracks[0].bandcampTrackId, products[getUNow.formats.digital.sku].unitAmount],
