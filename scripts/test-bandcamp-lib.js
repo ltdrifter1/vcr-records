@@ -395,7 +395,7 @@ assert.ok(!catalog.releases.some((r) => r.id === "say-it" || r.catalogue === "CC
 assert.ok(!products["dg-say-it"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
-  ["call-ur-name-girl", "get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
+  ["get-u-now-album", "the-jamz", "call-ur-name-girl", "get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
 );
 assert.ok(!catalog.releases.some((r) => r.id === "w-h-a-t-s-l-u-v" || r.catalogue === "CC055"));
 assert.ok(!products["dg-w-h-a-t-s-l-u-v"]);
@@ -408,6 +408,38 @@ const getUNow = catalog.releases.find((r) => r.id === "get-u-now");
 assert.deepStrictEqual(
   [getUNow.catalogue, getUNow.title, getUNow.artistId, getUNow.kind, getUNow.genre, getUNow.released, getUNow.page, getUNow.formats.digital.price, getUNow.formats.digital.sku, getUNow.bandcampUrl, getUNow.tracks[0].id, getUNow.tracks[0].duration, getUNow.tracks[0].bandcampTrackId, products[getUNow.formats.digital.sku].unitAmount],
   ["CC057", "Get-U-Now", "archie", "Single", "UK Garage", "2026-11-13", "/get-u-now", 1.5, "dg-get-u-now", "https://archie4ever.bandcamp.com/track/get-u-now", "gun-01", 398, 2370203316, 150]
+);
+const getUNowAlbum = catalog.releases.find((r) => r.id === "get-u-now-album");
+assert.deepStrictEqual(
+  [getUNowAlbum.catalogue, getUNowAlbum.title, getUNowAlbum.artistId, getUNowAlbum.kind, getUNowAlbum.genre, getUNowAlbum.released, getUNowAlbum.page, getUNowAlbum.formats.digital.price, getUNowAlbum.formats.digital.sku, getUNowAlbum.bandcampUrl, getUNowAlbum.previewTrackId, products[getUNowAlbum.formats.digital.sku].unitAmount],
+  ["CC060", "Get-U-Now", "archie", "Album", "UK Garage", "2026-11-14", "/get-u-now-album", 9, "dg-get-u-now-album", "https://archie4ever.bandcamp.com/album/get-u-now", "gua-01", 900]
+);
+assert.deepStrictEqual(
+  getUNowAlbum.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "gua-01", "Magic Wand (3AM VIP)", 300, 672118745],
+    [2, "gua-02", "give it away", 258, 2946641705],
+    [3, "gua-03", "let me love you", 240, 3479914388],
+    [4, "gua-04", "say it", 258, 119520965],
+    [5, "gua-05", "We've Lost", 252, 3325066115],
+    [6, "gua-06", "star-six-nine", 293, 1362201849],
+    [7, "gua-07", "Left You", 310, 2865574975],
+    [8, "gua-08", "Want You", 291, 2551205977],
+    [9, "gua-09", "Together (3AM VIP)", 295, 364822117],
+    [10, "gua-10", "Jazz As Weapon", 226, 2115138511],
+    [11, "gua-11", "False Teeth", 310, 1637811835],
+    [12, "gua-12", "Beatback (3AM VIP)", 346, 1237940034],
+    [13, "gua-13", "Get-U-Now", 398, 224979061],
+    [14, "gua-14", "The Jamz", 395, 476289388],
+    [15, "gua-15", "Far Away", 296, 1981812356],
+    [16, "gua-16", "Losing You", 282, 2224722272],
+    [17, "gua-17", "call ur name", 219, 3781195589],
+  ]
+);
+const theJamz = catalog.releases.find((r) => r.id === "the-jamz");
+assert.deepStrictEqual(
+  [theJamz.catalogue, theJamz.title, theJamz.artistId, theJamz.kind, theJamz.genre, theJamz.released, theJamz.page, theJamz.formats.digital.price, theJamz.formats.digital.sku, theJamz.bandcampUrl, theJamz.tracks[0].id, theJamz.tracks[0].duration, theJamz.tracks[0].bandcampTrackId, products[theJamz.formats.digital.sku].unitAmount],
+  ["CC059", "The Jamz", "archie", "Single", "UK Garage", "2026-11-13", "/the-jamz", 1.5, "dg-the-jamz", "https://archie4ever.bandcamp.com/track/the-jamz", "jam-01", 395, 970818772, 150]
 );
 const shades = catalog.releases.find((r) => r.id === "shades-of-blue");
 assert.deepStrictEqual(
