@@ -414,6 +414,7 @@ assert.deepStrictEqual(
   [getUNowAlbum.catalogue, getUNowAlbum.title, getUNowAlbum.artistId, getUNowAlbum.kind, getUNowAlbum.genre, getUNowAlbum.released, getUNowAlbum.page, getUNowAlbum.formats.digital.price, getUNowAlbum.formats.digital.sku, getUNowAlbum.bandcampUrl, getUNowAlbum.previewTrackId, products[getUNowAlbum.formats.digital.sku].unitAmount],
   ["CC060", "Get-U-Now", "archie", "Album", "UK Garage", "2026-11-14", "/get-u-now-album", 9, "dg-get-u-now-album", "https://archie4ever.bandcamp.com/album/get-u-now", "gua-01", 900]
 );
+assert.strictEqual(getUNowAlbum.tracksCount, 18);
 assert.deepStrictEqual(
   getUNowAlbum.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
   [
@@ -421,9 +422,9 @@ assert.deepStrictEqual(
     [2, "gua-02", "give it away", 258, 2946641705],
     [3, "gua-03", "let me love you", 240, 3479914388],
     [4, "gua-04", "say it", 258, 119520965],
-    [5, "gua-05", "We've Lost", 252, 3325066115],
-    [6, "gua-06", "star-six-nine", 293, 1362201849],
-    [7, "gua-07", "Left You", 310, 2865574975],
+    [5, "gua-06", "star-six-nine", 293, 1362201849],
+    [6, "gua-07", "Left You", 310, 2865574975],
+    [7, "gua-05", "We've Lost", 252, 3325066115],
     [8, "gua-08", "Want You", 291, 2551205977],
     [9, "gua-09", "Together (3AM VIP)", 295, 364822117],
     [10, "gua-10", "Jazz As Weapon", 226, 2115138511],
@@ -434,7 +435,13 @@ assert.deepStrictEqual(
     [15, "gua-15", "Far Away", 296, 1981812356],
     [16, "gua-16", "Losing You", 282, 2224722272],
     [17, "gua-17", "call ur name", 219, 3781195589],
+    [18, "gua-18", "Interstellar Love", 323, 1589272641],
   ]
+);
+const lionsGate = catalog.releases.find((r) => r.id === "lions-gate");
+assert.deepStrictEqual(
+  [lionsGate.catalogue, lionsGate.title, lionsGate.artistId, lionsGate.kind, lionsGate.genre, lionsGate.released, lionsGate.page, lionsGate.formats.digital.price, lionsGate.formats.digital.sku, lionsGate.bandcampUrl, lionsGate.tracks[0].id, lionsGate.tracks[0].duration, lionsGate.tracks[0].bandcampTrackId, products[lionsGate.formats.digital.sku].unitAmount],
+  ["CC061", "Lions' Gate", "dw", "Single", "Downtempo", "2026-11-14", "/lions-gate", 1.5, "dg-lions-gate", "https://dw1990.bandcamp.com/track/lions-gate", "lgt-01", 189, 3483021454, 150]
 );
 const theJamz = catalog.releases.find((r) => r.id === "the-jamz");
 assert.deepStrictEqual(
