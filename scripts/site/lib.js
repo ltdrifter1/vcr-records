@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
 const VERSION = "cc16";
-const CSS_VERSION = "cc24";
+const CSS_VERSION = "cc27";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -210,7 +210,7 @@ function footerHtml() {
   <div class="footer-row">
     <p class="footer-label">Newsletter</p>
     <div class="footer-news">
-      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+      <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
         <label class="sr-only" for="footerEmail">Email</label>
         <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>

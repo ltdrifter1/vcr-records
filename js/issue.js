@@ -96,15 +96,6 @@
     );
   }
 
-  function mastheadHtml() {
-    return (
-      '<header class="zine-masthead zine-masthead--compact" aria-label="Night Shift">' +
-      '<div class="zine-nameplate"><div class="zine-wordmark">' +
-      '<h1 class="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h1>' +
-      "</div></div></header>"
-    );
-  }
-
   function metaLine(issue, article, count) {
     var parts = [issue.title || ("Vol. " + pad(issue.number)), issue.dateLabel || "", storyLabel(count)].filter(Boolean);
     var photo = photographer(article);
@@ -210,7 +201,6 @@
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Night Shift</a><span>/</span>' +
       esc(issue.title || ("Vol. " + pad(issue.number))) +
       "</nav>" +
-      mastheadHtml() +
       coverHtml(issue, cover, prefix(), count) +
       contentsHtml(stories, issue.coverSlug) +
       colophonHtml(stories) +

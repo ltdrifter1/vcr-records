@@ -70,7 +70,7 @@ assert.ok(!catalog.releases.some((r) => r.id === "i-give-everything" || r.catalo
 assert.ok(!products["dg-i-give-everything"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["artificial-intelligence", "carry-me-home", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "lt-invades-blue-note", "shaolin-style", "slims-return", "summer-madness", "three-4-zone", "why-is-my-heart-so-heavy"]
+  ["02-just-cant-take", "artificial-intelligence", "carry-me-home", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "lt-invades-blue-note", "shades-of-blue", "shaolin-style", "slims-return", "summer-madness", "three-4-zone", "why-is-my-heart-so-heavy"]
 );
 assert.deepStrictEqual(
   ["get-me-down", "three-4-zone"].map((id) => {
@@ -83,19 +83,18 @@ assert.deepStrictEqual(
     ["CC014", "Three 4 Zone", "LT Drifta", "2026-10-18", "dg-three-4-zone", "https://ltdrifta.bandcamp.com/track/three-4-zone", "t4z-01", 401, 3048030883, 150],
   ]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "whats-luv" || r.id === "everyday" || r.catalogue === "CC033" || r.catalogue === "CC025"));
+assert.ok(!products["dg-whats-luv"]);
+assert.ok(!products["dg-everyday"]);
 assert.deepStrictEqual(
-  ["high-low", "dont-cry", "some-kinda-heaven", "whats-luv", "lifetime", "everyday", "shaolin-style", "links"].map((id) => {
+  ["high-low", "lifetime", "shaolin-style", "links"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.previewTrackId, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
     ["CC037", "Lenzman, Redeyes - High & Low (Remix)", "lt-drifta", "Single", "2026-10-25", "/high-low", "hl-01", 0, "dg-high-low", "https://ltdrifta.bandcamp.com/track/lenzman-redeyes-high-low-remix", "hl-01", 267, 1473938968, 0],
-    ["CC036", "don't cry", "forsberg", "Single", "2026-10-24", "/dont-cry", "dc-01", 1.5, "dg-dont-cry", "https://forsberg.bandcamp.com/track/dont-cry-2", "dc-01", 255, 2215267394, 150],
-    ["CC035", "LT Memphis - Some Kinda Heaven (Forsberg Refix)", "forsberg", "Single", "2026-10-24", "/some-kinda-heaven", "skh-01", 0, "dg-some-kinda-heaven", "https://forsberg.bandcamp.com/track/lt-memphis-some-kinda-heaven-forsberg-refix", "skh-01", 230, 3330431147, 0],
-    ["CC033", "w h a t ' s   l u v", "forsberg", "Single", "2026-10-24", "/whats-luv", "wlv-01", 1.5, "dg-whats-luv", "https://forsberg.bandcamp.com/track/w-h-a-t-s-l-u-v", "wlv-01", 218, 314453665, 150],
     ["CC032", "l i f e t i m e", "forsberg", "Single", "2026-10-24", "/lifetime", "lft-01", 1.5, "dg-lifetime", "https://forsberg.bandcamp.com/track/l-i-f-e-t-i-m-e", "lft-01", 288, 2823529420, 150],
-    ["CC025", "everyday", "forsberg", "Single", "2026-10-23", "/everyday", "evd-01", 1.5, "dg-everyday", "https://forsberg.bandcamp.com/track/everyday", "evd-01", 237, 3110656434, 150],
     ["CC034", "Lavery - Shaolin Style (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-24", "/shaolin-style", "sha-01", 0, "dg-shaolin-style", "https://ltdrifta.bandcamp.com/track/lavery-shaolin-style-l-t-s-vip-mix", "sha-01", 278, 717888588, 0],
     ["CC031", "The Chameleon - Links (L.T.'s VIP Mix)", "lt-drifta", "Single", "2026-10-23", "/links", "lnk-01", 0, "dg-links", "https://ltdrifta.bandcamp.com/track/the-chameleon-links-l-t-s-vip-mix", "lnk-01", 297, 414441591, 0],
   ]
@@ -146,7 +145,7 @@ assert.ok(pleaseWait);
 assert.strictEqual(pleaseWait.artist, "Forsberg");
 assert.strictEqual(pleaseWait.artistId, "forsberg");
 assert.strictEqual(pleaseWait.catalogue, "CC010");
-assert.strictEqual(pleaseWait.title, "Please Wait");
+assert.strictEqual(pleaseWait.title, "please wait");
 assert.strictEqual(pleaseWait.kind, "Single");
 assert.strictEqual(pleaseWait.released, "2026-10-17");
 assert.strictEqual(pleaseWait.page, "/please-wait");
@@ -156,7 +155,7 @@ assert.strictEqual(pleaseWait.formats.digital.price, 1.5);
 assert.ok(/forsberg\.bandcamp\.com\/track\/please-wait/.test(pleaseWait.bandcampUrl));
 assert.deepStrictEqual(
   pleaseWait.tracks.map((t) => [t.title, t.duration, t.bandcampTrackId]),
-  [["Please Wait", 330, 1737504659]]
+  [["please wait", 330, 1737504659]]
 );
 assert.strictEqual(products["dg-please-wait"].unitAmount, 150);
 assert.strictEqual(bc.pickCueTrack(pleaseWait).id, "pw-01");
@@ -168,20 +167,9 @@ assert.strictEqual(jadore.bandcampUrl, "https://forsberg.bandcamp.com/album/jado
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "forsberg").map((r) => r.id),
   [
-    "outta-tha-woods",
-    "skin-to-skin",
     "a-ap-forever",
-    "ipod-touch",
-    "so-good",
-    "dont-cry",
-    "some-kinda-heaven",
-    "whats-luv",
     "lifetime",
-    "everyday",
-    "safe-as",
-    "deeper",
     "outta-this-mess",
-    "rose-rouge-edit",
     "pitch-black",
     "try-to-love-again",
     "run-it-back",
@@ -189,8 +177,10 @@ assert.deepStrictEqual(
     "j-adore",
   ]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "safe-as" || r.catalogue === "CC018"));
+assert.ok(!products["dg-safe-as"]);
 assert.deepStrictEqual(
-  ["safe-as", "deeper", "outta-this-mess", "rose-rouge-edit"].map((id) => {
+  ["outta-this-mess"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [
@@ -211,12 +201,13 @@ assert.deepStrictEqual(
     ];
   }),
   [
-    ["CC018", "safe as", "forsberg", "Single", "2026-10-20", "/safe-as", "sa-01", 1.5, "dg-safe-as", "https://forsberg.bandcamp.com/track/safe-as", "sa-01", 308, 2065763897, 150],
-    ["CC017", "Deeper", "forsberg", "Single", "2026-10-19", "/deeper", "dee-01", 1.5, "dg-deeper", "https://forsberg.bandcamp.com/track/deeper", "dee-01", 330, 1922921065, 150],
-    ["CC016", "Outta This Mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
-    ["CC015", "Rose Rouge - St Germain (Molly's Hazy Edit) (Jorja Smith Version)", "forsberg", "Single", "2026-10-18", "/rose-rouge-edit", "rre-01", 0, "dg-rose-rouge-edit", "https://forsberg.bandcamp.com/track/rose-rouge-st-germain-mollys-hazy-edit-jorja-smith-version", "rre-01", 237, 4069133099, 0],
+    ["CC016", "outta this mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
   ]
 );
+assert.ok(!catalog.releases.some((r) => r.id === "deeper" || r.catalogue === "CC017"));
+assert.ok(!products["dg-deeper"]);
+assert.ok(!catalog.releases.some((r) => r.id === "rose-rouge-edit" || r.catalogue === "CC015"));
+assert.ok(!products["dg-rose-rouge-edit"]);
 
 const pitchBlack = catalog.releases.find((r) => r.id === "pitch-black");
 assert.ok(pitchBlack);
@@ -244,7 +235,7 @@ assert.strictEqual(bc.pickCueTrack(pitchBlack, "pb-03").id, "pb-03");
 const tryToLoveAgain = catalog.releases.find((r) => r.id === "try-to-love-again");
 assert.ok(tryToLoveAgain);
 assert.strictEqual(tryToLoveAgain.catalogue, "CC012");
-assert.strictEqual(tryToLoveAgain.title, "Try To Love Again");
+assert.strictEqual(tryToLoveAgain.title, "try to love again");
 assert.strictEqual(tryToLoveAgain.kind, "Single");
 assert.strictEqual(tryToLoveAgain.released, "2026-10-18");
 assert.strictEqual(tryToLoveAgain.page, "/try-to-love-again");
@@ -254,7 +245,7 @@ assert.strictEqual(tryToLoveAgain.formats.digital.price, 1.5);
 assert.strictEqual(tryToLoveAgain.bandcampUrl, "https://forsberg.bandcamp.com/track/try-to-love-again");
 assert.deepStrictEqual(
   tryToLoveAgain.tracks.map((t) => [t.id, t.title, t.duration, t.bandcampTrackId]),
-  [["ttla-01", "Try To Love Again", 360, 898873433]]
+  [["ttla-01", "try to love again", 360, 898873433]]
 );
 assert.strictEqual(products["dg-try-to-love-again"].unitAmount, 150);
 assert.strictEqual(bc.pickCueTrack(tryToLoveAgain).id, "ttla-01");
@@ -264,7 +255,7 @@ assert.ok(runItBack);
 assert.strictEqual(runItBack.artist, "Forsberg");
 assert.strictEqual(runItBack.artistId, "forsberg");
 assert.strictEqual(runItBack.catalogue, "CC011");
-assert.strictEqual(runItBack.title, "Run It Back");
+assert.strictEqual(runItBack.title, "run it back");
 assert.strictEqual(runItBack.kind, "Single");
 assert.strictEqual(runItBack.released, "2026-10-18");
 assert.strictEqual(runItBack.page, "/run-it-back");
@@ -274,7 +265,7 @@ assert.strictEqual(runItBack.formats.digital.price, 1.5);
 assert.strictEqual(runItBack.bandcampUrl, "https://forsberg.bandcamp.com/track/run-it-back");
 assert.deepStrictEqual(
   runItBack.tracks.map((t) => [t.id, t.title, t.duration, t.bandcampTrackId]),
-  [["rib-01", "Run It Back", 150, 2830265795]]
+  [["rib-01", "run it back", 150, 2830265795]]
 );
 assert.strictEqual(products["dg-run-it-back"].unitAmount, 150);
 assert.strictEqual(bc.pickCueTrack(runItBack).id, "rib-01");
@@ -311,8 +302,8 @@ for (const rel of catalog.releases) {
   const digital = rel.formats && rel.formats.digital;
   if (!digital) continue;
   // Bandcamp name-your-price at $0 stays free. A bootleg title is not enough
-  // once Bandcamp sets a minimum (iPod Touch, So Good).
-  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "skin-to-skin";
+  // once Bandcamp sets a minimum (iPod Touch, So Good, the Archie Rose Rouge edit).
+  const pricedDespiteTitle = rel.id === "ipod-touch" || rel.id === "so-good" || rel.id === "st-germain-rose-rouge";
   if ((isFreeDownloadTitle(rel.title) && !pricedDespiteTitle) || digital.free) {
     assert.strictEqual(digital.price, 0, rel.title);
     assert.strictEqual(digital.free, true, rel.title);
@@ -331,8 +322,8 @@ assert.deepStrictEqual(
     return [r.catalogue, r.title, r.artistId, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
-    ["CC040", "Ninajirachi - iPod Touch (Forsberg Bootleg)", "forsberg", "2026-10-25", "/ipod-touch", 1.5, "dg-ipod-touch", "https://forsberg.bandcamp.com/track/ninajirachi-ipod-touch-forsberg-bootleg", "ipt-01", 233, 1326496516, 150],
-    ["CC039", "Jhené Aiko - So Good (Forsberg Bootleg)", "forsberg", "2026-10-25", "/so-good", 0.99, "dg-so-good", "https://forsberg.bandcamp.com/track/jhen-aiko-so-good-forsberg-bootleg", "sgd-01", 218, 2730846289, 99],
+    ["CC040", "Ninajirachi - iPod Touch (Archie's Garage Bootleg)", "archie", "2026-11-09", "/ipod-touch", 1.5, "dg-ipod-touch", "https://archie4ever.bandcamp.com/track/ninajirachi-ipod-touch-archies-garage-bootleg", "ipt-01", 233, 3733824340, 150],
+    ["CC039", "Jhené Aiko - So Good (Archie Bootleg)", "archie", "2026-11-09", "/so-good", 1.5, "dg-so-good", "https://archie4ever.bandcamp.com/track/jhen-aiko-so-good-archie-bootleg", "sgd-01", 218, 2796235860, 150],
     ["CC038", "For My Sins", "lt-drifta", "2026-10-25", "/for-my-sins", 1.5, "dg-for-my-sins", "https://ltdrifta.bandcamp.com/track/for-my-sins", "fms-01", 240, 3491237466, 150],
   ]
 );
@@ -372,18 +363,115 @@ assert.strictEqual(products["dg-j-adore"].unitAmount, 300);
 const lakeshore = catalog.releases.find((r) => r.id === "ep1");
 assert.ok(!lakeshore.bandcampUrl);
 assert.deepStrictEqual(
-  ["wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home", "skin-to-skin"].map((id) => {
+  ["st-germain-rose-rouge", "give-everything", "were-all-mad-here", "02-just-cant-take", "wake-up-mr-mac", "lt-invades-blue-note", "outta-tha-woods", "why-is-my-heart-so-heavy", "carry-me-home"].map((id) => {
     const r = catalog.releases.find((x) => x.id === id);
     const t = r.tracks[0];
     return [r.catalogue, r.title, r.artistId, r.kind, r.released, r.page, r.formats.digital.price, r.formats.digital.sku, r.bandcampUrl, t.id, t.duration, t.bandcampTrackId, products[r.formats.digital.sku].unitAmount];
   }),
   [
+    ["CC053", "St Germain - Rose Rouge (Molly's Hazy Edit: Jorja Smith Version)", "archie", "Single", "2026-11-10", "/st-germain-rose-rouge", 1.5, "dg-st-germain-rose-rouge", "https://archie4ever.bandcamp.com/track/st-germain-rose-rouge-mollys-hazy-edit-jorja-smith-version", "srr-01", 238, 3125623343, 150],
+    ["CC052", "Give Everything", "archie", "Single", "2026-11-09", "/give-everything", 1.5, "dg-give-everything", "https://archie4ever.bandcamp.com/track/give-everything", "gev-01", 223, 2354268309, 150],
+    ["CC051", "We're All Mad Here", "archie", "Single", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150],
+    ["CC050", "02. Just Can't Take", "lt-drifta", "Single", "2026-11-09", "/02-just-cant-take", 1.5, "dg-02-just-cant-take", "https://ltdrifta.bandcamp.com/track/02-just-cant-take", "jct-01", 209, 1699937414, 150],
     ["CC049", "Wake Up Mr. Mac", "archie", "Single", "2026-11-06", "/wake-up-mr-mac", 1.5, "dg-wake-up-mr-mac", "https://archie4ever.bandcamp.com/track/wake-up-mr-mac", "wum-01", 188, 4002056174, 150],
     ["CC048", "LT Invades Blue Note: Tracks From Shades of Blue", "lt-drifta", "Album", "2026-11-06", "/lt-invades-blue-note", 3, "dg-lt-invades-blue-note", "https://ltdrifta.bandcamp.com/album/lt-invades-blue-note-tracks-from-shades-of-blue", "lbn-01", 292, 108853771, 300],
-    ["CC047", "Outta Tha Woods", "forsberg", "Single", "2026-11-05", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://forsberg.bandcamp.com/track/outta-tha-woods", "otw-01", 162, 1323990476, 150],
+    ["CC047", "Outta Tha Woods", "archie", "Single", "2026-11-09", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://archie4ever.bandcamp.com/track/outta-tha-woods", "otw-01", 287, 1458289628, 150],
     ["CC046", "Why Is My Heart So Heavy", "lt-drifta", "Single", "2026-11-03", "/why-is-my-heart-so-heavy", 1.5, "dg-why-is-my-heart-so-heavy", "https://ltdrifta.bandcamp.com/track/why-is-my-heart-so-heavy", "wih-01", 257, 2291011584, 150],
     ["CC045", "Anile - Carry Me Home (LT's Bootleg)", "lt-drifta", "Single", "2026-10-31", "/carry-me-home", 0, "dg-carry-me-home", "https://ltdrifta.bandcamp.com/track/anile-carry-me-home-lts-bootleg", "cmh-01", 243, 2056516668, 0],
-    ["CC044", "MPH & Megra - Skin to Skin (forsberg bootleg)", "forsberg", "Single", "2026-10-31", "/skin-to-skin", 1.5, "dg-skin-to-skin", "https://forsberg.bandcamp.com/track/mph-megra-skin-to-skin-forsberg-bootleg", "skn-01", 245, 3773477706, 150],
+  ]
+);
+assert.ok(!catalog.releases.some((r) => r.id === "skin-to-skin" || r.catalogue === "CC044"));
+assert.ok(!catalog.releases.some((r) => r.id === "dont-cry" || r.catalogue === "CC036"));
+assert.ok(!catalog.releases.some((r) => r.id === "some-kinda-heaven" || r.catalogue === "CC035"));
+assert.ok(!products["dg-skin-to-skin"]);
+assert.ok(!products["dg-dont-cry"]);
+assert.ok(!products["dg-some-kinda-heaven"]);
+const madHere = catalog.releases.find((r) => r.id === "were-all-mad-here");
+assert.deepStrictEqual(
+  [madHere.catalogue, madHere.title, madHere.artistId, madHere.kind, madHere.genre, madHere.released, madHere.page, madHere.formats.digital.price, madHere.formats.digital.sku, madHere.bandcampUrl, madHere.tracks[0].id, madHere.tracks[0].duration, madHere.tracks[0].bandcampTrackId, products[madHere.formats.digital.sku].unitAmount],
+  ["CC051", "We're All Mad Here", "archie", "Single", "UK Garage", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150]
+);
+assert.ok(!catalog.releases.some((r) => r.id === "say-it" || r.catalogue === "CC054"));
+assert.ok(!products["dg-say-it"]);
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
+  ["get-u-now-album", "the-jamz", "call-ur-name-girl", "get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
+);
+assert.ok(!catalog.releases.some((r) => r.id === "w-h-a-t-s-l-u-v" || r.catalogue === "CC055"));
+assert.ok(!products["dg-w-h-a-t-s-l-u-v"]);
+const callUrName = catalog.releases.find((r) => r.id === "call-ur-name-girl");
+assert.deepStrictEqual(
+  [callUrName.catalogue, callUrName.title, callUrName.artistId, callUrName.kind, callUrName.genre, callUrName.released, callUrName.page, callUrName.formats.digital.price, callUrName.formats.digital.sku, callUrName.bandcampUrl, callUrName.tracks[0].id, callUrName.tracks[0].duration, callUrName.tracks[0].bandcampTrackId, products[callUrName.formats.digital.sku].unitAmount],
+  ["CC058", "call ur name, girl", "archie", "Single", "UK Garage", "2026-11-13", "/call-ur-name-girl", 1.5, "dg-call-ur-name-girl", "https://archie4ever.bandcamp.com/track/call-ur-name-girl", "cun-01", 219, 2583621297, 150]
+);
+const getUNow = catalog.releases.find((r) => r.id === "get-u-now");
+assert.deepStrictEqual(
+  [getUNow.catalogue, getUNow.title, getUNow.artistId, getUNow.kind, getUNow.genre, getUNow.released, getUNow.page, getUNow.formats.digital.price, getUNow.formats.digital.sku, getUNow.bandcampUrl, getUNow.tracks[0].id, getUNow.tracks[0].duration, getUNow.tracks[0].bandcampTrackId, products[getUNow.formats.digital.sku].unitAmount],
+  ["CC057", "Get-U-Now", "archie", "Single", "UK Garage", "2026-11-13", "/get-u-now", 1.5, "dg-get-u-now", "https://archie4ever.bandcamp.com/track/get-u-now", "gun-01", 398, 2370203316, 150]
+);
+const getUNowAlbum = catalog.releases.find((r) => r.id === "get-u-now-album");
+assert.deepStrictEqual(
+  [getUNowAlbum.catalogue, getUNowAlbum.title, getUNowAlbum.artistId, getUNowAlbum.kind, getUNowAlbum.genre, getUNowAlbum.released, getUNowAlbum.page, getUNowAlbum.formats.digital.price, getUNowAlbum.formats.digital.sku, getUNowAlbum.bandcampUrl, getUNowAlbum.previewTrackId, products[getUNowAlbum.formats.digital.sku].unitAmount],
+  ["CC060", "Get-U-Now", "archie", "Album", "UK Garage", "2026-11-14", "/get-u-now-album", 9, "dg-get-u-now-album", "https://archie4ever.bandcamp.com/album/get-u-now", "gua-01", 900]
+);
+assert.strictEqual(getUNowAlbum.tracksCount, 18);
+assert.deepStrictEqual(
+  getUNowAlbum.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "gua-01", "Magic Wand (3AM VIP)", 300, 672118745],
+    [2, "gua-02", "give it away", 258, 2946641705],
+    [3, "gua-03", "let me love you", 240, 3479914388],
+    [4, "gua-04", "say it", 258, 119520965],
+    [5, "gua-06", "star-six-nine", 293, 1362201849],
+    [6, "gua-07", "Left You", 310, 2865574975],
+    [7, "gua-05", "We've Lost", 252, 3325066115],
+    [8, "gua-08", "Want You", 291, 2551205977],
+    [9, "gua-09", "Together (3AM VIP)", 295, 364822117],
+    [10, "gua-10", "Jazz As Weapon", 226, 2115138511],
+    [11, "gua-11", "False Teeth", 310, 1637811835],
+    [12, "gua-12", "Beatback (3AM VIP)", 346, 1237940034],
+    [13, "gua-13", "Get-U-Now", 398, 224979061],
+    [14, "gua-14", "The Jamz", 395, 476289388],
+    [15, "gua-15", "Far Away", 296, 1981812356],
+    [16, "gua-16", "Losing You", 282, 2224722272],
+    [17, "gua-17", "call ur name", 219, 3781195589],
+    [18, "gua-18", "Interstellar Love", 323, 1589272641],
+  ]
+);
+const lionsGate = catalog.releases.find((r) => r.id === "lions-gate");
+assert.deepStrictEqual(
+  [lionsGate.catalogue, lionsGate.title, lionsGate.artistId, lionsGate.kind, lionsGate.genre, lionsGate.released, lionsGate.page, lionsGate.formats.digital.price, lionsGate.formats.digital.sku, lionsGate.bandcampUrl, lionsGate.tracks[0].id, lionsGate.tracks[0].duration, lionsGate.tracks[0].bandcampTrackId, products[lionsGate.formats.digital.sku].unitAmount],
+  ["CC061", "Lions' Gate", "dw", "Single", "Downtempo", "2026-11-14", "/lions-gate", 1.5, "dg-lions-gate", "https://dw1990.bandcamp.com/track/lions-gate", "lgt-01", 189, 3483021454, 150]
+);
+const theJamz = catalog.releases.find((r) => r.id === "the-jamz");
+assert.deepStrictEqual(
+  [theJamz.catalogue, theJamz.title, theJamz.artistId, theJamz.kind, theJamz.genre, theJamz.released, theJamz.page, theJamz.formats.digital.price, theJamz.formats.digital.sku, theJamz.bandcampUrl, theJamz.tracks[0].id, theJamz.tracks[0].duration, theJamz.tracks[0].bandcampTrackId, products[theJamz.formats.digital.sku].unitAmount],
+  ["CC059", "The Jamz", "archie", "Single", "UK Garage", "2026-11-13", "/the-jamz", 1.5, "dg-the-jamz", "https://archie4ever.bandcamp.com/track/the-jamz", "jam-01", 395, 970818772, 150]
+);
+const shades = catalog.releases.find((r) => r.id === "shades-of-blue");
+assert.deepStrictEqual(
+  [shades.catalogue, shades.title, shades.artistId, shades.kind, shades.genre, shades.released, shades.page, shades.formats.digital.price, shades.formats.digital.sku, shades.bandcampUrl, shades.previewTrackId, products[shades.formats.digital.sku].unitAmount],
+  ["CC056", "Shades of Blue", "lt-drifta", "Album", "Drum & Bass", "2026-11-13", "/shades-of-blue", 9, "dg-shades-of-blue", "https://ltdrifta.bandcamp.com/album/shades-of-blue", "sob-01", 900]
+);
+assert.deepStrictEqual(
+  shades.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "sob-01", "Introduction", 68, 4158361770],
+    [2, "sob-02", "Slims' Return", 267, 523244321],
+    [3, "sob-03", "Distant Land", 290, 2731681939],
+    [4, "sob-04", "Mystic Bounce", 186, 1051335188],
+    [5, "sob-05", "Blue Note Interlude", 64, 1922312765],
+    [6, "sob-06", "Stormy", 244, 585971643],
+    [7, "sob-07", "Please Set Me At Ease", 292, 959348495],
+    [8, "sob-08", "Funky Blue Note", 278, 3318419397],
+    [9, "sob-09", "Alfred Lion Interlude", 67, 2793477097],
+    [10, "sob-10", "Stepping Into Tomorrow", 353, 758632864],
+    [11, "sob-11", "Andrew Hill Break", 55, 4013719070],
+    [12, "sob-12", "Montara", 312, 95455418],
+    [13, "sob-13", "Song For My Father", 286, 346916250],
+    [14, "sob-14", "Footprints", 320, 3232317431],
+    [15, "sob-15", "Peace/Dolphin Dance", 285, 3784424316],
+    [16, "sob-16", "Outro", 60, 2619882535],
   ]
 );
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");

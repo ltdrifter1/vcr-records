@@ -70,8 +70,10 @@
   function slugify(s) {
     return String(s || '')
       .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-');
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
   }
 
   function matchesArtist(rel, filter) {

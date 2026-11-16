@@ -27,12 +27,22 @@ function lane(kind, label, items, total) {
         `<button type="button" role="radio" data-value="${attr(item.id)}" data-label="${attr(item.name)}" aria-checked="false" tabindex="-1">${esc(item.name)}<span class="n">${item.count}</span></button>`
     ),
   ].join("");
+  const options = [
+    `<option value="" data-label="All">All ${total}</option>`,
+    ...items.map(
+      (item) =>
+        `<option value="${attr(item.id)}" data-label="${attr(item.name)}">${esc(item.name)} ${item.count}</option>`
+    ),
+  ].join("");
   return `<div class="lane">
       <span class="lane-label mono" id="lane-${kind}">${esc(label)}</span>
       <div class="seg" role="radiogroup" aria-labelledby="lane-${kind}" data-filter="${kind}">
         <span class="plate" aria-hidden="true"></span>
         ${buttons}
       </div>
+      <select class="lane-pick" data-filter="${kind}" aria-labelledby="lane-${kind}">
+        ${options}
+      </select>
     </div>`;
 }
 

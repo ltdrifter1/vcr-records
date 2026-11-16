@@ -57,13 +57,15 @@ function contact() {
 ${head("Contact", 'Press, bookings, demos and general inquiries. <a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a>')}
 <section class="sec">
   <div class="join-grid">
-    <form class="form panel" action="https://formspree.io/f/xdkwjzzr" method="POST" aria-label="Contact form">
+    <form class="form panel" id="contactForm" action="https://formspree.io/f/mbggndvw" method="POST" aria-label="Contact form">
       <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required placeholder="Your name"/></div>
       <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@email.com"/></div>
       <div class="field"><label for="subject">Subject</label><input id="subject" name="subject" type="text" required placeholder="Press / booking / demo"/></div>
       <div class="field"><label for="message">Message</label><textarea id="message" name="message" required placeholder="Tell us what's up" rows="6"></textarea></div>
+      <input type="hidden" name="_subject" value="Club Copy contact"/>
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
       <button class="btn btn-solid" type="submit">Send</button>
+      <p class="join-status" id="contactStatus" role="status" aria-live="polite" hidden></p>
     </form>
     <dl class="specs">
       <div><dt class="mono">Email</dt><dd><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></dd></div>
@@ -74,7 +76,55 @@ ${head("Contact", 'Press, bookings, demos and general inquiries. <a href="mailto
     </dl>
   </div>
 </section>`;
-  return L.page({ title: "Contact", description: "Contact Club Copy: press, bookings, demos.", path: "/contact", main });
+  return L.page({ title: "Contact", description: "Contact Club Copy: press, bookings, demos.", path: "/contact", main, inline: contactScript() });
+}
+
+function contactScript() {
+  return `(function () {
+  var form = document.getElementById("contactForm");
+  if (!form) return;
+  var status = document.getElementById("contactStatus");
+  var button = form.querySelector('button[type="submit"]');
+  function show(msg, isError) {
+    if (!status) return;
+    status.hidden = false;
+    status.textContent = msg;
+    status.classList.toggle("is-error", !!isError);
+  }
+  form.addEventListener("submit", function (event) {
+    if (!window.fetch || !window.FormData) return;
+    event.preventDefault();
+    var gotcha = form.querySelector('[name="_gotcha"]');
+    if (gotcha && gotcha.value) {
+      form.reset();
+      show("Sent. We'll write back.", false);
+      return;
+    }
+    if (button) button.disabled = true;
+    show("Sending…", false);
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" }
+    }).then(function (response) {
+      if (response.ok) {
+        form.reset();
+        show("Sent. We'll write back.", false);
+        if (button) button.disabled = false;
+        return;
+      }
+      return response.json().catch(function () { return {}; }).then(function (data) {
+        var errors = data && data.errors;
+        var msg = (errors && errors.length && errors.map(function (item) { return item.message; }).filter(Boolean).join(" ")) || (data && data.error) || "Couldn't send that. Email charlie@clubcopy.ca instead.";
+        show(msg, true);
+        if (button) button.disabled = false;
+      });
+    }).catch(function () {
+      show("Couldn't send that. Email charlie@clubcopy.ca instead.", true);
+      if (button) button.disabled = false;
+    });
+  });
+})();`;
 }
 
 function shipping() {

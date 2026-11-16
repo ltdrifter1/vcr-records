@@ -6,6 +6,7 @@ const { laneBar, tapeFilterBar } = require("../lanes");
 const { joinSection } = require("./join");
 const { artistRow } = require("./artists");
 const { signChart } = require("../signs");
+const { nameplate } = require("./zine");
 
 function starsHome(zine, issues) {
   const stars = (zine && zine.stars) || [];
@@ -81,12 +82,12 @@ function videoSection(feed) {
 }
 
 module.exports = function home(data) {
-  const { catalog, news, issues } = data;
+  const { catalog, news, issues, zine } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
-  const teaser = releases.slice(0, 8);
+  // Three rows of four on the desktop grid. The rest stay in the markup for filters.
+  const teaser = releases.slice(0, 12);
   const teaserIds = new Set(teaser.map((r) => r.id));
   const featured = releases[0];
-
   const main = `
 <section class="sec sec--list" aria-labelledby="releases-title" id="listen">
   <header class="home-sec-head">
@@ -108,18 +109,6 @@ module.exports = function home(data) {
   <p class="rows-more mono"><a href="/library" id="listenMore">All ${releases.length} releases →</a></p>
 </section>
 
-<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
-  <header class="sec-head sec-head--zine">
-    <p class="sec-kicker">Vol. ${String(issues.current).padStart(2, "0")} · ${esc(issues.volumes.find((v) => v.number === issues.current)?.dateLabel || "")}</p>
-    <a class="sec-link" href="/news">The volume</a>
-    <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
-  </header>
-  ${starsHome(data.zine, issues)}
-  <div class="rows">
-    ${zineRows(news.articles, issues)}
-  </div>
-</section>
-
 <section class="sec sec--tapes" aria-labelledby="mixtapes-title" id="mixtapes">
   ${L.sectionHead("Mixtapes", { titleId: "mixtapes-title", kicker: "Long sets · SoundCloud", link: ["/tapes", "All mixtapes"] })}
   ${tapeFilterBar()}
@@ -132,6 +121,16 @@ module.exports = function home(data) {
     ${L.sectionHead("Night", { h: "h3", titleId: "night-bin", kicker: "Heavy · dance" })}
     <div class="tapes-grid" data-tapes-grid data-tapes-slot="night" data-tapes-limit="4" aria-busy="true"><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span><span class="mix-skel" aria-hidden="true"></span></div>
   </section>
+</section>
+
+<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
+  <header class="sec-head sec-head--zine">
+    ${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}
+  </header>
+  ${starsHome(data.zine, issues)}
+  <div class="rows">
+    ${zineRows(news.articles, issues)}
+  </div>
 </section>
 
 ${videoSection(data.videos)}
@@ -164,7 +163,7 @@ ${joinSection()}
         email: "charlie@clubcopy.ca",
         foundingDate: "2024-02-12",
         foundingLocation: { "@type": "Place", name: "British Columbia, Canada" },
-        genre: ["House", "Jungle", "UK Garage", "Instrumental Hip Hop", "Electronic"],
+        genre: ["House", "Jungle", "UK Garage", "Instrumental Hip Hop", "Drum & Bass"],
         member: catalog.artists.map((a) => ({ "@type": "MusicGroup", name: a.name, url: L.ORIGIN + "/artists/" + a.id })),
       },
     ],

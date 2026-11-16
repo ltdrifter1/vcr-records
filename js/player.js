@@ -496,7 +496,7 @@
     } catch (e) {}
     var localDev = host === "127.0.0.1" || host === "localhost";
     if (localDev && file) return file;
-    if (t.bandcampTrackId || (release && (release.bandcampUrl || release.bandcamp))) {
+    if (t.bandcampTrackId || t.soundcloud || (release && (release.bandcampUrl || release.bandcamp))) {
       return (
         "/api/bandcamp-stream?r=" +
         encodeURIComponent(release.id) +

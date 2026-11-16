@@ -23,9 +23,9 @@ assert.strictEqual(PRODUCTS["sm-hoodie"].stock, 0);
 assert.strictEqual(PRODUCTS["sm-longsleeve"].stock, 0);
 assert.strictEqual(PRODUCTS["sm-sleeve-tee"].stock, 0);
 assert.strictEqual(PRODUCTS["sm-crewneck"].stock, 0);
-assert.strictEqual(PRODUCTS["sm-cap"].stock, 0);
-assert.strictEqual(PRODUCTS["sm-bikini"].stock, 0);
-assert.strictEqual(PRODUCTS["sm-slipmat"].stock, 0);
+assert.strictEqual(PRODUCTS["sm-cap"].stock, 50);
+assert.strictEqual(PRODUCTS["sm-bikini"].stock, 20);
+assert.strictEqual(PRODUCTS["sm-slipmat"].stock, 60);
 assert.strictEqual(PRODUCTS["sm-poly-outer"].stock, 0);
 assert.strictEqual(PRODUCTS["sm-globe-tee"].stock, 40);
 
