@@ -70,7 +70,7 @@ assert.ok(!catalog.releases.some((r) => r.id === "i-give-everything" || r.catalo
 assert.ok(!products["dg-i-give-everything"]);
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "lt-drifta").map((r) => r.id).sort(),
-  ["02-just-cant-take", "artificial-intelligence", "carry-me-home", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "lt-invades-blue-note", "shades-of-blue", "shaolin-style", "slims-return", "summer-madness", "three-4-zone", "why-is-my-heart-so-heavy"]
+  ["02-just-cant-take", "artificial-intelligence", "carry-me-home", "champion-sound", "classic-jazz", "ep1", "for-my-sins", "get-me-down", "high-low", "links", "lt-invades-blue-note", "shaolin-style", "slims-return", "summer-madness", "three-4-zone", "why-is-my-heart-so-heavy"]
 );
 assert.deepStrictEqual(
   ["get-me-down", "three-4-zone"].map((id) => {
@@ -448,32 +448,8 @@ assert.deepStrictEqual(
   [theJamz.catalogue, theJamz.title, theJamz.artistId, theJamz.kind, theJamz.genre, theJamz.released, theJamz.page, theJamz.formats.digital.price, theJamz.formats.digital.sku, theJamz.bandcampUrl, theJamz.tracks[0].id, theJamz.tracks[0].duration, theJamz.tracks[0].bandcampTrackId, products[theJamz.formats.digital.sku].unitAmount],
   ["CC059", "The Jamz", "archie", "Single", "UK Garage", "2026-11-13", "/the-jamz", 1.5, "dg-the-jamz", "https://archie4ever.bandcamp.com/track/the-jamz", "jam-01", 395, 970818772, 150]
 );
-const shades = catalog.releases.find((r) => r.id === "shades-of-blue");
-assert.deepStrictEqual(
-  [shades.catalogue, shades.title, shades.artistId, shades.kind, shades.genre, shades.released, shades.page, shades.formats.digital.price, shades.formats.digital.sku, shades.bandcampUrl, shades.previewTrackId, products[shades.formats.digital.sku].unitAmount],
-  ["CC056", "Shades of Blue", "lt-drifta", "Album", "Drum & Bass", "2026-11-13", "/shades-of-blue", 9, "dg-shades-of-blue", "https://ltdrifta.bandcamp.com/album/shades-of-blue", "sob-01", 900]
-);
-assert.deepStrictEqual(
-  shades.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
-  [
-    [1, "sob-01", "Introduction", 68, 4158361770],
-    [2, "sob-02", "Slims' Return", 267, 523244321],
-    [3, "sob-03", "Distant Land", 290, 2731681939],
-    [4, "sob-04", "Mystic Bounce", 186, 1051335188],
-    [5, "sob-05", "Blue Note Interlude", 64, 1922312765],
-    [6, "sob-06", "Stormy", 244, 585971643],
-    [7, "sob-07", "Please Set Me At Ease", 292, 959348495],
-    [8, "sob-08", "Funky Blue Note", 278, 3318419397],
-    [9, "sob-09", "Alfred Lion Interlude", 67, 2793477097],
-    [10, "sob-10", "Stepping Into Tomorrow", 353, 758632864],
-    [11, "sob-11", "Andrew Hill Break", 55, 4013719070],
-    [12, "sob-12", "Montara", 312, 95455418],
-    [13, "sob-13", "Song For My Father", 286, 346916250],
-    [14, "sob-14", "Footprints", 320, 3232317431],
-    [15, "sob-15", "Peace/Dolphin Dance", 285, 3784424316],
-    [16, "sob-16", "Outro", 60, 2619882535],
-  ]
-);
+assert.ok(!catalog.releases.some((r) => r.id === "shades-of-blue" || r.catalogue === "CC056"));
+assert.ok(!products["dg-shades-of-blue"]);
 const blueNote = catalog.releases.find((r) => r.id === "lt-invades-blue-note");
 assert.deepStrictEqual(
   blueNote.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
