@@ -56,12 +56,24 @@ function contents(list, opts) {
 </section>`;
 }
 
+function coverCreditText(article) {
+  if (!article) return "";
+  const structured = article.imageCredit && typeof article.imageCredit === "object" ? article.imageCredit : null;
+  let name = "";
+  if (typeof article.credit === "string") name = article.credit.replace(/^Photo:\s*/i, "");
+  else if (typeof article.imageCredit === "string") name = article.imageCredit.replace(/^Photo:\s*/i, "");
+  else if (structured) name = structured.author || "";
+  if (structured && structured.licence && name && name.indexOf(structured.licence) === -1) return name + ", " + structured.licence;
+  return name;
+}
+
 function coverBlock(vol, article, zine) {
   if (!article) return "";
   const count = vol.count;
+  const credit = coverCreditText(article);
   return `<article class="issue-cover row row--story row--cover">
   <div class="row-main">
-    <p class="issue-cover-meta mono row-meta"><span>${esc(volLabel(vol.number))}</span><span>${esc(vol.dateLabel)}</span><span>${count} ${count === 1 ? "story" : "stories"}</span>${article.credit || article.imageCredit ? `<span>Cover: ${esc((article.imageCredit || article.credit || "").replace(/^Photo:\s*/i, ""))}</span>` : ""}</p>
+    <p class="issue-cover-meta mono row-meta"><span>${esc(volLabel(vol.number))}</span><span>${esc(vol.dateLabel)}</span><span>${count} ${count === 1 ? "story" : "stories"}</span>${credit ? `<span>Cover: ${esc(credit)}</span>` : ""}</p>
     <p class="issue-cover-format mono">${esc(fmt(article))}</p>
     <h2 class="issue-cover-headline row-title"><a href="${attr(article.slug)}">${esc(article.headline)}</a></h2>
     <p class="issue-cover-dek row-dek">${esc(article.dek || "")}</p>
@@ -74,7 +86,7 @@ function coverBlock(vol, article, zine) {
 function frontCover(vol, article) {
   if (!article) return "";
   const count = vol.count;
-  const credit = (article.imageCredit || article.credit || "").replace(/^Photo:\s*/i, "");
+  const credit = coverCreditText(article);
   return `<a class="front-cover" href="${attr(article.slug)}" aria-label="${attr(article.headline)}">
   ${article.image ? `<span class="front-cover-art"><img src="${asset(article.image)}" alt="${attr(article.imageAlt || "")}" width="1600" height="1066" loading="eager" fetchpriority="high"/></span>` : ""}
   <span class="front-cover-copy">
