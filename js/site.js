@@ -103,6 +103,13 @@
     function insert(container) {
       if (!container || hasMix(container)) return;
       var a = makeLink();
+      var fileList = container.querySelector(".menu--file .menu-list");
+      if (fileList) {
+        var news = fileList.querySelector('a[href="/news"]');
+        if (news) fileList.insertBefore(a, news);
+        else fileList.appendChild(a);
+        return;
+      }
       var artists = container.querySelector('a[href="/artists"]');
       var zine = container.querySelector('a[href="/news"]');
       var after = artists || container.querySelector('a[href="/library"]');
@@ -209,7 +216,10 @@
     if (theme !== "day" && theme !== "night") theme = "night";
     document.documentElement.setAttribute("data-theme", theme);
     var color = document.querySelector('meta[name="theme-color"]');
-    if (color) color.setAttribute("content", theme === "day" ? "#f3efe6" : "#cfc6b8");
+    if (color) color.setAttribute("content", theme === "day" ? "#c6c6c6" : "#808080");
+    document.querySelectorAll('[data-mac="theme"]').forEach(function (el) {
+      el.classList.toggle("is-checked", el.getAttribute("data-theme") === theme);
+    });
     var scheme = document.querySelector('meta[name="color-scheme"]');
     if (scheme) scheme.setAttribute("content", "light");
     var btn = document.getElementById("themeToggle");
@@ -621,6 +631,215 @@
     loadWeather(sky.querySelector("[data-sky-wx]"));
     loadSurf(surfHost(sky));
   }
+
+  /* Macintosh desktop: menus, window drag, shade, zoom, close. */
+  var win = document.getElementById("win");
+  var winBar = document.getElementById("winBar");
+  var winBody = document.getElementById("winBody");
+  var winGrow = document.getElementById("winGrow");
+  var root = document.documentElement;
+  var WIN_KEY = "cc.macWin";
+
+  function readWin() {
+    try { return JSON.parse(sessionStorage.getItem(WIN_KEY) || "null") || {}; }
+    catch (e) { return {}; }
+  }
+  function writeWin(patch) {
+    var next = readWin();
+    Object.keys(patch).forEach(function (k) { next[k] = patch[k]; });
+    try { sessionStorage.setItem(WIN_KEY, JSON.stringify(next)); } catch (e) {}
+  }
+  function placeWin(l, t, w, h) {
+    root.style.setProperty("--win-l", Math.round(l) + "px");
+    root.style.setProperty("--win-t", Math.round(t) + "px");
+    root.style.setProperty("--win-w", Math.round(w) + "px");
+    root.style.setProperty("--win-h", Math.round(h) + "px");
+    root.classList.add("mac-placed");
+    writeWin({ left: Math.round(l), top: Math.round(t), width: Math.round(w), height: Math.round(h), zoomed: false });
+  }
+  function menuH() {
+    var bar = document.getElementById("nav");
+    return bar ? bar.getBoundingClientRect().height : 28;
+  }
+  function closeMenus() {
+    document.querySelectorAll(".menu.is-open").forEach(function (m) {
+      m.classList.remove("is-open");
+      var b = m.querySelector(".menu-title");
+      if (b) b.setAttribute("aria-expanded", "false");
+    });
+  }
+  function openMenu(menu) {
+    closeMenus();
+    menu.classList.add("is-open");
+    var b = menu.querySelector(".menu-title");
+    if (b) b.setAttribute("aria-expanded", "true");
+  }
+
+  document.querySelectorAll(".menu-title").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var menu = btn.parentNode;
+      if (menu.classList.contains("is-open")) closeMenus();
+      else openMenu(menu);
+    });
+    btn.addEventListener("pointerenter", function () {
+      if (document.querySelector(".menu.is-open")) openMenu(btn.parentNode);
+    });
+  });
+  document.addEventListener("pointerdown", function (e) {
+    if (!e.target.closest || !e.target.closest(".menu")) closeMenus();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMenus();
+  });
+
+  function syncViewChecks(mode) {
+    document.querySelectorAll('[data-mac="view"]').forEach(function (el) {
+      el.classList.toggle("is-checked", el.getAttribute("data-view") === mode);
+    });
+  }
+  function savedView() {
+    try { return localStorage.getItem("cc.macView"); } catch (e) { return null; }
+  }
+  function applyMacView(mode, persist) {
+    if (mode !== "list" && mode !== "icon") mode = "icon";
+    root.classList.toggle("mac-list", mode === "list");
+    syncViewChecks(mode);
+    if (persist) {
+      try { localStorage.setItem("cc.macView", mode); } catch (e) {}
+      var libBtn = document.getElementById(mode === "list" ? "libViewList" : "libViewCovers");
+      if (libBtn) libBtn.click();
+    }
+  }
+  /* Library reads ?view= before it paints. Set it here, while this file
+     still runs ahead of library.js, so icon view does not wipe the list. */
+  if (document.getElementById("catList") && savedView() === "icon") {
+    try {
+      var viewUrl = new URL(window.location.href);
+      if (viewUrl.searchParams.get("view") !== "covers") {
+        viewUrl.searchParams.set("view", "covers");
+        history.replaceState({}, "", viewUrl.pathname + viewUrl.search + viewUrl.hash);
+      }
+    } catch (err) {}
+  }
+
+  function setShut(on) {
+    root.classList.toggle("mac-shut", on);
+    writeWin({ shut: on });
+  }
+  function setZoom(on) {
+    root.classList.toggle("mac-zoomed", on);
+    var z = document.getElementById("winZoom");
+    if (z) z.setAttribute("aria-pressed", on ? "true" : "false");
+    writeWin({ zoomed: on });
+  }
+  function setShade(on) {
+    root.classList.toggle("mac-shaded", on);
+    var s = document.getElementById("winShade");
+    if (s) s.setAttribute("aria-pressed", on ? "true" : "false");
+    writeWin({ shaded: on });
+  }
+
+  function macAction(act, el) {
+    if (act === "close" || act === "shutdown") setShut(true);
+    else if (act === "zoom") setZoom(!root.classList.contains("mac-zoomed"));
+    else if (act === "shade") setShade(!root.classList.contains("mac-shaded"));
+    else if (act === "cleanup") {
+      root.classList.remove("mac-placed", "mac-zoomed", "mac-shaded");
+      root.style.removeProperty("--win-l");
+      root.style.removeProperty("--win-t");
+      root.style.removeProperty("--win-w");
+      root.style.removeProperty("--win-h");
+      writeWin({ left: null, top: null, width: null, height: null, zoomed: false, shaded: false });
+    } else if (act === "restart") {
+      window.location.reload();
+    } else if (act === "view") {
+      applyMacView(el.getAttribute("data-view"), true);
+    } else if (act === "theme") {
+      applyTheme(el.getAttribute("data-theme"), true);
+    } else if (act === "copy") {
+      var text = String(window.getSelection && window.getSelection());
+      if (text && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text);
+    } else if (act === "select-all" && winBody) {
+      var range = document.createRange();
+      range.selectNodeContents(winBody);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+
+  if (nav) {
+    nav.addEventListener("click", function (e) {
+      var item = e.target.closest && e.target.closest("[data-mac]");
+      if (!item || item.disabled) return;
+      e.preventDefault();
+      macAction(item.getAttribute("data-mac"), item);
+      closeMenus();
+    });
+  }
+  var winClose = document.getElementById("winClose");
+  var winShade = document.getElementById("winShade");
+  var winZoom = document.getElementById("winZoom");
+  if (winClose) winClose.addEventListener("click", function () { setShut(true); });
+  if (winShade) winShade.addEventListener("click", function () { setShade(!root.classList.contains("mac-shaded")); });
+  if (winZoom) winZoom.addEventListener("click", function () { setZoom(!root.classList.contains("mac-zoomed")); });
+  var deskApp = document.getElementById("deskApp");
+  if (deskApp) deskApp.addEventListener("click", function () { setShut(false); });
+
+  if (win && winBar) {
+    var drag = null;
+    winBar.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || (e.target.closest && e.target.closest("button"))) return;
+      if (root.classList.contains("mac-zoomed")) return;
+      var rect = win.getBoundingClientRect();
+      var h = rect.height;
+      if (root.classList.contains("mac-shaded")) h = readWin().height || Math.round(window.innerHeight * 0.72);
+      drag = { x: e.clientX, y: e.clientY, l: rect.left, t: rect.top, w: rect.width, h: h, moved: false };
+      winBar.setPointerCapture && winBar.setPointerCapture(e.pointerId);
+    });
+    winBar.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      var dy = e.clientY - drag.y;
+      if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+      var top = Math.max(menuH(), drag.t + dy);
+      placeWin(drag.l + dx, top, drag.w, drag.h);
+    });
+    function endDrag() { drag = null; }
+    winBar.addEventListener("pointerup", endDrag);
+    winBar.addEventListener("pointercancel", function () { drag = null; });
+    winBar.addEventListener("dblclick", function (e) {
+      if (e.target.closest && e.target.closest("button")) return;
+      setShade(!root.classList.contains("mac-shaded"));
+    });
+  }
+  if (win && winGrow) {
+    var grow = null;
+    winGrow.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || root.classList.contains("mac-zoomed")) return;
+      e.preventDefault();
+      var rect = win.getBoundingClientRect();
+      grow = { x: e.clientX, y: e.clientY, l: rect.left, t: rect.top, w: rect.width, h: rect.height };
+      winGrow.setPointerCapture && winGrow.setPointerCapture(e.pointerId);
+    });
+    winGrow.addEventListener("pointermove", function (e) {
+      if (!grow) return;
+      placeWin(grow.l, grow.t, Math.max(320, grow.w + (e.clientX - grow.x)), Math.max(180, grow.h + (e.clientY - grow.y)));
+    });
+    winGrow.addEventListener("pointerup", function () { grow = null; });
+    winGrow.addEventListener("pointercancel", function () { grow = null; });
+  }
+
+  var initialView = savedView();
+  if (!initialView) initialView = document.getElementById("libViewList") ? "list" : "icon";
+  syncViewChecks(initialView);
+  document.addEventListener("DOMContentLoaded", function () {
+    var mode = savedView() || (document.getElementById("libViewList") ? "list" : "icon");
+    root.classList.toggle("mac-list", mode === "list");
+    syncViewChecks(mode);
+  });
 
   window.ClubCopy = window.ClubCopy || {};
   window.ClubCopy.closeDrawer = closeDrawer;

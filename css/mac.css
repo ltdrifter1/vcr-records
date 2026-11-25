@@ -1,0 +1,1079 @@
+/* Club Copy — Mac OS 8 platinum on a System 7 desktop.
+   Chicago-style UI (Silom), Geneva-style reading (Noto Sans),
+   striped windows, beveled controls, Finder lists. */
+
+html.mac {
+  --desk: #808080;
+  --desk-spot: rgba(255, 255, 255, .22);
+  --ui: "Silom", Chicago, Charcoal, Geneva, "Lucida Grande", Verdana, sans-serif;
+  --body: "Noto Sans", Geneva, Verdana, "Lucida Grande", "Trebuchet MS", sans-serif;
+  --menu-h: calc(28px + env(safe-area-inset-top, 0px));
+  --chrome-h: var(--menu-h);
+  --sky-h: 0px;
+  --nav-h: var(--menu-h);
+  --dock-h: 92px;
+  --bg: #dddddd;
+  --bg-2: #d4d4d4;
+  --bg-3: #c8c8c8;
+  --ink: #000;
+  --ink-2: #1a1a1a;
+  --ink-3: #333;
+  --line: #d5d5d5;
+  --line-2: #808080;
+  --rule: #000;
+  --signal: #000;
+  --signal-ink: #fff;
+  --gutter: 16px;
+  --sans: var(--body);
+  --display: var(--ui);
+  --mono: Monaco, "Courier New", "Liberation Mono", ui-monospace, monospace;
+  --paper: none;
+  background-color: var(--desk);
+  background-image: radial-gradient(var(--desk-spot) .7px, transparent .8px);
+  background-size: 3px 3px;
+  background-attachment: fixed;
+  color-scheme: light;
+}
+html.mac[data-theme="day"] {
+  --desk: #c8c8c8;
+  --desk-spot: rgba(255, 255, 255, .55);
+}
+html.mac:has(.sky) {
+  --chrome-h: var(--menu-h);
+  --sky-h: 0px;
+  --nav-h: var(--menu-h);
+}
+html.mac body {
+  background: transparent;
+  color: #000;
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-font-smoothing: auto;
+  padding-bottom: 0;
+}
+html.mac body.has-vcr-player { padding-bottom: 0; }
+html.mac a,
+html.mac button,
+html.mac label,
+html.mac summary { cursor: default; }
+html.mac ::selection { background: #000; color: #fff; }
+html.mac :focus-visible { outline: 2px solid #000; outline-offset: 1px; }
+
+/* Menu bar -------------------------------------------------------------- */
+html.mac #nav,
+html.mac #sky,
+html.mac #navDrawer {
+  background-color: #ddd;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html.mac #nav {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--menu-h);
+  padding-top: env(safe-area-inset-top, 0px);
+  border-bottom: 1px solid #000;
+  box-shadow: inset 0 1px 0 #fff;
+  z-index: 400;
+}
+html.mac #nav .nav-inner {
+  height: 100%;
+  padding: 0 6px 0 4px;
+  gap: 0;
+}
+html.mac #nav .nav-links {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 100%;
+  font-family: var(--ui);
+  letter-spacing: 0;
+  text-transform: none;
+}
+html.mac .menu { position: relative; display: flex; align-items: stretch; }
+html.mac .menu-title {
+  font-family: var(--ui);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  min-height: 0;
+}
+html.mac .menu-title--app {
+  text-shadow: .35px 0 0 currentColor, -.35px 0 0 currentColor;
+}
+html.mac .menu.is-open > .menu-title { background: #000; color: #fff; }
+html.mac .menu-apple { display: block; }
+html.mac .menu-list {
+  display: none;
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  min-width: 196px;
+  margin: 0;
+  padding: 2px 0;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, .35);
+  z-index: 420;
+}
+html.mac .menu.is-open > .menu-list,
+html.mac .menu:focus-within > .menu-list { display: block; }
+@media (hover: hover) and (pointer: fine) {
+  html.mac .menu:hover > .menu-title { background: #000; color: #fff; }
+  html.mac .menu:hover > .menu-list { display: block; }
+}
+html.mac .menu-list a,
+html.mac .menu-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 3px 16px 3px 22px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #000;
+  font-family: var(--ui);
+  font-size: 13px;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  text-decoration: none;
+  min-height: 0;
+  white-space: nowrap;
+}
+html.mac .menu-list a:hover,
+html.mac .menu-item:hover:not(:disabled),
+html.mac .menu-list a:focus-visible,
+html.mac .menu-item:focus-visible {
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  outline: 0;
+}
+html.mac .menu-item:disabled,
+html.mac .menu-item:disabled:hover { color: #8a8a8a; background: transparent; }
+html.mac .menu-rule { height: 1px; margin: 3px 2px; background: #808080; box-shadow: 0 1px 0 #fff; }
+html.mac .menu-list a[aria-current="page"]::before,
+html.mac .menu-item.is-checked::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  width: 7px;
+  height: 4px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-80%) rotate(-45deg);
+}
+html.mac #nav .nav-end {
+  margin-left: auto;
+  gap: 2px;
+  height: 100%;
+  align-items: center;
+  font-family: var(--ui);
+  letter-spacing: 0;
+  text-transform: none;
+}
+html.mac #navAccount,
+html.mac .nav-cart {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+  padding: 2px 6px;
+  text-decoration: none;
+}
+html.mac #navAccount:hover,
+html.mac .nav-cart:hover { background: #000; color: #fff; text-decoration: none; }
+html.mac .nav-cart-count {
+  background: #000;
+  color: #fff;
+  min-width: 14px;
+  height: 14px;
+  font-family: var(--ui);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+html.mac #navAccount:hover .nav-cart-count,
+html.mac .nav-cart:hover .nav-cart-count { background: #fff; color: #000; }
+html.mac .nav-cart-word { display: inline !important; }
+html.mac .nav-cart::before { content: none !important; display: none !important; }
+html.mac #navHam,
+html.mac #navDrawer,
+html.mac .nav-scrim { display: none !important; }
+html.mac #sky {
+  position: static;
+  height: auto;
+  max-width: min(380px, 34vw);
+  padding: 0 4px 0 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  color: #000;
+}
+html.mac #sky .sky-live,
+html.mac #sky .sky-live > *,
+html.mac #sky .sky-theme,
+html.mac #sky .sky-theme-lab {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+}
+html.mac .sky-home { display: none; }
+html.mac .sky-home + *::before { content: none !important; margin: 0 !important; }
+html.mac .sky-knob { display: none; }
+html.mac .sky-theme { min-height: 0; padding: 2px 6px; gap: 0; }
+html.mac .sky-theme:hover { background: #000; color: #fff; }
+html.mac .sky-theme:hover .sky-theme-lab,
+html.mac .sky-theme:hover .sky-lab-day,
+html.mac .sky-theme:hover .sky-lab-night { color: #fff; }
+
+/* Desktop icons --------------------------------------------------------- */
+html.mac .desk-icons {
+  position: fixed;
+  z-index: 5;
+  top: calc(var(--menu-h) + 10px);
+  right: 8px;
+  width: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+html.mac .desk-icon {
+  width: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: #000;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+html.mac .desk-glyph { width: 32px; height: 32px; display: block; }
+html.mac .desk-glyph svg { width: 32px; height: 32px; display: block; }
+html.mac .desk-name {
+  font-family: var(--ui);
+  font-size: 11px;
+  line-height: 1.15;
+  text-align: center;
+  color: #000;
+  padding: 0 3px;
+  max-width: 84px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+}
+html.mac .desk-icon:hover { text-decoration: none; }
+html.mac .desk-icon:hover .desk-name,
+html.mac .desk-icon[aria-current="page"] .desk-name,
+html.mac .desk-icon:focus-visible .desk-name {
+  background: #000;
+  color: #fff;
+  text-shadow: none;
+}
+html.mac .desk-icon--app { display: none; }
+html.mac-shut .desk-icon--app { display: flex; }
+
+/* Window ---------------------------------------------------------------- */
+html.mac #win {
+  position: fixed;
+  z-index: 20;
+  top: calc(var(--menu-h) + 8px);
+  left: 8px;
+  right: 108px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: #ddd;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, 3px 3px 0 rgba(0, 0, 0, .28);
+}
+html.mac-placed #win {
+  left: var(--win-l);
+  top: var(--win-t);
+  width: var(--win-w);
+  height: var(--win-h);
+  right: auto;
+  bottom: auto;
+  max-width: calc(100vw - 8px);
+  max-height: calc(100vh - var(--menu-h) - 8px);
+}
+html.mac-zoomed #win {
+  left: 4px !important;
+  top: calc(var(--menu-h) + 4px) !important;
+  right: 4px !important;
+  bottom: 4px !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none;
+  max-height: none;
+}
+html.mac-shaded #win { height: auto !important; bottom: auto !important; }
+html.mac-shaded #winBody,
+html.mac-shaded #winGrow { display: none !important; }
+html.mac-shut #win { display: none !important; }
+html.mac .win-bar {
+  position: relative;
+  flex: none;
+  height: 22px;
+  margin: 1px 1px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  background: repeating-linear-gradient(to bottom, #111 0 1px, #e8e8e8 1px 3px);
+  border-bottom: 1px solid #000;
+  cursor: default;
+}
+html.mac-shaded .win-bar { border-bottom: 0; }
+html.mac .win-boxes {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ddd;
+  padding: 0 6px 0 0;
+}
+html.mac .win-title {
+  max-width: calc(100% - 120px);
+  padding: 0 10px;
+  background: #ddd;
+  color: #000;
+  font-family: var(--ui);
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+html.mac .win-title span { pointer-events: none; }
+html.mac .win-box {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  background: #ddd;
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+}
+html.mac .win-box:active { box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #808080; }
+html.mac .win-close:hover::before,
+html.mac .win-close:hover::after,
+html.mac .win-close:focus-visible::before,
+html.mac .win-close:focus-visible::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 5px;
+  height: 1px;
+  background: #000;
+}
+html.mac .win-close:hover::before,
+html.mac .win-close:focus-visible::before { transform: rotate(45deg); }
+html.mac .win-close:hover::after,
+html.mac .win-close:focus-visible::after { transform: rotate(-45deg); }
+html.mac .win-shade::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 3px;
+  height: 2px;
+  background: #000;
+}
+html.mac .win-zoom::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #000;
+}
+html.mac .win-zoom::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 5px;
+  height: 5px;
+  background: #ddd;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+}
+html.mac #winBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  margin: 0 4px 16px 4px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #808080;
+  scrollbar-color: #c8c8c8 #eee;
+  scrollbar-width: auto;
+}
+html.mac #winBody::-webkit-scrollbar { width: 16px; height: 16px; }
+html.mac #winBody::-webkit-scrollbar-track { background: #eee; }
+html.mac #winBody::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #888;
+}
+html.mac .win-grow {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 15px;
+  height: 15px;
+  z-index: 3;
+  cursor: nwse-resize;
+  background:
+    repeating-linear-gradient(135deg, #ddd 0 2px, #fff 2px 3px, #ddd 3px 5px, #000 5px 6px);
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+}
+
+/* Document type --------------------------------------------------------- */
+html.mac #win :is(h1, h2, h3, .page-title, .sec-title, .lead-title, .lead-artist, .row-artist, .row-title, .zine-headline, .front-cover-headline, .artist-line-name, .footer-wordmark, .zine-title, .zine-home-title, .sleeve-title) {
+  font-family: var(--ui);
+  font-weight: 400;
+  font-stretch: 100%;
+  font-variation-settings: normal;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: none;
+  color: #000;
+}
+html.mac #win .page-title,
+html.mac #win .home-sec-title { font-size: 20px; margin: 0 0 8px; font-weight: 400; letter-spacing: 0; line-height: 1.15; font-stretch: 100%; font-variation-settings: normal; }
+html.mac #win .sec-title,
+html.mac #win .home-sec-title { font-size: 18px; }
+html.mac #win .sec-link {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+}
+html.mac #win .lead-artist,
+html.mac #win .lead-title { font-size: 22px; color: #000; }
+html.mac #win .row-artist,
+html.mac #win .row--release .row-artist,
+html.mac #win .row--level .row-artist,
+html.mac #win .row--story .row-title,
+html.mac #win .row--release .row-title,
+html.mac #win .row-title { font-size: 15px; color: #000; }
+html.mac #win .zine-headline,
+html.mac #win .front-cover-headline,
+html.mac #win .zine-stars-title,
+html.mac #win .home-stars-title,
+html.mac #win .zine-plate .zine-title,
+html.mac #win .zine-plate .zine-home-title {
+  font-family: var(--ui);
+  font-size: 22px;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-variation-settings: normal;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+html.mac #win .zine-plate-num {
+  font-family: var(--ui);
+  font-size: 48px;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-variation-settings: normal;
+  letter-spacing: 0;
+  line-height: .9;
+}
+html.mac #win .artist-line-name { font-size: 16px; }
+html.mac #win .footer-wordmark { font-size: 18px; line-height: 1.1; }
+html.mac #win .sec-kicker,
+html.mac #win .mono,
+html.mac #win .mono *,
+html.mac #win .crumbs,
+html.mac #win .lane-label {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+  color: #222;
+}
+html.mac #win .prose p,
+html.mac #win .prose li,
+html.mac #win .page-lede,
+html.mac #win .bio p,
+html.mac #win .row-dek,
+html.mac #win .join-dek {
+  font-family: var(--body);
+  font-size: 14px;
+  line-height: 1.45;
+  color: #000;
+  letter-spacing: 0;
+}
+html.mac #win a { color: #000; text-decoration: none; }
+html.mac #win a:hover { text-decoration: underline; text-underline-offset: 2px; }
+html.mac #win .prose a,
+html.mac #win .page-lede a,
+html.mac #win .footer-fact a,
+html.mac #win .bio a { color: #0000cc; text-decoration: underline; }
+html.mac #win .page-head,
+html.mac #win .release-head,
+html.mac #win .sec,
+html.mac #win .zine-sheet,
+html.mac #win .zine-sheet--story,
+html.mac body.home #win .sec.sec--list {
+  padding: 14px 16px;
+  border-top-color: #e4e4e4;
+}
+html.mac #win .sec-head,
+html.mac #win .home-sec-head,
+html.mac #win .page-head { border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-bottom: 8px; }
+html.mac #win .row { padding: 8px 0; gap: 10px 16px; border-bottom-color: #e4e4e4; }
+html.mac #win .row-art,
+html.mac #win .listen-sleeve,
+html.mac #win .sleeve-art,
+html.mac #win .cat-cover,
+html.mac #win .mix-art,
+html.mac #win .product-visual,
+html.mac #win .pdp-art,
+html.mac #win .artist-photo {
+  border: 1px solid #000;
+  background: #fff;
+  filter: none;
+}
+html.mac #win .row-art--photo img,
+html.mac #win .artist-photo,
+html.mac #win .row--video .row-art img,
+html.mac #win .mix-art img { filter: none; }
+html.mac #win .row-art img,
+html.mac #win .sleeve-art img { transition: none; }
+html.mac #win .row:hover .row-art img,
+html.mac #win .sleeve-card:hover .sleeve-art { transform: none; }
+
+/* Finder icon view ------------------------------------------------------ */
+html.mac #win .release-grid { gap: 18px 12px; padding-top: 8px; }
+html.mac #win .sleeve-copy { align-items: center; text-align: center; padding-top: 6px; }
+html.mac #win .sleeve-title,
+html.mac #win .sleeve-title a {
+  font-size: 12px;
+  text-align: center;
+  -webkit-line-clamp: 2;
+}
+html.mac #win .sleeve-card:hover .sleeve-title a {
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+}
+html.mac #win .sleeve-by,
+html.mac #win .sleeve-meta,
+html.mac #win .sleeve-meta span {
+  font-family: var(--body);
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: center;
+  color: #222;
+}
+html.mac #win .sleeve-key {
+  width: 22px;
+  height: 22px;
+  right: 4px;
+  bottom: 4px;
+  background: #ddd;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+  border-radius: 3px;
+}
+html.mac #win .sleeve-key svg { width: 10px; height: 10px; }
+html.mac-list #win .release-grid { display: block; padding-top: 0; }
+html.mac-list #win .sleeve-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 2px;
+  border-bottom: 1px solid #eee;
+}
+html.mac-list #win .sleeve-card:hover { background: #000; color: #fff; }
+html.mac-list #win .sleeve-card:hover .sleeve-title a,
+html.mac-list #win .sleeve-card:hover .sleeve-by,
+html.mac-list #win .sleeve-card:hover .sleeve-meta,
+html.mac-list #win .sleeve-card:hover .sleeve-meta span { background: transparent; color: #fff; }
+html.mac-list #win .sleeve-face,
+html.mac-list #win .sleeve-art { width: 28px; height: 28px; flex: none; }
+html.mac-list #win .sleeve-copy {
+  flex-direction: row;
+  align-items: baseline;
+  text-align: left;
+  gap: 10px;
+  padding: 0;
+}
+html.mac-list #win .sleeve-title,
+html.mac-list #win .sleeve-title a { text-align: left; font-size: 13px; }
+html.mac-list #win .sleeve-key { display: none; }
+
+/* Lists ----------------------------------------------------------------- */
+html.mac #win .cat-list { padding: 0; }
+html.mac #win .cat-row {
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 8px 10px;
+  padding: 3px 8px;
+  border-bottom: 1px solid #eee;
+}
+html.mac #win .cat-cover { width: 36px; }
+html.mac #win .cat-title { font-family: var(--body); font-size: 13px; font-weight: 400; letter-spacing: 0; }
+html.mac #win .cat-artist,
+html.mac #win .cat-id,
+html.mac #win .cat-tags,
+html.mac #win .cat-cue { font-size: 12px; letter-spacing: 0; text-transform: none; color: #333; }
+html.mac #win .cat-row:hover,
+html.mac #win .cat-row.is-air,
+html.mac #win .cat-row.is-now-playing,
+html.mac #win .hero-track.is-active,
+html.mac #win .track-row.is-active,
+html.mac #win .hero-track.is-playing {
+  background: #000;
+  color: #fff;
+}
+html.mac #win .cat-row:hover a,
+html.mac #win .cat-row:hover .cat-artist,
+html.mac #win .cat-row:hover .cat-id,
+html.mac #win .cat-row:hover .cat-tags,
+html.mac #win .cat-row:hover .cat-cue,
+html.mac #win .cat-row.is-air a,
+html.mac #win .cat-row.is-now-playing a,
+html.mac #win .hero-track.is-active,
+html.mac #win .hero-track.is-active .ht-no,
+html.mac #win .hero-track.is-active .ht-title,
+html.mac #win .track-row.is-active,
+html.mac #win .track-row.is-active .track-title,
+html.mac #win .track-row.is-active .track-no,
+html.mac #win .track-row.is-active .track-dur { color: #fff; }
+html.mac #win .cat-row:hover .cat-add,
+html.mac #win .cat-row.is-air .cat-add { color: #fff; }
+html.mac #win .hero-track,
+html.mac #win .track-row {
+  padding: 4px 8px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+}
+html.mac #win .hero-track.is-active::after,
+html.mac #win .track-row.is-active::after { display: none; }
+html.mac #win .cat-list.is-covers,
+html.mac #win .cat-list[data-view="covers"],
+html.mac #win .cat-list--covers { gap: 16px 12px; padding: 12px; }
+html.mac #win .cat-list.is-covers .cat-row:hover,
+html.mac #win .cat-list[data-view="covers"] .cat-row:hover {
+  background: transparent;
+  color: #000;
+}
+html.mac #win .cat-list.is-covers .cat-row:hover a,
+html.mac #win .cat-list.is-covers .cat-title { color: #000; text-align: center; font-family: var(--ui); font-size: 12px; }
+html.mac #win .cat-list.is-covers .cat-row:hover .cat-title a { background: #000; color: #fff; }
+
+/* Controls -------------------------------------------------------------- */
+html.mac #win .btn,
+html.mac #win .lib-view-btn,
+html.mac #win .store-chip,
+html.mac #win .pdp-opt,
+html.mac #win .premium-preset,
+html.mac .footer-form button,
+html.mac .vcr-player__buy,
+html.mac .vcr-player__btn,
+html.mac .vcr-stage__btn,
+html.mac .vcr-bumper__btn {
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+  background: #ddd;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  border-radius: 4px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080, 0 0 0 1px #000;
+  min-height: 22px;
+  padding: 2px 12px;
+}
+html.mac #win .btn:hover,
+html.mac #win .lib-view-btn:hover,
+html.mac #win .store-chip:hover,
+html.mac #win .pdp-opt:hover,
+html.mac #win .premium-preset:hover { background: #eee; color: #000; text-decoration: none; }
+html.mac #win .btn:active,
+html.mac #win .btn[aria-pressed="true"],
+html.mac #win .lib-view-btn.is-active,
+html.mac #win .lib-view-btn[aria-pressed="true"],
+html.mac #win .store-chip.is-active,
+html.mac #win .store-chip[aria-pressed="true"],
+html.mac #win .pdp-opt.is-active,
+html.mac #win .pdp-opt[aria-pressed="true"],
+html.mac #win .premium-preset[aria-pressed="true"],
+html.mac #win .seg button[aria-checked="true"] {
+  background: #ddd;
+  color: #000;
+  border-color: #404040 #fff #fff #404040;
+  box-shadow: inset 1px 1px 0 #808080, 0 0 0 1px #000;
+}
+html.mac #win .btn-solid,
+html.mac #win .btn.btn-solid,
+html.mac #win .btn-dark {
+  background: #ddd;
+  color: #000;
+  border: 3px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+}
+html.mac #win .btn-solid:hover,
+html.mac #win .btn-solid:active,
+html.mac #win .btn.is-playing,
+html.mac #win .btn-solid.is-playing {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+html.mac #win .store-filters .store-chip { margin-left: 6px; }
+html.mac #win .store-filters .store-chip:first-of-type { margin-left: 0; }
+html.mac #win .store-label {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+}
+html.mac #win .btn-text,
+html.mac #win .btn.btn-text {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: #0000cc;
+  text-decoration: underline;
+  padding-left: 0;
+  padding-right: 0;
+}
+html.mac #win .key {
+  width: 26px;
+  height: 26px;
+  background: #ddd;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px #000;
+  color: #000;
+}
+html.mac #win .key.is-playing,
+html.mac #win .key[aria-pressed="true"] { background: #000; color: #fff; border-color: #000; }
+html.mac #win .seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+html.mac #win .seg .plate { display: none; }
+html.mac #win .seg button {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+  background: #ddd;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px #000;
+  padding: 2px 8px;
+  min-height: 22px;
+}
+html.mac #win .seg button .n { color: #444; margin-left: 4px; }
+html.mac #win .seg button[aria-checked="true"] .n { color: #000; }
+html.mac #win .filters { border-bottom: 1px solid #ccc; padding-bottom: 8px; }
+html.mac #win .lane-pick { display: none !important; }
+html.mac #win input,
+html.mac #win textarea,
+html.mac #win select,
+html.mac #win .field input,
+html.mac #win .field textarea,
+html.mac #win .field select,
+html.mac .footer-form input,
+html.mac .credit-row input,
+html.mac .cart-lines input[type="number"] {
+  background: #fff !important;
+  color: #000;
+  border: 2px solid #808080 !important;
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 1px 1px 0 #000 !important;
+  border-radius: 0 !important;
+  padding: 4px 6px;
+  font-family: var(--body);
+  font-size: 13px;
+}
+html.mac #win .field label {
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+}
+html.mac #win input:focus,
+html.mac #win textarea:focus,
+html.mac #win select:focus { outline: 2px solid #000; outline-offset: 0; border-color: #808080 #fff #fff #808080; }
+html.mac #win .panel,
+html.mac #win .member-card,
+html.mac .vcr-bumper__card {
+  background: #ddd;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+  border-radius: 0;
+}
+html.mac #win .join-level-dot {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 1px 1px 0 #808080;
+}
+html.mac #win .join-level[aria-checked="true"] .join-level-dot {
+  background: #000;
+  border-color: #000;
+  box-shadow: none;
+}
+html.mac #win .join-level[aria-checked="true"] .join-level-dot::after {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+}
+html.mac #win .footer {
+  display: block;
+  background: #ddd;
+  color: #000;
+  border-top: 1px solid #808080;
+  padding: 12px 14px 18px;
+  font-size: 12px;
+}
+html.mac #win .footer-row,
+html.mac #win .footer-row--mark,
+html.mac #win .footer-row--end {
+  display: block;
+  border: 0;
+  padding: 0;
+  margin: 0 0 8px;
+}
+html.mac #win .footer-label { font-family: var(--ui); letter-spacing: 0; text-transform: none; color: #000; margin: 0 0 2px; }
+html.mac #win .footer-fact,
+html.mac #win .footer-row--mark .footer-fact { color: #000; max-width: none; margin: 0; justify-content: flex-start; }
+html.mac #win .footer-links { font-family: var(--ui); letter-spacing: 0; text-transform: none; gap: 4px 12px; }
+html.mac #win .footer-form { border: 0; max-width: 360px; gap: 6px; background: transparent; }
+html.mac #win .footer-form input { width: auto; flex: 1; }
+html.mac #win .fact-row,
+html.mac #win .mix-card,
+html.mac #win .cart-line,
+html.mac #win .cart-lines > * { border-color: #e4e4e4; }
+html.mac #win .lead,
+html.mac #win .lead-top,
+html.mac #win .lead-foot,
+html.mac #win .lead-player { border-color: #ccc; }
+html.mac #win .lead { padding: 0; }
+html.mac #win .lead .listen-glyph {
+  opacity: 1;
+  transform: none;
+  width: 36px;
+  height: 36px;
+  background: #ddd;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px #000;
+  outline: 0;
+}
+html.mac #win .is-error,
+html.mac #win .pdp-error,
+html.mac #win .join-status.is-error { color: #800000; }
+
+/* CD player ------------------------------------------------------------- */
+html.mac .vcr-player {
+  position: fixed;
+  left: 50%;
+  right: auto;
+  bottom: 14px;
+  width: min(520px, calc(100vw - 24px));
+  height: auto;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "bar bar bar bar"
+    "art lcd controls buy";
+  gap: 6px 8px;
+  align-items: center;
+  padding: 0 8px 8px;
+  background: #ddd;
+  background-image: none;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, 3px 3px 0 rgba(0, 0, 0, .35);
+  transform: translate(-50%, 130%);
+  z-index: 500;
+}
+html.mac .vcr-player.is-visible { transform: translate(-50%, 0); }
+html.mac body.vcr-dock-away .vcr-player.is-visible,
+html.mac body.vcr-stage-open .vcr-player.is-visible { transform: translate(-50%, 140%); }
+html.mac .vcr-player::before {
+  content: "CD Player";
+  grid-area: bar;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  margin: 0 -8px 2px;
+  font-family: var(--ui);
+  font-size: 12px;
+  color: #000;
+  background:
+    linear-gradient(#ddd, #ddd) left center / 32px 100% no-repeat,
+    linear-gradient(#ddd, #ddd) center / 108px 14px no-repeat,
+    repeating-linear-gradient(to bottom, #111 0 1px, #e8e8e8 1px 3px);
+  border-bottom: 1px solid #000;
+}
+html.mac .vcr-player__jewel,
+html.mac .vcr-player__art { width: 44px; height: 44px; border: 1px solid #000; }
+html.mac .vcr-player__lcd {
+  background: #c9d7b8;
+  border: 2px solid;
+  border-color: #404040 #fff #fff #404040;
+  box-shadow: inset 1px 1px 0 #808080;
+  padding: 4px 8px;
+  min-height: 44px;
+}
+html.mac .vcr-player__bug,
+html.mac .vcr-player__sub,
+html.mac .vcr-player__upnext,
+html.mac .vcr-player__title {
+  font-family: var(--ui);
+  letter-spacing: 0;
+  text-transform: none;
+  color: #10200c;
+}
+html.mac .vcr-player__title { font-size: 13px; font-weight: 400; }
+html.mac .vcr-player__led::before { border-radius: 0; background: #10200c; }
+html.mac .vcr-player.is-playing .vcr-player__led,
+html.mac .vcr-player.is-playing .vcr-player__led::before { color: #10200c; background: #10200c; }
+html.mac .vcr-player__close {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  background: #ddd;
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #808080;
+  color: #000;
+}
+html.mac .vcr-player__close .vcr-ico { width: 9px; height: 9px; }
+html.mac .vcr-play-gate,
+html.mac .vcr-toast {
+  background: #ddd;
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  border-radius: 0;
+  font-family: var(--ui);
+  font-weight: 400;
+}
+html.mac .vcr-play-gate button { background: #ddd; color: #000; border: 2px solid #000; font-family: var(--ui); }
+html.mac .vcr-bumper { background: rgba(0, 0, 0, .2); }
+html.mac .vcr-bumper__title { font-family: var(--ui); font-size: 16px; font-weight: 400; letter-spacing: 0; }
+html.mac .vcr-stage__bg { background: rgba(0, 0, 0, .25); }
+html.mac .vcr-stage { align-items: center; justify-items: center; }
+html.mac .vcr-stage__sheet {
+  position: relative;
+  width: min(640px, calc(100vw - 28px));
+  margin: 0;
+  background: #ddd;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 #fff, 4px 4px 0 rgba(0, 0, 0, .35);
+  border-radius: 0;
+}
+html.mac .vcr-stage__title { font-family: var(--ui); font-weight: 400; letter-spacing: 0; font-size: 22px; }
+html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px solid #000; }
+
+/* Phone ----------------------------------------------------------------- */
+@media (max-width: 860px) {
+  html.mac .desk-icons { display: none; }
+  html.mac-shut .desk-icons { display: flex; left: 12px; right: auto; top: calc(var(--menu-h) + 16px); }
+  html.mac #win { left: 6px; right: 6px; bottom: 6px; }
+  html.mac .menu--edit { display: none; }
+  html.mac #sky .sky-live { display: none; }
+  html.mac #sky { display: flex; max-width: none; }
+  html.mac .vcr-player {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    grid-template-areas: "bar bar bar" "art lcd controls";
+    width: calc(100vw - 16px);
+  }
+  html.mac .vcr-player__buy { display: none; }
+}
+@media (max-width: 560px) {
+  html.mac .menu--app,
+  html.mac .menu--view { display: none; }
+  html.mac #navAccount { display: none; }
+  html.mac #win .page-title,
+  html.mac #win .lead-artist,
+  html.mac #win .lead-title,
+  html.mac #win .zine-headline,
+  html.mac #win .front-cover-headline { font-size: 18px; }
+  html.mac #win .release-head,
+  html.mac #win .lead-body { grid-template-columns: 1fr; }
+}
+@media print {
+  html.mac { background: #fff; background-image: none; }
+  html.mac #nav,
+  html.mac .desk-icons,
+  html.mac .win-bar,
+  html.mac .win-grow,
+  html.mac .vcr-player { display: none !important; }
+  html.mac #win {
+    position: static;
+    border: 0;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+  }
+  html.mac #winBody { overflow: visible; border: 0; margin: 0; }
+}
