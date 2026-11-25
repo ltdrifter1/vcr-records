@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
 const VERSION = "cc18";
-const CSS_VERSION = "cc33";
+const CSS_VERSION = "cc35";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -167,8 +167,6 @@ const THEME_BOOT = `<script>
     })();
   </script>`;
 
-const APPLE = `<svg class="menu-apple" viewBox="0 0 16 18" width="14" height="16" aria-hidden="true"><defs><clipPath id="macApple"><path d="M8.1 3.6c-2.3.1-3.8 1.7-3.8 3.5 0 .5.1.9.2 1.2-1.3.6-2.3 1.8-2.3 3.5 0 2.5 1.9 4.6 4.2 4.6 1 0 1.5-.5 2.5-.5s1.5.5 2.5.5c2.2 0 4.1-2.1 4.1-4.7 0-1.6-.9-2.8-2.1-3.4.2-.5.3-1 .3-1.5 0-2.1-1.6-3.5-3.4-3.4-.5 0-1 .2-1.4.4-.2-.2-.5-.3-.8-.2z"/></clipPath></defs><g clip-path="url(#macApple)"><rect width="16" height="3" y="3" fill="#61bb46"/><rect width="16" height="2.3" y="6" fill="#fdb827"/><rect width="16" height="2.3" y="8.3" fill="#f5821f"/><rect width="16" height="2.3" y="10.6" fill="#e03a3e"/><rect width="16" height="2.2" y="12.9" fill="#963d97"/><rect width="16" height="3" y="15.1" fill="#009ddc"/></g><path fill="#3c8c32" d="M9.4 3.3c.3-1.3 1.4-2.1 2.2-2.2-.2.9-.1 1.6.2 2.2-1.1.2-1.9.1-2.4 0z"/><circle cx="13.7" cy="8.4" r="2" fill="currentColor"/></svg>`;
-
 const GLYPH = {
   app: `<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="20" fill="#e6e6e6" stroke="#000" stroke-width="1.4"/><rect x="6" y="6" width="20" height="13" fill="#b7ddd4"/><path d="M11 27h10M16 23v4" stroke="#000" stroke-width="1.5" fill="none"/></svg>`,
   folder: `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#f6d453" stroke="#000" stroke-width="1.4" d="M3 9h10l2 3h14v15H3z"/></svg>`,
@@ -218,24 +216,18 @@ function navHtml(current) {
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
     <nav class="nav-links" aria-label="Menu bar">
-      <div class="menu menu--apple">
-        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false" aria-label="Apple menu">${APPLE}</button>
-        <div class="menu-list" role="menu">
-          <a role="menuitem" href="/about">About Club Copy…</a>
-          <div class="menu-rule" role="separator"></div>
-          <a role="menuitem" href="/account">Account</a>
-          <a role="menuitem" href="/join">Record Club</a>
-          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
-          <div class="menu-rule" role="separator"></div>
-          <a role="menuitem" href="/contact">Contact</a>
-        </div>
-      </div>
       <div class="menu menu--app">
         <button type="button" class="menu-title menu-title--app" aria-haspopup="true" aria-expanded="false">Club Copy</button>
         <div class="menu-list" role="menu">
           <a role="menuitem" href="/">Home</a>
           <a role="menuitem" href="/about">About This Label</a>
           <a role="menuitem" href="/planet">Planet MP3</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/account">Account</a>
+          <a role="menuitem" href="/join">Record Club</a>
+          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/contact">Contact</a>
         </div>
       </div>
       <div class="menu menu--file">
@@ -287,9 +279,12 @@ function navHtml(current) {
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/">Home</a>
   ${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join("\n  ")}
+  <a href="/about">About</a>
+  <a href="/planet">Planet MP3</a>
   <a href="/account">Account</a>
-  <a href="/cart">Cart</a>
+  <a href="/shipping">Shipping &amp; Returns</a>
 </div>`;
 }
 
