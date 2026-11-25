@@ -147,7 +147,6 @@ html.mac .menu-title--app {
   text-shadow: .35px 0 0 currentColor, -.35px 0 0 currentColor;
 }
 html.mac .menu.is-open > .menu-title { background: #000; color: #fff; }
-html.mac .menu-apple { display: block; }
 html.mac .menu-list {
   display: none;
   position: absolute;
@@ -250,9 +249,76 @@ html.mac #navAccount:hover .nav-cart-count,
 html.mac .nav-cart:hover .nav-cart-count { background: #fff; color: #000; }
 html.mac .nav-cart-word { display: inline !important; }
 html.mac .nav-cart::before { content: none !important; display: none !important; }
-html.mac #navHam,
-html.mac #navDrawer,
-html.mac .nav-scrim { display: none !important; }
+html.mac #navHam {
+  display: none;
+  grid-column: 5;
+  grid-row: 1;
+  align-self: center;
+  width: 44px;
+  height: 44px;
+  margin: 0 4px 0 0;
+  padding: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  z-index: 3;
+}
+html.mac #navHam span {
+  display: block;
+  width: 20px;
+  height: 2.5px;
+  background: #000;
+  transition: transform .18s ease;
+}
+html.mac #navHam.on span:first-child { transform: translateY(4px) rotate(45deg); }
+html.mac #navHam.on span:last-child { transform: translateY(-4px) rotate(-45deg); }
+html.mac #navDrawer {
+  display: none;
+  position: fixed;
+  top: var(--chrome-h);
+  left: 0;
+  right: 0;
+  z-index: 390;
+  max-height: calc(100svh - var(--chrome-h));
+  overflow-y: auto;
+  padding: 6px 0 18px;
+  background: #ddd;
+  border-bottom: 1px solid #000;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, .22);
+  -webkit-overflow-scrolling: touch;
+}
+html.mac #navDrawer.on { display: block; }
+html.mac #navDrawer a {
+  display: block;
+  margin: 0 8px;
+  padding: 14px 12px;
+  min-height: 48px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, .14);
+  font-family: var(--ui);
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #000;
+  text-decoration: none;
+}
+html.mac #navDrawer a:last-child { border-bottom: 0; }
+html.mac #navDrawer a:active,
+html.mac #navDrawer a[aria-current="page"] { background: #000; color: #fff; }
+html.mac .nav-scrim {
+  display: none;
+  position: fixed;
+  inset: var(--chrome-h) 0 0;
+  z-index: 380;
+  background: rgba(0, 0, 0, .45);
+}
+html.mac .nav-scrim.on { display: block; }
 html.mac #sky {
   grid-column: 1 / -1;
   grid-row: 2;
@@ -1167,56 +1233,150 @@ html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px soli
 
 /* Phone ----------------------------------------------------------------- */
 @media (max-width: 860px) {
+  html.mac {
+    --menu-row: 48px;
+    --report-h: 36px;
+    --dock-h: 72px;
+    --gutter: 14px;
+  }
   html.mac .desk-icons { display: none; }
   html.mac-shut .desk-icons { display: flex; left: 12px; right: auto; top: calc(var(--chrome-h) + 16px); }
-  html.mac #win { left: 6px; right: 6px; bottom: 6px; }
-  html.mac .menu--edit { display: none; }
-  html.mac { --menu-row: 46px; --report-h: 86px; }
+
+  /* Hamburger replaces Mac menus on phones */
+  html.mac #nav .nav-inner {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+  }
+  html.mac #nav .nav-links,
+  html.mac .menu--edit,
+  html.mac .menu--view,
+  html.mac .menu--special,
+  html.mac .menu--file,
+  html.mac .menu--app { display: none !important; }
+  html.mac #navAccount { display: none; }
+  html.mac #navHam { display: flex !important; grid-column: 4; }
+  html.mac .nav-cart {
+    grid-column: 3;
+    margin-right: 0;
+    min-width: 48px;
+    min-height: 48px;
+    justify-content: center;
+    padding: 0 12px;
+  }
+  html.mac #nav .nav-logo { padding-left: 12px; }
+  html.mac #nav .nav-logo img { height: 26px; }
+
+  /* One-line weather strip; surf detail lives in the drawer era, not the chrome */
   html.mac #sky {
-    display: block;
+    display: flex;
+    align-items: center;
     max-width: none;
     position: relative;
-    padding: 8px 12px 8px 14px;
+    padding: 0 10px 0 14px;
+    height: var(--report-h);
   }
-  html.mac #sky .sky-theme { position: absolute; top: 8px; right: 10px; }
+  html.mac #sky .sky-theme {
+    position: static;
+    flex: none;
+    min-height: 28px;
+    padding: 0 10px;
+  }
   html.mac #sky .sky-live {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    row-gap: 6px;
-    overflow: visible;
-    width: 100%;
-    padding-right: 76px;
+    gap: 0;
+    overflow: hidden;
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-right: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  html.mac #sky .sky-surf:not([hidden]) {
-    flex: 1 1 100%;
-    width: calc(100% + 76px);
+  html.mac #sky .sky-surf { display: none !important; }
+  html.mac #sky .sky-home { display: none; }
+
+  /* Full-bleed content window — no tiny close boxes to fat-finger */
+  html.mac #win {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: var(--chrome-h);
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    box-shadow: none;
+  }
+  html.mac-zoomed #win,
+  html.mac-placed #win {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: var(--chrome-h) !important;
+    width: auto !important;
+    height: auto !important;
     max-width: none;
-    margin: 0 -76px 0 0;
+    max-height: none;
   }
-  html.mac #sky [data-sky-surf-now] { white-space: normal; }
-  html.mac #sky .sky-surf-cast { display: none; }
-  html.mac .vcr-player {
-    grid-template-columns: 40px minmax(0, 1fr) auto;
-    grid-template-areas: "bar bar bar" "art lcd controls";
-    width: calc(100vw - 16px);
+  html.mac .win-boxes,
+  html.mac .win-grow,
+  html.mac .win-bar { display: none !important; }
+  html.mac #winBody {
+    margin: 0 0 env(safe-area-inset-bottom, 0px);
+    border: 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   }
-  html.mac .vcr-player__buy { display: none; }
-}
-@media (max-width: 560px) {
-  html.mac .menu--app,
-  html.mac .menu--view { display: none; }
-  html.mac #nav .nav-logo { padding-left: 10px; }
-  html.mac #nav .nav-logo img { height: 24px; }
-  html.mac #navAccount { display: none; }
-  html.mac .nav-cart { grid-column: 3 / 5; }
+  html.mac body.has-vcr-player #winBody {
+    padding-bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Larger tap targets inside the window */
+  html.mac #win .seg button {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  html.mac #win .key {
+    width: 44px;
+    height: 44px;
+  }
+  html.mac #win .btn,
+  html.mac #win .store-chip,
+  html.mac #win .lib-view-btn,
+  html.mac #win .chip {
+    min-height: 44px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  html.mac #win .row--product .btn,
+  html.mac #win .sleeve-meta .btn,
+  html.mac #win .lib-price,
+  html.mac #win .price-btn {
+    min-height: 36px;
+    min-width: 44px;
+    padding: 8px 10px;
+  }
   html.mac #win .page-title,
   html.mac #win .lead-artist,
   html.mac #win .lead-title,
   html.mac #win .zine-headline,
-  html.mac #win .front-cover-headline { font-size: 18px; }
+  html.mac #win .front-cover-headline { font-size: clamp(20px, 6vw, 28px); }
   html.mac #win .release-head,
   html.mac #win .lead-body { grid-template-columns: 1fr; }
+
+  html.mac .vcr-player {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    grid-template-areas: "bar bar bar" "art lcd controls";
+    width: calc(100vw - 16px);
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+  html.mac .vcr-player__buy { display: none; }
+  html.mac .vcr-player::before { font-size: 11px; }
+}
+@media (max-width: 560px) {
+  html.mac #nav .nav-logo { padding-left: 10px; }
+  html.mac #nav .nav-logo img { height: 24px; }
 }
 @media print {
   html.mac { background: #fff; background-image: none; }
