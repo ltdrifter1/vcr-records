@@ -488,26 +488,52 @@
     return { m: level, trend: trend, kind: kind, when: when, station: name };
   }
 
+  function ensureRoll(host) {
+    if (!host) return null;
+    var roll = host.querySelector(".sky-surf-roll");
+    if (roll) return roll;
+    roll = document.createElement("span");
+    roll.className = "sky-surf-roll";
+    while (host.firstChild) roll.appendChild(host.firstChild);
+    host.appendChild(roll);
+    return roll;
+  }
+
+  function fitTicker(host) {
+    var roll = host && host.querySelector(".sky-surf-roll");
+    if (!roll) return;
+    host.classList.remove("is-ticker");
+    roll.style.removeProperty("--ticker-shift");
+    if (host.hidden || host.clientWidth < 40) return;
+    var overflow = roll.scrollWidth - host.clientWidth;
+    if (overflow > 12) {
+      host.classList.add("is-ticker");
+      roll.style.setProperty("--ticker-shift", "-" + (overflow + 8) + "px");
+    }
+  }
+
   function surfHost(sky) {
     var el = sky.querySelector("[data-sky-surf]");
-    if (el) return el;
-    var moon = sky.querySelector("[data-sky-moon]");
-    el = document.createElement("span");
-    el.className = "sky-surf";
-    el.setAttribute("data-sky-surf", "");
-    el.hidden = true;
-    var nowSpan = document.createElement("span");
-    nowSpan.setAttribute("data-sky-surf-now", "");
-    var cast = document.createElement("span");
-    cast.className = "sky-surf-cast";
-    cast.setAttribute("data-sky-surf-cast", "");
-    el.appendChild(nowSpan);
-    el.appendChild(cast);
-    if (moon && moon.parentNode) moon.replaceWith(el);
-    else {
-      var live = sky.querySelector(".sky-live");
-      if (live) live.appendChild(el);
+    if (!el) {
+      var moon = sky.querySelector("[data-sky-moon]");
+      el = document.createElement("span");
+      el.className = "sky-surf";
+      el.setAttribute("data-sky-surf", "");
+      el.hidden = true;
+      var nowSpan = document.createElement("span");
+      nowSpan.setAttribute("data-sky-surf-now", "");
+      var cast = document.createElement("span");
+      cast.className = "sky-surf-cast";
+      cast.setAttribute("data-sky-surf-cast", "");
+      el.appendChild(nowSpan);
+      el.appendChild(cast);
+      if (moon && moon.parentNode) moon.replaceWith(el);
+      else {
+        var live = sky.querySelector(".sky-live");
+        if (live) live.appendChild(el);
+      }
     }
+    ensureRoll(el);
     return el;
   }
 
@@ -539,6 +565,7 @@
     host.hidden = false;
     host.title = pack.title || pack.nowText;
     labelSky();
+    requestAnimationFrame(function () { fitTicker(host); });
   }
 
   function grabJSON(url) {
@@ -630,6 +657,9 @@
     tickClock(sky.querySelector("[data-sky-time]"));
     loadWeather(sky.querySelector("[data-sky-wx]"));
     loadSurf(surfHost(sky));
+    window.addEventListener("resize", function () {
+      fitTicker(sky.querySelector("[data-sky-surf]"));
+    });
   }
 
   /* Macintosh desktop: menus, window drag, shade, zoom, close. */
