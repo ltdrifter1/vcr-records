@@ -94,12 +94,26 @@ html.mac #nav .nav-inner {
   padding: 0;
   gap: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   grid-template-rows: var(--menu-row) var(--report-h);
   align-items: stretch;
 }
-html.mac #nav .nav-links {
+html.mac #nav .nav-logo {
   grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px 0 12px;
+}
+html.mac #nav .nav-logo img {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+html.mac #nav .nav-links {
+  grid-column: 2;
   grid-row: 1;
   position: relative;
   z-index: 3;
@@ -218,8 +232,8 @@ html.mac .nav-cart {
   padding: 4px 10px;
   text-decoration: none;
 }
-html.mac #navAccount { grid-column: 2; grid-row: 1; }
-html.mac .nav-cart { grid-column: 3; grid-row: 1; margin-right: 8px; }
+html.mac #navAccount { grid-column: 3; grid-row: 1; }
+html.mac .nav-cart { grid-column: 4; grid-row: 1; margin-right: 8px; }
 html.mac #navAccount:hover,
 html.mac .nav-cart:hover { background: #000; color: #fff; text-decoration: none; }
 html.mac .nav-cart-count {
@@ -1192,8 +1206,10 @@ html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px soli
 @media (max-width: 560px) {
   html.mac .menu--app,
   html.mac .menu--view { display: none; }
+  html.mac #nav .nav-logo { padding-left: 10px; }
+  html.mac #nav .nav-logo img { height: 24px; }
   html.mac #navAccount { display: none; }
-  html.mac .nav-cart { grid-column: 2 / 4; }
+  html.mac .nav-cart { grid-column: 3 / 5; }
   html.mac #win .page-title,
   html.mac #win .lead-artist,
   html.mac #win .lead-title,

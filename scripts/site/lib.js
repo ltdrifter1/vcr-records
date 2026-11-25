@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
 const VERSION = "cc18";
-const CSS_VERSION = "cc32";
+const CSS_VERSION = "cc33";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -216,6 +216,7 @@ function navHtml(current) {
   const fileLinks = NAV.map(([href, label]) => menuItem(href, label, current)).join("\n          ");
   return `<header class="nav" id="nav">
   <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
     <nav class="nav-links" aria-label="Menu bar">
       <div class="menu menu--apple">
         <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false" aria-label="Apple menu">${APPLE}</button>
