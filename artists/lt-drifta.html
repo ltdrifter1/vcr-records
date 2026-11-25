@@ -32,7 +32,7 @@
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
         if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
-        var w = JSON.parse(sessionStorage.getItem("cc.macWin") || "null");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
         if (w && typeof w === "object") {
           if (w.shut) document.documentElement.classList.add("mac-shut");
           if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
@@ -53,8 +53,8 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc29"/>
-  <link rel="stylesheet" href="/css/mac.css?v=cc29"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc31"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc31"/>
   
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta","image":"https://www.clubcopy.ca/artists/lt-drifta.webp?v=mark","description":"LT Drifta draws on the raw energy of 90s jungle, breakbeat hardcore and early rave, reworking the sounds of a bygone era into something fresh. Built around chopped breaks, soulful samples and hazy atmospheres, the project bridges the roots of jungle with a new generation of forward-thinking, liquid-leaning sounds. With a love for exploring music’s past and finding new possibilities in forgotten sounds, LT brings an old-school sensibility to modern production. Nostalgic without being stuck in the past, it’s jungle music for modern living: paying respect to the foundations while pushing them somewhere new.","memberOf":{"@type":"Organization","name":"Club Copy"}}</script>
 </head>
@@ -447,11 +447,11 @@
   </div>
   <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
 </div>
-<script src="/js/site.js?v=cc17"></script>
-<script src="/js/cart.js?v=cc17"></script>
-<script src="/js/member.js?v=cc17"></script>
-<script src="/js/player.js?v=cc17"></script>
-<script src="/js/cc.js?v=cc17"></script>
+<script src="/js/site.js?v=cc18"></script>
+<script src="/js/cart.js?v=cc18"></script>
+<script src="/js/member.js?v=cc18"></script>
+<script src="/js/player.js?v=cc18"></script>
+<script src="/js/cc.js?v=cc18"></script>
 
 </body>
 </html>

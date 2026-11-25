@@ -32,7 +32,7 @@
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
         if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
-        var w = JSON.parse(sessionStorage.getItem("cc.macWin") || "null");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
         if (w && typeof w === "object") {
           if (w.shut) document.documentElement.classList.add("mac-shut");
           if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
@@ -53,8 +53,8 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc29"/>
-  <link rel="stylesheet" href="/css/mac.css?v=cc29"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc31"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc31"/>
   
   
 </head>
@@ -277,12 +277,12 @@
   </div>
   <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
 </div>
-<script src="/js/site.js?v=cc17"></script>
-<script src="/js/cart.js?v=cc17"></script>
-<script src="/js/member.js?v=cc17"></script>
-<script src="/js/player.js?v=cc17"></script>
-<script src="/js/cc.js?v=cc17"></script>
-<script src="/js/zine.js?v=cc17"></script>
+<script src="/js/site.js?v=cc18"></script>
+<script src="/js/cart.js?v=cc18"></script>
+<script src="/js/member.js?v=cc18"></script>
+<script src="/js/player.js?v=cc18"></script>
+<script src="/js/cc.js?v=cc18"></script>
+<script src="/js/zine.js?v=cc18"></script>
 
 </body>
 </html>

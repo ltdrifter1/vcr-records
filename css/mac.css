@@ -7,10 +7,12 @@ html.mac {
   --desk-spot: rgba(255, 255, 255, .22);
   --ui: "Silom", Chicago, Charcoal, Geneva, "Lucida Grande", Verdana, sans-serif;
   --body: "Noto Sans", Geneva, Verdana, "Lucida Grande", "Trebuchet MS", sans-serif;
-  --menu-h: calc(28px + env(safe-area-inset-top, 0px));
-  --chrome-h: var(--menu-h);
-  --sky-h: 0px;
-  --nav-h: var(--menu-h);
+  --menu-row: 44px;
+  --report-h: 40px;
+  --menu-h: calc(var(--menu-row) + env(safe-area-inset-top, 0px));
+  --chrome-h: calc(var(--menu-h) + var(--report-h));
+  --sky-h: var(--report-h);
+  --nav-h: var(--chrome-h);
   --dock-h: 92px;
   --bg: #dddddd;
   --bg-2: #d4d4d4;
@@ -23,14 +25,17 @@ html.mac {
   --rule: #000;
   --signal: #000;
   --signal-ink: #fff;
+  --tide: #0f766e;
   --gutter: 16px;
   --sans: var(--body);
   --display: var(--ui);
   --mono: Monaco, "Courier New", "Liberation Mono", ui-monospace, monospace;
   --paper: none;
   background-color: var(--desk);
-  background-image: radial-gradient(var(--desk-spot) .7px, transparent .8px);
-  background-size: 3px 3px;
+  background-image:
+    radial-gradient(var(--desk-spot) .7px, transparent .8px),
+    radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, .2), transparent 58%);
+  background-size: 3px 3px, 100% 100%;
   background-attachment: fixed;
   color-scheme: light;
 }
@@ -39,16 +44,16 @@ html.mac[data-theme="day"] {
   --desk-spot: rgba(255, 255, 255, .55);
 }
 html.mac:has(.sky) {
-  --chrome-h: var(--menu-h);
-  --sky-h: 0px;
-  --nav-h: var(--menu-h);
+  --chrome-h: calc(var(--menu-h) + var(--report-h));
+  --sky-h: var(--report-h);
+  --nav-h: var(--chrome-h);
 }
 html.mac body {
   background: transparent;
   color: #000;
   font-family: var(--body);
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.55;
   -webkit-font-smoothing: auto;
   padding-bottom: 0;
 }
@@ -58,7 +63,7 @@ html.mac button,
 html.mac label,
 html.mac summary { cursor: default; }
 html.mac ::selection { background: #000; color: #fff; }
-html.mac :focus-visible { outline: 2px solid #000; outline-offset: 1px; }
+html.mac :focus-visible { outline: 2px solid var(--tide); outline-offset: 2px; }
 
 /* Menu bar -------------------------------------------------------------- */
 html.mac #nav,
@@ -73,22 +78,36 @@ html.mac #nav {
   top: 0;
   left: 0;
   right: 0;
-  height: var(--menu-h);
+  height: var(--chrome-h);
   padding-top: env(safe-area-inset-top, 0px);
+  box-sizing: border-box;
   border-bottom: 1px solid #000;
-  box-shadow: inset 0 1px 0 #fff;
+  box-shadow: inset 0 1px 0 #fff, 0 8px 18px rgba(0, 0, 0, .12);
+  background-image: linear-gradient(#fbfbfb, #d7d7d7);
+  background-size: 100% var(--menu-row);
+  background-repeat: no-repeat;
+  background-color: #e8e8e8;
   z-index: 400;
 }
 html.mac #nav .nav-inner {
   height: 100%;
-  padding: 0 6px 0 4px;
+  padding: 0;
   gap: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: var(--menu-row) var(--report-h);
+  align-items: stretch;
 }
 html.mac #nav .nav-links {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 3;
   display: flex;
   align-items: stretch;
   gap: 0;
   height: 100%;
+  padding-left: 4px;
   font-family: var(--ui);
   letter-spacing: 0;
   text-transform: none;
@@ -96,7 +115,7 @@ html.mac #nav .nav-links {
 html.mac .menu { position: relative; display: flex; align-items: stretch; }
 html.mac .menu-title {
   font-family: var(--ui);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1;
   letter-spacing: 0;
   text-transform: none;
@@ -105,7 +124,7 @@ html.mac .menu-title {
   border: 0;
   border-radius: 0;
   box-shadow: none;
-  padding: 0 9px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   min-height: 0;
@@ -126,7 +145,9 @@ html.mac .menu-list {
   background: #fff;
   color: #000;
   border: 1px solid #000;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, .35);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .22), 1px 1px 0 rgba(0, 0, 0, .4);
   z-index: 420;
 }
 html.mac .menu.is-open > .menu-list,
@@ -182,31 +203,31 @@ html.mac .menu-item.is-checked::before {
   transform: translateY(-80%) rotate(-45deg);
 }
 html.mac #nav .nav-end {
-  margin-left: auto;
-  gap: 2px;
-  height: 100%;
-  align-items: center;
-  font-family: var(--ui);
-  letter-spacing: 0;
-  text-transform: none;
+  display: contents;
 }
 html.mac #navAccount,
 html.mac .nav-cart {
+  position: relative;
+  z-index: 3;
+  align-self: center;
   font-family: var(--ui);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0;
   text-transform: none;
   color: #000;
-  padding: 2px 6px;
+  padding: 4px 10px;
   text-decoration: none;
 }
+html.mac #navAccount { grid-column: 2; grid-row: 1; }
+html.mac .nav-cart { grid-column: 3; grid-row: 1; margin-right: 8px; }
 html.mac #navAccount:hover,
 html.mac .nav-cart:hover { background: #000; color: #fff; text-decoration: none; }
 html.mac .nav-cart-count {
-  background: #000;
+  background: var(--tide);
   color: #fff;
-  min-width: 14px;
-  height: 14px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 999px;
   font-family: var(--ui);
   font-size: 10px;
   letter-spacing: 0;
@@ -219,17 +240,48 @@ html.mac #navHam,
 html.mac #navDrawer,
 html.mac .nav-scrim { display: none !important; }
 html.mac #sky {
-  position: static;
-  height: auto;
-  max-width: min(380px, 34vw);
-  padding: 0 4px 0 0;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  position: relative;
+  z-index: 1;
+  height: var(--report-h);
+  max-width: none;
+  width: auto;
+  margin: 0;
+  padding: 0 12px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   border: 0;
-  box-shadow: none;
-  background: transparent;
+  border-top: 1px solid rgba(0, 0, 0, .18);
+  box-shadow: inset 0 1px 0 #fff;
+  background: linear-gradient(180deg, #f4f4f4, #e3e3e3);
   color: #000;
 }
-html.mac #sky .sky-live,
-html.mac #sky .sky-live > *,
+html.mac #sky .sky-live {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  line-height: 1.2;
+  text-transform: none;
+  color: #222;
+}
+html.mac #sky .sky-live::-webkit-scrollbar { display: none; }
+html.mac #sky .sky-live > * {
+  font-family: var(--body);
+  font-size: 13px;
+  letter-spacing: .01em;
+  text-transform: none;
+  color: #222;
+}
 html.mac #sky .sky-theme,
 html.mac #sky .sky-theme-lab {
   font-family: var(--ui);
@@ -238,11 +290,62 @@ html.mac #sky .sky-theme-lab {
   text-transform: none;
   color: #000;
 }
+html.mac #sky .sky-wx-words { display: inline; }
+html.mac #sky .sky-surf:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(680px, 68%);
+  margin-left: auto;
+  padding: 4px 12px 4px 10px;
+  background: #fff;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, .12);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06), inset 0 0 0 1px rgba(255, 255, 255, .8);
+}
+html.mac #sky .sky-surf::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin: 0 8px 0 2px;
+  border-radius: 50%;
+  background: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, .16);
+  flex: none;
+  animation: mac-live 2.6s ease-in-out infinite;
+}
+html.mac #sky [data-sky-surf-now] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  color: #111;
+  font-variant-numeric: tabular-nums;
+}
+html.mac #sky .sky-surf-cast { color: #555; }
+html.mac #sky .sky-surf-cast .is-high { color: #0f766e; }
+@keyframes mac-live {
+  50% { opacity: .35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.mac #sky .sky-surf::before { animation: none; }
+}
 html.mac .sky-home { display: none; }
 html.mac .sky-home + *::before { content: none !important; margin: 0 !important; }
 html.mac .sky-knob { display: none; }
-html.mac .sky-theme { min-height: 0; padding: 2px 6px; gap: 0; }
-html.mac .sky-theme:hover { background: #000; color: #fff; }
+html.mac .sky-theme {
+  flex: none;
+  min-height: 26px;
+  padding: 0 12px;
+  gap: 0;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .14);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+html.mac .sky-theme:hover { background: #111; color: #fff; border-color: #111; }
 html.mac .sky-theme:hover .sky-theme-lab,
 html.mac .sky-theme:hover .sky-lab-day,
 html.mac .sky-theme:hover .sky-lab-night { color: #fff; }
@@ -251,7 +354,7 @@ html.mac .sky-theme:hover .sky-lab-night { color: #fff; }
 html.mac .desk-icons {
   position: fixed;
   z-index: 5;
-  top: calc(var(--menu-h) + 10px);
+  top: calc(var(--chrome-h) + 10px);
   right: 8px;
   width: 92px;
   display: flex;
@@ -299,7 +402,7 @@ html.mac-shut .desk-icon--app { display: flex; }
 html.mac #win {
   position: fixed;
   z-index: 20;
-  top: calc(var(--menu-h) + 8px);
+  top: calc(var(--chrome-h) + 8px);
   left: 8px;
   right: 108px;
   bottom: 8px;
@@ -309,7 +412,9 @@ html.mac #win {
   min-height: 0;
   background: #ddd;
   border: 1px solid #000;
-  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, 3px 3px 0 rgba(0, 0, 0, .28);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 0 #fff, 0 22px 48px rgba(0, 0, 0, .28);
 }
 html.mac-placed #win {
   left: var(--win-l);
@@ -319,11 +424,11 @@ html.mac-placed #win {
   right: auto;
   bottom: auto;
   max-width: calc(100vw - 8px);
-  max-height: calc(100vh - var(--menu-h) - 8px);
+  max-height: calc(100vh - var(--chrome-h) - 8px);
 }
 html.mac-zoomed #win {
   left: 4px !important;
-  top: calc(var(--menu-h) + 4px) !important;
+  top: calc(var(--chrome-h) + 4px) !important;
   right: 4px !important;
   bottom: 4px !important;
   width: auto !important;
@@ -479,11 +584,12 @@ html.mac #win .home-sec-title { font-size: 20px; margin: 0 0 8px; font-weight: 4
 html.mac #win .sec-title,
 html.mac #win .home-sec-title { font-size: 18px; }
 html.mac #win .sec-link {
-  font-family: var(--ui);
-  font-size: 12px;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
-  color: #000;
+  color: var(--tide);
 }
 html.mac #win .lead-artist,
 html.mac #win .lead-title { font-size: 22px; color: #000; }
@@ -537,9 +643,9 @@ html.mac #win .bio p,
 html.mac #win .row-dek,
 html.mac #win .join-dek {
   font-family: var(--body);
-  font-size: 14px;
-  line-height: 1.45;
-  color: #000;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1a1a1a;
   letter-spacing: 0;
 }
 html.mac #win a { color: #000; text-decoration: none; }
@@ -547,7 +653,7 @@ html.mac #win a:hover { text-decoration: underline; text-underline-offset: 2px; 
 html.mac #win .prose a,
 html.mac #win .page-lede a,
 html.mac #win .footer-fact a,
-html.mac #win .bio a { color: #0000cc; text-decoration: underline; }
+html.mac #win .bio a { color: var(--tide); text-decoration: underline; text-underline-offset: 2px; }
 html.mac #win .page-head,
 html.mac #win .release-head,
 html.mac #win .sec,
@@ -570,6 +676,8 @@ html.mac #win .product-visual,
 html.mac #win .pdp-art,
 html.mac #win .artist-photo {
   border: 1px solid #000;
+  border-radius: 4px;
+  overflow: hidden;
   background: #fff;
   filter: none;
 }
@@ -577,10 +685,16 @@ html.mac #win .row-art--photo img,
 html.mac #win .artist-photo,
 html.mac #win .row--video .row-art img,
 html.mac #win .mix-art img { filter: none; }
+html.mac #win .sleeve-card { transition: transform .18s ease; }
 html.mac #win .row-art img,
 html.mac #win .sleeve-art img { transition: none; }
 html.mac #win .row:hover .row-art img,
 html.mac #win .sleeve-card:hover .sleeve-art { transform: none; }
+html.mac #win .sleeve-card:hover { transform: translateY(-3px); }
+html.mac-list #win .sleeve-card,
+html.mac-list #win .sleeve-card:hover { transform: none; }
+html.mac #win .row { transition: background .15s ease; }
+html.mac #win .row:hover { background: #f6f6f6; }
 
 /* Finder icon view ------------------------------------------------------ */
 html.mac #win .release-grid { gap: 18px 12px; padding-top: 8px; }
@@ -777,7 +891,7 @@ html.mac #win .btn.btn-text {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  color: #0000cc;
+  color: var(--tide);
   text-decoration: underline;
   padding-left: 0;
   padding-right: 0;
@@ -945,7 +1059,9 @@ html.mac .vcr-player {
   background-image: none;
   color: #000;
   border: 1px solid #000;
-  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, 3px 3px 0 rgba(0, 0, 0, .35);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 1px 1px 0 #fff, 0 18px 40px rgba(0, 0, 0, .28);
   transform: translate(-50%, 130%);
   z-index: 500;
 }
@@ -1028,8 +1144,9 @@ html.mac .vcr-stage__sheet {
   background: #ddd;
   color: #000;
   border: 1px solid #000;
-  box-shadow: inset 1px 1px 0 #fff, 4px 4px 0 rgba(0, 0, 0, .35);
-  border-radius: 0;
+  box-shadow: inset 1px 1px 0 #fff, 0 24px 48px rgba(0, 0, 0, .35);
+  border-radius: 10px;
+  overflow: hidden;
 }
 html.mac .vcr-stage__title { font-family: var(--ui); font-weight: 400; letter-spacing: 0; font-size: 22px; }
 html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px solid #000; }
@@ -1037,11 +1154,34 @@ html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px soli
 /* Phone ----------------------------------------------------------------- */
 @media (max-width: 860px) {
   html.mac .desk-icons { display: none; }
-  html.mac-shut .desk-icons { display: flex; left: 12px; right: auto; top: calc(var(--menu-h) + 16px); }
+  html.mac-shut .desk-icons { display: flex; left: 12px; right: auto; top: calc(var(--chrome-h) + 16px); }
   html.mac #win { left: 6px; right: 6px; bottom: 6px; }
   html.mac .menu--edit { display: none; }
-  html.mac #sky .sky-live { display: none; }
-  html.mac #sky { display: flex; max-width: none; }
+  html.mac { --menu-row: 46px; --report-h: 86px; }
+  html.mac #sky {
+    display: block;
+    max-width: none;
+    position: relative;
+    padding: 8px 12px 8px 14px;
+  }
+  html.mac #sky .sky-theme { position: absolute; top: 8px; right: 10px; }
+  html.mac #sky .sky-live {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+    overflow: visible;
+    width: 100%;
+    padding-right: 76px;
+  }
+  html.mac #sky .sky-surf:not([hidden]) {
+    flex: 1 1 100%;
+    width: calc(100% + 76px);
+    max-width: none;
+    margin: 0 -76px 0 0;
+  }
+  html.mac #sky [data-sky-surf-now] { white-space: normal; }
+  html.mac #sky .sky-surf-cast { display: none; }
   html.mac .vcr-player {
     grid-template-columns: 40px minmax(0, 1fr) auto;
     grid-template-areas: "bar bar bar" "art lcd controls";
@@ -1053,6 +1193,7 @@ html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px soli
   html.mac .menu--app,
   html.mac .menu--view { display: none; }
   html.mac #navAccount { display: none; }
+  html.mac .nav-cart { grid-column: 2 / 4; }
   html.mac #win .page-title,
   html.mac #win .lead-artist,
   html.mac #win .lead-title,

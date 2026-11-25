@@ -6,8 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc17";
-const CSS_VERSION = "cc29";
+const VERSION = "cc18";
+const CSS_VERSION = "cc32";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -145,7 +145,7 @@ const THEME_BOOT = `<script>
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
         if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
-        var w = JSON.parse(sessionStorage.getItem("cc.macWin") || "null");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
         if (w && typeof w === "object") {
           if (w.shut) document.documentElement.classList.add("mac-shut");
           if (w.zoomed) document.documentElement.classList.add("mac-zoomed");

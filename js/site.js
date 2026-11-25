@@ -638,7 +638,7 @@
   var winBody = document.getElementById("winBody");
   var winGrow = document.getElementById("winGrow");
   var root = document.documentElement;
-  var WIN_KEY = "cc.macWin";
+  var WIN_KEY = "cc.macWin2";
 
   function readWin() {
     try { return JSON.parse(sessionStorage.getItem(WIN_KEY) || "null") || {}; }
