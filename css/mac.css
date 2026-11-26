@@ -1332,61 +1332,68 @@ html.mac .vcr-stage__sheet {
 html.mac .vcr-stage__title { font-family: var(--ui); font-weight: 400; letter-spacing: 0; font-size: 22px; }
 html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px solid #000; }
 
-/* Home cards and mix captions ------------------------------------------
-   The folio plates were a newspaper inside the document. These sit
-   with the sleeves: small type, a light edge, a blue link. */
+/* Home group boxes ------------------------------------------------------
+   Same document as the sleeves: a black rule, Chicago in the rule,
+   Geneva inside. Selecting the box inverts it, the way a Finder row does. */
 html.mac #win .home-plates {
-  gap: 12px;
-  padding: 4px 16px 16px;
-  border-top: 1px solid #e4e4e4;
+  gap: 20px 16px;
+  margin: 0;
+  padding: 18px 16px 16px;
+  border-top: 1px solid #000;
+  background: #fff;
 }
 html.mac #win .home-plate {
-  gap: 3px;
-  padding: 12px 14px 14px;
-  background: #f7f7f7;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  box-shadow: inset 1px 1px 0 #fff;
+  gap: 1px;
+  padding: 14px 12px 12px;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: none;
+  color: #000;
 }
 html.mac #win .home-plate:hover,
 html.mac #win .home-plate:focus-visible {
-  background: #fff;
+  background: #000;
   border-color: #000;
+  color: #fff;
   text-decoration: none;
 }
+html.mac #win .home-plate-title {
+  top: -7px;
+  left: 8px;
+  padding: 0 5px;
+  background: #fff;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+  color: #000;
+}
+html.mac #win .home-plate:hover .home-plate-title,
+html.mac #win .home-plate:focus-visible .home-plate-title {
+  background: #000;
+  color: #fff;
+}
 html.mac #win .home-plate-kicker {
+  margin: 0 0 4px;
   font-family: var(--ui);
   font-size: 11px;
   letter-spacing: 0;
   text-transform: none;
-  color: #444;
-}
-html.mac #win .home-plate-title {
-  font-family: var(--ui);
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.2;
+  color: #000;
 }
 html.mac #win .home-plate-line {
   font-family: var(--body);
   font-size: 13px;
-  line-height: 1.45;
-  color: #222;
+  line-height: 1.35;
+  color: #000;
 }
-html.mac #win .home-plate-open {
-  margin-top: 6px;
-  font-family: var(--ui);
-  font-size: 12px;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--tide);
-}
-html.mac #win .home-plate:hover .home-plate-open,
-html.mac #win .home-plate:focus-visible .home-plate-open {
-  color: var(--tide);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+html.mac #win .home-plate:hover .home-plate-kicker,
+html.mac #win .home-plate:hover .home-plate-line,
+html.mac #win .home-plate:focus-visible .home-plate-kicker,
+html.mac #win .home-plate:focus-visible .home-plate-line {
+  color: #fff;
 }
 html.mac #win .tapes-grid .mix-hit { align-items: center; text-align: center; }
 html.mac #win .tapes-grid .mix-title {
@@ -1597,185 +1604,7 @@ html.mac #win .tapes-grid .mix-card:hover { transform: translateY(-3px); }
   html.mac #winBody { overflow: visible; border: 0; margin: 0; }
 }
 
-/* Poster documents ------------------------------------------------------
-   The desktop stays System 7. Inside the window, the homepage and
-   Night Shift print like a club flyer: black fields, the signal red,
-   Chicago at poster size. List view keeps the Finder rows. */
-html.mac body.home #win #listen .home-sec-head {
-  margin: -14px -16px 14px;
-  padding: 14px 16px 12px;
-  background: #111;
-  color: #fff;
-  border: 0;
-  box-shadow: inset 8px 0 0 #e23b10;
-}
-html.mac body.home #win #listen .home-sec-title {
-  margin: 0;
-  font-size: clamp(40px, 6vw, 72px);
-  line-height: .82;
-  letter-spacing: -0.03em;
-  color: #fff;
-}
-html.mac body.home #win #listen .home-sec-head .sec-link {
-  color: #fff;
-  font-family: var(--ui);
-  font-size: 14px;
-}
-html.mac body.home #win .sec-title {
-  font-size: clamp(26px, 3vw, 36px);
-  line-height: .92;
-  letter-spacing: -0.02em;
-}
-html.mac body.home #win .sec-kicker {
-  color: #e23b10;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  font-size: 11px;
-  margin-bottom: 4px;
-}
-
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
-  gap: 0;
-  align-items: stretch;
-  max-height: min(460px, 54vh);
-  background: #111;
-  color: #fff;
-  box-shadow: inset 8px 0 0 #e23b10;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-face,
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-art {
-  height: 100%;
-  min-height: 0;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-art {
-  aspect-ratio: auto;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]):hover {
-  transform: none;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-art {
-  border: 0;
-  border-radius: 0;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-key {
-  width: 36px;
-  height: 36px;
-  right: 10px;
-  bottom: 10px;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-key svg {
-  width: 14px;
-  height: 14px;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-copy {
-  align-items: flex-start;
-  justify-content: center;
-  text-align: left;
-  gap: 10px;
-  padding: 22px 22px 24px 28px;
-  color: #fff;
-  background: #111;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-meta,
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-meta span {
-  width: 100%;
-  justify-content: flex-start;
-  text-align: left;
-  color: #f2f2f2;
-  font-family: var(--ui);
-  font-size: 13px;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-meta > span:has(+ span)::after {
-  content: none;
-  margin: 0;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-offer {
-  margin-left: auto;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-buy,
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-buy:hover {
-  color: #fff;
-  background: #e23b10;
-  padding: 4px 8px;
-  text-decoration: none;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-title,
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-title a {
-  font-size: clamp(28px, 3.6vw, 52px);
-  line-height: .9;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: #fff;
-  -webkit-line-clamp: 3;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]):hover .sleeve-title a {
-  background: transparent;
-  color: #fff;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-by {
-  font-family: var(--ui);
-  font-size: 16px;
-  text-align: left;
-  color: #e23b10;
-}
-
-html.mac body.home #win #news .zine-plate {
-  background: #111;
-  color: #fff;
-  box-shadow: inset 8px 0 0 #e23b10;
-  text-decoration: none;
-}
-html.mac body.home #win #news .zine-plate-num {
-  font-size: clamp(64px, 8vw, 104px);
-  line-height: .78;
-  color: #fff;
-  border-right-color: rgba(255, 255, 255, .35);
-}
-html.mac body.home #win #news .zine-plate-vol,
-html.mac body.home #win #news .zine-plate-filed,
-html.mac body.home #win #news .zine-plate-beats > span {
-  color: #f2f2f2;
-}
-html.mac body.home #win #news .zine-home-title {
-  font-size: clamp(36px, 5vw, 68px);
-  line-height: .84;
-  letter-spacing: -0.03em;
-  color: #fff;
-}
-html.mac body.home #win #news .zine-plate-beats {
-  border-top-color: rgba(255, 255, 255, .35);
-  border-bottom: 0;
-}
-html.mac body.home #win #news .zine-plate-open,
-html.mac body.home #win #news a.zine-plate:hover .zine-plate-open,
-html.mac body.home #win #news a.zine-plate:hover .zine-plate-num {
-  color: #e23b10;
-}
-html.mac body.home #win #artists .zine-plate-num {
-  font-size: clamp(56px, 7vw, 92px);
-  line-height: .78;
-}
-html.mac body.home #win #artists .zine-home-title {
-  font-size: clamp(32px, 4.2vw, 56px);
-  line-height: .86;
-  letter-spacing: -0.03em;
-}
-
+/* Night Shift keeps the poster. The homepage stays a System 7 document. */
 html.mac body.news-listing #win .zine-masthead .zine-plate {
   background: #111;
   color: #fff;
@@ -2009,37 +1838,18 @@ html.mac body.news-story #win .news-body h2 {
 }
 
 @media (max-width: 860px) {
-  html.mac body.news-listing #win .zine-masthead .zine-plate,
-  html.mac body.home #win #news .zine-plate {
+  html.mac body.news-listing #win .zine-masthead .zine-plate {
     grid-template-columns: 78px minmax(0, 1fr);
   }
-  html.mac body.news-listing #win .zine-masthead .zine-plate-num,
-  html.mac body.home #win #news .zine-plate-num,
-  html.mac body.home #win #artists .zine-plate-num {
+  html.mac body.news-listing #win .zine-masthead .zine-plate-num {
     font-size: 46px;
     padding-right: 8px;
     overflow: hidden;
   }
   html.mac body.news-listing #win .zine-masthead .zine-title,
-  html.mac body.news-listing #win .zine-masthead .zine-home-title,
-  html.mac body.home #win #news .zine-home-title {
+  html.mac body.news-listing #win .zine-masthead .zine-home-title {
     font-size: clamp(28px, 8vw, 40px);
     padding-left: 12px;
-  }
-  html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) {
-    grid-template-columns: 1fr;
-    max-height: none;
-  }
-  html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-art {
-    aspect-ratio: 4 / 3;
-    height: auto;
-  }
-  html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-art img {
-    height: auto;
-    aspect-ratio: 4 / 3;
-  }
-  html.mac:not(.mac-list) body.home #win .sleeve-card:first-child:not([hidden]) .sleeve-copy {
-    padding: 16px 16px 18px 22px;
   }
   html.mac body.news-listing #win .front-cover-copy {
     margin-top: -28px;
