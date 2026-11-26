@@ -1332,6 +1332,97 @@ html.mac .vcr-stage__sheet {
 html.mac .vcr-stage__title { font-family: var(--ui); font-weight: 400; letter-spacing: 0; font-size: 22px; }
 html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px solid #000; }
 
+/* Home cards and mix captions ------------------------------------------
+   The folio plates were a newspaper inside the document. These sit
+   with the sleeves: small type, a light edge, a blue link. */
+html.mac #win .home-plates {
+  gap: 12px;
+  padding: 4px 16px 16px;
+  border-top: 1px solid #e4e4e4;
+}
+html.mac #win .home-plate {
+  gap: 3px;
+  padding: 12px 14px 14px;
+  background: #f7f7f7;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  box-shadow: inset 1px 1px 0 #fff;
+}
+html.mac #win .home-plate:hover,
+html.mac #win .home-plate:focus-visible {
+  background: #fff;
+  border-color: #000;
+  text-decoration: none;
+}
+html.mac #win .home-plate-kicker {
+  font-family: var(--ui);
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #444;
+}
+html.mac #win .home-plate-title {
+  font-family: var(--ui);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+html.mac #win .home-plate-line {
+  font-family: var(--body);
+  font-size: 13px;
+  line-height: 1.45;
+  color: #222;
+}
+html.mac #win .home-plate-open {
+  margin-top: 6px;
+  font-family: var(--ui);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--tide);
+}
+html.mac #win .home-plate:hover .home-plate-open,
+html.mac #win .home-plate:focus-visible .home-plate-open {
+  color: var(--tide);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html.mac #win .tapes-grid .mix-hit { align-items: center; text-align: center; }
+html.mac #win .tapes-grid .mix-title {
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-align: center;
+}
+html.mac #win .tapes-grid .mix-card:hover .mix-title {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html.mac #win .tapes-grid .mix-talker {
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #444;
+}
+html.mac #win .tapes-grid .tape-spec {
+  justify-content: center;
+  text-align: center;
+}
+html.mac #win .tapes-grid .tape-spec,
+html.mac #win .tapes-grid .tape-spec > span {
+  font-family: var(--body);
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #333;
+}
+html.mac #win .tapes-grid .mix-card { transition: transform .18s ease; }
+html.mac #win .tapes-grid .mix-card:hover { transform: translateY(-3px); }
+
 /* Phone ----------------------------------------------------------------- */
 @media (max-width: 860px) {
   html.mac {
