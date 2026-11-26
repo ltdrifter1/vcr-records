@@ -244,10 +244,10 @@ function zineIndex(data) {
   const back = backCatalogue(articles).sort(byDateDesc);
   const main = `
 ${zineHead(issues, zine, "Night Shift")}
-${starsPin(zine)}
 <div class="news-index-front">
   ${frontCover(vol, cover)}
   ${frontContents(inVolume(articles, cur), { excludeSlug: cover && cover.slug, title: "In this volume" })}
+  ${starsPin(zine)}
   <section class="back-catalogue" id="back-catalogue" aria-labelledby="back-title">
     <h2 id="back-title">Before the volumes</h2>
     ${catalogueList(back.slice(0, 10))}
