@@ -25,7 +25,7 @@ html.mac {
   --rule: #000;
   --signal: #000;
   --signal-ink: #fff;
-  --tide: #0f766e;
+  --tide: #2f5f9e;
   --gutter: 16px;
   --sans: var(--body);
   --display: var(--ui);
@@ -63,7 +63,7 @@ html.mac button,
 html.mac label,
 html.mac summary { cursor: default; }
 html.mac ::selection { background: #000; color: #fff; }
-html.mac :focus-visible { outline: 2px solid var(--tide); outline-offset: 2px; }
+html.mac :focus-visible { outline: 1px dotted #000; outline-offset: 2px; }
 
 /* Menu bar -------------------------------------------------------------- */
 html.mac #nav,
@@ -240,7 +240,8 @@ html.mac .nav-cart-count {
   color: #fff;
   min-width: 16px;
   height: 16px;
-  border-radius: 999px;
+  border-radius: 2px;
+  border: 1px solid #000;
   font-family: var(--ui);
   font-size: 10px;
   letter-spacing: 0;
@@ -372,60 +373,74 @@ html.mac #sky .sky-theme-lab {
 }
 html.mac #sky .sky-wx-words { display: inline; }
 html.mac #sky .sky-surf:not([hidden]) {
-  display: inline-flex;
-  align-items: center;
-  flex: 0 1 auto;
+  display: block;
+  flex: 1 1 240px;
   min-width: 0;
-  max-width: min(680px, 68%);
+  max-width: 560px;
   margin-left: auto;
-  padding: 4px 12px 4px 10px;
-  background: #fff;
-  color: #111;
-  border: 1px solid rgba(0, 0, 0, .12);
-  border-radius: 999px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .06), inset 0 0 0 1px rgba(255, 255, 255, .8);
-}
-html.mac #sky .sky-surf::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  margin: 0 8px 0 2px;
-  border-radius: 50%;
-  background: #0f766e;
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, .16);
-  flex: none;
-  animation: mac-live 2.6s ease-in-out infinite;
-}
-html.mac #sky [data-sky-surf-now] {
+  height: 18px;
+  padding: 0 6px;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  min-width: 0;
-  color: #111;
+  background: #fff;
+  color: #000;
+  border-radius: 0;
+  border: 1px solid;
+  border-color: #404040 #fff #fff #404040;
+  box-shadow: inset 1px 1px 0 #808080, 0 0 0 1px #000;
+  font-family: Monaco, "Courier New", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+html.mac #sky .sky-surf::before { content: none; display: none; }
+html.mac #sky .sky-surf-roll {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 16px;
+  vertical-align: top;
+}
+html.mac #sky .sky-surf.is-ticker .sky-surf-roll {
+  animation: mac-ticker 24s ease-in-out infinite alternate;
+}
+html.mac #sky .sky-surf:hover .sky-surf-roll,
+html.mac #sky .sky-surf:focus-within .sky-surf-roll { animation-play-state: paused; }
+html.mac #sky .sky-surf-roll > * + *::before { content: " · "; color: #666; }
+html.mac #sky [data-sky-surf-now] {
+  color: #000;
   font-variant-numeric: tabular-nums;
 }
-html.mac #sky .sky-surf-cast { color: #555; }
-html.mac #sky .sky-surf-cast .is-high { color: #0f766e; }
-@keyframes mac-live {
-  50% { opacity: .35; }
+html.mac #sky .sky-surf-cast { color: #333; }
+html.mac #sky .sky-surf-cast .is-high { color: #000; font-weight: 700; }
+@keyframes mac-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(var(--ticker-shift, 0px)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  html.mac #sky .sky-surf::before { animation: none; }
+  html.mac #sky .sky-surf.is-ticker .sky-surf-roll { animation: none; }
 }
 html.mac .sky-home { display: none; }
 html.mac .sky-home + *::before { content: none !important; margin: 0 !important; }
 html.mac .sky-knob { display: none; }
 html.mac .sky-theme {
   flex: none;
-  min-height: 26px;
-  padding: 0 12px;
+  min-height: 18px;
+  padding: 0 8px;
   gap: 0;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, .14);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  border-radius: 0;
+  background: #ddd;
+  border: 1px solid;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: 0 0 0 1px #000;
 }
-html.mac .sky-theme:hover { background: #111; color: #fff; border-color: #111; }
+html.mac .sky-theme:hover { background: #000; color: #fff; border-color: #000; }
+html.mac .sky-theme:active {
+  background: #ccc;
+  color: #000;
+  border-color: #404040 #fff #fff #404040;
+  box-shadow: inset 1px 1px 0 #808080, 0 0 0 1px #000;
+}
 html.mac .sky-theme:hover .sky-theme-lab,
 html.mac .sky-theme:hover .sky-lab-day,
 html.mac .sky-theme:hover .sky-lab-night { color: #fff; }
@@ -531,6 +546,7 @@ html.mac .win-bar {
   user-select: none;
   background: repeating-linear-gradient(to bottom, #111 0 1px, #e8e8e8 1px 3px);
   border-bottom: 1px solid #000;
+  box-shadow: inset 0 -2px 0 #8eadd0;
   cursor: default;
 }
 html.mac-shaded .win-bar { border-bottom: 0; }
@@ -734,6 +750,10 @@ html.mac #win .prose a,
 html.mac #win .page-lede a,
 html.mac #win .footer-fact a,
 html.mac #win .bio a { color: var(--tide); text-decoration: underline; text-underline-offset: 2px; }
+html.mac #win .prose a:visited,
+html.mac #win .page-lede a:visited,
+html.mac #win .footer-fact a:visited,
+html.mac #win .bio a:visited { color: #5c3b78; }
 html.mac #win .page-head,
 html.mac #win .release-head,
 html.mac #win .sec,
@@ -1013,6 +1033,24 @@ html.mac #win .seg button {
 }
 html.mac #win .seg button .n { color: #444; margin-left: 4px; }
 html.mac #win .seg button[aria-checked="true"] .n { color: #000; }
+html.mac #win .seg[data-filter="genre"] button {
+  border-radius: 0;
+  background: #d4d4d4;
+}
+html.mac #win .seg[data-filter="artist"] button {
+  font-family: var(--body);
+  background: #fff;
+  border-radius: 2px;
+  border-color: #d5e2f2 #808080 #808080 #8eadd0;
+  box-shadow: inset 0 0 0 1px #f4f7fb, 0 0 0 1px #000;
+}
+html.mac #win .seg[data-filter="artist"] button[aria-checked="true"] {
+  background: #e7eef8;
+  color: #000;
+  border-color: #404040 #fff #fff #2f5f9e;
+  box-shadow: inset 1px 1px 0 #b7cbe4, 0 0 0 1px #000;
+}
+html.mac #win .seg[data-filter="artist"] button[aria-checked="true"] .n { color: #1a3f73; }
 html.mac #win .filters { border-bottom: 1px solid #ccc; padding-bottom: 8px; }
 html.mac #win .lane-pick { display: none !important; }
 html.mac #win input,
