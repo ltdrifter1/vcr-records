@@ -446,5 +446,11 @@ assert.deepStrictEqual(
 assert.ok(!catalog.releases.some((r) => r.id === "any-jungle"));
 assert.ok(!catalog.releases.some((r) => r.artistId === "rosco" || r.artist === "Rosco"));
 assert.ok(!catalog.artists.some((a) => a.id === "rosco"));
+const neighbourhoodSpy = catalog.artists.find((a) => a.id === "neighbourhood-spy");
+assert.ok(neighbourhoodSpy);
+assert.strictEqual(neighbourhoodSpy.name, "Neighbourhood Spy");
+assert.strictEqual(neighbourhoodSpy.bandcamp, "https://neighbourhoodspy.bandcamp.com");
+assert.strictEqual(neighbourhoodSpy.photo, "artists/neighbourhood-spy.webp");
+assert.ok(!catalog.releases.some((r) => r.artistId === "neighbourhood-spy"));
 
 console.log("bandcamp lib ok");

@@ -55,7 +55,11 @@ function artistPage(artist, data) {
     .filter((r) => onSite(r) && r.artistId === artist.id)
     .sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
   const latest = releases[0];
-  const bc = latest && latest.bandcampUrl ? latest.bandcampUrl.replace(/\/(track|album)\/.*$/, "") : "";
+  const bc = artist.bandcamp
+    ? String(artist.bandcamp).replace(/\/$/, "")
+    : latest && latest.bandcampUrl
+      ? latest.bandcampUrl.replace(/\/(track|album)\/.*$/, "")
+      : "";
   const main = `
 <section class="release-head" aria-label="${attr(artist.name)}">
   <div class="release-copy">
