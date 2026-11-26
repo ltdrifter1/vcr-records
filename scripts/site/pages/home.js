@@ -4,26 +4,27 @@ const { esc, attr, onSite } = L;
 const { releaseCard } = require("./fragments");
 const { laneBar, tapeFilterBar } = require("../lanes");
 
-/** Two short cards. The issue and the names live on their own pages. */
+/** Two System 7 group boxes. The whole box is the link. */
 function homePlates(artists, issues, zine) {
   const vol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
   const num = String(issues.current).padStart(2, "0");
   const when = vol && vol.dateLabel ? vol.dateLabel : "";
-  const beats = String((zine && zine.tagline) || "The floor · The fit · The afters");
-  const names = artists.map((a) => esc(a.name)).join(", ");
+  const beats = String((zine && zine.tagline) || "The floor · The fit · The afters")
+    .split("·")
+    .map((s) => s.trim())
+    .filter(Boolean);
   const count = artists.length === 1 ? "1 artist" : `${artists.length} artists`;
+  const lines = (items) => items.map((item) => `<span class="home-plate-line">${esc(item)}</span>`).join("");
   return `<section class="home-plates" aria-label="Night Shift and the roster">
   <a class="home-plate" id="news" href="/news">
-    <p class="home-plate-kicker">Vol. ${esc(num)}${when ? ` · ${esc(when)}` : ""}</p>
     <h2 class="home-plate-title" id="zine-title">Night Shift</h2>
-    <p class="home-plate-line">${esc(beats)}</p>
-    <span class="home-plate-open">Open the issue</span>
+    <p class="home-plate-kicker">Vol. ${esc(num)}${when ? ` · ${esc(when)}` : ""}</p>
+    ${lines(beats)}
   </a>
   <a class="home-plate" id="artists" href="/artists">
-    <p class="home-plate-kicker">${esc(count)}</p>
     <h2 class="home-plate-title" id="artists-title">Artists</h2>
-    <p class="home-plate-line">${names}</p>
-    <span class="home-plate-open">Open the roster</span>
+    <p class="home-plate-kicker">${esc(count)}</p>
+    ${lines(artists.map((a) => a.name))}
   </a>
 </section>`;
 }
