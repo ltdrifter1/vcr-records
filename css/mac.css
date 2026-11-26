@@ -13,7 +13,7 @@ html.mac {
   --chrome-h: calc(var(--menu-h) + var(--report-h));
   --sky-h: var(--report-h);
   --nav-h: var(--chrome-h);
-  --dock-h: 92px;
+  --dock-h: 124px;
   --bg: #dddddd;
   --bg-2: #d4d4d4;
   --bg-3: #c8c8c8;
@@ -904,6 +904,7 @@ html.mac #win .pdp-opt,
 html.mac #win .premium-preset,
 html.mac .footer-form button,
 html.mac .vcr-player__buy,
+html.mac .vcr-player__ipod,
 html.mac .vcr-player__btn,
 html.mac .vcr-stage__btn,
 html.mac .vcr-bumper__btn {
@@ -1128,10 +1129,11 @@ html.mac .vcr-player {
   width: min(520px, calc(100vw - 24px));
   height: auto;
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) auto auto;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
   grid-template-areas:
-    "bar bar bar bar"
-    "art lcd controls buy";
+    "bar bar bar"
+    "art lcd controls"
+    "buy buy buy";
   gap: 6px 8px;
   align-items: center;
   padding: 0 8px 8px;
@@ -1147,7 +1149,28 @@ html.mac .vcr-player {
 }
 html.mac .vcr-player.is-visible { transform: translate(-50%, 0); }
 html.mac body.vcr-dock-away .vcr-player.is-visible,
-html.mac body.vcr-stage-open .vcr-player.is-visible { transform: translate(-50%, 140%); }
+html.mac body.vcr-stage-open .vcr-player.is-visible,
+html.mac body.vcr-ipod-open .vcr-player.is-visible { transform: translate(-50%, 140%); }
+html.mac .vcr-player__actions {
+  grid-area: buy;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+html.mac .vcr-player__ipod { flex: none; }
+html.mac .vcr-player__buy {
+  flex: 1;
+  text-align: center;
+}
+html.mac .vcr-player__buy:active,
+html.mac .vcr-player__ipod:active {
+  border-color: #404040 #fff #fff #404040;
+  background: #d0d0d0;
+}
+html.mac .ipod__unit:focus,
+html.mac .ipod__unit:focus-visible { outline: none; }
 html.mac .vcr-player::before {
   content: "CD Player";
   grid-area: bar;
@@ -1236,7 +1259,7 @@ html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px soli
   html.mac {
     --menu-row: 48px;
     --report-h: 36px;
-    --dock-h: 72px;
+    --dock-h: 124px;
     --gutter: 14px;
   }
   html.mac .desk-icons { display: none; }
@@ -1367,11 +1390,14 @@ html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px soli
 
   html.mac .vcr-player {
     grid-template-columns: 40px minmax(0, 1fr) auto;
-    grid-template-areas: "bar bar bar" "art lcd controls";
+    grid-template-areas:
+      "bar bar bar"
+      "art lcd controls"
+      "buy buy buy";
     width: calc(100vw - 16px);
     bottom: calc(8px + env(safe-area-inset-bottom, 0px));
   }
-  html.mac .vcr-player__buy { display: none; }
+  html.mac .vcr-player__buy { display: block; }
   html.mac .vcr-player::before { font-size: 11px; }
 }
 @media (max-width: 560px) {
