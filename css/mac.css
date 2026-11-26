@@ -3,8 +3,13 @@
    striped windows, beveled controls, Finder lists. */
 
 html.mac {
-  --desk: #808080;
-  --desk-spot: rgba(255, 255, 255, .22);
+  --desk: #7a7d82;
+  --desk-hi: #919499;
+  --desk-mid: #7a7d82;
+  --desk-lo: #6e7176;
+  --desk-spot: rgba(255, 255, 255, .14);
+  --desk-glow: rgba(255, 255, 255, .16);
+  --desk-shade: rgba(22, 24, 28, .12);
   --ui: "Silom", Chicago, Charcoal, Geneva, "Lucida Grande", Verdana, sans-serif;
   --body: "Noto Sans", Geneva, Verdana, "Lucida Grande", "Trebuchet MS", sans-serif;
   --menu-row: 44px;
@@ -31,17 +36,28 @@ html.mac {
   --display: var(--ui);
   --mono: Monaco, "Courier New", "Liberation Mono", ui-monospace, monospace;
   --paper: none;
+  --desk-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.35' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-color: var(--desk);
   background-image:
-    radial-gradient(var(--desk-spot) .7px, transparent .8px),
-    radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, .2), transparent 58%);
-  background-size: 3px 3px, 100% 100%;
+    var(--desk-grain),
+    radial-gradient(var(--desk-spot) .55px, transparent .7px),
+    radial-gradient(ellipse 100% 62% at 8% -8%, var(--desk-glow), transparent 52%),
+    radial-gradient(ellipse 80% 70% at 100% 110%, var(--desk-shade), transparent 56%),
+    linear-gradient(180deg, var(--desk-hi), var(--desk-mid) 42%, var(--desk-lo));
+  background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 220px 220px, 3px 3px, auto, auto, auto;
   background-attachment: fixed;
+  background-blend-mode: soft-light, normal, normal, normal, normal;
   color-scheme: light;
 }
 html.mac[data-theme="day"] {
-  --desk: #c8c8c8;
-  --desk-spot: rgba(255, 255, 255, .55);
+  --desk: #c4c6cb;
+  --desk-hi: #e4e6ea;
+  --desk-mid: #cfd1d6;
+  --desk-lo: #b0b3b8;
+  --desk-spot: rgba(255, 255, 255, .7);
+  --desk-glow: rgba(255, 255, 255, .55);
+  --desk-shade: rgba(55, 58, 64, .16);
 }
 html.mac:has(.sky) {
   --chrome-h: calc(var(--menu-h) + var(--report-h));
@@ -480,7 +496,7 @@ html.mac .desk-name {
   color: #000;
   padding: 0 3px;
   max-width: 84px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .28);
 }
 html.mac .desk-icon:hover { text-decoration: none; }
 html.mac .desk-icon:hover .desk-name,
@@ -505,11 +521,14 @@ html.mac #win {
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  background: #ddd;
+  background-color: #d8d9db;
+  background-image: var(--desk-grain);
+  background-size: 220px 220px;
+  background-blend-mode: soft-light;
   border: 1px solid #000;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: inset 1px 1px 0 #fff, 0 22px 48px rgba(0, 0, 0, .28);
+  box-shadow: inset 1px 1px 0 #fff, 0 16px 36px rgba(16, 18, 22, .32);
 }
 html.mac-placed #win {
   left: var(--win-l);
