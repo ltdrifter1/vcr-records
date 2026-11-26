@@ -501,12 +501,12 @@ body.nav-open { overflow: hidden; }
   .sleeve-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-/* Filters — counted lanes. The active word is underlined. */
-.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; padding: 16px var(--gutter) 18px; border-bottom: 1px solid var(--line); }
-.lanes { display: grid; gap: 10px; flex: 1 1 560px; min-width: 0; }
-.lane { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
-.lane-label { min-width: 52px; color: var(--ink-3); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
-.lane-pick { display: none; }
+/* Filters — genre and artist are dropdowns. The count sits in the option. */
+.filters { display: flex; flex-wrap: wrap; align-items: end; gap: 16px 28px; padding: 16px var(--gutter) 18px; border-bottom: 1px solid var(--line); }
+.lanes { display: flex; flex-wrap: wrap; align-items: end; gap: 14px 28px; flex: 1 1 auto; min-width: 0; }
+.lane { display: grid; grid-template-columns: auto minmax(168px, 240px); align-items: center; gap: 8px 12px; min-width: 0; }
+.lane-label { min-width: 0; margin: 0; color: var(--ink-3); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; }
+.lane .seg { display: none; }
 .seg { position: relative; display: inline-flex; flex-wrap: wrap; gap: 0 2px; border: 0; max-width: 100%; }
 .seg .plate { display: none; }
 .seg button { position: relative; z-index: 1; padding: 6px 8px 5px; background: transparent; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
@@ -524,7 +524,28 @@ body.nav-open { overflow: hidden; }
 .seg button[aria-checked="true"]:hover { color: var(--ink); }
 .filter { display: grid; gap: 6px; }
 .filter label, .store-label { color: var(--ink-3); }
-.filters select, .filter select, .filters input[type="search"], .lane-pick { appearance: none; -webkit-appearance: none; background: transparent; border: 0; border-bottom: 1px solid var(--line-2); padding: 8px 28px 8px 0; min-width: 200px; color: var(--ink); font-size: 17px; border-radius: 0; }
+.filters select, .filter select, .filters input[type="search"] { appearance: none; -webkit-appearance: none; background: transparent; border: 0; border-bottom: 1px solid var(--line-2); padding: 8px 28px 8px 0; min-width: 200px; color: var(--ink); font-size: 17px; border-radius: 0; }
+.lane-pick {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 36px;
+  margin: 0;
+  padding: 6px 26px 6px 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 .filters select, .lane-pick { background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%); background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
 .filters select option, .lane-pick option { background: var(--bg); color: var(--ink); }
 .filter-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-left: auto; }
@@ -533,7 +554,7 @@ body.nav-open { overflow: hidden; }
 .sec .filters { padding: 18px 0 16px; }
 .listen-empty { margin: 0; padding: 28px 0; color: var(--ink-2); }
 @media (max-width: 719px) {
-  /* Phone: two compact picks side by side. Chips stay for desktop. */
+  /* Phone: two dropdowns side by side, stacked on a narrow screen. */
   .filters,
   .sec .filters,
   .tape-filters {
@@ -549,8 +570,8 @@ body.nav-open { overflow: hidden; }
   .filter-meta { margin-left: 0; width: 100%; gap: 8px 12px; }
   .lanes {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 14px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
     min-width: 0;
     max-width: 100%;
   }
@@ -566,45 +587,11 @@ body.nav-open { overflow: hidden; }
     min-width: 0;
     line-height: 1.1;
   }
-  .lane .seg { display: none; }
   .lane-pick {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    min-height: 40px;
-    padding: 8px 22px 8px 0;
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--ink);
-    border-bottom-color: var(--line);
-  }
-  .tape-filters .lane {
-    grid-template-columns: 48px minmax(0, 1fr);
-    align-items: center;
-    column-gap: 8px;
-  }
-  .tape-filters .seg {
-    display: flex;
-    flex-wrap: nowrap;
-    width: auto;
-    max-width: none;
-    margin-right: calc(-1 * var(--gutter));
-    padding-right: var(--gutter);
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .tape-filters .seg::-webkit-scrollbar { display: none; }
-  .tape-filters .seg button {
-    flex: 0 0 auto;
-    min-height: 40px;
-    padding: 6px 8px;
-    letter-spacing: .06em;
-    white-space: nowrap;
+    min-height: 44px;
+    padding: 10px 22px 8px 0;
+    font-size: 16px;
+    letter-spacing: .04em;
   }
   .lib-view-btn, .store-chip { min-height: 44px; }
 }
@@ -2321,4 +2308,78 @@ main.news-index, .news-index-front { overflow-x: clip; }
   }
   .footer-wordmark { font-size: clamp(52px, 15vw, 76px); line-height: .86; }
   .sign-chart em { font-size: 10px; letter-spacing: 0; }
+}
+
+/* Home plates -----------------------------------------------------------
+   Night Shift and the roster are the same printed banner. The issue
+   and the names live on their own pages. */
+.home-plates { border-top: 1px solid var(--ink); }
+.home-plates .roster-plate { border-top: 1px solid var(--ink); }
+.home-plates + .sec { border-top: 0; }
+.home-plates .zine-plate-beats { border-bottom-color: var(--line); }
+
+/* Phone layout for the catalogue, the banners, and the video feed. */
+@media (max-width: 759px) {
+  .home-plates .zine-plate-beats > span { white-space: normal; }
+}
+@media (max-width: 719px) {
+  .tape-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .tape-filters .lane,
+  .filters .lane {
+    width: 100%;
+    max-width: none;
+  }
+  .sleeve-meta > span,
+  .tapes-grid .tape-spec > span { white-space: normal; }
+  .mix-bin + .mix-bin { margin-top: 22px; }
+  .mix-bin .sec-title { font-size: clamp(28px, 8vw, 36px); }
+  .home #videos .rows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+  .home #videos .row--video {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+  }
+  .home #videos .row--video .row-art,
+  .home #videos .row--video .video-art {
+    order: -1;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  .home #videos .row-artist,
+  .home #videos .row-dek,
+  .home #videos .row-actions { display: none; }
+  .home #videos .row-meta { margin-bottom: 0; }
+  .home #videos .row-title { margin: 0; font-size: 15px; line-height: 1.2; }
+  .home #videos .row-title a {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+@media (max-width: 480px) {
+  .zine-plate { grid-template-columns: 64px minmax(0, 1fr); }
+  .zine-plate-num { font-size: 36px; padding: 10px 8px 0 16px; }
+  .zine-plate .zine-home-title,
+  .zine-plate .zine-title,
+  .zine-plate .page-title {
+    font-size: clamp(26px, 7.6vw, 34px);
+    padding: 10px 16px 0 10px;
+  }
+  .zine-plate-filed { padding: 4px 16px 10px 10px; }
+  .release-grid { gap: 16px 10px; }
+  .sleeve-title { font-size: 14px; }
 }

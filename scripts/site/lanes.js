@@ -20,13 +20,6 @@ function groups(releases, artists) {
 }
 
 function lane(kind, label, items, total) {
-  const buttons = [
-    `<button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">${total}</span></button>`,
-    ...items.map(
-      (item) =>
-        `<button type="button" role="radio" data-value="${attr(item.id)}" data-label="${attr(item.name)}" aria-checked="false" tabindex="-1">${esc(item.name)}<span class="n">${item.count}</span></button>`
-    ),
-  ].join("");
   const options = [
     `<option value="" data-label="All">All ${total}</option>`,
     ...items.map(
@@ -35,12 +28,8 @@ function lane(kind, label, items, total) {
     ),
   ].join("");
   return `<div class="lane">
-      <span class="lane-label mono" id="lane-${kind}">${esc(label)}</span>
-      <div class="seg" role="radiogroup" aria-labelledby="lane-${kind}" data-filter="${kind}">
-        <span class="plate" aria-hidden="true"></span>
-        ${buttons}
-      </div>
-      <select class="lane-pick" data-filter="${kind}" aria-labelledby="lane-${kind}">
+      <label class="lane-label mono" for="pick-${kind}">${esc(label)}</label>
+      <select class="lane-pick" id="pick-${kind}" data-filter="${kind}" autocomplete="off">
         ${options}
       </select>
     </div>`;
@@ -61,14 +50,14 @@ function laneBar(opts) {
 </section>`;
 }
 
-/** Empty genre lane. tapes.js fills the buttons once the mixes load. */
+/** Empty genre dropdown. tapes.js fills the options once the mixes load. */
 function tapeFilterBar() {
   return `<div class="tape-filters" data-tape-filters hidden>
   <div class="lane">
-    <span class="lane-label mono" id="tape-genre-label">Genre</span>
-    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
-      <span class="plate" aria-hidden="true"></span>
-    </div>
+    <label class="lane-label mono" for="tape-genre">Genre</label>
+    <select class="lane-pick" id="tape-genre" data-filter="genre" autocomplete="off">
+      <option value="" data-label="All">All</option>
+    </select>
   </div>
   <p class="mono filter-count" data-tape-count aria-live="polite"></p>
 </div>
