@@ -1,54 +1,16 @@
 "use strict";
 const L = require("../lib");
-const { esc, attr, asset, onSite } = L;
+const { esc, attr, onSite } = L;
 const { releaseCard } = require("./fragments");
 const { laneBar, tapeFilterBar } = require("../lanes");
 const { joinSection } = require("./join");
-const { artistRow } = require("./artists");
-const { signChart } = require("../signs");
 const { nameplate } = require("./zine");
 
-function starsHome(zine, issues) {
-  const stars = (zine && zine.stars) || [];
-  if (!stars.length) return "";
-  const vol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
-  const month = vol && vol.dateLabel ? vol.dateLabel : "";
-  return `<article class="home-stars" aria-labelledby="home-stars-title">
-  <div class="home-stars-head">
-    <div>
-      <p class="mono home-stars-kicker"><span>Monthly horoscope</span>${month ? `<span>${esc(month)}</span>` : ""}</p>
-      <h3 class="home-stars-title" id="home-stars-title"><a href="/news/stars-for-the-floor">Stars for the Floor</a></h3>
-    </div>
-    <a class="sec-link" href="/news/stars-for-the-floor">The chart</a>
-  </div>
-  ${signChart(stars, (s) => "/news/stars-for-the-floor#" + s.id)}
-</article>`;
-}
-
-function zineRows(articles, issues) {
-  const current = issues.current;
-  // Pictured pieces lead, newest first. Stars for the Floor is the horoscope chart above, not a photo row.
-  const list = articles
-    .filter((a) => !a.archived && Number(a.volume) === Number(current) && a.id !== "stars-for-the-floor")
-    .sort((a, b) => (a.image ? 0 : 1) - (b.image ? 0 : 1) || (b.date || "").localeCompare(a.date || ""))
-    .slice(0, 4);
-  return list
-    .map(
-      (a) => `<a class="row row--story" href="${attr(a.slug)}">
-  <div class="row-main">
-    <p class="mono row-meta"><span>${esc(a.format || a.typeLabel || "")}</span><span>${esc(L.dateShort(a.date))}</span>${a.readMinutes ? `<span>${esc(a.readMinutes)} min</span>` : ""}</p>
-    <h3 class="row-title">${esc(a.headline)}</h3>
-    <p class="row-dek">${esc(a.dek || "")}</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  ${a.image ? `<div class="row-art row-art--wide"><img src="${asset(a.image)}" alt="${attr(a.imageAlt || "")}" width="1600" height="1066" loading="lazy"/></div>` : ""}
-</a>`
-    )
-    .join("\n");
-}
-
-function artistList(artists, releases) {
-  return `<div class="rows">${artists.map((a, i) => artistRow(a, i, releases, { compact: true })).join("\n")}</div>`;
+/** Same printed plate as Night Shift: a count, the word, the names, one link. */
+function rosterPlate(artists) {
+  const n = String(artists.length).padStart(2, "0");
+  const names = artists.map((a) => `<span>${esc(a.name)}</span>`).join("");
+  return `<div id="artists"><a class="zine-plate roster-plate" href="/artists"><span class="zine-plate-num"><span class="zine-plate-vol" aria-hidden="true">Roster</span><span class="sr-only">${artists.length} artists. </span>${n}</span><h2 class="zine-home-title" id="artists-title">Artists</h2><span class="zine-plate-rule" aria-hidden="true"></span><p class="zine-plate-filed">House, garage and jungle</p><span class="zine-plate-beats">${names}<span class="zine-plate-open">Open the roster →</span></span></a></div>`;
 }
 
 function videoSection(feed) {
@@ -82,7 +44,7 @@ function videoSection(feed) {
 }
 
 module.exports = function home(data) {
-  const { catalog, news, issues, zine } = data;
+  const { catalog, issues, zine } = data;
   const releases = catalog.releases.filter(onSite).slice().sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
   // Three rows of four on the desktop grid. The rest stay in the markup for filters.
   const teaser = releases.slice(0, 12);
@@ -123,22 +85,12 @@ module.exports = function home(data) {
   </section>
 </section>
 
-<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
-  <header class="sec-head sec-head--zine">
-    ${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}
-  </header>
-  ${starsHome(data.zine, issues)}
-  <div class="rows">
-    ${zineRows(news.articles, issues)}
-  </div>
+<section class="home-plates" aria-label="Night Shift and the roster">
+  <div id="news">${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}</div>
+  ${rosterPlate(catalog.artists)}
 </section>
 
 ${videoSection(data.videos)}
-
-<section class="sec" aria-labelledby="artists-title">
-  ${L.sectionHead("Artists", { titleId: "artists-title", link: ["/artists", "Roster"] })}
-  ${artistList(catalog.artists, releases)}
-</section>
 
 ${joinSection()}
 `;

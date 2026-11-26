@@ -53,8 +53,8 @@
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc37"/>
-  <link rel="stylesheet" href="/css/mac.css?v=cc37"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc38"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc38"/>
   <link rel="preload" as="image" href="/que-sera-cover-480.webp" fetchpriority="high"/>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"RecordLabel","name":"Club Copy","url":"https://www.clubcopy.ca/","logo":"https://www.clubcopy.ca/apple-touch-icon.png","email":"charlie@clubcopy.ca","foundingDate":"2024-02-12","foundingLocation":{"@type":"Place","name":"British Columbia, Canada"},"genre":["House","Jungle","UK Garage","Instrumental Hip Hop","Drum & Bass"],"member":[{"@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg"},{"@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta"},{"@type":"MusicGroup","name":"Riscape","url":"https://www.clubcopy.ca/artists/riscape"},{"@type":"MusicGroup","name":"Archie","url":"https://www.clubcopy.ca/artists/archie"},{"@type":"MusicGroup","name":"DW","url":"https://www.clubcopy.ca/artists/dw"}]}</script>
 </head>
@@ -179,22 +179,14 @@
   <section class="filters" aria-label="Release filters">
   <div class="lanes">
     <div class="lane">
-      <span class="lane-label mono" id="lane-genre">Genre</span>
-      <div class="seg" role="radiogroup" aria-labelledby="lane-genre" data-filter="genre">
-        <span class="plate" aria-hidden="true"></span>
-        <button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">39</span></button><button type="button" role="radio" data-value="downtempo" data-label="Downtempo" aria-checked="false" tabindex="-1">Downtempo<span class="n">1</span></button><button type="button" role="radio" data-value="drum-bass" data-label="Drum &amp; Bass" aria-checked="false" tabindex="-1">Drum &amp; Bass<span class="n">15</span></button><button type="button" role="radio" data-value="house" data-label="House" aria-checked="false" tabindex="-1">House<span class="n">11</span></button><button type="button" role="radio" data-value="jazz" data-label="Jazz" aria-checked="false" tabindex="-1">Jazz<span class="n">1</span></button><button type="button" role="radio" data-value="uk-garage" data-label="UK Garage" aria-checked="false" tabindex="-1">UK Garage<span class="n">11</span></button>
-      </div>
-      <select class="lane-pick" data-filter="genre" aria-labelledby="lane-genre">
+      <label class="lane-label mono" for="pick-genre">Genre</label>
+      <select class="lane-pick" id="pick-genre" data-filter="genre" autocomplete="off">
         <option value="" data-label="All">All 39</option><option value="downtempo" data-label="Downtempo">Downtempo 1</option><option value="drum-bass" data-label="Drum &amp; Bass">Drum &amp; Bass 15</option><option value="house" data-label="House">House 11</option><option value="jazz" data-label="Jazz">Jazz 1</option><option value="uk-garage" data-label="UK Garage">UK Garage 11</option>
       </select>
     </div>
     <div class="lane">
-      <span class="lane-label mono" id="lane-artist">Artist</span>
-      <div class="seg" role="radiogroup" aria-labelledby="lane-artist" data-filter="artist">
-        <span class="plate" aria-hidden="true"></span>
-        <button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">39</span></button><button type="button" role="radio" data-value="forsberg" data-label="Forsberg" aria-checked="false" tabindex="-1">Forsberg<span class="n">9</span></button><button type="button" role="radio" data-value="lt-drifta" data-label="LT Drifta" aria-checked="false" tabindex="-1">LT Drifta<span class="n">16</span></button><button type="button" role="radio" data-value="riscape" data-label="Riscape" aria-checked="false" tabindex="-1">Riscape<span class="n">2</span></button><button type="button" role="radio" data-value="archie" data-label="Archie" aria-checked="false" tabindex="-1">Archie<span class="n">11</span></button><button type="button" role="radio" data-value="dw" data-label="DW" aria-checked="false" tabindex="-1">DW<span class="n">1</span></button>
-      </div>
-      <select class="lane-pick" data-filter="artist" aria-labelledby="lane-artist">
+      <label class="lane-label mono" for="pick-artist">Artist</label>
+      <select class="lane-pick" id="pick-artist" data-filter="artist" autocomplete="off">
         <option value="" data-label="All">All 39</option><option value="forsberg" data-label="Forsberg">Forsberg 9</option><option value="lt-drifta" data-label="LT Drifta">LT Drifta 16</option><option value="riscape" data-label="Riscape">Riscape 2</option><option value="archie" data-label="Archie">Archie 11</option><option value="dw" data-label="DW">DW 1</option>
       </select>
     </div>
@@ -646,10 +638,10 @@
 </header>
   <div class="tape-filters" data-tape-filters hidden>
   <div class="lane">
-    <span class="lane-label mono" id="tape-genre-label">Genre</span>
-    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
-      <span class="plate" aria-hidden="true"></span>
-    </div>
+    <label class="lane-label mono" for="tape-genre">Genre</label>
+    <select class="lane-pick" id="tape-genre" data-filter="genre" autocomplete="off">
+      <option value="" data-label="All">All</option>
+    </select>
   </div>
   <p class="mono filter-count" data-tape-count aria-live="polite"></p>
 </div>
@@ -671,58 +663,9 @@
   </section>
 </section>
 
-<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
-  <header class="sec-head sec-head--zine">
-    <a class="zine-plate" href="/news"><span class="zine-plate-num"><span class="zine-plate-vol" aria-hidden="true">Vol.</span><span class="sr-only">Volume </span>11</span><h2 class="zine-home-title" id="zine-title"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></h2><span class="zine-plate-rule" aria-hidden="true"></span><p class="zine-plate-filed">November 2026</p><span class="zine-plate-beats"><span>The floor</span><span>The fit</span><span>The afters</span><span class="zine-plate-open">Open the issue →</span></span></a>
-  </header>
-  <article class="home-stars" aria-labelledby="home-stars-title">
-  <div class="home-stars-head">
-    <div>
-      <p class="mono home-stars-kicker"><span>Monthly horoscope</span><span>November 2026</span></p>
-      <h3 class="home-stars-title" id="home-stars-title"><a href="/news/stars-for-the-floor">Stars for the Floor</a></h3>
-    </div>
-    <a class="sec-link" href="/news/stars-for-the-floor">The chart</a>
-  </div>
-  <ol class="sign-chart"><li><a href="/news/stars-for-the-floor#aries"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 18.5C5 9 8.6 5 12 11.2 15.4 5 19 9 19 18.5"/></svg><span class="sign-name">Aries</span><em class="mono">mar 21 – apr 19</em></a></li><li><a href="/news/stars-for-the-floor#taurus"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.2 12.2C7.2 7.2 9.2 4.6 12 4.6s4.8 2.6 4.8 7.6"/><path d="M12 20.4a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6z"/></svg><span class="sign-name">Taurus</span><em class="mono">apr 20 – may 20</em></a></li><li><a href="/news/stars-for-the-floor#gemini"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 5h11M6.5 19h11M8.2 5v14M15.8 5v14"/></svg><span class="sign-name">Gemini</span><em class="mono">may 21 – jun 20</em></a></li><li><a href="/news/stars-for-the-floor#cancer"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 8.2a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M12.2 15.8a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M11.6 7.1C16.4 6 18.6 10.2 16.4 14.4"/><path d="M12.4 16.9C7.6 18 5.4 13.8 7.6 9.6"/></svg><span class="sign-name">Cancer</span><em class="mono">jun 21 – jul 22</em></a></li><li><a href="/news/stars-for-the-floor#leo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.7 13.4a3.15 3.15 0 1 0 0-6.3 3.15 3.15 0 0 0 0 6.3z"/><path d="M11.6 11.6c3.2 1.5 4.8 5.2 2.4 8.1 3.6.2 6.6 1.5 6.2-1.6"/></svg><span class="sign-name">Leo</span><em class="mono">jul 23 – aug 22</em></a></li><li><a href="/news/stars-for-the-floor#virgo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.6 18.6V10.2"/><path d="M4.6 12.4c0-3.6 3.1-4.2 3.3.2"/><path d="M7.9 12.2c0-3.6 3.1-4.2 3.3.4"/><path d="M11.2 12.4V16c.2 3.2 4.4 3.8 5.1.6.5-2.2-1.6-3.4-3.1-1.6"/></svg><span class="sign-name">Virgo</span><em class="mono">aug 23 – sep 22</em></a></li><li><a href="/news/stars-for-the-floor#libra"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.2h15"/><path d="M7 16.2a5 5 0 0 1 10 0"/></svg><span class="sign-name">Libra</span><em class="mono">sep 23 – oct 22</em></a></li><li><a href="/news/stars-for-the-floor#scorpio"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.4 18.4V10"/><path d="M4.4 12.2c0-3.5 3-4.1 3.2.2"/><path d="M7.6 12c0-3.5 3-4.1 3.2.5V15"/><path d="M10.8 15.2 16.2 9.6"/><path d="M16.2 9.6h-3.3M16.2 9.6v3.3"/></svg><span class="sign-name">Scorpio</span><em class="mono">oct 23 – nov 21</em></a></li><li><a href="/news/stars-for-the-floor#sagittarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 18.5 18.2 5.8"/><path d="M18.2 5.8h-6.2M18.2 5.8v6.2"/><path d="M9.2 10.4 14.2 15.4"/></svg><span class="sign-name">Sagittarius</span><em class="mono">nov 22 – dec 21</em></a></li><li><a href="/news/stars-for-the-floor#capricorn"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.2 18.6V10.2c0-3.4 4.2-4 4.6.6v5.4c.8 3.6 5.4 4.2 6.6 1.2"/><path d="M17.2 16.8a2.15 2.15 0 1 0 .4-3.6 2.15 2.15 0 0 0-.4 3.6z"/></svg><span class="sign-name">Capricorn</span><em class="mono">dec 22 – jan 19</em></a></li><li><a href="/news/stars-for-the-floor#aquarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.8 9.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/><path d="M3.8 15.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/></svg><span class="sign-name">Aquarius</span><em class="mono">jan 20 – feb 18</em></a></li><li><a href="/news/stars-for-the-floor#pisces"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.2 4.4c4.4 3.2 4.4 12 0 15.2"/><path d="M15.8 4.4c-4.4 3.2-4.4 12 0 15.2"/><path d="M5.2 12h13.6"/></svg><span class="sign-name">Pisces</span><em class="mono">feb 19 – mar 20</em></a></li></ol>
-</article>
-  <div class="rows">
-    <a class="row row--story" href="/news/the-list-stayed-short">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Feature</span><span>21 Nov 2026</span><span>6 min</span></p>
-    <h3 class="row-title">The List Stayed Short</h3>
-    <p class="row-dek">Mark Ernestus opened Hard Wax in Kreuzberg in 1989, because Berlin had no shop that took acid and house seriously. A killer record moved 150 copies. The next one would not sell three. The descriptions stayed short enough to survive the building.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-the-list-stayed-short.webp" alt="Paul-Lincke-Ufer in Kreuzberg on an overcast day: a wet cobbled quay, parked cars, bare trees, a bridge over the Landwehr Canal, and a red-brick block along the water." width="1600" height="1066" loading="lazy"/></div>
-</a>
-<a class="row row--story" href="/news/ammnesia">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Review</span><span>21 Nov 2026</span><span>4 min</span></p>
-    <h3 class="row-title">Ammnesia</h3>
-    <p class="row-dek">Jack Trax released Mr. Fingers' Ammnesia in the UK on 3 April 1989, catalogue FING 2, a letter short and licensed from Trax. Larry Heard had not authorized it. On 27 June 2022 his label Alleviated issued Amnesia, the spelling corrected.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-ammnesia.webp" alt="A Roland Juno-60 synthesizer from the front, black panel and wooden end cheeks, sliders and buttons above the keys, a right hand resting on the keyboard." width="1600" height="1066" loading="lazy"/></div>
-</a>
-<a class="row row--story" href="/news/the-unknown-writer">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Review</span><span>21 Nov 2026</span><span>6 min</span></p>
-    <h3 class="row-title">The Unknown Writer</h3>
-    <p class="row-dek">Submerge issued Drexciya's The Quest in 1997, on double vinyl and on CD. The sleeve, signed The Unknown Writer, asked whether babies thrown from slave ships could have been born not needing air, and said the questions would not be answered.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-the-unknown-writer.webp" alt="Cyclists on the Detroit RiverWalk, the river on the left and the Ambassador Bridge in the distance under a clear sky." width="1600" height="1066" loading="lazy"/></div>
-</a>
-<a class="row row--story" href="/news/saved-my-life">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Essay</span><span>21 Nov 2026</span><span>7 min</span></p>
-    <h3 class="row-title">Saved My Life</h3>
-    <p class="row-dek">i! Records issued Todd Edwards' Saved My Life in the US in 1995, catalogue IR-117, one side. He told Emma Warren in 2013 that an Ensoniq EPS held about 15 to 30 seconds, and that England sped the records up and called the result speed garage.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-saved-my-life.webp" alt="A typographic plate on warm paper: a thin rule, the line i! Records, United States, 1995, and the catalogue number IR-117 in large type, with the words one side at the foot." width="1600" height="1066" loading="lazy"/></div>
-</a>
-  </div>
+<section class="home-plates" aria-label="Night Shift and the roster">
+  <div id="news"><a class="zine-plate" href="/news"><span class="zine-plate-num"><span class="zine-plate-vol" aria-hidden="true">Vol.</span><span class="sr-only">Volume </span>11</span><h2 class="zine-home-title" id="zine-title"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></h2><span class="zine-plate-rule" aria-hidden="true"></span><p class="zine-plate-filed">November 2026</p><span class="zine-plate-beats"><span>The floor</span><span>The fit</span><span>The afters</span><span class="zine-plate-open">Open the issue →</span></span></a></div>
+  <div id="artists"><a class="zine-plate roster-plate" href="/artists"><span class="zine-plate-num"><span class="zine-plate-vol" aria-hidden="true">Roster</span><span class="sr-only">5 artists. </span>05</span><h2 class="zine-home-title" id="artists-title">Artists</h2><span class="zine-plate-rule" aria-hidden="true"></span><p class="zine-plate-filed">House, garage and jungle</p><span class="zine-plate-beats"><span>Forsberg</span><span>LT Drifta</span><span>Riscape</span><span>Archie</span><span>DW</span><span class="zine-plate-open">Open the roster →</span></span></a></div>
 </section>
 
 <section class="sec" aria-labelledby="videos-title" id="videos">
@@ -758,78 +701,6 @@
   <a class="row-art row-art--wide video-art" href="https://www.youtube.com/watch?v=Yv_4uBJ66fo" rel="noopener noreferrer" data-video-embed="Yv_4uBJ66fo" aria-label="Play The Chameleon - Links (L.T.&#39;s VIP Mix)"><img src="https://i2.ytimg.com/vi/Yv_4uBJ66fo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy"/></a>
 </article>
   </div>
-</section>
-
-<section class="sec" aria-labelledby="artists-title">
-  <header class="sec-head">
-  <h2 class="sec-title" id="artists-title">Artists</h2>
-  <a class="sec-link" href="/artists">Roster</a>
-</header>
-  <div class="rows"><article class="row row--artist" id="forsberg">
-  <div class="row-main">
-    <p class="mono row-meta"><span>01</span><span>Lofi House · Cumberland, BC</span><span>9 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/forsberg">Forsberg</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="que-sera" data-play-track="qsr-01" aria-pressed="false" aria-label="Play Que Sera (Ambient Deep House Remix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/forsberg">Artist page</a>
-  <a class="btn btn-small btn-text" href="/que-sera">Latest: Que Sera (Ambient Deep House Remix)</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/forsberg" aria-label="Forsberg"><img src="/artists/forsberg.webp" alt="Forsberg" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="lt-drifta">
-  <div class="row-main">
-    <p class="mono row-meta"><span>02</span><span>Jungle / DNB · Cumberland, BC</span><span>16 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/lt-drifta">LT Drifta</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="02-just-cant-take" data-play-track="jct-01" aria-pressed="false" aria-label="Play 02. Just Can&#39;t Take"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/lt-drifta">Artist page</a>
-  <a class="btn btn-small btn-text" href="/02-just-cant-take">Latest: 02. Just Can't Take</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/lt-drifta" aria-label="LT Drifta"><img src="/artists/lt-drifta.webp?v=mark" alt="LT Drifta" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="riscape">
-  <div class="row-main">
-    <p class="mono row-meta"><span>03</span><span>Melodic House · Athens</span><span>2 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/riscape">Riscape</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="tell-me" data-play-track="tm-01" aria-pressed="false" aria-label="Play Tell Me"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/riscape">Artist page</a>
-  <a class="btn btn-small btn-text" href="/tell-me">Latest: Tell Me</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/riscape" aria-label="Riscape"><img src="/artists/riscape.webp" alt="Riscape" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="archie">
-  <div class="row-main">
-    <p class="mono row-meta"><span>04</span><span>UK Garage · Cumberland, BC</span><span>11 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/archie">Archie</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="b-o-t-a" data-play-track="bota-01" aria-pressed="false" aria-label="Play B.O.T.A. (Baddest of Them All)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/archie">Artist page</a>
-  <a class="btn btn-small btn-text" href="/b-o-t-a">Latest: B.O.T.A. (Baddest of Them All)</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/archie" aria-label="Archie"><img src="/artists/archie.webp?v=2" alt="Archie" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="dw">
-  <div class="row-main">
-    <p class="mono row-meta"><span>05</span><span>Downtempo hip-hop</span><span>1 release</span></p>
-    <h2 class="row-artist"><a href="/artists/dw">DW</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="lions-gate" data-play-track="lgt-01" aria-pressed="false" aria-label="Play Lions&#39; Gate"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/dw">Artist page</a>
-  <a class="btn btn-small btn-text" href="/lions-gate">Latest: Lions' Gate</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/dw" aria-label="DW"><img src="/artists/dw.webp" alt="DW" width="1000" height="1000" loading="lazy"/></a>
-</article></div>
 </section>
 
 <section class="sec sec--join" id="join" aria-labelledby="join-title">
@@ -958,14 +829,14 @@
   </div>
   <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
 </div>
-<script src="/js/site.js?v=cc19"></script>
-<script src="/js/cart.js?v=cc19"></script>
-<script src="/js/member.js?v=cc19"></script>
-<script src="/js/player.js?v=cc19"></script>
-<script src="/js/cc.js?v=cc19"></script>
-<script src="/js/tapes.js?v=cc19"></script>
-<script src="/js/join.js?v=cc19"></script>
-<script src="/js/lanes.js?v=cc19"></script>
+<script src="/js/site.js?v=cc20"></script>
+<script src="/js/cart.js?v=cc20"></script>
+<script src="/js/member.js?v=cc20"></script>
+<script src="/js/player.js?v=cc20"></script>
+<script src="/js/cc.js?v=cc20"></script>
+<script src="/js/tapes.js?v=cc20"></script>
+<script src="/js/join.js?v=cc20"></script>
+<script src="/js/lanes.js?v=cc20"></script>
 
 </body>
 </html>

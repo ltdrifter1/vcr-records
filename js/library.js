@@ -448,12 +448,12 @@
 
   function laneLabel(kind, value) {
     if (!value) return '';
-    var seg = document.querySelector('.seg[data-filter="' + kind + '"]');
-    if (seg) {
-      var buttons = seg.querySelectorAll('button');
-      for (var i = 0; i < buttons.length; i++) {
-        if (String(buttons[i].getAttribute('data-value') || '').toLowerCase() === String(value).toLowerCase()) {
-          return buttons[i].getAttribute('data-label') || value;
+    var pick = document.querySelector('select.lane-pick[data-filter="' + kind + '"]');
+    if (pick) {
+      var opts = pick.options;
+      for (var i = 0; i < opts.length; i++) {
+        if (String(opts[i].value || '').toLowerCase() === String(value).toLowerCase()) {
+          return opts[i].getAttribute('data-label') || value;
         }
       }
     }
