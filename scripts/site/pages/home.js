@@ -3,14 +3,29 @@ const L = require("../lib");
 const { esc, attr, onSite } = L;
 const { releaseCard } = require("./fragments");
 const { laneBar, tapeFilterBar } = require("../lanes");
-const { joinSection } = require("./join");
-const { nameplate } = require("./zine");
 
-/** Same printed plate as Night Shift: a count, the word, the names, one link. */
-function rosterPlate(artists) {
-  const n = String(artists.length).padStart(2, "0");
-  const names = artists.map((a) => `<span>${esc(a.name)}</span>`).join("");
-  return `<div id="artists"><a class="zine-plate roster-plate" href="/artists"><span class="zine-plate-num"><span class="zine-plate-vol" aria-hidden="true">Roster</span><span class="sr-only">${artists.length} artists. </span>${n}</span><h2 class="zine-home-title" id="artists-title">Artists</h2><span class="zine-plate-rule" aria-hidden="true"></span><p class="zine-plate-filed">House, garage and jungle</p><span class="zine-plate-beats">${names}<span class="zine-plate-open">Open the roster →</span></span></a></div>`;
+/** Two short cards. The issue and the names live on their own pages. */
+function homePlates(artists, issues, zine) {
+  const vol = (issues.volumes || []).find((v) => Number(v.number) === Number(issues.current));
+  const num = String(issues.current).padStart(2, "0");
+  const when = vol && vol.dateLabel ? vol.dateLabel : "";
+  const beats = String((zine && zine.tagline) || "The floor · The fit · The afters");
+  const names = artists.map((a) => esc(a.name)).join(", ");
+  const count = artists.length === 1 ? "1 artist" : `${artists.length} artists`;
+  return `<section class="home-plates" aria-label="Night Shift and the roster">
+  <a class="home-plate" id="news" href="/news">
+    <p class="home-plate-kicker">Vol. ${esc(num)}${when ? ` · ${esc(when)}` : ""}</p>
+    <h2 class="home-plate-title" id="zine-title">Night Shift</h2>
+    <p class="home-plate-line">${esc(beats)}</p>
+    <span class="home-plate-open">Open the issue</span>
+  </a>
+  <a class="home-plate" id="artists" href="/artists">
+    <p class="home-plate-kicker">${esc(count)}</p>
+    <h2 class="home-plate-title" id="artists-title">Artists</h2>
+    <p class="home-plate-line">${names}</p>
+    <span class="home-plate-open">Open the roster</span>
+  </a>
+</section>`;
 }
 
 function videoSection(feed) {
@@ -85,14 +100,9 @@ module.exports = function home(data) {
   </section>
 </section>
 
-<section class="home-plates" aria-label="Night Shift and the roster">
-  <div id="news">${nameplate(issues, zine, { link: true, h: "h2", titleClass: "zine-home-title", id: "zine-title" })}</div>
-  ${rosterPlate(catalog.artists)}
-</section>
+${homePlates(catalog.artists, issues, zine)}
 
 ${videoSection(data.videos)}
-
-${joinSection()}
 `;
 
   return L.page({
@@ -104,7 +114,7 @@ ${joinSection()}
     main,
     image: featured && featured.cover,
     preload: featured && (featured.coverThumb || featured.cover),
-    scripts: ["cc.js", "tapes.js", "join.js", "lanes.js"],
+    scripts: ["cc.js", "tapes.js", "lanes.js"],
     jsonld: [
       {
         "@context": "https://schema.org",

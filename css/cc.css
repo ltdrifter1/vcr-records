@@ -2593,17 +2593,63 @@ main.news-index, .news-index-front { overflow-x: clip; }
 }
 
 /* Home plates -----------------------------------------------------------
-   Night Shift and the roster are the same printed banner. The issue
-   and the names live on their own pages. */
-.home-plates { border-top: 1px solid var(--ink); }
-.home-plates .roster-plate { border-top: 1px solid var(--ink); }
-.home-plates + .sec { border-top: 0; }
-.home-plates .zine-plate-beats { border-bottom-color: var(--line); }
+   Night Shift and the roster are two short cards. The issue and the
+   names live on their own pages. No folio number, no black rules. */
+.home-plates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 8px var(--gutter) 4px;
+  border-top: 1px solid var(--line);
+}
+.home-plate {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+.home-plate:hover,
+.home-plate:focus-visible { text-decoration: none; border-color: var(--ink); }
+.home-plate-kicker {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: none;
+  color: var(--ink-2);
+}
+.home-plate-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+}
+.home-plate-line {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.home-plate-open {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: none;
+  color: var(--ink);
+}
+.home-plate:hover .home-plate-open,
+.home-plate:focus-visible .home-plate-open { color: var(--signal); }
+@media (max-width: 719px) {
+  .home-plates { grid-template-columns: 1fr; }
+}
 
 /* Phone layout for the catalogue, the banners, and the video feed. */
-@media (max-width: 759px) {
-  .home-plates .zine-plate-beats > span { white-space: normal; }
-}
 @media (max-width: 719px) {
   .tape-filters {
     display: grid;

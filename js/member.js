@@ -154,9 +154,7 @@
     document.body.classList.toggle('is-club-member', hasMemberPricing(profile));
     document.body.classList.toggle('is-premium-member', isPremium(profile));
 
-    var joinHref = (location.pathname === '/' || location.pathname === '/index.html')
-      ? '#join'
-      : '/#join';
+    var joinHref = '/join';
 
     navJoinLinks.forEach(function (a) {
       if (!a.dataset.memberHrefBound) a.dataset.memberHrefBound = a.getAttribute('href');
