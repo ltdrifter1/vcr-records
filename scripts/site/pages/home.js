@@ -14,17 +14,22 @@ module.exports = function home(data) {
   const main = `
 <section class="sec sec--list" aria-labelledby="releases-title" id="listen">
   <header class="home-sec-head">
-    <h1 class="home-sec-title" id="releases-title">Releases</h1>
-    <a class="sec-link" href="/library">Library</a>
+    <h1 class="home-sec-title" id="releases-title">New Arrivals</h1>
+    <div class="home-sec-tools">
+      <button type="button" class="btn btn-small home-find" id="listenFind" aria-expanded="false" aria-controls="listenFilters">Find…</button>
+      <a class="sec-link" href="/library">Library</a>
+    </div>
   </header>
+  <div class="home-filters" id="listenFilters" hidden>
   ${laneBar({
     releases,
     artists: catalog.artists,
     label: "Release filters",
     countId: "listenCount",
-    countText: `${teaser.length} releases`,
+    countText: `${teaser.length} on the wall`,
     extra: `<button type="button" class="btn btn-small" id="listenClear" hidden>Clear</button>`,
   })}
+  </div>
   <div class="release-grid" id="listenRows">
     ${releases.map((r, i) => releaseCard(r, { extra: !teaserIds.has(r.id), eager: i === 0 })).join("\n")}
   </div>
@@ -49,6 +54,7 @@ module.exports = function home(data) {
 
   return L.page({
     title: "",
+    winTitle: "New Arrivals",
     description: "Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette, streamed on site.",
     path: "/",
     canonical: L.ORIGIN + "/",

@@ -161,6 +161,33 @@
   }
   ensureDrawerNow();
 
+  /* Home Find… — keep Genre/Artist off the first screen until asked. */
+  (function bindHomeFind() {
+    var btn = document.getElementById("listenFind");
+    var panel = document.getElementById("listenFilters");
+    if (!btn || !panel) return;
+    function setOpen(on) {
+      panel.hidden = !on;
+      panel.classList.toggle("is-open", on);
+      btn.setAttribute("aria-expanded", on ? "true" : "false");
+      btn.classList.toggle("is-open", on);
+    }
+    btn.addEventListener("click", function () {
+      setOpen(panel.hidden);
+    });
+    var clear = document.getElementById("listenClear");
+    if (clear) {
+      clear.addEventListener("click", function () {
+        /* lanes.js clears filters; keep the panel open so the change is visible */
+        setOpen(true);
+      });
+    }
+    try {
+      var q = new URLSearchParams(window.location.search || "");
+      if (q.get("genre") || q.get("artist") || q.get("artistId")) setOpen(true);
+    } catch (e) {}
+  })();
+
   window.addEventListener("vcr:player", function (e) {
     var line = document.getElementById("drawerNow");
     if (!line) return;
@@ -316,6 +343,13 @@
     if (wx && !wx.hidden && wx.textContent) bits.push(wx.textContent.replace(/\s+/g, " ").trim());
     if (surf && surf.textContent) bits.push(surf.textContent.replace(/\s+/g, " ").trim());
     bar.setAttribute("aria-label", bits.filter(Boolean).join(". "));
+    var drawerWx = document.querySelector("[data-drawer-wx]");
+    if (drawerWx) {
+      var line = ["Cumberland"];
+      if (time && time.textContent && time.textContent.indexOf("·") < 0) line.push(time.textContent.trim());
+      if (wx && !wx.hidden && wx.textContent) line.push(wx.textContent.replace(/\s+/g, " ").trim());
+      drawerWx.textContent = line.filter(Boolean).join(" · ");
+    }
   }
 
   function paintWeather(el, data) {
