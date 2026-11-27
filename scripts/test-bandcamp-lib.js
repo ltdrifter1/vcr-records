@@ -133,7 +133,7 @@ assert.strictEqual(yal.formats.digital.sku, "dg-you-are-love");
 assert.strictEqual(yal.formats.cassette.stock, 0);
 assert.strictEqual(bc.pickCueTrack(yal).id, "yal-01");
 assert.strictEqual(bc.pickCueTrack(yal, "yal-02").id, "yal-02");
-assert.strictEqual(yal.tracks[3].title, "Day Like This");
+assert.strictEqual(yal.tracks[3].title, "Days Like This");
 assert.strictEqual(yal.tracks[3].bandcampTrackId, 1221909968);
 
 const forsberg = catalog.artists.find((a) => a.id === "forsberg");
@@ -170,7 +170,6 @@ assert.deepStrictEqual(
     "que-sera",
     "a-ap-forever",
     "lifetime",
-    "outta-this-mess",
     "pitch-black",
     "try-to-love-again",
     "run-it-back",
@@ -180,31 +179,8 @@ assert.deepStrictEqual(
 );
 assert.ok(!catalog.releases.some((r) => r.id === "safe-as" || r.catalogue === "CC018"));
 assert.ok(!products["dg-safe-as"]);
-assert.deepStrictEqual(
-  ["outta-this-mess"].map((id) => {
-    const r = catalog.releases.find((x) => x.id === id);
-    const t = r.tracks[0];
-    return [
-      r.catalogue,
-      r.title,
-      r.artistId,
-      r.kind,
-      r.released,
-      r.page,
-      r.previewTrackId,
-      r.formats.digital.price,
-      r.formats.digital.sku,
-      r.bandcampUrl,
-      t.id,
-      t.duration,
-      t.bandcampTrackId,
-      products[r.formats.digital.sku].unitAmount,
-    ];
-  }),
-  [
-    ["CC016", "outta this mess", "forsberg", "Single", "2026-10-18", "/outta-this-mess", "otm-01", 1.5, "dg-outta-this-mess", "https://forsberg.bandcamp.com/track/outta-this-mess", "otm-01", 300, 675523114, 150],
-  ]
-);
+assert.ok(!catalog.releases.some((r) => r.id === "outta-this-mess" || r.catalogue === "CC016"));
+assert.ok(!products["dg-outta-this-mess"]);
 assert.ok(!catalog.releases.some((r) => r.id === "deeper" || r.catalogue === "CC017"));
 assert.ok(!products["dg-deeper"]);
 assert.ok(!catalog.releases.some((r) => r.id === "rose-rouge-edit" || r.catalogue === "CC015"));
@@ -372,8 +348,8 @@ assert.deepStrictEqual(
   [
     ["CC053", "St Germain - Rose Rouge (Molly's Hazy Edit: Jorja Smith Version)", "archie", "Single", "2026-11-10", "/st-germain-rose-rouge", 1.5, "dg-st-germain-rose-rouge", "https://archie4ever.bandcamp.com/track/st-germain-rose-rouge-mollys-hazy-edit-jorja-smith-version", "srr-01", 237, 3125623343, 150],
     ["CC052", "Give Everything", "archie", "Single", "2026-11-09", "/give-everything", 1.5, "dg-give-everything", "https://archie4ever.bandcamp.com/track/give-everything", "gev-01", 222, 2354268309, 150],
-    ["CC051", "We're All Mad Here", "archie", "Single", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150],
-    ["CC050", "02. Just Can't Take", "lt-drifta", "Single", "2026-11-09", "/02-just-cant-take", 1.5, "dg-02-just-cant-take", "https://ltdrifta.bandcamp.com/track/02-just-cant-take", "jct-01", 209, 1699937414, 150],
+    ["CC051", "All Mad Here", "archie", "Single", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/all-mad-here", "wamh-01", 282, 63309943, 150],
+    ["CC050", "Just Can't Take", "lt-drifta", "Single", "2026-11-09", "/02-just-cant-take", 1.5, "dg-02-just-cant-take", "https://ltdrifta.bandcamp.com/track/just-cant-take", "jct-01", 209, 1699937414, 150],
     ["CC049", "Wake Up Mr. Mac", "archie", "Single", "2026-11-06", "/wake-up-mr-mac", 1.5, "dg-wake-up-mr-mac", "https://archie4ever.bandcamp.com/track/wake-up-mr-mac", "wum-01", 188, 4002056174, 150],
     ["CC048", "LT Invades Blue Note: Tracks From Shades of Blue", "lt-drifta", "Album", "2026-11-06", "/lt-invades-blue-note", 3, "dg-lt-invades-blue-note", "https://ltdrifta.bandcamp.com/album/lt-invades-blue-note-tracks-from-shades-of-blue", "lbn-01", 292, 108853771, 300],
     ["CC047", "Outta Tha Woods", "archie", "Single", "2026-11-09", "/outta-tha-woods", 1.5, "dg-outta-tha-woods", "https://archie4ever.bandcamp.com/track/outta-tha-woods", "otw-01", 286, 1458289628, 150],
@@ -390,13 +366,12 @@ assert.ok(!products["dg-some-kinda-heaven"]);
 const madHere = catalog.releases.find((r) => r.id === "were-all-mad-here");
 assert.deepStrictEqual(
   [madHere.catalogue, madHere.title, madHere.artistId, madHere.kind, madHere.genre, madHere.released, madHere.page, madHere.formats.digital.price, madHere.formats.digital.sku, madHere.bandcampUrl, madHere.tracks[0].id, madHere.tracks[0].duration, madHere.tracks[0].bandcampTrackId, products[madHere.formats.digital.sku].unitAmount],
-  ["CC051", "We're All Mad Here", "archie", "Single", "UK Garage", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/were-all-mad-here", "wamh-01", 282, 63309943, 150]
+  ["CC051", "All Mad Here", "archie", "Single", "UK Garage", "2026-11-09", "/were-all-mad-here", 1.5, "dg-were-all-mad-here", "https://archie4ever.bandcamp.com/track/all-mad-here", "wamh-01", 282, 63309943, 150]
 );
-assert.ok(!catalog.releases.some((r) => r.id === "say-it" || r.catalogue === "CC054"));
-assert.ok(!products["dg-say-it"]);
+assert.ok(!catalog.releases.some((r) => r.catalogue === "CC054"));
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "archie").map((r) => r.id),
-  ["b-o-t-a", "the-jamz", "call-ur-name-girl", "get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
+  ["say-it", "the-jamz", "call-ur-name-girl", "get-u-now", "st-germain-rose-rouge", "give-everything", "were-all-mad-here", "wake-up-mr-mac", "outta-tha-woods", "ipod-touch", "so-good"]
 );
 assert.ok(!catalog.releases.some((r) => r.id === "w-h-a-t-s-l-u-v" || r.catalogue === "CC055"));
 assert.ok(!products["dg-w-h-a-t-s-l-u-v"]);
@@ -411,12 +386,14 @@ assert.deepStrictEqual(
 const queSera = catalog.releases.find((r) => r.id === "que-sera");
 assert.deepStrictEqual(
   [queSera.catalogue, queSera.title, queSera.artistId, queSera.kind, queSera.genre, queSera.released, queSera.page, queSera.formats.digital.price, queSera.formats.digital.sku, queSera.bandcampUrl, queSera.tracks[0].id, queSera.tracks[0].duration, queSera.tracks[0].bandcampTrackId, products[queSera.formats.digital.sku].unitAmount],
-  ["CC062", "Que Sera (Ambient Deep House Remix)", "forsberg", "Single", "House", "2026-11-25", "/que-sera", 1.5, "dg-que-sera", "https://forsberg.bandcamp.com/track/que-sera-ambient-deep-house-remix", "qsr-01", 245, 771604924, 150]
+  ["CC062", "Que Sera", "forsberg", "Single", "House", "2026-11-25", "/que-sera", 1.5, "dg-que-sera", "https://forsberg.bandcamp.com/track/que-sera", "qsr-01", 245, 771604924, 150]
 );
-const bota = catalog.releases.find((r) => r.id === "b-o-t-a");
+assert.ok(!catalog.releases.some((r) => r.id === "b-o-t-a" || r.catalogue === "CC063"));
+assert.ok(!products["dg-b-o-t-a"]);
+const sayIt = catalog.releases.find((r) => r.id === "say-it");
 assert.deepStrictEqual(
-  [bota.catalogue, bota.title, bota.artistId, bota.kind, bota.genre, bota.released, bota.page, bota.formats.digital.price, bota.formats.digital.sku, bota.bandcampUrl, bota.tracks[0].id, bota.tracks[0].duration, bota.tracks[0].bandcampTrackId, products[bota.formats.digital.sku].unitAmount],
-  ["CC063", "B.O.T.A. (Baddest of Them All)", "archie", "Single", "UK Garage", "2026-11-25", "/b-o-t-a", 1.5, "dg-b-o-t-a", "https://archie4ever.bandcamp.com/track/b-o-t-a-baddest-of-them-all", "bota-01", 300, 125886309, 150]
+  [sayIt.catalogue, sayIt.title, sayIt.artistId, sayIt.kind, sayIt.genre, sayIt.released, sayIt.page, sayIt.formats.digital.price, sayIt.formats.digital.sku, sayIt.bandcampUrl, sayIt.tracks[0].id, sayIt.tracks[0].duration, sayIt.tracks[0].bandcampTrackId, products[sayIt.formats.digital.sku].unitAmount],
+  ["CC065", "say it", "archie", "Single", "UK Garage", "2026-11-26", "/say-it", 1.5, "dg-say-it", "https://archie4ever.bandcamp.com/track/say-it-2", "say-01", 257, 2118311274, 150]
 );
 const getUNow = catalog.releases.find((r) => r.id === "get-u-now");
 assert.deepStrictEqual(
@@ -451,6 +428,32 @@ assert.ok(neighbourhoodSpy);
 assert.strictEqual(neighbourhoodSpy.name, "Neighbourhood Spy");
 assert.strictEqual(neighbourhoodSpy.bandcamp, "https://neighbourhoodspy.bandcamp.com");
 assert.strictEqual(neighbourhoodSpy.photo, "artists/neighbourhood-spy.webp");
-assert.ok(!catalog.releases.some((r) => r.artistId === "neighbourhood-spy"));
+assert.deepStrictEqual(
+  catalog.releases.filter((r) => r.artistId === "neighbourhood-spy").map((r) => r.id),
+  ["you-dont-know-me", "doomsday"]
+);
+const youDont = catalog.releases.find((r) => r.id === "you-dont-know-me");
+assert.deepStrictEqual(
+  [youDont.catalogue, youDont.title, youDont.artistId, youDont.kind, youDont.released, youDont.page, youDont.formats.digital.price, youDont.formats.digital.sku, youDont.bandcampUrl, youDont.tracks[0].id, youDont.tracks[0].duration, youDont.tracks[0].bandcampTrackId, products[youDont.formats.digital.sku].unitAmount],
+  ["CC066", "YOU DON'T KNOW ME", "neighbourhood-spy", "Single", "2026-11-27", "/you-dont-know-me", 1.5, "dg-you-dont-know-me", "https://neighbourhoodspy.bandcamp.com/track/you-dont-know-me-2", "ydk-01", 299, 1141969136, 150]
+);
+const doomsday = catalog.releases.find((r) => r.id === "doomsday");
+assert.deepStrictEqual(
+  [doomsday.catalogue, doomsday.title, doomsday.artistId, doomsday.kind, doomsday.released, doomsday.page, doomsday.formats.digital.price, doomsday.formats.digital.sku, doomsday.bandcampUrl, doomsday.tracks.length, products[doomsday.formats.digital.sku].unitAmount],
+  ["CC067", "Doomsday", "neighbourhood-spy", "Album", "2026-11-27", "/doomsday", 9, "dg-doomsday", "https://neighbourhoodspy.bandcamp.com/album/doomsday", 8, 900]
+);
+assert.deepStrictEqual(
+  doomsday.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "dmd-01", "Overture (Intro)", 116, 2539084093],
+    [2, "dmd-02", "The Time We Faced Doom", 257, 2443991551],
+    [3, "dmd-03", "Goodnight My Love", 275, 4193627385],
+    [4, "dmd-04", "You Don't Know Me", 299, 1339968133],
+    [5, "dmd-05", "Comes Love", 268, 3839277276],
+    [6, "dmd-06", "The Mystery of Doom", 16, 1443728357],
+    [7, "dmd-07", "Answered Prayer", 331, 141250499],
+    [8, "dmd-08", "Fall", 284, 2769534421],
+  ]
+);
 
 console.log("bandcamp lib ok");

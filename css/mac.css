@@ -1570,6 +1570,20 @@ html.mac #win .tapes-grid .mix-card:hover { transform: translateY(-3px); }
   html.mac #win .front-cover-headline { font-size: clamp(20px, 6vw, 28px); }
   html.mac #win .release-head,
   html.mac #win .lead-body { grid-template-columns: 1fr; }
+  /* The Mac document has no lead padding, so the phone bleed margin
+     was pushing the cover past both edges of the window. */
+  html.mac #win .lead-sleeve {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  html.mac #win .lead-top,
+  html.mac #win .lead-foot,
+  html.mac #win .lead-copy {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
   html.mac .vcr-player {
     grid-template-columns: 40px minmax(0, 1fr) auto;
