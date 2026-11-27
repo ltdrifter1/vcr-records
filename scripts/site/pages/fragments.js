@@ -47,9 +47,12 @@ function releaseCard(rel, opts) {
     ${playKey(rel, { className: "sleeve-key" })}
   </div>
   <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(dateShort(rel.released))}</span>${buy}</p>
     <h3 class="sleeve-title"><a href="${attr(rel.page)}">${esc(L.dashTitle(rel.title))}</a></h3>
     ${opts.hideArtist ? "" : `<p class="sleeve-by row-artist">${esc(rel.artist)}</p>`}
+    <div class="sleeve-foot">
+      <p class="mono sleeve-meta"><span>${esc(rel.catalogue || "")}</span><span>${esc(dateShort(rel.released))}</span></p>
+      ${buy}
+    </div>
   </div>
 </article>`;
 }

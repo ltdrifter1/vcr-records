@@ -6,8 +6,8 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
-const VERSION = "cc20";
-const CSS_VERSION = "cc42";
+const VERSION = "cc21";
+const CSS_VERSION = "cc44";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -274,18 +274,42 @@ function navHtml(current) {
     <div class="nav-end">
       <a href="/account" class="nav-account" id="navAccount">Account</a>
       <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+      <button class="nav-ham" id="navHam" aria-label="Club Copy menu" aria-expanded="false"><span></span><span></span></button>
       ${SKY}
     </div>
   </div>
 </header>
-<div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <a href="/">Home</a>
-  ${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join("\n  ")}
-  <a href="/about">About</a>
-  <a href="/planet">Planet MP3</a>
-  <a href="/account">Account</a>
-  <a href="/shipping">Shipping &amp; Returns</a>
+${drawerHtml(current)}`;
+}
+
+function drawerHtml(current) {
+  const icons = DESK_ICONS.map(([href, label, glyph]) => {
+    const on = onPath(current, href);
+    return `<a class="drawer-icon" href="${href}"${on ? ' aria-current="page"' : ""}><span class="drawer-glyph">${GLYPH[glyph]}</span><span class="drawer-name">${label}</span></a>`;
+  }).join("");
+  return `<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <p class="drawer-now" id="drawerNow" hidden></p>
+  <div class="drawer-icons" aria-label="Shop">
+    ${icons}
+  </div>
+  <div class="drawer-list" role="navigation" aria-label="More">
+    <a href="/"${current === "/" ? ' aria-current="page"' : ""}>Home</a>
+    <a href="/join"${onPath(current, "/join") ? ' aria-current="page"' : ""}>Record Club</a>
+    <a href="/videos"${onPath(current, "/videos") ? ' aria-current="page"' : ""}>Videos</a>
+    <a href="/account"${onPath(current, "/account") ? ' aria-current="page"' : ""}>Account</a>
+    <a href="/about"${onPath(current, "/about") ? ' aria-current="page"' : ""}>About</a>
+    <a href="/planet"${onPath(current, "/planet") ? ' aria-current="page"' : ""}>Planet MP3</a>
+    <a href="/shipping"${onPath(current, "/shipping") ? ' aria-current="page"' : ""}>Shipping &amp; Returns</a>
+    <a href="/contact"${onPath(current, "/contact") ? ' aria-current="page"' : ""}>Contact</a>
+  </div>
+  <div class="drawer-controls">
+    <p class="drawer-controls-label">Appearance</p>
+    <div class="drawer-theme" role="group" aria-label="Colour mode">
+      <button type="button" class="drawer-theme-btn" data-mac="theme" data-theme="day">Day</button>
+      <button type="button" class="drawer-theme-btn is-checked" data-mac="theme" data-theme="night">Night</button>
+    </div>
+    <p class="drawer-wx mono" data-drawer-wx>Cumberland</p>
+  </div>
 </div>`;
 }
 
@@ -375,7 +399,7 @@ function page(o) {
     .map((obj) => `<script type="application/ld+json">${JSON.stringify(obj)}</script>`)
     .join("\n  ");
   const scripts = scriptTags(BASE_SCRIPTS.concat(o.scripts || []));
-  const winTitle = o.title || "Club Copy";
+  const winTitle = o.winTitle || o.title || "Club Copy";
   return `<!DOCTYPE html>
 <html lang="en" class="mac">
 <head>
