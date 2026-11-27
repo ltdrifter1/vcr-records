@@ -56,12 +56,24 @@ function contents(list, opts) {
 </section>`;
 }
 
+function coverCreditText(article) {
+  if (!article) return "";
+  const structured = article.imageCredit && typeof article.imageCredit === "object" ? article.imageCredit : null;
+  let name = "";
+  if (typeof article.credit === "string") name = article.credit.replace(/^Photo:\s*/i, "");
+  else if (typeof article.imageCredit === "string") name = article.imageCredit.replace(/^Photo:\s*/i, "");
+  else if (structured) name = structured.author || "";
+  if (structured && structured.licence && name && name.indexOf(structured.licence) === -1) return name + ", " + structured.licence;
+  return name;
+}
+
 function coverBlock(vol, article, zine) {
   if (!article) return "";
   const count = vol.count;
+  const credit = coverCreditText(article);
   return `<article class="issue-cover row row--story row--cover">
   <div class="row-main">
-    <p class="issue-cover-meta mono row-meta"><span>${esc(volLabel(vol.number))}</span><span>${esc(vol.dateLabel)}</span><span>${count} ${count === 1 ? "story" : "stories"}</span>${article.credit || article.imageCredit ? `<span>Cover: ${esc((article.imageCredit || article.credit || "").replace(/^Photo:\s*/i, ""))}</span>` : ""}</p>
+    <p class="issue-cover-meta mono row-meta"><span>${esc(volLabel(vol.number))}</span><span>${esc(vol.dateLabel)}</span><span>${count} ${count === 1 ? "story" : "stories"}</span>${credit ? `<span>Cover: ${esc(credit)}</span>` : ""}</p>
     <p class="issue-cover-format mono">${esc(fmt(article))}</p>
     <h2 class="issue-cover-headline row-title"><a href="${attr(article.slug)}">${esc(article.headline)}</a></h2>
     <p class="issue-cover-dek row-dek">${esc(article.dek || "")}</p>
@@ -74,7 +86,7 @@ function coverBlock(vol, article, zine) {
 function frontCover(vol, article) {
   if (!article) return "";
   const count = vol.count;
-  const credit = (article.imageCredit || article.credit || "").replace(/^Photo:\s*/i, "");
+  const credit = coverCreditText(article);
   return `<a class="front-cover" href="${attr(article.slug)}" aria-label="${attr(article.headline)}">
   ${article.image ? `<span class="front-cover-art"><img src="${asset(article.image)}" alt="${attr(article.imageAlt || "")}" width="1600" height="1066" loading="eager" fetchpriority="high"/></span>` : ""}
   <span class="front-cover-copy">
@@ -145,7 +157,7 @@ function lettersBlock() {
       <h2 class="sec-title" id="desk-title">If it happened after two.</h2>
       <p class="page-lede">Gossip, corrections, what you wore, what you played. We read it. The good ones get printed.</p>
     </div>
-    <form class="zine-letters-form" action="https://formspree.io/f/mqppveoj" method="POST">
+    <form class="zine-letters-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
       <input type="hidden" name="_subject" value="Night Shift desk letter"/>
       <div class="field"><label for="zine-letter-email">Email</label><input id="zine-letter-email" type="email" name="email" placeholder="your email" required autocomplete="email"/></div>
       <div class="field"><label for="zine-letter-body">Letter</label><textarea id="zine-letter-body" name="letter" rows="4" placeholder="what happened / what you wore / what you played" required></textarea></div>
@@ -171,14 +183,43 @@ function catalogueList(list) {
   return `<ol class="catalogue-list">${list.map((a) => `<li><a href="${attr(a.slug)}">${esc(a.headline)}</a><em class="mono">${esc(fmt(a))}</em><time class="mono" datetime="${attr(a.date)}">${esc(dateShort(a.date))}</time></li>`).join("\n")}</ol>`;
 }
 
-function zineHead(issues, zine, title, opts) {
+function tagBeats(zine) {
+  return String((zine && zine.tagline) || "The floor · The fit · The afters")
+    .split("·")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/* The issue as a printed nameplate: folio number, the name, the month,
+   and the three beats of the night. No reversed banner, no "a zine". */
+function nameplate(issues, zine, opts) {
   opts = opts || {};
   const vol = volumeOf(issues, issues.current);
+  const num = String(issues.current).padStart(2, "0");
+  const when = vol && vol.dateLabel ? esc(vol.dateLabel) : "";
+  const beats = tagBeats(zine).map((b) => `<span>${esc(b)}</span>`).join("");
+  const open = opts.link ? `<span class="zine-plate-open">Open the issue →</span>` : "";
+  const titleTag = opts.h || "h1";
+  const titleClass = opts.titleClass || "page-title zine-title";
+  const titleId = opts.id || "news-title";
+  const wordmark = opts.link
+    ? `<span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span>`
+    : `<a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a>`;
+  const inner = `<span class="zine-plate-num"><span class="zine-plate-vol" aria-hidden="true">Vol.</span><span class="sr-only">Volume </span>${esc(num)}</span><${titleTag} class="${titleClass}" id="${titleId}">${wordmark}</${titleTag}><span class="zine-plate-rule" aria-hidden="true"></span>${when ? `<p class="zine-plate-filed">${when}</p>` : ""}<span class="zine-plate-beats">${beats}${open}</span>`;
+  if (opts.link) return `<a class="zine-plate" href="/news">${inner}</a>`;
+  return `<div class="zine-plate">${inner}</div>`;
+}
+
+function zineHead(issues, zine, title, opts) {
+  opts = opts || {};
+  const folio = opts.folio || volumeOf(issues, issues.current);
+  const filed = folio && folio.dateLabel ? `<span>${esc(folio.dateLabel)}</span>` : "";
+  const mark = opts.compact
+    ? `<div class="zine-running"><${opts.h || "h1"} class="zine-running-name" id="news-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></${opts.h || "h1"}><p class="zine-slug mono"><span>${esc(volLabel(folio ? folio.number : issues.current))}</span>${filed}</p></div>`
+    : nameplate(issues, zine, { h: opts.h || "h1", id: "news-title" });
   return `<header class="page-head zine-masthead${opts.compact ? " zine-masthead--compact" : ""}">
   ${L.crumbs(opts.crumbs || [["/", "Home"], [null, "Night Shift"]])}
-  <p class="zine-slug mono"><span>${esc(volLabel(issues.current))}</span><span>${esc(vol ? vol.dateLabel : "")}</span></p>
-  <${opts.h || "h1"} class="page-title zine-title" id="news-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></${opts.h || "h1"}>
-  <p class="zine-tagline">${esc(zine.tagline || "The floor · The fit · The afters")}</p>
+  ${mark}
   <nav class="zine-cols mono" aria-label="In the volume">
     <a href="/news">${esc(volLabel(issues.current))}</a>
     <a href="/news/series/stars-for-the-floor">Stars</a>
@@ -203,10 +244,10 @@ function zineIndex(data) {
   const back = backCatalogue(articles).sort(byDateDesc);
   const main = `
 ${zineHead(issues, zine, "Night Shift")}
-${starsPin(zine)}
 <div class="news-index-front">
   ${frontCover(vol, cover)}
   ${frontContents(inVolume(articles, cur), { excludeSlug: cover && cover.slug, title: "In this volume" })}
+  ${starsPin(zine)}
   <section class="back-catalogue" id="back-catalogue" aria-labelledby="back-title">
     <h2 id="back-title">Before the volumes</h2>
     ${catalogueList(back.slice(0, 10))}
@@ -217,7 +258,7 @@ ${starsPin(zine)}
 </div>`;
   return L.page({
     title: "Night Shift",
-    description: `Night Shift is the Club Copy magazine: the floor, the fit, the afters. ${volLabel(cur)}, ${vol.dateLabel}.`,
+    description: `Night Shift is the Club Copy zine: the floor, the fit, the afters. ${volLabel(cur)}, ${vol.dateLabel}.`,
     path: "/news",
     bodyClass: "news-listing",
     mainClass: "news-index",
@@ -236,7 +277,7 @@ function volumePage(vol, data) {
   const prev = volumeOf(issues, vol.number - 1);
   const next = volumeOf(issues, vol.number + 1);
   const main = `
-${zineHead(issues, zine, volLabel(vol.number), { compact: true, crumbs: [["/", "Home"], ["/news", "Night Shift"], ["/news/issues", "Volumes"], [null, volLabel(vol.number)]] })}
+${zineHead(issues, zine, volLabel(vol.number), { compact: true, folio: vol, crumbs: [["/", "Home"], ["/news", "Night Shift"], ["/news/issues", "Volumes"], [null, volLabel(vol.number)]] })}
 ${coverBlock(v, cover, zine)}
 ${contents(list, { excludeSlug: cover && cover.slug })}
 <p class="issue-jump mono">${prev ? `<a href="/news/vol-${String(prev.number).padStart(2, "0")}">← ${esc(volLabel(prev.number))}</a>` : ""}<a href="/news/issues">All volumes</a>${next ? `<a href="/news/vol-${String(next.number).padStart(2, "0")}">${esc(volLabel(next.number))} →</a>` : ""}</p>`;
@@ -285,7 +326,7 @@ ${start.length ? `<section class="start-here" aria-labelledby="start-here-title"
   <p class="page-lede">Earlier pieces from the desk, grouped by year.</p>
   ${yearGroups(backCatalogue(news.articles)).map(([y, l]) => `<section><h3 class="mono">${esc(y)}</h3>${catalogueList(l)}</section>`).join("\n")}
 </section>`;
-  return L.page({ title: "Night Shift volumes", description: "Every monthly volume of Night Shift, the Club Copy magazine.", path: "/news/issues", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
+  return L.page({ title: "Night Shift volumes", description: "Every monthly volume of Night Shift, the Club Copy zine.", path: "/news/issues", nav: "/news", bodyClass: "news-listing", mainClass: "news-index", main, scripts: ["cc.js", "zine.js"] });
 }
 
 function issueShell(data) {
@@ -439,4 +480,4 @@ ${content.trim()}
   });
 }
 
-module.exports = { zineIndex, volumePage, issuesPage, issueShell, archivePage, tagIndex, seriesPage, storyPage, inVolume };
+module.exports = { zineIndex, volumePage, issuesPage, issueShell, archivePage, tagIndex, seriesPage, storyPage, inVolume, nameplate };

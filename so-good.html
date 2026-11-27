@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="mac">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Jhené Aiko - So Good (Forsberg Bootleg) — Forsberg — Club Copy</title>
-  <meta name="description" content="Jhené Aiko - So Good (Forsberg Bootleg) — single by Forsberg. House on Club Copy. Digital $0.99 CAD. Released October 25, 2026."/>
-  <meta name="theme-color" content="#cfc6b8"/>
+  <title>Jhené Aiko - So Good (Archie Bootleg) — Archie — Club Copy</title>
+  <meta name="description" content="Jhené Aiko - So Good (Archie Bootleg) — single by Archie. UK garage on Club Copy. Digital $1.50 CAD. Released November 9, 2026."/>
+  <meta name="theme-color" content="#808080"/>
   <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/so-good"/>
   
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="music.album"/>
-  <meta property="og:title" content="Jhené Aiko - So Good (Forsberg Bootleg) — Forsberg"/>
-  <meta property="og:description" content="Jhené Aiko - So Good (Forsberg Bootleg) — single by Forsberg. House on Club Copy. Digital $0.99 CAD. Released October 25, 2026."/>
+  <meta property="og:title" content="Jhené Aiko - So Good (Archie Bootleg) — Archie"/>
+  <meta property="og:description" content="Jhené Aiko - So Good (Archie Bootleg) — single by Archie. UK garage on Club Copy. Digital $1.50 CAD. Released November 9, 2026."/>
   <meta property="og:url" content="https://www.clubcopy.ca/so-good"/>
   <meta property="og:image" content="https://www.clubcopy.ca/so-good-cover.webp"/>
   <meta name="twitter:card" content="summary_large_image"/>
@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Silom&display=swap" rel="stylesheet"/>
   <script>
     (function () {
       try {
@@ -28,19 +28,108 @@
         if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        if (m) m.setAttribute("content", t === "day" ? "#c6c6c6" : "#808080");
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
+        if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
+        if (w && typeof w === "object") {
+          if (w.shut) document.documentElement.classList.add("mac-shut");
+          if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
+          if (w.shaded) document.documentElement.classList.add("mac-shaded");
+          if (!w.zoomed && !w.shut && isFinite(w.left) && isFinite(w.top) && isFinite(w.width) && isFinite(w.height)) {
+            var L = Math.max(-40, Math.min(1600, w.left));
+            var T = Math.max(24, Math.min(1200, w.top));
+            var W = Math.max(280, Math.min(1600, w.width));
+            var H = Math.max(160, Math.min(1400, w.height));
+            var root = document.documentElement;
+            root.style.setProperty("--win-l", L + "px");
+            root.style.setProperty("--win-t", T + "px");
+            root.style.setProperty("--win-w", W + "px");
+            root.style.setProperty("--win-h", H + "px");
+            root.classList.add("mac-placed");
+          }
+        }
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc41"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc41"/>
   <link rel="preload" as="image" href="/so-good-cover.webp" fetchpriority="high"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicAlbum","name":"Jhené Aiko - So Good (Forsberg Bootleg)","byArtist":{"@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg"},"albumReleaseType":"SingleRelease","datePublished":"2026-10-25","image":"https://www.clubcopy.ca/so-good-cover.webp","recordLabel":{"@type":"Organization","name":"Club Copy"},"catalogNumber":"CC039","numTracks":1,"track":[{"@type":"MusicRecording","name":"Jhené Aiko - So Good (Forsberg Bootleg)","position":1,"duration":"PT3M38S"}],"offers":[{"@type":"Offer","price":"0.99","priceCurrency":"CAD","availability":"https://schema.org/InStock","itemOffered":{"@type":"Product","name":"Jhené Aiko - So Good (Forsberg Bootleg) — Digital"}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicAlbum","name":"Jhené Aiko - So Good (Archie Bootleg)","byArtist":{"@type":"MusicGroup","name":"Archie","url":"https://www.clubcopy.ca/artists/archie"},"albumReleaseType":"SingleRelease","datePublished":"2026-11-09","image":"https://www.clubcopy.ca/so-good-cover.webp","recordLabel":{"@type":"Organization","name":"Club Copy"},"catalogNumber":"CC039","numTracks":1,"track":[{"@type":"MusicRecording","name":"Jhené Aiko - So Good (Archie Bootleg)","position":1,"duration":"PT3M38S"}],"offers":[{"@type":"Offer","price":"1.5","priceCurrency":"CAD","availability":"https://schema.org/InStock","itemOffered":{"@type":"Product","name":"Jhené Aiko - So Good (Archie Bootleg) — Digital"}}]}</script>
 </head>
 <body class="cc archive-release release-page">
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Menu bar">
+      <div class="menu menu--app">
+        <button type="button" class="menu-title menu-title--app" aria-haspopup="true" aria-expanded="false">Club Copy</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/">Home</a>
+          <a role="menuitem" href="/about">About This Label</a>
+          <a role="menuitem" href="/planet">Planet MP3</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/account">Account</a>
+          <a role="menuitem" href="/join">Record Club</a>
+          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/contact">Contact</a>
+        </div>
+      </div>
+      <div class="menu menu--file">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">File</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/library">Library</a>
+          <a role="menuitem" href="/artists">Artists</a>
+          <a role="menuitem" href="/tapes">Mixtapes</a>
+          <a role="menuitem" href="/videos">Videos</a>
+          <a role="menuitem" href="/news">Night Shift</a>
+          <a role="menuitem" href="/merch">Shop</a>
+          <a role="menuitem" href="/join">Join</a>
+          <a role="menuitem" href="/contact">Contact</a>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="close">Close</button>
+        </div>
+      </div>
+      <div class="menu menu--edit">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Edit</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="undo" disabled>Undo</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="cut" disabled>Cut</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="copy">Copy</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="paste" disabled>Paste</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="select-all">Select All</button>
+        </div>
+      </div>
+      <div class="menu menu--view">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">View</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="icon">by Icon</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="list">by List</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="theme" data-theme="day">Day</button>
+          <button type="button" class="menu-item is-checked" role="menuitem" data-mac="theme" data-theme="night">Night</button>
+        </div>
+      </div>
+      <div class="menu menu--special">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Special</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="cleanup">Clean Up</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="restart">Restart</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="shutdown">Shut Down</button>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount">Account</a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+      <div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
   <p class="sky-live">
     <a class="sky-home" href="/">clubcopy.ca</a>
     <span>Cumberland</span>
@@ -53,139 +142,138 @@
     <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
   </button>
 </div>
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/library">Library</a>
-      <a href="/artists">Artists</a>
-      <a href="/tapes">Mixtapes</a>
-      <a href="/news">Night Shift</a>
-      <a href="/merch">Shop</a>
-      <a href="/join">Join</a>
-      <a href="/contact">Contact</a>
-    </nav>
-    <div class="nav-end">
-      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/">Home</a>
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
+  <a href="/videos">Videos</a>
   <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
   <a href="/join">Join</a>
   <a href="/contact">Contact</a>
+  <a href="/about">About</a>
+  <a href="/planet">Planet MP3</a>
   <a href="/account">Account</a>
-  <a href="/cart">Cart</a>
+  <a href="/shipping">Shipping &amp; Returns</a>
 </div>
-<main id="main">
+<nav class="desk-icons" id="deskIcons" aria-label="Desktop"><button type="button" class="desk-icon desk-icon--app" id="deskApp"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="20" fill="#e6e6e6" stroke="#000" stroke-width="1.4"/><rect x="6" y="6" width="20" height="13" fill="#b7ddd4"/><path d="M11 27h10M16 23v4" stroke="#000" stroke-width="1.5" fill="none"/></svg></span><span class="desk-name">Club Copy</span></button><a class="desk-icon" href="/library"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#f6d453" stroke="#000" stroke-width="1.4" d="M3 9h10l2 3h14v15H3z"/></svg></span><span class="desk-name">Library</span></a><a class="desk-icon" href="/artists"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4" fill="#f3d2b5" stroke="#000" stroke-width="1.2"/><path d="M5 25c1-5 4-7 7-7s6 2 7 7z" fill="#4a7ab5" stroke="#000" stroke-width="1.2"/><circle cx="21" cy="12" r="3" fill="#f3d2b5" stroke="#000" stroke-width="1.1"/><path d="M17 25c.5-3 2.4-5 4.6-5 1.8 0 3.4 1.2 4.4 4" fill="#3d6ea8" stroke="#000" stroke-width="1.1"/></svg></span><span class="desk-name">Artists</span></a><a class="desk-icon" href="/tapes"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="8" width="26" height="16" fill="#222" stroke="#000" stroke-width="1.2"/><circle cx="11" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><circle cx="21" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><rect x="9" y="21" width="14" height="2" fill="#c0392b"/></svg></span><span class="desk-name">Mixtapes</span></a><a class="desk-icon" href="/news"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" stroke="#000" stroke-width="1.3" d="M8 3h11l6 6v19H8z"/><path fill="#eee" stroke="#000" stroke-width="1.1" d="M19 3v6h6"/><path stroke="#000" stroke-width="1" d="M11 15h10M11 18h10M11 21h7"/></svg></span><span class="desk-name">Night Shift</span></a><a class="desk-icon" href="/merch"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 12h16l-1.5 14H9.5z" fill="#eee" stroke="#000" stroke-width="1.3"/><path d="M12 12V9.5a4 4 0 0 1 8 0V12" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Shop</span></a><a class="desk-icon" href="/contact"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" fill="#fff" stroke="#000" stroke-width="1.3"/><path d="M4 8l12 9L28 8" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Contact</span></a></nav>
+<div class="win" id="win">
+  <div class="win-bar" id="winBar">
+    <div class="win-boxes">
+      <button type="button" class="win-box win-close" id="winClose" aria-label="Close"></button>
+      <button type="button" class="win-box win-shade" id="winShade" aria-label="Collapse"></button>
+      <button type="button" class="win-box win-zoom" id="winZoom" aria-label="Zoom"></button>
+    </div>
+    <div class="win-title" id="winTitle"><span>Jhené Aiko - So Good (Archie Bootleg) — Archie</span></div>
+  </div>
+  <div class="win-body" id="winBody">
+    <main id="main">
 
-<section class="lead lead--release" aria-label="Jhené Aiko - So Good (Forsberg Bootleg)" data-release="so-good" style="--lead-size:clamp(32px, 3.9vw, 58px);--lead-size-s:clamp(28px, 7.6vw, 36px)">
+<section class="lead lead--release" aria-label="Jhené Aiko - So Good (Archie Bootleg)" data-release="so-good" style="--lead-size:clamp(32px, 3.9vw, 58px);--lead-size-s:clamp(28px, 7.6vw, 36px)">
   <p class="lead-top mono">
     <span class="lead-top-left"><span><a href="/">Home</a></span><span><a href="/library">Library</a></span><span class="lead-cat">CC039</span></span>
-    <span class="lead-clock"><span class="p-hide">Released</span><span>25 October 2026</span></span>
+    <span class="lead-clock"><span class="p-hide">Released</span><span>9 November 2026</span></span>
   </p>
   <div class="lead-body listen-plate">
     <div class="lead-copy">
       <div class="lead-lockup">
-        <p class="lead-artist"><a href="/artists/forsberg">Forsberg</a></p>
-        <h1 class="lead-title">Jhené Aiko – So Good (Forsberg Bootleg)</h1>
+        <p class="lead-artist"><a href="/artists/archie">Archie</a></p>
+        <h1 class="lead-title">Jhené Aiko – So Good (Archie Bootleg)</h1>
       </div>
       <div class="lead-player">
         <div class="lead-keys ra-hero-ctas">
           <button type="button" class="btn btn-solid" id="heroListen" aria-label="Play"><svg class="glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg><span class="btn-label btn-label--play">Play</span><span class="btn-label btn-label--pause">Pause</span></button>
-          <button type="button" class="btn" id="buyDigitalBtn">Digital · $0.99</button>
+          <button type="button" class="btn" id="buyDigitalBtn">Digital · $1.50</button>
           
         </div>
         <div class="ra-tracks hero-tracks" role="list" aria-label="Tracks">
-          <div class="track-row" role="button" tabindex="0" data-index="0" data-duration="218"><span class="track-no">01</span><span class="track-title">Jhené Aiko - So Good (Forsberg Bootleg)</span><span class="track-dur"><span data-track-elapsed></span>3:38</span><button class="track-play-btn" type="button" aria-label="Play Jhené Aiko - So Good (Forsberg Bootleg)" tabindex="-1"></button></div>
+          <div class="track-row" role="button" tabindex="0" data-index="0" data-duration="218"><span class="track-no">01</span><span class="track-title">Jhené Aiko - So Good (Archie Bootleg)</span><span class="track-dur"><span data-track-elapsed></span>3:38</span><button class="track-play-btn" type="button" aria-label="Play Jhené Aiko - So Good (Archie Bootleg)" tabindex="-1"></button></div>
         </div>
         <p class="mono p-msg ra-tracks-note" id="pMsg" aria-live="polite">Total 3:38 · streaming on site · files after checkout</p>
       </div>
     </div>
     <div class="lead-sleeve listen-sleeve" id="artworkWrap">
-      <img src="/so-good-cover.webp" alt="Jhené Aiko - So Good (Forsberg Bootleg) — Forsberg" width="1200" height="1200" fetchpriority="high"/>
+      <img src="/so-good-cover.webp" alt="Jhené Aiko - So Good (Archie Bootleg) — Archie" width="1200" height="1200" fetchpriority="high"/>
       <button type="button" class="listen-sleeve-hit" id="ipPlay" aria-label="Play / pause"><span class="listen-glyph"><svg class="i-play glyph-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z"/></svg><svg class="i-pause glyph-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg></span></button>
     </div>
   </div>
-  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">CC039</span><span>Single</span><span class="p-hide">1 track</span><span>DL</span></span><a href="https://forsberg.bandcamp.com/track/jhen-aiko-so-good-forsberg-bootleg" rel="noopener noreferrer">Bandcamp ↗</a></p>
+  <p class="lead-foot mono"><span class="lead-foot-left"><span class="lead-cat">CC039</span><span>Single</span><span class="p-hide">1 track</span><span>DL</span></span><a href="https://archie4ever.bandcamp.com/track/jhen-aiko-so-good-archie-bootleg" rel="noopener noreferrer">Bandcamp ↗</a></p>
 </section>
 
 <section class="sec release-about" aria-label="About the release">
   <div class="fact-rows">
-    <div class="fact-row fact-row--notes"><p class="fact-label mono">Notes</p><div class="release-notes"><p>One track from Forsberg. Digital is $0.99 CAD, with streaming on site and a download after checkout. Released October 25, 2026. Produced for Club Copy and Copy House Publishing.</p></div></div>
-    <div class="fact-row"><p class="fact-label mono">Artist</p><p class="fact-value"><a href="/artists/forsberg">Forsberg</a></p></div>
+    <div class="fact-row fact-row--notes"><p class="fact-label mono">Notes</p><div class="release-notes"><p>One track from Archie. The sleeve note says &quot;Describing friendship as a single soul inhabiting two bodies.&quot; Digital is $1.50 CAD, with streaming on site and a download after checkout. Released November 9, 2026. Produced for Club Copy and Copy House Publishing.</p></div></div>
+    <div class="fact-row"><p class="fact-label mono">Artist</p><p class="fact-value"><a href="/artists/archie">Archie</a></p></div>
     <div class="fact-row"><p class="fact-label mono">Catalogue</p><p class="fact-value">CC039</p></div>
     <div class="fact-row"><p class="fact-label mono">Format</p><p class="fact-value">Digital Single · 1 track</p></div>
-    <div class="fact-row"><p class="fact-label mono">Released</p><p class="fact-value">October 25, 2026</p></div>
-    <div class="fact-row"><p class="fact-label mono">Genre</p><p class="fact-value">House</p></div>
+    <div class="fact-row"><p class="fact-label mono">Released</p><p class="fact-value">November 9, 2026</p></div>
+    <div class="fact-row"><p class="fact-label mono">Genre</p><p class="fact-value">UK Garage</p></div>
     <div class="fact-row"><p class="fact-label mono">Published</p><p class="fact-value">Club Copy · Copy House Publishing</p></div>
   </div>
 </section>
 
 <section class="sec" aria-labelledby="also-title"><header class="sec-head">
-  <h2 class="sec-title" id="also-title">Also by Forsberg</h2>
-  <a class="sec-link" href="/artists/forsberg">Artist page</a>
-</header><div class="rows"><article class="row row--release" data-release="outta-tha-woods" data-artist-id="forsberg" data-genre="house">
+  <h2 class="sec-title" id="also-title">Also by Archie</h2>
+  <a class="sec-link" href="/artists/archie">Artist page</a>
+</header><div class="rows"><article class="row row--release" data-release="say-it" data-artist-id="archie" data-genre="uk-garage">
   <div class="row-main">
-    <p class="mono row-meta"><span>CC047</span><span>Single</span><span>1 track</span><span>2:42</span><span>5 Nov 2026</span></p>
+    <p class="mono row-meta"><span>CC065</span><span>Single</span><span>1 track</span><span>4:17</span><span>26 Nov 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/outta-tha-woods">Outta Tha Woods</a></p>
+    <p class="row-title"><a href="/say-it">say it</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="outta-tha-woods" data-play-track="otw-01" aria-label="Play Outta Tha Woods"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="outta-tha-woods" data-sku="dg-outta-tha-woods" data-name="Outta Tha Woods — Digital" data-price="1.5" data-image="/outta-tha-woods-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="say-it" data-play-track="say-01" aria-label="Play say it"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="say-it" data-sku="dg-say-it" data-name="say it — Digital" data-price="1.5" data-image="/say-it-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/outta-tha-woods" aria-label="Outta Tha Woods"><img src="/outta-tha-woods-cover-480.webp" srcset="/outta-tha-woods-cover-480.webp 480w, /outta-tha-woods-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Outta Tha Woods — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/say-it" aria-label="say it"><img src="/say-it-cover-480.webp" srcset="/say-it-cover-480.webp 480w, /say-it-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="say it — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="skin-to-skin" data-artist-id="forsberg" data-genre="house">
+<article class="row row--release" data-release="the-jamz" data-artist-id="archie" data-genre="uk-garage">
   <div class="row-main">
-    <p class="mono row-meta"><span>CC044</span><span>Single</span><span>1 track</span><span>4:05</span><span>31 Oct 2026</span></p>
+    <p class="mono row-meta"><span>CC059</span><span>Single</span><span>1 track</span><span>6:35</span><span>13 Nov 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/skin-to-skin">MPH &amp; Megra – Skin to Skin (forsberg bootleg)</a></p>
+    <p class="row-title"><a href="/the-jamz">The Jamz</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="skin-to-skin" data-play-track="skn-01" aria-label="Play MPH &amp; Megra - Skin to Skin (forsberg bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="skin-to-skin" data-sku="dg-skin-to-skin" data-name="MPH &amp; Megra - Skin to Skin (forsberg bootleg) — Digital" data-price="1.5" data-image="/skin-to-skin-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="the-jamz" data-play-track="jam-01" aria-label="Play The Jamz"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="the-jamz" data-sku="dg-the-jamz" data-name="The Jamz — Digital" data-price="1.5" data-image="/the-jamz-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/skin-to-skin" aria-label="MPH &amp; Megra - Skin to Skin (forsberg bootleg)"><img src="/skin-to-skin-cover-480.webp" srcset="/skin-to-skin-cover-480.webp 480w, /skin-to-skin-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="MPH &amp; Megra - Skin to Skin (forsberg bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/the-jamz" aria-label="The Jamz"><img src="/the-jamz-cover-480.webp" srcset="/the-jamz-cover-480.webp 480w, /the-jamz-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="The Jamz — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="a-ap-forever" data-artist-id="forsberg" data-genre="house">
+<article class="row row--release" data-release="call-ur-name-girl" data-artist-id="archie" data-genre="uk-garage">
   <div class="row-main">
-    <p class="mono row-meta"><span>CC042</span><span>Single</span><span>1 track</span><span>3:53</span><span>30 Oct 2026</span></p>
+    <p class="mono row-meta"><span>CC058</span><span>Single</span><span>1 track</span><span>3:39</span><span>13 Nov 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/a-ap-forever">A$AP FOREVER</a></p>
+    <p class="row-title"><a href="/call-ur-name-girl">call ur name</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="a-ap-forever" data-play-track="aaf-01" aria-label="Play A$AP FOREVER"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=a-ap-forever&amp;t=aaf-01&amp;download=1">Free download</a>
+      <button type="button" class="key key--play" data-play-release="call-ur-name-girl" data-play-track="cun-01" aria-label="Play call ur name"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="call-ur-name-girl" data-sku="dg-call-ur-name-girl" data-name="call ur name — Digital" data-price="1.5" data-image="/call-ur-name-girl-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/a-ap-forever" aria-label="A$AP FOREVER"><img src="/a-ap-forever-cover-480.webp" srcset="/a-ap-forever-cover-480.webp 480w, /a-ap-forever-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="A$AP FOREVER — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/call-ur-name-girl" aria-label="call ur name"><img src="/call-ur-name-girl-cover-480.webp" srcset="/call-ur-name-girl-cover-480.webp 480w, /call-ur-name-girl-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="call ur name — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
-<article class="row row--release" data-release="ipod-touch" data-artist-id="forsberg" data-genre="house">
+<article class="row row--release" data-release="get-u-now" data-artist-id="archie" data-genre="uk-garage">
   <div class="row-main">
-    <p class="mono row-meta"><span>CC040</span><span>Single</span><span>1 track</span><span>3:53</span><span>25 Oct 2026</span></p>
+    <p class="mono row-meta"><span>CC064</span><span>Single</span><span>1 track</span><span>6:38</span><span>13 Nov 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/ipod-touch">Ninajirachi – iPod Touch (Forsberg Bootleg)</a></p>
+    <p class="row-title"><a href="/get-u-now">Get-U-Now</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="ipod-touch" data-play-track="ipt-01" aria-label="Play Ninajirachi - iPod Touch (Forsberg Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="ipod-touch" data-sku="dg-ipod-touch" data-name="Ninajirachi - iPod Touch (Forsberg Bootleg) — Digital" data-price="1.5" data-image="/ipod-touch-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="get-u-now" data-play-track="gun-01" aria-label="Play Get-U-Now"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="get-u-now" data-sku="dg-get-u-now" data-name="Get-U-Now — Digital" data-price="1.5" data-image="/get-u-now-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/ipod-touch" aria-label="Ninajirachi - iPod Touch (Forsberg Bootleg)"><img src="/ipod-touch-cover-480.webp" srcset="/ipod-touch-cover-480.webp 480w, /ipod-touch-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Ninajirachi - iPod Touch (Forsberg Bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/get-u-now" aria-label="Get-U-Now"><img src="/get-u-now-cover-480.webp" srcset="/get-u-now-cover-480.webp 480w, /get-u-now-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Get-U-Now — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article></div></section>
 
-</main>
-<footer class="footer">
+    </main>
+    <footer class="footer">
   <div class="footer-row footer-row--mark">
     <a class="footer-wordmark" href="/">Club Copy</a>
     <p class="footer-fact mono"><span>Independent record label</span><span>British Columbia, Canada</span><span>© 2024 — 2026</span></p>
@@ -205,7 +293,7 @@
   <div class="footer-row">
     <p class="footer-label">Newsletter</p>
     <div class="footer-news">
-      <form class="footer-form" action="https://formspree.io/f/mqppveoj" method="POST">
+      <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
         <label class="sr-only" for="footerEmail">Email</label>
         <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
@@ -220,6 +308,7 @@
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
+      <a href="/videos">Videos</a>
       <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
@@ -229,13 +318,16 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc15"></script>
-<script src="/js/cart.js?v=cc15"></script>
-<script src="/js/member.js?v=cc15"></script>
-<script src="/js/player.js?v=cc15"></script>
-<script src="/js/cc.js?v=cc15"></script>
-<script src="/js/release-bind.js?v=cc15"></script>
-<script>VCRReleaseBind({"releaseId":"so-good","previewTrackId":"sgd-01","tracks":[{"id":"sgd-01","title":"Jhené Aiko - So Good (Forsberg Bootleg)"}]});
-(function(){var F={"digital":{"sku":"dg-so-good","name":"Jhené Aiko - So Good (Forsberg Bootleg) — Digital (Single)","price":0.99,"image":"/so-good-cover.webp"}};var t=null;function bind(id,k){var b=document.getElementById(id);if(!b)return;var label=b.textContent;b.addEventListener("click",function(){var f=F[k];if(!f||!window.VCRCart)return;VCRCart.add({sku:f.sku,name:f.name,price:f.price,image:f.image,qty:1,id:f.sku});b.textContent="Added";clearTimeout(t);t=setTimeout(function(){b.textContent=label;},2200);});}bind("buyDigitalBtn","digital");bind("buyBtn","cassette");})();</script>
+  </div>
+  <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
+</div>
+<script src="/js/site.js?v=cc20"></script>
+<script src="/js/cart.js?v=cc20"></script>
+<script src="/js/member.js?v=cc20"></script>
+<script src="/js/player.js?v=cc20"></script>
+<script src="/js/cc.js?v=cc20"></script>
+<script src="/js/release-bind.js?v=cc20"></script>
+<script>VCRReleaseBind({"releaseId":"so-good","previewTrackId":"sgd-01","tracks":[{"id":"sgd-01","title":"Jhené Aiko - So Good (Archie Bootleg)"}]});
+(function(){var F={"digital":{"sku":"dg-so-good","name":"Jhené Aiko - So Good (Archie Bootleg) — Digital (Single)","price":1.5,"image":"/so-good-cover.webp"}};var t=null;function bind(id,k){var b=document.getElementById(id);if(!b)return;var label=b.textContent;b.addEventListener("click",function(){var f=F[k];if(!f||!window.VCRCart)return;VCRCart.add({sku:f.sku,name:f.name,price:f.price,image:f.image,qty:1,id:f.sku});b.textContent="Added";clearTimeout(t);t=setTimeout(function(){b.textContent=label;},2200);});}bind("buyDigitalBtn","digital");bind("buyBtn","cassette");})();</script>
 </body>
 </html>

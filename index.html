@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="mac">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Club Copy</title>
   <meta name="description" content="Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette, streamed on site."/>
-  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="theme-color" content="#808080"/>
   <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/"/>
   
@@ -14,13 +14,13 @@
   <meta property="og:title" content="Club Copy"/>
   <meta property="og:description" content="Club Copy is an independent record label from the Pacific Northwest. House, jungle and instrumental hip-hop on digital and cassette, streamed on site."/>
   <meta property="og:url" content="https://www.clubcopy.ca/"/>
-  <meta property="og:image" content="https://www.clubcopy.ca/wake-up-mr-mac-cover.webp"/>
+  <meta property="og:image" content="https://www.clubcopy.ca/you-dont-know-me-cover.webp"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <link rel="icon" href="/apple-touch-icon.png"/>
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Silom&display=swap" rel="stylesheet"/>
   <script>
     (function () {
       try {
@@ -28,19 +28,108 @@
         if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        if (m) m.setAttribute("content", t === "day" ? "#c6c6c6" : "#808080");
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
+        if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
+        if (w && typeof w === "object") {
+          if (w.shut) document.documentElement.classList.add("mac-shut");
+          if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
+          if (w.shaded) document.documentElement.classList.add("mac-shaded");
+          if (!w.zoomed && !w.shut && isFinite(w.left) && isFinite(w.top) && isFinite(w.width) && isFinite(w.height)) {
+            var L = Math.max(-40, Math.min(1600, w.left));
+            var T = Math.max(24, Math.min(1200, w.top));
+            var W = Math.max(280, Math.min(1600, w.width));
+            var H = Math.max(160, Math.min(1400, w.height));
+            var root = document.documentElement;
+            root.style.setProperty("--win-l", L + "px");
+            root.style.setProperty("--win-t", T + "px");
+            root.style.setProperty("--win-w", W + "px");
+            root.style.setProperty("--win-h", H + "px");
+            root.classList.add("mac-placed");
+          }
+        }
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
-  <link rel="preload" as="image" href="/wake-up-mr-mac-cover-480.webp" fetchpriority="high"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"RecordLabel","name":"Club Copy","url":"https://www.clubcopy.ca/","logo":"https://www.clubcopy.ca/apple-touch-icon.png","email":"charlie@clubcopy.ca","foundingDate":"2024-02-12","foundingLocation":{"@type":"Place","name":"British Columbia, Canada"},"genre":["House","Jungle","UK Garage","Instrumental Hip Hop","Electronic"],"member":[{"@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg"},{"@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta"},{"@type":"MusicGroup","name":"Riscape","url":"https://www.clubcopy.ca/artists/riscape"},{"@type":"MusicGroup","name":"Archie","url":"https://www.clubcopy.ca/artists/archie"},{"@type":"MusicGroup","name":"DW","url":"https://www.clubcopy.ca/artists/dw"}]}</script>
+  <link rel="stylesheet" href="/css/cc.css?v=cc41"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc41"/>
+  <link rel="preload" as="image" href="/you-dont-know-me-cover-480.webp" fetchpriority="high"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"RecordLabel","name":"Club Copy","url":"https://www.clubcopy.ca/","logo":"https://www.clubcopy.ca/apple-touch-icon.png","email":"charlie@clubcopy.ca","foundingDate":"2024-02-12","foundingLocation":{"@type":"Place","name":"British Columbia, Canada"},"genre":["House","Jungle","UK Garage","Instrumental Hip Hop","Drum & Bass"],"member":[{"@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg"},{"@type":"MusicGroup","name":"LT Drifta","url":"https://www.clubcopy.ca/artists/lt-drifta"},{"@type":"MusicGroup","name":"Riscape","url":"https://www.clubcopy.ca/artists/riscape"},{"@type":"MusicGroup","name":"Archie","url":"https://www.clubcopy.ca/artists/archie"},{"@type":"MusicGroup","name":"DW","url":"https://www.clubcopy.ca/artists/dw"},{"@type":"MusicGroup","name":"Neighbourhood Spy","url":"https://www.clubcopy.ca/artists/neighbourhood-spy"}]}</script>
 </head>
 <body class="cc home">
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Menu bar">
+      <div class="menu menu--app">
+        <button type="button" class="menu-title menu-title--app" aria-haspopup="true" aria-expanded="false">Club Copy</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/">Home</a>
+          <a role="menuitem" href="/about">About This Label</a>
+          <a role="menuitem" href="/planet">Planet MP3</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/account">Account</a>
+          <a role="menuitem" href="/join">Record Club</a>
+          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/contact">Contact</a>
+        </div>
+      </div>
+      <div class="menu menu--file">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">File</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/library">Library</a>
+          <a role="menuitem" href="/artists">Artists</a>
+          <a role="menuitem" href="/tapes">Mixtapes</a>
+          <a role="menuitem" href="/videos">Videos</a>
+          <a role="menuitem" href="/news">Night Shift</a>
+          <a role="menuitem" href="/merch">Shop</a>
+          <a role="menuitem" href="/join">Join</a>
+          <a role="menuitem" href="/contact">Contact</a>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="close">Close</button>
+        </div>
+      </div>
+      <div class="menu menu--edit">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Edit</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="undo" disabled>Undo</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="cut" disabled>Cut</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="copy">Copy</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="paste" disabled>Paste</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="select-all">Select All</button>
+        </div>
+      </div>
+      <div class="menu menu--view">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">View</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="icon">by Icon</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="list">by List</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="theme" data-theme="day">Day</button>
+          <button type="button" class="menu-item is-checked" role="menuitem" data-mac="theme" data-theme="night">Night</button>
+        </div>
+      </div>
+      <div class="menu menu--special">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Special</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="cleanup">Clean Up</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="restart">Restart</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="shutdown">Shut Down</button>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount">Account</a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+      <div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
   <p class="sky-live">
     <a class="sky-home" href="/">clubcopy.ca</a>
     <span>Cumberland</span>
@@ -53,37 +142,36 @@
     <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
   </button>
 </div>
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/library">Library</a>
-      <a href="/artists">Artists</a>
-      <a href="/tapes">Mixtapes</a>
-      <a href="/news">Night Shift</a>
-      <a href="/merch">Shop</a>
-      <a href="/join">Join</a>
-      <a href="/contact">Contact</a>
-    </nav>
-    <div class="nav-end">
-      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/">Home</a>
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
+  <a href="/videos">Videos</a>
   <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
   <a href="/join">Join</a>
   <a href="/contact">Contact</a>
+  <a href="/about">About</a>
+  <a href="/planet">Planet MP3</a>
   <a href="/account">Account</a>
-  <a href="/cart">Cart</a>
+  <a href="/shipping">Shipping &amp; Returns</a>
 </div>
-<main id="main">
+<nav class="desk-icons" id="deskIcons" aria-label="Desktop"><button type="button" class="desk-icon desk-icon--app" id="deskApp"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="20" fill="#e6e6e6" stroke="#000" stroke-width="1.4"/><rect x="6" y="6" width="20" height="13" fill="#b7ddd4"/><path d="M11 27h10M16 23v4" stroke="#000" stroke-width="1.5" fill="none"/></svg></span><span class="desk-name">Club Copy</span></button><a class="desk-icon" href="/library"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#f6d453" stroke="#000" stroke-width="1.4" d="M3 9h10l2 3h14v15H3z"/></svg></span><span class="desk-name">Library</span></a><a class="desk-icon" href="/artists"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4" fill="#f3d2b5" stroke="#000" stroke-width="1.2"/><path d="M5 25c1-5 4-7 7-7s6 2 7 7z" fill="#4a7ab5" stroke="#000" stroke-width="1.2"/><circle cx="21" cy="12" r="3" fill="#f3d2b5" stroke="#000" stroke-width="1.1"/><path d="M17 25c.5-3 2.4-5 4.6-5 1.8 0 3.4 1.2 4.4 4" fill="#3d6ea8" stroke="#000" stroke-width="1.1"/></svg></span><span class="desk-name">Artists</span></a><a class="desk-icon" href="/tapes"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="8" width="26" height="16" fill="#222" stroke="#000" stroke-width="1.2"/><circle cx="11" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><circle cx="21" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><rect x="9" y="21" width="14" height="2" fill="#c0392b"/></svg></span><span class="desk-name">Mixtapes</span></a><a class="desk-icon" href="/news"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" stroke="#000" stroke-width="1.3" d="M8 3h11l6 6v19H8z"/><path fill="#eee" stroke="#000" stroke-width="1.1" d="M19 3v6h6"/><path stroke="#000" stroke-width="1" d="M11 15h10M11 18h10M11 21h7"/></svg></span><span class="desk-name">Night Shift</span></a><a class="desk-icon" href="/merch"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 12h16l-1.5 14H9.5z" fill="#eee" stroke="#000" stroke-width="1.3"/><path d="M12 12V9.5a4 4 0 0 1 8 0V12" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Shop</span></a><a class="desk-icon" href="/contact"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" fill="#fff" stroke="#000" stroke-width="1.3"/><path d="M4 8l12 9L28 8" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Contact</span></a></nav>
+<div class="win" id="win">
+  <div class="win-bar" id="winBar">
+    <div class="win-boxes">
+      <button type="button" class="win-box win-close" id="winClose" aria-label="Close"></button>
+      <button type="button" class="win-box win-shade" id="winShade" aria-label="Collapse"></button>
+      <button type="button" class="win-box win-zoom" id="winZoom" aria-label="Zoom"></button>
+    </div>
+    <div class="win-title" id="winTitle"><span>Club Copy</span></div>
+  </div>
+  <div class="win-body" id="winBody">
+    <main id="main">
 
 <section class="sec sec--list" aria-labelledby="releases-title" id="listen">
   <header class="home-sec-head">
@@ -93,29 +181,192 @@
   <section class="filters" aria-label="Release filters">
   <div class="lanes">
     <div class="lane">
-      <span class="lane-label mono" id="lane-genre">Genre</span>
-      <div class="seg" role="radiogroup" aria-labelledby="lane-genre" data-filter="genre">
-        <span class="plate" aria-hidden="true"></span>
-        <button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">37</span></button><button type="button" role="radio" data-value="electronic" data-label="Electronic" aria-checked="false" tabindex="-1">Electronic<span class="n">14</span></button><button type="button" role="radio" data-value="house" data-label="House" aria-checked="false" tabindex="-1">House<span class="n">21</span></button><button type="button" role="radio" data-value="jazz" data-label="Jazz" aria-checked="false" tabindex="-1">Jazz<span class="n">1</span></button><button type="button" role="radio" data-value="uk-garage" data-label="UK Garage" aria-checked="false" tabindex="-1">UK Garage<span class="n">1</span></button>
-      </div>
+      <label class="lane-label mono" for="pick-genre">Genre</label>
+      <select class="lane-pick" id="pick-genre" data-filter="genre" autocomplete="off">
+        <option value="" data-label="All">All 40</option><option value="downtempo" data-label="Downtempo">Downtempo 1</option><option value="drum-bass" data-label="Drum &amp; Bass">Drum &amp; Bass 15</option><option value="house" data-label="House">House 12</option><option value="jazz" data-label="Jazz">Jazz 1</option><option value="uk-garage" data-label="UK Garage">UK Garage 11</option>
+      </select>
     </div>
     <div class="lane">
-      <span class="lane-label mono" id="lane-artist">Artist</span>
-      <div class="seg" role="radiogroup" aria-labelledby="lane-artist" data-filter="artist">
-        <span class="plate" aria-hidden="true"></span>
-        <button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">37</span></button><button type="button" role="radio" data-value="forsberg" data-label="Forsberg" aria-checked="false" tabindex="-1">Forsberg<span class="n">19</span></button><button type="button" role="radio" data-value="lt-drifta" data-label="LT Drifta" aria-checked="false" tabindex="-1">LT Drifta<span class="n">15</span></button><button type="button" role="radio" data-value="riscape" data-label="Riscape" aria-checked="false" tabindex="-1">Riscape<span class="n">2</span></button><button type="button" role="radio" data-value="archie" data-label="Archie" aria-checked="false" tabindex="-1">Archie<span class="n">1</span></button>
-      </div>
+      <label class="lane-label mono" for="pick-artist">Artist</label>
+      <select class="lane-pick" id="pick-artist" data-filter="artist" autocomplete="off">
+        <option value="" data-label="All">All 40</option><option value="forsberg" data-label="Forsberg">Forsberg 8</option><option value="lt-drifta" data-label="LT Drifta">LT Drifta 16</option><option value="riscape" data-label="Riscape">Riscape 2</option><option value="archie" data-label="Archie">Archie 11</option><option value="dw" data-label="DW">DW 1</option><option value="neighbourhood-spy" data-label="Neighbourhood Spy">Neighbourhood Spy 2</option>
+      </select>
     </div>
   </div>
   <div class="filter-meta">
-    <p class="mono filter-count" id="listenCount" aria-live="polite">8 releases</p>
+    <p class="mono filter-count" id="listenCount" aria-live="polite">12 releases</p>
     <button type="button" class="btn btn-small" id="listenClear" hidden>Clear</button>
   </div>
 </section>
   <div class="release-grid" id="listenRows">
-    <article class="sleeve-card" data-release="wake-up-mr-mac" data-artist-id="archie" data-genre="uk-garage">
+    <article class="sleeve-card" data-release="you-dont-know-me" data-artist-id="neighbourhood-spy" data-genre="house">
   <div class="sleeve-face">
-    <a class="sleeve-art" href="/wake-up-mr-mac" tabindex="-1" aria-hidden="true"><img src="/wake-up-mr-mac-cover-480.webp" srcset="/wake-up-mr-mac-cover-480.webp 480w, /wake-up-mr-mac-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" fetchpriority="high"/></a>
+    <a class="sleeve-art" href="/you-dont-know-me" tabindex="-1" aria-hidden="true"><img src="/you-dont-know-me-cover-480.webp" srcset="/you-dont-know-me-cover-480.webp 480w, /you-dont-know-me-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" fetchpriority="high"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="you-dont-know-me" data-play-track="ydk-01" aria-label="Play YOU DON&#39;T KNOW ME"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC066</span><span>27 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="you-dont-know-me" data-sku="dg-you-dont-know-me" data-name="YOU DON&#39;T KNOW ME — Digital" data-price="1.5" data-image="/you-dont-know-me-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/you-dont-know-me">YOU DON'T KNOW ME</a></h3>
+    <p class="sleeve-by row-artist">Neighbourhood Spy</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="doomsday" data-artist-id="neighbourhood-spy" data-genre="house">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/doomsday" tabindex="-1" aria-hidden="true"><img src="/doomsday-cover-480.webp" srcset="/doomsday-cover-480.webp 480w, /doomsday-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="doomsday" data-play-track="dmd-01" aria-label="Play Doomsday"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC067</span><span>27 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="doomsday" data-sku="dg-doomsday" data-name="Doomsday — Digital" data-price="9" data-image="/doomsday-cover.webp" aria-label="Add digital for $9">$9</button></span></p>
+    <h3 class="sleeve-title"><a href="/doomsday">Doomsday</a></h3>
+    <p class="sleeve-by row-artist">Neighbourhood Spy</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="say-it" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/say-it" tabindex="-1" aria-hidden="true"><img src="/say-it-cover-480.webp" srcset="/say-it-cover-480.webp 480w, /say-it-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="say-it" data-play-track="say-01" aria-label="Play say it"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC065</span><span>26 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="say-it" data-sku="dg-say-it" data-name="say it — Digital" data-price="1.5" data-image="/say-it-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/say-it">say it</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="que-sera" data-artist-id="forsberg" data-genre="house">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/que-sera" tabindex="-1" aria-hidden="true"><img src="/que-sera-cover-480.webp" srcset="/que-sera-cover-480.webp 480w, /que-sera-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="que-sera" data-play-track="qsr-01" aria-label="Play Que Sera"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC062</span><span>25 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="que-sera" data-sku="dg-que-sera" data-name="Que Sera — Digital" data-price="1.5" data-image="/que-sera-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/que-sera">Que Sera</a></h3>
+    <p class="sleeve-by row-artist">Forsberg</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="lions-gate" data-artist-id="dw" data-genre="downtempo">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/lions-gate" tabindex="-1" aria-hidden="true"><img src="/lions-gate-cover-480.webp" srcset="/lions-gate-cover-480.webp 480w, /lions-gate-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="lions-gate" data-play-track="lgt-01" aria-label="Play Lions&#39; Gate"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC061</span><span>14 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="lions-gate" data-sku="dg-lions-gate" data-name="Lions&#39; Gate — Digital" data-price="1.5" data-image="/lions-gate-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/lions-gate">Lions' Gate</a></h3>
+    <p class="sleeve-by row-artist">DW</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="the-jamz" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/the-jamz" tabindex="-1" aria-hidden="true"><img src="/the-jamz-cover-480.webp" srcset="/the-jamz-cover-480.webp 480w, /the-jamz-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="the-jamz" data-play-track="jam-01" aria-label="Play The Jamz"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC059</span><span>13 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="the-jamz" data-sku="dg-the-jamz" data-name="The Jamz — Digital" data-price="1.5" data-image="/the-jamz-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/the-jamz">The Jamz</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="call-ur-name-girl" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/call-ur-name-girl" tabindex="-1" aria-hidden="true"><img src="/call-ur-name-girl-cover-480.webp" srcset="/call-ur-name-girl-cover-480.webp 480w, /call-ur-name-girl-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="call-ur-name-girl" data-play-track="cun-01" aria-label="Play call ur name"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC058</span><span>13 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="call-ur-name-girl" data-sku="dg-call-ur-name-girl" data-name="call ur name — Digital" data-price="1.5" data-image="/call-ur-name-girl-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/call-ur-name-girl">call ur name</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="get-u-now" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/get-u-now" tabindex="-1" aria-hidden="true"><img src="/get-u-now-cover-480.webp" srcset="/get-u-now-cover-480.webp 480w, /get-u-now-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="get-u-now" data-play-track="gun-01" aria-label="Play Get-U-Now"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC064</span><span>13 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="get-u-now" data-sku="dg-get-u-now" data-name="Get-U-Now — Digital" data-price="1.5" data-image="/get-u-now-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/get-u-now">Get-U-Now</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="st-germain-rose-rouge" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/st-germain-rose-rouge" tabindex="-1" aria-hidden="true"><img src="/st-germain-rose-rouge-cover-480.webp" srcset="/st-germain-rose-rouge-cover-480.webp 480w, /st-germain-rose-rouge-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="st-germain-rose-rouge" data-play-track="srr-01" aria-label="Play St Germain - Rose Rouge (Molly&#39;s Hazy Edit: Jorja Smith Version)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC053</span><span>10 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="st-germain-rose-rouge" data-sku="dg-st-germain-rose-rouge" data-name="St Germain - Rose Rouge (Molly&#39;s Hazy Edit: Jorja Smith Version) — Digital" data-price="1.5" data-image="/st-germain-rose-rouge-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/st-germain-rose-rouge">St Germain – Rose Rouge (Molly's Hazy Edit: Jorja Smith Version)</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="give-everything" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/give-everything" tabindex="-1" aria-hidden="true"><img src="/give-everything-cover-480.webp" srcset="/give-everything-cover-480.webp 480w, /give-everything-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="give-everything" data-play-track="gev-01" aria-label="Play Give Everything"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC052</span><span>9 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="give-everything" data-sku="dg-give-everything" data-name="Give Everything — Digital" data-price="1.5" data-image="/give-everything-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/give-everything">Give Everything</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="were-all-mad-here" data-artist-id="archie" data-genre="uk-garage">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/were-all-mad-here" tabindex="-1" aria-hidden="true"><img src="/were-all-mad-here-cover-480.webp" srcset="/were-all-mad-here-cover-480.webp 480w, /were-all-mad-here-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="were-all-mad-here" data-play-track="wamh-01" aria-label="Play All Mad Here"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC051</span><span>9 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="were-all-mad-here" data-sku="dg-were-all-mad-here" data-name="All Mad Here — Digital" data-price="1.5" data-image="/were-all-mad-here-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/were-all-mad-here">All Mad Here</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="02-just-cant-take" data-artist-id="lt-drifta" data-genre="drum-bass">
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/02-just-cant-take" tabindex="-1" aria-hidden="true"><img src="/02-just-cant-take-cover-480.webp" srcset="/02-just-cant-take-cover-480.webp 480w, /02-just-cant-take-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="02-just-cant-take" data-play-track="jct-01" aria-label="Play Just Can&#39;t Take"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC050</span><span>9 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="02-just-cant-take" data-sku="dg-02-just-cant-take" data-name="Just Can&#39;t Take — Digital" data-price="1.5" data-image="/02-just-cant-take-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/02-just-cant-take">Just Can't Take</a></h3>
+    <p class="sleeve-by row-artist">LT Drifta</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="outta-tha-woods" data-artist-id="archie" data-genre="uk-garage" data-extra="" hidden>
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/outta-tha-woods" tabindex="-1" aria-hidden="true"><img src="/outta-tha-woods-cover-480.webp" srcset="/outta-tha-woods-cover-480.webp 480w, /outta-tha-woods-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="outta-tha-woods" data-play-track="otw-01" aria-label="Play Outta Tha Woods"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC047</span><span>9 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="outta-tha-woods" data-sku="dg-outta-tha-woods" data-name="Outta Tha Woods — Digital" data-price="1.5" data-image="/outta-tha-woods-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/outta-tha-woods">Outta Tha Woods</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="ipod-touch" data-artist-id="archie" data-genre="uk-garage" data-extra="" hidden>
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/ipod-touch" tabindex="-1" aria-hidden="true"><img src="/ipod-touch-cover-480.webp" srcset="/ipod-touch-cover-480.webp 480w, /ipod-touch-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="ipod-touch" data-play-track="ipt-01" aria-label="Play Ninajirachi - iPod Touch (Archie&#39;s Garage Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC040</span><span>9 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="ipod-touch" data-sku="dg-ipod-touch" data-name="Ninajirachi - iPod Touch (Archie&#39;s Garage Bootleg) — Digital" data-price="1.5" data-image="/ipod-touch-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/ipod-touch">Ninajirachi – iPod Touch (Archie's Garage Bootleg)</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="so-good" data-artist-id="archie" data-genre="uk-garage" data-extra="" hidden>
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/so-good" tabindex="-1" aria-hidden="true"><img src="/so-good-cover-480.webp" srcset="/so-good-cover-480.webp 480w, /so-good-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
+    <button type="button" class="key key--play sleeve-key" data-play-release="so-good" data-play-track="sgd-01" aria-label="Play Jhené Aiko - So Good (Archie Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+  </div>
+  <div class="sleeve-copy">
+    <p class="mono sleeve-meta"><span>CC039</span><span>9 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="so-good" data-sku="dg-so-good" data-name="Jhené Aiko - So Good (Archie Bootleg) — Digital" data-price="1.5" data-image="/so-good-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/so-good">Jhené Aiko – So Good (Archie Bootleg)</a></h3>
+    <p class="sleeve-by row-artist">Archie</p>
+  </div>
+</article>
+<article class="sleeve-card" data-release="wake-up-mr-mac" data-artist-id="archie" data-genre="uk-garage" data-extra="" hidden>
+  <div class="sleeve-face">
+    <a class="sleeve-art" href="/wake-up-mr-mac" tabindex="-1" aria-hidden="true"><img src="/wake-up-mr-mac-cover-480.webp" srcset="/wake-up-mr-mac-cover-480.webp 480w, /wake-up-mr-mac-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="wake-up-mr-mac" data-play-track="wum-01" aria-label="Play Wake Up Mr. Mac"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
   </div>
   <div class="sleeve-copy">
@@ -124,7 +375,7 @@
     <p class="sleeve-by row-artist">Archie</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="lt-invades-blue-note" data-artist-id="lt-drifta" data-genre="electronic">
+<article class="sleeve-card" data-release="lt-invades-blue-note" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/lt-invades-blue-note" tabindex="-1" aria-hidden="true"><img src="/lt-invades-blue-note-cover-480.webp" srcset="/lt-invades-blue-note-cover-480.webp 480w, /lt-invades-blue-note-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="lt-invades-blue-note" data-play-track="lbn-01" aria-label="Play LT Invades Blue Note: Tracks From Shades of Blue"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -135,18 +386,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="outta-tha-woods" data-artist-id="forsberg" data-genre="house">
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/outta-tha-woods" tabindex="-1" aria-hidden="true"><img src="/outta-tha-woods-cover-480.webp" srcset="/outta-tha-woods-cover-480.webp 480w, /outta-tha-woods-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="outta-tha-woods" data-play-track="otw-01" aria-label="Play Outta Tha Woods"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC047</span><span>5 Nov 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="outta-tha-woods" data-sku="dg-outta-tha-woods" data-name="Outta Tha Woods — Digital" data-price="1.5" data-image="/outta-tha-woods-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/outta-tha-woods">Outta Tha Woods</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="why-is-my-heart-so-heavy" data-artist-id="lt-drifta" data-genre="electronic">
+<article class="sleeve-card" data-release="why-is-my-heart-so-heavy" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/why-is-my-heart-so-heavy" tabindex="-1" aria-hidden="true"><img src="/why-is-my-heart-so-heavy-cover-480.webp" srcset="/why-is-my-heart-so-heavy-cover-480.webp 480w, /why-is-my-heart-so-heavy-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="why-is-my-heart-so-heavy" data-play-track="wih-01" aria-label="Play Why Is My Heart So Heavy"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -157,7 +397,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="carry-me-home" data-artist-id="lt-drifta" data-genre="electronic">
+<article class="sleeve-card" data-release="carry-me-home" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/carry-me-home" tabindex="-1" aria-hidden="true"><img src="/carry-me-home-cover-480.webp" srcset="/carry-me-home-cover-480.webp 480w, /carry-me-home-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="carry-me-home" data-play-track="cmh-01" aria-label="Play Anile - Carry Me Home (LT&#39;s Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -168,18 +408,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="skin-to-skin" data-artist-id="forsberg" data-genre="house">
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/skin-to-skin" tabindex="-1" aria-hidden="true"><img src="/skin-to-skin-cover-480.webp" srcset="/skin-to-skin-cover-480.webp 480w, /skin-to-skin-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="skin-to-skin" data-play-track="skn-01" aria-label="Play MPH &amp; Megra - Skin to Skin (forsberg bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC044</span><span>31 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="skin-to-skin" data-sku="dg-skin-to-skin" data-name="MPH &amp; Megra - Skin to Skin (forsberg bootleg) — Digital" data-price="1.5" data-image="/skin-to-skin-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/skin-to-skin">MPH &amp; Megra – Skin to Skin (forsberg bootleg)</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="artificial-intelligence" data-artist-id="lt-drifta" data-genre="electronic">
+<article class="sleeve-card" data-release="artificial-intelligence" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/artificial-intelligence" tabindex="-1" aria-hidden="true"><img src="/artificial-intelligence-cover-480.webp" srcset="/artificial-intelligence-cover-480.webp 480w, /artificial-intelligence-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="artificial-intelligence" data-play-track="ari-01" aria-label="Play Artificial Intelligence"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -190,7 +419,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="a-ap-forever" data-artist-id="forsberg" data-genre="house">
+<article class="sleeve-card" data-release="a-ap-forever" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/a-ap-forever" tabindex="-1" aria-hidden="true"><img src="/a-ap-forever-cover-480.webp" srcset="/a-ap-forever-cover-480.webp 480w, /a-ap-forever-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="a-ap-forever" data-play-track="aaf-01" aria-label="Play A$AP FOREVER"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -201,7 +430,7 @@
     <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="slims-return" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="slims-return" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/slims-return" tabindex="-1" aria-hidden="true"><img src="/slims-return-cover-480.webp" srcset="/slims-return-cover-480.webp 480w, /slims-return-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="slims-return" data-play-track="slr-01" aria-label="Play Slims&#39; Return (LT&#39;s Jungle Edit)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -212,29 +441,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="ipod-touch" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/ipod-touch" tabindex="-1" aria-hidden="true"><img src="/ipod-touch-cover-480.webp" srcset="/ipod-touch-cover-480.webp 480w, /ipod-touch-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="ipod-touch" data-play-track="ipt-01" aria-label="Play Ninajirachi - iPod Touch (Forsberg Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC040</span><span>25 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="ipod-touch" data-sku="dg-ipod-touch" data-name="Ninajirachi - iPod Touch (Forsberg Bootleg) — Digital" data-price="1.5" data-image="/ipod-touch-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/ipod-touch">Ninajirachi – iPod Touch (Forsberg Bootleg)</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="so-good" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/so-good" tabindex="-1" aria-hidden="true"><img src="/so-good-cover-480.webp" srcset="/so-good-cover-480.webp 480w, /so-good-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="so-good" data-play-track="sgd-01" aria-label="Play Jhené Aiko - So Good (Forsberg Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC039</span><span>25 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="so-good" data-sku="dg-so-good" data-name="Jhené Aiko - So Good (Forsberg Bootleg) — Digital" data-price="0.99" data-image="/so-good-cover.webp" aria-label="Add digital for $0.99">$0.99</button></span></p>
-    <h3 class="sleeve-title"><a href="/so-good">Jhené Aiko – So Good (Forsberg Bootleg)</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="for-my-sins" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="for-my-sins" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/for-my-sins" tabindex="-1" aria-hidden="true"><img src="/for-my-sins-cover-480.webp" srcset="/for-my-sins-cover-480.webp 480w, /for-my-sins-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="for-my-sins" data-play-track="fms-01" aria-label="Play For My Sins"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -245,7 +452,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="high-low" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="high-low" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/high-low" tabindex="-1" aria-hidden="true"><img src="/high-low-cover-480.webp" srcset="/high-low-cover-480.webp 480w, /high-low-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="high-low" data-play-track="hl-01" aria-label="Play Lenzman, Redeyes - High &amp; Low (Remix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -256,29 +463,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="dont-cry" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/dont-cry" tabindex="-1" aria-hidden="true"><img src="/dont-cry-cover-480.webp" srcset="/dont-cry-cover-480.webp 480w, /dont-cry-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="dont-cry" data-play-track="dc-01" aria-label="Play don&#39;t cry"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC036</span><span>24 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="dont-cry" data-sku="dg-dont-cry" data-name="don&#39;t cry — Digital" data-price="1.5" data-image="/dont-cry-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/dont-cry">don't cry</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="some-kinda-heaven" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/some-kinda-heaven" tabindex="-1" aria-hidden="true"><img src="/some-kinda-heaven-cover-480.webp" srcset="/some-kinda-heaven-cover-480.webp 480w, /some-kinda-heaven-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="some-kinda-heaven" data-play-track="skh-01" aria-label="Play LT Memphis - Some Kinda Heaven (Forsberg Refix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC035</span><span>24 Oct 2026</span><span class="sleeve-offer"><a class="sleeve-buy" href="/api/bandcamp-stream?r=some-kinda-heaven&amp;t=skh-01&amp;download=1" aria-label="Free download">Free</a></span></p>
-    <h3 class="sleeve-title"><a href="/some-kinda-heaven">LT Memphis – Some Kinda Heaven (Forsberg Refix)</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="shaolin-style" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="shaolin-style" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/shaolin-style" tabindex="-1" aria-hidden="true"><img src="/shaolin-style-cover-480.webp" srcset="/shaolin-style-cover-480.webp 480w, /shaolin-style-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="shaolin-style" data-play-track="sha-01" aria-label="Play Lavery - Shaolin Style (L.T.&#39;s VIP Mix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -287,17 +472,6 @@
     <p class="mono sleeve-meta"><span>CC034</span><span>24 Oct 2026</span><span class="sleeve-offer"><a class="sleeve-buy" href="/api/bandcamp-stream?r=shaolin-style&amp;t=sha-01&amp;download=1" aria-label="Free download">Free</a></span></p>
     <h3 class="sleeve-title"><a href="/shaolin-style">Lavery – Shaolin Style (L.T.'s VIP Mix)</a></h3>
     <p class="sleeve-by row-artist">LT Drifta</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="whats-luv" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/whats-luv" tabindex="-1" aria-hidden="true"><img src="/whats-luv-cover-480.webp" srcset="/whats-luv-cover-480.webp 480w, /whats-luv-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="whats-luv" data-play-track="wlv-01" aria-label="Play w h a t &#39; s   l u v"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC033</span><span>24 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="whats-luv" data-sku="dg-whats-luv" data-name="w h a t &#39; s   l u v — Digital" data-price="1.5" data-image="/whats-luv-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/whats-luv">w h a t ' s   l u v</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
 <article class="sleeve-card" data-release="lifetime" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
@@ -311,7 +485,7 @@
     <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="links" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="links" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/links" tabindex="-1" aria-hidden="true"><img src="/links-cover-480.webp" srcset="/links-cover-480.webp 480w, /links-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="links" data-play-track="lnk-01" aria-label="Play The Chameleon - Links (L.T.&#39;s VIP Mix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -322,29 +496,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="everyday" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/everyday" tabindex="-1" aria-hidden="true"><img src="/everyday-cover-480.webp" srcset="/everyday-cover-480.webp 480w, /everyday-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="everyday" data-play-track="evd-01" aria-label="Play everyday"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC025</span><span>23 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="everyday" data-sku="dg-everyday" data-name="everyday — Digital" data-price="1.5" data-image="/everyday-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/everyday">everyday</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="safe-as" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/safe-as" tabindex="-1" aria-hidden="true"><img src="/safe-as-cover-480.webp" srcset="/safe-as-cover-480.webp 480w, /safe-as-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="safe-as" data-play-track="sa-01" aria-label="Play safe as"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC018</span><span>20 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="safe-as" data-sku="dg-safe-as" data-name="safe as — Digital" data-price="1.5" data-image="/safe-as-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/safe-as">safe as</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="get-me-down" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="get-me-down" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/get-me-down" tabindex="-1" aria-hidden="true"><img src="/get-me-down-cover-480.webp" srcset="/get-me-down-cover-480.webp 480w, /get-me-down-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="get-me-down" data-play-track="gmd-01" aria-label="Play Nia Archives - Get Me Down (Molly&#39;s Hazy Jungle Edit)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -355,40 +507,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="deeper" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/deeper" tabindex="-1" aria-hidden="true"><img src="/deeper-cover-480.webp" srcset="/deeper-cover-480.webp 480w, /deeper-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="deeper" data-play-track="dee-01" aria-label="Play Deeper"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC017</span><span>19 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="deeper" data-sku="dg-deeper" data-name="Deeper — Digital" data-price="1.5" data-image="/deeper-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/deeper">Deeper</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="outta-this-mess" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/outta-this-mess" tabindex="-1" aria-hidden="true"><img src="/outta-this-mess-cover-480.webp" srcset="/outta-this-mess-cover-480.webp 480w, /outta-this-mess-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="outta-this-mess" data-play-track="otm-01" aria-label="Play Outta This Mess"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC016</span><span>18 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="outta-this-mess" data-sku="dg-outta-this-mess" data-name="Outta This Mess — Digital" data-price="1.5" data-image="/outta-this-mess-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/outta-this-mess">Outta This Mess</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="rose-rouge-edit" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
-  <div class="sleeve-face">
-    <a class="sleeve-art" href="/rose-rouge-edit" tabindex="-1" aria-hidden="true"><img src="/rose-rouge-edit-cover-480.webp" srcset="/rose-rouge-edit-cover-480.webp 480w, /rose-rouge-edit-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="rose-rouge-edit" data-play-track="rre-01" aria-label="Play Rose Rouge - St Germain (Molly&#39;s Hazy Edit) (Jorja Smith Version)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-  </div>
-  <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC015</span><span>18 Oct 2026</span><span class="sleeve-offer"><a class="sleeve-buy" href="/api/bandcamp-stream?r=rose-rouge-edit&amp;t=rre-01&amp;download=1" aria-label="Free download">Free</a></span></p>
-    <h3 class="sleeve-title"><a href="/rose-rouge-edit">Rose Rouge – St Germain (Molly's Hazy Edit) (Jorja Smith Version)</a></h3>
-    <p class="sleeve-by row-artist">Forsberg</p>
-  </div>
-</article>
-<article class="sleeve-card" data-release="three-4-zone" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="three-4-zone" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/three-4-zone" tabindex="-1" aria-hidden="true"><img src="/three-4-zone-cover-480.webp" srcset="/three-4-zone-cover-480.webp 480w, /three-4-zone-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="three-4-zone" data-play-track="t4z-01" aria-label="Play Three 4 Zone"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -413,33 +532,33 @@
 <article class="sleeve-card" data-release="try-to-love-again" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/try-to-love-again" tabindex="-1" aria-hidden="true"><img src="/try-to-love-again-cover-480.webp" srcset="/try-to-love-again-cover-480.webp 480w, /try-to-love-again-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="try-to-love-again" data-play-track="ttla-01" aria-label="Play Try To Love Again"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+    <button type="button" class="key key--play sleeve-key" data-play-release="try-to-love-again" data-play-track="ttla-01" aria-label="Play try to love again"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
   </div>
   <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC012</span><span>18 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="try-to-love-again" data-sku="dg-try-to-love-again" data-name="Try To Love Again — Digital" data-price="1.5" data-image="/try-to-love-again-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/try-to-love-again">Try To Love Again</a></h3>
+    <p class="mono sleeve-meta"><span>CC012</span><span>18 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="try-to-love-again" data-sku="dg-try-to-love-again" data-name="try to love again — Digital" data-price="1.5" data-image="/try-to-love-again-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/try-to-love-again">try to love again</a></h3>
     <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
 <article class="sleeve-card" data-release="run-it-back" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/run-it-back" tabindex="-1" aria-hidden="true"><img src="/run-it-back-cover-480.webp" srcset="/run-it-back-cover-480.webp 480w, /run-it-back-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="run-it-back" data-play-track="rib-01" aria-label="Play Run It Back"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+    <button type="button" class="key key--play sleeve-key" data-play-release="run-it-back" data-play-track="rib-01" aria-label="Play run it back"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
   </div>
   <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC011</span><span>18 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="run-it-back" data-sku="dg-run-it-back" data-name="Run It Back — Digital" data-price="1.5" data-image="/run-it-back-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/run-it-back">Run It Back</a></h3>
+    <p class="mono sleeve-meta"><span>CC011</span><span>18 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="run-it-back" data-sku="dg-run-it-back" data-name="run it back — Digital" data-price="1.5" data-image="/run-it-back-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/run-it-back">run it back</a></h3>
     <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
 <article class="sleeve-card" data-release="please-wait" data-artist-id="forsberg" data-genre="house" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/please-wait" tabindex="-1" aria-hidden="true"><img src="/please-wait-cover-480.webp" srcset="/please-wait-cover-480.webp 480w, /please-wait-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
-    <button type="button" class="key key--play sleeve-key" data-play-release="please-wait" data-play-track="pw-01" aria-label="Play Please Wait"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+    <button type="button" class="key key--play sleeve-key" data-play-release="please-wait" data-play-track="pw-01" aria-label="Play please wait"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
   </div>
   <div class="sleeve-copy">
-    <p class="mono sleeve-meta"><span>CC010</span><span>17 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="please-wait" data-sku="dg-please-wait" data-name="Please Wait — Digital" data-price="1.5" data-image="/please-wait-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
-    <h3 class="sleeve-title"><a href="/please-wait">Please Wait</a></h3>
+    <p class="mono sleeve-meta"><span>CC010</span><span>17 Oct 2026</span><span class="sleeve-offer"><button type="button" class="sleeve-buy" data-add-release="please-wait" data-sku="dg-please-wait" data-name="please wait — Digital" data-price="1.5" data-image="/please-wait-cover.webp" aria-label="Add digital for $1.50">$1.50</button></span></p>
+    <h3 class="sleeve-title"><a href="/please-wait">please wait</a></h3>
     <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
@@ -476,7 +595,7 @@
     <p class="sleeve-by row-artist">Forsberg</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="champion-sound" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="champion-sound" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/champion-sound" tabindex="-1" aria-hidden="true"><img src="/champion-sound-cover-480.webp" srcset="/champion-sound-cover-480.webp 480w, /champion-sound-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="champion-sound" data-play-track="cs-01" aria-label="Play Champion Sound"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -487,7 +606,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="ep1" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="ep1" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/ep1" tabindex="-1" aria-hidden="true"><img src="/ep1-cover-480.webp" srcset="/ep1-cover-480.webp 480w, /ep1-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="ep1" data-play-track="ep1-01" aria-label="Play Lakeshore West 23:55"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -498,7 +617,7 @@
     <p class="sleeve-by row-artist">LT Drifta</p>
   </div>
 </article>
-<article class="sleeve-card" data-release="summer-madness" data-artist-id="lt-drifta" data-genre="electronic" data-extra="" hidden>
+<article class="sleeve-card" data-release="summer-madness" data-artist-id="lt-drifta" data-genre="drum-bass" data-extra="" hidden>
   <div class="sleeve-face">
     <a class="sleeve-art" href="/summer-madness" tabindex="-1" aria-hidden="true"><img src="/summer-madness-cover-480.webp" srcset="/summer-madness-cover-480.webp 480w, /summer-madness-cover.webp 1200w" sizes="(min-width: 1100px) 22vw, 46vw" alt="" width="1200" height="1200" loading="lazy"/></a>
     <button type="button" class="key key--play sleeve-key" data-play-release="summer-madness" data-play-track="suma-01" aria-label="Play Summer Madness"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
@@ -522,63 +641,7 @@
 </article>
   </div>
   <p class="listen-empty" id="listenEmpty" hidden>No releases match these filters.</p>
-  <p class="rows-more mono"><a href="/library" id="listenMore">All 37 releases →</a></p>
-</section>
-
-<section class="sec sec--zine" aria-labelledby="zine-title" id="news">
-  <header class="sec-head sec-head--zine">
-    <p class="sec-kicker">Vol. 10 · October 2026</p>
-    <a class="sec-link" href="/news">The volume</a>
-    <h2 class="zine-home-title" id="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h2>
-  </header>
-  <article class="home-stars" aria-labelledby="home-stars-title">
-  <div class="home-stars-head">
-    <div>
-      <p class="mono home-stars-kicker"><span>Monthly horoscope</span><span>October 2026</span></p>
-      <h3 class="home-stars-title" id="home-stars-title"><a href="/news/stars-for-the-floor">Stars for the Floor</a></h3>
-    </div>
-    <a class="sec-link" href="/news/stars-for-the-floor">The chart</a>
-  </div>
-  <ol class="sign-chart"><li><a href="/news/stars-for-the-floor#aries"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 18.5C5 9 8.6 5 12 11.2 15.4 5 19 9 19 18.5"/></svg><span class="sign-name">Aries</span><em class="mono">mar 21 – apr 19</em></a></li><li><a href="/news/stars-for-the-floor#taurus"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.2 12.2C7.2 7.2 9.2 4.6 12 4.6s4.8 2.6 4.8 7.6"/><path d="M12 20.4a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6z"/></svg><span class="sign-name">Taurus</span><em class="mono">apr 20 – may 20</em></a></li><li><a href="/news/stars-for-the-floor#gemini"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 5h11M6.5 19h11M8.2 5v14M15.8 5v14"/></svg><span class="sign-name">Gemini</span><em class="mono">may 21 – jun 20</em></a></li><li><a href="/news/stars-for-the-floor#cancer"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 8.2a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M12.2 15.8a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M11.6 7.1C16.4 6 18.6 10.2 16.4 14.4"/><path d="M12.4 16.9C7.6 18 5.4 13.8 7.6 9.6"/></svg><span class="sign-name">Cancer</span><em class="mono">jun 21 – jul 22</em></a></li><li><a href="/news/stars-for-the-floor#leo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.7 13.4a3.15 3.15 0 1 0 0-6.3 3.15 3.15 0 0 0 0 6.3z"/><path d="M11.6 11.6c3.2 1.5 4.8 5.2 2.4 8.1 3.6.2 6.6 1.5 6.2-1.6"/></svg><span class="sign-name">Leo</span><em class="mono">jul 23 – aug 22</em></a></li><li><a href="/news/stars-for-the-floor#virgo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.6 18.6V10.2"/><path d="M4.6 12.4c0-3.6 3.1-4.2 3.3.2"/><path d="M7.9 12.2c0-3.6 3.1-4.2 3.3.4"/><path d="M11.2 12.4V16c.2 3.2 4.4 3.8 5.1.6.5-2.2-1.6-3.4-3.1-1.6"/></svg><span class="sign-name">Virgo</span><em class="mono">aug 23 – sep 22</em></a></li><li><a href="/news/stars-for-the-floor#libra"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.2h15"/><path d="M7 16.2a5 5 0 0 1 10 0"/></svg><span class="sign-name">Libra</span><em class="mono">sep 23 – oct 22</em></a></li><li><a href="/news/stars-for-the-floor#scorpio"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.4 18.4V10"/><path d="M4.4 12.2c0-3.5 3-4.1 3.2.2"/><path d="M7.6 12c0-3.5 3-4.1 3.2.5V15"/><path d="M10.8 15.2 16.2 9.6"/><path d="M16.2 9.6h-3.3M16.2 9.6v3.3"/></svg><span class="sign-name">Scorpio</span><em class="mono">oct 23 – nov 21</em></a></li><li><a href="/news/stars-for-the-floor#sagittarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 18.5 18.2 5.8"/><path d="M18.2 5.8h-6.2M18.2 5.8v6.2"/><path d="M9.2 10.4 14.2 15.4"/></svg><span class="sign-name">Sagittarius</span><em class="mono">nov 22 – dec 21</em></a></li><li><a href="/news/stars-for-the-floor#capricorn"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.2 18.6V10.2c0-3.4 4.2-4 4.6.6v5.4c.8 3.6 5.4 4.2 6.6 1.2"/><path d="M17.2 16.8a2.15 2.15 0 1 0 .4-3.6 2.15 2.15 0 0 0-.4 3.6z"/></svg><span class="sign-name">Capricorn</span><em class="mono">dec 22 – jan 19</em></a></li><li><a href="/news/stars-for-the-floor#aquarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.8 9.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/><path d="M3.8 15.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/></svg><span class="sign-name">Aquarius</span><em class="mono">jan 20 – feb 18</em></a></li><li><a href="/news/stars-for-the-floor#pisces"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.2 4.4c4.4 3.2 4.4 12 0 15.2"/><path d="M15.8 4.4c-4.4 3.2-4.4 12 0 15.2"/><path d="M5.2 12h13.6"/></svg><span class="sign-name">Pisces</span><em class="mono">feb 19 – mar 20</em></a></li></ol>
-</article>
-  <div class="rows">
-    <a class="row row--story" href="/news/romford-kept-the-receipts">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Feature</span><span>17 Oct 2026</span><span>5 min</span></p>
-    <h3 class="row-title">Romford Kept the Receipts</h3>
-    <p class="row-dek">Mega Mega opens in a soon-to-close South Street club, and it brings Boogie Times, Suburban Base and a decade of Essex white labels back under one roof.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-romford-kept-the-receipts.webp" alt="A lone pair of black loudspeakers on a tripod stand against a pale wall, no one around." width="1600" height="1066" loading="lazy"/></div>
-</a>
-<a class="row row--story" href="/news/still-looking-for-the-warehouse">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Feature</span><span>17 Oct 2026</span><span>5 min</span></p>
-    <h3 class="row-title">Still Looking for the Warehouse</h3>
-    <p class="row-dek">In Pursuit of Repetitive Beats puts a visitor in a car, a service station, and a 1989 acid-house chase at Sensoria in Sheffield.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-still-looking-for-the-warehouse.webp" alt="An empty warehouse with concrete pillars, corrugated metal walls and a scuffed bare floor under strip lights." width="1600" height="1066" loading="lazy"/></div>
-</a>
-<a class="row row--story" href="/news/radial-wants-the-midsize-room">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Scene Report</span><span>17 Oct 2026</span><span>5 min</span></p>
-    <h3 class="row-title">Radial Wants the Midsize Room</h3>
-    <p class="row-dek">Tottenham’s new 250-cap listening club opens out of Ten87 Studios with a Whitaker-tuned Martin Audio/Funktion-One rig, a no-phones floor, and an opening weekend that stacks jungle, UK bass, house and garage. The gossip is the sound. The story is the room.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-radial-wants-the-midsize-room.webp" alt="Empty disco floor, mirrored ball overhead, speakers in the dark, no people. Photo: Yerutskow, CC BY-SA 3.0." width="1600" height="1066" loading="lazy"/></div>
-</a>
-<a class="row row--story" href="/news/they-settled-it-at-afterhours">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Essay</span><span>17 Oct 2026</span><span>4 min</span></p>
-    <h3 class="row-title">They Settled It at Afterhours</h3>
-    <p class="row-dek">Madonna clapped back at Charli xcx’s dead-dancefloor line. Then they wrote the afters together.</p>
-    <p class="mono row-read">Read →</p>
-  </div>
-  <div class="row-art row-art--wide"><img src="/news-they-settled-it-at-afterhours.webp" alt="Empty neon corridor in pink and blue light, no people. Render: Wizarto Pro, Unsplash License." width="1600" height="1066" loading="lazy"/></div>
-</a>
-  </div>
+  <p class="rows-more mono"><a href="/library" id="listenMore">All 40 releases →</a></p>
 </section>
 
 <section class="sec sec--tapes" aria-labelledby="mixtapes-title" id="mixtapes">
@@ -588,10 +651,10 @@
 </header>
   <div class="tape-filters" data-tape-filters hidden>
   <div class="lane">
-    <span class="lane-label mono" id="tape-genre-label">Genre</span>
-    <div class="seg" role="radiogroup" aria-labelledby="tape-genre-label" data-filter="genre">
-      <span class="plate" aria-hidden="true"></span>
-    </div>
+    <label class="lane-label mono" for="tape-genre">Genre</label>
+    <select class="lane-pick" id="tape-genre" data-filter="genre" autocomplete="off">
+      <option value="" data-label="All">All</option>
+    </select>
   </div>
   <p class="mono filter-count" data-tape-count aria-live="polite"></p>
 </div>
@@ -613,193 +676,21 @@
   </section>
 </section>
 
-<section class="sec" aria-labelledby="videos-title" id="videos">
-  <header class="sec-head">
-  <h2 class="sec-title" id="videos-title"><span class="sec-kicker">YouTube · @ltdrifta</span>Video feed</h2>
-  <a class="sec-link" href="https://www.youtube.com/@ltdrifta">Channel ↗</a>
-</header>
-  <div class="rows">
-    <article class="row row--video" data-video="_bmJZpCSKqk">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Video</span><span>29 Oct 2026</span><span>YouTube</span></p>
-    <h3 class="row-artist">LT Drifta</h3>
-    <p class="row-title"><a href="https://www.youtube.com/watch?v=_bmJZpCSKqk" rel="noopener noreferrer" data-video-embed="_bmJZpCSKqk">Why Is My Heart So Heavy</a></p>
-    <p class="row-dek">LT DRIFTA – Why Is My Heart So Heavy [Drum &amp; Bass] | Club Copy &amp; Copy House Publishing</p>
-    <div class="row-actions">
-      <button type="button" class="key video-key" data-video-embed="_bmJZpCSKqk" aria-label="Play Why Is My Heart So Heavy"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-      <a class="mono row-fmt" href="https://www.youtube.com/watch?v=_bmJZpCSKqk" rel="noopener noreferrer">Watch on YouTube ↗</a>
-    </div>
-  </div>
-  <a class="row-art row-art--wide video-art" href="https://www.youtube.com/watch?v=_bmJZpCSKqk" rel="noopener noreferrer" data-video-embed="_bmJZpCSKqk" aria-label="Play Why Is My Heart So Heavy"><img src="https://i4.ytimg.com/vi/_bmJZpCSKqk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy"/></a>
-</article>
-<article class="row row--video" data-video="Yv_4uBJ66fo">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Video</span><span>24 Oct 2026</span><span>YouTube</span></p>
-    <h3 class="row-artist">LT Drifta</h3>
-    <p class="row-title"><a href="https://www.youtube.com/watch?v=Yv_4uBJ66fo" rel="noopener noreferrer" data-video-embed="Yv_4uBJ66fo">The Chameleon – Links (L.T.'s VIP Mix)</a></p>
-    <p class="row-dek">'95 flow</p>
-    <div class="row-actions">
-      <button type="button" class="key video-key" data-video-embed="Yv_4uBJ66fo" aria-label="Play The Chameleon - Links (L.T.&#39;s VIP Mix)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-      <a class="mono row-fmt" href="https://www.youtube.com/watch?v=Yv_4uBJ66fo" rel="noopener noreferrer">Watch on YouTube ↗</a>
-    </div>
-  </div>
-  <a class="row-art row-art--wide video-art" href="https://www.youtube.com/watch?v=Yv_4uBJ66fo" rel="noopener noreferrer" data-video-embed="Yv_4uBJ66fo" aria-label="Play The Chameleon - Links (L.T.&#39;s VIP Mix)"><img src="https://i2.ytimg.com/vi/Yv_4uBJ66fo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy"/></a>
-</article>
-  </div>
+<section class="home-plates" aria-label="Night Shift and the roster">
+  <a class="home-plate" id="news" href="/news">
+    <h2 class="home-plate-title" id="zine-title">Night Shift</h2>
+    <p class="home-plate-kicker">Vol. 11 · November 2026</p>
+    <span class="home-plate-line">The floor</span><span class="home-plate-line">The fit</span><span class="home-plate-line">The afters</span>
+  </a>
+  <a class="home-plate" id="artists" href="/artists">
+    <h2 class="home-plate-title" id="artists-title">Artists</h2>
+    <p class="home-plate-kicker">6 artists</p>
+    <span class="home-plate-line">Forsberg</span><span class="home-plate-line">LT Drifta</span><span class="home-plate-line">Riscape</span><span class="home-plate-line">Archie</span><span class="home-plate-line">DW</span><span class="home-plate-line">Neighbourhood Spy</span>
+  </a>
 </section>
 
-<section class="sec" aria-labelledby="artists-title">
-  <header class="sec-head">
-  <h2 class="sec-title" id="artists-title">Artists</h2>
-  <a class="sec-link" href="/artists">Roster</a>
-</header>
-  <div class="rows"><article class="row row--artist" id="forsberg">
-  <div class="row-main">
-    <p class="mono row-meta"><span>01</span><span>Lofi House · Vancouver, BC</span><span>19 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/forsberg">Forsberg</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="outta-tha-woods" data-play-track="otw-01" aria-pressed="false" aria-label="Play Outta Tha Woods"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/forsberg">Artist page</a>
-  <a class="btn btn-small btn-text" href="/outta-tha-woods">Latest: Outta Tha Woods</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/forsberg" aria-label="Forsberg"><img src="/artists/forsberg.webp" alt="Forsberg" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="lt-drifta">
-  <div class="row-main">
-    <p class="mono row-meta"><span>02</span><span>Jungle / DNB · Cumberland, BC</span><span>15 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/lt-drifta">LT Drifta</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="lt-invades-blue-note" data-play-track="lbn-01" aria-pressed="false" aria-label="Play LT Invades Blue Note: Tracks From Shades of Blue"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/lt-drifta">Artist page</a>
-  <a class="btn btn-small btn-text" href="/lt-invades-blue-note">Latest: LT Invades Blue Note: Tracks From Shades of Blue</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/lt-drifta" aria-label="LT Drifta"><img src="/artists/lt-drifta.webp?v=mark" alt="LT Drifta" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="riscape">
-  <div class="row-main">
-    <p class="mono row-meta"><span>03</span><span>Melodic House · Athens</span><span>2 releases</span></p>
-    <h2 class="row-artist"><a href="/artists/riscape">Riscape</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="tell-me" data-play-track="tm-01" aria-pressed="false" aria-label="Play Tell Me"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/riscape">Artist page</a>
-  <a class="btn btn-small btn-text" href="/tell-me">Latest: Tell Me</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/riscape" aria-label="Riscape"><img src="/artists/riscape.webp" alt="Riscape" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="archie">
-  <div class="row-main">
-    <p class="mono row-meta"><span>04</span><span>UK Garage</span><span>1 release</span></p>
-    <h2 class="row-artist"><a href="/artists/archie">Archie</a></h2>
-    
-    <div class="row-actions">
-  <button type="button" class="key key--play roster-play" data-play-release="wake-up-mr-mac" data-play-track="wum-01" aria-pressed="false" aria-label="Play Wake Up Mr. Mac"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg><span class="sr-only roster-play-label">Play</span></button>
-  <a class="btn btn-small" href="/artists/archie">Artist page</a>
-  <a class="btn btn-small btn-text" href="/wake-up-mr-mac">Latest: Wake Up Mr. Mac</a>
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/archie" aria-label="Archie"><img src="/artists/archie.webp" alt="Archie" width="1000" height="1000" loading="lazy"/></a>
-</article>
-<article class="row row--artist" id="dw">
-  <div class="row-main">
-    <p class="mono row-meta"><span>05</span><span>Downtempo hip-hop</span></p>
-    <h2 class="row-artist"><a href="/artists/dw">DW</a></h2>
-    
-    <div class="row-actions">
-  
-  <a class="btn btn-small" href="/artists/dw">Artist page</a>
-  
-    </div>
-  </div>
-  <a class="row-art row-art--photo" href="/artists/dw" aria-label="DW"><img src="/artists/dw.webp" alt="DW" width="1000" height="1000" loading="lazy"/></a>
-</article></div>
-</section>
-
-<section class="sec sec--join" id="join" aria-labelledby="join-title">
-  <header class="sec-head">
-  <h2 class="sec-title" id="join-title"><span class="sec-kicker">Record Club</span>Join the club</h2>
-  <a class="sec-link" href="/account">Account</a>
-</header>
-  <p class="join-dek page-lede" id="join-dek">A member number, first listens, 30% or 50% off music, and Club Credit toward the pressings you choose. Nothing ships unless you pick it.</p>
-  <div class="rows join-levels" id="joinLevels" role="radiogroup" aria-label="Record club level">
-    <button type="button" class="row row--level join-level" data-level="free" role="radio" aria-checked="true">
-      <span class="row-main">
-        <span class="mono row-meta"><span class="join-level-state">Selected</span><span>Alerts · first listens</span></span>
-        <span class="row-artist join-level-name">Free</span>
-        <span class="row-title join-level-price">$0</span>
-        <span class="row-dek join-level-blurb">Release alerts, the catalogue and first listens.</span>
-      </span>
-      <span class="join-level-dot" aria-hidden="true"></span>
-    </button>
-    <button type="button" class="row row--level join-level" data-level="club" role="radio" aria-checked="false">
-      <span class="row-main">
-        <span class="mono row-meta"><span class="join-level-state">Selected</span><span>30% off all music</span></span>
-        <span class="row-artist join-level-name">Club</span>
-        <span class="row-title join-level-price">$5 CAD a year</span>
-        <span class="row-dek join-level-blurb">30% off all music: digital, cassette and vinyl. Pays for itself at $17.</span>
-      </span>
-      <span class="join-level-dot" aria-hidden="true"></span>
-    </button>
-    <button type="button" class="row row--level join-level" data-level="premium" role="radio" aria-checked="false">
-      <span class="row-main">
-        <span class="mono row-meta"><span class="join-level-state">Selected</span><span>50% off · Club Credit</span></span>
-        <span class="row-artist join-level-name">Premium</span>
-        <span class="row-title join-level-price">from $10 CAD a year</span>
-        <span class="row-dek join-level-blurb">50% off all music, plus Club Credit: pay $10, get $25 toward cassette and vinyl.</span>
-      </span>
-      <span class="join-level-dot" aria-hidden="true"></span>
-    </button>
-  </div>
-  <div class="row row--join join-panel" id="joinPanel">
-    <div class="row-main join-form">
-      <p class="mono row-meta"><span>Your card</span></p>
-      <div class="join-fields">
-        <div class="field">
-          <label for="joinEmail">Email</label>
-          <input type="email" id="joinEmail" name="email" placeholder="you@email.com" autocomplete="email" required/>
-        </div>
-        <div class="field">
-          <label for="joinName">Name <span class="field-opt">optional</span></label>
-          <input type="text" id="joinName" name="displayName" placeholder="On the card" maxlength="40" autocomplete="nickname"/>
-        </div>
-      </div>
-      <div class="join-premium" id="premiumAmountBox" hidden>
-        <div class="field">
-          <label for="premiumAmount">Yearly amount (CAD)</label>
-          <div class="premium-presets" id="premiumPresets">
-            <button type="button" class="premium-preset" data-amount="10" aria-pressed="true">$10</button>
-            <button type="button" class="premium-preset" data-amount="25" aria-pressed="false">$25</button>
-            <button type="button" class="premium-preset" data-amount="50" aria-pressed="false">$50</button>
-            <button type="button" class="premium-preset" data-amount="100" aria-pressed="false">$100</button>
-          </div>
-          <input type="number" id="premiumAmount" name="amount" min="10" step="1" value="10" inputmode="decimal"/>
-        </div>
-        <p class="premium-credit-preview" id="premiumCreditPreview" aria-live="polite">That's <strong>$25.00</strong> toward cassettes.</p>
-      </div>
-      <div class="row-actions">
-        <button type="button" class="btn btn-solid" id="clubJoinBtn">Join free</button>
-        <p class="join-note" id="joinNote">We'll email you the details. You can always upgrade later.</p>
-      </div>
-      <p class="join-status" id="joinStatus" role="status" hidden></p>
-    </div>
-    <div class="row-art join-card-art">
-      <div class="member-card" aria-hidden="true">
-        <img class="member-card-mark" src="/club-copy-nav-ink.webp" alt="" width="901" height="418" loading="lazy" decoding="async"/>
-        <span class="mono member-card-no" id="joinCardNo">No. ————</span>
-        <span class="member-card-name" id="joinCardName"></span>
-        <span class="mono member-card-tier" id="joinCardTier">Free</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-</main>
-<footer class="footer">
+    </main>
+    <footer class="footer">
   <div class="footer-row footer-row--mark">
     <a class="footer-wordmark" href="/">Club Copy</a>
     <p class="footer-fact mono"><span>Independent record label</span><span>British Columbia, Canada</span><span>© 2024 — 2026</span></p>
@@ -819,7 +710,7 @@
   <div class="footer-row">
     <p class="footer-label">Newsletter</p>
     <div class="footer-news">
-      <form class="footer-form" action="https://formspree.io/f/mqppveoj" method="POST">
+      <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
         <label class="sr-only" for="footerEmail">Email</label>
         <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
@@ -834,6 +725,7 @@
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
+      <a href="/videos">Videos</a>
       <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
@@ -843,14 +735,16 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc15"></script>
-<script src="/js/cart.js?v=cc15"></script>
-<script src="/js/member.js?v=cc15"></script>
-<script src="/js/player.js?v=cc15"></script>
-<script src="/js/cc.js?v=cc15"></script>
-<script src="/js/tapes.js?v=cc15"></script>
-<script src="/js/join.js?v=cc15"></script>
-<script src="/js/lanes.js?v=cc15"></script>
+  </div>
+  <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
+</div>
+<script src="/js/site.js?v=cc20"></script>
+<script src="/js/cart.js?v=cc20"></script>
+<script src="/js/member.js?v=cc20"></script>
+<script src="/js/player.js?v=cc20"></script>
+<script src="/js/cc.js?v=cc20"></script>
+<script src="/js/tapes.js?v=cc20"></script>
+<script src="/js/lanes.js?v=cc20"></script>
 
 </body>
 </html>

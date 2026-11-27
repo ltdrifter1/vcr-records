@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="mac">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>MAYHEM — Club Copy</title>
   <meta name="description" content="Fourteen tracks, Gesaffelstein on Killah, and Abracadabra never left the kitchen after the Grammys."/>
-  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="theme-color" content="#808080"/>
   <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/news/the-chaos-came-back"/>
   
@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Silom&display=swap" rel="stylesheet"/>
   <script>
     (function () {
       try {
@@ -28,19 +28,108 @@
         if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        if (m) m.setAttribute("content", t === "day" ? "#c6c6c6" : "#808080");
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
+        if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
+        if (w && typeof w === "object") {
+          if (w.shut) document.documentElement.classList.add("mac-shut");
+          if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
+          if (w.shaded) document.documentElement.classList.add("mac-shaded");
+          if (!w.zoomed && !w.shut && isFinite(w.left) && isFinite(w.top) && isFinite(w.width) && isFinite(w.height)) {
+            var L = Math.max(-40, Math.min(1600, w.left));
+            var T = Math.max(24, Math.min(1200, w.top));
+            var W = Math.max(280, Math.min(1600, w.width));
+            var H = Math.max(160, Math.min(1400, w.height));
+            var root = document.documentElement;
+            root.style.setProperty("--win-l", L + "px");
+            root.style.setProperty("--win-t", T + "px");
+            root.style.setProperty("--win-w", W + "px");
+            root.style.setProperty("--win-h", H + "px");
+            root.classList.add("mac-placed");
+          }
+        }
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc41"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc41"/>
   
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"MAYHEM","description":"Fourteen tracks, Gesaffelstein on Killah, and Abracadabra never left the kitchen after the Grammys.","datePublished":"2025-03-07","author":{"@type":"Person","name":"CJ Archer"},"publisher":{"@type":"Organization","name":"Club Copy","logo":{"@type":"ImageObject","url":"https://www.clubcopy.ca/apple-touch-icon.png"}},"image":"https://www.clubcopy.ca/news-satan.webp","mainEntityOfPage":"https://www.clubcopy.ca/news/the-chaos-came-back","isPartOf":{"@type":"Periodical","name":"Night Shift"},"articleSection":"Review","wordCount":167}</script>
 </head>
 <body class="cc news-listing news-story">
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Menu bar">
+      <div class="menu menu--app">
+        <button type="button" class="menu-title menu-title--app" aria-haspopup="true" aria-expanded="false">Club Copy</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/">Home</a>
+          <a role="menuitem" href="/about">About This Label</a>
+          <a role="menuitem" href="/planet">Planet MP3</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/account">Account</a>
+          <a role="menuitem" href="/join">Record Club</a>
+          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/contact">Contact</a>
+        </div>
+      </div>
+      <div class="menu menu--file">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">File</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/library">Library</a>
+          <a role="menuitem" href="/artists">Artists</a>
+          <a role="menuitem" href="/tapes">Mixtapes</a>
+          <a role="menuitem" href="/videos">Videos</a>
+          <a role="menuitem" href="/news" aria-current="page">Night Shift</a>
+          <a role="menuitem" href="/merch">Shop</a>
+          <a role="menuitem" href="/join">Join</a>
+          <a role="menuitem" href="/contact">Contact</a>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="close">Close</button>
+        </div>
+      </div>
+      <div class="menu menu--edit">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Edit</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="undo" disabled>Undo</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="cut" disabled>Cut</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="copy">Copy</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="paste" disabled>Paste</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="select-all">Select All</button>
+        </div>
+      </div>
+      <div class="menu menu--view">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">View</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="icon">by Icon</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="list">by List</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="theme" data-theme="day">Day</button>
+          <button type="button" class="menu-item is-checked" role="menuitem" data-mac="theme" data-theme="night">Night</button>
+        </div>
+      </div>
+      <div class="menu menu--special">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Special</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="cleanup">Clean Up</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="restart">Restart</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="shutdown">Shut Down</button>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount">Account</a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+      <div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
   <p class="sky-live">
     <a class="sky-home" href="/">clubcopy.ca</a>
     <span>Cumberland</span>
@@ -53,37 +142,36 @@
     <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
   </button>
 </div>
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/library">Library</a>
-      <a href="/artists">Artists</a>
-      <a href="/tapes">Mixtapes</a>
-      <a href="/news" aria-current="page">Night Shift</a>
-      <a href="/merch">Shop</a>
-      <a href="/join">Join</a>
-      <a href="/contact">Contact</a>
-    </nav>
-    <div class="nav-end">
-      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/">Home</a>
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
+  <a href="/videos">Videos</a>
   <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
   <a href="/join">Join</a>
   <a href="/contact">Contact</a>
+  <a href="/about">About</a>
+  <a href="/planet">Planet MP3</a>
   <a href="/account">Account</a>
-  <a href="/cart">Cart</a>
+  <a href="/shipping">Shipping &amp; Returns</a>
 </div>
-<main id="main" class="news-page">
+<nav class="desk-icons" id="deskIcons" aria-label="Desktop"><button type="button" class="desk-icon desk-icon--app" id="deskApp"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="20" fill="#e6e6e6" stroke="#000" stroke-width="1.4"/><rect x="6" y="6" width="20" height="13" fill="#b7ddd4"/><path d="M11 27h10M16 23v4" stroke="#000" stroke-width="1.5" fill="none"/></svg></span><span class="desk-name">Club Copy</span></button><a class="desk-icon" href="/library"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#f6d453" stroke="#000" stroke-width="1.4" d="M3 9h10l2 3h14v15H3z"/></svg></span><span class="desk-name">Library</span></a><a class="desk-icon" href="/artists"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4" fill="#f3d2b5" stroke="#000" stroke-width="1.2"/><path d="M5 25c1-5 4-7 7-7s6 2 7 7z" fill="#4a7ab5" stroke="#000" stroke-width="1.2"/><circle cx="21" cy="12" r="3" fill="#f3d2b5" stroke="#000" stroke-width="1.1"/><path d="M17 25c.5-3 2.4-5 4.6-5 1.8 0 3.4 1.2 4.4 4" fill="#3d6ea8" stroke="#000" stroke-width="1.1"/></svg></span><span class="desk-name">Artists</span></a><a class="desk-icon" href="/tapes"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="8" width="26" height="16" fill="#222" stroke="#000" stroke-width="1.2"/><circle cx="11" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><circle cx="21" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><rect x="9" y="21" width="14" height="2" fill="#c0392b"/></svg></span><span class="desk-name">Mixtapes</span></a><a class="desk-icon" href="/news" aria-current="page"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" stroke="#000" stroke-width="1.3" d="M8 3h11l6 6v19H8z"/><path fill="#eee" stroke="#000" stroke-width="1.1" d="M19 3v6h6"/><path stroke="#000" stroke-width="1" d="M11 15h10M11 18h10M11 21h7"/></svg></span><span class="desk-name">Night Shift</span></a><a class="desk-icon" href="/merch"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 12h16l-1.5 14H9.5z" fill="#eee" stroke="#000" stroke-width="1.3"/><path d="M12 12V9.5a4 4 0 0 1 8 0V12" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Shop</span></a><a class="desk-icon" href="/contact"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" fill="#fff" stroke="#000" stroke-width="1.3"/><path d="M4 8l12 9L28 8" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Contact</span></a></nav>
+<div class="win" id="win">
+  <div class="win-bar" id="winBar">
+    <div class="win-boxes">
+      <button type="button" class="win-box win-close" id="winClose" aria-label="Close"></button>
+      <button type="button" class="win-box win-shade" id="winShade" aria-label="Collapse"></button>
+      <button type="button" class="win-box win-zoom" id="winZoom" aria-label="Zoom"></button>
+    </div>
+    <div class="win-title" id="winTitle"><span>MAYHEM</span></div>
+  </div>
+  <div class="win-body" id="winBody">
+    <main id="main" class="news-page">
 
 <div class="zine-sheet zine-sheet--story">
   <nav class="crumbs zine-story-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><a href="/news">Night Shift</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">MAYHEM</span></nav>
@@ -122,8 +210,8 @@
     </nav>
   </article>
 </div>
-</main>
-<footer class="footer">
+    </main>
+    <footer class="footer">
   <div class="footer-row footer-row--mark">
     <a class="footer-wordmark" href="/">Club Copy</a>
     <p class="footer-fact mono"><span>Independent record label</span><span>British Columbia, Canada</span><span>© 2024 — 2026</span></p>
@@ -143,7 +231,7 @@
   <div class="footer-row">
     <p class="footer-label">Newsletter</p>
     <div class="footer-news">
-      <form class="footer-form" action="https://formspree.io/f/mqppveoj" method="POST">
+      <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
         <label class="sr-only" for="footerEmail">Email</label>
         <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
@@ -158,6 +246,7 @@
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
+      <a href="/videos">Videos</a>
       <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
@@ -167,12 +256,15 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc15"></script>
-<script src="/js/cart.js?v=cc15"></script>
-<script src="/js/member.js?v=cc15"></script>
-<script src="/js/player.js?v=cc15"></script>
-<script src="/js/cc.js?v=cc15"></script>
-<script src="/js/zine.js?v=cc15"></script>
+  </div>
+  <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
+</div>
+<script src="/js/site.js?v=cc20"></script>
+<script src="/js/cart.js?v=cc20"></script>
+<script src="/js/member.js?v=cc20"></script>
+<script src="/js/player.js?v=cc20"></script>
+<script src="/js/cc.js?v=cc20"></script>
+<script src="/js/zine.js?v=cc20"></script>
 
 </body>
 </html>

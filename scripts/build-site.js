@@ -17,6 +17,7 @@ const release = require("./site/pages/release");
 const { artistsIndex, artistPage } = require("./site/pages/artists");
 const zine = require("./site/pages/zine");
 const tapes = require("./site/pages/tapes");
+const videos = require("./site/pages/videos");
 const { shopIndex, productPage } = require("./site/pages/shop");
 const misc = require("./site/pages/misc");
 
@@ -42,6 +43,7 @@ data.catalog.artists.forEach((a) => out(`artists/${a.id}.html`, artistPage(a, da
 out("artists/cj-archer.html", misc.person(data));
 data.catalog.releases.filter(L.onSite).forEach((r) => out(r.page.replace(/^\//, "") + ".html", release(r, data)));
 out("tapes.html", tapes(data));
+out("videos.html", videos(data));
 out("merch.html", shopIndex(data));
 data.merch.products.forEach((p) => out(`merch/${p.slug}.html`, productPage(p, data)));
 

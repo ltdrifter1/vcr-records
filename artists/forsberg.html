@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="mac">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Forsberg — Club Copy</title>
-  <meta name="description" content="Forsberg: Lofi House · Vancouver, BC. Forsberg makes lo-fi house and UK garage built around dusty samples, wonky drums and rare grooves. Inspired by cozy underground clubs and music from all corners of the globe, he’s always digging for overlooked gems and unlikely sounds to flip into something new. Originally from Vancouver and now based in Cumberland, BC, he’s a lifelong record digger with a background in radio and a soft spot for music that feels a little left of centre. Built for intimate dancefloors, good friends and taking the long way home."/>
-  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="description" content="Forsberg: Lofi House · Cumberland, BC. Forsberg makes lo-fi house and UK garage built around dusty samples, wonky drums and rare grooves. Inspired by cozy underground clubs and music from all corners of the globe, he’s always digging for overlooked gems and unlikely sounds to flip into something new. Originally from Vancouver and now based in Cumberland, BC, he’s a lifelong record digger with a background in radio and a soft spot for music that feels a little left of centre. Built for intimate dancefloors, good friends and taking the long way home."/>
+  <meta name="theme-color" content="#808080"/>
   <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/artists/forsberg"/>
   
   <meta property="og:site_name" content="Club Copy"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Forsberg"/>
-  <meta property="og:description" content="Forsberg: Lofi House · Vancouver, BC. Forsberg makes lo-fi house and UK garage built around dusty samples, wonky drums and rare grooves. Inspired by cozy underground clubs and music from all corners of the globe, he’s always digging for overlooked gems and unlikely sounds to flip into something new. Originally from Vancouver and now based in Cumberland, BC, he’s a lifelong record digger with a background in radio and a soft spot for music that feels a little left of centre. Built for intimate dancefloors, good friends and taking the long way home."/>
+  <meta property="og:description" content="Forsberg: Lofi House · Cumberland, BC. Forsberg makes lo-fi house and UK garage built around dusty samples, wonky drums and rare grooves. Inspired by cozy underground clubs and music from all corners of the globe, he’s always digging for overlooked gems and unlikely sounds to flip into something new. Originally from Vancouver and now based in Cumberland, BC, he’s a lifelong record digger with a background in radio and a soft spot for music that feels a little left of centre. Built for intimate dancefloors, good friends and taking the long way home."/>
   <meta property="og:url" content="https://www.clubcopy.ca/artists/forsberg"/>
   <meta property="og:image" content="https://www.clubcopy.ca/artists/forsberg.webp"/>
   <meta name="twitter:card" content="summary_large_image"/>
@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Silom&display=swap" rel="stylesheet"/>
   <script>
     (function () {
       try {
@@ -28,19 +28,108 @@
         if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        if (m) m.setAttribute("content", t === "day" ? "#c6c6c6" : "#808080");
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
+        if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
+        if (w && typeof w === "object") {
+          if (w.shut) document.documentElement.classList.add("mac-shut");
+          if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
+          if (w.shaded) document.documentElement.classList.add("mac-shaded");
+          if (!w.zoomed && !w.shut && isFinite(w.left) && isFinite(w.top) && isFinite(w.width) && isFinite(w.height)) {
+            var L = Math.max(-40, Math.min(1600, w.left));
+            var T = Math.max(24, Math.min(1200, w.top));
+            var W = Math.max(280, Math.min(1600, w.width));
+            var H = Math.max(160, Math.min(1400, w.height));
+            var root = document.documentElement;
+            root.style.setProperty("--win-l", L + "px");
+            root.style.setProperty("--win-t", T + "px");
+            root.style.setProperty("--win-w", W + "px");
+            root.style.setProperty("--win-h", H + "px");
+            root.classList.add("mac-placed");
+          }
+        }
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc23"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc41"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc41"/>
   
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicGroup","name":"Forsberg","url":"https://www.clubcopy.ca/artists/forsberg","image":"https://www.clubcopy.ca/artists/forsberg.webp","description":"Forsberg makes lo-fi house and UK garage built around dusty samples, wonky drums and rare grooves. Inspired by cozy underground clubs and music from all corners of the globe, he’s always digging for overlooked gems and unlikely sounds to flip into something new. Originally from Vancouver and now based in Cumberland, BC, he’s a lifelong record digger with a background in radio and a soft spot for music that feels a little left of centre. Built for intimate dancefloors, good friends and taking the long way home.","memberOf":{"@type":"Organization","name":"Club Copy"}}</script>
 </head>
 <body class="cc">
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Menu bar">
+      <div class="menu menu--app">
+        <button type="button" class="menu-title menu-title--app" aria-haspopup="true" aria-expanded="false">Club Copy</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/">Home</a>
+          <a role="menuitem" href="/about">About This Label</a>
+          <a role="menuitem" href="/planet">Planet MP3</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/account">Account</a>
+          <a role="menuitem" href="/join">Record Club</a>
+          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/contact">Contact</a>
+        </div>
+      </div>
+      <div class="menu menu--file">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">File</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/library">Library</a>
+          <a role="menuitem" href="/artists" aria-current="page">Artists</a>
+          <a role="menuitem" href="/tapes">Mixtapes</a>
+          <a role="menuitem" href="/videos">Videos</a>
+          <a role="menuitem" href="/news">Night Shift</a>
+          <a role="menuitem" href="/merch">Shop</a>
+          <a role="menuitem" href="/join">Join</a>
+          <a role="menuitem" href="/contact">Contact</a>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="close">Close</button>
+        </div>
+      </div>
+      <div class="menu menu--edit">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Edit</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="undo" disabled>Undo</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="cut" disabled>Cut</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="copy">Copy</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="paste" disabled>Paste</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="select-all">Select All</button>
+        </div>
+      </div>
+      <div class="menu menu--view">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">View</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="icon">by Icon</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="list">by List</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="theme" data-theme="day">Day</button>
+          <button type="button" class="menu-item is-checked" role="menuitem" data-mac="theme" data-theme="night">Night</button>
+        </div>
+      </div>
+      <div class="menu menu--special">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Special</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="cleanup">Clean Up</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="restart">Restart</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="shutdown">Shut Down</button>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount">Account</a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+      <div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
   <p class="sky-live">
     <a class="sky-home" href="/">clubcopy.ca</a>
     <span>Cumberland</span>
@@ -53,48 +142,48 @@
     <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
   </button>
 </div>
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/library">Library</a>
-      <a href="/artists" aria-current="page">Artists</a>
-      <a href="/tapes">Mixtapes</a>
-      <a href="/news">Night Shift</a>
-      <a href="/merch">Shop</a>
-      <a href="/join">Join</a>
-      <a href="/contact">Contact</a>
-    </nav>
-    <div class="nav-end">
-      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/">Home</a>
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
+  <a href="/videos">Videos</a>
   <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
   <a href="/join">Join</a>
   <a href="/contact">Contact</a>
+  <a href="/about">About</a>
+  <a href="/planet">Planet MP3</a>
   <a href="/account">Account</a>
-  <a href="/cart">Cart</a>
+  <a href="/shipping">Shipping &amp; Returns</a>
 </div>
-<main id="main">
+<nav class="desk-icons" id="deskIcons" aria-label="Desktop"><button type="button" class="desk-icon desk-icon--app" id="deskApp"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="20" fill="#e6e6e6" stroke="#000" stroke-width="1.4"/><rect x="6" y="6" width="20" height="13" fill="#b7ddd4"/><path d="M11 27h10M16 23v4" stroke="#000" stroke-width="1.5" fill="none"/></svg></span><span class="desk-name">Club Copy</span></button><a class="desk-icon" href="/library"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#f6d453" stroke="#000" stroke-width="1.4" d="M3 9h10l2 3h14v15H3z"/></svg></span><span class="desk-name">Library</span></a><a class="desk-icon" href="/artists" aria-current="page"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4" fill="#f3d2b5" stroke="#000" stroke-width="1.2"/><path d="M5 25c1-5 4-7 7-7s6 2 7 7z" fill="#4a7ab5" stroke="#000" stroke-width="1.2"/><circle cx="21" cy="12" r="3" fill="#f3d2b5" stroke="#000" stroke-width="1.1"/><path d="M17 25c.5-3 2.4-5 4.6-5 1.8 0 3.4 1.2 4.4 4" fill="#3d6ea8" stroke="#000" stroke-width="1.1"/></svg></span><span class="desk-name">Artists</span></a><a class="desk-icon" href="/tapes"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="8" width="26" height="16" fill="#222" stroke="#000" stroke-width="1.2"/><circle cx="11" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><circle cx="21" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><rect x="9" y="21" width="14" height="2" fill="#c0392b"/></svg></span><span class="desk-name">Mixtapes</span></a><a class="desk-icon" href="/news"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" stroke="#000" stroke-width="1.3" d="M8 3h11l6 6v19H8z"/><path fill="#eee" stroke="#000" stroke-width="1.1" d="M19 3v6h6"/><path stroke="#000" stroke-width="1" d="M11 15h10M11 18h10M11 21h7"/></svg></span><span class="desk-name">Night Shift</span></a><a class="desk-icon" href="/merch"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 12h16l-1.5 14H9.5z" fill="#eee" stroke="#000" stroke-width="1.3"/><path d="M12 12V9.5a4 4 0 0 1 8 0V12" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Shop</span></a><a class="desk-icon" href="/contact"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" fill="#fff" stroke="#000" stroke-width="1.3"/><path d="M4 8l12 9L28 8" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Contact</span></a></nav>
+<div class="win" id="win">
+  <div class="win-bar" id="winBar">
+    <div class="win-boxes">
+      <button type="button" class="win-box win-close" id="winClose" aria-label="Close"></button>
+      <button type="button" class="win-box win-shade" id="winShade" aria-label="Collapse"></button>
+      <button type="button" class="win-box win-zoom" id="winZoom" aria-label="Zoom"></button>
+    </div>
+    <div class="win-title" id="winTitle"><span>Forsberg</span></div>
+  </div>
+  <div class="win-body" id="winBody">
+    <main id="main">
 
 <section class="release-head" aria-label="Forsberg">
   <div class="release-copy">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><a href="/artists">Artists</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Forsberg</span></nav>
-    <p class="mono row-meta"><span>Lofi House · Vancouver, BC</span><span>19 releases</span></p>
+    <p class="mono row-meta"><span>Lofi House · Cumberland, BC</span><span>8 releases</span></p>
     <h1 class="lead-title">Forsberg</h1>
     <div class="page-lede bio"><p>Forsberg makes lo-fi house and UK garage built around dusty samples, wonky drums and rare grooves. Inspired by cozy underground clubs and music from all corners of the globe, he’s always digging for overlooked gems and unlikely sounds to flip into something new. Originally from Vancouver and now based in Cumberland, BC, he’s a lifelong record digger with a background in radio and a soft spot for music that feels a little left of centre. Built for intimate dancefloors, good friends and taking the long way home.</p></div>
     <div class="lead-actions">
-      <button type="button" class="btn btn-solid" data-play-release="outta-tha-woods" data-play-track="otw-01">Play Outta Tha Woods</button>
+      <button type="button" class="btn btn-solid" data-play-release="que-sera" data-play-track="qsr-01">Play Que Sera</button>
       <a class="btn" href="/library?artist=forsberg">In the library</a>
       <a class="btn btn-text" href="https://forsberg.bandcamp.com" rel="noopener noreferrer">Bandcamp ↗</a>
+      
     </div>
   </div>
   <div class="release-sleeve"><img class="artist-photo" src="/artists/forsberg.webp" alt="Forsberg" width="1000" height="1000" fetchpriority="high"/></div>
@@ -102,35 +191,22 @@
 <section class="sec" aria-labelledby="rel-title"><header class="sec-head">
   <h2 class="sec-title" id="rel-title">Releases</h2>
   
-</header><div class="rows"><article class="row row--release" data-release="outta-tha-woods" data-artist-id="forsberg" data-genre="house">
+</header><div class="rows"><article class="row row--release" data-release="que-sera" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
-    <p class="mono row-meta"><span>CC047</span><span>Single</span><span>1 track</span><span>2:42</span><span>5 Nov 2026</span></p>
+    <p class="mono row-meta"><span>CC062</span><span>Single</span><span>1 track</span><span>4:05</span><span>25 Nov 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/outta-tha-woods">Outta Tha Woods</a></p>
+    <p class="row-title"><a href="/que-sera">Que Sera</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="outta-tha-woods" data-play-track="otw-01" aria-label="Play Outta Tha Woods"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="outta-tha-woods" data-sku="dg-outta-tha-woods" data-name="Outta Tha Woods — Digital" data-price="1.5" data-image="/outta-tha-woods-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="que-sera" data-play-track="qsr-01" aria-label="Play Que Sera"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="que-sera" data-sku="dg-que-sera" data-name="Que Sera — Digital" data-price="1.5" data-image="/que-sera-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/outta-tha-woods" aria-label="Outta Tha Woods"><img src="/outta-tha-woods-cover-480.webp" srcset="/outta-tha-woods-cover-480.webp 480w, /outta-tha-woods-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Outta Tha Woods — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="skin-to-skin" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC044</span><span>Single</span><span>1 track</span><span>4:05</span><span>31 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/skin-to-skin">MPH &amp; Megra – Skin to Skin (forsberg bootleg)</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="skin-to-skin" data-play-track="skn-01" aria-label="Play MPH &amp; Megra - Skin to Skin (forsberg bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="skin-to-skin" data-sku="dg-skin-to-skin" data-name="MPH &amp; Megra - Skin to Skin (forsberg bootleg) — Digital" data-price="1.5" data-image="/skin-to-skin-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/skin-to-skin" aria-label="MPH &amp; Megra - Skin to Skin (forsberg bootleg)"><img src="/skin-to-skin-cover-480.webp" srcset="/skin-to-skin-cover-480.webp 480w, /skin-to-skin-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="MPH &amp; Megra - Skin to Skin (forsberg bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/que-sera" aria-label="Que Sera"><img src="/que-sera-cover-480.webp" srcset="/que-sera-cover-480.webp 480w, /que-sera-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Que Sera — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
 <article class="row row--release" data-release="a-ap-forever" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
-    <p class="mono row-meta"><span>CC042</span><span>Single</span><span>1 track</span><span>3:53</span><span>30 Oct 2026</span></p>
+    <p class="mono row-meta"><span>CC042</span><span>Single</span><span>1 track</span><span>3:52</span><span>30 Oct 2026</span></p>
     <h3 class="row-artist"></h3>
     <p class="row-title"><a href="/a-ap-forever">A$AP FOREVER</a></p>
     <div class="row-actions">
@@ -140,71 +216,6 @@
     </div>
   </div>
   <a class="row-art" href="/a-ap-forever" aria-label="A$AP FOREVER"><img src="/a-ap-forever-cover-480.webp" srcset="/a-ap-forever-cover-480.webp 480w, /a-ap-forever-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="A$AP FOREVER — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="ipod-touch" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC040</span><span>Single</span><span>1 track</span><span>3:53</span><span>25 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/ipod-touch">Ninajirachi – iPod Touch (Forsberg Bootleg)</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="ipod-touch" data-play-track="ipt-01" aria-label="Play Ninajirachi - iPod Touch (Forsberg Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="ipod-touch" data-sku="dg-ipod-touch" data-name="Ninajirachi - iPod Touch (Forsberg Bootleg) — Digital" data-price="1.5" data-image="/ipod-touch-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/ipod-touch" aria-label="Ninajirachi - iPod Touch (Forsberg Bootleg)"><img src="/ipod-touch-cover-480.webp" srcset="/ipod-touch-cover-480.webp 480w, /ipod-touch-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Ninajirachi - iPod Touch (Forsberg Bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="so-good" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC039</span><span>Single</span><span>1 track</span><span>3:38</span><span>25 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/so-good">Jhené Aiko – So Good (Forsberg Bootleg)</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="so-good" data-play-track="sgd-01" aria-label="Play Jhené Aiko - So Good (Forsberg Bootleg)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="so-good" data-sku="dg-so-good" data-name="Jhené Aiko - So Good (Forsberg Bootleg) — Digital" data-price="0.99" data-image="/so-good-cover.webp">Digital · $0.99</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/so-good" aria-label="Jhené Aiko - So Good (Forsberg Bootleg)"><img src="/so-good-cover-480.webp" srcset="/so-good-cover-480.webp 480w, /so-good-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Jhené Aiko - So Good (Forsberg Bootleg) — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="dont-cry" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC036</span><span>Single</span><span>1 track</span><span>4:15</span><span>24 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/dont-cry">don't cry</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="dont-cry" data-play-track="dc-01" aria-label="Play don&#39;t cry"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="dont-cry" data-sku="dg-dont-cry" data-name="don&#39;t cry — Digital" data-price="1.5" data-image="/dont-cry-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/dont-cry" aria-label="don&#39;t cry"><img src="/dont-cry-cover-480.webp" srcset="/dont-cry-cover-480.webp 480w, /dont-cry-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="don&#39;t cry — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="some-kinda-heaven" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC035</span><span>Single</span><span>1 track</span><span>3:50</span><span>24 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/some-kinda-heaven">LT Memphis – Some Kinda Heaven (Forsberg Refix)</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="some-kinda-heaven" data-play-track="skh-01" aria-label="Play LT Memphis - Some Kinda Heaven (Forsberg Refix)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=some-kinda-heaven&amp;t=skh-01&amp;download=1">Free download</a>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/some-kinda-heaven" aria-label="LT Memphis - Some Kinda Heaven (Forsberg Refix)"><img src="/some-kinda-heaven-cover-480.webp" srcset="/some-kinda-heaven-cover-480.webp 480w, /some-kinda-heaven-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="LT Memphis - Some Kinda Heaven (Forsberg Refix) — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="whats-luv" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC033</span><span>Single</span><span>1 track</span><span>3:38</span><span>24 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/whats-luv">w h a t ' s   l u v</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="whats-luv" data-play-track="wlv-01" aria-label="Play w h a t &#39; s   l u v"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="whats-luv" data-sku="dg-whats-luv" data-name="w h a t &#39; s   l u v — Digital" data-price="1.5" data-image="/whats-luv-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/whats-luv" aria-label="w h a t &#39; s   l u v"><img src="/whats-luv-cover-480.webp" srcset="/whats-luv-cover-480.webp 480w, /whats-luv-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="w h a t &#39; s   l u v — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
 <article class="row row--release" data-release="lifetime" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
@@ -218,71 +229,6 @@
     </div>
   </div>
   <a class="row-art" href="/lifetime" aria-label="l i f e t i m e"><img src="/lifetime-cover-480.webp" srcset="/lifetime-cover-480.webp 480w, /lifetime-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="l i f e t i m e — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="everyday" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC025</span><span>Single</span><span>1 track</span><span>3:57</span><span>23 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/everyday">everyday</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="everyday" data-play-track="evd-01" aria-label="Play everyday"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="everyday" data-sku="dg-everyday" data-name="everyday — Digital" data-price="1.5" data-image="/everyday-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/everyday" aria-label="everyday"><img src="/everyday-cover-480.webp" srcset="/everyday-cover-480.webp 480w, /everyday-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="everyday — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="safe-as" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC018</span><span>Single</span><span>1 track</span><span>5:08</span><span>20 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/safe-as">safe as</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="safe-as" data-play-track="sa-01" aria-label="Play safe as"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="safe-as" data-sku="dg-safe-as" data-name="safe as — Digital" data-price="1.5" data-image="/safe-as-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/safe-as" aria-label="safe as"><img src="/safe-as-cover-480.webp" srcset="/safe-as-cover-480.webp 480w, /safe-as-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="safe as — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="deeper" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC017</span><span>Single</span><span>1 track</span><span>5:30</span><span>19 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/deeper">Deeper</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="deeper" data-play-track="dee-01" aria-label="Play Deeper"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="deeper" data-sku="dg-deeper" data-name="Deeper — Digital" data-price="1.5" data-image="/deeper-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/deeper" aria-label="Deeper"><img src="/deeper-cover-480.webp" srcset="/deeper-cover-480.webp 480w, /deeper-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Deeper — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="outta-this-mess" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC016</span><span>Single</span><span>1 track</span><span>5:00</span><span>18 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/outta-this-mess">Outta This Mess</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="outta-this-mess" data-play-track="otm-01" aria-label="Play Outta This Mess"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="outta-this-mess" data-sku="dg-outta-this-mess" data-name="Outta This Mess — Digital" data-price="1.5" data-image="/outta-this-mess-cover.webp">Digital · $1.50</button>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/outta-this-mess" aria-label="Outta This Mess"><img src="/outta-this-mess-cover-480.webp" srcset="/outta-this-mess-cover-480.webp 480w, /outta-this-mess-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Outta This Mess — artwork" width="1200" height="1200" loading="lazy"/></a>
-</article>
-<article class="row row--release" data-release="rose-rouge-edit" data-artist-id="forsberg" data-genre="house">
-  <div class="row-main">
-    <p class="mono row-meta"><span>CC015</span><span>Single</span><span>1 track</span><span>3:57</span><span>18 Oct 2026</span></p>
-    <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/rose-rouge-edit">Rose Rouge – St Germain (Molly's Hazy Edit) (Jorja Smith Version)</a></p>
-    <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="rose-rouge-edit" data-play-track="rre-01" aria-label="Play Rose Rouge - St Germain (Molly&#39;s Hazy Edit) (Jorja Smith Version)"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <a class="btn btn-small cat-add" href="/api/bandcamp-stream?r=rose-rouge-edit&amp;t=rre-01&amp;download=1">Free download</a>
-      <span class="mono row-fmt">DL</span>
-    </div>
-  </div>
-  <a class="row-art" href="/rose-rouge-edit" aria-label="Rose Rouge - St Germain (Molly&#39;s Hazy Edit) (Jorja Smith Version)"><img src="/rose-rouge-edit-cover-480.webp" srcset="/rose-rouge-edit-cover-480.webp 480w, /rose-rouge-edit-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Rose Rouge - St Germain (Molly&#39;s Hazy Edit) (Jorja Smith Version) — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
 <article class="row row--release" data-release="pitch-black" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
@@ -301,40 +247,40 @@
   <div class="row-main">
     <p class="mono row-meta"><span>CC012</span><span>Single</span><span>1 track</span><span>6:00</span><span>18 Oct 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/try-to-love-again">Try To Love Again</a></p>
+    <p class="row-title"><a href="/try-to-love-again">try to love again</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="try-to-love-again" data-play-track="ttla-01" aria-label="Play Try To Love Again"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="try-to-love-again" data-sku="dg-try-to-love-again" data-name="Try To Love Again — Digital" data-price="1.5" data-image="/try-to-love-again-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="try-to-love-again" data-play-track="ttla-01" aria-label="Play try to love again"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="try-to-love-again" data-sku="dg-try-to-love-again" data-name="try to love again — Digital" data-price="1.5" data-image="/try-to-love-again-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/try-to-love-again" aria-label="Try To Love Again"><img src="/try-to-love-again-cover-480.webp" srcset="/try-to-love-again-cover-480.webp 480w, /try-to-love-again-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Try To Love Again — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/try-to-love-again" aria-label="try to love again"><img src="/try-to-love-again-cover-480.webp" srcset="/try-to-love-again-cover-480.webp 480w, /try-to-love-again-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="try to love again — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
 <article class="row row--release" data-release="run-it-back" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC011</span><span>Single</span><span>1 track</span><span>2:30</span><span>18 Oct 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/run-it-back">Run It Back</a></p>
+    <p class="row-title"><a href="/run-it-back">run it back</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="run-it-back" data-play-track="rib-01" aria-label="Play Run It Back"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="run-it-back" data-sku="dg-run-it-back" data-name="Run It Back — Digital" data-price="1.5" data-image="/run-it-back-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="run-it-back" data-play-track="rib-01" aria-label="Play run it back"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="run-it-back" data-sku="dg-run-it-back" data-name="run it back — Digital" data-price="1.5" data-image="/run-it-back-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/run-it-back" aria-label="Run It Back"><img src="/run-it-back-cover-480.webp" srcset="/run-it-back-cover-480.webp 480w, /run-it-back-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Run It Back — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/run-it-back" aria-label="run it back"><img src="/run-it-back-cover-480.webp" srcset="/run-it-back-cover-480.webp 480w, /run-it-back-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="run it back — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
 <article class="row row--release" data-release="please-wait" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
     <p class="mono row-meta"><span>CC010</span><span>Single</span><span>1 track</span><span>5:30</span><span>17 Oct 2026</span></p>
     <h3 class="row-artist"></h3>
-    <p class="row-title"><a href="/please-wait">Please Wait</a></p>
+    <p class="row-title"><a href="/please-wait">please wait</a></p>
     <div class="row-actions">
-      <button type="button" class="key key--play" data-play-release="please-wait" data-play-track="pw-01" aria-label="Play Please Wait"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
-      <button type="button" class="btn btn-small cat-add" data-add-release="please-wait" data-sku="dg-please-wait" data-name="Please Wait — Digital" data-price="1.5" data-image="/please-wait-cover.webp">Digital · $1.50</button>
+      <button type="button" class="key key--play" data-play-release="please-wait" data-play-track="pw-01" aria-label="Play please wait"><svg class="sc-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="sc-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg></button>
+      <button type="button" class="btn btn-small cat-add" data-add-release="please-wait" data-sku="dg-please-wait" data-name="please wait — Digital" data-price="1.5" data-image="/please-wait-cover.webp">Digital · $1.50</button>
       <span class="mono row-fmt">DL</span>
     </div>
   </div>
-  <a class="row-art" href="/please-wait" aria-label="Please Wait"><img src="/please-wait-cover-480.webp" srcset="/please-wait-cover-480.webp 480w, /please-wait-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="Please Wait — artwork" width="1200" height="1200" loading="lazy"/></a>
+  <a class="row-art" href="/please-wait" aria-label="please wait"><img src="/please-wait-cover-480.webp" srcset="/please-wait-cover-480.webp 480w, /please-wait-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="please wait — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article>
 <article class="row row--release" data-release="j-adore" data-artist-id="forsberg" data-genre="house">
   <div class="row-main">
@@ -350,8 +296,8 @@
   <a class="row-art" href="/j-adore" aria-label="j&#39;adore"><img src="/j-adore-cover-480.webp" srcset="/j-adore-cover-480.webp 480w, /j-adore-cover.webp 1200w" sizes="(min-width: 900px) 280px, 40vw" alt="j&#39;adore — artwork" width="1200" height="1200" loading="lazy"/></a>
 </article></div></section>
 
-</main>
-<footer class="footer">
+    </main>
+    <footer class="footer">
   <div class="footer-row footer-row--mark">
     <a class="footer-wordmark" href="/">Club Copy</a>
     <p class="footer-fact mono"><span>Independent record label</span><span>British Columbia, Canada</span><span>© 2024 — 2026</span></p>
@@ -371,7 +317,7 @@
   <div class="footer-row">
     <p class="footer-label">Newsletter</p>
     <div class="footer-news">
-      <form class="footer-form" action="https://formspree.io/f/mqppveoj" method="POST">
+      <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
         <label class="sr-only" for="footerEmail">Email</label>
         <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
@@ -386,6 +332,7 @@
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
+      <a href="/videos">Videos</a>
       <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
@@ -395,11 +342,14 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc15"></script>
-<script src="/js/cart.js?v=cc15"></script>
-<script src="/js/member.js?v=cc15"></script>
-<script src="/js/player.js?v=cc15"></script>
-<script src="/js/cc.js?v=cc15"></script>
+  </div>
+  <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
+</div>
+<script src="/js/site.js?v=cc20"></script>
+<script src="/js/cart.js?v=cc20"></script>
+<script src="/js/member.js?v=cc20"></script>
+<script src="/js/player.js?v=cc20"></script>
+<script src="/js/cc.js?v=cc20"></script>
 
 </body>
 </html>
