@@ -435,7 +435,7 @@ assert.deepStrictEqual(
 const modernSounds = catalog.releases.find((r) => r.id === "modern-sounds");
 assert.deepStrictEqual(
   [modernSounds.catalogue, modernSounds.title, modernSounds.artistId, modernSounds.kind, modernSounds.genre, modernSounds.released, modernSounds.page, modernSounds.formats.digital.price, modernSounds.formats.digital.sku, modernSounds.bandcampUrl, modernSounds.tracks.length, products[modernSounds.formats.digital.sku].unitAmount],
-  ["CC068", "MODERN SOUNDS IN UK GARAGE AND JUNGLE MUSIC", "neighbourhood-spy", "Album", "UK Garage", "2026-11-27", "/modern-sounds", 9, "dg-modern-sounds", "https://neighbourhoodspy.bandcamp.com/album/modern-sounds-in-uk-garage-and-jungle-music", 5, 900]
+  ["CC068", "MODERN SOUNDS IN UK GARAGE AND JUNGLE MUSIC", "neighbourhood-spy", "Album", "UK Garage", "2026-11-27", "/modern-sounds", 6, "dg-modern-sounds", "https://neighbourhoodspy.bandcamp.com/album/modern-sounds-in-uk-garage-and-jungle-music", 5, 600]
 );
 assert.deepStrictEqual(
   modernSounds.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
