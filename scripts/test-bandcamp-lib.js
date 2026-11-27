@@ -430,7 +430,22 @@ assert.strictEqual(neighbourhoodSpy.bandcamp, "https://neighbourhoodspy.bandcamp
 assert.strictEqual(neighbourhoodSpy.photo, "artists/neighbourhood-spy.webp");
 assert.deepStrictEqual(
   catalog.releases.filter((r) => r.artistId === "neighbourhood-spy").map((r) => r.id),
-  ["you-dont-know-me", "doomsday"]
+  ["modern-sounds", "you-dont-know-me", "doomsday"]
+);
+const modernSounds = catalog.releases.find((r) => r.id === "modern-sounds");
+assert.deepStrictEqual(
+  [modernSounds.catalogue, modernSounds.title, modernSounds.artistId, modernSounds.kind, modernSounds.genre, modernSounds.released, modernSounds.page, modernSounds.formats.digital.price, modernSounds.formats.digital.sku, modernSounds.bandcampUrl, modernSounds.tracks.length, products[modernSounds.formats.digital.sku].unitAmount],
+  ["CC068", "MODERN SOUNDS IN UK GARAGE AND JUNGLE MUSIC", "neighbourhood-spy", "Album", "UK Garage", "2026-11-27", "/modern-sounds", 9, "dg-modern-sounds", "https://neighbourhoodspy.bandcamp.com/album/modern-sounds-in-uk-garage-and-jungle-music", 5, 900]
+);
+assert.deepStrictEqual(
+  modernSounds.tracks.map((t) => [t.trackNum, t.id, t.title, t.duration, t.bandcampTrackId]),
+  [
+    [1, "msu-01", "HEARD EM SAY", 257, 708623529],
+    [2, "msu-02", "THINK TWICE", 245, 107145328],
+    [3, "msu-03", "YOU DON'T KNOW ME", 299, 1576141837],
+    [4, "msu-04", "I ONLY HAVE EYES FOR YOU", 387, 3819408538],
+    [5, "msu-05", "THE HEART (TIME)", 292, 2546187733],
+  ]
 );
 const youDont = catalog.releases.find((r) => r.id === "you-dont-know-me");
 assert.deepStrictEqual(
