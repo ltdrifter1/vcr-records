@@ -1332,69 +1332,6 @@ html.mac .vcr-stage__sheet {
 html.mac .vcr-stage__title { font-family: var(--ui); font-weight: 400; letter-spacing: 0; font-size: 22px; }
 html.mac .vcr-stage__btn--play { background: #ddd; color: #000; border: 3px solid #000; }
 
-/* Home group boxes ------------------------------------------------------
-   Same document as the sleeves: a black rule, Chicago in the rule,
-   Geneva inside. Selecting the box inverts it, the way a Finder row does. */
-html.mac #win .home-plates {
-  gap: 20px 16px;
-  margin: 0;
-  padding: 18px 16px 16px;
-  border-top: 1px solid #000;
-  background: #fff;
-}
-html.mac #win .home-plate {
-  gap: 1px;
-  padding: 14px 12px 12px;
-  background: #fff;
-  border: 1px solid #000;
-  border-radius: 0;
-  box-shadow: none;
-  color: #000;
-}
-html.mac #win .home-plate:hover,
-html.mac #win .home-plate:focus-visible {
-  background: #000;
-  border-color: #000;
-  color: #fff;
-  text-decoration: none;
-}
-html.mac #win .home-plate-title {
-  top: -7px;
-  left: 8px;
-  padding: 0 5px;
-  background: #fff;
-  font-family: var(--ui);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1;
-  color: #000;
-}
-html.mac #win .home-plate:hover .home-plate-title,
-html.mac #win .home-plate:focus-visible .home-plate-title {
-  background: #000;
-  color: #fff;
-}
-html.mac #win .home-plate-kicker {
-  margin: 0 0 4px;
-  font-family: var(--ui);
-  font-size: 11px;
-  letter-spacing: 0;
-  text-transform: none;
-  color: #000;
-}
-html.mac #win .home-plate-line {
-  font-family: var(--body);
-  font-size: 13px;
-  line-height: 1.35;
-  color: #000;
-}
-html.mac #win .home-plate:hover .home-plate-kicker,
-html.mac #win .home-plate:hover .home-plate-line,
-html.mac #win .home-plate:focus-visible .home-plate-kicker,
-html.mac #win .home-plate:focus-visible .home-plate-line {
-  color: #fff;
-}
 html.mac #win .tapes-grid .mix-hit { align-items: center; text-align: center; }
 html.mac #win .tapes-grid .mix-title {
   font-family: var(--ui);
@@ -1596,10 +1533,344 @@ html.mac #win .tapes-grid .mix-card:hover { transform: translateY(-3px); }
   }
   html.mac .vcr-player__buy { display: block; }
   html.mac .vcr-player::before { font-size: 11px; }
+
+  /* Home phone — denser chrome, side-by-side filters, Finder grid that
+     actually fits a hand. Releases first, mixtapes second, no banners. */
+  html.mac body.home {
+    --gutter: 14px;
+    --report-h: 30px;
+  }
+  html.mac body.home #sky {
+    height: var(--report-h);
+    padding: 0 8px 0 12px;
+  }
+  html.mac body.home #sky .sky-live {
+    font-size: 11px;
+  }
+  html.mac body.home #win .sec.sec--list {
+    padding: 14px 14px 26px;
+  }
+  html.mac body.home #win .sec.sec--tapes {
+    padding: 22px 14px 32px;
+    border-top: 2px solid #000;
+  }
+
+  /* Section heads: Chicago title + link on one baseline, thick ink rule. */
+  html.mac body.home #win .home-sec-head,
+  html.mac body.home #win .sec--tapes > .sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px;
+    margin: 0 0 2px;
+    padding: 2px 0 10px;
+    border-bottom: 2px solid #000;
+    background: none;
+  }
+  html.mac body.home #win .home-sec-title,
+  html.mac body.home #win .sec--tapes > .sec-head .sec-title {
+    margin: 0;
+    padding: 0;
+    background: none;
+    font-family: var(--ui);
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  html.mac body.home #win .sec--tapes > .sec-head .sec-kicker {
+    display: none;
+  }
+  html.mac body.home #win .sec-link {
+    flex: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+    font-size: 14px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Genre + Artist share one row. Count sits under them. */
+  html.mac body.home #win .sec--list .filters,
+  html.mac body.home #win .sec--list .sec .filters {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 12px 0 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  html.mac body.home #win .sec--list .lanes {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    min-width: 0;
+    max-width: none;
+  }
+  html.mac body.home #win .sec--list .lane {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    max-width: none;
+    min-width: 0;
+  }
+  html.mac body.home #win .sec--list .lane-label {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #222;
+    line-height: 1.1;
+  }
+  html.mac body.home #win .sec--list .lane-pick {
+    max-width: none;
+    width: 100%;
+    min-height: 40px;
+    padding: 6px 26px 6px 8px;
+    font-size: 14px;
+  }
+  html.mac body.home #win .sec--list .filter-meta {
+    margin: 0;
+    padding: 0;
+    gap: 8px 12px;
+  }
+  html.mac body.home #win .sec--list .filter-count {
+    font-family: var(--ui);
+    font-size: 12px;
+    color: #222;
+  }
+
+  /* Two-up sleeves with captions that read as Finder labels, not microcopy. */
+  html.mac body.home #win .release-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 12px;
+    padding-top: 14px;
+  }
+  html.mac body.home #win .sleeve-card {
+    animation: cc-home-rise .48s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  html.mac body.home #win .sleeve-card:nth-child(1) { animation-delay: .02s; }
+  html.mac body.home #win .sleeve-card:nth-child(2) { animation-delay: .06s; }
+  html.mac body.home #win .sleeve-card:nth-child(3) { animation-delay: .1s; }
+  html.mac body.home #win .sleeve-card:nth-child(4) { animation-delay: .14s; }
+  html.mac body.home #win .sleeve-card:nth-child(5) { animation-delay: .18s; }
+  html.mac body.home #win .sleeve-card:nth-child(6) { animation-delay: .22s; }
+  html.mac body.home #win .sleeve-card:nth-child(n + 7) { animation-delay: .26s; }
+  html.mac body.home #win .sleeve-art {
+    border-radius: 3px;
+  }
+  html.mac body.home #win .sleeve-key {
+    width: 40px;
+    height: 40px;
+    right: 6px;
+    bottom: 6px;
+    border-radius: 4px;
+  }
+  html.mac body.home #win .sleeve-key svg { width: 15px; height: 15px; }
+  html.mac body.home #win .sleeve-key:active {
+    transform: scale(.94);
+  }
+  html.mac body.home #win .sleeve-copy {
+    gap: 3px;
+    padding-top: 9px;
+  }
+  html.mac body.home #win .sleeve-meta {
+    order: 2;
+  }
+  html.mac body.home #win .sleeve-title {
+    order: 0;
+  }
+  html.mac body.home #win .sleeve-by {
+    order: 1;
+  }
+  html.mac body.home #win .sleeve-meta,
+  html.mac body.home #win .sleeve-meta span {
+    font-size: 11px;
+    line-height: 1.25;
+    color: #444;
+  }
+  html.mac body.home #win .sleeve-title,
+  html.mac body.home #win .sleeve-title a {
+    font-size: 14px;
+    line-height: 1.2;
+    -webkit-line-clamp: 2;
+  }
+  html.mac body.home #win .sleeve-by {
+    font-size: 12px;
+    color: #222;
+  }
+  html.mac body.home #win .rows-more {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid #ccc;
+    font-family: var(--ui);
+    font-size: 14px;
+  }
+  html.mac body.home #win .rows-more a {
+    color: var(--tide);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Mixtapes: one compact filter row, then day/night bins with presence. */
+  html.mac body.home #win .tape-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 6px 12px;
+    padding: 12px 0 8px;
+    border-bottom: 1px solid #ccc;
+  }
+  html.mac body.home #win .tape-filters .lane {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    max-width: none;
+  }
+  html.mac body.home #win .tape-filters .lane-label {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  html.mac body.home #win .tape-filters .lane-pick {
+    max-width: none;
+    min-height: 40px;
+    font-size: 14px;
+    padding: 6px 26px 6px 8px;
+  }
+  html.mac body.home #win .tape-filters .filter-count {
+    align-self: end;
+    padding-bottom: 10px;
+    font-family: var(--ui);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  html.mac body.home #win .mix-bin + .mix-bin { margin-top: 28px; }
+  html.mac body.home #win .mix-bin .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 2px;
+    padding: 0 0 8px;
+    border-bottom: 1px solid #000;
+    background: none;
+  }
+  html.mac body.home #win .mix-bin .sec-kicker {
+    margin: 0;
+    font-size: 11px;
+    color: #333;
+    white-space: nowrap;
+  }
+  html.mac body.home #win .mix-bin .sec-title {
+    font-family: var(--ui);
+    font-size: 18px;
+    line-height: 1;
+    margin: 0;
+    order: -1;
+  }
+  html.mac body.home #win .tapes-grid,
+  html.mac body.home #win .sec--tapes .tapes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 12px;
+    padding: 12px 0 0;
+  }
+  html.mac body.home #win .tapes-grid .mix-card {
+    animation: cc-home-rise .48s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  html.mac body.home #win .tapes-grid .mix-title {
+    font-size: 13px;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  html.mac body.home #win .tapes-grid .mix-talker {
+    display: none;
+  }
+  html.mac body.home #win .tapes-grid .tape-spec {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: 0;
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.3;
+    color: #333;
+  }
+  html.mac body.home #win .tapes-grid .tape-spec > span {
+    flex: none;
+    font-size: inherit;
+    white-space: nowrap !important;
+  }
+  /* Keep artist · runtime · year. Drop genre tags so the line stays one beat. */
+  html.mac body.home #win .tapes-grid .tape-spec > span:nth-child(n + 4) {
+    display: none;
+  }
+  html.mac body.home #win .tapes-grid .tape-spec > span:nth-child(3)::after {
+    content: none !important;
+    margin: 0 !important;
+  }
+  html.mac body.home #win .tapes-grid .mix-art-play {
+    width: 40px;
+    height: 40px;
+    right: 6px;
+    bottom: 6px;
+  }
+  html.mac body.home #win .tapes-grid .mix-art-play:active {
+    transform: scale(.94);
+  }
+
+  html.mac body.home #win .footer {
+    padding: 24px 14px calc(28px + env(safe-area-inset-bottom, 0px));
+  }
+  html.mac body.home #win .footer-wordmark {
+    font-family: var(--ui);
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  html.mac body.home #win .footer-links {
+    gap: 8px 12px;
+  }
+  html.mac body.home #win .footer-fact {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+}
+@keyframes cc-home-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  html.mac body.home #win .sleeve-card,
+  html.mac body.home #win .tapes-grid .mix-card {
+    animation: none;
+  }
 }
 @media (max-width: 560px) {
   html.mac #nav .nav-logo { padding-left: 10px; }
   html.mac #nav .nav-logo img { height: 24px; }
+  html.mac body.home {
+    --gutter: 12px;
+  }
+  html.mac body.home #win .sec.sec--list,
+  html.mac body.home #win .sec.sec--tapes,
+  html.mac body.home #win .footer {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  html.mac body.home #win .release-grid,
+  html.mac body.home #win .tapes-grid,
+  html.mac body.home #win .sec--tapes .tapes-grid {
+    gap: 18px 10px;
+  }
 }
 @media print {
   html.mac { background: #fff; background-image: none; }
