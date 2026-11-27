@@ -1,6 +1,6 @@
 "use strict";
 const L = require("../lib");
-const { esc, attr, onSite } = L;
+const { esc, onSite } = L;
 const { releaseCard } = require("./fragments");
 const { laneBar, tapeFilterBar } = require("../lanes");
 
@@ -26,36 +26,6 @@ function homePlates(artists, issues, zine) {
     <p class="home-plate-kicker">${esc(count)}</p>
     ${lines(artists.map((a) => a.name))}
   </a>
-</section>`;
-}
-
-function videoSection(feed) {
-  const videos = (feed && feed.videos) || [];
-  if (!videos.length) return "";
-  const channel = (feed && feed.channelUrl) || "https://www.youtube.com/@ltdrifta";
-  const rows = videos
-    .slice(0, 4)
-    .map(
-      (v) => `<article class="row row--video" data-video="${attr(v.id)}">
-  <div class="row-main">
-    <p class="mono row-meta"><span>Video</span><span>${esc(L.dateShort(v.published))}</span><span>YouTube</span></p>
-    <h3 class="row-artist">LT Drifta</h3>
-    <p class="row-title"><a href="${attr(v.url)}" rel="noopener noreferrer" data-video-embed="${attr(v.id)}">${esc(L.dashTitle(v.title))}</a></p>
-    ${v.description ? `<p class="row-dek">${esc(v.description)}</p>` : ""}
-    <div class="row-actions">
-      <button type="button" class="key video-key" data-video-embed="${attr(v.id)}" aria-label="Play ${attr(v.title)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-      <a class="mono row-fmt" href="${attr(v.url)}" rel="noopener noreferrer">Watch on YouTube ↗</a>
-    </div>
-  </div>
-  <a class="row-art row-art--wide video-art" href="${attr(v.url)}" rel="noopener noreferrer" data-video-embed="${attr(v.id)}" aria-label="Play ${attr(v.title)}"><img src="${attr(v.thumbnail)}" alt="" width="480" height="360" loading="lazy"/></a>
-</article>`
-    )
-    .join("\n");
-  return `<section class="sec" aria-labelledby="videos-title" id="videos">
-  ${L.sectionHead("Video feed", { titleId: "videos-title", kicker: "YouTube · @ltdrifta", link: [channel, "Channel ↗"] })}
-  <div class="rows">
-    ${rows}
-  </div>
 </section>`;
 }
 
@@ -102,8 +72,6 @@ module.exports = function home(data) {
 </section>
 
 ${homePlates(catalog.artists, issues, zine)}
-
-${videoSection(data.videos)}
 `;
 
   return L.page({

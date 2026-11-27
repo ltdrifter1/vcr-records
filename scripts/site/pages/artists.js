@@ -71,6 +71,7 @@ function artistPage(artist, data) {
       ${latest && L.hasCue(latest) ? `<button type="button" class="btn btn-solid" data-play-release="${attr(latest.id)}" data-play-track="${attr(latest.previewTrackId || "")}">Play ${esc(latest.title)}</button>` : ""}
       ${releases.length ? `<a class="btn" href="/library?artist=${attr(artist.id)}">In the library</a>` : ""}
       ${bc ? `<a class="btn btn-text" href="${attr(bc)}" rel="noopener noreferrer">Bandcamp ↗</a>` : ""}
+      ${artist.id === "lt-drifta" ? `<a class="btn btn-text" href="/videos">Videos</a>` : ""}
     </div>
   </div>
   ${artist.photo ? `<div class="release-sleeve"><img class="artist-photo" src="${asset(artist.photo)}" alt="${attr(artist.name)}" width="1000" height="1000" fetchpriority="high"/></div>` : ""}
