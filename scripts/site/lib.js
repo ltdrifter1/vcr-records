@@ -128,6 +128,7 @@ const NAV = [
   ["/library", "Library"],
   ["/artists", "Artists"],
   ["/tapes", "Mixtapes"],
+  ["/videos", "Videos"],
   ["/news", "Night Shift"],
   ["/merch", "Shop"],
   ["/join", "Join"],
@@ -344,6 +345,7 @@ function footerHtml() {
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
+      <a href="/videos">Videos</a>
       <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
