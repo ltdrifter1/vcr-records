@@ -103,6 +103,13 @@
     function insert(container) {
       if (!container || hasMix(container)) return;
       var a = makeLink();
+      var fileList = container.querySelector(".menu--file .menu-list");
+      if (fileList) {
+        var news = fileList.querySelector('a[href="/news"]');
+        if (news) fileList.insertBefore(a, news);
+        else fileList.appendChild(a);
+        return;
+      }
       var artists = container.querySelector('a[href="/artists"]');
       var zine = container.querySelector('a[href="/news"]');
       var after = artists || container.querySelector('a[href="/library"]');
@@ -185,11 +192,12 @@
     document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* Conditions bar: Cumberland time, Long Beach surf, day or night.
-     Long Beach is the Pacific Rim beach west of Tofino — swell from the
-     marine API, wind from the forecast API, tide from the Tofino gauge
-     via OpenWaters. Day or night stays in this browser. */
+  /* Conditions bar: Cumberland time and weather, Long Beach surf, day or night.
+     Cumberland weather stays on Open-Meteo. Long Beach is the Pacific Rim
+     beach west of Tofino — swell from the marine API, wind from the forecast
+     API, tide from the Tofino gauge via OpenWaters. Day or night stays in this browser. */
   var SKY_TZ = "America/Vancouver";
+  var SKY_WX = "https://api.open-meteo.com/v1/forecast?latitude=49.6186&longitude=-125.0285&current=temperature_2m,weather_code&timezone=America%2FVancouver&forecast_days=1";
   var SURF_MARINE = "https://marine-api.open-meteo.com/v1/marine?latitude=49.059&longitude=-125.768&current=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction&hourly=swell_wave_height,swell_wave_period,wave_height,wave_period&timezone=America%2FVancouver&forecast_days=2&length_unit=imperial";
   var SURF_WIND = "https://api.open-meteo.com/v1/forecast?latitude=49.059&longitude=-125.768&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m&wind_speed_unit=kn&timezone=America%2FVancouver&forecast_days=1";
   /* Tofino gauge, the table Long Beach uses. Not the CHS host — that certificate does not load in Chrome. */
@@ -208,7 +216,10 @@
     if (theme !== "day" && theme !== "night") theme = "night";
     document.documentElement.setAttribute("data-theme", theme);
     var color = document.querySelector('meta[name="theme-color"]');
-    if (color) color.setAttribute("content", theme === "day" ? "#f3efe6" : "#cfc6b8");
+    if (color) color.setAttribute("content", theme === "day" ? "#c6c6c6" : "#808080");
+    document.querySelectorAll('[data-mac="theme"]').forEach(function (el) {
+      el.classList.toggle("is-checked", el.getAttribute("data-theme") === theme);
+    });
     var scheme = document.querySelector('meta[name="color-scheme"]');
     if (scheme) scheme.setAttribute("content", "light");
     var btn = document.getElementById("themeToggle");
@@ -228,6 +239,7 @@
         '<a class="sky-home" href="/">clubcopy.ca</a>' +
         '<span>Cumberland</span>' +
         '<time data-sky-time>··:·· PT</time>' +
+        '<span data-sky-wx hidden>··</span>' +
         '<span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>' +
       '</p>' +
       '<button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">' +
@@ -246,7 +258,7 @@
     bar.id = "sky";
     bar.className = "sky";
     bar.setAttribute("role", "region");
-    bar.setAttribute("aria-label", "Cumberland time and Long Beach surf");
+    bar.setAttribute("aria-label", "Cumberland weather and Long Beach surf");
     bar.innerHTML = skyMarkup();
     header.parentNode.insertBefore(bar, header);
     return bar;
@@ -273,7 +285,79 @@
       el.setAttribute("datetime", new Date().toISOString());
     }
     paint();
+    labelSky();
     setInterval(paint, 15000);
+  }
+
+  function weatherWords(code) {
+    var c = Number(code);
+    if (c === 0) return "Clear";
+    if (c === 1) return "Mainly clear";
+    if (c === 2) return "Partly cloudy";
+    if (c === 3) return "Overcast";
+    if (c === 45 || c === 48) return "Fog";
+    if (c >= 51 && c <= 57) return "Drizzle";
+    if (c >= 61 && c <= 67) return "Rain";
+    if (c >= 71 && c <= 77) return "Snow";
+    if (c >= 80 && c <= 82) return "Showers";
+    if (c === 85 || c === 86) return "Snow";
+    if (c >= 95) return "Thunder";
+    return "";
+  }
+
+  function labelSky() {
+    var bar = document.getElementById("sky");
+    if (!bar) return;
+    var time = bar.querySelector("[data-sky-time]");
+    var wx = bar.querySelector("[data-sky-wx]");
+    var surf = bar.querySelector("[data-sky-surf-now]");
+    var bits = ["Cumberland"];
+    if (time && time.textContent && time.textContent.indexOf("·") < 0) bits.push(time.textContent.trim());
+    if (wx && !wx.hidden && wx.textContent) bits.push(wx.textContent.replace(/\s+/g, " ").trim());
+    if (surf && surf.textContent) bits.push(surf.textContent.replace(/\s+/g, " ").trim());
+    bar.setAttribute("aria-label", bits.filter(Boolean).join(". "));
+  }
+
+  function paintWeather(el, data) {
+    if (!el || !data || data.temp == null) {
+      if (el) el.hidden = true;
+      return;
+    }
+    var words = weatherWords(data.code);
+    var temp = Math.round(Number(data.temp)) + "°";
+    el.hidden = false;
+    el.textContent = "";
+    var t = document.createElement("span");
+    t.className = "sky-temp";
+    t.textContent = temp;
+    el.appendChild(t);
+    if (words) {
+      var w = document.createElement("span");
+      w.className = "sky-wx-words";
+      w.textContent = words;
+      el.appendChild(w);
+    }
+    el.title = temp + (words ? " " + words : "") + " in Cumberland, British Columbia";
+    labelSky();
+  }
+
+  function loadWeather(el) {
+    var cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem("cc.wx") || "null"); } catch (e) {}
+    if (cached && cached.at && Date.now() - cached.at < 20 * 60 * 1000) {
+      paintWeather(el, cached);
+      return;
+    }
+    fetch(SKY_WX)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var cur = data && data.current;
+        if (!cur || cur.temperature_2m == null) { paintWeather(el, null); return; }
+        var next = { temp: cur.temperature_2m, code: cur.weather_code, at: Date.now() };
+        try { sessionStorage.setItem("cc.wx", JSON.stringify(next)); } catch (e) {}
+        paintWeather(el, next);
+      })
+      .catch(function () { paintWeather(el, null); });
   }
 
   function compass(deg) {
@@ -336,89 +420,33 @@
     };
   }
 
-  /* Hourly heights for the next day, in the same series as the reading
-     on screen. Mixing swell and total sea makes the line jump. */
-  function forecastSlots(hourly, currentTime, kind) {
+  function forecastSlots(hourly, currentTime) {
     if (!hourly || !hourly.time || !currentTime) return [];
-    var heights = kind === "seas" ? hourly.wave_height : hourly.swell_wave_height;
-    if (!heights) return [];
     var out = [];
     var i;
     for (i = 0; i < hourly.time.length; i++) {
       if (hourly.time[i] <= currentTime) continue;
-      var ft = Number(heights[i]);
-      if (!isFinite(ft)) continue;
+      var hh = Number(hourly.time[i].slice(11, 13));
+      if (hh % 6 !== 0) continue;
+      var sea = primarySea(
+        hourly.swell_wave_height && hourly.swell_wave_height[i],
+        hourly.swell_wave_period && hourly.swell_wave_period[i],
+        hourly.wave_height && hourly.wave_height[i],
+        hourly.wave_period && hourly.wave_period[i],
+        null,
+        null
+      );
+      if (!sea) continue;
+      var hour = hourly.time[i].slice(11, 13);
       out.push({
-        hour: hourly.time[i].slice(11, 13),
-        ft: ft
+        hour: hour,
+        ft: sea.ft,
+        period: sea.period,
+        label: hour + "h " + oneDecimal(sea.ft) + "ft"
       });
-      if (out.length === 24) break;
+      if (out.length === 4) break;
     }
     return out;
-  }
-
-  function aheadSummary(slots) {
-    if (!slots || !slots.length) return "";
-    var lo = slots[0].ft;
-    var hi = slots[0].ft;
-    var hiAt = slots[0];
-    var i;
-    for (i = 1; i < slots.length; i++) {
-      if (slots[i].ft < lo) lo = slots[i].ft;
-      if (slots[i].ft > hi) { hi = slots[i].ft; hiAt = slots[i]; }
-    }
-    var span = Math.abs(hi - lo) < 0.15 ? oneDecimal(hi) + " ft" : oneDecimal(lo) + "–" + oneDecimal(hi) + " ft";
-    var text = "Next day " + span;
-    if (hiAt.hour && hi > lo + 0.15) text += ", highest " + hiAt.hour + ":00 PT";
-    return text;
-  }
-
-  /* Heights sit on a fixed scale, so a two-foot day stays a little line.
-     The scale only grows when the water is actually bigger than that. */
-  function waveLinePoints(heights) {
-    var vals = [];
-    var i;
-    for (i = 0; i < heights.length; i++) {
-      var n = Number(heights[i]);
-      if (isFinite(n)) vals.push(n);
-    }
-    if (vals.length < 2) return "";
-    var max = 8;
-    for (i = 0; i < vals.length; i++) {
-      if (vals[i] > max) max = vals[i];
-    }
-    var w = 48;
-    var h = 12;
-    var padX = 0.5;
-    var padY = 1;
-    var parts = [];
-    for (i = 0; i < vals.length; i++) {
-      var x = padX + (i / (vals.length - 1)) * (w - padX * 2);
-      var y = padY + (1 - Math.max(0, vals[i]) / max) * (h - padY * 2);
-      parts.push(x.toFixed(2) + "," + y.toFixed(2));
-    }
-    return parts.join(" ");
-  }
-
-  function waveLine(heights, label) {
-    var points = waveLinePoints(heights);
-    if (!points) return null;
-    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "sky-surf-line");
-    svg.setAttribute("viewBox", "0 0 48 12");
-    svg.setAttribute("width", "48");
-    svg.setAttribute("height", "10");
-    svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", label || "Wave height over the next day");
-    var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-    poly.setAttribute("points", points);
-    poly.setAttribute("fill", "none");
-    poly.setAttribute("stroke", "currentColor");
-    poly.setAttribute("stroke-width", "1");
-    poly.setAttribute("stroke-linejoin", "miter");
-    poly.setAttribute("stroke-linecap", "butt");
-    svg.appendChild(poly);
-    return svg;
   }
 
   function tideQuery(start, end) {
@@ -460,26 +488,52 @@
     return { m: level, trend: trend, kind: kind, when: when, station: name };
   }
 
+  function ensureRoll(host) {
+    if (!host) return null;
+    var roll = host.querySelector(".sky-surf-roll");
+    if (roll) return roll;
+    roll = document.createElement("span");
+    roll.className = "sky-surf-roll";
+    while (host.firstChild) roll.appendChild(host.firstChild);
+    host.appendChild(roll);
+    return roll;
+  }
+
+  function fitTicker(host) {
+    var roll = host && host.querySelector(".sky-surf-roll");
+    if (!roll) return;
+    host.classList.remove("is-ticker");
+    roll.style.removeProperty("--ticker-shift");
+    if (host.hidden || host.clientWidth < 40) return;
+    var overflow = roll.scrollWidth - host.clientWidth;
+    if (overflow > 12) {
+      host.classList.add("is-ticker");
+      roll.style.setProperty("--ticker-shift", "-" + (overflow + 8) + "px");
+    }
+  }
+
   function surfHost(sky) {
     var el = sky.querySelector("[data-sky-surf]");
-    if (el) return el;
-    var moon = sky.querySelector("[data-sky-moon]");
-    el = document.createElement("span");
-    el.className = "sky-surf";
-    el.setAttribute("data-sky-surf", "");
-    el.hidden = true;
-    var nowSpan = document.createElement("span");
-    nowSpan.setAttribute("data-sky-surf-now", "");
-    var cast = document.createElement("span");
-    cast.className = "sky-surf-cast";
-    cast.setAttribute("data-sky-surf-cast", "");
-    el.appendChild(nowSpan);
-    el.appendChild(cast);
-    if (moon && moon.parentNode) moon.replaceWith(el);
-    else {
-      var live = sky.querySelector(".sky-live");
-      if (live) live.appendChild(el);
+    if (!el) {
+      var moon = sky.querySelector("[data-sky-moon]");
+      el = document.createElement("span");
+      el.className = "sky-surf";
+      el.setAttribute("data-sky-surf", "");
+      el.hidden = true;
+      var nowSpan = document.createElement("span");
+      nowSpan.setAttribute("data-sky-surf-now", "");
+      var cast = document.createElement("span");
+      cast.className = "sky-surf-cast";
+      cast.setAttribute("data-sky-surf-cast", "");
+      el.appendChild(nowSpan);
+      el.appendChild(cast);
+      if (moon && moon.parentNode) moon.replaceWith(el);
+      else {
+        var live = sky.querySelector(".sky-live");
+        if (live) live.appendChild(el);
+      }
     }
+    ensureRoll(el);
     return el;
   }
 
@@ -494,11 +548,24 @@
     if (nowEl) nowEl.textContent = pack.nowText;
     if (castEl) {
       while (castEl.firstChild) castEl.removeChild(castEl.firstChild);
-      var line = pack.line && waveLine(pack.line, pack.lineLabel);
-      if (line) castEl.appendChild(line);
+      if (pack.cast && pack.cast.length) {
+        var lead = document.createElement("span");
+        lead.className = "sky-surf-next";
+        lead.textContent = "next";
+        castEl.appendChild(lead);
+        pack.cast.forEach(function (slot) {
+          var s = document.createElement("span");
+          if (slot.high) s.className = "is-high";
+          s.textContent = slot.label;
+          if (slot.title) s.title = slot.title;
+          castEl.appendChild(s);
+        });
+      }
     }
     host.hidden = false;
     host.title = pack.title || pack.nowText;
+    labelSky();
+    requestAnimationFrame(function () { fitTicker(host); });
   }
 
   function grabJSON(url) {
@@ -508,7 +575,7 @@
   function loadSurf(host) {
     if (!host || !window.fetch) return;
     var cached = null;
-    try { cached = JSON.parse(sessionStorage.getItem("cc.surf.v3") || "null"); } catch (e) {}
+    try { cached = JSON.parse(sessionStorage.getItem("cc.surf.v2") || "null"); } catch (e) {}
     if (cached && cached.at && Date.now() - cached.at < (cached.ttl || 20 * 60 * 1000) && cached.nowText) {
       paintSurf(host, cached);
       return;
@@ -547,10 +614,19 @@
         if (tide.kind && tide.when) tidePhrase += " · " + tide.kind + " " + tide.when;
         bits.push(tidePhrase);
       }
-      var slots = forecastSlots(marine.hourly, (cur && cur.time) || localStamp(now), sea.kind);
-      var line = [sea.ft];
-      slots.forEach(function (slot) { line.push(slot.ft); });
-      var summary = aheadSummary(slots);
+      var slots = forecastSlots(marine.hourly, (cur && cur.time) || localStamp(now));
+      var maxFt = -1;
+      var maxI = -1;
+      slots.forEach(function (slot, idx) {
+        if (slot.ft > maxFt) { maxFt = slot.ft; maxI = idx; }
+      });
+      var cast = slots.map(function (slot, idx) {
+        return {
+          label: slot.label,
+          high: idx === maxI && slot.ft >= sea.ft + 0.4,
+          title: slot.hour + ":00 PT, " + oneDecimal(slot.ft) + " ft at " + Math.round(slot.period || 0) + "s"
+        };
+      });
       var title = "Long Beach, Pacific Rim. " + (sea.kind === "swell" ? "Swell " : "Seas ") +
         oneDecimal(sea.ft) + " ft at " + Math.round(sea.period || 0) + " seconds from the " + compass(sea.dir) + ".";
       if (windPhrase) title += " Wind " + windPhrase + ".";
@@ -560,16 +636,9 @@
         if (tide.kind && tide.when) title += ", " + tide.kind + " at " + tide.when + " PT";
         title += ". Heights from the Tofino gauge, TICON-4 via Slackwater and OpenWaters, CC BY 4.0.";
       }
-      if (summary) title += " " + summary + ".";
-      var pack = {
-        at: Date.now(),
-        ttl: tide ? 20 * 60 * 1000 : 5 * 60 * 1000,
-        nowText: bits.join(" · "),
-        line: line.length >= 2 ? line : [],
-        lineLabel: summary,
-        title: title
-      };
-      try { sessionStorage.setItem("cc.surf.v3", JSON.stringify(pack)); } catch (e) {}
+      if (cast.length) title += " Next: " + cast.map(function (s) { return s.title; }).join("; ") + ".";
+      var pack = { at: Date.now(), ttl: tide ? 20 * 60 * 1000 : 5 * 60 * 1000, nowText: bits.join(" · "), cast: cast, title: title };
+      try { sessionStorage.setItem("cc.surf.v2", JSON.stringify(pack)); } catch (e) {}
       paintSurf(host, pack);
     }).catch(function () { paintSurf(host, null); });
   }
@@ -577,7 +646,7 @@
   var sky = ensureSky();
   if (sky) {
     if (!sky.getAttribute("role")) sky.setAttribute("role", "region");
-    sky.setAttribute("aria-label", "Cumberland time and Long Beach surf");
+    sky.setAttribute("aria-label", "Cumberland weather and Long Beach surf");
     applyTheme(readTheme(), false);
     var toggle = document.getElementById("themeToggle");
     if (toggle) {
@@ -586,8 +655,221 @@
       });
     }
     tickClock(sky.querySelector("[data-sky-time]"));
+    loadWeather(sky.querySelector("[data-sky-wx]"));
     loadSurf(surfHost(sky));
+    window.addEventListener("resize", function () {
+      fitTicker(sky.querySelector("[data-sky-surf]"));
+    });
   }
+
+  /* Macintosh desktop: menus, window drag, shade, zoom, close. */
+  var win = document.getElementById("win");
+  var winBar = document.getElementById("winBar");
+  var winBody = document.getElementById("winBody");
+  var winGrow = document.getElementById("winGrow");
+  var root = document.documentElement;
+  var WIN_KEY = "cc.macWin2";
+
+  function readWin() {
+    try { return JSON.parse(sessionStorage.getItem(WIN_KEY) || "null") || {}; }
+    catch (e) { return {}; }
+  }
+  function writeWin(patch) {
+    var next = readWin();
+    Object.keys(patch).forEach(function (k) { next[k] = patch[k]; });
+    try { sessionStorage.setItem(WIN_KEY, JSON.stringify(next)); } catch (e) {}
+  }
+  function placeWin(l, t, w, h) {
+    root.style.setProperty("--win-l", Math.round(l) + "px");
+    root.style.setProperty("--win-t", Math.round(t) + "px");
+    root.style.setProperty("--win-w", Math.round(w) + "px");
+    root.style.setProperty("--win-h", Math.round(h) + "px");
+    root.classList.add("mac-placed");
+    writeWin({ left: Math.round(l), top: Math.round(t), width: Math.round(w), height: Math.round(h), zoomed: false });
+  }
+  function menuH() {
+    var bar = document.getElementById("nav");
+    return bar ? bar.getBoundingClientRect().height : 28;
+  }
+  function closeMenus() {
+    document.querySelectorAll(".menu.is-open").forEach(function (m) {
+      m.classList.remove("is-open");
+      var b = m.querySelector(".menu-title");
+      if (b) b.setAttribute("aria-expanded", "false");
+    });
+  }
+  function openMenu(menu) {
+    closeMenus();
+    menu.classList.add("is-open");
+    var b = menu.querySelector(".menu-title");
+    if (b) b.setAttribute("aria-expanded", "true");
+  }
+
+  document.querySelectorAll(".menu-title").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var menu = btn.parentNode;
+      if (menu.classList.contains("is-open")) closeMenus();
+      else openMenu(menu);
+    });
+    btn.addEventListener("pointerenter", function () {
+      if (document.querySelector(".menu.is-open")) openMenu(btn.parentNode);
+    });
+  });
+  document.addEventListener("pointerdown", function (e) {
+    if (!e.target.closest || !e.target.closest(".menu")) closeMenus();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMenus();
+  });
+
+  function syncViewChecks(mode) {
+    document.querySelectorAll('[data-mac="view"]').forEach(function (el) {
+      el.classList.toggle("is-checked", el.getAttribute("data-view") === mode);
+    });
+  }
+  function savedView() {
+    try { return localStorage.getItem("cc.macView"); } catch (e) { return null; }
+  }
+  function applyMacView(mode, persist) {
+    if (mode !== "list" && mode !== "icon") mode = "icon";
+    root.classList.toggle("mac-list", mode === "list");
+    syncViewChecks(mode);
+    if (persist) {
+      try { localStorage.setItem("cc.macView", mode); } catch (e) {}
+      var libBtn = document.getElementById(mode === "list" ? "libViewList" : "libViewCovers");
+      if (libBtn) libBtn.click();
+    }
+  }
+  /* Library reads ?view= before it paints. Set it here, while this file
+     still runs ahead of library.js, so icon view does not wipe the list. */
+  if (document.getElementById("catList") && savedView() === "icon") {
+    try {
+      var viewUrl = new URL(window.location.href);
+      if (viewUrl.searchParams.get("view") !== "covers") {
+        viewUrl.searchParams.set("view", "covers");
+        history.replaceState({}, "", viewUrl.pathname + viewUrl.search + viewUrl.hash);
+      }
+    } catch (err) {}
+  }
+
+  function setShut(on) {
+    root.classList.toggle("mac-shut", on);
+    writeWin({ shut: on });
+  }
+  function setZoom(on) {
+    root.classList.toggle("mac-zoomed", on);
+    var z = document.getElementById("winZoom");
+    if (z) z.setAttribute("aria-pressed", on ? "true" : "false");
+    writeWin({ zoomed: on });
+  }
+  function setShade(on) {
+    root.classList.toggle("mac-shaded", on);
+    var s = document.getElementById("winShade");
+    if (s) s.setAttribute("aria-pressed", on ? "true" : "false");
+    writeWin({ shaded: on });
+  }
+
+  function macAction(act, el) {
+    if (act === "close" || act === "shutdown") setShut(true);
+    else if (act === "zoom") setZoom(!root.classList.contains("mac-zoomed"));
+    else if (act === "shade") setShade(!root.classList.contains("mac-shaded"));
+    else if (act === "cleanup") {
+      root.classList.remove("mac-placed", "mac-zoomed", "mac-shaded");
+      root.style.removeProperty("--win-l");
+      root.style.removeProperty("--win-t");
+      root.style.removeProperty("--win-w");
+      root.style.removeProperty("--win-h");
+      writeWin({ left: null, top: null, width: null, height: null, zoomed: false, shaded: false });
+    } else if (act === "restart") {
+      window.location.reload();
+    } else if (act === "view") {
+      applyMacView(el.getAttribute("data-view"), true);
+    } else if (act === "theme") {
+      applyTheme(el.getAttribute("data-theme"), true);
+    } else if (act === "copy") {
+      var text = String(window.getSelection && window.getSelection());
+      if (text && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text);
+    } else if (act === "select-all" && winBody) {
+      var range = document.createRange();
+      range.selectNodeContents(winBody);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+
+  if (nav) {
+    nav.addEventListener("click", function (e) {
+      var item = e.target.closest && e.target.closest("[data-mac]");
+      if (!item || item.disabled) return;
+      e.preventDefault();
+      macAction(item.getAttribute("data-mac"), item);
+      closeMenus();
+    });
+  }
+  var winClose = document.getElementById("winClose");
+  var winShade = document.getElementById("winShade");
+  var winZoom = document.getElementById("winZoom");
+  if (winClose) winClose.addEventListener("click", function () { setShut(true); });
+  if (winShade) winShade.addEventListener("click", function () { setShade(!root.classList.contains("mac-shaded")); });
+  if (winZoom) winZoom.addEventListener("click", function () { setZoom(!root.classList.contains("mac-zoomed")); });
+  var deskApp = document.getElementById("deskApp");
+  if (deskApp) deskApp.addEventListener("click", function () { setShut(false); });
+
+  if (win && winBar) {
+    var drag = null;
+    winBar.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || (e.target.closest && e.target.closest("button"))) return;
+      if (root.classList.contains("mac-zoomed")) return;
+      var rect = win.getBoundingClientRect();
+      var h = rect.height;
+      if (root.classList.contains("mac-shaded")) h = readWin().height || Math.round(window.innerHeight * 0.72);
+      drag = { x: e.clientX, y: e.clientY, l: rect.left, t: rect.top, w: rect.width, h: h, moved: false };
+      winBar.setPointerCapture && winBar.setPointerCapture(e.pointerId);
+    });
+    winBar.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      var dy = e.clientY - drag.y;
+      if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+      var top = Math.max(menuH(), drag.t + dy);
+      placeWin(drag.l + dx, top, drag.w, drag.h);
+    });
+    function endDrag() { drag = null; }
+    winBar.addEventListener("pointerup", endDrag);
+    winBar.addEventListener("pointercancel", function () { drag = null; });
+    winBar.addEventListener("dblclick", function (e) {
+      if (e.target.closest && e.target.closest("button")) return;
+      setShade(!root.classList.contains("mac-shaded"));
+    });
+  }
+  if (win && winGrow) {
+    var grow = null;
+    winGrow.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || root.classList.contains("mac-zoomed")) return;
+      e.preventDefault();
+      var rect = win.getBoundingClientRect();
+      grow = { x: e.clientX, y: e.clientY, l: rect.left, t: rect.top, w: rect.width, h: rect.height };
+      winGrow.setPointerCapture && winGrow.setPointerCapture(e.pointerId);
+    });
+    winGrow.addEventListener("pointermove", function (e) {
+      if (!grow) return;
+      placeWin(grow.l, grow.t, Math.max(320, grow.w + (e.clientX - grow.x)), Math.max(180, grow.h + (e.clientY - grow.y)));
+    });
+    winGrow.addEventListener("pointerup", function () { grow = null; });
+    winGrow.addEventListener("pointercancel", function () { grow = null; });
+  }
+
+  var initialView = savedView();
+  if (!initialView) initialView = document.getElementById("libViewList") ? "list" : "icon";
+  syncViewChecks(initialView);
+  document.addEventListener("DOMContentLoaded", function () {
+    var mode = savedView() || (document.getElementById("libViewList") ? "list" : "icon");
+    root.classList.toggle("mac-list", mode === "list");
+    syncViewChecks(mode);
+  });
 
   window.ClubCopy = window.ClubCopy || {};
   window.ClubCopy.closeDrawer = closeDrawer;

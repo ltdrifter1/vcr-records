@@ -490,16 +490,15 @@
       return;
     }
     root.hidden = false;
-    var seg = root.querySelector(".seg");
+    var pick = root.querySelector("select.lane-pick");
     var key = items.map(function (item) { return item.id; }).join("|");
-    if (seg && seg.getAttribute("data-key") !== key) {
-      var html = '<span class="plate" aria-hidden="true"></span>';
-      html += '<button type="button" role="radio" data-value="" data-label="All" aria-checked="true" tabindex="0">All<span class="n">0</span></button>';
+    if (pick && pick.getAttribute("data-key") !== key) {
+      var html = '<option value="" data-label="All">All</option>';
       items.forEach(function (item) {
-        html += '<button type="button" role="radio" data-value="' + esc(item.id) + '" data-label="' + esc(item.name) + '" aria-checked="false" tabindex="-1">' + esc(item.name) + '<span class="n">0</span></button>';
+        html += '<option value="' + esc(item.id) + '" data-label="' + esc(item.name) + '">' + esc(item.name) + '</option>';
       });
-      seg.innerHTML = html;
-      seg.setAttribute("data-key", key);
+      pick.innerHTML = html;
+      pick.setAttribute("data-key", key);
     }
     if (window.ClubLanes) ClubLanes.sync(root, { genre: tapeGenre, artist: "" }, function (kind, value) {
       return kind === "genre" ? genreCount(value) : 0;
@@ -519,10 +518,10 @@
       });
       return;
     }
-    root.addEventListener("click", function (e) {
-      var btn = e.target.closest && e.target.closest(".seg button");
-      if (!btn || !root.contains(btn)) return;
-      tapeGenre = btn.getAttribute("data-value") || "";
+    root.addEventListener("change", function (e) {
+      var pick = e.target && e.target.matches && e.target.matches("select.lane-pick") ? e.target : null;
+      if (!pick || !root.contains(pick)) return;
+      tapeGenre = pick.value || "";
       writeMix();
       paintGrids();
     });

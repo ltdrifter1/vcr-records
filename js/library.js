@@ -70,8 +70,10 @@
   function slugify(s) {
     return String(s || '')
       .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '-');
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
   }
 
   function matchesArtist(rel, filter) {
@@ -446,12 +448,12 @@
 
   function laneLabel(kind, value) {
     if (!value) return '';
-    var seg = document.querySelector('.seg[data-filter="' + kind + '"]');
-    if (seg) {
-      var buttons = seg.querySelectorAll('button');
-      for (var i = 0; i < buttons.length; i++) {
-        if (String(buttons[i].getAttribute('data-value') || '').toLowerCase() === String(value).toLowerCase()) {
-          return buttons[i].getAttribute('data-label') || value;
+    var pick = document.querySelector('select.lane-pick[data-filter="' + kind + '"]');
+    if (pick) {
+      var opts = pick.options;
+      for (var i = 0; i < opts.length; i++) {
+        if (String(opts[i].value || '').toLowerCase() === String(value).toLowerCase()) {
+          return opts[i].getAttribute('data-label') || value;
         }
       }
     }
@@ -509,12 +511,12 @@
       var profile = window.ClubMember && ClubMember.readProfile && ClubMember.readProfile();
       if (profile && ClubMember.hasMemberPricing(profile)) {
         leadEl.innerHTML = ClubMember.isPremium(profile)
-          ? 'Your catalogue. Premium is on this email — 50% off music. <a href="/#join">Your club</a>'
-          : 'Your catalogue. Club is on this email — 30% off music. <a href="/#join">Your club</a>';
+          ? 'Your catalogue. Premium is on this email — 50% off music. <a href="/join">Your club</a>'
+          : 'Your catalogue. Club is on this email — 30% off music. <a href="/join">Your club</a>';
       } else if (profile) {
-        leadEl.innerHTML = 'You\'re on the list. Files and small-run formats — <a href="/#join">join</a> for 30% off music.';
+        leadEl.innerHTML = 'You\'re on the list. Files and small-run formats — <a href="/join">join</a> for 30% off music.';
       } else {
-        leadEl.innerHTML = 'Pacific Northwest house, jungle, and instrumental hip-hop. Files you keep. Edits, remixes and bootlegs are free downloads. <a href="/#join">Club 30% off music</a>';
+        leadEl.innerHTML = 'Pacific Northwest house, jungle, and instrumental hip-hop. Files you keep. Edits, remixes and bootlegs are free downloads. <a href="/join">Club 30% off music</a>';
       }
       return;
     }

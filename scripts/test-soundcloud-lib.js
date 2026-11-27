@@ -97,5 +97,18 @@ assert.strictEqual(sc.isLongMix({ runtime: "19:59" }), false);
 assert.strictEqual(sc.isLongMix({ runtime: "20:00" }), true);
 assert.strictEqual(sc.isLongMix({ runtime: "1:19:57" }), true);
 assert.strictEqual(sc.MIX_MIN_SECONDS, 20 * 60);
+assert.strictEqual(
+  sc.feedStreamUrl({
+    soundcloudTrackId: "2435880900",
+    soundcloud: "https://soundcloud.com/ltdrifta/say-it",
+  }),
+  "https://feeds.soundcloud.com/stream/2435880900-ltdrifta-say-it.mp3"
+);
+assert.strictEqual(sc.feedStreamUrl({ soundcloud: "https://soundcloud.com/ltdrifta/say-it" }), null);
+assert.strictEqual(sc.feedStreamUrl({ soundcloudTrackId: "2435880900", soundcloud: "https://evil.example/ltdrifta/say-it" }), null);
+assert.ok(sc.streamHostOk("https://feeds.soundcloud.com/stream/1.mp3"));
+assert.ok(sc.streamHostOk("https://cf-media.sndcdn.com/x.mp3"));
+assert.ok(!sc.streamHostOk("https://evil.example/x.mp3"));
+assert.ok(!sc.streamHostOk("http://feeds.soundcloud.com/stream/1.mp3"));
 
 console.log("ok");

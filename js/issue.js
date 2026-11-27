@@ -1,12 +1,13 @@
 /* Night Shift volumes. Renders a volume from data/issues.json and data/news.json.
-   Vol. 01–10 are static files. This fills any later volume that has no file
-   (the /news/vol-NN rewrite lands here) and prepends a missing spine on the index.
+   Volumes with a static file are served as that file. This fills a volume
+   that has no file (the /news/vol-NN rewrite lands here) and prepends a
+   missing spine on the index.
    January 2026 is Vol. 01. current is the open volume. next is the following
    month and is not rendered until it is added to volumes. */
 (function () {
   "use strict";
 
-  var ORDER = ["Feature", "Essay", "Interview", "Scene Report", "Review", "Release", "Mix", "Column"];
+  var ORDER = ["Feature", "Essay", "Interview", "Scene Report", "Review", "Release", "Mix", "Column", "Horoscope"];
   var MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 
   function pad(n) {
@@ -93,15 +94,6 @@
     return (
       '<figure class="issue-cover-figure"><img src="' + esc(root + issue.coverImage) + '" alt="' +
       esc(issue.coverImageAlt || (article && article.imageAlt) || "") + '"/>' + caption + "</figure>"
-    );
-  }
-
-  function mastheadHtml() {
-    return (
-      '<header class="zine-masthead zine-masthead--compact" aria-label="Night Shift">' +
-      '<div class="zine-nameplate"><div class="zine-wordmark">' +
-      '<h1 class="zine-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h1>' +
-      "</div></div></header>"
     );
   }
 
@@ -210,7 +202,6 @@
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/news">Night Shift</a><span>/</span>' +
       esc(issue.title || ("Vol. " + pad(issue.number))) +
       "</nav>" +
-      mastheadHtml() +
       coverHtml(issue, cover, prefix(), count) +
       contentsHtml(stories, issue.coverSlug) +
       colophonHtml(stories) +

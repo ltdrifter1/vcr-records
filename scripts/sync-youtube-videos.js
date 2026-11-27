@@ -5,7 +5,7 @@
  *   node scripts/sync-youtube-videos.js
  *
  * Reads the public RSS feed for the LT Drifta YouTube channel (no API key) and writes
- * data/videos.json. The home page renders the latest four at build time
+ * data/videos.json. /videos renders the list at build time
  * (node scripts/build-site.js).
  *
  * The feed lists the latest 15 public uploads. Fewer than 15 means that list is the

@@ -214,7 +214,7 @@
         fd.append('email', email);
         fd.append('level', 'free');
         fd.append('message', 'Free record club — release alerts');
-        var r = await fetch('https://formspree.io/f/xdkwjzzr', {
+        var r = await fetch('https://formspree.io/f/xqpprzjk', {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
           body: fd

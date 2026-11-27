@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="mac">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Stars for the Floor — Club Copy</title>
   <meta name="description" content="Night Shift&#39;s monthly horoscope for the dancefloor."/>
-  <meta name="theme-color" content="#cfc6b8"/>
+  <meta name="theme-color" content="#808080"/>
   <meta name="color-scheme" content="light"/>
   <link rel="canonical" href="https://www.clubcopy.ca/news/series/stars-for-the-floor"/>
   
@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,100,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Silom&display=swap" rel="stylesheet"/>
   <script>
     (function () {
       try {
@@ -28,23 +28,113 @@
         if (t !== "day" && t !== "night") t = "night";
         document.documentElement.setAttribute("data-theme", t);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", t === "day" ? "#f3efe6" : "#cfc6b8");
+        if (m) m.setAttribute("content", t === "day" ? "#c6c6c6" : "#808080");
         var s = document.querySelector('meta[name="color-scheme"]');
         if (s) s.setAttribute("content", "light");
+        if (localStorage.getItem("cc.macView") === "list") document.documentElement.classList.add("mac-list");
+        var w = JSON.parse(sessionStorage.getItem("cc.macWin2") || "null");
+        if (w && typeof w === "object") {
+          if (w.shut) document.documentElement.classList.add("mac-shut");
+          if (w.zoomed) document.documentElement.classList.add("mac-zoomed");
+          if (w.shaded) document.documentElement.classList.add("mac-shaded");
+          if (!w.zoomed && !w.shut && isFinite(w.left) && isFinite(w.top) && isFinite(w.width) && isFinite(w.height)) {
+            var L = Math.max(-40, Math.min(1600, w.left));
+            var T = Math.max(24, Math.min(1200, w.top));
+            var W = Math.max(280, Math.min(1600, w.width));
+            var H = Math.max(160, Math.min(1400, w.height));
+            var root = document.documentElement;
+            root.style.setProperty("--win-l", L + "px");
+            root.style.setProperty("--win-t", T + "px");
+            root.style.setProperty("--win-w", W + "px");
+            root.style.setProperty("--win-h", H + "px");
+            root.classList.add("mac-placed");
+          }
+        }
       } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="/css/cc.css?v=cc25"/>
+  <link rel="stylesheet" href="/css/cc.css?v=cc41"/>
+  <link rel="stylesheet" href="/css/mac.css?v=cc41"/>
   
   
 </head>
 <body class="cc news-listing">
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="sky" id="sky" role="region" aria-label="Cumberland time and Long Beach surf">
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
+    <nav class="nav-links" aria-label="Menu bar">
+      <div class="menu menu--app">
+        <button type="button" class="menu-title menu-title--app" aria-haspopup="true" aria-expanded="false">Club Copy</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/">Home</a>
+          <a role="menuitem" href="/about">About This Label</a>
+          <a role="menuitem" href="/planet">Planet MP3</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/account">Account</a>
+          <a role="menuitem" href="/join">Record Club</a>
+          <a role="menuitem" href="/shipping">Shipping &amp; Returns</a>
+          <div class="menu-rule" role="separator"></div>
+          <a role="menuitem" href="/contact">Contact</a>
+        </div>
+      </div>
+      <div class="menu menu--file">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">File</button>
+        <div class="menu-list" role="menu">
+          <a role="menuitem" href="/library">Library</a>
+          <a role="menuitem" href="/artists">Artists</a>
+          <a role="menuitem" href="/tapes">Mixtapes</a>
+          <a role="menuitem" href="/videos">Videos</a>
+          <a role="menuitem" href="/news" aria-current="page">Night Shift</a>
+          <a role="menuitem" href="/merch">Shop</a>
+          <a role="menuitem" href="/join">Join</a>
+          <a role="menuitem" href="/contact">Contact</a>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="close">Close</button>
+        </div>
+      </div>
+      <div class="menu menu--edit">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Edit</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="undo" disabled>Undo</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="cut" disabled>Cut</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="copy">Copy</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="paste" disabled>Paste</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="select-all">Select All</button>
+        </div>
+      </div>
+      <div class="menu menu--view">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">View</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="icon">by Icon</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="view" data-view="list">by List</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="theme" data-theme="day">Day</button>
+          <button type="button" class="menu-item is-checked" role="menuitem" data-mac="theme" data-theme="night">Night</button>
+        </div>
+      </div>
+      <div class="menu menu--special">
+        <button type="button" class="menu-title" aria-haspopup="true" aria-expanded="false">Special</button>
+        <div class="menu-list" role="menu">
+          <button type="button" class="menu-item" role="menuitem" data-mac="cleanup">Clean Up</button>
+          <div class="menu-rule" role="separator"></div>
+          <button type="button" class="menu-item" role="menuitem" data-mac="restart">Restart</button>
+          <button type="button" class="menu-item" role="menuitem" data-mac="shutdown">Shut Down</button>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-end">
+      <a href="/account" class="nav-account" id="navAccount">Account</a>
+      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+      <div class="sky" id="sky" role="region" aria-label="Cumberland weather and Long Beach surf">
   <p class="sky-live">
     <a class="sky-home" href="/">clubcopy.ca</a>
     <span>Cumberland</span>
     <time data-sky-time>··:·· PT</time>
+    <span data-sky-wx hidden>··</span>
     <span class="sky-surf" data-sky-surf hidden><span data-sky-surf-now></span><span class="sky-surf-cast" data-sky-surf-cast></span></span>
   </p>
   <button type="button" class="sky-theme" id="themeToggle" aria-pressed="true" aria-label="Switch colour mode">
@@ -52,44 +142,42 @@
     <span class="sky-theme-lab" aria-hidden="true"><span class="sky-lab-day">Day</span><span class="sky-lab-night">Night</span></span>
   </button>
 </div>
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Club Copy home"><img src="/club-copy-nav-ink.webp" alt="Club Copy" width="901" height="418"/></a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/library">Library</a>
-      <a href="/artists">Artists</a>
-      <a href="/tapes">Mixtapes</a>
-      <a href="/news" aria-current="page">Night Shift</a>
-      <a href="/merch">Shop</a>
-      <a href="/join">Join</a>
-    </nav>
-    <div class="nav-end">
-      <a href="/account" class="nav-account" id="navAccount" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.15"/><path d="M5.4 19.1c1-3.1 3.5-4.8 6.6-4.8s5.6 1.7 6.6 4.8"/></svg></a>
-      <a href="/cart" class="nav-cart" data-cart-link aria-label="Cart"><span class="nav-cart-word">Cart</span><span class="nav-cart-count" data-cart-count hidden>0</span></a>
-      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="/">Home</a>
   <a href="/library">Library</a>
   <a href="/artists">Artists</a>
   <a href="/tapes">Mixtapes</a>
+  <a href="/videos">Videos</a>
   <a href="/news">Night Shift</a>
   <a href="/merch">Shop</a>
   <a href="/join">Join</a>
-  <a href="/account">Account</a>
   <a href="/contact">Contact</a>
-  <a href="/cart">Cart</a>
+  <a href="/about">About</a>
+  <a href="/planet">Planet MP3</a>
+  <a href="/account">Account</a>
+  <a href="/shipping">Shipping &amp; Returns</a>
 </div>
-<main id="main" class="news-index">
+<nav class="desk-icons" id="deskIcons" aria-label="Desktop"><button type="button" class="desk-icon desk-icon--app" id="deskApp"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="20" fill="#e6e6e6" stroke="#000" stroke-width="1.4"/><rect x="6" y="6" width="20" height="13" fill="#b7ddd4"/><path d="M11 27h10M16 23v4" stroke="#000" stroke-width="1.5" fill="none"/></svg></span><span class="desk-name">Club Copy</span></button><a class="desk-icon" href="/library"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#f6d453" stroke="#000" stroke-width="1.4" d="M3 9h10l2 3h14v15H3z"/></svg></span><span class="desk-name">Library</span></a><a class="desk-icon" href="/artists"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4" fill="#f3d2b5" stroke="#000" stroke-width="1.2"/><path d="M5 25c1-5 4-7 7-7s6 2 7 7z" fill="#4a7ab5" stroke="#000" stroke-width="1.2"/><circle cx="21" cy="12" r="3" fill="#f3d2b5" stroke="#000" stroke-width="1.1"/><path d="M17 25c.5-3 2.4-5 4.6-5 1.8 0 3.4 1.2 4.4 4" fill="#3d6ea8" stroke="#000" stroke-width="1.1"/></svg></span><span class="desk-name">Artists</span></a><a class="desk-icon" href="/tapes"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="8" width="26" height="16" fill="#222" stroke="#000" stroke-width="1.2"/><circle cx="11" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><circle cx="21" cy="16" r="3.2" fill="#eee" stroke="#000" stroke-width="1"/><rect x="9" y="21" width="14" height="2" fill="#c0392b"/></svg></span><span class="desk-name">Mixtapes</span></a><a class="desk-icon" href="/news" aria-current="page"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" stroke="#000" stroke-width="1.3" d="M8 3h11l6 6v19H8z"/><path fill="#eee" stroke="#000" stroke-width="1.1" d="M19 3v6h6"/><path stroke="#000" stroke-width="1" d="M11 15h10M11 18h10M11 21h7"/></svg></span><span class="desk-name">Night Shift</span></a><a class="desk-icon" href="/merch"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 12h16l-1.5 14H9.5z" fill="#eee" stroke="#000" stroke-width="1.3"/><path d="M12 12V9.5a4 4 0 0 1 8 0V12" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Shop</span></a><a class="desk-icon" href="/contact"><span class="desk-glyph"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" fill="#fff" stroke="#000" stroke-width="1.3"/><path d="M4 8l12 9L28 8" fill="none" stroke="#000" stroke-width="1.3"/></svg></span><span class="desk-name">Contact</span></a></nav>
+<div class="win" id="win">
+  <div class="win-bar" id="winBar">
+    <div class="win-boxes">
+      <button type="button" class="win-box win-close" id="winClose" aria-label="Close"></button>
+      <button type="button" class="win-box win-shade" id="winShade" aria-label="Collapse"></button>
+      <button type="button" class="win-box win-zoom" id="winZoom" aria-label="Zoom"></button>
+    </div>
+    <div class="win-title" id="winTitle"><span>Stars for the Floor</span></div>
+  </div>
+  <div class="win-body" id="winBody">
+    <main id="main" class="news-index">
 
 <header class="page-head zine-masthead zine-masthead--compact">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="crumbs-sep" aria-hidden="true">/</span><a href="/news">Night Shift</a><span class="crumbs-sep" aria-hidden="true">/</span><span aria-current="page">Stars for the Floor</span></nav>
-  <p class="zine-slug mono"><span>Vol. 10</span><span>October 2026</span></p>
-  <h1 class="page-title zine-title" id="news-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h1>
-  <p class="zine-tagline">The floor · The fit · The afters</p>
+  <div class="zine-running"><h1 class="zine-running-name" id="news-title"><a class="zine-logo" href="/news"><span class="zine-logo-night">Night</span> <span class="zine-logo-shift">Shift</span></a></h1><p class="zine-slug mono"><span>Vol. 11</span><span>November 2026</span></p></div>
   <nav class="zine-cols mono" aria-label="In the volume">
-    <a href="/news">Vol. 10</a>
+    <a href="/news">Vol. 11</a>
     <a href="/news/series/stars-for-the-floor">Stars</a>
     <a href="/news/artists">Artists</a>
     <a href="/news/places">Places</a>
@@ -109,24 +197,24 @@
   <p class="mono zine-stars-pin-count" data-stars-count><span class="zine-stars-pin-swipe">Swipe · </span><span data-stars-index>1</span> / 12</p>
   <div class="zine-stars-pin-scroll">
     <ol>
-      <li><a href="/news/stars-for-the-floor#aries"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 18.5C5 9 8.6 5 12 11.2 15.4 5 19 9 19 18.5"/></svg><span class="sign-name">Aries</span><em class="mono">mar 21 – apr 19</em><p>Wear the boots you’d climb a headland in, even to a basement. If the door looks twice, the fire saw you first.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#taurus"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.2 12.2C7.2 7.2 9.2 4.6 12 4.6s4.8 2.6 4.8 7.6"/><path d="M12 20.4a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6z"/></svg><span class="sign-name">Taurus</span><em class="mono">apr 20 – may 20</em><p>Twelve dollars at the Saturday market, a ring with a crooked stone, and it’s yours. The one haggling on their phone doesn’t get that price, or that blessing.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#gemini"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 5h11M6.5 19h11M8.2 5v14M15.8 5v14"/></svg><span class="sign-name">Gemini</span><em class="mono">may 21 – jun 20</em><p>Two crystals in one pocket. The darker one is for the message you keep drafting and not sending.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#cancer"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 8.2a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M12.2 15.8a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M11.6 7.1C16.4 6 18.6 10.2 16.4 14.4"/><path d="M12.4 16.9C7.6 18 5.4 13.8 7.6 9.6"/></svg><span class="sign-name">Cancer</span><em class="mono">jun 21 – jul 22</em><p>Put the kettle on before you leave, with nettle or chamomile or whatever the garden gave you. The chipped mug is saved for whoever drifts home with you.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#leo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.7 13.4a3.15 3.15 0 1 0 0-6.3 3.15 3.15 0 0 0 0 6.3z"/><path d="M11.6 11.6c3.2 1.5 4.8 5.2 2.4 8.1 3.6.2 6.6 1.5 6.2-1.6"/></svg><span class="sign-name">Leo</span><em class="mono">jul 23 – aug 22</em><p>Your name’s on a list you wrote in your own hand. Walk in like the list was a prophecy someone overheard.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#virgo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.6 18.6V10.2"/><path d="M4.6 12.4c0-3.6 3.1-4.2 3.3.2"/><path d="M7.9 12.2c0-3.6 3.1-4.2 3.3.4"/><path d="M11.2 12.4V16c.2 3.2 4.4 3.8 5.1.6.5-2.2-1.6-3.4-3.1-1.6"/></svg><span class="sign-name">Virgo</span><em class="mono">aug 23 – sep 22</em><p>Let the crossed-out line on the set list stay. Do your face in the back seat by moonlight and trust the mirror less than the moon.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#libra"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.2h15"/><path d="M7 16.2a5 5 0 0 1 10 0"/></svg><span class="sign-name">Libra</span><em class="mono">sep 23 – oct 22</em><p>Pass the aux on the Malahat. You argued for that song for six switchbacks, and the mountain didn’t care.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#scorpio"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.4 18.4V10"/><path d="M4.4 12.2c0-3.5 3-4.1 3.2.2"/><path d="M7.6 12c0-3.5 3-4.1 3.2.5V15"/><path d="M10.8 15.2 16.2 9.6"/><path d="M16.2 9.6h-3.3M16.2 9.6v3.3"/></svg><span class="sign-name">Scorpio</span><em class="mono">oct 23 – nov 21</em><p>If they ask who played, describe the hands and the smoke. Keep the name folded in your pocket with the lighter and the sage.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#sagittarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 18.5 18.2 5.8"/><path d="M18.2 5.8h-6.2M18.2 5.8v6.2"/><path d="M9.2 10.4 14.2 15.4"/></svg><span class="sign-name">Sagittarius</span><em class="mono">nov 22 – dec 21</em><p>The last ferry is a rumour, but the rain is real. Walk the long way home while your hair still looks like you chose it.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#capricorn"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.2 18.6V10.2c0-3.4 4.2-4 4.6.6v5.4c.8 3.6 5.4 4.2 6.6 1.2"/><path d="M17.2 16.8a2.15 2.15 0 1 0 .4-3.6 2.15 2.15 0 0 0-.4 3.6z"/></svg><span class="sign-name">Capricorn</span><em class="mono">dec 22 – jan 19</em><p>Press last night’s wristband into your journal like a flower. Your memory of it will be softer than the paper.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#aquarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.8 9.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/><path d="M3.8 15.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/></svg><span class="sign-name">Aquarius</span><em class="mono">jan 20 – feb 18</em><p>Three of them are still typing, and you’re already barefoot at the tideline. Send the pin, not another poll.</p></a></li>
-      <li><a href="/news/stars-for-the-floor#pisces"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.2 4.4c4.4 3.2 4.4 12 0 15.2"/><path d="M15.8 4.4c-4.4 3.2-4.4 12 0 15.2"/><path d="M5.2 12h13.6"/></svg><span class="sign-name">Pisces</span><em class="mono">feb 19 – mar 20</em><p>One drop of cedar oil behind the ear. The kitchen light doesn’t get a say in how you glow.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#aries"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 18.5C5 9 8.6 5 12 11.2 15.4 5 19 9 19 18.5"/></svg><span class="sign-name">Aries</span><em class="mono">mar 21 – apr 19</em><p>Do the task you keep moving to Monday. Block an hour, finish it, and leave the argument about how long it took.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#taurus"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.2 12.2C7.2 7.2 9.2 4.6 12 4.6s4.8 2.6 4.8 7.6"/><path d="M12 20.4a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6z"/></svg><span class="sign-name">Taurus</span><em class="mono">apr 20 – may 20</em><p>Check the account before you buy anything for December. One useful purchase is enough. The rest can wait.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#gemini"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 5h11M6.5 19h11M8.2 5v14M15.8 5v14"/></svg><span class="sign-name">Gemini</span><em class="mono">may 21 – jun 20</em><p>Return the call you have been avoiding, or say you will not. An open thread is what keeps you up.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#cancer"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 8.2a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M12.2 15.8a2.35 2.35 0 1 0 4.7 0 2.35 2.35 0 0 0-4.7 0z"/><path d="M11.6 7.1C16.4 6 18.6 10.2 16.4 14.4"/><path d="M12.4 16.9C7.6 18 5.4 13.8 7.6 9.6"/></svg><span class="sign-name">Cancer</span><em class="mono">jun 21 – jul 22</em><p>Make one plan that stays at home. A meal, a record, and a person you actually like. You do not have to go out to have a night.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#leo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.7 13.4a3.15 3.15 0 1 0 0-6.3 3.15 3.15 0 0 0 0 6.3z"/><path d="M11.6 11.6c3.2 1.5 4.8 5.2 2.4 8.1 3.6.2 6.6 1.5 6.2-1.6"/></svg><span class="sign-name">Leo</span><em class="mono">jul 23 – aug 22</em><p>Ask for the thing by name: the job, the money, or the night. Then stop talking and let the other person answer.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#virgo"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.6 18.6V10.2"/><path d="M4.6 12.4c0-3.6 3.1-4.2 3.3.2"/><path d="M7.9 12.2c0-3.6 3.1-4.2 3.3.4"/><path d="M11.2 12.4V16c.2 3.2 4.4 3.8 5.1.6.5-2.2-1.6-3.4-3.1-1.6"/></svg><span class="sign-name">Virgo</span><em class="mono">aug 23 – sep 22</em><p>Close one loop: the form, the repair, or the pile by the door. Finished once beats a list of improvements.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#libra"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.2h15"/><path d="M7 16.2a5 5 0 0 1 10 0"/></svg><span class="sign-name">Libra</span><em class="mono">sep 23 – oct 22</em><p>Send one invitation with a day and a time. If they cannot make it, pick another day. Do not keep three drafts.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#scorpio"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.4 18.4V10"/><path d="M4.4 12.2c0-3.5 3-4.1 3.2.2"/><path d="M7.6 12c0-3.5 3-4.1 3.2.5V15"/><path d="M10.8 15.2 16.2 9.6"/><path d="M16.2 9.6h-3.3M16.2 9.6v3.3"/></svg><span class="sign-name">Scorpio</span><em class="mono">oct 23 – nov 21</em><p>Have the private conversation this week. One person, no audience, and no recap after.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#sagittarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 18.5 18.2 5.8"/><path d="M18.2 5.8h-6.2M18.2 5.8v6.2"/><path d="M9.2 10.4 14.2 15.4"/></svg><span class="sign-name">Sagittarius</span><em class="mono">nov 22 – dec 21</em><p>Book the ticket, the class, or the night away, and put the date where you will see it. Talking about it is not the same as going.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#capricorn"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.2 18.6V10.2c0-3.4 4.2-4 4.6.6v5.4c.8 3.6 5.4 4.2 6.6 1.2"/><path d="M17.2 16.8a2.15 2.15 0 1 0 .4-3.6 2.15 2.15 0 0 0-.4 3.6z"/></svg><span class="sign-name">Capricorn</span><em class="mono">dec 22 – jan 19</em><p>Set the hour you are finished for the day, and leave the work there. Write the money coming in and the money going out before you look at next month.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#aquarius"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.8 9.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/><path d="M3.8 15.2c1.7-2.2 3-2.2 4.2 0s2.5 2.2 4.2 0 2.5-2.2 4.2 0 2.5 2.2 4.2 0"/></svg><span class="sign-name">Aquarius</span><em class="mono">jan 20 – feb 18</em><p>Choose the night and tell one person. Anyone else can hear it from them. You do not have to wait for a vote.</p></a></li>
+      <li><a href="/news/stars-for-the-floor#pisces"><svg class="sign-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.2 4.4c4.4 3.2 4.4 12 0 15.2"/><path d="M15.8 4.4c-4.4 3.2-4.4 12 0 15.2"/><path d="M5.2 12h13.6"/></svg><span class="sign-name">Pisces</span><em class="mono">feb 19 – mar 20</em><p>Sleep at the hour you named, twice this week. Eat before you go out. Leaving when you said you would is the whole assignment.</p></a></li>
     </ol>
   </div>
 </aside>
-<section class="back-catalogue" aria-labelledby="series-title"><h2 id="series-title">The column</h2><ol class="catalogue-list"><li><a href="/news/stars-for-the-floor">Stars for the Floor</a><em class="mono">Horoscope</em><time class="mono" datetime="2026-10-18">18 Oct 2026</time></li></ol></section>
-</main>
-<footer class="footer">
+<section class="back-catalogue" aria-labelledby="series-title"><h2 id="series-title">The column</h2><ol class="catalogue-list"><li><a href="/news/stars-for-the-floor">Stars for the Floor</a><em class="mono">Horoscope</em><time class="mono" datetime="2026-11-21">21 Nov 2026</time></li></ol></section>
+    </main>
+    <footer class="footer">
   <div class="footer-row footer-row--mark">
     <a class="footer-wordmark" href="/">Club Copy</a>
     <p class="footer-fact mono"><span>Independent record label</span><span>British Columbia, Canada</span><span>© 2024 — 2026</span></p>
@@ -146,7 +234,7 @@
   <div class="footer-row">
     <p class="footer-label">Newsletter</p>
     <div class="footer-news">
-      <form class="footer-form" action="https://formspree.io/f/xdkwjzzr" method="POST">
+      <form class="footer-form" action="https://formspree.io/f/xqpprzjk" method="POST">
         <label class="sr-only" for="footerEmail">Email</label>
         <input type="email" id="footerEmail" name="email" placeholder="Email address" required autocomplete="email"/>
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only"/>
@@ -161,6 +249,7 @@
       <a href="/library">Library</a>
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
+      <a href="/videos">Videos</a>
       <a href="/news">Night Shift</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
@@ -170,12 +259,15 @@
     </nav>
   </div>
 </footer>
-<script src="/js/site.js?v=cc17"></script>
-<script src="/js/cart.js?v=cc17"></script>
-<script src="/js/member.js?v=cc17"></script>
-<script src="/js/player.js?v=cc17"></script>
-<script src="/js/cc.js?v=cc17"></script>
-<script src="/js/zine.js?v=cc17"></script>
+  </div>
+  <div class="win-grow" id="winGrow" role="separator" aria-label="Resize"></div>
+</div>
+<script src="/js/site.js?v=cc20"></script>
+<script src="/js/cart.js?v=cc20"></script>
+<script src="/js/member.js?v=cc20"></script>
+<script src="/js/player.js?v=cc20"></script>
+<script src="/js/cc.js?v=cc20"></script>
+<script src="/js/zine.js?v=cc20"></script>
 
 </body>
 </html>

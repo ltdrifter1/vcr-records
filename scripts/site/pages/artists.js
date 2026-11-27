@@ -55,7 +55,11 @@ function artistPage(artist, data) {
     .filter((r) => onSite(r) && r.artistId === artist.id)
     .sort((a, b) => String(b.released || "").localeCompare(String(a.released || "")));
   const latest = releases[0];
-  const bc = latest && latest.bandcampUrl ? latest.bandcampUrl.replace(/\/(track|album)\/.*$/, "") : "";
+  const bc = artist.bandcamp
+    ? String(artist.bandcamp).replace(/\/$/, "")
+    : latest && latest.bandcampUrl
+      ? latest.bandcampUrl.replace(/\/(track|album)\/.*$/, "")
+      : "";
   const main = `
 <section class="release-head" aria-label="${attr(artist.name)}">
   <div class="release-copy">
@@ -67,6 +71,7 @@ function artistPage(artist, data) {
       ${latest && L.hasCue(latest) ? `<button type="button" class="btn btn-solid" data-play-release="${attr(latest.id)}" data-play-track="${attr(latest.previewTrackId || "")}">Play ${esc(latest.title)}</button>` : ""}
       ${releases.length ? `<a class="btn" href="/library?artist=${attr(artist.id)}">In the library</a>` : ""}
       ${bc ? `<a class="btn btn-text" href="${attr(bc)}" rel="noopener noreferrer">Bandcamp ↗</a>` : ""}
+      ${artist.id === "lt-drifta" ? `<a class="btn btn-text" href="/videos">Videos</a>` : ""}
     </div>
   </div>
   ${artist.photo ? `<div class="release-sleeve"><img class="artist-photo" src="${asset(artist.photo)}" alt="${attr(artist.name)}" width="1000" height="1000" fetchpriority="high"/></div>` : ""}
@@ -80,7 +85,7 @@ ${releases.length ? `<section class="sec" aria-labelledby="rel-title">${L.sectio
     main,
     image: artist.photo,
     scripts: ["cc.js"],
-    jsonld: [{ "@context": "https://schema.org", "@type": "MusicGroup", name: artist.name, url: L.ORIGIN + "/artists/" + artist.id, image: artist.photo ? L.ORIGIN + asset(artist.photo) : undefined, description: L.bioText(artist.bio), memberOf: { "@type": "Organization", name: "Club Copy" } }],
+    jsonld: [{ "@context": "https://schema.org", "@type": "MusicGroup", name: artist.name, url: L.ORIGIN + "/artists/" + artist.id, image: artist.photo ? L.ORIGIN + asset(artist.photo) : undefined, description: L.bioText(artist.bio) || undefined, memberOf: { "@type": "Organization", name: "Club Copy" } }],
   });
 }
 
