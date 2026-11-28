@@ -15,41 +15,108 @@ function joinPage() {
   return L.page({ title: "Record Club", description: "Join the Club Copy Record Club: Free alerts, Club at $5 a year for 30% off music, Premium from $10 a year for 50% off plus Club Credit.", path: "/join", main: head("Record Club", "Three levels. Nothing ships unless you pick it.", [["/", "Home"], [null, "Record Club"]]) + joinSection({ h1: false }), scripts: ["join.js"] });
 }
 
+function aboutFact(label, value) {
+  return `<div><dt>${label}</dt><dd>${value}</dd></div>`;
+}
+
 function about(data) {
   const { catalog } = data;
-  const releases = catalog.releases.filter(onSite).sort((a, b) => String(b.released || "").localeCompare(String(a.released || ""))).slice(0, 6);
+  const releases = catalog.releases.filter(onSite).sort((a, b) => String(b.released || "").localeCompare(String(a.released || ""))).slice(0, 8);
+  const roster = catalog.artists.map((a) => `<li>
+    <a href="/artists/${attr(a.id)}">
+      ${a.photo ? `<img src="${asset(a.photo)}" alt="" width="800" height="800" loading="lazy"/>` : `<span class="about-blank" aria-hidden="true"></span>`}
+      <span class="about-who">
+        <span class="about-name">${esc(a.name)}</span>
+        ${a.tagline ? `<span class="about-where">${esc(a.tagline)}</span>` : ""}
+      </span>
+    </a>
+  </li>`).join("\n");
+  const shelf = releases.map((r) => `<li>
+    <a href="${attr(r.page)}">
+      <img src="${asset(r.coverThumb || r.cover)}" alt="" width="480" height="480" loading="lazy"/>
+      <span class="about-who">
+        ${r.catalogue ? `<span class="about-cat">${esc(r.catalogue)}</span>` : ""}
+        <span class="about-name">${esc(r.title)}</span>
+        ${r.artist ? `<span class="about-where">${esc(r.artist)}</span>` : ""}
+      </span>
+    </a>
+  </li>`).join("\n");
+  const colophon = [
+    aboutFact("Place", "Cumberland, British Columbia"),
+    aboutFact("Founded", "12 February 2024"),
+    aboutFact("Founder", "Charlie Archer"),
+    aboutFact("Publisher", "Copy House Publishing"),
+    aboutFact("Catalogue", "CC"),
+    aboutFact("Sound", "House, UK garage, jungle, instrumental hip-hop"),
+    aboutFact("Formats", "Digital, cassette, vinyl"),
+    aboutFact("Club", `<a href="/join">Free · Club $5/yr · Premium from $10/yr</a>`),
+    aboutFact("Magazine", `<a href="/news">Night Shift</a>`),
+    aboutFact("Listen", `<a href="/planet">Planet MP3</a>`),
+    aboutFact("Write", `<a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a>`),
+    aboutFact("Orders", `<a href="/shipping">Canada and the United States</a>`),
+  ].join("\n    ");
   const main = `
-${head("About", "Small library. Long shelf life. No filler. House, jungle and instrumental hip-hop from the Pacific Northwest.")}
-<section class="sec prose">
-  <h2 class="sec-title">The label</h2>
-  <p>House, UK garage, jungle, instrumental hip-hop. Records that hit the room finished, and still open years later.</p>
-  <p>Small editions. The record club is the invite: a member number, first listens, 30% or 50% off music, and Club Credit toward pressings you choose. Nothing ships unless you pick it.</p>
-  <p>Founded by Charlie Archer. Published under Copy House Publishing. Based in British Columbia, Canada.</p>
-  <div class="lead-actions"><a class="btn btn-solid" href="/join">Join the club</a><a class="btn" href="/library">Library</a></div>
-</section>
-<section class="sec">
-  <dl class="specs specs--wide">
-    <div><dt class="mono">Based</dt><dd>Pacific Northwest · British Columbia</dd></div>
-    <div><dt class="mono">Record club</dt><dd><a href="/join">Free · Club $5/yr · Premium from $10/yr</a></dd></div>
-    <div><dt class="mono">Roster</dt><dd>${catalog.artists.map((a) => `<a href="/artists/${attr(a.id)}">${esc(a.name)}</a>`).join(" · ")}</dd></div>
-    <div><dt class="mono">Listen</dt><dd><a href="/planet">Planet MP3</a></dd></div>
-    <div><dt class="mono">Contact</dt><dd><a href="mailto:charlie@clubcopy.ca">charlie@clubcopy.ca</a></dd></div>
-    <div><dt class="mono">Orders</dt><dd><a href="/shipping">Shipping &amp; returns</a></dd></div>
+<header class="about-plate">
+  <p class="about-stamp" aria-hidden="true">CC</p>
+  <p class="about-kicker">About the label</p>
+  <h1 class="about-mark">Club Copy</h1>
+  <p class="about-line">Music we want to keep.</p>
+  <p class="about-beats">House · UK garage · Jungle · Instrumental hip-hop · Cumberland, British Columbia</p>
+</header>
+<section class="about-split">
+  <div class="about-copy">
+    <p>Club Copy is an independent record label in Cumberland, British Columbia, in the Pacific Northwest. Small editions: digital, cassette, and the occasional pressing. House, UK garage, jungle, and instrumental hip-hop, finished for the room and still open years later.</p>
+    <p>Charlie Archer founded the label on 12 February 2024. The publishing name is Copy House Publishing. Night Shift is the magazine beside the catalogue. The record club is how the editions get collected: a member number, first listens, 30% or 50% off the music, and Club Credit toward the pressings you choose. Nothing ships unless you pick it.</p>
+    <div class="about-actions"><a class="btn btn-solid" href="/library">Library</a><a class="btn" href="/artists">Roster</a><a class="btn" href="/join">Record club</a></div>
+  </div>
+  <dl class="about-colophon">
+    ${colophon}
   </dl>
 </section>
-<section class="sec">
-  ${L.sectionHead("Recent releases", { link: ["/library", "Library"] })}
-  <div class="sleeve-strip">${releases.map((r) => `<a href="${attr(r.page)}"><img src="${asset(r.coverThumb || r.cover)}" alt="${attr(r.title)}" width="480" height="480" loading="lazy"/></a>`).join("")}</div>
+<section class="about-block" aria-labelledby="about-roster-title">
+  <header class="about-head">
+    <h2 class="about-h" id="about-roster-title">The roster</h2>
+    <a class="about-more" href="/artists">All artists</a>
+  </header>
+  <ul class="about-roster">
+${roster}
+  </ul>
 </section>
-<section class="sec prose" aria-labelledby="about-faq-title">
-  <h2 class="sec-title" id="about-faq-title">Club Copy, explained</h2>
-  <details><summary>What is Club Copy?</summary><p>An independent Pacific Northwest record label based in British Columbia. House, jungle, instrumental hip-hop on digital and cassette, small editions, plus a record club for collecting those releases.</p></details>
-  <details><summary>Is Club Copy a record club?</summary><p>Yes, and a label. The imprint releases the music; the club is how you collect it. <a href="/join">Free</a> for alerts and first listens, <strong>Club</strong> ($5/yr) for 30% off all music, and <strong>Premium</strong> (from $10/yr) for 50% off all music plus Club Credit toward cassettes and limited pressings. Nothing ships unless you choose it.</p></details>
-  <details><summary>Where is the label based?</summary><p>Pacific Northwest · British Columbia, Canada.</p></details>
-  <details><summary>Who is on the roster?</summary><p>${catalog.artists.map((a) => `<a href="/artists/${attr(a.id)}">${esc(a.name)}</a>`).join(", ")}.</p></details>
-  <details><summary>Where do I buy releases?</summary><p>In the <a href="/library">library</a>: digital and cassette. Club members get 30% off all music; Premium gets 50% off. Merch and physical editions ship to Canada and the US.</p></details>
+<section class="about-block" aria-labelledby="about-shelf-title">
+  <header class="about-head">
+    <h2 class="about-h" id="about-shelf-title">On the shelf</h2>
+    <a class="about-more" href="/library">Whole library</a>
+  </header>
+  <ul class="about-shelf">
+${shelf}
+  </ul>
 </section>`;
-  return L.page({ title: "About", description: "Club Copy is an independent record label and record club from British Columbia. House, jungle and instrumental hip-hop.", path: "/about", main, scripts: ["cc.js"] });
+  return L.page({
+    title: "About",
+    winTitle: "About This Label",
+    description: "Club Copy is an independent record label in Cumberland, British Columbia. House, UK garage, jungle and instrumental hip-hop. Small editions and a record club.",
+    path: "/about",
+    bodyClass: "about",
+    main,
+    scripts: ["cc.js"],
+    jsonld: [{
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      name: "About Club Copy",
+      url: "https://www.clubcopy.ca/about",
+      description: "Club Copy is an independent record label in Cumberland, British Columbia. House, UK garage, jungle and instrumental hip-hop.",
+      mainEntity: {
+        "@type": "RecordLabel",
+        name: "Club Copy",
+        url: "https://www.clubcopy.ca/",
+        email: "charlie@clubcopy.ca",
+        foundingDate: "2024-02-12",
+        founder: { "@type": "Person", name: "Charlie Archer" },
+        foundingLocation: { "@type": "Place", name: "Cumberland, British Columbia, Canada" },
+        genre: ["House", "UK Garage", "Jungle", "Instrumental Hip Hop"],
+      },
+    }],
+  });
 }
 
 function contact() {

@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
 const VERSION = "cc21";
-const CSS_VERSION = "cc44";
+const CSS_VERSION = "cc45";
 
 function esc(value) {
   return String(value == null ? "" : value)
