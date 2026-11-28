@@ -90,7 +90,6 @@ Scores are **/10**. Weighted score = (score/10) × category weight.
 - README and `css/site.css` lock a clear world: “brushed iPod steel, not Bondi ice.” Tokens: steel `#E8E8E6`, LCD ink `#1A1A1A`, stamp `#B8B8B4`, select `#2A2A28`, LED/acid `#C6F000`.
 - `css/club-copy-os.css` exists because the brand previously drifted into Aqua/cyan. The lock is a sign of conviction *and* of unfinished unification.
 - Night Shift copy is original culture writing, not press-release English.
-- Slogan in schema: “Music we want to keep.” That is the brand in six words. It is quieter than the Click Wheel.
 - Hero implementation (`index.html` ~387–765, `js/ipod.js`) reconstructs a 4th-gen iPod OS: status bar, chevron list, wheel ticks, “Added to Cart” LCD alert. That is derivative of Apple’s object, however lovingly built.
 - `css/cover-flow.css` is titled “iTunes Cover Flow + jewel-case sleeves.”
 
