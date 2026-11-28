@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const ORIGIN = "https://www.clubcopy.ca";
 const VERSION = "cc21";
-const CSS_VERSION = "cc45";
+const CSS_VERSION = "cc46";
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -129,7 +129,7 @@ const NAV = [
   ["/artists", "Artists"],
   ["/tapes", "Mixtapes"],
   ["/videos", "Videos"],
-  ["/news", "Night Shift"],
+  ["/news", "Zine"],
   ["/merch", "Shop"],
   ["/join", "Join"],
   ["/contact", "Contact"],
@@ -182,7 +182,7 @@ const DESK_ICONS = [
   ["/library", "Library", "folder"],
   ["/artists", "Artists", "people"],
   ["/tapes", "Mixtapes", "tape"],
-  ["/news", "Night Shift", "doc"],
+  ["/news", "Zine", "doc"],
   ["/merch", "Shop", "bag"],
   ["/contact", "Contact", "mail"],
 ];
@@ -370,7 +370,7 @@ function footerHtml() {
       <a href="/artists">Artists</a>
       <a href="/tapes">Mixtapes</a>
       <a href="/videos">Videos</a>
-      <a href="/news">Night Shift</a>
+      <a href="/news">Zine</a>
       <a href="/merch">Shop</a>
       <a href="/join">Record Club</a>
       <a href="/about">About</a>

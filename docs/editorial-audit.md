@@ -27,7 +27,7 @@ Night Shift should feel like an evening paper someone actually bought — Nylon 
 |---|---:|---|
 | **Human** (a person in a room, not a generator) | **5.5** | Specific when it wants to be. Formulaic when it is tired. |
 | **Craft** (rhythm, sentence variety, argument) | **5.0** | Two bad default lengths: telegram, or paragraph-as-sentence. |
-| **Vision** (floor / fit / afters, PNW, objects, culture) | **7.5** | The paper knows what it is. Copy often recites the slogan instead of living it. |
+| **Vision** (floor / fit / afters, PNW, objects, culture) | **7.5** | The paper knows what it is. Copy often recites a tagline instead of a fact. |
 | **Heat** (would you steal this issue) | **6.0** | Horoscope, stall, sticker, a few city pieces. The catalogue blurbs would not survive a xerox. |
 | **Originality inside the house** | **4.5** | Same ending, same nouns, same “that is not X.” |
 | **Combined (well written × human × vision)** | **5.8** | Keep the world. Kill the kit. |
@@ -47,8 +47,6 @@ Night Shift is the evening paper inside Club Copy: the floor, the fit, the after
 - City pieces that name addresses, dates, and operators (Birdhouse, Vantek, TYTB, DVBIA).
 - Object essays that start from a body, not a thesis (`the-bathroom-line`, `the-sticker-on-the-lens`).
 - Roster heat that is not Wikipedia (`riscape-on-club-copy` still has a pulse: stairwell opinions, Beatport as a shrug).
-- The slogan *Music we want to keep* on About. That is six words. Leave it.
-
 **Do not “clean up” into press-kit English.** The failure mode is not slang. The failure mode is **template**.
 
 ---

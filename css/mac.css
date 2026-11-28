@@ -2677,244 +2677,54 @@ html.mac .home-filters[hidden] { display: none !important; }
   }
 }
 
-/* About — a label sheet inside the window, not a help document. */
-html.mac body.about #win .about-plate {
-  position: relative;
-  overflow: hidden;
-  background: #111;
-  color: #fff;
-  padding: 28px 28px 26px 34px;
-  box-shadow: inset 8px 0 0 #e23b10;
+/* About — a short About This Macintosh note. */
+html.mac body.about #win .about-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 240px;
+  padding: 48px 24px 56px;
 }
-html.mac body.about #win .about-stamp {
-  position: absolute;
-  right: -0.04em;
-  top: -0.08em;
-  margin: 0;
-  font-family: var(--ui);
-  font-size: clamp(140px, 22vw, 240px);
-  line-height: .78;
-  letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, .42);
-  pointer-events: none;
-  user-select: none;
+html.mac body.about #win .about-glyph {
+  flex: none;
+  width: 64px;
+  height: 64px;
 }
-html.mac body.about #win .about-kicker {
-  position: relative;
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .72);
+html.mac body.about #win .about-glyph svg {
+  display: block;
+  width: 64px;
+  height: 64px;
 }
-html.mac body.about #win .about-mark {
-  position: relative;
-  margin: 12px 0 0;
+html.mac body.about #win .about-words h1 {
+  margin: 0 0 8px;
   font-family: var(--ui);
   font-weight: 400;
   font-stretch: 100%;
   font-variation-settings: normal;
-  font-size: clamp(64px, 9vw, 112px);
-  line-height: .8;
-  letter-spacing: -0.03em;
-  text-transform: none;
-  color: #fff;
-}
-html.mac body.about #win .about-line {
-  position: relative;
-  margin: 18px 0 0;
-  max-width: 16ch;
-  font-family: var(--body);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(26px, 3.1vw, 40px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-html.mac body.about #win .about-beats {
-  position: relative;
-  margin: 26px 0 0;
-  max-width: 62ch;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, .28);
-  font-family: var(--mono);
-  font-size: 12px;
-  line-height: 1.6;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: #fff;
-}
-html.mac body.about #win .about-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(220px, .8fr);
-  gap: 28px 40px;
-  padding: 28px 24px 18px 28px;
-}
-html.mac body.about #win .about-copy p {
-  max-width: 62ch;
-  margin: 0;
-  font-family: var(--body);
   font-size: 16px;
-  line-height: 1.55;
-  color: #111;
-}
-html.mac body.about #win .about-copy p + p { margin-top: 1em; }
-html.mac body.about #win .about-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 20px;
-}
-html.mac body.about #win .about-colophon {
-  margin: 0;
-  align-self: start;
-}
-html.mac body.about #win .about-colophon > div {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  gap: 8px 12px;
-  padding: 7px 0;
-  border-top: 1px solid #000;
-}
-html.mac body.about #win .about-colophon > div:last-child { border-bottom: 1px solid #000; }
-html.mac body.about #win .about-colophon dt {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: #333;
-}
-html.mac body.about #win .about-colophon dd {
-  margin: 0;
-  font-family: var(--body);
-  font-size: 14px;
-  line-height: 1.35;
-  color: #000;
-}
-html.mac body.about #win .about-colophon a { color: #000; }
-html.mac body.about #win .about-colophon a:hover { color: var(--tide); }
-html.mac body.about #win .about-block { padding: 22px 24px 8px 28px; }
-html.mac body.about #win .about-block + .about-block {
-  margin-top: 8px;
-  border-top: 1px solid #000;
-}
-html.mac body.about #win .about-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 0 0 16px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #000;
-}
-html.mac body.about #win .about-h {
-  margin: 0;
-  font-family: var(--ui);
-  font-weight: 400;
-  font-stretch: 100%;
-  font-variation-settings: normal;
-  font-size: 22px;
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: 0;
   text-transform: none;
   color: #000;
 }
-html.mac body.about #win .about-more {
-  font-family: var(--body);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--tide);
-  white-space: nowrap;
-}
-html.mac body.about #win .about-more:hover { color: #000; }
-html.mac body.about #win .about-roster,
-html.mac body.about #win .about-shelf {
-  display: grid;
-  gap: 20px 14px;
+html.mac body.about #win .about-words p {
   margin: 0;
-  padding: 0 0 16px;
-  list-style: none;
-}
-html.mac body.about #win .about-roster { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-html.mac body.about #win .about-shelf { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-html.mac body.about #win .about-roster a,
-html.mac body.about #win .about-shelf a {
-  display: grid;
-  gap: 8px;
-  color: #000;
-  text-decoration: none;
-}
-html.mac body.about #win .about-roster img,
-html.mac body.about #win .about-shelf img,
-html.mac body.about #win .about-blank {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  background: #111;
-  border: 1px solid #000;
-  border-radius: 0;
-}
-html.mac body.about #win .about-who {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-html.mac body.about #win .about-cat {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: #333;
-}
-html.mac body.about #win .about-name {
-  font-family: var(--ui);
-  font-size: 13px;
-  line-height: 1.25;
-  color: #000;
-  overflow-wrap: anywhere;
-}
-html.mac body.about #win .about-shelf .about-name {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-html.mac body.about #win .about-where {
   font-family: var(--body);
-  font-size: 12px;
-  line-height: 1.35;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #000;
+}
+html.mac body.about #win .about-words .about-fine {
+  margin-top: 14px;
+  font-size: 11px;
   color: #333;
 }
-html.mac body.about #win .about-roster a:hover,
-html.mac body.about #win .about-shelf a:hover { text-decoration: none; }
-html.mac body.about #win .about-roster a:hover .about-name,
-html.mac body.about #win .about-shelf a:hover .about-name {
-  background: #000;
-  color: #fff;
-}
-@media (max-width: 980px) {
-  html.mac body.about #win .about-roster { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  html.mac body.about #win .about-shelf { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 860px) {
-  html.mac body.about #win .about-stamp { display: none; }
-  html.mac body.about #win .about-plate { padding: 22px 16px 20px 22px; }
-  html.mac body.about #win .about-split {
-    grid-template-columns: 1fr;
-    gap: 22px;
-    padding: 20px 16px 12px;
+@media (max-width: 420px) {
+  html.mac body.about #win .about-box {
+    flex-direction: column;
+    text-align: center;
+    min-height: 0;
+    padding-top: 36px;
   }
-  html.mac body.about #win .about-block { padding: 18px 16px 4px; }
-  html.mac body.about #win .about-roster { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  html.mac body.about #win .about-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 560px) {
-  html.mac body.about #win .about-mark { font-size: clamp(52px, 16vw, 72px); }
-  html.mac body.about #win .about-line { font-size: 24px; }
-  html.mac body.about #win .about-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  html.mac body.about #win .about-colophon > div { grid-template-columns: 76px minmax(0, 1fr); }
 }
